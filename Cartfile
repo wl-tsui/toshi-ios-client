@@ -1,0 +1,7 @@
+github "hemantasapkota/JSQMessagesViewController" "master"
+github "3lvis/Networking"
+#github "yapstudios/YapDatabase" "master"
+github "bakkenbaeck/EtherealCereal" "master"
+github "UseSweet/SweetFoundation" "master"
+github "UseSweet/SweetUIKit" "feature/inputview"
+github "mxcl/PromiseKit"

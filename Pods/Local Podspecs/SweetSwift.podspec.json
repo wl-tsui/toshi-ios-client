@@ -1,0 +1,23 @@
+{
+  "name": "SweetSwift",
+  "summary": "Helpers and sugar for Swift.",
+  "version": "1.1.1",
+  "homepage": "https://github.com/UseSweet/SweetSwift",
+  "license": "MIT",
+  "authors": {
+    "Bakken & Bæck": "post@UseSweet.no"
+  },
+  "source": {
+    "git": "https://github.com/UseSweet/SweetSwift.git",
+    "tag": "1.1.1"
+  },
+  "social_media_url": "https://twitter.com/UseSweet",
+  "platforms": {
+    "ios": "8.0",
+    "osx": "10.9",
+    "watchos": "2.0",
+    "tvos": "9.0"
+  },
+  "requires_arc": true,
+  "source_files": "Sources/**/*"
+}

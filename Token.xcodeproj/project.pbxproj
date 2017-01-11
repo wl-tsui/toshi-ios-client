@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
+		9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E36801E2655FF00D1AE63 /* Yap.m */; };
+		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
+		9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
+		9F9238BC1E24F1D2004BEEE0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238BB1E24F1D2004BEEE0 /* ViewController.m */; };
+		9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */; };
+		9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
+		9F9238D21E24F402004BEEE0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D11E24F402004BEEE0 /* Chat.swift */; };
+		9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */; };
+		9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */; };
+		9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D91E24F604004BEEE0 /* JSQMessages.framework */; };
+		9F9238E21E24F604004BEEE0 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DA1E24F604004BEEE0 /* Networking.framework */; };
+		9F9238E31E24F604004BEEE0 /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */; };
+		9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DC1E24F604004BEEE0 /* SweetUIKit.framework */; };
+		9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D91E24F604004BEEE0 /* JSQMessages.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DA1E24F604004BEEE0 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F9238EA1E24F6CD004BEEE0 /* SweetFoundation.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F9238EB1E24F6CD004BEEE0 /* SweetUIKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DC1E24F604004BEEE0 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
+		9FC72A2C1E25098000EF1141 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A2B1E25098000EF1141 /* AccountManager.swift */; };
+		9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */; };
+		9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
+		9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
+		9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
+		9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9F9238E61E24F6A5004BEEE0 /* Copy Carthage Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */,
+				9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */,
+				9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */,
+				9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */,
+				9F9238EA1E24F6CD004BEEE0 /* SweetFoundation.framework in Copy Carthage Frameworks */,
+				9F9238EB1E24F6CD004BEEE0 /* SweetUIKit.framework in Copy Carthage Frameworks */,
+			);
+			name = "Copy Carthage Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
+		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F3E367F1E2655FF00D1AE63 /* Yap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yap.h; sourceTree = "<group>"; };
+		9F3E36801E2655FF00D1AE63 /* Yap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Yap.m; sourceTree = "<group>"; };
+		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F9238B51E24F1D2004BEEE0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9F9238BA1E24F1D2004BEEE0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		9F9238BB1E24F1D2004BEEE0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9F9238C31E24F1D2004BEEE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9F9238C51E24F1D2004BEEE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Token-Bridging-Header.h"; sourceTree = "<group>"; };
+		9F9238D11E24F402004BEEE0 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
+		9F9238D91E24F604004BEEE0 /* JSQMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSQMessages.framework; path = Carthage/Build/iOS/JSQMessages.framework; sourceTree = SOURCE_ROOT; };
+		9F9238DA1E24F604004BEEE0 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = SOURCE_ROOT; };
+		9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = SOURCE_ROOT; };
+		9F9238DC1E24F604004BEEE0 /* SweetUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetUIKit.framework; path = Carthage/Build/iOS/SweetUIKit.framework; sourceTree = SOURCE_ROOT; };
+		9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cereal.swift; sourceTree = "<group>"; };
+		9FC72A2B1E25098000EF1141 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
+		9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBootstrapParameters.swift; sourceTree = "<group>"; };
+		9FC72A381E25145D00EF1141 /* CryptoTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoTools.h; sourceTree = "<group>"; };
+		9FC72A391E25145D00EF1141 /* CryptoTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptoTools.m; sourceTree = "<group>"; };
+		9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatAPIClient.swift; sourceTree = "<group>"; };
+		9FC72A421E252CFA00EF1141 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
+		9FC72A431E252CFA00EF1141 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
+		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9F9238AE1E24F1D2004BEEE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */,
+				9F9238E31E24F604004BEEE0 /* SweetFoundation.framework in Frameworks */,
+				9F9238E21E24F604004BEEE0 /* Networking.framework in Frameworks */,
+				9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */,
+				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
+				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
+				9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		02F22607A5FE0B570D587433 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */,
+				3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		27842ECF00E36BC79A5918DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9F9238A81E24F1D2004BEEE0 = {
+			isa = PBXGroup;
+			children = (
+				9F9238B31E24F1D2004BEEE0 /* Token */,
+				9F9238B21E24F1D2004BEEE0 /* Products */,
+				02F22607A5FE0B570D587433 /* Pods */,
+				27842ECF00E36BC79A5918DA /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9F9238B21E24F1D2004BEEE0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238B11E24F1D2004BEEE0 /* Token.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9F9238B31E24F1D2004BEEE0 /* Token */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238D51E24F5FE004BEEE0 /* Vendor */,
+				9FC72A3B1E251ABE00EF1141 /* APIClients */,
+				9F9238CF1E24F3F1004BEEE0 /* Models */,
+				9F9238CE1E24F3EB004BEEE0 /* Views */,
+				9F9238CD1E24F3DE004BEEE0 /* Controllers */,
+				9F9238CC1E24F3D9004BEEE0 /* Resources */,
+				9F9238B41E24F1D2004BEEE0 /* Supporting Files */,
+			);
+			path = Token;
+			sourceTree = "<group>";
+		};
+		9F9238B41E24F1D2004BEEE0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */,
+				9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */,
+				9F9238B51E24F1D2004BEEE0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9F9238CC1E24F3D9004BEEE0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */,
+				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
+				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
+				9F9238C51E24F1D2004BEEE0 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238BA1E24F1D2004BEEE0 /* ViewController.h */,
+				9F9238BB1E24F1D2004BEEE0 /* ViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		9F9238CE1E24F3EB004BEEE0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		9F9238CF1E24F3F1004BEEE0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9F9238D11E24F402004BEEE0 /* Chat.swift */,
+				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
+				9F3E367F1E2655FF00D1AE63 /* Yap.h */,
+				9F3E36801E2655FF00D1AE63 /* Yap.m */,
+				9FC72A2B1E25098000EF1141 /* AccountManager.swift */,
+				9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */,
+				9FC72A381E25145D00EF1141 /* CryptoTools.h */,
+				9FC72A391E25145D00EF1141 /* CryptoTools.m */,
+				9FC72A421E252CFA00EF1141 /* ContactsManager.h */,
+				9FC72A431E252CFA00EF1141 /* ContactsManager.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */,
+				9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */,
+				9F9238D91E24F604004BEEE0 /* JSQMessages.framework */,
+				9F9238DA1E24F604004BEEE0 /* Networking.framework */,
+				9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */,
+				9F9238DC1E24F604004BEEE0 /* SweetUIKit.framework */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
+			isa = PBXGroup;
+			children = (
+				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
+			);
+			name = APIClients;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9F9238B01E24F1D2004BEEE0 /* Token */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Token" */;
+			buildPhases = (
+				A60616B32F3DFBA34E41DD0A /* [CP] Check Pods Manifest.lock */,
+				9F9238AD1E24F1D2004BEEE0 /* Sources */,
+				9F9238AE1E24F1D2004BEEE0 /* Frameworks */,
+				9F9238AF1E24F1D2004BEEE0 /* Resources */,
+				1A96D4AA10758279407D66D4 /* [CP] Embed Pods Frameworks */,
+				F7C3CF3D4D32E134D0E12128 /* [CP] Copy Pods Resources */,
+				9F9238E61E24F6A5004BEEE0 /* Copy Carthage Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Token;
+			productName = Token;
+			productReference = 9F9238B11E24F1D2004BEEE0 /* Token.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9F9238A91E24F1D2004BEEE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Bakken&Bæck";
+				TargetAttributes = {
+					9F9238B01E24F1D2004BEEE0 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 29X3GG489T;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Token" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9F9238A81E24F1D2004BEEE0;
+			productRefGroup = 9F9238B21E24F1D2004BEEE0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9F9238B01E24F1D2004BEEE0 /* Token */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9F9238AF1E24F1D2004BEEE0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */,
+				9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A96D4AA10758279407D66D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A60616B32F3DFBA34E41DD0A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F7C3CF3D4D32E134D0E12128 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9F9238AD1E24F1D2004BEEE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9F9238BC1E24F1D2004BEEE0 /* ViewController.m in Sources */,
+				9F9238D21E24F402004BEEE0 /* Chat.swift in Sources */,
+				9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */,
+				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
+				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
+				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
+				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
+				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
+				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
+				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
+				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
+				9FC72A2C1E25098000EF1141 /* AccountManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9F9238C31E24F1D2004BEEE0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9F9238C61E24F1D2004BEEE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9F9238C71E24F1D2004BEEE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9F9238C91E24F1D2004BEEE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 29X3GG489T;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Token",
+				);
+				INFOPLIST_FILE = Token/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.Token;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9F9238CA1E24F1D2004BEEE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 29X3GG489T;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Token",
+				);
+				INFOPLIST_FILE = Token/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.Token;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Token" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F9238C61E24F1D2004BEEE0 /* Debug */,
+				9F9238C71E24F1D2004BEEE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Token" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9F9238C91E24F1D2004BEEE0 /* Debug */,
+				9F9238CA1E24F1D2004BEEE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9F9238A91E24F1D2004BEEE0 /* Project object */;
+}
