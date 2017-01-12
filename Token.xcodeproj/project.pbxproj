@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
-		9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E36801E2655FF00D1AE63 /* Yap.m */; };
 		9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29751E26772B00C652A3 /* ChatsTableController.swift */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
@@ -38,6 +37,7 @@
 		9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */; };
 		9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBACC1E27C24400A70E07 /* PushManager.m */; };
 		9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */; };
+		9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,8 +62,6 @@
 /* Begin PBXFileReference section */
 		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
 		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F3E367F1E2655FF00D1AE63 /* Yap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yap.h; sourceTree = "<group>"; };
-		9F3E36801E2655FF00D1AE63 /* Yap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Yap.m; sourceTree = "<group>"; };
 		9F5F29751E26772B00C652A3 /* ChatsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableController.swift; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingNavigationController.swift; sourceTree = "<group>"; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +95,7 @@
 		9FCDBACC1E27C24400A70E07 /* PushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushManager.m; sourceTree = "<group>"; };
 		9FCDBACF1E27C2B200A70E07 /* NotificationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTracker.h; sourceTree = "<group>"; };
 		9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTracker.m; sourceTree = "<group>"; };
+		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -212,11 +211,10 @@
 			children = (
 				9FCDBACE1E27C24900A70E07 /* Notifications */,
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
-				9F3E367F1E2655FF00D1AE63 /* Yap.h */,
-				9F3E36801E2655FF00D1AE63 /* Yap.m */,
 				9FC72A2B1E25098000EF1141 /* AccountManager.swift */,
 				9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */,
 				9FC72A381E25145D00EF1141 /* CryptoTools.h */,
+				9FCDBAD31E27DE8800A70E07 /* Yap.swift */,
 				9FC72A391E25145D00EF1141 /* CryptoTools.m */,
 				9FC72A421E252CFA00EF1141 /* ContactsManager.h */,
 				9FC72A431E252CFA00EF1141 /* ContactsManager.m */,
@@ -383,8 +381,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */,
 				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
+				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,

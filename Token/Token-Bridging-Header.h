@@ -1,9 +1,9 @@
 #import "Cryptotools.h"
 
 #import "AppDelegate.h"
-#import "Yap.h"
 #import "ContactsManager.h"
 
+#import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseViewMappings.h>
 #import <YapDatabase/YapDatabaseViewTransaction.h>
 #import <YapDatabase/YapDatabaseConnection.h>

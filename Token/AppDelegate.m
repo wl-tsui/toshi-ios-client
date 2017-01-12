@@ -48,7 +48,7 @@
 //    [self retrieveMessagesFrom:simulator];
 //
 //    // add contact
-    [self addContact:device];
+//    [self addContact:device];
 //    [self addContact:colin];
 //    [self addContact:simulator];
 

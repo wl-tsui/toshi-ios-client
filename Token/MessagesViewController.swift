@@ -1,6 +1,8 @@
 import UIKit
 import SweetUIKit
 import JSQMessages
+import YapDatabase
+import YapDatabase.YapDatabaseView
 
 class TextMessage: JSQMessage {
 

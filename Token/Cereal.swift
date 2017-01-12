@@ -4,21 +4,19 @@ import EtherealCereal
 public class Cereal: NSObject {
     var cereal: EtherealCereal
 
-    let yap = Yap.shared()
+    let yap = Yap.sharedInstance
 
     public var address: String {
         return self.cereal.address
     }
 
     public override init() {
-//        if let privateKey = self.yap.retrieve(for: "cerealPrivateKey") as? String {
-        let device = "27e50eb313b9c676985ae1639244ae34c61bf3536ca89a7136559ed6243efa5f"
-        let sim = "781bcf75aef799c1c4a502707895a78c7fdaf2d17015cf3f8cfc790cccd372df"
-        self.cereal = EtherealCereal(privateKey: sim)
-//        } else {
-//            self.cereal = EtherealCereal()
-//            self.yap.insert(cereal.privateKey, for: "cerealPrivateKey")
-//        }
+        if let privateKey = self.yap.retrieveObject(for: "cerealPrivateKey") as? String {
+            self.cereal = EtherealCereal(privateKey: privateKey)
+        } else {
+            self.cereal = EtherealCereal()
+            self.yap.insert(object: cereal.privateKey, for: "cerealPrivateKey")
+        }
     }
 
     public func sign(message: String) -> String {

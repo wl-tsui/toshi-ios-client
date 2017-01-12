@@ -1,6 +1,7 @@
 import UIKit
 import SweetFoundation
 import SweetUIKit
+import YapDatabase
 
 public class ChatsTableController: SweetTableController {
 
@@ -61,7 +62,7 @@ public class ChatsTableController: SweetTableController {
     func thread(at indexPath: IndexPath) -> TSThread {
         var thread: TSThread? = nil
         self.uiDatabaseConnection.read { transaction in
-            guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
+            guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
 
             thread = object
