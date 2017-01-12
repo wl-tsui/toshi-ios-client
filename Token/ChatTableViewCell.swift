@@ -2,10 +2,10 @@ import UIKit
 import SweetUIKit
 
 class ChatCell: UITableViewCell {
-    var chat: Chat? {
+    var thread: TSThread? {
         didSet {
-            self.usernameLabel.text = self.chat?.username
-            self.avatarImageView.image = self.chat?.avatar
+            self.usernameLabel.text = self.thread?.name()
+            self.avatarImageView.image = self.thread?.image()
         }
     }
 

@@ -1,11 +1,24 @@
 #import "Cryptotools.h"
 
- #import "Yap.h"
+#import "AppDelegate.h"
+#import "Yap.h"
+#import "ContactsManager.h"
+
+#import <YapDatabase/YapDatabaseViewMappings.h>
+#import <YapDatabase/YapDatabaseViewTransaction.h>
 
 #import <SignalServiceKit/TSPreKeyManager.h>
 #import <SignalServiceKit/TSSocketManager.h>
 #import <SignalServiceKit/TSAccountManager.h>
 #import <SignalServiceKit/OWSError.h>
+#import <SignalServiceKit/TSDatabaseView.h>
+#import <SignalServiceKit/OWSMessageSender.h>
+#import <SignalServiceKit/ContactsUpdater.h>
+
+#import <SignalServiceKit/TSOutgoingMessage.h>
+#import <SignalServiceKit/TSIncomingMessage.h>
+#import <SignalServiceKit/TSInfoMessage.h>
+#import <SignalServiceKit/NSDate+millisecondTimeStamp.h>
 
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+IdentityKeyStore.h>
@@ -13,6 +26,7 @@
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
 #import <SignalServiceKit/TSStorageManager+PreKeyStore.h>
 #import <SignalServiceKit/TSStorageManager+SignedPreKeyStore.h>
+#import <SignalServiceKit/TSThread.h>
 
 #import <AxolotlKit/PreKeyRecord.h>
 #import <AxolotlKit/PreKeyBundle.h>

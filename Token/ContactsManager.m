@@ -1,4 +1,6 @@
 #import "ContactsManager.h"
+#import <SignalServiceKit/TSStorageManager.h>
+#import <SignalServiceKit/SignalRecipient.h>
 
 @interface ContactsManager ()
 
@@ -10,14 +12,49 @@
     return YES;
 }
 
+- (NSArray <NSDictionary<NSString *, id> *> *)hardcodedContacts {
+    return @[
+             @{@"firstName": @"Igor", @"lastName": @"Simulator", @"address": @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1", @"image": @""},
+             @{@"firstName": @"Igor", @"lastName": @"Device", @"address": @"0x27d3a723fce45a308788dca08450caaaf4ceb79b", @"image": @""},
+             @{@"firstName": @"Colin", @"lastName": @"Android", @"address": @"0x26dd4687ce139f929d538a2f18818f8368cfad86", @"image": @""},
+            ];
+}
+
 - (NSString * _Nonnull)displayNameForPhoneIdentifier:(NSString * _Nullable)phoneNumber {
-    return self.signalContacts.firstObject.firstName;
+    for (Contact *contact in self.signalContacts) {
+        if ([contact.userTextPhoneNumbers.firstObject isEqualToString:phoneNumber]) {
+            return contact.fullName;
+        }
+    }
+
+    return @"Error matching address to contact";
 }
 
 - (NSArray<Contact *> * _Nonnull)signalContacts {
-    Contact *contact = [[Contact alloc] initWithContactWithFirstName:@"Igor" andLastName:@"Simulator" andUserTextPhoneNumbers:@[@"0x86edf5ca7de8825d67a1cc0c50b5dd3739a1bb0d"] andImage:nil andContactID:12301];
 
-    return @[contact];
+    __block NSMutableArray <NSString *> *contactIDs = [[NSMutableArray alloc] init];
+
+    [[TSStorageManager sharedManager].dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
+         NSArray *allRecipientKeys = [transaction allKeysInCollection:[SignalRecipient collection]];
+
+        [contactIDs addObjectsFromArray:allRecipientKeys];
+     }];
+
+
+    __block NSMutableArray <Contact *> *contacts = [[NSMutableArray alloc] init];
+    for (NSDictionary *contactDict in self.hardcodedContacts) {
+        for (NSString *contactID in contactIDs) {
+            if ([contactDict[@"address"] isEqualToString:contactID]) {
+
+                Contact *contact = [[Contact alloc] initWithContactWithFirstName:contactDict[@"firstName"] andLastName:contactDict[@"lastName"] andUserTextPhoneNumbers:@[contactID] andImage:nil andContactID:(int)contactID.hash];
+                [contacts addObject:contact];
+
+                break;
+            }
+        }
+    }
+
+    return contacts.copy;
 }
 
 - (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber {

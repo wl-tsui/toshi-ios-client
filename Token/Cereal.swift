@@ -12,8 +12,8 @@ public class Cereal: NSObject {
 
     public override init() {
 //        if let privateKey = self.yap.retrieve(for: "cerealPrivateKey") as? String {
-        let device = "2d3a08007570fccf8ba8cda3dc1ef41c59af94617b585bfff60b711a1a4e471b"
-        let sim = "9f1c04eb451c0ad6af495244cf2ffd538e6b8df9f34c74f078423254c0062fb7"
+        let device = "27e50eb313b9c676985ae1639244ae34c61bf3536ca89a7136559ed6243efa5f"
+        let sim = "781bcf75aef799c1c4a502707895a78c7fdaf2d17015cf3f8cfc790cccd372df"
         self.cereal = EtherealCereal(privateKey: device)
 //        } else {
 //            self.cereal = EtherealCereal()

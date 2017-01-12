@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
 		9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3E36801E2655FF00D1AE63 /* Yap.m */; };
+		9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29751E26772B00C652A3 /* ChatsTableController.swift */; };
+		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
+		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
-		9F9238BC1E24F1D2004BEEE0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238BB1E24F1D2004BEEE0 /* ViewController.m */; };
 		9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */; };
 		9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
-		9F9238D21E24F402004BEEE0 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D11E24F402004BEEE0 /* Chat.swift */; };
 		9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */; };
 		9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */; };
 		9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D91E24F604004BEEE0 /* JSQMessages.framework */; };
@@ -27,13 +28,13 @@
 		9F9238EA1E24F6CD004BEEE0 /* SweetFoundation.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F9238EB1E24F6CD004BEEE0 /* SweetUIKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DC1E24F604004BEEE0 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
-		9FC72A2C1E25098000EF1141 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A2B1E25098000EF1141 /* AccountManager.swift */; };
 		9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */; };
 		9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
 		9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
 		9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
 		9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
+		9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,17 +61,17 @@
 		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F3E367F1E2655FF00D1AE63 /* Yap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Yap.h; sourceTree = "<group>"; };
 		9F3E36801E2655FF00D1AE63 /* Yap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Yap.m; sourceTree = "<group>"; };
+		9F5F29751E26772B00C652A3 /* ChatsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableController.swift; sourceTree = "<group>"; };
+		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingNavigationController.swift; sourceTree = "<group>"; };
+		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9238B51E24F1D2004BEEE0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9F9238BA1E24F1D2004BEEE0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		9F9238BB1E24F1D2004BEEE0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F9238C31E24F1D2004BEEE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F9238C51E24F1D2004BEEE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Token-Bridging-Header.h"; sourceTree = "<group>"; };
-		9F9238D11E24F402004BEEE0 /* Chat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
 		9F9238D91E24F604004BEEE0 /* JSQMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSQMessages.framework; path = Carthage/Build/iOS/JSQMessages.framework; sourceTree = SOURCE_ROOT; };
@@ -86,6 +87,7 @@
 		9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatAPIClient.swift; sourceTree = "<group>"; };
 		9FC72A421E252CFA00EF1141 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
 		9FC72A431E252CFA00EF1141 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
+		9FCDBAC61E27B37F00A70E07 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 		9F9238B31E24F1D2004BEEE0 /* Token */ = {
 			isa = PBXGroup;
 			children = (
+				9FCDBAC61E27B37F00A70E07 /* token.cer */,
 				9F9238D51E24F5FE004BEEE0 /* Vendor */,
 				9FC72A3B1E251ABE00EF1141 /* APIClients */,
 				9F9238CF1E24F3F1004BEEE0 /* Models */,
@@ -180,8 +183,9 @@
 		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9F9238BA1E24F1D2004BEEE0 /* ViewController.h */,
-				9F9238BB1E24F1D2004BEEE0 /* ViewController.m */,
+				9F5F29751E26772B00C652A3 /* ChatsTableController.swift */,
+				9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */,
+				9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -197,7 +201,6 @@
 		9F9238CF1E24F3F1004BEEE0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9F9238D11E24F402004BEEE0 /* Chat.swift */,
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
 				9F3E367F1E2655FF00D1AE63 /* Yap.h */,
 				9F3E36801E2655FF00D1AE63 /* Yap.m */,
@@ -296,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */,
 				9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */,
 				9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */,
 			);
@@ -356,18 +360,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F9238BC1E24F1D2004BEEE0 /* ViewController.m in Sources */,
-				9F9238D21E24F402004BEEE0 /* Chat.swift in Sources */,
 				9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */,
+				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
+				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
-				9FC72A2C1E25098000EF1141 /* AccountManager.swift in Sources */,
+				9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

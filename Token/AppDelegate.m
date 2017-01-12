@@ -1,20 +1,24 @@
 #import "AppDelegate.h"
-#import "ViewController.h"
+
 #import "Token-Swift.h"
-#import "ContactsManager.h"
-#import <SignalServiceKit/TSNetworkManager.h>
-#import <SignalServiceKit/OWSMessageSender.h>
+
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
 #import <SignalServiceKit/TSContactThread.h>
-#import <SignalServiceKit/ContactsUpdater.h>
 #import <SignalServiceKit/OWSSyncContactsMessage.h>
 #import <SignalServiceKit/NSDate+millisecondTimeStamp.h>
+#import <SignalServiceKit/TextSecureKitEnv.h>
+#import <SignalServiceKit/OWSIncomingMessageReadObserver.h>
+#import <SignalServiceKit/TSSocketManager.h>
 
 @interface AppDelegate ()
 @property (nonnull, nonatomic) Cereal *cereal;
 @property (nonnull, nonatomic) ChatAPIClient *chatAPIClient;
+
+@property (nonatomic) OWSIncomingMessageReadObserver *incomingMessageReadObserver;
+//@property (nonatomic) OWSStaleNotificationObserver *staleNotificationObserver;
+
 @end
 
 @implementation AppDelegate
@@ -22,30 +26,56 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.cereal = [[Cereal alloc] init];
+    [[TSStorageManager sharedManager] storePhoneNumber:self.cereal.address];
+
     self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
 
-    self.window = [[UIWindow alloc] init];
-    self.window.rootViewController = [[ViewController alloc] init];
-    [self.window makeKeyAndVisible];
-
-    TSStorageManager *storageManager = [TSStorageManager sharedManager];
-    [storageManager setupDatabase];
-
-    [storageManager storePhoneNumber:self.cereal.address];
+    [self setupTSKitEnv];
 
     [self.chatAPIClient registerUserIfNeeded];
 
-//    return YES;
-
-//    NSString *simulator = @"0x29b96e7e01dee80c192092657a575006dba902ef";
-//    NSString *device = @"0xb47449f74efb5bfa98e0744b901c54468b93172c";
+    NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
     NSString *colin = @"0x26dd4687ce139f929d538a2f18818f8368cfad86";
+    NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
+//
+//    [self retrieveMessagesFrom:colin];
+//    [self sendMessageTo:simulator];
+//    [self sendMessageTo:device];
+//    [self retrieveMessagesFrom:simulator];
+//
+//    // add contact
+//    [self addContact:device];
+//    [self addContact:colin];
+    [self addContact:simulator];
 
-    //    [self retrieveMessagesFrom:colin];
-    [self sendMessageTo:colin];
+    self.window = [[UIWindow alloc] init];
+    self.window.rootViewController = [[MessagingNavigationController alloc] initWithRootViewController:[[ChatsTableController alloc] initWithChatAPIClient:self.chatAPIClient]];
+    [self.window makeKeyAndVisible];
+
+    [TSSocketManager becomeActiveFromForeground];
 
     return YES;
 }
+
+- (void)setupTSKitEnv {
+    [TextSecureKitEnv sharedEnv].contactsManager = [[ContactsManager alloc] init];
+    TSStorageManager *storageManager = [TSStorageManager sharedManager];
+    [storageManager setupDatabase];
+    // [TextSecureKitEnv sharedEnv].notificationsManager = [[NotificationsManager alloc] init];
+
+    self.networkManager = [TSNetworkManager sharedManager];
+    self.contactsManager = [[ContactsManager alloc] init];
+    self.contactsUpdater = [[ContactsUpdater alloc] init];
+
+    self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
+
+    self.incomingMessageReadObserver = [[OWSIncomingMessageReadObserver alloc] initWithStorageManager:storageManager messageSender:self.messageSender];
+    [self.incomingMessageReadObserver startObserving];
+
+//    self.staleNotificationObserver = [OWSStaleNotificationObserver new];
+//    [self.staleNotificationObserver startObserving];
+}
+
 
 - (void)retrieveMessagesFrom:(NSString *)address {
     __block TSThread *thread;
@@ -60,6 +90,26 @@
 }
 
 - (void)sendMessageTo:(NSString *)recipientAddress {
+    __block TSThread *thread = nil;
+    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
+        thread = [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
+    }];
+
+    TSNetworkManager *networkManager = [TSNetworkManager sharedManager];
+    ContactsManager *contactsManager = [[ContactsManager alloc] init];
+    ContactsUpdater *contactsUpdater = [[ContactsUpdater alloc] init];
+    OWSMessageSender *messageSender = [[OWSMessageSender alloc] initWithNetworkManager:networkManager storageManager:[TSStorageManager sharedManager] contactsManager:contactsManager contactsUpdater:contactsUpdater];
+    TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp] inThread:thread messageBody:@"Try this! From AppDelegate."];
+
+    [messageSender sendMessage:message success:^{
+        NSLog(@"Success! Message sent!");
+    } failure:^(NSError * _Nonnull error) {
+        NSLog(@"Failed: %@", error);
+    }];
+
+}
+
+- (void)addContact:(NSString *)recipientAddress {
 
     [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         SignalRecipient *recipient = [SignalRecipient recipientWithTextSecureIdentifier:recipientAddress withTransaction:transaction];
@@ -70,25 +120,9 @@
         [recipient saveWithTransaction:transaction];
     }];
 
-
-    __block TSThread *thread;
-
     [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        thread = [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
+        [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
     }];
-
-    TSNetworkManager *networkManager = [TSNetworkManager sharedManager];
-    ContactsManager *contactsManager = [[ContactsManager alloc] init];
-    ContactsUpdater *contactsUpdater = [[ContactsUpdater alloc] init];
-    OWSMessageSender *messageSender = [[OWSMessageSender alloc] initWithNetworkManager:networkManager storageManager:[TSStorageManager sharedManager] contactsManager:contactsManager contactsUpdater:contactsUpdater];
-    TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp] inThread:thread messageBody:@"This is a test message"];
-
-    [messageSender sendMessage:message success:^{
-        NSLog(@"Success! Message sent!");
-    } failure:^(NSError * _Nonnull error) {
-        NSLog(@"Failed: %@", error);
-    }];
-
 }
 
 
