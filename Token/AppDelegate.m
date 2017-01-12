@@ -2,6 +2,9 @@
 
 #import "Token-Swift.h"
 
+#import "NotificationsManager.h"
+#import "PushManager.h"
+
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
@@ -31,11 +34,12 @@
     self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
 
     [self setupTSKitEnv];
+    [[PushManager sharedManager] registerPushKitNotificationFuture];
 
     [self.chatAPIClient registerUserIfNeeded];
 
     NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
-    NSString *colin = @"0x26dd4687ce139f929d538a2f18818f8368cfad86";
+    NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
     NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
 //
 //    [self retrieveMessagesFrom:colin];
@@ -44,9 +48,9 @@
 //    [self retrieveMessagesFrom:simulator];
 //
 //    // add contact
-//    [self addContact:device];
+    [self addContact:device];
 //    [self addContact:colin];
-    [self addContact:simulator];
+//    [self addContact:simulator];
 
     self.window = [[UIWindow alloc] init];
     self.window.rootViewController = [[MessagingNavigationController alloc] initWithRootViewController:[[ChatsTableController alloc] initWithChatAPIClient:self.chatAPIClient]];
@@ -61,7 +65,7 @@
     [TextSecureKitEnv sharedEnv].contactsManager = [[ContactsManager alloc] init];
     TSStorageManager *storageManager = [TSStorageManager sharedManager];
     [storageManager setupDatabase];
-    // [TextSecureKitEnv sharedEnv].notificationsManager = [[NotificationsManager alloc] init];
+    [TextSecureKitEnv sharedEnv].notificationsManager = [[NotificationsManager alloc] init];
 
     self.networkManager = [TSNetworkManager sharedManager];
     self.contactsManager = [[ContactsManager alloc] init];

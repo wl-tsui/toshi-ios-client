@@ -35,6 +35,9 @@
 		9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
 		9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
 		9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
+		9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */; };
+		9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBACC1E27C24400A70E07 /* PushManager.m */; };
+		9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -88,6 +91,12 @@
 		9FC72A421E252CFA00EF1141 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
 		9FC72A431E252CFA00EF1141 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
 		9FCDBAC61E27B37F00A70E07 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
+		9FCDBAC81E27C17500A70E07 /* NotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsManager.h; sourceTree = "<group>"; };
+		9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsManager.m; sourceTree = "<group>"; };
+		9FCDBACB1E27C24400A70E07 /* PushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushManager.h; sourceTree = "<group>"; };
+		9FCDBACC1E27C24400A70E07 /* PushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushManager.m; sourceTree = "<group>"; };
+		9FCDBACF1E27C2B200A70E07 /* NotificationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTracker.h; sourceTree = "<group>"; };
+		9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTracker.m; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -201,6 +210,7 @@
 		9F9238CF1E24F3F1004BEEE0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9FCDBACE1E27C24900A70E07 /* Notifications */,
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
 				9F3E367F1E2655FF00D1AE63 /* Yap.h */,
 				9F3E36801E2655FF00D1AE63 /* Yap.m */,
@@ -233,6 +243,19 @@
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
 			);
 			name = APIClients;
+			sourceTree = "<group>";
+		};
+		9FCDBACE1E27C24900A70E07 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				9FCDBACF1E27C2B200A70E07 /* NotificationTracker.h */,
+				9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */,
+				9FCDBACB1E27C24400A70E07 /* PushManager.h */,
+				9FCDBACC1E27C24400A70E07 /* PushManager.m */,
+				9FCDBAC81E27C17500A70E07 /* NotificationsManager.h */,
+				9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */,
+			);
+			name = Notifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,17 +384,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F3E36811E2655FF00D1AE63 /* Yap.m in Sources */,
+				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
+				9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
 				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */,
+				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

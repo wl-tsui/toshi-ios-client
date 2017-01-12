@@ -1,4 +1,5 @@
 #import "ContactsManager.h"
+#import <UIKit/UIKit.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/SignalRecipient.h>
 
@@ -14,9 +15,9 @@
 
 - (NSArray <NSDictionary<NSString *, id> *> *)hardcodedContacts {
     return @[
-             @{@"firstName": @"Igor", @"lastName": @"Simulator", @"address": @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1", @"image": @""},
-             @{@"firstName": @"Igor", @"lastName": @"Device", @"address": @"0x27d3a723fce45a308788dca08450caaaf4ceb79b", @"image": @""},
-             @{@"firstName": @"Colin", @"lastName": @"Android", @"address": @"0x26dd4687ce139f929d538a2f18818f8368cfad86", @"image": @""},
+             @{@"firstName": @"Igor", @"lastName": @"Simulator", @"address": @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1", @"image": @"igorSim"},
+             @{@"firstName": @"Igor", @"lastName": @"Device", @"address": @"0x27d3a723fce45a308788dca08450caaaf4ceb79b", @"image": @"igorPhone"},
+             @{@"firstName": @"Colin", @"lastName": @"Android", @"address": @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25", @"image": @"colin"},
             ];
 }
 
@@ -46,7 +47,8 @@
         for (NSString *contactID in contactIDs) {
             if ([contactDict[@"address"] isEqualToString:contactID]) {
 
-                Contact *contact = [[Contact alloc] initWithContactWithFirstName:contactDict[@"firstName"] andLastName:contactDict[@"lastName"] andUserTextPhoneNumbers:@[contactID] andImage:nil andContactID:(int)contactID.hash];
+                UIImage *image = [UIImage imageNamed:contactDict[@"image"]];
+                Contact *contact = [[Contact alloc] initWithContactWithFirstName:contactDict[@"firstName"] andLastName:contactDict[@"lastName"] andUserTextPhoneNumbers:@[contactID] andImage:image andContactID:(int)contactID.hash];
                 [contacts addObject:contact];
 
                 break;
@@ -58,6 +60,12 @@
 }
 
 - (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber {
+    for (Contact *contact in self.signalContacts) {
+        if ([contact.userTextPhoneNumbers.firstObject isEqualToString:phoneNumber]) {
+            return contact.image;
+        }
+    }
+
     return nil;
 }
 

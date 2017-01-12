@@ -6,6 +6,8 @@
 
 #import <YapDatabase/YapDatabaseViewMappings.h>
 #import <YapDatabase/YapDatabaseViewTransaction.h>
+#import <YapDatabase/YapDatabaseConnection.h>
+#import <YapDatabase/YapDatabaseViewConnection.h>
 
 #import <SignalServiceKit/TSPreKeyManager.h>
 #import <SignalServiceKit/TSSocketManager.h>

@@ -57,6 +57,8 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.senderDisplayName = thread.name()
         self.senderId = self.cereal.address
+
+        self.registerNotifications()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -127,6 +129,134 @@ class MessagesViewController: JSQMessagesViewController {
         super.viewDidDisappear(animated)
     }
 
+    func registerNotifications() {
+        let nc = NotificationCenter.default
+
+        nc.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+    }
+
+//    override func scrollToBottom(animated: Bool) {
+//        if self.collectionView.numberOfSections == 0 {
+//            return;
+//        }
+//
+//        let lastCell = NSIndexPath(item: (self.collectionView.numberOfItems(inSection: 0) - 1), section:0)
+//        self.scrollToIndexPath(lastCell, animated:animated)
+//    }
+
+    func yapDatabaseDidChange(notification: NSNotification) {
+        let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
+
+        // If changes do not affect current view, update and return without updating collection view
+        let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        if viewConnection.hasChanges(for: notifications) == false {
+            self.uiDatabaseConnection.read { transaction in
+                self.mappings.update(with: transaction)
+            }
+
+            return
+        }
+
+        // HACK to work around radar #28167779
+        // "UICollectionView performBatchUpdates can trigger a crash if the collection view is flagged for layout"
+        // more: https://github.com/PSPDFKit-labs/radar.apple.com/tree/master/28167779%20-%20CollectionViewBatchingIssue
+        // This was our #2 crash, and much exacerbated by the refactoring somewhere between 2.6.2.0-2.6.3.8
+        self.collectionView.layoutIfNeeded()
+        // ENDHACK to work around radar #28167779
+
+        var messageRowChanges = NSArray()
+        var sectionChanges = NSArray()
+
+        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+
+        var scrollToBottom = false
+
+        if sectionChanges.count == 0 && messageRowChanges.count == 0 {
+            return
+        }
+
+        self.collectionView.performBatchUpdates({ 
+            for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
+
+                switch(rowChange.type) {
+                case .delete:
+                    self.collectionView.deleteItems(at: [rowChange.indexPath])
+
+                    //                    let collectionKey = rowChange.collectionKey
+                    //                    self.messageAdapterCache removeObjectForKey:collectionKey.key];
+                case .insert:
+                    self.collectionView.insertItems(at: [rowChange.newIndexPath])
+                    scrollToBottom = true
+                case .move:
+                    self.collectionView.deleteItems(at: [rowChange.indexPath])
+                    self.collectionView.insertItems(at: [rowChange.newIndexPath])
+                case .update:
+                    //                    let collectionKey = rowChange.collectionKey
+                    //                    self.messageAdapterCache removeObjectForKey:collectionKey.key];
+
+                    self.collectionView.reloadItems(at: [rowChange.indexPath])
+                }
+            }
+
+        }) { (success) in
+            if !success {
+                self.collectionView.collectionViewLayout.invalidateLayout(with: JSQMessagesCollectionViewFlowLayoutInvalidationContext())
+                self.collectionView.reloadData()
+            }
+
+            if scrollToBottom {
+                self.scrollToBottom(animated:true)
+            }
+        }
+
+
+        /*
+         [self.collectionView performBatchUpdates:^{
+         for (YapDatabaseViewRowChange *rowChange in messageRowChanges) {
+         switch (rowChange.type) {
+         case YapDatabaseViewChangeDelete: {
+         [self.collectionView deleteItemsAtIndexPaths:@[ rowChange.indexPath ]];
+
+         YapCollectionKey *collectionKey = rowChange.collectionKey;
+         if (collectionKey.key) {
+         [self.messageAdapterCache removeObjectForKey:collectionKey.key];
+         }
+         break;
+         }
+         case YapDatabaseViewChangeInsert: {
+         [self.collectionView insertItemsAtIndexPaths:@[ rowChange.newIndexPath ]];
+         scrollToBottom = YES;
+         break;
+         }
+         case YapDatabaseViewChangeMove: {
+         [self.collectionView deleteItemsAtIndexPaths:@[ rowChange.indexPath ]];
+         [self.collectionView insertItemsAtIndexPaths:@[ rowChange.newIndexPath ]];
+         break;
+         }
+         case YapDatabaseViewChangeUpdate: {
+         YapCollectionKey *collectionKey = rowChange.collectionKey;
+         if (collectionKey.key) {
+         [self.messageAdapterCache removeObjectForKey:collectionKey.key];
+         }
+         [self.collectionView reloadItemsAtIndexPaths:@[ rowChange.indexPath ]];
+         break;
+         }
+         }
+         }
+         }
+         completion:^(BOOL success) {
+         if (!success) {
+         [self.collectionView.collectionViewLayout
+         invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
+         [self.collectionView reloadData];
+         }
+         if (scrollToBottom) {
+         [self scrollToBottomAnimated:YES];
+         }
+         }];
+        */
+    }
+
     // MARK: - Message UI interaction
 
     override func didPressAccessoryButton(_ sender: UIButton!) {
@@ -144,8 +274,6 @@ class MessagesViewController: JSQMessagesViewController {
             DispatchQueue.main.async {
                 self.finishSendingMessage(animated: true)
             }
-//            guard let textMessage = TextMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text) else { fatalError("Could not create outgoing text message!") }
-//            self.messages.append(textMessage)
         }, failure: { error in
             print(error)
         })
