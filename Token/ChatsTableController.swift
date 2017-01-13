@@ -32,11 +32,11 @@ open class ChatsTableController: SweetTableController {
         }
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         self.tableView.separatorStyle = .none
@@ -45,7 +45,7 @@ open class ChatsTableController: SweetTableController {
         self.tableView.register(ChatCell.self)
     }
 
-    override open func viewDidAppear(_ animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         self.tableView.reloadData()
@@ -71,7 +71,7 @@ extension ChatsTableController: UITableViewDelegate {
     }
 
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let thread = self.thread(at:indexPath)
+        let thread = self.thread(at: indexPath)
         let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatAPIClient)
         if let nav = self.view.window?.rootViewController as? UINavigationController {
             nav.pushViewController(messagesController, animated: true)
@@ -93,10 +93,10 @@ extension ChatsTableController: UITableViewDataSource {
 
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ChatCell.self, for: indexPath)
-        let thread = self.thread(at:indexPath)
+        let thread = self.thread(at: indexPath)
 
         cell.thread = thread
-        
+
         return cell
     }
 }

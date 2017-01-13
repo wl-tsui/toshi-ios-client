@@ -9,7 +9,7 @@ public class RootNavigationController: UINavigationController {
         super.init(rootViewController: rootViewController)
     }
 
-    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 

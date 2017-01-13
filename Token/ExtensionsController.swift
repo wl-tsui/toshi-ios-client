@@ -15,8 +15,7 @@ open class ExtensionsController: SweetCollectionController {
         fatalError("")
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 }

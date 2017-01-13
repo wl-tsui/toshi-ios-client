@@ -14,8 +14,7 @@ open class ContactsController: SweetTableController {
         fatalError("")
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 }

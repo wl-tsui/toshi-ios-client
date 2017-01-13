@@ -20,7 +20,7 @@ public class IDAPIClient: NSObject {
         self.baseURL = URL(string: "https://token-id-service.herokuapp.com")!
         self.networking = Networking(baseURL: self.baseURL.absoluteString)
     }
-    
+
     public func registerUserIfNeeded(username: String? = nil, name: String? = nil) {
         self.retrieveUser(username: username ?? self.cereal.address) { user in
             guard user == nil else {

@@ -46,7 +46,7 @@ public final class Yap: Singleton {
         if let dbPwd = keychain.getData("DBPWD") {
             options.cipherKeyBlock = {
                 return dbPwd
-            };
+            }
 
             databasePassword = dbPwd
         } else {
@@ -55,7 +55,7 @@ public final class Yap: Singleton {
             keychain.set(databasePassword, forKey: "DBPWD")
             options.cipherKeyBlock = {
                 return databasePassword
-            };
+            }
         }
 
         self.databasePassword = databasePassword

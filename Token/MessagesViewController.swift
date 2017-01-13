@@ -5,7 +5,6 @@ import YapDatabase
 import YapDatabase.YapDatabaseView
 
 class TextMessage: JSQMessage {
-
 }
 
 class MessagesViewController: JSQMessagesViewController {
@@ -137,14 +136,14 @@ class MessagesViewController: JSQMessagesViewController {
         nc.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
-//    override func scrollToBottom(animated: Bool) {
-//        if self.collectionView.numberOfSections == 0 {
-//            return;
-//        }
-//
-//        let lastCell = NSIndexPath(item: (self.collectionView.numberOfItems(inSection: 0) - 1), section:0)
-//        self.scrollToIndexPath(lastCell, animated:animated)
-//    }
+    //    override func scrollToBottom(animated: Bool) {
+    //        if self.collectionView.numberOfSections == 0 {
+    //            return;
+    //        }
+    //
+    //        let lastCell = NSIndexPath(item: (self.collectionView.numberOfItems(inSection: 0) - 1), section:0)
+    //        self.scrollToIndexPath(lastCell, animated:animated)
+    //    }
 
     func yapDatabaseDidChange(notification: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
@@ -177,10 +176,10 @@ class MessagesViewController: JSQMessagesViewController {
             return
         }
 
-        self.collectionView.performBatchUpdates({ 
+        self.collectionView.performBatchUpdates({
             for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
 
-                switch(rowChange.type) {
+                switch (rowChange.type) {
                 case .delete:
                     self.collectionView.deleteItems(at: [rowChange.indexPath])
 
@@ -207,10 +206,9 @@ class MessagesViewController: JSQMessagesViewController {
             }
 
             if scrollToBottom {
-                self.scrollToBottom(animated:true)
+                self.scrollToBottom(animated: true)
             }
         }
-
 
         /*
          [self.collectionView performBatchUpdates:^{
@@ -323,7 +321,7 @@ class MessagesViewController: JSQMessagesViewController {
             let previousIndexPath = IndexPath(item: indexPath.item - 1, section: indexPath.section)
             let previousMessage = self.message(at: previousIndexPath)
             if previousMessage.senderId == message.senderId {
-                return nil;
+                return nil
             }
         }
 

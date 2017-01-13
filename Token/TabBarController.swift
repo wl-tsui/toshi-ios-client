@@ -12,11 +12,11 @@ open class TabBarController: UITabBarController {
         self.delegate = self
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         let messaging = MessagingNavigationController(rootViewController: ChatsTableController(chatAPIClient: chatAPIClient))
@@ -29,6 +29,7 @@ open class TabBarController: UITabBarController {
 }
 
 extension TabBarController: UITabBarControllerDelegate {
+
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         self.title = viewController.title
     }

@@ -15,7 +15,7 @@ open class ProfileController: UIViewController {
         fatalError("")
     }
 
-    override open func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
     }
 }

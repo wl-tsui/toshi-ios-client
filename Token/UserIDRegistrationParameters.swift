@@ -7,7 +7,7 @@ struct UserIDRegistrationParameters {
 
     let cereal: Cereal
 
-    var payload: [String: Any]  {
+    var payload: [String: Any] {
         var payload: [String: Any] = ["timestamp": UInt64(Date().timeIntervalSince1970)]
 
         if let username = self.username {
@@ -37,7 +37,7 @@ struct UserIDRegistrationParameters {
         let params: [String: Any] = [
             "payload": self.payload,
             "address": self.cereal.address,
-            "signature": "0x\(signature)"
+            "signature": "0x\(signature)",
         ]
 
         print(params)

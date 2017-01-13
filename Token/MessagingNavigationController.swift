@@ -1,19 +1,20 @@
 import UIKit
 
 public class MessagingNavigationController: UINavigationController {
+
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         self.title = "Messages"
     }
 
-    override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         self.title = "Messages"
         self.tabBarItem = UITabBarItem(title: "Messages", image: #imageLiteral(resourceName: "Activity"), tag: 0)
     }
 
-    required public init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
 
