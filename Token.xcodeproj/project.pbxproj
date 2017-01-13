@@ -40,6 +40,9 @@
 		9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
 		9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */; };
 		9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
+		9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */; };
+		9FCDBADD1E28E57100A70E07 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADC1E28E57100A70E07 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -100,6 +103,9 @@
 		9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTracker.m; sourceTree = "<group>"; };
 		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
 		9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KeychainSwift.framework; sourceTree = "<group>"; };
+		9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = idAPIClient.swift; sourceTree = "<group>"; };
+		9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserIDRegistrationParameters.swift; sourceTree = "<group>"; };
+		9FCDBADC1E28E57100A70E07 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,11 +224,13 @@
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
 				9FC72A2B1E25098000EF1141 /* AccountManager.swift */,
 				9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */,
+				9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */,
 				9FC72A381E25145D00EF1141 /* CryptoTools.h */,
 				9FCDBAD31E27DE8800A70E07 /* Yap.swift */,
 				9FC72A391E25145D00EF1141 /* CryptoTools.m */,
 				9FC72A421E252CFA00EF1141 /* ContactsManager.h */,
 				9FC72A431E252CFA00EF1141 /* ContactsManager.m */,
+				9FCDBADC1E28E57100A70E07 /* User.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -245,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
+				9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */,
 			);
 			name = APIClients;
 			sourceTree = "<group>";
@@ -389,6 +398,8 @@
 			files = (
 				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
+				9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */,
+				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
@@ -399,6 +410,7 @@
 				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
+				9FCDBADD1E28E57100A70E07 /* User.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */,
 				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,

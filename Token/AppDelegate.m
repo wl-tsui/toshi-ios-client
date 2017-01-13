@@ -18,6 +18,7 @@
 @interface AppDelegate ()
 @property (nonnull, nonatomic) Cereal *cereal;
 @property (nonnull, nonatomic) ChatAPIClient *chatAPIClient;
+@property (nonnull, nonatomic) IDAPIClient *idAPIClient;
 
 @property (nonatomic) OWSIncomingMessageReadObserver *incomingMessageReadObserver;
 //@property (nonatomic) OWSStaleNotificationObserver *staleNotificationObserver;
@@ -32,6 +33,7 @@
     [[TSStorageManager sharedManager] storePhoneNumber:self.cereal.address];
 
     self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
+    self.idAPIClient = [[IDAPIClient alloc] initWithCereal:self.cereal];
 
     [self setupTSKitEnv];
     [[PushManager sharedManager] registerPushKitNotificationFuture];

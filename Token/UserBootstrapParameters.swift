@@ -2,15 +2,6 @@ import Foundation
 import SweetFoundation
 
 let DeviceSpecificPassword = "1231231"
-//let SIGNALING_MAC_KEY_LENGTH: UInt = 20
-//let SIGNALING_CIPHER_KEY_LENGTH: UInt = 16
-//let SAVED_PASSWORD_LENGTH: UInt = 18
-//let SIGNALING_EXTRA_KEY_LENGTH: UInt = 4
-//
-//let SAVED_PASSWORD_KEY = "Password"
-//let SIGNALING_MAC_KEY = "Signaling Mac Key"
-//let SIGNALING_CIPHER_KEY = "Signaling Cipher Key"
-//let SIGNALING_EXTRA_KEY = "Signaling Extra Key"
 
 public class UserBootstrapParameter {
     public let expectedAddress: String
