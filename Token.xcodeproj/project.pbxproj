@@ -38,6 +38,8 @@
 		9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBACC1E27C24400A70E07 /* PushManager.m */; };
 		9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */; };
 		9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
+		9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */; };
+		9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +52,7 @@
 				9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */,
 				9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */,
 				9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */,
+				9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */,
 				9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */,
 				9F9238EA1E24F6CD004BEEE0 /* SweetFoundation.framework in Copy Carthage Frameworks */,
 				9F9238EB1E24F6CD004BEEE0 /* SweetUIKit.framework in Copy Carthage Frameworks */,
@@ -96,6 +99,7 @@
 		9FCDBACF1E27C2B200A70E07 /* NotificationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTracker.h; sourceTree = "<group>"; };
 		9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTracker.m; sourceTree = "<group>"; };
 		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
+		9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KeychainSwift.framework; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +112,7 @@
 				9F9238E31E24F604004BEEE0 /* SweetFoundation.framework in Frameworks */,
 				9F9238E21E24F604004BEEE0 /* Networking.framework in Frameworks */,
 				9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */,
+				9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */,
 				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
 				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
 				9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */,
@@ -155,7 +160,6 @@
 		9F9238B31E24F1D2004BEEE0 /* Token */ = {
 			isa = PBXGroup;
 			children = (
-				9FCDBAC61E27B37F00A70E07 /* token.cer */,
 				9F9238D51E24F5FE004BEEE0 /* Vendor */,
 				9FC72A3B1E251ABE00EF1141 /* APIClients */,
 				9F9238CF1E24F3F1004BEEE0 /* Models */,
@@ -180,6 +184,7 @@
 		9F9238CC1E24F3D9004BEEE0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9FCDBAC61E27B37F00A70E07 /* token.cer */,
 				9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */,
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
@@ -225,6 +230,7 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */,
 				9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */,
 				9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */,
 				9F9238D91E24F604004BEEE0 /* JSQMessages.framework */,

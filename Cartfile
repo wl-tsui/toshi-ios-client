@@ -1,5 +1,6 @@
 github "hemantasapkota/JSQMessagesViewController" "master"
 github "3lvis/Networking"
+github "marketplacer/keychain-swift"
 github "bakkenbaeck/EtherealCereal" "master"
 github "UseSweet/SweetFoundation" "master"
 github "UseSweet/SweetUIKit" "feature/inputview"

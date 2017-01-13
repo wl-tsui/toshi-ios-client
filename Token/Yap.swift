@@ -1,5 +1,6 @@
 import Foundation
 import YapDatabase
+import KeychainSwift
 
 protocol Singleton: class {
     static var sharedInstance: Self { get }
@@ -12,11 +13,53 @@ public final class Yap: Singleton {
 
     public static let sharedInstance = Yap()
 
+    private var databasePassword: Data
+
     private init() {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(".Signal.sqlite").path else { fatalError("Missing resource path!") }
 
         let options = YapDatabaseOptions()
         options.corruptAction = .fail
+
+        /**
+         NSString *dbPassword = [SAMKeychain passwordForService:keychainService account:keychainDBPassAccount];
+
+         if (!dbPassword) {
+         dbPassword = [[Randomness generateRandomBytes:30] base64EncodedString];
+         NSError *error;
+         [SAMKeychain setPassword:dbPassword forService:keychainService account:keychainDBPassAccount error:&error];
+         if (error) {
+         // Sync log to ensure it logs before exiting
+         NSLog(@"Exiting because we failed to set new DB password. error: %@", error);
+         exit(1);
+         } else {
+         DDLogError(@"Succesfully set new DB password. First launch?");
+         }
+         }
+
+         return [dbPassword dataUsingEncoding:NSUTF8StringEncoding];
+
+         */
+        let keychain = KeychainSwift()
+        var databasePassword: Data
+
+        if let dbPwd = keychain.getData("DBPWD") {
+            options.cipherKeyBlock = {
+                return dbPwd
+            };
+
+            databasePassword = dbPwd
+        } else {
+            databasePassword = Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
+
+            keychain.set(databasePassword, forKey: "DBPWD")
+            options.cipherKeyBlock = {
+                return databasePassword
+            };
+        }
+
+        self.databasePassword = databasePassword
+
         self.database = YapDatabase(path: path, options: options)
 
         self.mainConnection = self.database.newConnection()

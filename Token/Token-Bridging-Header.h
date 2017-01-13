@@ -30,6 +30,8 @@
 #import <SignalServiceKit/TSStorageManager+SignedPreKeyStore.h>
 #import <SignalServiceKit/TSThread.h>
 
+#import <25519/Randomness.h>
+
 #import <AxolotlKit/PreKeyRecord.h>
 #import <AxolotlKit/PreKeyBundle.h>
 #import <AxolotlKit/SignedPreKeyRecord.h>
