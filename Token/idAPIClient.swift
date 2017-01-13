@@ -46,6 +46,7 @@ public class IDAPIClient: NSObject {
         self.networking.GET("/v1/user/\(username)/") { json, error in
             if let error = error {
                 print(error)
+                completion(nil)
             } else if let json = json as? [String: Any] {
                 completion(User(json: json))
             }

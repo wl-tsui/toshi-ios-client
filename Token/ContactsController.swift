@@ -7,6 +7,7 @@ open class ContactsController: SweetTableController {
         super.init()
 
         self.tabBarItem = UITabBarItem(title: "Contacts", image: #imageLiteral(resourceName: "Contacts"), tag: 1)
+        self.title = "Contacts"
     }
 
     public required init?(coder aDecoder: NSCoder) {

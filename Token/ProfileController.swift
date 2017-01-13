@@ -8,6 +8,7 @@ open class ProfileController: UIViewController {
 
         self.view.backgroundColor = .white
         self.tabBarItem = UITabBarItem(title: "Profile", image: #imageLiteral(resourceName: "Profile"), tag: 2)
+        self.title = "Profile"
     }
 
     public required init?(coder aDecoder: NSCoder) {

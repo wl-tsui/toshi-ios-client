@@ -8,6 +8,8 @@ open class TabBarController: UITabBarController {
         self.chatAPIClient = chatAPIClient
 
         super.init(nibName: nil, bundle: nil)
+
+        self.delegate = self
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -18,6 +20,17 @@ open class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         let messaging = MessagingNavigationController(rootViewController: ChatsTableController(chatAPIClient: chatAPIClient))
+
+        self.title = messaging.title
+
         self.viewControllers = [messaging, ExtensionsController(), ContactsController(), ProfileController()]
+        self.view.tintColor = Theme.tintColor
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        print(viewController)
+        self.title = viewController.title
     }
 }

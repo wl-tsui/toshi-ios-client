@@ -35,6 +35,7 @@
     self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
     self.idAPIClient = [[IDAPIClient alloc] initWithCereal:self.cereal];
 
+    [self setupBasicAppearance];
     [self setupTSKitEnv];
     [[PushManager sharedManager] registerPushKitNotificationFuture];
 
@@ -56,7 +57,8 @@
 //    [self addContact:simulator];
 
     self.window = [[UIWindow alloc] init];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient]];
+    self.window.backgroundColor = [Theme viewBackgroundColor];
+    self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient]];
     [self.window makeKeyAndVisible];
 
     if (User.current == nil) {
@@ -75,6 +77,17 @@
     [TSSocketManager becomeActiveFromForeground];
 
     return YES;
+}
+
+- (void)setupBasicAppearance {
+    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor]};
+
+    UINavigationBar *navBarAppearance = [UINavigationBar appearance];
+    [navBarAppearance setTitleTextAttributes:attributtes];
+    [navBarAppearance setTintColor:[Theme navigationTitleTextColor]];
+
+    UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
+    [barButtonAppearance setTitleTextAttributes:attributtes forState:UIControlStateNormal];
 }
 
 - (void)setupTSKitEnv {

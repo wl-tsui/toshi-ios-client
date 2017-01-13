@@ -2,19 +2,25 @@ import Foundation
 import SweetFoundation
 
 struct UserIDRegistrationParameters {
-    let name: String
-    let username: String
+    let name: String?
+    let username: String?
 
     let cereal: Cereal
 
     var payload: [String: Any]  {
-        return [
-            "custom": [
-                "name": self.name
-            ],
-            "username": self.username,
-            "timestamp": UInt64(Date().timeIntervalSince1970)
-        ]
+        var payload: [String: Any] = ["timestamp": UInt64(Date().timeIntervalSince1970)]
+
+        if let username = self.username {
+            payload["username"] = username
+        }
+
+        if let name = self.name {
+            payload["custom"] = ["name": name]
+        }
+
+        print(payload)
+
+        return payload
     }
 
     var stringForSigning: String {
@@ -40,8 +46,8 @@ struct UserIDRegistrationParameters {
     }
 
     init(name: String?, username: String?, cereal: Cereal) {
-        self.name = name ?? ""
-        self.username = username ?? ""
+        self.name = name
+        self.username = username
         self.cereal = cereal
     }
 }

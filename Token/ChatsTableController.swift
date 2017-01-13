@@ -39,8 +39,6 @@ open class ChatsTableController: SweetTableController {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "Messages"
-
         self.tableView.separatorStyle = .none
         self.tableView.dataSource = self
         self.tableView.delegate = self
