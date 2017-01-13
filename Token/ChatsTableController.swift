@@ -3,13 +3,7 @@ import SweetFoundation
 import SweetUIKit
 import YapDatabase
 
-public class ChatsTableController: SweetTableController {
-
-    // TODO: remove default value
-    // 0xdfd98974dd99ea01b73b9992ef106d50c4a38bde == igor android
-    // 0xe78f05d661549c747717989fc964f1ce08a6f477 == colin
-    // 0x8d4b8054cc6a7e5321d99f8aa494e1e6b7fca0c8 == iphone elland
-    // 0x84c3e9ee79279ee27fcb16bdbc2d2bbe0080b114 == SE simulator
+open class ChatsTableController: SweetTableController {
 
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
@@ -26,9 +20,9 @@ public class ChatsTableController: SweetTableController {
         return dbConnection
     }()
 
-    var chatAPIClient: ChatAPIClient
+    public var chatAPIClient: ChatAPIClient
 
-    init(chatAPIClient: ChatAPIClient) {
+    public init(chatAPIClient: ChatAPIClient) {
         self.chatAPIClient = chatAPIClient
 
         super.init()
@@ -42,7 +36,7 @@ public class ChatsTableController: SweetTableController {
         fatalError()
     }
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "Messages"
@@ -53,7 +47,7 @@ public class ChatsTableController: SweetTableController {
         self.tableView.register(ChatCell.self)
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         self.tableView.reloadData()
@@ -74,11 +68,11 @@ public class ChatsTableController: SweetTableController {
 
 extension ChatsTableController: UITableViewDelegate {
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
     }
 
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thread = self.thread(at:indexPath)
         let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatAPIClient)
         if let nav = self.view.window?.rootViewController as? UINavigationController {
@@ -91,15 +85,15 @@ extension ChatsTableController: UITableViewDelegate {
 
 extension ChatsTableController: UITableViewDataSource {
 
-    public func numberOfSections(in tableView: UITableView) -> Int {
+    open func numberOfSections(in tableView: UITableView) -> Int {
         return Int(self.mappings.numberOfSections())
     }
 
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(self.mappings.numberOfItems(inSection: UInt(section)))
     }
 
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ChatCell.self, for: indexPath)
         let thread = self.thread(at:indexPath)
 

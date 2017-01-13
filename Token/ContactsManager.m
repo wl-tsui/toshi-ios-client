@@ -15,8 +15,8 @@
 
 - (NSArray <NSDictionary<NSString *, id> *> *)hardcodedContacts {
     return @[
-             @{@"firstName": @"Igor", @"lastName": @"Simulator", @"address": @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1", @"image": @"igorSim"},
-             @{@"firstName": @"Igor", @"lastName": @"Device", @"address": @"0x27d3a723fce45a308788dca08450caaaf4ceb79b", @"image": @"igorPhone"},
+             @{@"firstName": @"Igor", @"lastName": @"Simulator", @"address": @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1", @"image": @"igor"},
+             @{@"firstName": @"Igor", @"lastName": @"Device", @"address": @"0x27d3a723fce45a308788dca08450caaaf4ceb79b", @"image": @"igor"},
              @{@"firstName": @"Colin", @"lastName": @"Android", @"address": @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25", @"image": @"colin"},
             ];
 }

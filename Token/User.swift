@@ -2,7 +2,26 @@ import Foundation
 
 public class User: NSObject {
 
-    static var current: User?
+    static let yap = Yap.sharedInstance
+
+    static var _current: User?
+
+    public static var current: User? {
+        get {
+            if let current = _current {
+                return current
+            } else if let user = self.yap.retrieveObject(for: "StoredUser") as? User {
+                _current = user
+                return user
+            }
+
+            return _current
+        }
+        set {
+            self.yap.insert(object: newValue, for: "StoredUser")
+            _current = newValue
+        }
+    }
 
     let username: String
 

@@ -6,11 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "igorSim@2x.png",
+      "filename" : "Profile@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Profile@3x.png",
       "scale" : "3x"
     }
   ],

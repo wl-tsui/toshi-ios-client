@@ -25,14 +25,14 @@ public class ChatAPIClient: NSObject {
     }
 
     public func registerUserIfNeeded() {
-//        if let authToken = TSStorageManager.serverAuthToken() {
-//            print("Stored assword: \(authToken)")
-//            print("Stored address: \(self.address)")
-//            
-//            self.networking.setAuthorizationHeader(headerValue: self.authToken(for: self.address, password: DeviceSpecificPassword))
-//
-//            return
-//        }
+        //        if let authToken = TSStorageManager.serverAuthToken() {
+        //            print("Stored assword: \(authToken)")
+        //            print("Stored address: \(self.address)")
+        //
+        //            self.networking.setAuthorizationHeader(headerValue: self.authToken(for: self.address, password: DeviceSpecificPassword))
+        //
+        //            return
+        //        }
 
         let parameters = UserBootstrapParameter(storageManager: self.storageManager, ethereumAddress: self.address)
 

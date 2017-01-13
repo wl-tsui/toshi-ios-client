@@ -43,6 +43,11 @@
 		9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
 		9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */; };
 		9FCDBADD1E28E57100A70E07 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADC1E28E57100A70E07 /* User.swift */; };
+		9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
+		9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE01E28E71900A70E07 /* ContactsController.swift */; };
+		9FCDBAE41E28E71900A70E07 /* ExtensionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE11E28E71900A70E07 /* ExtensionsController.swift */; };
+		9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE21E28E71900A70E07 /* ProfileController.swift */; };
+		9FCDBAE71E28EAEB00A70E07 /* UserRegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE61E28EAEB00A70E07 /* UserRegistrationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,6 +111,11 @@
 		9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = idAPIClient.swift; sourceTree = "<group>"; };
 		9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserIDRegistrationParameters.swift; sourceTree = "<group>"; };
 		9FCDBADC1E28E57100A70E07 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		9FCDBAE01E28E71900A70E07 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
+		9FCDBAE11E28E71900A70E07 /* ExtensionsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsController.swift; sourceTree = "<group>"; };
+		9FCDBAE21E28E71900A70E07 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		9FCDBAE61E28EAEB00A70E07 /* UserRegistrationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRegistrationController.swift; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -203,8 +213,13 @@
 			isa = PBXGroup;
 			children = (
 				9F5F29751E26772B00C652A3 /* ChatsTableController.swift */,
+				9FCDBAE61E28EAEB00A70E07 /* UserRegistrationController.swift */,
 				9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */,
 				9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */,
+				9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */,
+				9FCDBAE01E28E71900A70E07 /* ContactsController.swift */,
+				9FCDBAE11E28E71900A70E07 /* ExtensionsController.swift */,
+				9FCDBAE21E28E71900A70E07 /* ProfileController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -402,6 +417,8 @@
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
+				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
+				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
@@ -411,9 +428,12 @@
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9FCDBADD1E28E57100A70E07 /* User.swift in Sources */,
+				9FCDBAE71E28EAEB00A70E07 /* UserRegistrationController.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */,
+				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,
+				9FCDBAE41E28E71900A70E07 /* ExtensionsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

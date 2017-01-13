@@ -38,11 +38,12 @@
     [self setupTSKitEnv];
     [[PushManager sharedManager] registerPushKitNotificationFuture];
 
-    [self.chatAPIClient registerUserIfNeeded];
-
-    NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
-    NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
-    NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
+//    [self.idAPIClient registerUserIfNeededWithUsername:@"ielland" name:@"Igor Elland"];
+//    [self.chatAPIClient registerUserIfNeeded];
+//
+//    NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
+//    NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
+//    NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
 //
 //    [self retrieveMessagesFrom:colin];
 //    [self sendMessageTo:simulator];
@@ -55,8 +56,21 @@
 //    [self addContact:simulator];
 
     self.window = [[UIWindow alloc] init];
-    self.window.rootViewController = [[MessagingNavigationController alloc] initWithRootViewController:[[ChatsTableController alloc] initWithChatAPIClient:self.chatAPIClient]];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient]];
     [self.window makeKeyAndVisible];
+
+    if (User.current == nil) {
+        [self.chatAPIClient registerUserIfNeeded];
+        [self.idAPIClient registerUserIfNeededWithUsername:nil name:nil];
+    } else {
+        [self.idAPIClient retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
+            NSLog(@"%@", user);
+            if (user == nil) {
+                [self.chatAPIClient registerUserIfNeeded];
+                [self.idAPIClient registerUserIfNeededWithUsername:nil name:nil];
+            }
+        }];
+    }
 
     [TSSocketManager becomeActiveFromForeground];
 
