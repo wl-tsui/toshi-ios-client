@@ -59,6 +59,7 @@
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
     self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient]];
+
     [self.window makeKeyAndVisible];
 
     if (User.current == nil) {

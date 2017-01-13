@@ -1,6 +1,10 @@
 import UIKit
 
 public class RootNavigationController: UINavigationController {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
     }
