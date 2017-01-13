@@ -10,18 +10,27 @@ open class ProfileController: UIViewController {
         return view
     }()
 
+    lazy var avatarContainer: UIImageView = {
+        let view = UIImageView(withAutoLayout: true)
+        view.image = #imageLiteral(resourceName: "AvatarContainer")
+
+        return view
+    }()
+
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
         view.textAlignment = .center
+        view.font = UIFont.boldSystemFont(ofSize: 20)
 
         return view
     }()
 
     lazy var editProfileButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setTitle("Edit Profile", for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13)]), for: .normal)
         view.setTitleColor(Theme.darkTextColor, for: .normal)
+        view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
 
         view.layer.cornerRadius = 4.0
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -40,7 +49,8 @@ open class ProfileController: UIViewController {
     lazy var aboutTitleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.text = "About"
-        view.textColor = Theme.darkTextColor
+        view.textColor = .lightGray
+        view.font = .systemFont(ofSize: 15)
 
         return view
     }()
@@ -62,6 +72,8 @@ open class ProfileController: UIViewController {
         let view = UILabel(withAutoLayout: true)
         view.text = "Location"
         view.textColor = Theme.darkTextColor
+        view.textColor = .lightGray
+        view.font = .systemFont(ofSize: 15)
 
         return view
     }()
@@ -111,7 +123,8 @@ open class ProfileController: UIViewController {
         [avatar].forEach { (view) in
             view.backgroundColor = Theme.randomColor
         }
-        
+
+        self.view.addSubview(self.avatarContainer)
         self.view.addSubview(self.avatar)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.editProfileButton)
@@ -126,16 +139,23 @@ open class ProfileController: UIViewController {
 
         let height: CGFloat = 40.0
         let margin: CGFloat = 20.0
+        let avatarSize: CGFloat = 106
+        let avatarContainerSize: CGFloat = 166
 
-        self.avatar.set(height: 166)
-        self.avatar.set(width: 166)
-        self.avatar.layer.cornerRadius = 166/2
+        self.avatarContainer.set(height: avatarContainerSize)
+        self.avatarContainer.set(width: avatarContainerSize)
+        self.avatarContainer.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: margin).isActive = true
+        self.avatarContainer.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
-        self.avatar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: margin).isActive = true
-        self.avatar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.avatar.set(height: avatarSize)
+        self.avatar.set(width: avatarSize)
+        self.avatar.layer.cornerRadius = avatarSize/2
+
+        self.avatar.centerYAnchor.constraint(equalTo: self.avatarContainer.centerYAnchor).isActive = true
+        self.avatar.centerXAnchor.constraint(equalTo: self.avatarContainer.centerXAnchor).isActive = true
 
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: margin).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: margin).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin).isActive = true
 
@@ -180,5 +200,9 @@ open class ProfileController: UIViewController {
 
         // TODO: figure out a way to abstract the -49pts from the tabbar height.
         self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -69).isActive = true
+    }
+
+    func didTapEditProfileButton() {
+        print("Tapped: Edit Profile")
     }
 }

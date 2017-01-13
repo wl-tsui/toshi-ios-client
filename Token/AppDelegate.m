@@ -81,7 +81,7 @@
 }
 
 - (void)setupBasicAppearance {
-    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor]};
+    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [UIFont boldSystemFontOfSize:17]};
 
     UINavigationBar *navBarAppearance = [UINavigationBar appearance];
     [navBarAppearance setTitleTextAttributes:attributtes];

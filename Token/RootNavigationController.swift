@@ -20,6 +20,5 @@ public class RootNavigationController: UINavigationController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationBar.barTintColor = Theme.tintColor
-        self.navigationBar.isTranslucent = false
     }
 }
