@@ -40,10 +40,6 @@ public class ChatAPIClient: NSObject {
         let signature = self.cereal.sign(message: message)
         parameters.signature = "0x\(signature)"
 
-        print("address:\n \(self.address)\n\n")
-        // print("msg:\n \(message)\n\n")
-        print("signature:\n \(signature)\n")
-
         guard let signedParameters = parameters.signedParametersDictionary() else { fatalError("Missing signature!") }
 
         self.networking.PUT("/v1/accounts/bootstrap", parameterType: .json, parameters: signedParameters) { (JSON, error) in

@@ -18,16 +18,11 @@ struct UserIDRegistrationParameters {
             payload["custom"] = ["name": name]
         }
 
-        print(payload)
-
         return payload
     }
 
     var stringForSigning: String {
-        let ordered = OrderedSerializer.string(from: self.payload)
-        print(ordered)
-
-        return ordered
+        return OrderedSerializer.string(from: self.payload)
     }
 
     func signedParameters() -> [String: Any] {
@@ -39,8 +34,6 @@ struct UserIDRegistrationParameters {
             "address": self.cereal.address,
             "signature": "0x\(signature)",
         ]
-
-        print(params)
 
         return params
     }

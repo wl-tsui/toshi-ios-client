@@ -269,8 +269,6 @@ class MessagesViewController: JSQMessagesViewController {
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: text)
         self.messageSender.send(outgoingMessage, success: {
-            print("message sent!")
-
             DispatchQueue.main.async {
                 self.finishSendingMessage(animated: true)
             }
