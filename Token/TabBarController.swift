@@ -30,7 +30,6 @@ open class TabBarController: UITabBarController {
 
 extension TabBarController: UITabBarControllerDelegate {
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        print(viewController)
         self.title = viewController.title
     }
 }
