@@ -39,22 +39,25 @@
     [self setupTSKitEnv];
     [[PushManager sharedManager] registerPushKitNotificationFuture];
 
-//    [self.idAPIClient registerUserIfNeededWithUsername:@"ielland" name:@"Igor Elland"];
-//    [self.chatAPIClient registerUserIfNeeded];
-//
-//    NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
-//    NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
-//    NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
-//
-//    [self retrieveMessagesFrom:colin];
-//    [self sendMessageTo:simulator];
-//    [self sendMessageTo:device];
-//    [self retrieveMessagesFrom:simulator];
-//
-//    // add contact
-//    [self addContact:device];
-//    [self addContact:colin];
-//    [self addContact:simulator];
+    BOOL shouldUseMockedCredentials = true;
+    if (shouldUseMockedCredentials) {
+        [self.idAPIClient registerUserIfNeededWithUsername:@"ielland" name:@"Igor Elland"];
+        [self.chatAPIClient registerUserIfNeeded];
+
+        NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
+        NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
+        NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
+
+        [self retrieveMessagesFrom:colin];
+        [self sendMessageTo:simulator];
+        [self sendMessageTo:device];
+        [self retrieveMessagesFrom:simulator];
+
+            // add contact
+        [self addContact:device];
+        [self addContact:colin];
+        [self addContact:simulator];
+    }
 
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
@@ -133,7 +136,7 @@
     ContactsManager *contactsManager = [[ContactsManager alloc] init];
     ContactsUpdater *contactsUpdater = [[ContactsUpdater alloc] init];
     OWSMessageSender *messageSender = [[OWSMessageSender alloc] initWithNetworkManager:networkManager storageManager:[TSStorageManager sharedManager] contactsManager:contactsManager contactsUpdater:contactsUpdater];
-    TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp] inThread:thread messageBody:@"Try this! From AppDelegate."];
+    TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp] inThread:thread messageBody:[NSString stringWithFormat:@"Try this! From AppDelegate. %@", [NSDate new]]];
 
     [messageSender sendMessage:message success:^{
         NSLog(@"Success! Message sent!");
