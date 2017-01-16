@@ -50,6 +50,7 @@
 		9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FCDBAEC1E28FE4100A70E07 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */; };
 		9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAED1E29020100A70E07 /* Reveal.framework */; };
+		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -120,6 +121,7 @@
 		9FCDBAE91E28FD5C00A70E07 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		9FCDBAED1E29020100A70E07 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenContact.swift; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -250,6 +252,7 @@
 				9FC72A421E252CFA00EF1141 /* ContactsManager.h */,
 				9FC72A431E252CFA00EF1141 /* ContactsManager.m */,
 				9FCDBADC1E28E57100A70E07 /* User.swift */,
+				9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
+				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */,
 				9FCDBAEC1E28FE4100A70E07 /* RootNavigationController.swift in Sources */,

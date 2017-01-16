@@ -1,6 +1,10 @@
 import UIKit
 
-public class User: NSObject {
+public protocol JSONDataSerialization {
+    var JSONData: Data { get }
+}
+
+public class User: NSObject, JSONDataSerialization {
 
     static let yap = Yap.sharedInstance
 
@@ -18,7 +22,7 @@ public class User: NSObject {
             return _current
         }
         set {
-            let json = newValue?.asJSONData
+            let json = newValue?.JSONData
             self.yap.insert(object: json, for: "StoredUser")
 
             _current = newValue
@@ -35,7 +39,7 @@ public class User: NSObject {
 
     public var avatarPath: String?
 
-    var asJSONData: Data {
+    public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
             "custom": ["name": self.name ?? ""],

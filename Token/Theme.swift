@@ -6,7 +6,7 @@ public final class Theme: NSObject {
     public static var randomColor: UIColor {
         let colors = [UIColor.lightGray, UIColor.green, UIColor.red, UIColor.magenta, UIColor.purple, UIColor.blue, UIColor.yellow]
         
-        return colors[Int(arc4random()) % colors.count]
+        return colors[Int(arc4random_uniform(UInt32(colors.count)))]
     }
 
     public static var lightTextColor: UIColor {

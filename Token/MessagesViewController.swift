@@ -132,18 +132,8 @@ class MessagesViewController: JSQMessagesViewController {
 
     func registerNotifications() {
         let nc = NotificationCenter.default
-
         nc.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
-
-    //    override func scrollToBottom(animated: Bool) {
-    //        if self.collectionView.numberOfSections == 0 {
-    //            return;
-    //        }
-    //
-    //        let lastCell = NSIndexPath(item: (self.collectionView.numberOfItems(inSection: 0) - 1), section:0)
-    //        self.scrollToIndexPath(lastCell, animated:animated)
-    //    }
 
     func yapDatabaseDidChange(notification: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
@@ -182,7 +172,6 @@ class MessagesViewController: JSQMessagesViewController {
                 switch (rowChange.type) {
                 case .delete:
                     self.collectionView.deleteItems(at: [rowChange.indexPath])
-
                     //                    let collectionKey = rowChange.collectionKey
                     //                    self.messageAdapterCache removeObjectForKey:collectionKey.key];
                 case .insert:
@@ -194,7 +183,6 @@ class MessagesViewController: JSQMessagesViewController {
                 case .update:
                     //                    let collectionKey = rowChange.collectionKey
                     //                    self.messageAdapterCache removeObjectForKey:collectionKey.key];
-
                     self.collectionView.reloadItems(at: [rowChange.indexPath])
                 }
             }
@@ -266,12 +254,12 @@ class MessagesViewController: JSQMessagesViewController {
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
         button.isEnabled = false
 
+        self.finishSendingMessage(animated: true)
+
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: text)
         self.messageSender.send(outgoingMessage, success: {
-            DispatchQueue.main.async {
-                self.finishSendingMessage(animated: true)
-            }
+            print("Message sent.")
         }, failure: { error in
             print(error)
         })

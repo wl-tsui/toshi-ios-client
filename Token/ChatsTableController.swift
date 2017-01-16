@@ -22,14 +22,19 @@ open class ChatsTableController: SweetTableController {
 
     public var chatAPIClient: ChatAPIClient
 
-    public init(chatAPIClient: ChatAPIClient) {
+    public var idAPIClient: IDAPIClient
+
+    public init(chatAPIClient: ChatAPIClient, idAPIClient: IDAPIClient) {
         self.chatAPIClient = chatAPIClient
+        self.idAPIClient = idAPIClient
 
         super.init()
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
         }
+
+        self.registerNotifications()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -47,8 +52,70 @@ open class ChatsTableController: SweetTableController {
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
 
-        self.tableView.reloadData()
+    func registerNotifications() {
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+    }
+
+    func yapDatabaseDidChange(notification: NSNotification) {
+        let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
+
+        // If changes do not affect current view, update and return without updating collection view
+        let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        if viewConnection.hasChanges(for: notifications) == false {
+            self.uiDatabaseConnection.read { transaction in
+                self.mappings.update(with: transaction)
+            }
+
+            return
+        }
+
+        var messageRowChanges = NSArray()
+        var sectionChanges = NSArray()
+
+        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+
+        if sectionChanges.count == 0 && messageRowChanges.count == 0 {
+            return
+        }
+
+        self.tableView.beginUpdates()
+
+        for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
+
+            switch (rowChange.type) {
+            case .delete:
+                self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
+            case .insert:
+                self.updateContactIfNeeded(at: rowChange.newIndexPath)
+                self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
+            case .move:
+                self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
+                self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
+            case .update:
+                self.tableView.reloadRows(at: [rowChange.indexPath], with: .middle)
+            }
+        }
+
+        self.tableView.endUpdates()
+    }
+
+    func updateContactIfNeeded(at indexPath: IndexPath) {
+        let thread = self.thread(at: indexPath)
+        let address = thread.contactIdentifier()!
+        print("Updating contact infor for address: \(address).")
+
+        self.idAPIClient.findContact(name: address) { (contact) in
+            if let contact = contact {
+                print("Added contact info for \(contact.username)")
+
+                self.tableView.beginUpdates()
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                self.tableView.endUpdates()
+            }
+        }
     }
 
     func thread(at indexPath: IndexPath) -> TSThread {

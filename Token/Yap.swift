@@ -6,8 +6,9 @@ protocol Singleton: class {
     static var sharedInstance: Self { get }
 }
 
-public final class Yap: Singleton {
+public final class Yap: NSObject, Singleton {
     var database: YapDatabase
+    
 
     public var mainConnection: YapDatabaseConnection
 
@@ -15,7 +16,7 @@ public final class Yap: Singleton {
 
     private var databasePassword: Data
 
-    private init() {
+    private override init() {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(".Signal.sqlite").path else { fatalError("Missing resource path!") }
 
         let options = YapDatabaseOptions()
@@ -99,5 +100,22 @@ public final class Yap: Singleton {
         }
 
         return object
+    }
+
+    /// Retrieve all objects from a given collection.
+    ///
+    /// - Parameters:
+    ///   - collection: The name of the collection to be retrieved.
+    /// - Returns: The stored objects inside the collection.
+    public final func retrieveObjects(in collection: String) -> [Any] {
+        var objects = [Any]()
+
+        self.mainConnection.read { (transaction) in
+            transaction.enumerateKeysAndObjects(inCollection: collection, using: { key, object, _ in
+                objects.append(object)
+            })
+        }
+
+        return objects
     }
 }
