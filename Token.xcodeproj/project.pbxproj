@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
+		141D1D2B1E2D035F0047A306 /* MessagesEthereumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141D1D2A1E2D035F0047A306 /* MessagesEthereumView.swift */; };
 		9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29751E26772B00C652A3 /* ChatsTableController.swift */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		141D1D2A1E2D035F0047A306 /* MessagesEthereumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesEthereumView.swift; sourceTree = "<group>"; };
 		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
 		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F5F29751E26772B00C652A3 /* ChatsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableController.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				9F5F29751E26772B00C652A3 /* ChatsTableController.swift */,
 				9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */,
 				9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */,
+				141D1D2A1E2D035F0047A306 /* MessagesEthereumView.swift */,
 			);
 			name = Messaging;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9FCDBADD1E28E57100A70E07 /* User.swift in Sources */,
+				141D1D2B1E2D035F0047A306 /* MessagesEthereumView.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
