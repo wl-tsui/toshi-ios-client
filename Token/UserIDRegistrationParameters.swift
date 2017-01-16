@@ -1,6 +1,7 @@
 import Foundation
 import SweetFoundation
 
+/// Prepares user data, signs and formats the JSON properly for user ID server registration.
 struct UserIDRegistrationParameters {
     let name: String?
     let username: String?

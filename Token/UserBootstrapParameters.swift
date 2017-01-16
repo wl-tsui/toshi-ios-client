@@ -3,6 +3,7 @@ import SweetFoundation
 
 let DeviceSpecificPassword = "1231231"
 
+/// Prepares user keys and data, signs and formats it properly as JSON to bootstrap a chat user.
 public class UserBootstrapParameter {
     public let expectedAddress: String
     public let identityKey: String

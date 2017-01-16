@@ -50,6 +50,10 @@
 		9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FCDBAEC1E28FE4100A70E07 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */; };
 		9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAED1E29020100A70E07 /* Reveal.framework */; };
+		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
+		9FE18B251E2D11FE00940DC8 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */; };
+		9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +65,7 @@
 			files = (
 				9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */,
 				9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */,
+				9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */,
 				9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */,
 				9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */,
 				9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */,
@@ -120,6 +125,9 @@
 		9FCDBAE91E28FD5C00A70E07 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		9FCDBAED1E29020100A70E07 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenContact.swift; sourceTree = "<group>"; };
+		9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SweetSwift.framework; sourceTree = "<group>"; };
+		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,6 +145,7 @@
 				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
 				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
 				9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */,
+				9FE18B251E2D11FE00940DC8 /* SweetSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */,
+				9FE18B271E2D135F00940DC8 /* ContactCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -244,12 +254,13 @@
 				9FC72A2B1E25098000EF1141 /* AccountManager.swift */,
 				9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */,
 				9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */,
-				9FC72A381E25145D00EF1141 /* CryptoTools.h */,
 				9FCDBAD31E27DE8800A70E07 /* Yap.swift */,
+				9FC72A381E25145D00EF1141 /* CryptoTools.h */,
 				9FC72A391E25145D00EF1141 /* CryptoTools.m */,
 				9FC72A421E252CFA00EF1141 /* ContactsManager.h */,
 				9FC72A431E252CFA00EF1141 /* ContactsManager.m */,
 				9FCDBADC1E28E57100A70E07 /* User.swift */,
+				9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -257,6 +268,7 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */,
 				9FCDBAED1E29020100A70E07 /* Reveal.framework */,
 				9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */,
 				9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */,
@@ -435,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
+				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */,
 				9FCDBAEC1E28FE4100A70E07 /* RootNavigationController.swift in Sources */,
@@ -449,6 +462,7 @@
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
 				9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
+				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
 				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,

@@ -1,11 +1,13 @@
 import UIKit
 import SweetUIKit
 
+/// ChatsTableController cells. Should merge with ContactCell.
 class ChatCell: UITableViewCell {
     var thread: TSThread? {
         didSet {
             self.usernameLabel.text = self.thread?.name()
-            self.avatarImageView.image = self.thread?.image()
+            // TODO: placeholder for now, remove it once we have avatar support on the API level
+            self.avatarImageView.image = self.thread?.image() ?? [#imageLiteral(resourceName: "daniel"), #imageLiteral(resourceName: "igor"), #imageLiteral(resourceName: "colin")].any
         }
     }
 

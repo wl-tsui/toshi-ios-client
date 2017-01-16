@@ -9,6 +9,8 @@ public class IDAPIClient: NSObject {
 
     public var networking: Networking
 
+    let yap: Yap = Yap.sharedInstance
+
     public var address: String {
         return self.cereal.address
     }
@@ -21,19 +23,20 @@ public class IDAPIClient: NSObject {
         self.networking = Networking(baseURL: self.baseURL.absoluteString)
     }
 
-    public func registerUserIfNeeded(username: String? = nil, name: String? = nil) {
-        self.retrieveUser(username: username ?? self.cereal.address) { user in
+    public func registerUserIfNeeded() {
+        self.retrieveUser(username: self.cereal.address) { user in
             guard user == nil else {
                 User.current = user
 
                 return
             }
 
-            let userParameters = UserIDRegistrationParameters(name: name, username: username, cereal: self.cereal)
+            let userParameters = UserIDRegistrationParameters(name: nil, username: nil, cereal: self.cereal)
             self.networking.POST("/v1/user", parameterType: .json, parameters: userParameters.signedParameters()) { (json, error) in
                 if let error = error {
                     print(error)
                 } else if let json = json as? [String: Any] {
+                    print("Registered user with address: \(self.cereal.address).")
                     User.current = User(json: json)
                 } else {
                     fatalError()
@@ -49,6 +52,38 @@ public class IDAPIClient: NSObject {
                 completion(nil)
             } else if let json = json as? [String: Any] {
                 completion(User(json: json))
+            }
+        }
+    }
+
+    public func findContact(name: String, completion: @escaping((TokenContact?) -> Void)) {
+        self.networking.GET("/v1/user/\(name)") { json, error in
+            if let error = error {
+                print(error)
+                completion(nil)
+            } else if let json = json as? [String: Any] {
+                let contact = TokenContact(json: json)
+                if !self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey) {
+                    self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+                }
+                completion(contact)
+            }
+        }
+    }
+
+    public func searchContacts(name: String, completion: @escaping(([TokenContact]) -> Void)) {
+        // /v1/search/user/?query=moxiemarl&offset=80&limit=20
+        self.networking.GET("/v1/search/user/?query=\(name)") { json, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion([])
+            } else if let json = (json as? [String: Any])?["results"] as? [[String: Any]] {
+                var contacts = [TokenContact]()
+                for item in json {
+                    contacts.append(TokenContact(json: item))
+                }
+
+                completion(contacts)
             }
         }
     }

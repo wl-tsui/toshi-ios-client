@@ -8,7 +8,6 @@
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
-#import <SignalServiceKit/TSContactThread.h>
 #import <SignalServiceKit/OWSSyncContactsMessage.h>
 #import <SignalServiceKit/NSDate+millisecondTimeStamp.h>
 #import <SignalServiceKit/TextSecureKitEnv.h>
@@ -37,40 +36,26 @@
 
     [self setupBasicAppearance];
     [self setupTSKitEnv];
-    [[PushManager sharedManager] registerPushKitNotificationFuture];
 
-//    [self.idAPIClient registerUserIfNeededWithUsername:@"ielland" name:@"Igor Elland"];
-//    [self.chatAPIClient registerUserIfNeeded];
-//
-//    NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
-//    NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
-//    NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
-//
-//    [self retrieveMessagesFrom:colin];
-//    [self sendMessageTo:simulator];
-//    [self sendMessageTo:device];
-//    [self retrieveMessagesFrom:simulator];
-//
-//    // add contact
-//    [self addContact:device];
-//    [self addContact:colin];
-//    [self addContact:simulator];
+    // Not sure what to make of this. Looks like it only handles RedPhone stuff, not sure.
+    // Will investigate some more.
+    // [[PushManager sharedManager] registerPushKitNotificationFuture];
 
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
-    self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient]];
+    self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient idAPIClient:self.idAPIClient]];
 
     [self.window makeKeyAndVisible];
 
     if (User.current == nil) {
         [self.chatAPIClient registerUserIfNeeded];
-        [self.idAPIClient registerUserIfNeededWithUsername:nil name:nil];
+        [self.idAPIClient registerUserIfNeeded];
     } else {
         [self.idAPIClient retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
             NSLog(@"%@", user);
             if (user == nil) {
                 [self.chatAPIClient registerUserIfNeeded];
-                [self.idAPIClient registerUserIfNeededWithUsername:nil name:nil];
+                [self.idAPIClient registerUserIfNeeded];
             }
         }];
     }
@@ -109,56 +94,6 @@
 //    self.staleNotificationObserver = [OWSStaleNotificationObserver new];
 //    [self.staleNotificationObserver startObserving];
 }
-
-
-- (void)retrieveMessagesFrom:(NSString *)address {
-    __block TSThread *thread;
-
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        thread = [TSContactThread getOrCreateThreadWithContactId:address transaction:transaction];
-
-        [transaction objectForKey:thread.uniqueId inCollection:nil];
-    }];
-
-    NSLog(@"%@", thread);
-}
-
-- (void)sendMessageTo:(NSString *)recipientAddress {
-    __block TSThread *thread = nil;
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        thread = [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
-    }];
-
-    TSNetworkManager *networkManager = [TSNetworkManager sharedManager];
-    ContactsManager *contactsManager = [[ContactsManager alloc] init];
-    ContactsUpdater *contactsUpdater = [[ContactsUpdater alloc] init];
-    OWSMessageSender *messageSender = [[OWSMessageSender alloc] initWithNetworkManager:networkManager storageManager:[TSStorageManager sharedManager] contactsManager:contactsManager contactsUpdater:contactsUpdater];
-    TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp] inThread:thread messageBody:@"Try this! From AppDelegate."];
-
-    [messageSender sendMessage:message success:^{
-        NSLog(@"Success! Message sent!");
-    } failure:^(NSError * _Nonnull error) {
-        NSLog(@"Failed: %@", error);
-    }];
-
-}
-
-- (void)addContact:(NSString *)recipientAddress {
-
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        SignalRecipient *recipient = [SignalRecipient recipientWithTextSecureIdentifier:recipientAddress withTransaction:transaction];
-        if (!recipient) {
-            recipient = [[SignalRecipient alloc] initWithTextSecureIdentifier:recipientAddress relay:nil supportsVoice:NO];
-        }
-
-        [recipient saveWithTransaction:transaction];
-    }];
-
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
-    }];
-}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

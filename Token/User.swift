@@ -1,14 +1,21 @@
 import UIKit
 
-public class User: NSObject {
+public protocol JSONDataSerialization {
+    var JSONData: Data { get }
+}
+
+/// Current User. Responsible for current session management.
+public class User: NSObject, JSONDataSerialization {
 
     static let yap = Yap.sharedInstance
+
+    private static let storedUserKey = "StoredUser"
 
     static var _current: User?
 
     public static var current: User? {
         get {
-            if let userData = (self.yap.retrieveObject(for: "StoredUser") as? Data), _current == nil,
+            if let userData = (self.yap.retrieveObject(for: User.storedUserKey) as? Data), _current == nil,
                 let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
                 let json = deserialised as? [String: Any] {
 
@@ -18,8 +25,8 @@ public class User: NSObject {
             return _current
         }
         set {
-            let json = newValue?.asJSONData
-            self.yap.insert(object: json, for: "StoredUser")
+            let json = newValue?.JSONData
+            self.yap.insert(object: json, for: User.storedUserKey)
 
             _current = newValue
         }
@@ -35,7 +42,7 @@ public class User: NSObject {
 
     public var avatarPath: String?
 
-    var asJSONData: Data {
+    public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
             "custom": ["name": self.name ?? ""],
