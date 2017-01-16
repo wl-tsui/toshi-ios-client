@@ -10,6 +10,7 @@ open class TabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
 
         self.delegate = self
+        self.automaticallyAdjustsScrollViewInsets = false
     }
 
     public required init?(coder aDecoder: NSCoder) {
