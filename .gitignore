@@ -1,13 +1,13 @@
-### Xcode ###
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
 # Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-
-## Build generated
-build/
-DerivedData/
-
-## Various settings
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -16,11 +16,23 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-xcuserdata/
-
-## Other
-*.moved-aside
+xcuserdata
 *.xccheckout
+*.moved-aside
+DerivedData
+build/
+*.hmap
+*.ipa
+*.xcuserstate
 *.xcscmblueprint
+*.gcno
+*.gcda
 
-# End of https://www.gitignore.io/api/xcode
+# CocoaPods
+Pods
+
+# Carthage
+Checkouts
+Carthage/Build/Mac
+Carthage/Build/tvOS
+Carthage/Build/watchOS
