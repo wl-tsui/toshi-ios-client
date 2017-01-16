@@ -32,15 +32,24 @@
     return @"";
 }
 
-- (NSArray<Contact *> * _Nonnull)signalContacts {
-    NSMutableArray <Contact *> *contacts = [NSMutableArray array];
+- (NSArray<TokenContact *> *)tokenContacts {
+    NSMutableArray <TokenContact *> *contacts = [NSMutableArray array];
 
     for (NSData *contactData in [self.yap retrieveObjectsIn:TokenContact.collectionKey]) {
         NSDictionary<NSString *, id> *json = [NSJSONSerialization JSONObjectWithData:contactData options:0 error:0];
         TokenContact *tokenContact = [[TokenContact alloc] initWithJson:json];
 
-        Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
+        [contacts addObject:tokenContact];
+    }
 
+    return contacts.copy;
+}
+
+- (NSArray<Contact *> * _Nonnull)signalContacts {
+    NSMutableArray <Contact *> *contacts = [NSMutableArray array];
+
+    for (TokenContact *tokenContact in self.tokenContacts) {
+        Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
         [contacts addObject:contact];
     }
 

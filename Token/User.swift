@@ -8,11 +8,13 @@ public class User: NSObject, JSONDataSerialization {
 
     static let yap = Yap.sharedInstance
 
+    private static let storedUserKey = "StoredUser"
+
     static var _current: User?
 
     public static var current: User? {
         get {
-            if let userData = (self.yap.retrieveObject(for: "StoredUser") as? Data), _current == nil,
+            if let userData = (self.yap.retrieveObject(for: User.storedUserKey) as? Data), _current == nil,
                 let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
                 let json = deserialised as? [String: Any] {
 
@@ -23,7 +25,7 @@ public class User: NSObject, JSONDataSerialization {
         }
         set {
             let json = newValue?.JSONData
-            self.yap.insert(object: json, for: "StoredUser")
+            self.yap.insert(object: json, for: User.storedUserKey)
 
             _current = newValue
         }
