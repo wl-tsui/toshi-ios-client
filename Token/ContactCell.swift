@@ -1,5 +1,6 @@
 import UIKit
 
+/// Displays user's contacts. Should merge with ChatCells and display messaging info if needed. 
 class ContactCell: UITableViewCell {
     var contact: TokenContact? {
         didSet {

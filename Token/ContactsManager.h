@@ -6,7 +6,7 @@
 #import "Contact.h"
 
 /**
- Get latest Signal contacts, and be notified when they change.
+ Get Signal or Token contacts. 
  */
 
 @class TokenContact;

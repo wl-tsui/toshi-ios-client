@@ -3,6 +3,7 @@ import SweetFoundation
 import SweetUIKit
 import YapDatabase
 
+/// Displays current conversations. Should be merged with ContactsController in the near future.
 open class ChatsTableController: SweetTableController {
 
     lazy var mappings: YapDatabaseViewMappings = {

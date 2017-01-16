@@ -6,6 +6,7 @@ protocol Singleton: class {
     static var sharedInstance: Self { get }
 }
 
+/// Thin YapDatabase wrapper. Use this to store local user data safely. 
 public final class Yap: NSObject, Singleton {
     var database: YapDatabase
     
@@ -22,25 +23,6 @@ public final class Yap: NSObject, Singleton {
         let options = YapDatabaseOptions()
         options.corruptAction = .fail
 
-        /**
-         NSString *dbPassword = [SAMKeychain passwordForService:keychainService account:keychainDBPassAccount];
-
-         if (!dbPassword) {
-         dbPassword = [[Randomness generateRandomBytes:30] base64EncodedString];
-         NSError *error;
-         [SAMKeychain setPassword:dbPassword forService:keychainService account:keychainDBPassAccount error:&error];
-         if (error) {
-         // Sync log to ensure it logs before exiting
-         NSLog(@"Exiting because we failed to set new DB password. error: %@", error);
-         exit(1);
-         } else {
-         DDLogError(@"Succesfully set new DB password. First launch?");
-         }
-         }
-
-         return [dbPassword dataUsingEncoding:NSUTF8StringEncoding];
-
-         */
         let keychain = KeychainSwift()
         var databasePassword: Data
 

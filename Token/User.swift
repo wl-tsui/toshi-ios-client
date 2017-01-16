@@ -4,6 +4,7 @@ public protocol JSONDataSerialization {
     var JSONData: Data { get }
 }
 
+/// Current User. Responsible for current session management.
 public class User: NSObject, JSONDataSerialization {
 
     static let yap = Yap.sharedInstance

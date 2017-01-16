@@ -1,6 +1,7 @@
 import UIKit
 import SweetUIKit
 
+/// ChatsTableController cells. Should merge with ContactCell.
 class ChatCell: UITableViewCell {
     var thread: TSThread? {
         didSet {
