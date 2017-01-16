@@ -65,7 +65,8 @@ open class ChatsTableController: SweetTableController {
 
         // If changes do not affect current view, update and return without updating collection view
         let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
-        if viewConnection.hasChanges(for: notifications) == false {
+        let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
+        if !hasChangesForCurrentView {
             self.uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }

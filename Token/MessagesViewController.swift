@@ -139,8 +139,11 @@ class MessagesViewController: JSQMessagesViewController {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
+        // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
+        // table/collection view backing model.
         let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
-        if viewConnection.hasChanges(for: notifications) == false {
+        let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
+        if !hasChangesForCurrentView {
             self.uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
