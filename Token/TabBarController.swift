@@ -3,7 +3,7 @@ import UIKit
 open class TabBarController: UITabBarController {
 
     public var chatAPIClient: ChatAPIClient
-    
+
     public var idAPIClient: IDAPIClient
 
     public init(chatAPIClient: ChatAPIClient, idAPIClient: IDAPIClient) {
@@ -26,7 +26,7 @@ open class TabBarController: UITabBarController {
 
         self.title = messaging.title
 
-        self.viewControllers = [messaging, ExtensionsController(), ContactsController(idAPIClient: self.idAPIClient), ProfileController()]
+        self.viewControllers = [messaging, ExtensionsController(), ContactsController(idAPIClient: self.idAPIClient), ProfileController(idAPIClient: self.idAPIClient)]
         self.view.tintColor = Theme.tintColor
     }
 }

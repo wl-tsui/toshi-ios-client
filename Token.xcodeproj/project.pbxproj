@@ -54,6 +54,10 @@
 		9FE18B251E2D11FE00940DC8 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */; };
 		9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
+		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
+		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
+		9FE3984A1E2E34A700386FAF /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE398491E2E34A700386FAF /* Formulaic.framework */; };
+		9FE3984B1E2E34AB00386FAF /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE398491E2E34A700386FAF /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -64,6 +68,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */,
+				9FE3984B1E2E34AB00386FAF /* Formulaic.framework in Copy Carthage Frameworks */,
 				9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */,
 				9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */,
 				9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */,
@@ -128,6 +133,9 @@
 		9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenContact.swift; sourceTree = "<group>"; };
 		9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SweetSwift.framework; sourceTree = "<group>"; };
 		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
+		9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
+		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
+		9FE398491E2E34A700386FAF /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,6 +150,7 @@
 				9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */,
 				9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */,
 				9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */,
+				9FE3984A1E2E34A700386FAF /* Formulaic.framework in Frameworks */,
 				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
 				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
 				9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */,
@@ -231,7 +240,7 @@
 				9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */,
 				9FCDBAE01E28E71900A70E07 /* ContactsController.swift */,
 				9FCDBAE11E28E71900A70E07 /* ExtensionsController.swift */,
-				9FCDBAE21E28E71900A70E07 /* ProfileController.swift */,
+				9FE18B291E2D1FC700940DC8 /* Profile */,
 				9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */,
 			);
 			name = Controllers;
@@ -242,6 +251,7 @@
 			children = (
 				9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */,
 				9FE18B271E2D135F00940DC8 /* ContactCell.swift */,
+				9FE398401E2E225600386FAF /* ProfileItemCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -268,6 +278,7 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9FE398491E2E34A700386FAF /* Formulaic.framework */,
 				9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */,
 				9FCDBAED1E29020100A70E07 /* Reveal.framework */,
 				9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */,
@@ -319,6 +330,15 @@
 				9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */,
 			);
 			name = Messaging;
+			sourceTree = "<group>";
+		};
+		9FE18B291E2D1FC700940DC8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				9FCDBAE21E28E71900A70E07 /* ProfileController.swift */,
+				9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,6 +467,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
+				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
 				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */,
@@ -456,6 +477,7 @@
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
+				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,

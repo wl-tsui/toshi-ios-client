@@ -31,8 +31,10 @@ public class IDAPIClient: NSObject {
                 return
             }
 
-            let userParameters = UserIDRegistrationParameters(name: nil, username: nil, cereal: self.cereal)
-            self.networking.POST("/v1/user", parameterType: .json, parameters: userParameters.signedParameters()) { (json, error) in
+            let parameters = UserIDRegistrationParameters(name: nil, username: nil, cereal: self.cereal)
+            let signedParameters = parameters.signedParameters()
+
+            self.networking.POST("/v1/user", parameterType: .json, parameters: signedParameters) { (json, error) in
                 if let error = error {
                     print(error)
                 } else if let json = json as? [String: Any] {
@@ -41,6 +43,21 @@ public class IDAPIClient: NSObject {
                 } else {
                     fatalError()
                 }
+            }
+        }
+    }
+
+    public func updateUser() {
+        let parameters = UserIDRegistrationParameters(name: User.current?.name, username: User.current?.username, cereal: self.cereal, location: User.current?.location, about: User.current?.about)
+        let signedParameters = parameters.signedParameters()
+        print(signedParameters)
+        self.networking.PUT("/v1/user", parameterType: .json, parameters: signedParameters) { json, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let json = json {
+                print(json)
+            } else {
+                fatalError()
             }
         }
     }

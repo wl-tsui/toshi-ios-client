@@ -1,7 +1,7 @@
 import Foundation
 import EtherealCereal
 
-/// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages. 
+/// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages.
 public class Cereal: NSObject {
     var cereal: EtherealCereal
 

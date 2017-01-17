@@ -6,10 +6,9 @@ protocol Singleton: class {
     static var sharedInstance: Self { get }
 }
 
-/// Thin YapDatabase wrapper. Use this to store local user data safely. 
+/// Thin YapDatabase wrapper. Use this to store local user data safely.
 public final class Yap: NSObject, Singleton {
     var database: YapDatabase
-    
 
     public var mainConnection: YapDatabaseConnection
 

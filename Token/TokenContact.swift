@@ -1,8 +1,8 @@
 import Foundation
 
 /// A Token contact. Not to be confused with a (signal) Contact.
-/// We use this for our UI and contact management with the ID server. 
-/// Contact is used by Signal for messaging. They correlate by their address. 
+/// We use this for our UI and contact management with the ID server.
+/// Contact is used by Signal for messaging. They correlate by their address.
 /// Contact's phone numbers are actually ethereum addresses for this app.
 public class TokenContact: NSObject, JSONDataSerialization {
 
@@ -35,7 +35,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
             "custom": ["name": self.name ?? ""],
             "username": self.username,
             "avatar": "",
-            ]
+        ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
     }

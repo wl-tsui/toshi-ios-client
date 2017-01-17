@@ -25,40 +25,73 @@ public class User: NSObject, JSONDataSerialization {
             return _current
         }
         set {
-            let json = newValue?.JSONData
-            self.yap.insert(object: json, for: User.storedUserKey)
+            newValue?.update()
 
             _current = newValue
         }
     }
 
-    public let username: String
+    public var username: String {
+        didSet {
+            self.update()
+        }
+    }
 
-    public var name: String?
+    public var name: String? {
+        didSet {
+            self.update()
+        }
+    }
 
-    public let address: String
+    public var about: String? {
+        didSet {
+            self.update()
+        }
+    }
+
+    public var location: String? {
+        didSet {
+            self.update()
+        }
+    }
+
+    public var avatarPath: String? {
+        didSet {
+            self.update()
+        }
+    }
 
     public var avatar: UIImage?
 
-    public var avatarPath: String?
+    public let address: String
 
     public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
-            "custom": ["name": self.name ?? ""],
+            "custom": ["name": self.name ?? "", "location": self.location ?? "", "about": self.about ?? ""],
             "username": self.username,
             "avatar": self.avatarPath ?? "",
-        ]
+            ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
     }
 
     init(json: [String: Any]) {
         self.address = json["owner_address"] as! String
-        self.name = (json["custom"] as? [String: Any])?["name"] as? String
         self.username = json["username"] as! String
 
+        if let json = json["custom"] as? [String: Any] {
+            self.name = json["name"] as? String
+            self.location = json["location"] as? String
+            self.about = json["about"] as? String
+        }
+
         super.init()
+    }
+
+    public func update() {
+        let json = self.JSONData
+        User.yap.insert(object: json, for: User.storedUserKey)
     }
 
     public override var description: String {

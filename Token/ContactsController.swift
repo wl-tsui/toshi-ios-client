@@ -20,6 +20,7 @@ open class ContactsController: SweetTableController {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchResultsUpdater = self
         controller.dimsBackgroundDuringPresentation = false
+        controller.hidesNavigationBarDuringPresentation = false
         controller.searchBar.barTintColor = Theme.tintColor
         controller.searchBar.tintColor = Theme.lightTextColor
         controller.searchBar.delegate = self
@@ -77,6 +78,7 @@ open class ContactsController: SweetTableController {
 }
 
 extension ContactsController: UITableViewDataSource {
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.contacts.count
     }
@@ -92,6 +94,7 @@ extension ContactsController: UITableViewDataSource {
 }
 
 extension ContactsController: UITableViewDelegate {
+
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
@@ -102,7 +105,7 @@ extension ContactsController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard self.searchController.isActive else { return }
-        
+
         let contact = self.contacts[indexPath.row]
 
         let alert = UIAlertController.dismissableAlert(title: "Add Contact?", message: "Would you like to add \(contact.username) to your contacts?")
@@ -130,6 +133,7 @@ extension ContactsController: UITableViewDelegate {
 }
 
 extension ContactsController: UISearchBarDelegate {
+
     public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         self.displayContacts()

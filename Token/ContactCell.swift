@@ -1,6 +1,6 @@
 import UIKit
 
-/// Displays user's contacts. Should merge with ChatCells and display messaging info if needed. 
+/// Displays user's contacts. Should merge with ChatCells and display messaging info if needed.
 class ContactCell: UITableViewCell {
     var contact: TokenContact? {
         didSet {
@@ -43,7 +43,7 @@ class ContactCell: UITableViewCell {
         let size: CGFloat = 44.0
 
         self.avatarImageView.clipsToBounds = true
-        self.avatarImageView.layer.cornerRadius = size/2
+        self.avatarImageView.layer.cornerRadius = size / 2
 
         self.avatarImageView.set(height: size)
         self.avatarImageView.set(width: size)
@@ -59,7 +59,7 @@ class ContactCell: UITableViewCell {
         self.usernameLabel.leftAnchor.constraint(equalTo: self.nameLabel.rightAnchor, constant: margin).isActive = true
         self.usernameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin).isActive = true
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
