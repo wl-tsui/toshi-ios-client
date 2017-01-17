@@ -2,10 +2,12 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 
-public final class Theme: NSObject {
+public final class Theme: NSObject { }
+
+extension Theme {
     public static var randomColor: UIColor {
         let colors = [UIColor.lightGray, UIColor.green, UIColor.red, UIColor.magenta, UIColor.purple, UIColor.blue, UIColor.yellow]
-        
+
         return colors[Int(arc4random()) % colors.count]
     }
 
@@ -31,5 +33,43 @@ public final class Theme: NSObject {
 
     public static var borderColor: UIColor {
         return #colorLiteral(red: 0.844350934, green: 0.8593074083, blue: 0.8632498384, alpha: 1)
+    }
+
+    public static var ethereumBalanceLabelColor: UIColor {
+        return UIColor(hex: "2C2C2C")
+    }
+
+    public static var ethereumBalanceLabelLightColor: UIColor {
+        return UIColor(hex: "919191")
+    }
+
+    public static var ethereumBalanceCallToActionColor: UIColor {
+        return UIColor(hex: "02BE6E")
+    }
+}
+
+extension Theme {
+    static func light(size: CGFloat) -> UIFont {
+        return UIFont(name: "GTAmerica-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
+    }
+
+    static func regular(size: CGFloat) -> UIFont {
+        return UIFont(name: "GTAmerica-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
+    }
+
+    static func semibold(size: CGFloat) -> UIFont {
+        return UIFont(name: "GTAmerica-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
+    }
+
+    static func bold(size: CGFloat) -> UIFont {
+        return UIFont(name: "GTAmerica-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
+    }
+
+    public static var ethereumBalanceLabelFont: UIFont {
+        return self.regular(size: 16)
+    }
+
+    public static var ethereumBalanceCallToActionFont: UIFont {
+        return self.semibold(size: 13)
     }
 }

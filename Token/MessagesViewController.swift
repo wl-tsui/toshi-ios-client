@@ -41,6 +41,8 @@ class MessagesViewController: JSQMessagesViewController {
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 
+    lazy var messagesEthereumView: MessagesEthereumView = MessagesEthereumView()
+
     init(thread: TSThread, chatAPIClient: ChatAPIClient) {
         self.chatAPIClient = chatAPIClient
         self.thread = thread
@@ -78,6 +80,8 @@ class MessagesViewController: JSQMessagesViewController {
                 self.collectionView.reloadData()
             }
         }
+
+        self.collectionView.addSubview(self.messagesEthereumView)
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {
@@ -370,5 +374,19 @@ class MessagesViewController: JSQMessagesViewController {
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         return nil
+    }
+
+    func updateEthereumViewFrame() {        
+        self.messagesEthereumView.frame = CGRect(x: 0, y: self.collectionView.contentOffset.y + MessagesEthereumView.height, width: self.view.frame.width, height: MessagesEthereumView.height)
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.updateEthereumViewFrame()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        self.updateEthereumViewFrame()
     }
 }
