@@ -2,10 +2,13 @@ import UIKit
 import SweetUIKit
 
 protocol MessagesEthereumViewDelegate: class {
-
+    func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressRequestButton button: UIButton)
+    func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressPayButton button: UIButton)
 }
 
 class MessagesEthereumView: UIView {
+    weak var delegate: MessagesEthereumViewDelegate?
+
     static let height = CGFloat(56)
 
     lazy var balanceLabel: UILabel = {
@@ -23,20 +26,26 @@ class MessagesEthereumView: UIView {
         return label
     }()
 
-    lazy var requestButton: UIButton = {
+    static func button() -> UIButton {
         let button = UIButton(withAutoLayout: true)
-        button.setTitle("Request", for: .normal)
         button.setTitleColor(Theme.ethereumBalanceCallToActionColor, for: .normal)
         button.titleLabel?.font = Theme.ethereumBalanceCallToActionFont
+
+        return button
+    }
+
+    lazy var requestButton: UIButton = {
+        let button = MessagesEthereumView.button()
+        button.setTitle("Request", for: .normal)
+        button.addTarget(self, action: #selector(request(button:)), for: .touchUpInside)
 
         return button
     }()
 
     lazy var payButton: UIButton = {
-        let button = UIButton(withAutoLayout: true)
+        let button = MessagesEthereumView.button()
         button.setTitle("Pay", for: .normal)
-        button.setTitleColor(Theme.ethereumBalanceCallToActionColor, for: .normal)
-        button.titleLabel?.font = Theme.ethereumBalanceCallToActionFont
+        button.addTarget(self, action: #selector(pay(button:)), for: .touchUpInside)
 
         return button
     }()
@@ -54,7 +63,7 @@ class MessagesEthereumView: UIView {
         self.balanceLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin).isActive = true
         self.balanceLabel.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
 
-        let buttonWidth = CGFloat(50)
+        let buttonWidth = CGFloat(70)
         self.requestButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         self.requestButton.leftAnchor.constraint(equalTo: self.balanceLabel.rightAnchor).isActive = true
         self.requestButton.rightAnchor.constraint(equalTo: self.payButton.leftAnchor).isActive = true
@@ -69,5 +78,13 @@ class MessagesEthereumView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func request(button: UIButton) {
+        self.delegate?.messagesEthereumView(self, didPressRequestButton: button)
+    }
+
+    func pay(button: UIButton) {
+        self.delegate?.messagesEthereumView(self, didPressPayButton: button)
     }
 }

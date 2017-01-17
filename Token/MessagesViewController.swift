@@ -41,7 +41,12 @@ class MessagesViewController: JSQMessagesViewController {
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 
-    lazy var messagesEthereumView: MessagesEthereumView = MessagesEthereumView()
+    lazy var messagesEthereumView: MessagesEthereumView = {
+        let view = MessagesEthereumView()
+        view.delegate = self
+
+        return view
+    }()
 
     init(thread: TSThread, chatAPIClient: ChatAPIClient) {
         self.chatAPIClient = chatAPIClient
@@ -388,5 +393,15 @@ class MessagesViewController: JSQMessagesViewController {
         super.viewWillLayoutSubviews()
 
         self.updateEthereumViewFrame()
+    }
+}
+
+extension MessagesViewController: MessagesEthereumView {
+    func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressRequestButton button: UIButton) {
+        print("request button")
+    }
+
+    func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressPayButton button: UIButton) {
+        print("pay button")
     }
 }
