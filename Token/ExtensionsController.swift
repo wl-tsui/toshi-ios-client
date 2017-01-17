@@ -7,8 +7,8 @@ open class ExtensionsController: SweetCollectionController {
         super.init()
 
         self.collectionView.backgroundColor = .white
-        self.tabBarItem = UITabBarItem(title: "Extensions", image: #imageLiteral(resourceName: "Extensions"), tag: 3)
-        self.title = "Extensions"
+        self.tabBarItem = UITabBarItem(title: "Apps", image: #imageLiteral(resourceName: "Apps"), tag: 3)
+        self.title = "Apps"
     }
 
     public required init?(coder aDecoder: NSCoder) {

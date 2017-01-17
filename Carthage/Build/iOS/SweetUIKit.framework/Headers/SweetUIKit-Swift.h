@@ -116,22 +116,12 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if defined(__has_feature) && __has_feature(modules)
 @import UIKit;
-@import Foundation;
 @import CoreGraphics;
+@import Foundation;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
-@class NSCoder;
-
-SWIFT_CLASS("_TtC10SweetUIKit31KeyboardAwareInputAccessoryView")
-@interface KeyboardAwareInputAccessoryView : UIView
-- (void)didMoveToSuperview;
-- (void)observeValueForKeyPath:(NSString * _Nullable)keyPath ofObject:(id _Nullable)object change:(NSDictionary<NSKeyValueChangeKey, id> * _Nullable)change context:(void * _Nullable)context;
-- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
-@end
-
 @class UIImage;
 
 SWIFT_CLASS("_TtC10SweetUIKit20OpenInSafariActivity")
@@ -147,6 +137,7 @@ SWIFT_CLASS("_TtC10SweetUIKit20OpenInSafariActivity")
 
 @class UICollectionView;
 @class UICollectionViewLayout;
+@class NSCoder;
 @class NSBundle;
 
 SWIFT_CLASS("_TtC10SweetUIKit25SweetCollectionController")

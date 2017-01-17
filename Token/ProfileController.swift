@@ -3,6 +3,8 @@ import SweetUIKit
 
 open class ProfileController: UIViewController {
 
+    var idAPIClient: IDAPIClient
+
     lazy var avatar: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.clipsToBounds = true
@@ -84,7 +86,13 @@ open class ProfileController: UIViewController {
         return view
     }()
 
-    public init() {
+    private init() {
+        fatalError()
+    }
+
+    public init(idAPIClient: IDAPIClient) {
+        self.idAPIClient = idAPIClient
+
         super.init(nibName: nil, bundle: nil)
 
         self.view.backgroundColor = .white
@@ -114,15 +122,16 @@ open class ProfileController: UIViewController {
         super.viewWillAppear(animated)
 
         self.nameLabel.text = User.current?.username
+        self.aboutContentLabel.text = User.current?.about
+        self.locationContentLabel.text = User.current?.location
         self.avatar.image = User.current?.avatar ?? #imageLiteral(resourceName: "igor")
     }
 
     func addSubviewsAndConstraints() {
-
         // debug
-        [avatar].forEach { (view) in
-            view.backgroundColor = Theme.randomColor
-        }
+        //        [locationContentLabel, locationTitleLabel, aboutContentLabel, aboutTitleLabel].forEach { (view) in
+        //            view.backgroundColor = Theme.randomColor
+        //        }
 
         self.view.addSubview(self.avatarContainer)
         self.view.addSubview(self.avatar)
@@ -137,72 +146,74 @@ open class ProfileController: UIViewController {
         self.view.addSubview(self.locationTitleLabel)
         self.view.addSubview(self.locationContentLabel)
 
-        let height: CGFloat = 40.0
-        let margin: CGFloat = 20.0
+        let height: CGFloat = 38.0
+        let marginHorizontal: CGFloat = 20.0
+        let marginVertical: CGFloat = 12.0
         let avatarSize: CGFloat = 106
         let avatarContainerSize: CGFloat = 166
 
         self.avatarContainer.set(height: avatarContainerSize)
         self.avatarContainer.set(width: avatarContainerSize)
-        self.avatarContainer.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: margin).isActive = true
+        self.avatarContainer.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: marginHorizontal).isActive = true
         self.avatarContainer.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
         self.avatar.set(height: avatarSize)
         self.avatar.set(width: avatarSize)
-        self.avatar.layer.cornerRadius = avatarSize/2
+        self.avatar.layer.cornerRadius = avatarSize / 2
 
         self.avatar.centerYAnchor.constraint(equalTo: self.avatarContainer.centerYAnchor).isActive = true
         self.avatar.centerXAnchor.constraint(equalTo: self.avatarContainer.centerXAnchor).isActive = true
 
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: margin).isActive = true
-        self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin).isActive = true
-        self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: marginVertical).isActive = true
+        self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         self.editProfileButton.set(height: height)
-        self.editProfileButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: margin).isActive = true
-        self.editProfileButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin).isActive = true
-        self.editProfileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin).isActive = true
+        self.editProfileButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.editProfileButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.editProfileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         // We set the view and separator width cosntraints to be the same, to force the scrollview content size to conform to the window
-        // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest 
+        // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest
         // possible width that satisfy all other constraints.
         self.aboutSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         self.aboutSeparatorView.set(height: 1.0)
-        self.aboutSeparatorView.topAnchor.constraint(equalTo: self.editProfileButton.bottomAnchor, constant: margin).isActive = true
+        self.aboutSeparatorView.topAnchor.constraint(equalTo: self.editProfileButton.bottomAnchor, constant: marginVertical).isActive = true
         self.aboutSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.aboutSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
         self.aboutTitleLabel.set(height: 32)
-        self.aboutTitleLabel.topAnchor.constraint(equalTo: self.aboutSeparatorView.bottomAnchor, constant: margin).isActive = true
-        self.aboutTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin).isActive = true
-        self.aboutTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin).isActive = true
+        self.aboutTitleLabel.topAnchor.constraint(equalTo: self.aboutSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+        self.aboutTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.aboutTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
-        self.aboutContentLabel.topAnchor.constraint(equalTo: self.aboutTitleLabel.bottomAnchor, constant: margin).isActive = true
-        self.aboutContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin).isActive = true
-        self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin).isActive = true
+        self.aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        self.aboutContentLabel.topAnchor.constraint(equalTo: self.aboutTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.aboutContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         self.locationSeparatorView.set(height: 1.0)
-        self.locationSeparatorView.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: margin).isActive = true
+        self.locationSeparatorView.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.locationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.locationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
         self.locationTitleLabel.set(height: 32)
-        self.locationTitleLabel.topAnchor.constraint(equalTo: self.locationSeparatorView.bottomAnchor, constant: margin).isActive = true
-        self.locationTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin).isActive = true
-        self.locationTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin).isActive = true
+        self.locationTitleLabel.topAnchor.constraint(equalTo: self.locationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+        self.locationTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.locationTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         self.locationContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.locationContentLabel.topAnchor.constraint(equalTo: self.locationTitleLabel.bottomAnchor, constant: margin).isActive = true
-        self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.locationContentLabel.topAnchor.constraint(equalTo: self.locationTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         // TODO: figure out a way to abstract the -49pts from the tabbar height.
         self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -69).isActive = true
     }
 
     func didTapEditProfileButton() {
-        print("Tapped: Edit Profile")
+        let editController = ProfileEditController(idAPIClient: self.idAPIClient)
+        self.present(editController, animated: true)
     }
 }

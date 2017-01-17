@@ -4,11 +4,12 @@
 #import <SignalServiceKit/PhoneNumber.h>
 #import "CollapsingFutures.h"
 #import "Contact.h"
-//#import "ObservableValue.h"
 
 /**
- Get latest Signal contacts, and be notified when they change.
+ Get Signal or Token contacts. 
  */
+
+@class TokenContact;
 
 @interface ContactsManager : NSObject <ContactsManagerProtocol>
 
@@ -17,6 +18,8 @@
 - (NSString * _Nonnull)displayNameForPhoneIdentifier:(NSString * _Nullable)phoneNumber;
 
 - (NSArray<Contact *> * _Nonnull)signalContacts;
+
+- (NSArray<TokenContact *> * _Nonnull)tokenContacts;
 
 - (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber;
 

@@ -29,52 +29,6 @@
 
 @end
 
-//@implementation NSData (CryptoTools)
-//
-//- (NSData *)hmacWithSha1WithKey:(NSData *)key {
-//    return [EvpMessageDigest hmacUsingSha1Data:self withKey:key];
-//}
-//
-//- (NSData *)hmacWithSha256WithKey:(NSData *)key {
-//    return [EvpMessageDigest hmacUsingSha256Data:self withKey:key];
-//}
-//
-//- (NSData *)encryptWithAesInCipherFeedbackModeWithKey:(NSData *)key andIv:(NSData *)iv {
-//    return [EvpSymetricUtil encryptMessage:self usingAes128WithCfbAndKey:key andIv:iv];
-//}
-//- (NSData *)encryptWithAesInCipherBlockChainingModeWithPkcs7PaddingWithKey:(NSData *)key andIv:(NSData *)iv {
-//    return [EvpSymetricUtil encryptMessage:self usingAes128WithCbcAndPaddingAndKey:key andIv:iv];
-//}
-//- (NSData *)encryptWithAesInCounterModeWithKey:(NSData *)key andIv:(NSData *)iv {
-//    return [EvpSymetricUtil encryptMessage:self usingAes128InCounterModeAndKey:key andIv:iv];
-//}
-//
-//- (NSData *)decryptWithAesInCipherFeedbackModeWithKey:(NSData *)key andIv:(NSData *)iv {
-//    return [EvpSymetricUtil decryptMessage:self usingAes128WithCfbAndKey:key andIv:iv];
-//}
-//- (NSData *)decryptWithAesInCipherBlockChainingModeWithPkcs7PaddingWithKey:(NSData *)key andIv:(NSData *)iv {
-//    return [EvpSymetricUtil decryptMessage:self usingAes128WithCbcAndPaddingAndKey:key andIv:iv];
-//}
-//- (NSData *)decryptWithAesInCounterModeWithKey:(NSData *)key andIv:(NSData *)iv {
-//    return [EvpSymetricUtil decryptMessage:self usingAes128InCounterModeAndKey:key andIv:iv];
-//}
-//
-//- (NSData *)hashWithSha256 {
-//    return [EvpMessageDigest hashWithSha256:self];
-//}
-//- (bool)isEqualToData_TimingSafe:(NSData *)other {
-//    if (other == nil)
-//        return false;
-//    NSUInteger n = self.length;
-//    if (other.length != n)
-//        return false;
-//    bool equal = true;
-//    for (NSUInteger i = 0; i < n; i++)
-//        equal &= [self uint8At:i] == [other uint8At:i];
-//    return equal;
-//}
-//@end
-
 @implementation NSData (Conversions)
 
 - (uint8_t)byteAt:(NSUInteger)offset {

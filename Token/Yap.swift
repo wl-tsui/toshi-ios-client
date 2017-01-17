@@ -6,7 +6,8 @@ protocol Singleton: class {
     static var sharedInstance: Self { get }
 }
 
-public final class Yap: Singleton {
+/// Thin YapDatabase wrapper. Use this to store local user data safely.
+public final class Yap: NSObject, Singleton {
     var database: YapDatabase
 
     public var mainConnection: YapDatabaseConnection
@@ -15,31 +16,12 @@ public final class Yap: Singleton {
 
     private var databasePassword: Data
 
-    private init() {
+    private override init() {
         guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(".Signal.sqlite").path else { fatalError("Missing resource path!") }
 
         let options = YapDatabaseOptions()
         options.corruptAction = .fail
 
-        /**
-         NSString *dbPassword = [SAMKeychain passwordForService:keychainService account:keychainDBPassAccount];
-
-         if (!dbPassword) {
-         dbPassword = [[Randomness generateRandomBytes:30] base64EncodedString];
-         NSError *error;
-         [SAMKeychain setPassword:dbPassword forService:keychainService account:keychainDBPassAccount error:&error];
-         if (error) {
-         // Sync log to ensure it logs before exiting
-         NSLog(@"Exiting because we failed to set new DB password. error: %@", error);
-         exit(1);
-         } else {
-         DDLogError(@"Succesfully set new DB password. First launch?");
-         }
-         }
-
-         return [dbPassword dataUsingEncoding:NSUTF8StringEncoding];
-
-         */
         let keychain = KeychainSwift()
         var databasePassword: Data
 
@@ -99,5 +81,22 @@ public final class Yap: Singleton {
         }
 
         return object
+    }
+
+    /// Retrieve all objects from a given collection.
+    ///
+    /// - Parameters:
+    ///   - collection: The name of the collection to be retrieved.
+    /// - Returns: The stored objects inside the collection.
+    public final func retrieveObjects(in collection: String) -> [Any] {
+        var objects = [Any]()
+
+        self.mainConnection.read { (transaction) in
+            transaction.enumerateKeysAndObjects(inCollection: collection, using: { key, object, _ in
+                objects.append(object)
+            })
+        }
+
+        return objects
     }
 }

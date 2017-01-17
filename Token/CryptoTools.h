@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 
-/// All dependencies on external libraries used for cryptography should be hidden behind CryptoTools methods.
-/// That way, changing to a different library affects only one part of the system.
+/// Handles some of the encryption needs for SignalServiceKit integration.
 
 @interface NSData (Conversions)
 - (uint16_t)bigEndianUInt16At:(NSUInteger)offset;

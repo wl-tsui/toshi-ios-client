@@ -8,7 +8,6 @@
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
-#import <SignalServiceKit/TSContactThread.h>
 #import <SignalServiceKit/OWSSyncContactsMessage.h>
 #import <SignalServiceKit/NSDate+millisecondTimeStamp.h>
 #import <SignalServiceKit/TextSecureKitEnv.h>
@@ -37,6 +36,7 @@
 
     [self setupBasicAppearance];
     [self setupTSKitEnv];
+<<<<<<< HEAD
     [[PushManager sharedManager] registerPushKitNotificationFuture];
 
     BOOL shouldUseMockedCredentials = true;
@@ -58,22 +58,28 @@
         [self addContact:colin];
         [self addContact:simulator];
     }
+=======
+
+    // Not sure what to make of this. Looks like it only handles RedPhone stuff, not sure.
+    // Will investigate some more.
+    // [[PushManager sharedManager] registerPushKitNotificationFuture];
+>>>>>>> master
 
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
-    self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient]];
+    self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient idAPIClient:self.idAPIClient]];
 
     [self.window makeKeyAndVisible];
 
     if (User.current == nil) {
         [self.chatAPIClient registerUserIfNeeded];
-        [self.idAPIClient registerUserIfNeededWithUsername:nil name:nil];
+        [self.idAPIClient registerUserIfNeeded];
     } else {
         [self.idAPIClient retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
             NSLog(@"%@", user);
             if (user == nil) {
                 [self.chatAPIClient registerUserIfNeeded];
-                [self.idAPIClient registerUserIfNeededWithUsername:nil name:nil];
+                [self.idAPIClient registerUserIfNeeded];
             }
         }];
     }
@@ -113,6 +119,7 @@
 //    [self.staleNotificationObserver startObserving];
 }
 
+<<<<<<< HEAD
 
 - (void)retrieveMessagesFrom:(NSString *)address {
     __block TSThread *thread;
@@ -163,6 +170,8 @@
 }
 
 
+=======
+>>>>>>> master
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

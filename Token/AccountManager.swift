@@ -1,6 +1,7 @@
 import Foundation
 import PromiseKit
 
+/// Not sure what this does yet, or if we actually need it.
 class AccountManager: NSObject {
     let TAG = "[AccountManager]"
     let textSecureAccountManager: TSAccountManager
