@@ -36,8 +36,10 @@
 
     [self setupBasicAppearance];
     [self setupTSKitEnv];
-<<<<<<< HEAD
-    [[PushManager sharedManager] registerPushKitNotificationFuture];
+
+    // Not sure what to make of this. Looks like it only handles RedPhone stuff, not sure.
+    // Will investigate some more.
+    // [[PushManager sharedManager] registerPushKitNotificationFuture];
 
     BOOL shouldUseMockedCredentials = true;
     if (shouldUseMockedCredentials) {
@@ -58,12 +60,6 @@
         [self addContact:colin];
         [self addContact:simulator];
     }
-=======
-
-    // Not sure what to make of this. Looks like it only handles RedPhone stuff, not sure.
-    // Will investigate some more.
-    // [[PushManager sharedManager] registerPushKitNotificationFuture];
->>>>>>> master
 
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
@@ -118,8 +114,6 @@
 //    self.staleNotificationObserver = [OWSStaleNotificationObserver new];
 //    [self.staleNotificationObserver startObserving];
 }
-
-<<<<<<< HEAD
 
 - (void)retrieveMessagesFrom:(NSString *)address {
     __block TSThread *thread;
