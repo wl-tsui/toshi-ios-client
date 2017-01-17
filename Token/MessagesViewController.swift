@@ -28,6 +28,8 @@ class MessagesViewController: JSQMessagesViewController {
 
     var chatAPIClient: ChatAPIClient
 
+    let ethereumAPIClient: EthereumAPIClient
+
     var messageSender: MessageSender
 
     var contactsManager: ContactsManager
@@ -48,8 +50,9 @@ class MessagesViewController: JSQMessagesViewController {
         return view
     }()
 
-    init(thread: TSThread, chatAPIClient: ChatAPIClient) {
+    init(thread: TSThread, chatAPIClient: ChatAPIClient, ethereumAPIClient: EthereumAPIClient = .shared) {
         self.chatAPIClient = chatAPIClient
+        self.ethereumAPIClient = ethereumAPIClient
         self.thread = thread
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not retrieve app delegate") }
@@ -87,6 +90,15 @@ class MessagesViewController: JSQMessagesViewController {
         }
 
         self.collectionView.addSubview(self.messagesEthereumView)
+
+        self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.messagesEthereumView.balance = balance
+            }
+        }
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {
@@ -396,7 +408,7 @@ class MessagesViewController: JSQMessagesViewController {
     }
 }
 
-extension MessagesViewController: MessagesEthereumView {
+extension MessagesViewController: MessagesEthereumViewDelegate {
     func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressRequestButton button: UIButton) {
         print("request button")
     }

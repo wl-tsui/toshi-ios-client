@@ -16,13 +16,6 @@ class MessagesEthereumView: UIView {
         label.textColor = Theme.ethereumBalanceLabelColor
         label.font = Theme.ethereumBalanceLabelFont
 
-        let text = "$20.00 USD · 0.456 ETH"
-        let coloredPart = "· 0.456 ETH"
-        let range = (text as NSString).range(of: coloredPart)
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.ethereumBalanceLabelLightColor, range: range)
-        label.attributedText = attributedString
-
         return label
     }()
 
@@ -49,6 +42,23 @@ class MessagesEthereumView: UIView {
 
         return button
     }()
+
+    var balance: Double = 0 {
+        didSet {
+            let currentUSDConversion = Double(10.20)
+            let weisToEther = Double(1000000000000000000)
+            let ether = (self.balance / weisToEther)
+            let usd = ether * currentUSDConversion
+            let usdText = "$\(usd) USD"
+            let etherText = " · \(ether) ETH"
+            let text = usdText + etherText
+            let coloredPart = etherText
+            let range = (text as NSString).range(of: coloredPart)
+            let attributedString = NSMutableAttributedString(string: text)
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.ethereumBalanceLabelLightColor, range: range)
+            self.balanceLabel.attributedText = attributedString
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
