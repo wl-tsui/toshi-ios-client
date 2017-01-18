@@ -68,14 +68,16 @@
     [self.window makeKeyAndVisible];
 
     if (User.current == nil) {
-        [self.chatAPIClient registerUserIfNeeded];
-        [self.idAPIClient registerUserIfNeeded];
+        [self.idAPIClient registerUserIfNeeded:^{
+            [self.chatAPIClient registerUserIfNeeded];
+        }];
     } else {
         [self.idAPIClient retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
             NSLog(@"%@", user);
             if (user == nil) {
-                [self.chatAPIClient registerUserIfNeeded];
-                [self.idAPIClient registerUserIfNeeded];
+                [self.idAPIClient registerUserIfNeeded:^{
+                    [self.chatAPIClient registerUserIfNeeded];
+                }];
             }
         }];
     }

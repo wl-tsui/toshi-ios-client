@@ -54,7 +54,7 @@ public class UserBootstrapParameter {
         return payload
     }()
 
-    init(storageManager: TSStorageManager, ethereumAddress: String) {
+    init(storageManager: TSStorageManager, timestamp: Int, ethereumAddress: String) {
         if storageManager.identityKeyPair() == nil {
             storageManager.generateNewIdentityKey()
         }
@@ -78,7 +78,7 @@ public class UserBootstrapParameter {
 
         self.signedPrekey = signedPK
 
-        self.timestamp = Int(floor(Date().timeIntervalSince1970))
+        self.timestamp = timestamp
 
         for prekey in self.prekeys {
             storageManager.storePreKey(prekey.id, preKeyRecord: prekey)

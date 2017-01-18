@@ -21,6 +21,8 @@
 
 - (NSArray<TokenContact *> * _Nonnull)tokenContacts;
 
+- (TokenContact * _Nullable)tokenContactForAddress:(NSString * _Nullable)address;
+
 - (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber;
 
 @end

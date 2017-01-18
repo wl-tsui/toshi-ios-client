@@ -19,6 +19,10 @@ extension Theme {
         return .black
     }
 
+    public static var greyTextColor: UIColor {
+        return #colorLiteral(red: 0.2856194079, green: 0.2896994054, blue: 0.3457691371, alpha: 1)
+    }
+
     public static var tintColor: UIColor {
         return #colorLiteral(red: 0, green: 0.761487186, blue: 0.3963804841, alpha: 1)
     }

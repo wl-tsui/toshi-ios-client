@@ -89,6 +89,14 @@ public class User: NSObject, JSONDataSerialization {
         super.init()
     }
 
+    init(address: String, username: String, name: String?, about: String?, location: String?) {
+        self.address = address
+        self.name = name
+        self.about = about
+        self.username = username
+        self.location = location
+    }
+
     public func update() {
         let json = self.JSONData
         User.yap.insert(object: json, for: User.storedUserKey)

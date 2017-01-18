@@ -23,7 +23,7 @@
 - (NSString * _Nonnull)displayNameForPhoneIdentifier:(NSString * _Nullable)phoneNumber {
     for (Contact *contact in self.signalContacts) {
         if ([contact.userTextPhoneNumbers.firstObject isEqualToString:phoneNumber]) {
-            return contact.fullName;
+            return contact.firstName;
         }
     }
 
@@ -43,6 +43,18 @@
     }
 
     return contacts.copy;
+}
+
+- (TokenContact * _Nullable)tokenContactForAddress:(NSString * _Nullable)address {
+    if (!address) { return nil; }
+
+    for (TokenContact *contact in self.tokenContacts) {
+        if ([contact.address isEqualToString:address]) {
+            return contact;
+        }
+    }
+
+    return nil;
 }
 
 - (NSArray<Contact *> * _Nonnull)signalContacts {
