@@ -58,8 +58,8 @@ public class IDAPIClient: NSObject, TimestampSynchronizing {
             self.networking.PUT("/v1/user", parameterType: .json, parameters: signedParameters) { json, error in
                 if let error = error {
                     print(error.localizedDescription)
-                } else if let json = json {
-                    print(json)
+                } else if let json = json as? [String: Any] {
+                    User.current = User(json: json)
                 } else {
                     fatalError()
                 }
