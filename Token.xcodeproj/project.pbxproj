@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
-		9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29751E26772B00C652A3 /* ChatsTableController.swift */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
@@ -16,12 +15,10 @@
 		9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */; };
 		9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
 		9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */; };
-		9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */; };
 		9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D91E24F604004BEEE0 /* JSQMessages.framework */; };
 		9F9238E21E24F604004BEEE0 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DA1E24F604004BEEE0 /* Networking.framework */; };
 		9F9238E31E24F604004BEEE0 /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */; };
 		9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DC1E24F604004BEEE0 /* SweetUIKit.framework */; };
-		9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238D91E24F604004BEEE0 /* JSQMessages.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DA1E24F604004BEEE0 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F9238EA1E24F6CD004BEEE0 /* SweetFoundation.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -51,6 +48,7 @@
 		9FCDBAEC1E28FE4100A70E07 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */; };
 		9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FCDBAED1E29020100A70E07 /* Reveal.framework */; };
 		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
+		9FD0ED1F1E2F82CF000507B0 /* TimestampSynchronizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD0ED1E1E2F82CF000507B0 /* TimestampSynchronizing.swift */; };
 		9FE18B251E2D11FE00940DC8 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */; };
 		9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
@@ -58,6 +56,8 @@
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE3984A1E2E34A700386FAF /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE398491E2E34A700386FAF /* Formulaic.framework */; };
 		9FE3984B1E2E34AB00386FAF /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE398491E2E34A700386FAF /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FE3985D1E2E680000386FAF /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE3985C1E2E680000386FAF /* EtherealCereal.framework */; };
+		9FE3985E1E2E680400386FAF /* EtherealCereal.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE3985C1E2E680000386FAF /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -67,10 +67,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9F9238E71E24F6CD004BEEE0 /* EtherealCereal.framework in Copy Carthage Frameworks */,
 				9FE3984B1E2E34AB00386FAF /* Formulaic.framework in Copy Carthage Frameworks */,
 				9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */,
 				9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */,
+				9FE3985E1E2E680400386FAF /* EtherealCereal.framework in Copy Carthage Frameworks */,
 				9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */,
 				9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */,
 				9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */,
@@ -85,7 +85,6 @@
 /* Begin PBXFileReference section */
 		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
 		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F5F29751E26772B00C652A3 /* ChatsTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsTableController.swift; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingNavigationController.swift; sourceTree = "<group>"; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +96,6 @@
 		9F9238C51E24F1D2004BEEE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Token-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F9238D31E24F42A004BEEE0 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
-		9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
 		9F9238D91E24F604004BEEE0 /* JSQMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JSQMessages.framework; path = Carthage/Build/iOS/JSQMessages.framework; sourceTree = SOURCE_ROOT; };
 		9F9238DA1E24F604004BEEE0 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = SOURCE_ROOT; };
 		9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = SOURCE_ROOT; };
@@ -131,11 +129,13 @@
 		9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		9FCDBAED1E29020100A70E07 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenContact.swift; sourceTree = "<group>"; };
+		9FD0ED1E1E2F82CF000507B0 /* TimestampSynchronizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimestampSynchronizing.swift; sourceTree = "<group>"; };
 		9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SweetSwift.framework; sourceTree = "<group>"; };
 		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
 		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
 		9FE398491E2E34A700386FAF /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
+		9FE3985C1E2E680000386FAF /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -148,11 +148,11 @@
 				9F9238E31E24F604004BEEE0 /* SweetFoundation.framework in Frameworks */,
 				9F9238E21E24F604004BEEE0 /* Networking.framework in Frameworks */,
 				9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */,
-				9F9238E01E24F604004BEEE0 /* EtherealCereal.framework in Frameworks */,
 				9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */,
 				9FE3984A1E2E34A700386FAF /* Formulaic.framework in Frameworks */,
 				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
 				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
+				9FE3985D1E2E680000386FAF /* EtherealCereal.framework in Frameworks */,
 				9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */,
 				9FE18B251E2D11FE00940DC8 /* SweetSwift.framework in Frameworks */,
 			);
@@ -204,6 +204,7 @@
 				9FC72A3B1E251ABE00EF1141 /* APIClients */,
 				9F9238CF1E24F3F1004BEEE0 /* Models */,
 				9F9238CE1E24F3EB004BEEE0 /* Views */,
+				9FD0ED201E2F8378000507B0 /* Protocols */,
 				9F9238CD1E24F3DE004BEEE0 /* Controllers */,
 				9F9238CC1E24F3D9004BEEE0 /* Resources */,
 				9F9238B41E24F1D2004BEEE0 /* Supporting Files */,
@@ -236,9 +237,8 @@
 		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9FCDBAEF1E29063500A70E07 /* Messaging */,
+				9FCDBAEF1E29063500A70E07 /* Contacts/Messaging */,
 				9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */,
-				9FCDBAE01E28E71900A70E07 /* ContactsController.swift */,
 				9FCDBAE11E28E71900A70E07 /* ExtensionsController.swift */,
 				9FE18B291E2D1FC700940DC8 /* Profile */,
 				9FCDBAEB1E28FE4100A70E07 /* RootNavigationController.swift */,
@@ -278,12 +278,12 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9FE3985C1E2E680000386FAF /* EtherealCereal.framework */,
 				9FE398491E2E34A700386FAF /* Formulaic.framework */,
 				9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */,
 				9FCDBAED1E29020100A70E07 /* Reveal.framework */,
 				9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */,
 				9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */,
-				9F9238D81E24F604004BEEE0 /* EtherealCereal.framework */,
 				9F9238D91E24F604004BEEE0 /* JSQMessages.framework */,
 				9F9238DA1E24F604004BEEE0 /* Networking.framework */,
 				9F9238DB1E24F604004BEEE0 /* SweetFoundation.framework */,
@@ -322,14 +322,22 @@
 			name = Theme;
 			sourceTree = "<group>";
 		};
-		9FCDBAEF1E29063500A70E07 /* Messaging */ = {
+		9FCDBAEF1E29063500A70E07 /* Contacts/Messaging */ = {
 			isa = PBXGroup;
 			children = (
-				9F5F29751E26772B00C652A3 /* ChatsTableController.swift */,
+				9FCDBAE01E28E71900A70E07 /* ContactsController.swift */,
 				9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */,
 				9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */,
 			);
-			name = Messaging;
+			name = Contacts/Messaging;
+			sourceTree = "<group>";
+		};
+		9FD0ED201E2F8378000507B0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9FD0ED1E1E2F82CF000507B0 /* TimestampSynchronizing.swift */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		9FE18B291E2D1FC700940DC8 /* Profile */ = {
@@ -478,6 +486,7 @@
 				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
+				9FD0ED1F1E2F82CF000507B0 /* TimestampSynchronizing.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
@@ -490,7 +499,6 @@
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9FCDBADD1E28E57100A70E07 /* User.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
-				9F5F29761E26772B00C652A3 /* ChatsTableController.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,
 				9FCDBAE41E28E71900A70E07 /* ExtensionsController.swift in Sources */,

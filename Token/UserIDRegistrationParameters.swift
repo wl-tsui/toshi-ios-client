@@ -11,10 +11,12 @@ struct UserIDRegistrationParameters {
 
     let about: String?
 
+    let timestamp: Int
+
     let cereal: Cereal
 
     var payload: [String: Any] {
-        var payload: [String: Any] = ["timestamp": UInt64(Date().timeIntervalSince1970)]
+        var payload: [String: Any] = ["timestamp": self.timestamp]
 
         if let username = self.username {
             payload["username"] = username
@@ -23,8 +25,6 @@ struct UserIDRegistrationParameters {
         if self.hasCustom {
             payload["custom"] = self.customPayload
         }
-
-        print(payload)
 
         return payload
     }
@@ -68,10 +68,12 @@ struct UserIDRegistrationParameters {
         return params
     }
 
-    init(name: String?, username: String?, cereal: Cereal, location: String? = nil, about: String? = nil) {
+    init(name: String?, username: String?, timestamp: Int, cereal: Cereal, location: String? = nil, about: String? = nil) {
         self.name = name
         self.username = username
         self.cereal = cereal
+
+        self.timestamp = timestamp
 
         self.location = location
         self.about = about
