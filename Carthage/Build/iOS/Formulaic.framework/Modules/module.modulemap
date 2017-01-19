@@ -1,0 +1,10 @@
+framework module Formulaic {
+  umbrella header "Formulaic.h"
+
+  export *
+  module * { export * }
+}
+
+module Formulaic.Swift {
+    header "Formulaic-Swift.h"
+}
