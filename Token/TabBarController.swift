@@ -22,11 +22,10 @@ open class TabBarController: UITabBarController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        let messaging = MessagingNavigationController(rootViewController: ChatsTableController(chatAPIClient: self.chatAPIClient, idAPIClient: self.idAPIClient))
-
+        let messaging = MessagingNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
         self.title = messaging.title
 
-        self.viewControllers = [messaging, ExtensionsController(), ContactsController(idAPIClient: self.idAPIClient), ProfileController(idAPIClient: self.idAPIClient)]
+        self.viewControllers = [messaging, ProfileController(idAPIClient: self.idAPIClient)]
         self.view.tintColor = Theme.tintColor
     }
 }

@@ -125,22 +125,34 @@ open class ProfileEditController: UIViewController {
 
     // TODO: move this to the presenting VC
     func saveAndDismiss() {
-        print(User.current!)
+        var username = ""
+        var name: String?
+        var location: String?
+        var about: String?
+
         for item in self.dataSource.items {
             if item.fieldName == "username" {
-                User.current?.username = item.value as? String ?? User.current!.username
+                username = item.value as? String ?? User.current!.username
             } else if item.fieldName == "name" {
-                User.current?.name = item.value as? String
+                name = item.value as? String
             } else if item.fieldName == "about" {
-                User.current?.about = item.value as? String
+                about = item.value as? String
             } else if item.fieldName == "location" {
-                User.current?.location = item.value as? String
+                location = item.value as? String
             }
         }
-        print(User.current!)
 
-        self.idAPIClient.updateUser()
-        self.dismiss(animated: true)
+        let user = User(address: User.current!.address, username: username, name: name, about: about, location: location)
+        self.idAPIClient.updateUser(user) { json, error in
+            if error != nil {
+                if let json = (json?["errors"] as? [[String: Any]]) {
+                    let alert = UIAlertController.dismissableAlert(title: "Error", message: json.first?["message"] as? String)
+                    self.present(alert, animated: true)
+                }
+            } else {
+                self.dismiss(animated: true)
+            }
+        }
     }
 }
 
