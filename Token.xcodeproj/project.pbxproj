@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
+		145105D81E30DC370001317B /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 145105D71E30DC370001317B /* UInt256.framework */; };
+		145105D91E30DC370001317B /* UInt256.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 145105D71E30DC370001317B /* UInt256.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
+		145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
 		9F1365601E30CC910016B0C5 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F13655F1E30CC910016B0C5 /* Formulaic.framework */; };
 		9F1365611E30CC930016B0C5 /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F13655F1E30CC910016B0C5 /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
@@ -75,6 +79,7 @@
 				9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */,
 				9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */,
 				9F9238EA1E24F6CD004BEEE0 /* SweetFoundation.framework in Copy Carthage Frameworks */,
+				145105D91E30DC370001317B /* UInt256.framework in Copy Carthage Frameworks */,
 				9F9238EB1E24F6CD004BEEE0 /* SweetUIKit.framework in Copy Carthage Frameworks */,
 			);
 			name = "Copy Carthage Frameworks";
@@ -83,6 +88,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		145105D71E30DC370001317B /* UInt256.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UInt256.framework; path = ../Carthage/Build/iOS/UInt256.framework; sourceTree = "<group>"; };
+		145666031E30D24C00E52027 /* MessagesFloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesFloatingView.swift; sourceTree = "<group>"; };
+		145666051E30D31A00E52027 /* EthereumAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAPIClient.swift; sourceTree = "<group>"; };
 		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
 		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F13655F1E30CC910016B0C5 /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
@@ -150,6 +158,7 @@
 				9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */,
 				9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */,
 				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
+				145105D81E30DC370001317B /* UInt256.framework in Frameworks */,
 				9F1365601E30CC910016B0C5 /* Formulaic.framework in Frameworks */,
 				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
 				9FE3985D1E2E680000386FAF /* EtherealCereal.framework in Frameworks */,
@@ -278,6 +287,7 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				145105D71E30DC370001317B /* UInt256.framework */,
 				9F13655F1E30CC910016B0C5 /* Formulaic.framework */,
 				9FE3985C1E2E680000386FAF /* EtherealCereal.framework */,
 				9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */,
@@ -297,6 +307,7 @@
 			children = (
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
 				9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */,
+				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
 			);
 			name = APIClients;
 			sourceTree = "<group>";
@@ -328,6 +339,7 @@
 				9FCDBAE01E28E71900A70E07 /* ContactsController.swift */,
 				9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */,
 				9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */,
+				145666031E30D24C00E52027 /* MessagesFloatingView.swift */,
 			);
 			name = Contacts/Messaging;
 			sourceTree = "<group>";
@@ -487,12 +499,14 @@
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				9FD0ED1F1E2F82CF000507B0 /* TimestampSynchronizing.swift in Sources */,
+				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatTableViewCell.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
 				9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
+				145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
 				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,

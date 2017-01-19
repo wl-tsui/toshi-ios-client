@@ -28,6 +28,8 @@ class MessagesViewController: JSQMessagesViewController {
 
     var chatAPIClient: ChatAPIClient
 
+    var ethereumAPIClient: EthereumAPIClient
+
     var messageSender: MessageSender
 
     var contactsManager: ContactsManager
@@ -41,8 +43,16 @@ class MessagesViewController: JSQMessagesViewController {
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 
-    init(thread: TSThread, chatAPIClient: ChatAPIClient) {
+    lazy var messagesFloatingView: MessagesFloatingView = {
+        let view = MessagesFloatingView(withAutoLayout: true)
+        view.delegate = self
+
+        return view
+    }()
+
+    init(thread: TSThread, chatAPIClient: ChatAPIClient, ethereumAPIClient: EthereumAPIClient = .shared) {
         self.chatAPIClient = chatAPIClient
+        self.ethereumAPIClient = ethereumAPIClient
         self.thread = thread
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not retrieve app delegate") }
@@ -78,6 +88,26 @@ class MessagesViewController: JSQMessagesViewController {
                 self.collectionView.reloadData()
             }
         }
+
+        self.view.addSubview(self.messagesFloatingView)
+        self.messagesFloatingView.heightAnchor.constraint(equalToConstant: MessagesFloatingView.height).isActive = true
+        self.messagesFloatingView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
+        self.messagesFloatingView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.messagesFloatingView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+
+
+        self.collectionView.backgroundColor = Theme.messagesBackgroundColor
+
+        self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.messagesFloatingView.balance = balance
+            }
+        }
+
+        self.collectionView.contentInset = UIEdgeInsetsMake(MessagesFloatingView.height, 0, 0, 0)
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {
@@ -120,10 +150,6 @@ class MessagesViewController: JSQMessagesViewController {
         }
 
         return TextMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: date, text: "This is not a real message. \(interaction)")
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -361,5 +387,15 @@ class MessagesViewController: JSQMessagesViewController {
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         return nil
+    }
+}
+
+extension MessagesViewController: MessagesFloatingViewDelegate {
+    func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
+        print("request button")
+    }
+
+    func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
+        print("pay button")
     }
 }

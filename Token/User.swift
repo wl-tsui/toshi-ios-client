@@ -1,4 +1,5 @@
 import UIKit
+import UInt256
 
 public protocol JSONDataSerialization {
     var JSONData: Data { get }
@@ -104,5 +105,24 @@ public class User: NSObject, JSONDataSerialization {
 
     public override var description: String {
         return "<User: address: \(self.address), name: \(self.name ?? ""), username: \(self.username)>"
+    }
+
+    // TODO: Add unit tests for this.
+    public static func balanceAttributedString(for balance: UInt256) -> NSAttributedString {
+        // Conversion from https://www.coinbase.com/charts
+        let currentUSDConversion = UInt256(decimalString: "10.20")
+        // Conversion from http://ether.fund/tool/converter
+        let weisToEther = UInt256(hexString: "1000000000000000000")
+        let ether = balance / weisToEther
+        let usd: UInt256 = currentUSDConversion * ether
+        let usdText = "$\(usd.toDecimalString) USD"
+        let etherText = " · \(ether.toDecimalString) ETH"
+        let text = usdText + etherText
+        let coloredPart = etherText
+        let range = (text as NSString).range(of: coloredPart)
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.ethereumBalanceLabelLightColor, range: range)
+
+        return attributedString
     }
 }
