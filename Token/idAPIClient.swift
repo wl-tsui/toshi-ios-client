@@ -2,7 +2,7 @@ import Foundation
 import SweetFoundation
 import Networking
 
-public class IDAPIClient: NSObject {
+public class IDAPIClient: NSObject, TimestampSynchronizing {
     // https://token-id-service.herokuapp.com/v1/user
 
     public var cereal: Cereal
@@ -23,7 +23,7 @@ public class IDAPIClient: NSObject {
         self.networking = Networking(baseURL: self.baseURL.absoluteString)
     }
 
-    public func registerUserIfNeeded() {
+    public func registerUserIfNeeded(_ success: @escaping((Void) -> Void)) {
         self.retrieveUser(username: self.cereal.address) { user in
             guard user == nil else {
                 User.current = user
@@ -31,33 +31,40 @@ public class IDAPIClient: NSObject {
                 return
             }
 
-            let parameters = UserIDRegistrationParameters(name: nil, username: nil, cereal: self.cereal)
-            let signedParameters = parameters.signedParameters()
+            self.fetchTimestamp { timestamp in
+                let parameters = UserIDRegistrationParameters(name: nil, username: nil, timestamp: timestamp, cereal: self.cereal)
+                let signedParameters = parameters.signedParameters()
 
-            self.networking.POST("/v1/user", parameterType: .json, parameters: signedParameters) { (json, error) in
-                if let error = error {
-                    print(error)
-                } else if let json = json as? [String: Any] {
-                    print("Registered user with address: \(self.cereal.address).")
-                    User.current = User(json: json)
-                } else {
-                    fatalError()
+                self.networking.POST("/v1/user", parameterType: .json, parameters: signedParameters) { (json, error) in
+                    if let error = error {
+                        print(error)
+                    } else if let json = json as? [String: Any] {
+                        print("Registered user with address: \(self.cereal.address).")
+                        User.current = User(json: json)
+                        success()
+                    } else {
+                        fatalError()
+                    }
                 }
             }
         }
     }
 
-    public func updateUser() {
-        let parameters = UserIDRegistrationParameters(name: User.current?.name, username: User.current?.username, cereal: self.cereal, location: User.current?.location, about: User.current?.about)
-        let signedParameters = parameters.signedParameters()
-        print(signedParameters)
-        self.networking.PUT("/v1/user", parameterType: .json, parameters: signedParameters) { json, error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let json = json {
-                print(json)
-            } else {
-                fatalError()
+    public func updateUser(_ user: User, completion: @escaping(([String: Any]?, Error?) -> Void)) {
+        self.fetchTimestamp { timestamp in
+            let parameters = UserIDRegistrationParameters(name: user.name, username: user.username, timestamp: timestamp, cereal: self.cereal, location: user.location, about: user.about)
+            let signedParameters = parameters.signedParameters()
+
+            self.networking.PUT("/v1/user", parameterType: .json, parameters: signedParameters) { json, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else if let json = json as? [String: Any] {
+                    User.current = User(json: json)
+                } else {
+                    fatalError()
+                }
+
+                completion(json as? [String: Any], error)
             }
         }
     }
@@ -99,7 +106,7 @@ public class IDAPIClient: NSObject {
                 for item in json {
                     contacts.append(TokenContact(json: item))
                 }
-
+                
                 completion(contacts)
             }
         }

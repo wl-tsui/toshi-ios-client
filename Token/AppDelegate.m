@@ -20,7 +20,7 @@
 @property (nonnull, nonatomic) IDAPIClient *idAPIClient;
 
 @property (nonatomic) OWSIncomingMessageReadObserver *incomingMessageReadObserver;
-//@property (nonatomic) OWSStaleNotificationObserver *staleNotificationObserver;
+    //@property (nonatomic) OWSStaleNotificationObserver *staleNotificationObserver;
 
 @end
 
@@ -37,29 +37,9 @@
     [self setupBasicAppearance];
     [self setupTSKitEnv];
 
-    // Not sure what to make of this. Looks like it only handles RedPhone stuff, not sure.
-    // Will investigate some more.
-    // [[PushManager sharedManager] registerPushKitNotificationFuture];
-
-    BOOL shouldUseMockedCredentials = true;
-    if (shouldUseMockedCredentials) {
-        [self.idAPIClient registerUserIfNeededWithUsername:@"ielland" name:@"Igor Elland"];
-        [self.chatAPIClient registerUserIfNeeded];
-
-        NSString *simulator = @"0xee216f51a2f25f437defbc8973c9eddc56b07ce1";
-        NSString *colin = @"0x98484b79ea9aa8cdd747ad669295c80ac933cc25";
-        NSString *device = @"0x27d3a723fce45a308788dca08450caaaf4ceb79b";
-
-        [self retrieveMessagesFrom:colin];
-        [self sendMessageTo:simulator];
-        [self sendMessageTo:device];
-        [self retrieveMessagesFrom:simulator];
-
-            // add contact
-        [self addContact:device];
-        [self addContact:colin];
-        [self addContact:simulator];
-    }
+        // Not sure what to make of this. Looks like it only handles RedPhone stuff, not sure.
+        // Will investigate some more.
+        // [[PushManager sharedManager] registerPushKitNotificationFuture];
 
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
@@ -68,14 +48,16 @@
     [self.window makeKeyAndVisible];
 
     if (User.current == nil) {
-        [self.chatAPIClient registerUserIfNeeded];
-        [self.idAPIClient registerUserIfNeeded];
+        [self.idAPIClient registerUserIfNeeded:^{
+            [self.chatAPIClient registerUserIfNeeded];
+        }];
     } else {
         [self.idAPIClient retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
             NSLog(@"%@", user);
             if (user == nil) {
-                [self.chatAPIClient registerUserIfNeeded];
-                [self.idAPIClient registerUserIfNeeded];
+                [self.idAPIClient registerUserIfNeeded:^{
+                    [self.chatAPIClient registerUserIfNeeded];
+                }];
             }
         }];
     }
@@ -111,85 +93,34 @@
     self.incomingMessageReadObserver = [[OWSIncomingMessageReadObserver alloc] initWithStorageManager:storageManager messageSender:self.messageSender];
     [self.incomingMessageReadObserver startObserving];
 
-//    self.staleNotificationObserver = [OWSStaleNotificationObserver new];
-//    [self.staleNotificationObserver startObserving];
+        //    self.staleNotificationObserver = [OWSStaleNotificationObserver new];
+        //    [self.staleNotificationObserver startObserving];
 }
 
-- (void)retrieveMessagesFrom:(NSString *)address {
-    __block TSThread *thread;
-
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        thread = [TSContactThread getOrCreateThreadWithContactId:address transaction:transaction];
-
-        [transaction objectForKey:thread.uniqueId inCollection:nil];
-    }];
-
-    NSLog(@"%@", thread);
-}
-
-- (void)sendMessageTo:(NSString *)recipientAddress {
-    __block TSThread *thread = nil;
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        thread = [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
-    }];
-
-    TSNetworkManager *networkManager = [TSNetworkManager sharedManager];
-    ContactsManager *contactsManager = [[ContactsManager alloc] init];
-    ContactsUpdater *contactsUpdater = [[ContactsUpdater alloc] init];
-    OWSMessageSender *messageSender = [[OWSMessageSender alloc] initWithNetworkManager:networkManager storageManager:[TSStorageManager sharedManager] contactsManager:contactsManager contactsUpdater:contactsUpdater];
-    TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp] inThread:thread messageBody:[NSString stringWithFormat:@"Try this! From AppDelegate. %@", [NSDate new]]];
-
-    [messageSender sendMessage:message success:^{
-        NSLog(@"Success! Message sent!");
-    } failure:^(NSError * _Nonnull error) {
-        NSLog(@"Failed: %@", error);
-    }];
-
-}
-
-- (void)addContact:(NSString *)recipientAddress {
-
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        SignalRecipient *recipient = [SignalRecipient recipientWithTextSecureIdentifier:recipientAddress withTransaction:transaction];
-        if (!recipient) {
-            recipient = [[SignalRecipient alloc] initWithTextSecureIdentifier:recipientAddress relay:nil supportsVoice:NO];
-        }
-
-        [recipient saveWithTransaction:transaction];
-    }];
-
-    [[TSStorageManager sharedManager].dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
-        [TSContactThread getOrCreateThreadWithContactId:recipientAddress transaction:transaction];
-    }];
-}
-
-
-=======
->>>>>>> master
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 }
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end

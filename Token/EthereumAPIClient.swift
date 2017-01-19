@@ -11,6 +11,7 @@ class EthereumAPIClient {
     }
 
     func getBalance(address: String, completion: @escaping (_ balance: Double, _ error: NSError?) -> Void) {
+        self.networking.fakeGET("/v1/balance/\(address)", response: ["confirmed_balance": 3000000000000000000])
         self.networking.GET("/v1/balance/\(address)") { json, error in
             if let error = error {
                 completion(0, error)
