@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
+		9F1365601E30CC910016B0C5 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F13655F1E30CC910016B0C5 /* Formulaic.framework */; };
+		9F1365611E30CC930016B0C5 /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F13655F1E30CC910016B0C5 /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
@@ -54,8 +56,6 @@
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
-		9FE3984A1E2E34A700386FAF /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE398491E2E34A700386FAF /* Formulaic.framework */; };
-		9FE3984B1E2E34AB00386FAF /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE398491E2E34A700386FAF /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE3985D1E2E680000386FAF /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE3985C1E2E680000386FAF /* EtherealCereal.framework */; };
 		9FE3985E1E2E680400386FAF /* EtherealCereal.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE3985C1E2E680000386FAF /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -67,10 +67,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9FE3984B1E2E34AB00386FAF /* Formulaic.framework in Copy Carthage Frameworks */,
 				9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */,
 				9FE18B261E2D120A00940DC8 /* SweetSwift.framework in Copy Carthage Frameworks */,
 				9FE3985E1E2E680400386FAF /* EtherealCereal.framework in Copy Carthage Frameworks */,
+				9F1365611E30CC930016B0C5 /* Formulaic.framework in Copy Carthage Frameworks */,
 				9F9238E81E24F6CD004BEEE0 /* JSQMessages.framework in Copy Carthage Frameworks */,
 				9FCDBAD71E28D47F00A70E07 /* KeychainSwift.framework in Copy Carthage Frameworks */,
 				9F9238E91E24F6CD004BEEE0 /* Networking.framework in Copy Carthage Frameworks */,
@@ -85,6 +85,7 @@
 /* Begin PBXFileReference section */
 		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
 		9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F13655F1E30CC910016B0C5 /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingNavigationController.swift; sourceTree = "<group>"; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,7 +135,6 @@
 		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
 		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
-		9FE398491E2E34A700386FAF /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
 		9FE3985C1E2E680000386FAF /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,8 +149,8 @@
 				9F9238E21E24F604004BEEE0 /* Networking.framework in Frameworks */,
 				9FCDBAEE1E29020100A70E07 /* Reveal.framework in Frameworks */,
 				9FCDBAD61E28D46E00A70E07 /* KeychainSwift.framework in Frameworks */,
-				9FE3984A1E2E34A700386FAF /* Formulaic.framework in Frameworks */,
 				9F9238E11E24F604004BEEE0 /* JSQMessages.framework in Frameworks */,
+				9F1365601E30CC910016B0C5 /* Formulaic.framework in Frameworks */,
 				9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */,
 				9FE3985D1E2E680000386FAF /* EtherealCereal.framework in Frameworks */,
 				9F9238E41E24F604004BEEE0 /* SweetUIKit.framework in Frameworks */,
@@ -278,8 +278,8 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9F13655F1E30CC910016B0C5 /* Formulaic.framework */,
 				9FE3985C1E2E680000386FAF /* EtherealCereal.framework */,
-				9FE398491E2E34A700386FAF /* Formulaic.framework */,
 				9FE18B241E2D11FE00940DC8 /* SweetSwift.framework */,
 				9FCDBAED1E29020100A70E07 /* Reveal.framework */,
 				9FCDBAD51E28D46E00A70E07 /* KeychainSwift.framework */,
