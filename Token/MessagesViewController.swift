@@ -28,6 +28,8 @@ class MessagesViewController: JSQMessagesViewController {
 
     var chatAPIClient: ChatAPIClient
 
+    let ethereumAPIClient: EthereumAPIClient
+
     var messageSender: MessageSender
 
     var contactsManager: ContactsManager
@@ -41,8 +43,16 @@ class MessagesViewController: JSQMessagesViewController {
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 
-    init(thread: TSThread, chatAPIClient: ChatAPIClient) {
+    lazy var messagesEthereumView: MessagesEthereumView = {
+        let view = MessagesEthereumView()
+        view.delegate = self
+
+        return view
+    }()
+
+    init(thread: TSThread, chatAPIClient: ChatAPIClient, ethereumAPIClient: EthereumAPIClient = .shared) {
         self.chatAPIClient = chatAPIClient
+        self.ethereumAPIClient = ethereumAPIClient
         self.thread = thread
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not retrieve app delegate") }
@@ -76,6 +86,17 @@ class MessagesViewController: JSQMessagesViewController {
             self.mappings.update(with: transaction)
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+            }
+        }
+
+        self.collectionView.addSubview(self.messagesEthereumView)
+
+        self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.messagesEthereumView.balance = balance
             }
         }
     }
@@ -361,5 +382,29 @@ class MessagesViewController: JSQMessagesViewController {
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         return nil
+    }
+
+    func updateEthereumViewFrame() {        
+        self.messagesEthereumView.frame = CGRect(x: 0, y: self.collectionView.contentOffset.y + MessagesEthereumView.height, width: self.view.frame.width, height: MessagesEthereumView.height)
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.updateEthereumViewFrame()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        self.updateEthereumViewFrame()
+    }
+}
+
+extension MessagesViewController: MessagesEthereumViewDelegate {
+    func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressRequestButton button: UIButton) {
+        print("request button")
+    }
+
+    func messagesEthereumView(_ messagesEthereumView: MessagesEthereumView, didPressPayButton button: UIButton) {
+        print("pay button")
     }
 }

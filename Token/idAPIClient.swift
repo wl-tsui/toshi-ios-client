@@ -106,7 +106,7 @@ public class IDAPIClient: NSObject, TimestampSynchronizing {
                 for item in json {
                     contacts.append(TokenContact(json: item))
                 }
-
+                
                 completion(contacts)
             }
         }

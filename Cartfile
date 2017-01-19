@@ -1,9 +1,23 @@
-github "bakkenbaeck/Formulaic" "master"
-github "hemantasapkota/JSQMessagesViewController" "master"
+# A wrapper on top of URLSession that's optimized for testing and has built-in a simple caching model.
 github "3lvis/Networking"
-github "marketplacer/keychain-swift"
+
+# A private key, public key and address generator for the Ethereum cryptocurrency.
 github "bakkenbaeck/EtherealCereal" "master"
-github "UseSweet/SweetFoundation" "master"
-#github "UseSweet/SweetSwift" "master"
-#github "UseSweet/SweetUIKit" "feature/inputview"
+
+# Has SweetUIKit and SweetSwift as dependencies, removing this means that you have to add the missing ones.
+github "bakkenbaeck/Formulaic" "master"
+
+# TODO: Expand on why we're not using the original repo and a fork instead.
+github "hemantasapkota/JSQMessagesViewController" "master"
+
+# Helper functions for saving text in Keychain securely for iOS, OS X, tvOS and watchOS.
+github "marketplacer/keychain-swift"
+
+# Promises for Swift & ObjC. http://promisekit.org
 github "mxcl/PromiseKit"
+
+# UInt256 is a 256 bit unsigned integer struct for Swift. Using the fork since the original project is no longer maintained.
+github "tokenbrowser/UInt256"
+
+# Helpers and sugar for the Foundation framework.
+github "UseSweet/SweetFoundation" "master"
