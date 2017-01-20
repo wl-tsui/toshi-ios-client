@@ -1,0 +1,9 @@
+/* 
+  Token.strings
+  Token
+
+  Created by Igor Ranieri on 19/01/2017.
+  Copyright © 2017 Bakken&Bæck. All rights reserved.
+*/
+
+"CONTACT_DETAIL_COMM_TYPE_INSECURE" = "Warning: Unregistered Number";

@@ -48,7 +48,7 @@ open class ProfileEditController: UIViewController {
     lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
-        let title = NSAttributedString(string: "Change picture", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: UIFont.systemFont(ofSize: 16)])
+        let title = NSAttributedString(string: "Change picture", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 16)])
         view.setAttributedTitle(title, for: .normal)
 
         return view
@@ -178,13 +178,13 @@ extension ProfileEditController: UITableViewDataSource {
         let formItem = self.dataSource.item(at: indexPath)
 
         cell.formItem = formItem
-
+        
         return cell
     }
 }
 
 extension ProfileEditController: UIToolbarDelegate {
-
+    
     public func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }

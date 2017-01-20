@@ -43,7 +43,7 @@
 
     self.window = [[UIWindow alloc] init];
     self.window.backgroundColor = [Theme viewBackgroundColor];
-    self.window.rootViewController = [[RootNavigationController alloc] initWithRootViewController:[[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient idAPIClient:self.idAPIClient]];
+    self.window.rootViewController = [[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient idAPIClient:self.idAPIClient];
 
     [self.window makeKeyAndVisible];
 
@@ -68,12 +68,13 @@
 }
 
 - (void)setupBasicAppearance {
-    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [UIFont boldSystemFontOfSize:17]};
+    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme boldWithSize:17]};
 
     UINavigationBar *navBarAppearance = [UINavigationBar appearance];
     [navBarAppearance setTitleTextAttributes:attributtes];
     [navBarAppearance setTintColor:[Theme navigationTitleTextColor]];
 
+    attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme regularWithSize:17]};
     UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
     [barButtonAppearance setTitleTextAttributes:attributtes forState:UIControlStateNormal];
 }

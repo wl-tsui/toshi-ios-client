@@ -1,15 +1,10 @@
 import UIKit
+import SweetFoundation
 import SweetUIKit
-import SweetSwift
 import YapDatabase
 
-public extension Array {
-    public var any: Element? {
-        return self[Int(arc4random_uniform(UInt32(self.count)))] as Element
-    }
-}
-
-open class ContactsController: SweetTableController {
+/// Displays current conversations.
+open class ChatsController: SweetTableController {
 
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
@@ -30,73 +25,36 @@ open class ContactsController: SweetTableController {
 
     public var idAPIClient: IDAPIClient
 
-    var contacts = [TokenContact]()
-
-    lazy var searchController: UISearchController = {
-        let controller = UISearchController(searchResultsController: nil)
-        controller.searchResultsUpdater = self
-        controller.dimsBackgroundDuringPresentation = false
-        controller.hidesNavigationBarDuringPresentation = false
-        controller.searchBar.barTintColor = Theme.tintColor
-        controller.searchBar.tintColor = Theme.lightTextColor
-        controller.searchBar.delegate = self
-
-        return controller
-    }()
-
     public init(idAPIClient: IDAPIClient, chatAPIClient: ChatAPIClient) {
-        self.idAPIClient = idAPIClient
         self.chatAPIClient = chatAPIClient
+        self.idAPIClient = idAPIClient
 
-        super.init(style: .plain)
+        super.init()
+
+        self.title = "Messages"
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
         }
 
-        self.title = "Contacts"
-
         self.registerNotifications()
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError("")
+        fatalError()
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.register(ContactCell.self)
-        self.tableView.register(ChatCell.self)
-
+        self.tableView.separatorStyle = .none
         self.tableView.dataSource = self
         self.tableView.delegate = self
-
-        self.tableView.separatorStyle = .none
-        self.tableView.tableHeaderView = self.searchController.searchBar
-
-        self.displayContacts()
+        self.tableView.register(ChatCell.self)
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.definesPresentationContext = true
-    }
-
-    open override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        self.navigationItem.rightBarButtonItem = nil
-        self.definesPresentationContext = false
-    }
-
-    open func displayContacts() {
-        if let delegate = UIApplication.shared.delegate as? AppDelegate {
-            let contactsManager = delegate.contactsManager
-            self.contacts = contactsManager.tokenContacts()
-            self.tableView.reloadData()
-        }
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     func registerNotifications() {
@@ -127,8 +85,6 @@ open class ContactsController: SweetTableController {
             return
         }
 
-        guard !self.searchController.isActive else { return }
-
         self.tableView.beginUpdates()
 
         for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
@@ -143,7 +99,7 @@ open class ContactsController: SweetTableController {
                 self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
                 self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
             case .update:
-                self.tableView.reloadRows(at: [rowChange.indexPath], with: .middle)
+                self.tableView.reloadRows(at: [rowChange.indexPath], with: .automatic)
             }
         }
 
@@ -179,35 +135,9 @@ open class ContactsController: SweetTableController {
     }
 }
 
-extension ContactsController: UITableViewDataSource {
+extension ChatsController: UITableViewDelegate {
 
-    open func numberOfSections(in tableView: UITableView) -> Int {
-        if self.searchController.isActive {
-            return 1
-        }
-
-        return Int(self.mappings.numberOfSections())
-    }
-
-    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.searchController.isActive {
-            return self.contacts.count
-        }
-
-        return Int(self.mappings.numberOfItems(inSection: UInt(section)))
-    }
-
-    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(ContactCell.self, for: indexPath)
-        cell.contact = self.contacts[indexPath.row]
-
-        return cell
-    }
-}
-
-extension ContactsController: UITableViewDelegate {
-
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
@@ -215,32 +145,29 @@ extension ContactsController: UITableViewDelegate {
         return UITableViewAutomaticDimension
     }
 
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // show add contact page
-        let contact = self.contacts[indexPath.row]
-        let vc = ContactController(contact: contact, idAPIClient: self.idAPIClient)
-
-        self.navigationController?.pushViewController(vc, animated: true)
+    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let thread = self.thread(at: indexPath)
+        let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatAPIClient)
+        self.navigationController?.pushViewController(messagesController, animated: true)
     }
 }
 
-extension ContactsController: UISearchBarDelegate {
+extension ChatsController: UITableViewDataSource {
 
-    public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-        self.displayContacts()
+    open func numberOfSections(in tableView: UITableView) -> Int {
+        return Int(self.mappings.numberOfSections())
     }
-}
 
-extension ContactsController: UISearchResultsUpdating {
-    
-    public func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text, text.length > 0 {
-            self.idAPIClient.searchContacts(name: text) { contacts in
-                self.contacts = contacts
-                print(self.contacts)
-                self.tableView.reloadData()
-            }
-        }
+    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Int(self.mappings.numberOfItems(inSection: UInt(section)))
+    }
+
+    open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(ChatCell.self, for: indexPath)
+        let thread = self.thread(at: indexPath)
+        
+        cell.thread = thread
+        
+        return cell
     }
 }

@@ -22,22 +22,21 @@ open class TabBarController: UITabBarController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        let messaging = MessagingNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
-        self.title = messaging.title
-
-        self.viewControllers = [messaging, ProfileController(idAPIClient: self.idAPIClient)]
+        let messaging = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
+        let contacts = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
+        let settings = SettingsNavigationController(rootViewController: ProfileController(idAPIClient: self.idAPIClient))
+        
+        self.viewControllers = [messaging, contacts , settings]
         self.view.tintColor = Theme.tintColor
+
+        self.view.backgroundColor = Theme.viewBackgroundColor
+        self.tabBar.barTintColor = Theme.viewBackgroundColor
     }
 }
 
 extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        self.title = viewController.title
-
         self.automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets
-
-        self.navigationItem.rightBarButtonItem = viewController.navigationItem.rightBarButtonItem
-        self.navigationItem.leftBarButtonItem = viewController.navigationItem.leftBarButtonItem
     }
 }

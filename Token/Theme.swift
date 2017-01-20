@@ -20,7 +20,7 @@ extension Theme {
     }
 
     public static var greyTextColor: UIColor {
-        return #colorLiteral(red: 0.2856194079, green: 0.2896994054, blue: 0.3457691371, alpha: 1)
+        return #colorLiteral(red: 0.6129867435, green: 0.6279211044, blue: 0.6319037676, alpha: 1)
     }
 
     public static var tintColor: UIColor {
@@ -31,6 +31,10 @@ extension Theme {
         return .white
     }
 
+    public static var messageViewBackgroundColor: UIColor {
+        return #colorLiteral(red: 0.952861011, green: 0.952994287, blue: 0.9528188109, alpha: 1)
+    }
+
     public static var navigationTitleTextColor: UIColor {
         return .white
     }
@@ -39,53 +43,37 @@ extension Theme {
         return #colorLiteral(red: 0.844350934, green: 0.8593074083, blue: 0.8632498384, alpha: 1)
     }
 
-    public static var ethereumBalanceLabelColor: UIColor {
-        return UIColor(hex: "2C2C2C")
+    public static var outgoingMessageBackgroundColor: UIColor {
+        return #colorLiteral(red: 0, green: 0.7567782402, blue: 0.9079027772, alpha: 1)
     }
 
-    public static var ethereumBalanceLabelLightColor: UIColor {
-        return UIColor(hex: "919191")
+    public static var incomingMessageBackgroundColor: UIColor {
+        return #colorLiteral(red: 0.9999160171, green: 1, blue: 0.9998719096, alpha: 1)
     }
 
-    public static var ethereumBalanceCallToActionColor: UIColor {
-        return UIColor(hex: "02BE6E")
+    public static var outgoingMessageTextColor: UIColor {
+        return .white
     }
 
-    public static var messagesBackgroundColor: UIColor {
-        return UIColor(hex: "F9FAFB")
-    }
-
-    public static var separatorColor: UIColor {
-        return UIColor(hex: "EFEFEF")
-    }
-
-    public static var messagesFloatingViewBackgroundColor: UIColor {
-        return UIColor.white
+    public static var incomingMessageTextColor: UIColor {
+        return .black
     }
 }
 
 extension Theme {
     static func light(size: CGFloat) -> UIFont {
-        return UIFont(name: "GTAmerica-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
+        return UIFont(name: "SFUIDisplay-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
     }
 
     static func regular(size: CGFloat) -> UIFont {
-        return UIFont(name: "GTAmerica-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
+        return UIFont(name: "SFUIDisplay-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
     }
 
     static func semibold(size: CGFloat) -> UIFont {
-        return UIFont(name: "GTAmerica-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
+        return UIFont(name: "SFUIDisplay-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
     }
 
     static func bold(size: CGFloat) -> UIFont {
-        return UIFont(name: "GTAmerica-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
-    }
-
-    public static var ethereumBalanceLabelFont: UIFont {
-        return self.regular(size: 16)
-    }
-
-    public static var ethereumBalanceCallToActionFont: UIFont {
-        return self.semibold(size: 13)
+        return UIFont(name: "SFUIDisplay-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
     }
 }

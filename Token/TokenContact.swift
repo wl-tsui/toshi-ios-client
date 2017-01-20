@@ -12,31 +12,40 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public var username: String
 
-    public var name: String?
+    public var name: String = ""
 
-    public init(json: [String: Any]) {
+    public var about: String = ""
+
+    public var location: String = ""
+
+    public var avatar: UIImage?
+
+    public var JSONData: Data {
+        let json: [String: Any] = [
+            "owner_address": self.address,
+            "custom": ["name": self.name, "location": self.location, "about": self.about],
+            "username": self.username,
+            "avatar": "",
+            ]
+
+        return try! JSONSerialization.data(withJSONObject: json, options: [])
+    }
+
+    init(json: [String: Any]) {
         self.address = json["owner_address"] as! String
         self.username = json["username"] as! String
 
-        if let custom = json["custom"] as? [String: Any] {
-            self.name = custom["name"] as? String
+        if let json = json["custom"] as? [String: Any] {
+            self.name = (json["name"] as? String) ?? ""
+            self.location = (json["location"] as? String) ?? ""
+            self.about = (json["about"] as? String) ?? ""
         }
 
         super.init()
     }
 
+
     public override var description: String {
-        return "<TokenContact: address: \(self.address), name: \(self.name ?? ""), username: \(self.username)>"
-    }
-
-    public var JSONData: Data {
-        let json: [String: Any] = [
-            "owner_address": self.address,
-            "custom": ["name": self.name ?? ""],
-            "username": self.username,
-            "avatar": "",
-        ]
-
-        return try! JSONSerialization.data(withJSONObject: json, options: [])
+        return "<TokenContact: address: \(self.address), name: \(self.name), username: \(self.username)>"
     }
 }

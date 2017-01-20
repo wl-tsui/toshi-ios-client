@@ -1,20 +1,24 @@
 import UIKit
 
-public class RootNavigationController: UINavigationController {
+public class SettingsNavigationController: UINavigationController {
+
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
     public override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
+        self.title = "Settings"
     }
 
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+
+        self.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settings"), tag: 0)
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        fatalError()
+        fatalError("")
     }
 
     public override func viewDidLoad() {

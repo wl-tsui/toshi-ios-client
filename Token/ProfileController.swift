@@ -23,14 +23,14 @@ open class ProfileController: UIViewController {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
         view.textAlignment = .center
-        view.font = UIFont.boldSystemFont(ofSize: 20)
+        view.font = Theme.bold(size: 20)
 
         return view
     }()
 
     lazy var editProfileButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: UIFont.boldSystemFont(ofSize: 13)]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.semibold(size: 13)]), for: .normal)
         view.setTitleColor(Theme.darkTextColor, for: .normal)
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
 
@@ -95,8 +95,6 @@ open class ProfileController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.view.backgroundColor = .white
-        self.tabBarItem = UITabBarItem(title: "Profile", image: #imageLiteral(resourceName: "Profile"), tag: 2)
         self.title = "Profile"
     }
 
@@ -114,6 +112,8 @@ open class ProfileController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+
+        self.view.backgroundColor = Theme.viewBackgroundColor
         self.automaticallyAdjustsScrollViewInsets = false
         self.addSubviewsAndConstraints()
     }

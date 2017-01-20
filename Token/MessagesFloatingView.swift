@@ -14,16 +14,16 @@ class MessagesFloatingView: UIView {
 
     lazy var balanceLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
-        label.textColor = Theme.ethereumBalanceLabelColor
-        label.font = Theme.ethereumBalanceLabelFont
+        label.textColor = Theme.darkTextColor
+        label.font = Theme.regular(size: 16)
 
         return label
     }()
 
     static func button() -> UIButton {
         let button = UIButton(withAutoLayout: true)
-        button.setTitleColor(Theme.ethereumBalanceCallToActionColor, for: .normal)
-        button.titleLabel?.font = Theme.ethereumBalanceCallToActionFont
+        button.setTitleColor(Theme.tintColor, for: .normal)
+        button.titleLabel?.font = Theme.semibold(size: 13)
 
         return button
     }
@@ -56,7 +56,7 @@ class MessagesFloatingView: UIView {
 
     lazy var separatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.separatorColor
+        view.backgroundColor = Theme.borderColor
 
         return view
     }()
@@ -64,7 +64,7 @@ class MessagesFloatingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = Theme.messagesFloatingViewBackgroundColor
+        self.backgroundColor = Theme.viewBackgroundColor
         self.addSubview(self.balanceLabel)
         self.addSubview(self.requestButton)
         self.addSubview(self.payButton)

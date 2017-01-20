@@ -24,6 +24,11 @@ class MessagesViewController: JSQMessagesViewController {
         return dbConnection
     }()
 
+    private lazy var contactAvatar: JSQMessagesAvatarImage = {
+        let img = [#imageLiteral(resourceName: "igor"), #imageLiteral(resourceName: "colin")].any!
+        return JSQMessagesAvatarImageFactory.avatarImage(with: img, diameter: 44)
+    }()
+
     var thread: TSThread
 
     var chatAPIClient: ChatAPIClient
@@ -43,7 +48,7 @@ class MessagesViewController: JSQMessagesViewController {
     lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()
     lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()
 
-    lazy var messagesFloatingView: MessagesFloatingView = {
+    lazy var ethereumPromptView: MessagesFloatingView = {
         let view = MessagesFloatingView(withAutoLayout: true)
         view.delegate = self
 
@@ -64,6 +69,8 @@ class MessagesViewController: JSQMessagesViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.hidesBottomBarWhenPushed = true
+
         self.title = thread.name()
 
         self.senderDisplayName = thread.name()
@@ -79,8 +86,10 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView.collectionViewLayout.incomingAvatarViewSize = .zero
         self.collectionView.collectionViewLayout.outgoingAvatarViewSize = .zero
+        self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
+
+        self.inputToolbar.contentView.leftBarButtonItem = nil
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
@@ -89,25 +98,25 @@ class MessagesViewController: JSQMessagesViewController {
             }
         }
 
-        self.view.addSubview(self.messagesFloatingView)
-        self.messagesFloatingView.heightAnchor.constraint(equalToConstant: MessagesFloatingView.height).isActive = true
-        self.messagesFloatingView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
-        self.messagesFloatingView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.messagesFloatingView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.view.addSubview(self.ethereumPromptView)
+        self.ethereumPromptView.heightAnchor.constraint(equalToConstant: MessagesFloatingView.height).isActive = true
+        self.ethereumPromptView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
+        self.ethereumPromptView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.ethereumPromptView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
 
-        self.collectionView.backgroundColor = Theme.messagesBackgroundColor
+        self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
 
         self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error)
                 self.present(alertController, animated: true, completion: nil)
             } else {
-                self.messagesFloatingView.balance = balance
+                self.ethereumPromptView.balance = balance
             }
         }
 
-        self.collectionView.contentInset = UIEdgeInsetsMake(MessagesFloatingView.height, 0, 0, 0)
+        self.collectionView.contentInset.top = MessagesFloatingView.height
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {
@@ -119,17 +128,6 @@ class MessagesViewController: JSQMessagesViewController {
 
             interaction = object
         }
-
-        /**
-         @property (nonatomic, readonly) NSMutableArray<NSString *> *attachmentIds;
-         @property (nullable, nonatomic) NSString *body;
-         @property (nonatomic) TSGroupMetaMessage groupMetaMessage;
-         @property (nonatomic) uint32_t expiresInSeconds;
-         @property (nonatomic) uint64_t expireStartedAt;
-         @property (nonatomic, readonly) uint64_t expiresAt;
-         @property (nonatomic, readonly) BOOL isExpiringMessage;
-         @property (nonatomic, readonly) BOOL shouldStartExpireTimer;
-         */
 
         let date = NSDate.ows_date(withMillisecondsSince1970: interaction!.timestamp)
         if let interaction = interaction as? TSOutgoingMessage {
@@ -149,7 +147,8 @@ class MessagesViewController: JSQMessagesViewController {
             }
         }
 
-        return TextMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: date, text: "This is not a real message. \(interaction)")
+        let text = (interaction as? TSInfoMessage)?.description ?? ""
+        return TextMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: date, text: NSLocalizedString(text, comment: ""))
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -157,8 +156,8 @@ class MessagesViewController: JSQMessagesViewController {
     }
 
     func registerNotifications() {
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        let notificationController = NotificationCenter.default
+        notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
     func yapDatabaseDidChange(notification: NSNotification) {
@@ -197,12 +196,9 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.collectionView.performBatchUpdates({
             for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
-
                 switch (rowChange.type) {
                 case .delete:
                     self.collectionView.deleteItems(at: [rowChange.indexPath])
-                    //                    let collectionKey = rowChange.collectionKey
-                    //                    self.messageAdapterCache removeObjectForKey:collectionKey.key];
                 case .insert:
                     self.collectionView.insertItems(at: [rowChange.newIndexPath])
                     scrollToBottom = true
@@ -210,8 +206,6 @@ class MessagesViewController: JSQMessagesViewController {
                     self.collectionView.deleteItems(at: [rowChange.indexPath])
                     self.collectionView.insertItems(at: [rowChange.newIndexPath])
                 case .update:
-                    //                    let collectionKey = rowChange.collectionKey
-                    //                    self.messageAdapterCache removeObjectForKey:collectionKey.key];
                     self.collectionView.reloadItems(at: [rowChange.indexPath])
                 }
             }
@@ -226,52 +220,6 @@ class MessagesViewController: JSQMessagesViewController {
                 self.scrollToBottom(animated: true)
             }
         }
-
-        /*
-         [self.collectionView performBatchUpdates:^{
-         for (YapDatabaseViewRowChange *rowChange in messageRowChanges) {
-         switch (rowChange.type) {
-         case YapDatabaseViewChangeDelete: {
-         [self.collectionView deleteItemsAtIndexPaths:@[ rowChange.indexPath ]];
-
-         YapCollectionKey *collectionKey = rowChange.collectionKey;
-         if (collectionKey.key) {
-         [self.messageAdapterCache removeObjectForKey:collectionKey.key];
-         }
-         break;
-         }
-         case YapDatabaseViewChangeInsert: {
-         [self.collectionView insertItemsAtIndexPaths:@[ rowChange.newIndexPath ]];
-         scrollToBottom = YES;
-         break;
-         }
-         case YapDatabaseViewChangeMove: {
-         [self.collectionView deleteItemsAtIndexPaths:@[ rowChange.indexPath ]];
-         [self.collectionView insertItemsAtIndexPaths:@[ rowChange.newIndexPath ]];
-         break;
-         }
-         case YapDatabaseViewChangeUpdate: {
-         YapCollectionKey *collectionKey = rowChange.collectionKey;
-         if (collectionKey.key) {
-         [self.messageAdapterCache removeObjectForKey:collectionKey.key];
-         }
-         [self.collectionView reloadItemsAtIndexPaths:@[ rowChange.indexPath ]];
-         break;
-         }
-         }
-         }
-         }
-         completion:^(BOOL success) {
-         if (!success) {
-         [self.collectionView.collectionViewLayout
-         invalidateLayoutWithContext:[JSQMessagesCollectionViewFlowLayoutInvalidationContext context]];
-         [self.collectionView reloadData];
-         }
-         if (scrollToBottom) {
-         [self scrollToBottomAnimated:YES];
-         }
-         }];
-        */
     }
 
     // MARK: - Message UI interaction
@@ -298,12 +246,12 @@ class MessagesViewController: JSQMessagesViewController {
 
     private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+        return bubbleImageFactory!.outgoingMessagesBubbleImage(with: Theme.outgoingMessageBackgroundColor)
     }
 
     private func setupIncomingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+        return bubbleImageFactory!.incomingMessagesBubbleImage(with: Theme.incomingMessageBackgroundColor)
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -327,18 +275,18 @@ class MessagesViewController: JSQMessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
         let message = self.message(at: indexPath)
 
-        if message.senderId == self.senderId {
-            return nil
-        }
+        //        if message.senderId == self.senderId {
+        return nil
+        //        }
 
         // Group messages by the same author together. Only display username for the first one.
-        if (indexPath.item - 1 > 0) {
-            let previousIndexPath = IndexPath(item: indexPath.item - 1, section: indexPath.section)
-            let previousMessage = self.message(at: previousIndexPath)
-            if previousMessage.senderId == message.senderId {
-                return nil
-            }
-        }
+        //        if (indexPath.item - 1 > 0) {
+        //            let previousIndexPath = IndexPath(item: indexPath.item - 1, section: indexPath.section)
+        //            let previousMessage = self.message(at: previousIndexPath)
+        //            if previousMessage.senderId == message.senderId {
+        //                return nil
+        //            }
+        //        }
 
         return NSAttributedString(string: message.senderDisplayName)
     }
@@ -377,16 +325,22 @@ class MessagesViewController: JSQMessagesViewController {
         cell.messageBubbleTopLabel.attributedText = self.collectionView(self.collectionView, attributedTextForMessageBubbleTopLabelAt: indexPath)
 
         if message.senderId == senderId {
-            cell.textView.textColor = UIColor.white
+            cell.textView.textColor = Theme.outgoingMessageTextColor
         } else {
-            cell.textView.textColor = UIColor.black
+            cell.textView.textColor = Theme.incomingMessageTextColor
         }
-
+        
         return cell
     }
-
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
-        return nil
+        let message = self.message(at: indexPath)
+        
+        if message.senderId == self.senderId {
+            return nil
+        }
+        
+        return self.contactAvatar
     }
 }
 

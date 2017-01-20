@@ -38,25 +38,25 @@ public class User: NSObject, JSONDataSerialization {
         }
     }
 
-    public var name: String? {
+    public var name: String = "" {
         didSet {
             self.update()
         }
     }
 
-    public var about: String? {
+    public var about: String = "" {
         didSet {
             self.update()
         }
     }
 
-    public var location: String? {
+    public var location: String = "" {
         didSet {
             self.update()
         }
     }
 
-    public var avatarPath: String? {
+    public var avatarPath: String = "" {
         didSet {
             self.update()
         }
@@ -69,9 +69,9 @@ public class User: NSObject, JSONDataSerialization {
     public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
-            "custom": ["name": self.name ?? "", "location": self.location ?? "", "about": self.about ?? ""],
+            "custom": ["name": self.name, "location": self.location, "about": self.about],
             "username": self.username,
-            "avatar": self.avatarPath ?? "",
+            "avatar": self.avatarPath,
             ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
@@ -82,9 +82,9 @@ public class User: NSObject, JSONDataSerialization {
         self.username = json["username"] as! String
 
         if let json = json["custom"] as? [String: Any] {
-            self.name = json["name"] as? String
-            self.location = json["location"] as? String
-            self.about = json["about"] as? String
+            self.name = json["name"] as? String ?? ""
+            self.location = json["location"] as? String ?? ""
+            self.about = json["about"] as? String ?? ""
         }
 
         super.init()
@@ -92,10 +92,11 @@ public class User: NSObject, JSONDataSerialization {
 
     init(address: String, username: String, name: String?, about: String?, location: String?) {
         self.address = address
-        self.name = name
-        self.about = about
         self.username = username
-        self.location = location
+
+        self.name = name ?? ""
+        self.about = about ?? ""
+        self.location = location ?? ""
     }
 
     public func update() {
@@ -104,7 +105,7 @@ public class User: NSObject, JSONDataSerialization {
     }
 
     public override var description: String {
-        return "<User: address: \(self.address), name: \(self.name ?? ""), username: \(self.username)>"
+        return "<User: address: \(self.address), name: \(self.name), username: \(self.username)>"
     }
 
     // TODO: Add unit tests for this.
@@ -121,7 +122,7 @@ public class User: NSObject, JSONDataSerialization {
         let coloredPart = etherText
         let range = (text as NSString).range(of: coloredPart)
         let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.ethereumBalanceLabelLightColor, range: range)
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
 
         return attributedString
     }

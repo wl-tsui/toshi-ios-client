@@ -15,7 +15,7 @@ class ProfileItemCell: UITableViewCell {
     lazy var itemLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
-        view.font = UIFont.boldSystemFont(ofSize: 15)
+        view.font = Theme.semibold(size: 15)
 
         view.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
 
@@ -25,7 +25,7 @@ class ProfileItemCell: UITableViewCell {
     lazy var itemTextField: UITextField = {
         let view = UITextField(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
-        view.font = UIFont.systemFont(ofSize: 15)
+        view.font = Theme.regular(size: 15)
         view.textAlignment = .right
 
         return view
@@ -70,7 +70,7 @@ class ProfileItemCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
-    
+
     override func prepareForReuse() {
         self.formItem = nil
     }
