@@ -29,4 +29,3 @@ public class SofaWrapper {
         self.content = "\(self.messagePrefix){\"body\":\"\(messageBody ?? "")\"}"
     }
 }
-
