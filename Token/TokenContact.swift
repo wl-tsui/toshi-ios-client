@@ -44,6 +44,15 @@ public class TokenContact: NSObject, JSONDataSerialization {
         super.init()
     }
 
+    init(address: String, username: String, name: String? = "", about: String? = "", location: String? = "") {
+        self.address = address
+        self.username = username
+
+        self.name = name ?? ""
+        self.about = about ?? ""
+        self.location = location ?? ""
+    }
+
 
     public override var description: String {
         return "<TokenContact: address: \(self.address), name: \(self.name), username: \(self.username)>"

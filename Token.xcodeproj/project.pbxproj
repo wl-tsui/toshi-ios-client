@@ -59,6 +59,7 @@
 		9FAACD051E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */; };
 		9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */; };
 		9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
+		9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
 		9FC72A2E1E250ACA00EF1141 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */; };
 		9FC72A2F1E250ACF00EF1141 /* PromiseKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
@@ -152,7 +153,7 @@
 		9FAACCDE1E31120600FB871D /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
 		9FAACCDF1E31120600FB871D /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		9FAACCE01E31120600FB871D /* SF-UI-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Thin.otf"; sourceTree = "<group>"; };
-		9FAACCE11E31120600FB871D /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		9FAACCE11E31120600FB871D /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		9FAACCE31E31120600FB871D /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
 		9FAACCE41E31120600FB871D /* SF-UI-Text-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-BoldItalic.otf"; sourceTree = "<group>"; };
 		9FAACCE51E31120600FB871D /* SF-UI-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Heavy.otf"; sourceTree = "<group>"; };
@@ -167,6 +168,7 @@
 		9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
+		9FB8EA461E323B4000505441 /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
 		9FC72A2B1E25098000EF1141 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		9FC72A2D1E250ACA00EF1141 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
 		9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBootstrapParameters.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				9FCDBADC1E28E57100A70E07 /* User.swift */,
 				9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */,
 				9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */,
+				9FB8EA461E323B4000505441 /* SofaWrapper.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -648,6 +651,7 @@
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9FCDBADD1E28E57100A70E07 /* User.swift in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
+				9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,

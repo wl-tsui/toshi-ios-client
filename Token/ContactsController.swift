@@ -168,6 +168,7 @@ open class ContactsController: SweetTableController {
 
     func thread(at indexPath: IndexPath) -> TSThread {
         var thread: TSThread? = nil
+
         self.uiDatabaseConnection.read { transaction in
             guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
@@ -199,7 +200,16 @@ extension ContactsController: UITableViewDataSource {
 
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ContactCell.self, for: indexPath)
-        cell.contact = self.contacts[indexPath.row]
+
+        if self.searchController.isActive {
+            cell.contact = self.contacts[indexPath.row]
+        } else {
+            let thread = self.thread(at: indexPath)
+            let delegate = UIApplication.shared.delegate as!AppDelegate
+            let contact = delegate.contactsManager.tokenContact(forAddress: thread.contactIdentifier())!
+
+            cell.contact = contact
+        }
 
         return cell
     }
@@ -238,7 +248,6 @@ extension ContactsController: UISearchResultsUpdating {
         if let text = searchController.searchBar.text, text.length > 0 {
             self.idAPIClient.searchContacts(name: text) { contacts in
                 self.contacts = contacts
-                print(self.contacts)
                 self.tableView.reloadData()
             }
         }

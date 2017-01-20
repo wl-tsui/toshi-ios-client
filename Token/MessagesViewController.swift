@@ -5,6 +5,20 @@ import YapDatabase
 import YapDatabase.YapDatabaseView
 
 class TextMessage: JSQMessage {
+
+    private var sofaWrapper: SofaWrapper!
+
+    override var text: String! {
+        get {
+            guard let text = super.text else { return "" }
+
+            if self.sofaWrapper == nil {
+                self.sofaWrapper = SofaWrapper(sofaContent: text)
+            }
+
+            return self.sofaWrapper.body
+        }
+    }
 }
 
 class MessagesViewController: JSQMessagesViewController {
@@ -104,6 +118,7 @@ class MessagesViewController: JSQMessagesViewController {
         self.ethereumPromptView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.ethereumPromptView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
+        self.collectionView.keyboardDismissMode = .interactive
 
         self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
 
@@ -234,7 +249,10 @@ class MessagesViewController: JSQMessagesViewController {
         self.finishSendingMessage(animated: true)
 
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: text)
+
+        let sofa = SofaWrapper(messageBody: text)
+
+        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofa.content)
         self.messageSender.send(outgoingMessage, success: {
             print("Message sent.")
         }, failure: { error in

@@ -154,9 +154,11 @@ SWIFT_CLASS("_TtC10SweetUIKit25SweetCollectionController")
 SWIFT_CLASS("_TtC10SweetUIKit20SweetTableController")
 @interface SweetTableController : UIViewController
 @property (nonatomic, strong) UITableView * _Nonnull tableView;
+@property (nonatomic) BOOL clearsSelectionOnViewWillAppear;
 - (nonnull instancetype)initWithStyle:(UITableViewStyle)style OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 - (void)viewDidLoad;
+- (void)viewWillAppear:(BOOL)animated;
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 

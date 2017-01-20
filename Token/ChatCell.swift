@@ -9,7 +9,12 @@ class ChatCell: UITableViewCell {
 
             let tokenContact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "")
             self.usernameLabel.text = tokenContact?.username == nil ? "" : "@\(tokenContact!.username)"
-            self.lastMessageLabel.text = self.thread?.lastMessageLabel()
+
+            if let sofaMessage = self.thread?.lastMessageLabel() {
+                self.lastMessageLabel.text = SofaWrapper(sofaContent: sofaMessage).body
+            } else {
+                self.lastMessageLabel.text = nil
+            }
 
             // TODO: placeholder for now, remove it once we have avatar support on the API level
             if self.avatarImageView.image == nil {

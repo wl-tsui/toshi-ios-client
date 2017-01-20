@@ -87,8 +87,9 @@ class MessagesFloatingView: UIView {
         self.payButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         self.payButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 
-        self.separatorView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         self.separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        self.separatorView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        self.separatorView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         self.separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 
