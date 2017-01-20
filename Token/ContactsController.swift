@@ -206,7 +206,8 @@ extension ContactsController: UITableViewDataSource {
         } else {
             let thread = self.thread(at: indexPath)
             let delegate = UIApplication.shared.delegate as!AppDelegate
-            let contact = delegate.contactsManager.tokenContact(forAddress: thread.contactIdentifier())!
+
+            let contact = delegate.contactsManager.tokenContact(forAddress: thread.contactIdentifier())
 
             cell.contact = contact
         }
