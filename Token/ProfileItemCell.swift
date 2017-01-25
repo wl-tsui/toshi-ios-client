@@ -64,7 +64,6 @@ class ProfileItemCell: UITableViewCell {
         self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileItemCell.textFieldDidChange), name: .UITextFieldTextDidChange, object: self.itemTextField)
-
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -77,6 +76,7 @@ class ProfileItemCell: UITableViewCell {
 }
 
 extension ProfileItemCell: UITextFieldDelegate {
+
     func textFieldDidChange() {
         self.formItem?.updateValue(to: self.itemTextField.text, userInitiated: true)
     }

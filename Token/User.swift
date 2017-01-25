@@ -72,7 +72,7 @@ public class User: NSObject, JSONDataSerialization {
             "custom": ["name": self.name, "location": self.location, "about": self.about],
             "username": self.username,
             "avatar": self.avatarPath,
-            ]
+        ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
     }

@@ -13,7 +13,7 @@ open class ProfileEditController: UIViewController {
             FormItem(title: "Username", value: User.current?.username ?? "", fieldName: "username", type: .input),
             FormItem(title: "Display name", value: User.current?.name ?? "", fieldName: "name", type: .input),
             FormItem(title: "About", value: User.current?.about ?? "", fieldName: "about", type: .input),
-            FormItem(title: "Location", value: User.current?.location ?? "", fieldName: "location", type: .input)
+            FormItem(title: "Location", value: User.current?.location ?? "", fieldName: "location", type: .input),
         ]
 
         return dataSource
@@ -178,13 +178,13 @@ extension ProfileEditController: UITableViewDataSource {
         let formItem = self.dataSource.item(at: indexPath)
 
         cell.formItem = formItem
-        
+
         return cell
     }
 }
 
 extension ProfileEditController: UIToolbarDelegate {
-    
+
     public func position(for bar: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }

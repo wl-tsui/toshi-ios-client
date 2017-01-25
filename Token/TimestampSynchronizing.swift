@@ -8,6 +8,7 @@ public protocol TimestampSynchronizing {
 }
 
 public extension TimestampSynchronizing {
+
     public func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {
         self.networking.GET("/v1/timestamp") { json, error in
             if let error = error {

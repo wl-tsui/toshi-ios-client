@@ -1,8 +1,6 @@
 import UIKit
 import SweetUIKit
 import JSQMessages
-import YapDatabase
-import YapDatabase.YapDatabaseView
 
 class TextMessage: JSQMessage {
 
@@ -347,22 +345,23 @@ class MessagesViewController: JSQMessagesViewController {
         } else {
             cell.textView.textColor = Theme.incomingMessageTextColor
         }
-        
+
         return cell
     }
-    
+
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         let message = self.message(at: indexPath)
-        
+
         if message.senderId == self.senderId {
             return nil
         }
-        
+
         return self.contactAvatar
     }
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
+
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         print("request button")
     }

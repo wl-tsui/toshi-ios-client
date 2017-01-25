@@ -1,7 +1,7 @@
 import UIKit
 import SweetUIKit
 import SweetSwift
-import YapDatabase
+import CameraScanner
 
 public extension Array {
     public var any: Element? {
@@ -31,6 +31,20 @@ open class ContactsController: SweetTableController {
     public var idAPIClient: IDAPIClient
 
     var contacts = [TokenContact]()
+
+    lazy var scannerController: ScannerViewController = {
+        let controller = ScannerViewController(instructions: "Scan a profile code or QR code", types: [.qrCode])
+
+        controller.delegate = self
+
+        return controller
+    }()
+
+    lazy var scanContactButton: UIBarButtonItem = {
+        let item = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(didTapScanContactButton))
+
+        return item
+    }()
 
     lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
@@ -81,7 +95,7 @@ open class ContactsController: SweetTableController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.definesPresentationContext = true
+        self.navigationItem.rightBarButtonItem = self.scanContactButton
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
@@ -91,12 +105,18 @@ open class ContactsController: SweetTableController {
         self.definesPresentationContext = false
     }
 
-    open func displayContacts() {
+    func displayContacts() {
         if let delegate = UIApplication.shared.delegate as? AppDelegate {
             let contactsManager = delegate.contactsManager
             self.contacts = contactsManager.tokenContacts()
             self.tableView.reloadData()
         }
+    }
+
+    func didTapScanContactButton() {
+        _ = self.scannerController.view
+        self.scannerController.toolbar.setItems([self.scannerController.cancelItem], animated: true)
+        self.present(self.scannerController, animated: true)
     }
 
     func registerNotifications() {
@@ -205,7 +225,7 @@ extension ContactsController: UITableViewDataSource {
             cell.contact = self.contacts[indexPath.row]
         } else {
             let thread = self.thread(at: indexPath)
-            let delegate = UIApplication.shared.delegate as!AppDelegate
+            let delegate = UIApplication.shared.delegate as! AppDelegate
 
             let contact = delegate.contactsManager.tokenContact(forAddress: thread.contactIdentifier())
 
@@ -227,11 +247,43 @@ extension ContactsController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.searchController.isActive = false
+
         // show add contact page
         let contact = self.contacts[indexPath.row]
-        let vc = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+        let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
 
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(contactController, animated: true)
+    }
+}
+
+extension ContactsController: ScannerViewControllerDelegate {
+
+    public func scannerViewControllerDidCancel(_ controller: ScannerViewController) {
+        self.dismiss(animated: true)
+    }
+
+    public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+        self.idAPIClient.findContact(name: result) { contact in
+            guard let contact = contact else { return }
+
+            TSStorageManager.shared().dbConnection.readWrite { transaction in
+                var recipient = SignalRecipient(textSecureIdentifier: contact.address, with: transaction)
+
+                if recipient == nil {
+                    recipient = SignalRecipient(textSecureIdentifier: contact.address, relay: nil, supportsVoice: false)
+                }
+
+                recipient?.save(with: transaction)
+
+                TSContactThread.getOrCreateThread(withContactId: contact.address, transaction: transaction)
+            }
+
+            print("Added contact info for \(contact.username)")
+
+            self.tableView.reloadData()
+            self.dismiss(animated: true)
+        }
     }
 }
 
@@ -244,7 +296,7 @@ extension ContactsController: UISearchBarDelegate {
 }
 
 extension ContactsController: UISearchResultsUpdating {
-    
+
     public func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text, text.length > 0 {
             self.idAPIClient.searchContacts(name: text) { contacts in

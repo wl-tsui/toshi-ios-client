@@ -1,7 +1,6 @@
 import UIKit
 import SweetFoundation
 import SweetUIKit
-import YapDatabase
 
 /// Displays current conversations.
 open class ChatsController: SweetTableController {
@@ -165,9 +164,9 @@ extension ChatsController: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ChatCell.self, for: indexPath)
         let thread = self.thread(at: indexPath)
-        
+
         cell.thread = thread
-        
+
         return cell
     }
 }

@@ -1,5 +1,4 @@
 import Foundation
-import YapDatabase
 import KeychainSwift
 
 protocol Singleton: class {

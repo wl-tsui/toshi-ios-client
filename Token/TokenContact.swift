@@ -26,7 +26,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
             "custom": ["name": self.name, "location": self.location, "about": self.about],
             "username": self.username,
             "avatar": "",
-            ]
+        ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
     }
@@ -52,7 +52,6 @@ public class TokenContact: NSObject, JSONDataSerialization {
         self.about = about ?? ""
         self.location = location ?? ""
     }
-
 
     public override var description: String {
         return "<TokenContact: address: \(self.address), name: \(self.name), username: \(self.username)>"

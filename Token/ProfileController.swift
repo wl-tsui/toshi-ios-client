@@ -1,5 +1,6 @@
 import UIKit
 import SweetUIKit
+import CoreImage
 
 open class ProfileController: UIViewController {
 
@@ -10,6 +11,18 @@ open class ProfileController: UIViewController {
         view.clipsToBounds = true
 
         return view
+    }()
+
+    lazy var qrCode: UIImage = {
+        let image = UIImage.imageQRCode(for: User.current!.address, resizeRate: 0.8)
+        let filter = CIFilter(name: "CIMaskToAlpha")!
+
+        filter.setDefaults()
+        filter.setValue(CIImage(cgImage: image.cgImage!), forKey: "inputImage")
+
+        let cImage = filter.outputImage!
+
+        return UIImage(ciImage: cImage)
     }()
 
     lazy var avatarContainer: UIImageView = {
@@ -112,7 +125,6 @@ open class ProfileController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.automaticallyAdjustsScrollViewInsets = false
         self.addSubviewsAndConstraints()
@@ -127,12 +139,17 @@ open class ProfileController: UIViewController {
         self.avatar.image = User.current?.avatar ?? #imageLiteral(resourceName: "igor")
     }
 
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
+    }
+
     func addSubviewsAndConstraints() {
         // debug
         //        [locationContentLabel, locationTitleLabel, aboutContentLabel, aboutTitleLabel].forEach { (view) in
         //            view.backgroundColor = Theme.randomColor
         //        }
-
         self.view.addSubview(self.avatarContainer)
         self.view.addSubview(self.avatar)
         self.view.addSubview(self.nameLabel)
@@ -210,6 +227,11 @@ open class ProfileController: UIViewController {
 
         // TODO: figure out a way to abstract the -49pts from the tabbar height.
         self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -69).isActive = true
+    }
+
+    func displayQRCode() {
+        let controller = QRCodeController(string: User.current!.address)
+        self.present(controller, animated: true)
     }
 
     func didTapEditProfileButton() {

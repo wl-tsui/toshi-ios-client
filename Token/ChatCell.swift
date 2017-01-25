@@ -22,7 +22,7 @@ class ChatCell: UITableViewCell {
             }
 
             if let date = self.thread?.lastMessageDate() {
-                if DateTimeFormatter.isDate(date, sameDayAs: Date())  {
+                if DateTimeFormatter.isDate(date, sameDayAs: Date()) {
                     self.lastMessageDateLabel.text = DateTimeFormatter.timeFormatter.string(from: date)
                 } else {
                     self.lastMessageDateLabel.text = DateTimeFormatter.dateFormatter.string(from: date)
@@ -108,7 +108,7 @@ class ChatCell: UITableViewCell {
         self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
         self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }

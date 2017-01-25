@@ -1,5 +1,6 @@
 import UIKit
 import SweetUIKit
+import CoreImage
 
 public class ContactController: ProfileController {
 
@@ -22,7 +23,7 @@ public class ContactController: ProfileController {
         let isContactAdded = self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey)
         let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add contact"
-        
+
         self.editProfileButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)
         self.editProfileButton.removeTarget(nil, action: nil, for: .allEvents)
         self.editProfileButton.addTarget(self, action: #selector(didTapAddContactButton), for: .touchUpInside)
@@ -52,7 +53,6 @@ public class ContactController: ProfileController {
 
                 TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
             }
-
         }
     }
 }

@@ -25,8 +25,8 @@ open class TabBarController: UITabBarController {
         let messaging = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
         let contacts = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
         let settings = SettingsNavigationController(rootViewController: ProfileController(idAPIClient: self.idAPIClient))
-        
-        self.viewControllers = [messaging, contacts , settings]
+
+        self.viewControllers = [messaging, contacts, settings]
         self.view.tintColor = Theme.tintColor
 
         self.view.backgroundColor = Theme.viewBackgroundColor

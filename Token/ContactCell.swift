@@ -4,7 +4,7 @@ import UIKit
 class ContactCell: UITableViewCell {
     var contact: TokenContact? {
         didSet {
-            if let contact = self.contact  {
+            if let contact = self.contact {
                 if contact.name.length > 0 {
                     self.usernameLabel.text = "@\(contact.username)"
                     self.nameLabel.text = contact.name
@@ -52,7 +52,6 @@ class ContactCell: UITableViewCell {
         return view
     }()
 
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -90,7 +89,7 @@ class ContactCell: UITableViewCell {
         self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }

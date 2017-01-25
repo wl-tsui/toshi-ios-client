@@ -2,7 +2,7 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 
-public final class Theme: NSObject { }
+public final class Theme: NSObject {}
 
 extension Theme {
     public static var randomColor: UIColor {
@@ -61,6 +61,7 @@ extension Theme {
 }
 
 extension Theme {
+
     static func light(size: CGFloat) -> UIFont {
         return UIFont(name: "SFUIDisplay-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
     }
