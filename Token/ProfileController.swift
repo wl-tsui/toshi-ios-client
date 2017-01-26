@@ -137,12 +137,11 @@ open class ProfileController: UIViewController {
         self.aboutContentLabel.text = User.current?.about
         self.locationContentLabel.text = User.current?.location
         self.avatar.image = User.current?.avatar ?? #imageLiteral(resourceName: "igor")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
     }
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
     }
 
     func addSubviewsAndConstraints() {
