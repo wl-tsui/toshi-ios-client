@@ -1,6 +1,5 @@
 import UIKit
 import SweetUIKit
-import JSQMessages
 
 class TextMessage: JSQMessage {
 
@@ -38,7 +37,7 @@ class MessagesViewController: JSQMessagesViewController {
 
     private lazy var contactAvatar: JSQMessagesAvatarImage = {
         let img = [#imageLiteral(resourceName: "igor"), #imageLiteral(resourceName: "colin")].any!
-        return JSQMessagesAvatarImageFactory.avatarImage(with: img, diameter: 44)
+        return JSQMessagesAvatarImageFactory(diameter: 44).avatarImage(with: img)
     }()
 
     var thread: TSThread
@@ -85,10 +84,15 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.title = thread.name()
 
-        self.senderDisplayName = thread.name()
-        self.senderId = self.cereal.address
-
         self.registerNotifications()
+    }
+
+    override func senderId() -> String {
+        return self.cereal.address
+    }
+
+    override func senderDisplayName() -> String {
+        return thread.name()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -98,15 +102,15 @@ class MessagesViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.collectionView.collectionViewLayout.outgoingAvatarViewSize = .zero
-        self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
+        self.collectionView?.collectionViewLayout.outgoingAvatarViewSize = .zero
+        self.collectionView?.backgroundColor = Theme.messageViewBackgroundColor
 
-        self.inputToolbar.contentView.leftBarButtonItem = nil
+        self.inputToolbar.contentView?.leftBarButtonItem = nil
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self.collectionView?.reloadData()
             }
         }
 
@@ -116,9 +120,9 @@ class MessagesViewController: JSQMessagesViewController {
         self.ethereumPromptView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.ethereumPromptView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
-        self.collectionView.keyboardDismissMode = .interactive
+        self.collectionView?.keyboardDismissMode = .interactive
 
-        self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
+        self.collectionView?.backgroundColor = Theme.messageViewBackgroundColor
 
         self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
             if let error = error {
@@ -129,7 +133,7 @@ class MessagesViewController: JSQMessagesViewController {
             }
         }
 
-        self.collectionView.contentInset.top = MessagesFloatingView.height
+        self.collectionView?.contentInset.top = MessagesFloatingView.height
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {
@@ -144,14 +148,14 @@ class MessagesViewController: JSQMessagesViewController {
 
         let date = NSDate.ows_date(withMillisecondsSince1970: interaction!.timestamp)
         if let interaction = interaction as? TSOutgoingMessage {
-            let textMessage = TextMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: date, text: interaction.body)
+            let textMessage = TextMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: date!, text: interaction.body!)
 
-            return textMessage!
+            return textMessage
         } else if let interaction = interaction as? TSIncomingMessage {
             let name = self.contactsManager.displayName(forPhoneIdentifier: interaction.authorId)
-            let textMessage = TextMessage(senderId: interaction.authorId, senderDisplayName: name, date: date, text: interaction.body)
+            let textMessage = TextMessage(senderId: interaction.authorId, senderDisplayName: name, date: date!, text: interaction.body!)
 
-            return textMessage!
+            return textMessage
         } else {
             if let info = interaction as? TSInfoMessage {
                 print(info)
@@ -161,7 +165,7 @@ class MessagesViewController: JSQMessagesViewController {
         }
 
         let text = (interaction as? TSInfoMessage)?.description ?? ""
-        return TextMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: date, text: NSLocalizedString(text, comment: ""))
+        return TextMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: date!, text: NSLocalizedString(text, comment: ""))
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -193,7 +197,7 @@ class MessagesViewController: JSQMessagesViewController {
         // "UICollectionView performBatchUpdates can trigger a crash if the collection view is flagged for layout"
         // more: https://github.com/PSPDFKit-labs/radar.apple.com/tree/master/28167779%20-%20CollectionViewBatchingIssue
         // This was our #2 crash, and much exacerbated by the refactoring somewhere between 2.6.2.0-2.6.3.8
-        self.collectionView.layoutIfNeeded()
+        self.collectionView?.layoutIfNeeded()
         // ENDHACK to work around radar #28167779
 
         var messageRowChanges = NSArray()
@@ -207,26 +211,26 @@ class MessagesViewController: JSQMessagesViewController {
             return
         }
 
-        self.collectionView.performBatchUpdates({
+        self.collectionView?.performBatchUpdates({
             for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
                 switch (rowChange.type) {
                 case .delete:
-                    self.collectionView.deleteItems(at: [rowChange.indexPath])
+                    self.collectionView?.deleteItems(at: [rowChange.indexPath])
                 case .insert:
-                    self.collectionView.insertItems(at: [rowChange.newIndexPath])
+                    self.collectionView?.insertItems(at: [rowChange.newIndexPath])
                     scrollToBottom = true
                 case .move:
-                    self.collectionView.deleteItems(at: [rowChange.indexPath])
-                    self.collectionView.insertItems(at: [rowChange.newIndexPath])
+                    self.collectionView?.deleteItems(at: [rowChange.indexPath])
+                    self.collectionView?.insertItems(at: [rowChange.newIndexPath])
                 case .update:
-                    self.collectionView.reloadItems(at: [rowChange.indexPath])
+                    self.collectionView?.reloadItems(at: [rowChange.indexPath])
                 }
             }
 
         }) { (success) in
             if !success {
-                self.collectionView.collectionViewLayout.invalidateLayout(with: JSQMessagesCollectionViewFlowLayoutInvalidationContext())
-                self.collectionView.reloadData()
+                self.collectionView?.collectionViewLayout.invalidateLayout(with: JSQMessagesCollectionViewFlowLayoutInvalidationContext())
+                self.collectionView?.reloadData()
             }
 
             if scrollToBottom {
@@ -237,11 +241,11 @@ class MessagesViewController: JSQMessagesViewController {
 
     // MARK: - Message UI interaction
 
-    override func didPressAccessoryButton(_ sender: UIButton!) {
+    override func didPressAccessoryButton(_ sender: UIButton) {
         print("!")
     }
 
-    override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
+    override func didPressSend(_ button: UIButton, withMessageText text: String, senderId: String, senderDisplayName: String, date: Date) {
         button.isEnabled = false
 
         self.finishSendingMessage(animated: true)
@@ -262,33 +266,33 @@ class MessagesViewController: JSQMessagesViewController {
 
     private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.outgoingMessagesBubbleImage(with: Theme.outgoingMessageBackgroundColor)
+        return bubbleImageFactory.outgoingMessagesBubbleImage(with: Theme.outgoingMessageBackgroundColor)
     }
 
     private func setupIncomingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
-        return bubbleImageFactory!.incomingMessagesBubbleImage(with: Theme.incomingMessageBackgroundColor)
+        return bubbleImageFactory.incomingMessagesBubbleImage(with: Theme.incomingMessageBackgroundColor)
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Int(self.mappings.numberOfItems(inSection: UInt(section)))
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
         return self.message(at: indexPath)
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, messageBubbleImageDataForItemAt indexPath: IndexPath) -> JSQMessageBubbleImageDataSource {
         let message = self.message(at: indexPath)
 
-        if message.senderId == self.senderId {
+        if message.senderId == self.senderId() {
             return self.outgoingBubbleImageView
         } else {
             return self.incomingBubbleImageView
         }
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath) -> NSAttributedString? {
         let message = self.message(at: indexPath)
 
         //        if message.senderId == self.senderId {
@@ -307,7 +311,7 @@ class MessagesViewController: JSQMessagesViewController {
         return NSAttributedString(string: message.senderDisplayName)
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForCellTopLabelAt indexPath: IndexPath) -> NSAttributedString? {
         if (indexPath.item % 3 == 0) {
             let message = self.message(at: indexPath)
 
@@ -317,7 +321,7 @@ class MessagesViewController: JSQMessagesViewController {
         return nil
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout, heightForCellTopLabelAt indexPath: IndexPath) -> CGFloat {
         if (indexPath.item % 3 == 0) {
             return kJSQMessagesCollectionViewCellLabelHeightDefault
         }
@@ -325,11 +329,11 @@ class MessagesViewController: JSQMessagesViewController {
         return 0.0
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAt indexPath: IndexPath!) -> CGFloat {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout, heightForMessageBubbleTopLabelAt indexPath: IndexPath) -> CGFloat {
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellBottomLabelAt indexPath: IndexPath!) -> CGFloat {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout, heightForCellBottomLabelAt indexPath: IndexPath) -> CGFloat {
         return 0.0
     }
 
@@ -338,30 +342,30 @@ class MessagesViewController: JSQMessagesViewController {
 
         let message = self.message(at: indexPath)
 
-        cell.messageBubbleTopLabel.attributedText = self.collectionView(self.collectionView, attributedTextForMessageBubbleTopLabelAt: indexPath)
+        cell.messageBubbleTopLabel?.attributedText = self.collectionView(self.collectionView!, attributedTextForMessageBubbleTopLabelAt: indexPath)
 
-        if message.senderId == senderId {
-            cell.textView.textColor = Theme.outgoingMessageTextColor
+        if message.senderId == senderId() {
+            cell.textView?.textColor = Theme.outgoingMessageTextColor
         } else {
-            cell.textView.textColor = Theme.incomingMessageTextColor
+            cell.textView?.textColor = Theme.incomingMessageTextColor
         }
 
         return cell
     }
 
-    override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
+    override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
         let message = self.message(at: indexPath)
-
-        if message.senderId == self.senderId {
+        
+        if message.senderId == self.senderId() {
             return nil
         }
-
+        
         return self.contactAvatar
     }
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
-
+    
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         print("request button")
     }
