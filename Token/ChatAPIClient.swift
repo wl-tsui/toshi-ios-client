@@ -1,12 +1,12 @@
 import UIKit
-import Networking
+import Teapot
 import SweetFoundation
 
 public class ChatAPIClient: NSObject {
 
     public var cereal: Cereal
 
-    public var networking: Networking
+    public var teapot: Teapot
 
     public var address: String {
         return self.cereal.address
@@ -21,7 +21,7 @@ public class ChatAPIClient: NSObject {
     public init(cereal: Cereal) {
         self.cereal = cereal
         self.baseURL = URL(string: "https://token-chat-service.herokuapp.com")!
-        self.networking = Networking(baseURL: self.baseURL.absoluteString)
+        self.teapot = Teapot(baseURL: self.baseURL)
     }
 
     public func registerUserIfNeeded() {
@@ -32,17 +32,27 @@ public class ChatAPIClient: NSObject {
         parameters.signature = "0x\(signature)"
 
         guard let signedParameters = parameters.signedParametersDictionary() else { fatalError("Missing signature!") }
+        let json = JSON(signedParameters)
 
-        self.networking.PUT("/v1/accounts/bootstrap", parameterType: .json, parameters: signedParameters) { (JSON, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("Registered user with address: \(self.address)")
+        self.teapot.put("/v1/accounts/bootstrap/", parameters: json) { result in
+            switch result {
+            case .success(_, let response):
+                guard response.statusCode == 204 else {
+                    print("Could not register user. Status code \(response.statusCode)")
+
+                    return
+                }
 
                 TSStorageManager.storeServerToken(DeviceSpecificPassword, signalingKey: parameters.signalingKey)
 
-                let auth = self.authToken(for: self.address, password: DeviceSpecificPassword)
-                self.networking.setAuthorizationHeader(headerValue: auth)
+//                let auth = self.authToken(for: self.address, password: DeviceSpecificPassword)
+//                self.networking.setAuthorizationHeader(headerValue: auth)
+
+                print("Successfully registered chat user with address: \(self.cereal.address)")
+            case .failure(let json, let response, let error):
+                print(json ?? "")
+                print(response)
+                print(error)
             }
         }
     }

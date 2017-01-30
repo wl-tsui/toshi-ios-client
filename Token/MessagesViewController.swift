@@ -126,14 +126,15 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
             if let error = error {
-                let alertController = UIAlertController.errorAlert(error)
+                let alertController = UIAlertController.errorAlert(error as NSError)
                 self.present(alertController, animated: true, completion: nil)
             } else {
                 self.ethereumPromptView.balance = balance
             }
         }
 
-        self.collectionView?.contentInset.top = MessagesFloatingView.height
+        let statusbarHeight: CGFloat = 20.0
+        self.additionalContentInset.top += MessagesFloatingView.height + statusbarHeight
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {

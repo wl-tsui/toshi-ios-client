@@ -248,6 +248,7 @@ extension ContactsController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchController.isActive = false
+        self.tableView.reloadData()
 
         // show add contact page
         let contact = self.contacts[indexPath.row]

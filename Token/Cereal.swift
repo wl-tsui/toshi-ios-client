@@ -25,4 +25,8 @@ public class Cereal: NSObject {
     public func sign(message: String) -> String {
         return self.cereal.sign(message: message)
     }
+
+    public func sha3(string: String) -> String {
+        return self.cereal.sha3(string: string)
+    }
 }

@@ -143,12 +143,10 @@ open class ProfileEditController: UIViewController {
         }
 
         let user = User(address: User.current!.address, username: username, name: name, about: about, location: location)
-        self.idAPIClient.updateUser(user) { json, error in
-            if error != nil {
-                if let json = (json?["errors"] as? [[String: Any]]) {
-                    let alert = UIAlertController.dismissableAlert(title: "Error", message: json.first?["message"] as? String)
-                    self.present(alert, animated: true)
-                }
+        self.idAPIClient.updateUser(user) { success in
+            if !success {
+                let alert = UIAlertController.dismissableAlert(title: "Error", message: "Could not update user!")
+                self.present(alert, animated: true)
             } else {
                 self.dismiss(animated: true)
             }

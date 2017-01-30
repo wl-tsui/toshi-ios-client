@@ -11,12 +11,10 @@ struct UserIDRegistrationParameters {
 
     let about: String?
 
-    let timestamp: Int
-
     let cereal: Cereal
 
     var payload: [String: Any] {
-        var payload: [String: Any] = ["timestamp": self.timestamp]
+        var payload = [String: Any]()
 
         if let username = self.username {
             payload["username"] = username
@@ -55,25 +53,10 @@ struct UserIDRegistrationParameters {
         return OrderedSerializer.string(from: self.payload)
     }
 
-    func signedParameters() -> [String: Any] {
-        let message = self.stringForSigning
-        let signature = self.cereal.sign(message: message)
-
-        let params: [String: Any] = [
-            "payload": self.payload,
-            "address": self.cereal.address,
-            "signature": "0x\(signature)",
-        ]
-
-        return params
-    }
-
-    init(name: String?, username: String?, timestamp: Int, cereal: Cereal, location: String? = nil, about: String? = nil) {
+    init(name: String?, username: String?, cereal: Cereal, location: String? = nil, about: String? = nil) {
         self.name = name
         self.username = username
         self.cereal = cereal
-
-        self.timestamp = timestamp
 
         self.location = location
         self.about = about

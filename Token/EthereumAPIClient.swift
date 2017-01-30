@@ -1,26 +1,35 @@
-import Foundation
-import Networking
+    import Foundation
+import Teapot
 import UInt256
 
 class EthereumAPIClient {
     static let shared: EthereumAPIClient = EthereumAPIClient()
 
-    public var networking: Networking
+    public var teapot: Teapot
 
     init() {
-        self.networking = Networking(baseURL: "https://token-eth-service.herokuapp.com")
+        self.teapot = Teapot(baseURL: URL(string: "https://token-eth-service.herokuapp.com")!)
     }
 
-    func getBalance(address: String, completion: @escaping(_ balance: UInt256, _ error: NSError?) -> Void) {
-        self.networking.fakeGET("/v1/balance/\(address)", response: ["confirmed_balance": "3210000000000000000"])
-        self.networking.GET("/v1/balance/\(address)") { json, error in
-            if let error = error {
-                completion(0, error)
-            } else {
-                let json = json as? [String: Any] ?? [String: Any]()
+    func getBalance(address: String, completion: @escaping(_ balance: UInt256, _ error: Error?) -> Void) {
+        self.teapot.get("/v1/balance/\(address)") { result in
+            switch result {
+            case .success(let json, let response):
+                guard response.statusCode == 200 else { fatalError() }
+                guard let json = json?.dictionary else { fatalError() }
+
+                // TODO: use real balance instead
                 let confirmedBalanceString = json["confirmed_balance"] as? String ?? "0"
-                let balance = UInt256(hexString: confirmedBalanceString)
-                completion(balance, nil)
+                if confirmedBalanceString == "0x0" {
+                    completion(UInt256(hexString: "3210000000000000000"), nil)
+                } else {
+                    completion(UInt256(hexString: confirmedBalanceString), nil)
+                }
+            case .failure(let json, let response, let error):
+                completion(0, error)
+                print(error)
+                print(response)
+                print(json ?? "")
             }
         }
     }

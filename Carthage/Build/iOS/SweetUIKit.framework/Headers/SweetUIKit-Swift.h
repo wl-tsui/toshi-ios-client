@@ -286,6 +286,13 @@ SWIFT_CLASS("_TtC10SweetUIKit20SweetTableController")
   The resized image.
 */
 - (UIImage * _Nonnull)resizeBy:(CGFloat)rate quality:(CGInterpolationQuality)quality;
+/**
+  Normalizes image orientation by rotating an image so that it’s orientation is UIImageOrientation.up
+
+  returns:
+  The normalized image.
+*/
+- (UIImage * _Nullable)imageByNormalizingOrientation;
 @end
 
 

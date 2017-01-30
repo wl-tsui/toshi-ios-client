@@ -142,6 +142,15 @@ SWIFT_CLASS("_TtC14EtherealCereal14EtherealCereal")
   A private key in raw data format.
 */
 - (NSData * _Nonnull)generatePrivateKeyData;
+/**
+  Returns a KECCAK-256 encoded in base64.
+  \param string A string to KECCAK-256 encode.
+
+
+  returns:
+  A KECCAK-256-encoded base64 encoded string.
+*/
+- (NSString * _Nonnull)sha3WithString:(NSString * _Nonnull)string;
 - (NSString * _Nonnull)signWithMessage:(NSString * _Nonnull)message;
 - (nonnull instancetype)initWithPrivateKey:(NSString * _Nonnull)privateKey;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;

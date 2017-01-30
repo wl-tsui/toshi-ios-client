@@ -59,30 +59,31 @@
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
-		9F7D05101E37960E00FF55B9 /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05041E37960E00FF55B9 /* EtherealCereal.framework */; };
-		9F7D05111E37960E00FF55B9 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05051E37960E00FF55B9 /* Formulaic.framework */; };
-		9F7D05131E37960E00FF55B9 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05071E37960E00FF55B9 /* KeychainSwift.framework */; };
-		9F7D05141E37960E00FF55B9 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05081E37960E00FF55B9 /* Networking.framework */; };
-		9F7D05151E37960E00FF55B9 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05091E37960E00FF55B9 /* PromiseKit.framework */; };
-		9F7D05171E37960E00FF55B9 /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050B1E37960E00FF55B9 /* SweetFoundation.framework */; };
-		9F7D05181E37960E00FF55B9 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050C1E37960E00FF55B9 /* SweetSwift.framework */; };
-		9F7D05191E37960E00FF55B9 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050D1E37960E00FF55B9 /* SweetUIKit.framework */; };
-		9F7D051A1E37960E00FF55B9 /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050E1E37960E00FF55B9 /* UInt256.framework */; };
-		9F7D051C1E37961200FF55B9 /* EtherealCereal.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05041E37960E00FF55B9 /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D051D1E37961200FF55B9 /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05051E37960E00FF55B9 /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D051F1E37961200FF55B9 /* KeychainSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05071E37960E00FF55B9 /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D05201E37961200FF55B9 /* Networking.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05081E37960E00FF55B9 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D05211E37961200FF55B9 /* PromiseKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05091E37960E00FF55B9 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D05231E37961200FF55B9 /* SweetFoundation.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050B1E37960E00FF55B9 /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D05241E37961200FF55B9 /* SweetSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050C1E37960E00FF55B9 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D05251E37961200FF55B9 /* SweetUIKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050D1E37960E00FF55B9 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F7D05261E37961200FF55B9 /* UInt256.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D050E1E37960E00FF55B9 /* UInt256.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
+		9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; };
+		9F67585D1E3BA1850009ABCD /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; };
+		9F67585E1E3BA1850009ABCD /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; };
+		9F67585F1E3BA1850009ABCD /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758541E3BA1850009ABCD /* Networking.framework */; };
+		9F6758601E3BA1850009ABCD /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758551E3BA1850009ABCD /* PromiseKit.framework */; };
+		9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; };
+		9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
+		9F6758631E3BA1850009ABCD /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; };
+		9F6758651E3BA1850009ABCD /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F67585A1E3BA1850009ABCD /* UInt256.framework */; };
+		9F6758661E3BA1890009ABCD /* CameraScanner.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F6758671E3BA1890009ABCD /* EtherealCereal.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F6758681E3BA1890009ABCD /* Formulaic.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F6758691E3BA1890009ABCD /* KeychainSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F67586A1E3BA1890009ABCD /* Networking.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758541E3BA1850009ABCD /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F67586B1E3BA1890009ABCD /* PromiseKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758551E3BA1850009ABCD /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F67586C1E3BA1890009ABCD /* SweetFoundation.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F67586D1E3BA1890009ABCD /* SweetSwift.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F67586E1E3BA1890009ABCD /* SweetUIKit.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F6758701E3BA1890009ABCD /* UInt256.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F67585A1E3BA1850009ABCD /* UInt256.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F6758721E3BA25C0009ABCD /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758711E3BA25C0009ABCD /* Reveal.framework */; };
 		9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
-		9F8DEC0A1E38A57B00F12CDA /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC091E38A57B00F12CDA /* CameraScanner.framework */; };
-		9F8DEC0B1E38A58200F12CDA /* CameraScanner.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC091E38A57B00F12CDA /* CameraScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */; };
 		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
@@ -135,10 +136,11 @@
 		9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE21E28E71900A70E07 /* ProfileController.swift */; };
 		9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
-		9FD0ED1F1E2F82CF000507B0 /* TimestampSynchronizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD0ED1E1E2F82CF000507B0 /* TimestampSynchronizing.swift */; };
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
+		9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; };
+		9FE4267D1E3F5670007ED2A4 /* Teapot.framework in Copy Carthage Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -148,16 +150,17 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9F7D051C1E37961200FF55B9 /* EtherealCereal.framework in Copy Carthage Frameworks */,
-				9F8DEC0B1E38A58200F12CDA /* CameraScanner.framework in Copy Carthage Frameworks */,
-				9F7D051D1E37961200FF55B9 /* Formulaic.framework in Copy Carthage Frameworks */,
-				9F7D051F1E37961200FF55B9 /* KeychainSwift.framework in Copy Carthage Frameworks */,
-				9F7D05201E37961200FF55B9 /* Networking.framework in Copy Carthage Frameworks */,
-				9F7D05211E37961200FF55B9 /* PromiseKit.framework in Copy Carthage Frameworks */,
-				9F7D05231E37961200FF55B9 /* SweetFoundation.framework in Copy Carthage Frameworks */,
-				9F7D05241E37961200FF55B9 /* SweetSwift.framework in Copy Carthage Frameworks */,
-				9F7D05251E37961200FF55B9 /* SweetUIKit.framework in Copy Carthage Frameworks */,
-				9F7D05261E37961200FF55B9 /* UInt256.framework in Copy Carthage Frameworks */,
+				9F6758661E3BA1890009ABCD /* CameraScanner.framework in Copy Carthage Frameworks */,
+				9F6758671E3BA1890009ABCD /* EtherealCereal.framework in Copy Carthage Frameworks */,
+				9F6758681E3BA1890009ABCD /* Formulaic.framework in Copy Carthage Frameworks */,
+				9FE4267D1E3F5670007ED2A4 /* Teapot.framework in Copy Carthage Frameworks */,
+				9F6758691E3BA1890009ABCD /* KeychainSwift.framework in Copy Carthage Frameworks */,
+				9F67586A1E3BA1890009ABCD /* Networking.framework in Copy Carthage Frameworks */,
+				9F67586B1E3BA1890009ABCD /* PromiseKit.framework in Copy Carthage Frameworks */,
+				9F67586C1E3BA1890009ABCD /* SweetFoundation.framework in Copy Carthage Frameworks */,
+				9F67586D1E3BA1890009ABCD /* SweetSwift.framework in Copy Carthage Frameworks */,
+				9F67586E1E3BA1890009ABCD /* SweetUIKit.framework in Copy Carthage Frameworks */,
+				9F6758701E3BA1890009ABCD /* UInt256.framework in Copy Carthage Frameworks */,
 			);
 			name = "Copy Carthage Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,20 +270,21 @@
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingNavigationController.swift; sourceTree = "<group>"; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
-		9F7D05041E37960E00FF55B9 /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
-		9F7D05051E37960E00FF55B9 /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
-		9F7D05071E37960E00FF55B9 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = SOURCE_ROOT; };
-		9F7D05081E37960E00FF55B9 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = SOURCE_ROOT; };
-		9F7D05091E37960E00FF55B9 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
-		9F7D050B1E37960E00FF55B9 /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = SOURCE_ROOT; };
-		9F7D050C1E37960E00FF55B9 /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetSwift.framework; path = Carthage/Build/iOS/SweetSwift.framework; sourceTree = SOURCE_ROOT; };
-		9F7D050D1E37960E00FF55B9 /* SweetUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetUIKit.framework; path = Carthage/Build/iOS/SweetUIKit.framework; sourceTree = SOURCE_ROOT; };
-		9F7D050E1E37960E00FF55B9 /* UInt256.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UInt256.framework; path = Carthage/Build/iOS/UInt256.framework; sourceTree = SOURCE_ROOT; };
+		9F6758501E3BA1850009ABCD /* CameraScanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CameraScanner.framework; path = Carthage/Build/iOS/CameraScanner.framework; sourceTree = SOURCE_ROOT; };
+		9F6758511E3BA1850009ABCD /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
+		9F6758521E3BA1850009ABCD /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
+		9F6758531E3BA1850009ABCD /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = SOURCE_ROOT; };
+		9F6758541E3BA1850009ABCD /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = SOURCE_ROOT; };
+		9F6758551E3BA1850009ABCD /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = SOURCE_ROOT; };
+		9F6758561E3BA1850009ABCD /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = SOURCE_ROOT; };
+		9F6758571E3BA1850009ABCD /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetSwift.framework; path = Carthage/Build/iOS/SweetSwift.framework; sourceTree = SOURCE_ROOT; };
+		9F6758581E3BA1850009ABCD /* SweetUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetUIKit.framework; path = Carthage/Build/iOS/SweetUIKit.framework; sourceTree = SOURCE_ROOT; };
+		9F67585A1E3BA1850009ABCD /* UInt256.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UInt256.framework; path = Carthage/Build/iOS/UInt256.framework; sourceTree = SOURCE_ROOT; };
+		9F6758711E3BA25C0009ABCD /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		9F7D05271E37961D00FF55B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F844BD41E30D880001C5498 /* ChatsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		9F844BD91E30DF48001C5498 /* ContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactController.swift; sourceTree = "<group>"; };
-		9F8DEC091E38A57B00F12CDA /* CameraScanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CameraScanner.framework; path = Carthage/Build/iOS/CameraScanner.framework; sourceTree = SOURCE_ROOT; };
 		9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9238B51E24F1D2004BEEE0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -343,10 +347,10 @@
 		9FCDBAE21E28E71900A70E07 /* ProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		9FCDBAE91E28FD5C00A70E07 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenContact.swift; sourceTree = "<group>"; };
-		9FD0ED1E1E2F82CF000507B0 /* TimestampSynchronizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimestampSynchronizing.swift; sourceTree = "<group>"; };
 		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
 		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
+		9FE4267B1E3F566B007ED2A4 /* Teapot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Teapot.framework; path = Carthage/Build/iOS/Teapot.framework; sourceTree = SOURCE_ROOT; };
 		B56D514812BE4D6224F99101 /* Pods-CocoaPods-Token.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -355,19 +359,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F67585D1E3BA1850009ABCD /* Formulaic.framework in Frameworks */,
+				9F67585F1E3BA1850009ABCD /* Networking.framework in Frameworks */,
 				9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */,
+				9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */,
+				9F6758601E3BA1850009ABCD /* PromiseKit.framework in Frameworks */,
 				9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */,
-				9F7D05131E37960E00FF55B9 /* KeychainSwift.framework in Frameworks */,
-				9F7D05111E37960E00FF55B9 /* Formulaic.framework in Frameworks */,
-				9F7D05101E37960E00FF55B9 /* EtherealCereal.framework in Frameworks */,
-				9F8DEC0A1E38A57B00F12CDA /* CameraScanner.framework in Frameworks */,
+				9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */,
+				9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */,
+				9F6758651E3BA1850009ABCD /* UInt256.framework in Frameworks */,
+				9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */,
 				139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */,
-				9F7D05171E37960E00FF55B9 /* SweetFoundation.framework in Frameworks */,
-				9F7D051A1E37960E00FF55B9 /* UInt256.framework in Frameworks */,
-				9F7D05181E37960E00FF55B9 /* SweetSwift.framework in Frameworks */,
-				9F7D05141E37960E00FF55B9 /* Networking.framework in Frameworks */,
-				9F7D05191E37960E00FF55B9 /* SweetUIKit.framework in Frameworks */,
-				9F7D05151E37960E00FF55B9 /* PromiseKit.framework in Frameworks */,
+				9F6758721E3BA25C0009ABCD /* Reveal.framework in Frameworks */,
+				9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */,
+				9F6758631E3BA1850009ABCD /* SweetUIKit.framework in Frameworks */,
+				9F67585E1E3BA1850009ABCD /* KeychainSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,17 +680,19 @@
 		9F9238D51E24F5FE004BEEE0 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				9FE4267B1E3F566B007ED2A4 /* Teapot.framework */,
+				9F6758711E3BA25C0009ABCD /* Reveal.framework */,
+				9F6758501E3BA1850009ABCD /* CameraScanner.framework */,
+				9F6758511E3BA1850009ABCD /* EtherealCereal.framework */,
+				9F6758521E3BA1850009ABCD /* Formulaic.framework */,
+				9F6758531E3BA1850009ABCD /* KeychainSwift.framework */,
+				9F6758541E3BA1850009ABCD /* Networking.framework */,
+				9F6758551E3BA1850009ABCD /* PromiseKit.framework */,
+				9F6758561E3BA1850009ABCD /* SweetFoundation.framework */,
+				9F6758571E3BA1850009ABCD /* SweetSwift.framework */,
+				9F6758581E3BA1850009ABCD /* SweetUIKit.framework */,
+				9F67585A1E3BA1850009ABCD /* UInt256.framework */,
 				14D317501E3B58690017DAFB /* BotKit */,
-				9F8DEC091E38A57B00F12CDA /* CameraScanner.framework */,
-				9F7D05041E37960E00FF55B9 /* EtherealCereal.framework */,
-				9F7D05051E37960E00FF55B9 /* Formulaic.framework */,
-				9F7D05071E37960E00FF55B9 /* KeychainSwift.framework */,
-				9F7D05081E37960E00FF55B9 /* Networking.framework */,
-				9F7D05091E37960E00FF55B9 /* PromiseKit.framework */,
-				9F7D050B1E37960E00FF55B9 /* SweetFoundation.framework */,
-				9F7D050C1E37960E00FF55B9 /* SweetSwift.framework */,
-				9F7D050D1E37960E00FF55B9 /* SweetUIKit.framework */,
-				9F7D050E1E37960E00FF55B9 /* UInt256.framework */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -771,7 +779,6 @@
 		9FD0ED201E2F8378000507B0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				9FD0ED1E1E2F82CF000507B0 /* TimestampSynchronizing.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -977,7 +984,6 @@
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
 				14D317CD1E3B58690017DAFB /* JSQLocationMediaItem.m in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
-				9FD0ED1F1E2F82CF000507B0 /* TimestampSynchronizing.swift in Sources */,
 				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
 				14D317C81E3B58690017DAFB /* JSQMessagesBubblesSizeCalculator.m in Sources */,

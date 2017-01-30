@@ -1,4 +1,5 @@
 import UIKit
+import SweetSwift
 import UInt256
 
 public protocol JSONDataSerialization {
@@ -62,6 +63,12 @@ public class User: NSObject, JSONDataSerialization {
         }
     }
 
+    var hasCustomFields: Bool {
+        get {
+            return (self.about.length > 0 || self.location.length > 0 || self.name.length > 0)
+        }
+    }
+
     public var avatar: UIImage?
 
     public let address: String
@@ -103,6 +110,30 @@ public class User: NSObject, JSONDataSerialization {
         let json = self.JSONData
         User.yap.insert(object: json, for: User.storedUserKey)
     }
+
+    public func asRequestParameters() -> [String: Any] {
+        var params: [String: Any] = [
+            "username": self.username
+        ]
+
+        if self.hasCustomFields {
+            var custom = [String: Any]()
+            if self.about.length > 0 {
+                custom["about"] = self.about
+            }
+            if self.location.length > 0 {
+                custom["location"] = self.location
+            }
+            if self.name.length > 0 {
+                custom["name"] = self.name
+            }
+
+            params["custom"] = custom
+        }
+
+        return params
+    }
+
 
     public override var description: String {
         return "<User: address: \(self.address), name: \(self.name), username: \(self.username)>"
