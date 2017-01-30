@@ -5,19 +5,19 @@ let DeviceSpecificPassword = "1231231"
 
 /// Prepares user keys and data, signs and formats it properly as JSON to bootstrap a chat user.
 public class UserBootstrapParameter {
-    public let expectedAddress: String
     public let identityKey: String
+
     public let lastResortPreKey: PreKeyRecord
+
     public let password: String
+
     public let prekeys: [PreKeyRecord]
 
     public let registrationId: UInt32
+
     public let signalingKey: String
+
     public let signedPrekey: SignedPreKeyRecord
-
-    public let timestamp: Int
-
-    public var signature: String?
 
     lazy var payload: [String: Any] = {
         var prekeys = [[String: Any]]()
@@ -48,18 +48,15 @@ public class UserBootstrapParameter {
             "registrationId": Int(self.registrationId),
             "signalingKey": self.signalingKey,
             "signedPreKey": signedPreKey,
-            "timestamp": self.timestamp,
         ]
 
         return payload
     }()
 
-    init(storageManager: TSStorageManager, timestamp: Int, ethereumAddress: String) {
+    init(storageManager: TSStorageManager) {
         if storageManager.identityKeyPair() == nil {
             storageManager.generateNewIdentityKey()
         }
-
-        self.expectedAddress = ethereumAddress
 
         self.identityKey = ((storageManager.identityKeyPair().publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
         self.lastResortPreKey = storageManager.getOrGenerateLastResortKey()
@@ -78,31 +75,10 @@ public class UserBootstrapParameter {
 
         self.signedPrekey = signedPK
 
-        self.timestamp = timestamp
-
         for prekey in self.prekeys {
             storageManager.storePreKey(prekey.id, preKeyRecord: prekey)
         }
 
         storageManager.storeSignedPreKey(signedPrekey.id, signedPreKeyRecord: signedPrekey)
-    }
-
-    func stringForSigning() -> String {
-        let payload = self.payload
-        let serializedString = OrderedSerializer.string(from: payload)
-
-        return serializedString
-    }
-
-    func signedParametersDictionary() -> [String: Any]? {
-        guard let signature = self.signature else { return nil }
-
-        let params: [String: Any] = [
-            "payload": self.payload,
-            "signature": signature,
-            "address": self.expectedAddress,
-        ]
-
-        return params
     }
 }

@@ -128,7 +128,6 @@
 		9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */; };
 		9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
 		9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
-		9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */; };
 		9FCDBADD1E28E57100A70E07 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADC1E28E57100A70E07 /* User.swift */; };
 		9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
 		9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE01E28E71900A70E07 /* ContactsController.swift */; };
@@ -339,7 +338,6 @@
 		9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTracker.m; sourceTree = "<group>"; };
 		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
 		9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = idAPIClient.swift; sourceTree = "<group>"; };
-		9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserIDRegistrationParameters.swift; sourceTree = "<group>"; };
 		9FCDBADC1E28E57100A70E07 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9FCDBAE01E28E71900A70E07 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
@@ -663,7 +661,6 @@
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
 				9FC72A2B1E25098000EF1141 /* AccountManager.swift */,
 				9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */,
-				9FCDBADA1E28D97D00A70E07 /* UserIDRegistrationParameters.swift */,
 				9FCDBAD31E27DE8800A70E07 /* Yap.swift */,
 				9FC72A381E25145D00EF1141 /* CryptoTools.h */,
 				9FC72A391E25145D00EF1141 /* CryptoTools.m */,
@@ -965,7 +962,6 @@
 				14D317BA1E3B58690017DAFB /* NSBundle+JSQMessages.m in Sources */,
 				14D317BC1E3B58690017DAFB /* UIColor+JSQMessages.m in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
-				9FCDBADB1E28D97D00A70E07 /* UserIDRegistrationParameters.swift in Sources */,
 				14D317C71E3B58690017DAFB /* JSQAudioMediaViewAttributes.m in Sources */,
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
 				14D317D31E3B58690017DAFB /* JSQVideoMediaItem.m in Sources */,

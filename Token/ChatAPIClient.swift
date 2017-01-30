@@ -24,35 +24,55 @@ public class ChatAPIClient: NSObject {
         self.teapot = Teapot(baseURL: self.baseURL)
     }
 
-    public func registerUserIfNeeded() {
-        let parameters = UserBootstrapParameter(storageManager: self.storageManager, timestamp: Int(Date().timeIntervalSince1970), ethereumAddress: self.address)
-
-        let message = parameters.stringForSigning()
-        let signature = self.cereal.sign(message: message)
-        parameters.signature = "0x\(signature)"
-
-        guard let signedParameters = parameters.signedParametersDictionary() else { fatalError("Missing signature!") }
-        let json = JSON(signedParameters)
-
-        self.teapot.put("/v1/accounts/bootstrap/", parameters: json) { result in
+    func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {
+        self.teapot.get("/v1/accounts/bootstrap/") { result in
             switch result {
-            case .success(_, let response):
-                guard response.statusCode == 204 else {
-                    print("Could not register user. Status code \(response.statusCode)")
+            case .success(let json, let response):
+                guard response.statusCode == 200 else { fatalError("Could not retrieve timestamp from chat service.") }
+                guard let json = json?.dictionary else { fatalError("JSON dictionary not found in payload") }
+                guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp not found in json payload or not an integer.") }
 
-                    return
-                }
-
-                TSStorageManager.storeServerToken(DeviceSpecificPassword, signalingKey: parameters.signalingKey)
-
-//                let auth = self.authToken(for: self.address, password: DeviceSpecificPassword)
-//                self.networking.setAuthorizationHeader(headerValue: auth)
-
-                print("Successfully registered chat user with address: \(self.cereal.address)")
+                completion(timestamp)
             case .failure(let json, let response, let error):
-                print(json ?? "")
-                print(response)
                 print(error)
+                print(response)
+                print(json ?? "")
+            }
+        }
+    }
+
+    public func registerUserIfNeeded() {
+        self.fetchTimestamp { timestamp in
+            let parameters = UserBootstrapParameter(storageManager: self.storageManager)
+            let path = "/v1/accounts/bootstrap"
+            let payload = parameters.payload
+            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8)!
+            let hashedPayload = self.cereal.sha3(string: payloadString)
+            let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
+            let signature = "0x\(self.cereal.sign(message: message))"
+
+            let fields: [String: String] = ["Token-ID-Address": self.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let json = JSON(payload)
+
+            self.teapot.put(path, parameters: json, headerFields: fields) { result in
+                switch result {
+                case .success(_, let response):
+                    guard response.statusCode == 204 else {
+                        print("Could not register user. Status code \(response.statusCode)")
+
+                        return
+                    }
+
+                    TSStorageManager.storeServerToken(DeviceSpecificPassword, signalingKey: parameters.signalingKey)
+//                    let auth = self.authToken(for: self.address, password: DeviceSpecificPassword)
+//                    self.networking.setAuthorizationHeader(headerValue: auth)
+
+                    print("Successfully registered chat user with address: \(self.cereal.address)")
+                case .failure(let json, let response, let error):
+                    print(json ?? "")
+                    print(response)
+                    print(error)
+                }
             }
         }
     }
