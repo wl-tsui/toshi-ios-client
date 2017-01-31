@@ -224,8 +224,7 @@ open class ProfileController: UIViewController {
         self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        // TODO: figure out a way to abstract the -49pts from the tabbar height.
-        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -69).isActive = true
+        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
     }
 
     func displayQRCode() {

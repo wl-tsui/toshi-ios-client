@@ -1,4 +1,4 @@
-    import Foundation
+import Foundation
 import Teapot
 import UInt256
 

@@ -299,7 +299,7 @@ class MessagesViewController: JSQMessagesViewController {
         //        if message.senderId == self.senderId {
         return nil
         //        }
-
+        //
         // Group messages by the same author together. Only display username for the first one.
         //        if (indexPath.item - 1 > 0) {
         //            let previousIndexPath = IndexPath(item: indexPath.item - 1, section: indexPath.section)
@@ -308,8 +308,8 @@ class MessagesViewController: JSQMessagesViewController {
         //                return nil
         //            }
         //        }
-
-        return NSAttributedString(string: message.senderDisplayName)
+        //
+        // return NSAttributedString(string: message.senderDisplayName)
     }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForCellTopLabelAt indexPath: IndexPath) -> NSAttributedString? {
@@ -356,17 +356,17 @@ class MessagesViewController: JSQMessagesViewController {
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
         let message = self.message(at: indexPath)
-        
+
         if message.senderId == self.senderId() {
             return nil
         }
-        
+
         return self.contactAvatar
     }
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
-    
+
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         print("request button")
     }

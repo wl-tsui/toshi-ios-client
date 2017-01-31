@@ -135,8 +135,7 @@ static const NSUInteger ddLogLevel = DDLogLevelAll;
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     NSString *threadId = notification.userInfo[Signal_Thread_UserInfo_Key];
     if (threadId && [TSThread fetchObjectWithUniqueID:threadId]) {
-        // TODO: present current thread
-        // [Environment messageThreadId:threadId];
+        // TODO: present current thread?
     }
 }
 

@@ -113,7 +113,7 @@ public class User: NSObject, JSONDataSerialization {
 
     public func asRequestParameters() -> [String: Any] {
         var params: [String: Any] = [
-            "username": self.username
+            "username": self.username,
         ]
 
         if self.hasCustomFields {
@@ -133,7 +133,6 @@ public class User: NSObject, JSONDataSerialization {
 
         return params
     }
-
 
     public override var description: String {
         return "<User: address: \(self.address), name: \(self.name), username: \(self.username)>"

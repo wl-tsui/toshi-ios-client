@@ -64,8 +64,8 @@ public class ChatAPIClient: NSObject {
                     }
 
                     TSStorageManager.storeServerToken(DeviceSpecificPassword, signalingKey: parameters.signalingKey)
-//                    let auth = self.authToken(for: self.address, password: DeviceSpecificPassword)
-//                    self.networking.setAuthorizationHeader(headerValue: auth)
+                    //                    let auth = self.authToken(for: self.address, password: DeviceSpecificPassword)
+                    //                    self.networking.setAuthorizationHeader(headerValue: auth)
 
                     print("Successfully registered chat user with address: \(self.cereal.address)")
                 case .failure(let json, let response, let error):
