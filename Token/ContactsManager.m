@@ -39,6 +39,8 @@
         NSDictionary<NSString *, id> *json = [NSJSONSerialization JSONObjectWithData:contactData options:0 error:0];
         TokenContact *tokenContact = [[TokenContact alloc] initWithJson:json];
 
+        [[NSNotificationCenter defaultCenter] postNotificationName:[IDAPIClient updateContactWithAddressNotification] object:tokenContact.address];
+
         [contacts addObject:tokenContact];
     }
 

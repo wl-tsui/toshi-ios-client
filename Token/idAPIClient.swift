@@ -5,6 +5,8 @@ import Teapot
 public class IDAPIClient: NSObject {
     // https://token-id-service.herokuapp.com
 
+    public static let updateContactWithAddressNotification  = Notification.Name(rawValue: "UpdateContactWithAddress")
+
     public var cereal: Cereal
 
     public var teapot: Teapot
@@ -21,6 +23,18 @@ public class IDAPIClient: NSObject {
         self.cereal = cereal
         self.baseURL = URL(string: "https://token-id-service.herokuapp.com")!
         self.teapot = Teapot(baseURL: self.baseURL)
+
+        super.init()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateContact), name: IDAPIClient.updateContactWithAddressNotification, object: nil)
+    }
+
+    func updateContact(_ notification: Notification) {
+        guard let address = notification.object as? String else { return }
+
+        self.findContact(name: address) { contact in
+            print("Updated contact information.")
+        }
     }
 
     func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {

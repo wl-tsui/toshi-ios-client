@@ -3,7 +3,6 @@ import SweetUIKit
 import Formulaic
 
 /// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
-/// TODO: Always try to keep contact info up to date by request the latest data for that ethereum address.
 open class ProfileEditController: UIViewController {
 
     lazy var dataSource: FormDataSource = {

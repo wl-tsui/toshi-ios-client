@@ -20,6 +20,10 @@ public class ContactController: ProfileController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.updateButton()
+    }
+
+    func updateButton() {
         let isContactAdded = self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey)
         let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add contact"
@@ -53,6 +57,8 @@ public class ContactController: ProfileController {
 
                 TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
             }
+
+            self.updateButton()
         }
     }
 }
