@@ -90,12 +90,18 @@ open class ContactsController: SweetTableController {
         self.tableView.tableHeaderView = self.searchController.searchBar
 
         self.displayContacts()
+        NotificationCenter.default.addObserver(self, selector: #selector(ContactsController.contactsDidUpdate), name: TokenContact.didUpdateContactInfoNotification, object: nil)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationItem.rightBarButtonItem = self.scanContactButton
+    }
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
@@ -105,12 +111,24 @@ open class ContactsController: SweetTableController {
         self.definesPresentationContext = false
     }
 
-    func displayContacts() {
-        if let delegate = UIApplication.shared.delegate as? AppDelegate {
-            let contactsManager = delegate.contactsManager
-            self.contacts = contactsManager.tokenContacts()
+    func contactsDidUpdate() {
+        // TODO: see if we can update only the desired row.
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
+
+        let contactsManager = delegate.contactsManager
+        self.contacts = contactsManager.tokenContacts()
+
+        if !self.searchController.isActive {
             self.tableView.reloadData()
         }
+    }
+
+    func displayContacts() {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
+
+        let contactsManager = delegate.contactsManager
+        self.contacts = contactsManager.tokenContacts()
+        self.tableView.reloadData()
     }
 
     func didTapScanContactButton() {

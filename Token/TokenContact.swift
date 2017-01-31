@@ -6,6 +6,8 @@ import Foundation
 /// Contact's phone numbers are actually ethereum addresses for this app.
 public class TokenContact: NSObject, JSONDataSerialization {
 
+    public static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
+
     public static let collectionKey: String = "TokenContacts"
 
     public var address: String
@@ -42,6 +44,8 @@ public class TokenContact: NSObject, JSONDataSerialization {
         }
 
         super.init()
+
+        self.setupNotifications()
     }
 
     init(address: String, username: String, name: String? = "", about: String? = "", location: String? = "") {
@@ -51,6 +55,28 @@ public class TokenContact: NSObject, JSONDataSerialization {
         self.name = name ?? ""
         self.about = about ?? ""
         self.location = location ?? ""
+
+        super.init()
+
+        self.setupNotifications()
+    }
+
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
+    }
+
+    func updateIfNeeded(_ notification: Notification) {
+        guard let tokenContact = notification.object as? TokenContact else { return }
+        guard tokenContact.address == self.address else { return }
+        
+        if self.username == tokenContact.username && self.name == tokenContact.name && self.location == tokenContact.location && self.about == tokenContact.about {
+            return
+        }
+
+        self.username = tokenContact.username
+        self.name = tokenContact.name
+        self.location = tokenContact.location
+        self.about = tokenContact.about
     }
 
     public override var description: String {

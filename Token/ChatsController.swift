@@ -54,11 +54,17 @@ open class ChatsController: SweetTableController {
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
+    }
+
+    func contactsDidUpdate() {
+        self.tableView.reloadData()
     }
 
     func registerNotifications() {
         let notificationController = NotificationCenter.default
         notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        notificationController.addObserver(self, selector: #selector(ChatsController.contactsDidUpdate), name: TokenContact.didUpdateContactInfoNotification, object: nil)
     }
 
     func yapDatabaseDidChange(notification: NSNotification) {

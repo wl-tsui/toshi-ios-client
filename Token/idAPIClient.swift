@@ -5,11 +5,15 @@ import Teapot
 public class IDAPIClient: NSObject {
     // https://token-id-service.herokuapp.com
 
-    public static let updateContactWithAddressNotification  = Notification.Name(rawValue: "UpdateContactWithAddress")
+    public static let updateContactsNotification = Notification.Name(rawValue: "UpdateContactWithAddress")
+
+    public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
 
     public var cereal: Cereal
 
     public var teapot: Teapot
+
+    let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
 
     let yap: Yap = Yap.sharedInstance
 
@@ -26,14 +30,33 @@ public class IDAPIClient: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateContact), name: IDAPIClient.updateContactWithAddressNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(IDAPIClient.updateContacts), name: IDAPIClient.updateContactsNotification, object: nil)
     }
 
-    func updateContact(_ notification: Notification) {
-        guard let address = notification.object as? String else { return }
+    /// We use a background queue and a semaphore to ensure we only update the UI
+    /// once all the contacts have been processed.
+    func updateContacts() {
+        self.contactUpdateQueue.async {
+            guard let contactsData = self.yap.retrieveObjects(in: TokenContact.collectionKey) as? [Data] else { fatalError() }
+            let semaphore = DispatchSemaphore(value: 0)
 
-        self.findContact(name: address) { contact in
-            print("Updated contact information.")
+            for contactData in contactsData {
+                guard let dictionary = try? JSONSerialization.jsonObject(with: contactData, options: []) else { continue }
+
+                if let dictionary = dictionary as? [String: Any] {
+                    let tokenContact = TokenContact(json: dictionary)
+                    self.findContact(name: tokenContact.address) { contact in
+                            semaphore.signal()
+                    }
+                    // calls to `wait()` need to be balanced with calls to `signal()`
+                    // remember to call it _after_ the code we need to run asynchronously.
+                    _ = semaphore.wait(timeout: .distantFuture)
+                }
+            }
+
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: TokenContact.didUpdateContactInfoNotification, object: self)
+            }
         }
     }
 
@@ -144,10 +167,8 @@ public class IDAPIClient: NSObject {
                 guard let json = json?.dictionary else { completion(nil); return }
 
                 let contact = TokenContact(json: json)
-
-                if !self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey) {
-                    self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
-                }
+                self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+                NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
 
                 completion(contact)
             case .failure(_, let response, let error):
