@@ -1140,7 +1140,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.Token;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1176,7 +1176,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.Token;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
