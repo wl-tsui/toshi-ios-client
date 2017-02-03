@@ -1,5 +1,6 @@
 import UIKit
 import SweetUIKit
+import JSQMessages
 
 class TextMessage: JSQMessage {
 
@@ -356,21 +357,21 @@ class MessagesViewController: JSQMessagesViewController {
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
         let message = self.message(at: indexPath)
-
+        
         if message.senderId == self.senderId() {
             return nil
         }
-
+        
         return self.contactAvatar
     }
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
-
+    
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         print("request button")
     }
-
+    
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
         print("pay button")
     }

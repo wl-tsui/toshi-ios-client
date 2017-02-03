@@ -1,11 +1,12 @@
-github "bakkenbaeck/Formulaic" "master"
+github "bakkenbaeck/Formulaic" ~> 0.0
 github "bakkenbaeck/Teapot" "feature/params"
-github "bakkenbaeck/CameraScanner" "master"
-github "3lvis/Networking"
-github "marketplacer/keychain-swift"
-github "bakkenbaeck/EtherealCereal" "master"
-github "UseSweet/SweetFoundation" "master"
-#github "UseSweet/SweetSwift" "master"
-#github "UseSweet/SweetUIKit" "master"
-github "mxcl/PromiseKit"
-github "tokenbrowser/UInt256"
+github "bakkenbaeck/CameraScanner" ~> 0.0
+github "3lvis/Networking" ~> 2.0
+github "marketplacer/keychain-swift" ~> 7.0
+github "bakkenbaeck/EtherealCereal" ~> 0.0
+github "UseSweet/SweetFoundation" ~> 1.0
+github "UseSweet/SweetSwift" ~> 1.0
+github "UseSweet/SweetUIKit" ~> 1.0
+github "mxcl/PromiseKit" ~> 4.0
+github "tokenbrowser/UInt256" ~> 0.1
+github "bakkenbaeck/BotKit" ~> 0.0

@@ -40,5 +40,3 @@
 
 #import <Curve25519.h>
 #import <Ed25519.h>
-
-#import "JSQMessages.h"
