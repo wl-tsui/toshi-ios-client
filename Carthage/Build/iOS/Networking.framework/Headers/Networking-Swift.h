@@ -129,6 +129,15 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 @end
 
 
+@interface NSHTTPURLResponse (SWIFT_EXTENSION(Networking))
+- (nonnull instancetype)initWithUrl:(NSURL * _Nonnull)url statusCode:(NSInteger)statusCode;
+@end
+
+
+@interface NSError (SWIFT_EXTENSION(Networking))
+@end
+
+
 SWIFT_CLASS("_TtC10Networking24NetworkActivityIndicator")
 @interface NetworkActivityIndicator : NSObject
 /**

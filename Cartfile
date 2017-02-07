@@ -1,7 +1,7 @@
 github "bakkenbaeck/Formulaic" ~> 0.0
 github "bakkenbaeck/Teapot" "feature/params"
 github "bakkenbaeck/CameraScanner" ~> 0.0
-github "3lvis/Networking" ~> 2.0
+github "3lvis/Networking" ~> 3.0
 github "marketplacer/keychain-swift" ~> 7.0
 github "bakkenbaeck/EtherealCereal" ~> 0.0
 github "UseSweet/SweetFoundation" ~> 1.0
