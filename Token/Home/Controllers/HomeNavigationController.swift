@@ -14,7 +14,7 @@ public class HomeNavigationController: UINavigationController {
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        self.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "settings"), tag: 0)
+        self.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "home"), tag: 0)
     }
 
     public required init?(coder aDecoder: NSCoder) {
