@@ -77,4 +77,8 @@ extension Theme {
     static func bold(size: CGFloat) -> UIFont {
         return UIFont(name: "SFUIDisplay-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
     }
+
+    static func medium(size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIDisplay-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
+    }
 }

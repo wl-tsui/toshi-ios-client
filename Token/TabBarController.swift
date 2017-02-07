@@ -22,11 +22,13 @@ open class TabBarController: UITabBarController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        // TODO: Refactor all this navigation controllers subclasses into one, they have similar code
+        let home = HomeNavigationController(rootViewController: HomeController())
         let messaging = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
         let contacts = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
         let settings = SettingsNavigationController(rootViewController: ProfileController(idAPIClient: self.idAPIClient))
 
-        self.viewControllers = [messaging, contacts, settings]
+        self.viewControllers = [home, messaging, contacts, settings]
         self.view.tintColor = Theme.tintColor
 
         self.view.backgroundColor = Theme.viewBackgroundColor
