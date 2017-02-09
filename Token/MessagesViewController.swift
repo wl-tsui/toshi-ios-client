@@ -1,25 +1,56 @@
 import UIKit
 import SweetUIKit
 import JSQMessages
+import UInt256
 
 class TextMessage: JSQMessage {
+    private var sofaWrapper: SofaWrapper
 
-    private var sofaWrapper: SofaWrapper!
+    var isDisplayable: Bool {
+        return [.message, .paymentRequest].contains(self.sofaWrapper.type)
+    }
 
     override var text: String! {
         get {
-            guard let text = super.text else { return "" }
-
-            if self.sofaWrapper == nil {
-                self.sofaWrapper = SofaWrapper(sofaContent: text)
+            switch self.sofaWrapper.type {
+            case .message:
+                return (self.sofaWrapper as! SofaMessage).body
+            case .paymentRequest:
+                return (self.sofaWrapper as! SofaPaymentRequest).body
+            default:
+                return self.sofaWrapper.content
             }
-
-            return self.sofaWrapper.body
         }
+    }
+
+    init(senderId: String, displayName: String, date: Date = Date(), isMedia: Bool = false, sofaWrapper: SofaWrapper, shouldProcess: Bool? = nil) {
+        self.sofaWrapper = sofaWrapper
+
+        super.init(senderId: senderId, senderDisplayName: displayName, date: date, text: "", isActionable: false)
+
+        let isIncoming = self.senderId != User.current!.address
+
+        // If shouldProcess is nil, we don't display the action buttons.
+        // If it's not nil we display buttons if it's true, the message is an incoming message and the sofawrapper is a payment request.
+        self.isActionable = shouldProcess != nil ? shouldProcess! && isIncoming && (self.sofaWrapper.type == .paymentRequest) : false
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 class MessagesViewController: JSQMessagesViewController {
+
+    var messages = [TextMessage]()
+
+    var interactions = [TextMessage]() {
+        didSet {
+            self.messages = self.interactions.filter { message -> Bool in
+                return message.isDisplayable
+            }
+        }
+    }
 
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
@@ -36,7 +67,7 @@ class MessagesViewController: JSQMessagesViewController {
         return dbConnection
     }()
 
-    private lazy var contactAvatar: JSQMessagesAvatarImage = {
+    fileprivate lazy var contactAvatar: JSQMessagesAvatarImage = {
         let img = [#imageLiteral(resourceName: "igor"), #imageLiteral(resourceName: "colin")].any!
         return JSQMessagesAvatarImageFactory(diameter: 44).avatarImage(with: img)
     }()
@@ -105,15 +136,9 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.collectionView?.collectionViewLayout.outgoingAvatarViewSize = .zero
         self.collectionView?.backgroundColor = Theme.messageViewBackgroundColor
+        self.collectionView?.actionsDelegate = self
 
         self.inputToolbar.contentView?.leftBarButtonItem = nil
-
-        self.uiDatabaseConnection.asyncRead { transaction in
-            self.mappings.update(with: transaction)
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }
 
         self.view.addSubview(self.ethereumPromptView)
         self.ethereumPromptView.heightAnchor.constraint(equalToConstant: MessagesFloatingView.height).isActive = true
@@ -136,38 +161,102 @@ class MessagesViewController: JSQMessagesViewController {
 
         let statusbarHeight: CGFloat = 20.0
         self.additionalContentInset.top += MessagesFloatingView.height + statusbarHeight
+
+        self.loadMessages()
     }
 
-    func message(at indexPath: IndexPath) -> TextMessage {
-        var interaction: TSInteraction? = nil
+    func loadMessages() {
+        self.uiDatabaseConnection.asyncRead { transaction in
+            self.mappings.update(with: transaction)
 
-        self.uiDatabaseConnection.read { transaction in
-            guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
-            guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { fatalError() }
+            for i in 0 ..< self.mappings.numberOfItems(inSection: 0) {
+                let indexPath = IndexPath(row: Int(i), section: 0)
+                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
+                guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { fatalError() }
 
-            interaction = object
+                self.handleInteraction(interaction)
+            }
+
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+                self.scrollToBottom(animated: true)
+            }
         }
+    }
 
-        let date = NSDate.ows_date(withMillisecondsSince1970: interaction!.timestamp)
-        if let interaction = interaction as? TSOutgoingMessage {
-            let textMessage = TextMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: date!, text: interaction.body!)
+    func showFingerprint(with identityKey: Data, signalId: String) {
+        // Postpone this for now
+        print("Should display fingerprint comparison UI.")
+        //        let builder = OWSFingerprintBuilder(storageManager: self.storageManager, contactsManager: self.contactsManager)
+        //        let fingerprint = builder.fingerprint(withTheirSignalId: signalId, theirIdentityKey: identityKey)
+        //
+        //        let fingerprintController = FingerprintViewController(fingerprint: fingerprint)
+        //        self.present(fingerprintController, animated: true)
+    }
 
-            return textMessage
-        } else if let interaction = interaction as? TSIncomingMessage {
-            let name = self.contactsManager.displayName(forPhoneIdentifier: interaction.authorId)
-            let textMessage = TextMessage(senderId: interaction.authorId, senderDisplayName: name, date: date!, text: interaction.body!)
+    func handleInvalidKeyError(_ errorMessage: TSInvalidIdentityKeyErrorMessage) {
+        let keyOwner = self.contactsManager.displayName(forPhoneIdentifier: errorMessage.theirSignalId())
+        let titleText = "Your safety number with \(keyOwner) has changed. You may wish to verify it."
 
-            return textMessage
-        } else {
-            if let info = interaction as? TSInfoMessage {
-                print(info)
-            } else {
-                print("Neither incoming nor outgoing message!")
+        let actionSheetController = UIAlertController(title: titleText, message: nil, preferredStyle: .actionSheet)
+
+        let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheetController.addAction(dismissAction)
+
+        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default, handler: {(_ action: UIAlertAction) -> Void in
+
+             self.showFingerprint(with: errorMessage.newIdentityKey(), signalId: errorMessage.theirSignalId())
+        })
+        actionSheetController.addAction(showSafteyNumberAction)
+
+        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default, handler: {(_ action: UIAlertAction) -> Void in
+
+            errorMessage.acceptNewIdentityKey()
+            if (errorMessage is TSInvalidIdentityKeySendingErrorMessage) {
+                self.messageSender.resendMessage(fromKeyError: (errorMessage as! TSInvalidIdentityKeySendingErrorMessage), success: {() -> Void in
+                    print("Got it!")
+                }, failure: {(_ error: Error) -> Void in
+                    print(error)
+                })
+            }
+        })
+        actionSheetController.addAction(acceptSafetyNumberAction)
+
+        self.present(actionSheetController, animated: true, completion: nil)
+    }
+
+    func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) {
+        if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
+            self.handleInvalidKeyError(interaction)
+
+            return
+        }
+        
+        if let message = interaction as? TSMessage, shouldProcessCommands {
+            let type = SofaType(sofa: message.body!)
+            switch type {
+            case .metadataRequest:
+                let metadataResponse = SofaMetadataResponse(metadataRequest: SofaMetadataRequest(content: message.body!))
+                self.sendMessage(sofaWrapper: metadataResponse)
+            default:
+                break
             }
         }
 
-        let text = (interaction as? TSInfoMessage)?.description ?? ""
-        return TextMessage(senderId: self.senderId(), senderDisplayName: self.senderDisplayName(), date: date!, text: NSLocalizedString(text, comment: ""))
+        if let message = interaction as? TSOutgoingMessage {
+            let textMessage = TextMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), date: Date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!))
+
+            self.interactions.append(textMessage)
+        } else if let message = interaction as? TSIncomingMessage {
+            let name = self.contactsManager.displayName(forPhoneIdentifier: message.authorId)
+            let textMessage = TextMessage(senderId: message.authorId, displayName: name, date: message.date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!), shouldProcess: shouldProcessCommands)
+
+            self.interactions.append(textMessage)
+        }
+    }
+
+    func message(at indexPath: IndexPath) -> TextMessage {
+        return self.messages[indexPath.row]
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -207,36 +296,30 @@ class MessagesViewController: JSQMessagesViewController {
 
         viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
 
-        var scrollToBottom = false
-
-        if sectionChanges.count == 0 && messageRowChanges.count == 0 {
+        if messageRowChanges.count == 0 {
             return
         }
 
-        self.collectionView?.performBatchUpdates({
-            for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
-                switch (rowChange.type) {
-                case .delete:
-                    self.collectionView?.deleteItems(at: [rowChange.indexPath])
-                case .insert:
-                    self.collectionView?.insertItems(at: [rowChange.newIndexPath])
+        var scrollToBottom = false
+        self.uiDatabaseConnection.asyncRead { transaction in
+            for change in messageRowChanges as! [YapDatabaseViewRowChange] {
+                guard change.type == .insert else { continue }
+                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
+                guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { fatalError("woot") }
+
+                if change.type == .insert {
                     scrollToBottom = true
-                case .move:
-                    self.collectionView?.deleteItems(at: [rowChange.indexPath])
-                    self.collectionView?.insertItems(at: [rowChange.newIndexPath])
-                case .update:
-                    self.collectionView?.reloadItems(at: [rowChange.indexPath])
                 }
+
+                self.handleInteraction(interaction, shouldProcessCommands: true)
             }
 
-        }) { (success) in
-            if !success {
-                self.collectionView?.collectionViewLayout.invalidateLayout(with: JSQMessagesCollectionViewFlowLayoutInvalidationContext())
+            DispatchQueue.main.async {
                 self.collectionView?.reloadData()
-            }
 
-            if scrollToBottom {
-                self.scrollToBottom(animated: true)
+                if scrollToBottom {
+                    self.scrollToBottom(animated: true)
+                }
             }
         }
     }
@@ -252,32 +335,37 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.finishSendingMessage(animated: true)
 
+        let sofaMessage = SofaMessage(content: ["body": text])
+        self.sendMessage(sofaWrapper: sofaMessage, date: date)
+    }
+
+    func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date()) {
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
+        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
 
-        let sofa = SofaWrapper(messageBody: text)
-
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofa.content)
         self.messageSender.send(outgoingMessage, success: {
             print("Message sent.")
         }, failure: { error in
             print(error)
         })
     }
+}
 
-    // MARK: - CollectionView Setup
+/// Collection view setup
+extension MessagesViewController {
 
-    private func setupOutgoingBubble() -> JSQMessagesBubbleImage {
+    fileprivate func setupOutgoingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
         return bubbleImageFactory.outgoingMessagesBubbleImage(with: Theme.outgoingMessageBackgroundColor)
     }
 
-    private func setupIncomingBubble() -> JSQMessagesBubbleImage {
+    fileprivate func setupIncomingBubble() -> JSQMessagesBubbleImage {
         let bubbleImageFactory = JSQMessagesBubbleImageFactory()
         return bubbleImageFactory.incomingMessagesBubbleImage(with: Theme.incomingMessageBackgroundColor)
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Int(self.mappings.numberOfItems(inSection: UInt(section)))
+        return self.messages.count
     }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, messageDataForItemAt indexPath: IndexPath) -> JSQMessageData {
@@ -369,10 +457,29 @@ class MessagesViewController: JSQMessagesViewController {
 extension MessagesViewController: MessagesFloatingViewDelegate {
     
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
-        print("request button")
+        let request: [String: Any] = ["body": "Thanks for the great time! Can you send your share of the tab?",
+            "value": UInt256(decimalString: "2000000000000000000").toHexString,
+            "destinationAddress": self.cereal.address]
+
+        let paymentRequest = SofaPaymentRequest(content: request)
+
+        self.sendMessage(sofaWrapper: paymentRequest)
     }
     
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
-        print("pay button")
+        print("pay button pressed")
+    }
+}
+
+extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
+
+    public func messageView(_ messageView: JSQMessagesCollectionView, didTapApproveAt indexPath: IndexPath) {
+        //
+    }
+
+    public func messageView(_ messageView: JSQMessagesCollectionView, didTapRejectAt indexPath: IndexPath) {
+        let message = self.message(at: indexPath)
+        message.isActionable = false
+        self.collectionView?.reloadItems(at: [indexPath])
     }
 }

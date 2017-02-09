@@ -46,7 +46,7 @@ public class IDAPIClient: NSObject {
                 if let dictionary = dictionary as? [String: Any] {
                     let tokenContact = TokenContact(json: dictionary)
                     self.findContact(name: tokenContact.address) { contact in
-                            semaphore.signal()
+                        semaphore.signal()
                     }
                     // calls to `wait()` need to be balanced with calls to `signal()`
                     // remember to call it _after_ the code we need to run asynchronously.

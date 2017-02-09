@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  If `NO`, the message doesn't contain actions. If `YES`, the message contains actions.
  *  The value of this property depends on how the object was initialized.
  */
-@property (assign, nonatomic, readonly) BOOL isActionable;
+@property (assign, nonatomic) BOOL isActionable;
 
 
 #pragma mark - Initialization

@@ -171,6 +171,7 @@ extension ChatsController: UITableViewDataSource {
         let cell = tableView.dequeue(ChatCell.self, for: indexPath)
         let thread = self.thread(at: indexPath)
 
+        // TODO: deal with last message from thread. It should be last visible message.
         cell.thread = thread
 
         return cell

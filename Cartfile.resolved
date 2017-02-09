@@ -1,4 +1,4 @@
-github "bakkenbaeck/BotKit" "0.0.14"
+git "../BotKit" "1a4fc93eb4ec863a237daf68cdab1368af66892c"
 github "bakkenbaeck/CameraScanner" "0.0.1"
 github "bakkenbaeck/EtherealCereal" "0.0.1"
 github "bakkenbaeck/Formulaic" "0.0.2"

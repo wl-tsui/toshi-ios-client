@@ -1,5 +1,6 @@
 import UIKit
 import SweetUIKit
+import SweetFoundation
 
 /// ChatsTableController cells.
 class ChatCell: UITableViewCell {
@@ -10,8 +11,8 @@ class ChatCell: UITableViewCell {
             let tokenContact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "")
             self.usernameLabel.text = tokenContact?.username == nil ? "" : "@\(tokenContact!.username)"
 
-            if let sofaMessage = self.thread?.lastMessageLabel() {
-                self.lastMessageLabel.text = SofaWrapper(sofaContent: sofaMessage).body
+            if let sofaMessage = self.thread?.lastMessageLabel(), sofaMessage.length > 0 && SofaType(sofa: sofaMessage) == .message {
+                self.lastMessageLabel.text = SofaMessage(content: sofaMessage).body
             } else {
                 self.lastMessageLabel.text = nil
             }

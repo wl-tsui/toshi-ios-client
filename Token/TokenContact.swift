@@ -68,7 +68,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
     func updateIfNeeded(_ notification: Notification) {
         guard let tokenContact = notification.object as? TokenContact else { return }
         guard tokenContact.address == self.address else { return }
-        
+
         if self.username == tokenContact.username && self.name == tokenContact.name && self.location == tokenContact.location && self.about == tokenContact.about {
             return
         }

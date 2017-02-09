@@ -17,9 +17,14 @@
 #import <SignalServiceKit/OWSMessageSender.h>
 #import <SignalServiceKit/ContactsUpdater.h>
 
+#import <SignalServiceKit/OWSFingerprintBuilder.h>
+#import <SignalServiceKit/OWSFingerprint.h>
+
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSIncomingMessage.h>
 #import <SignalServiceKit/TSInfoMessage.h>
+#import <SignalServiceKit/TSErrorMessage.h>
+#import <SignalServiceKit/TSInvalidIdentityKeySendingErrorMessage.h>
 #import <SignalServiceKit/NSDate+millisecondTimeStamp.h>
 
 #import <SignalServiceKit/TSStorageManager.h>
