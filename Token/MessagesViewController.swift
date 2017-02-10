@@ -145,7 +145,7 @@ class MessagesViewController: JSQMessagesViewController {
 
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
-                self.scrollToBottom(animated: true)
+                self.scrollToBottom(animated: false)
             }
         }
     }
@@ -233,14 +233,6 @@ class MessagesViewController: JSQMessagesViewController {
 
     func message(at indexPath: IndexPath) -> TextMessage {
         return self.messages[indexPath.row]
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
     }
 
     func registerNotifications() {
