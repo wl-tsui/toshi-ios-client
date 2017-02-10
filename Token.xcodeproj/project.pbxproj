@@ -33,10 +33,10 @@
 		9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; };
 		9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
 		9F6758631E3BA1850009ABCD /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; };
-		9F6758651E3BA1850009ABCD /* UInt256.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F67585A1E3BA1850009ABCD /* UInt256.framework */; };
 		9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
 		9F7E5D841E4C770700543296 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E5D831E4C770700543296 /* Reveal.framework */; };
 		9F7E5D861E4C84C400543296 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E5D851E4C84C400543296 /* Networking.framework */; };
+		9F7E5DA21E4C982300543296 /* TextMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* TextMessage.swift */; };
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
@@ -73,6 +73,8 @@
 		9FAACD051E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */; };
 		9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */; };
 		9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
+		9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
+		9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
 		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
 		9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
@@ -138,10 +140,10 @@
 		9F6758561E3BA1850009ABCD /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = SOURCE_ROOT; };
 		9F6758571E3BA1850009ABCD /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetSwift.framework; path = Carthage/Build/iOS/SweetSwift.framework; sourceTree = SOURCE_ROOT; };
 		9F6758581E3BA1850009ABCD /* SweetUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetUIKit.framework; path = Carthage/Build/iOS/SweetUIKit.framework; sourceTree = SOURCE_ROOT; };
-		9F67585A1E3BA1850009ABCD /* UInt256.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UInt256.framework; path = Carthage/Build/iOS/UInt256.framework; sourceTree = SOURCE_ROOT; };
 		9F7D05271E37961D00FF55B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F7E5D831E4C770700543296 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		9F7E5D851E4C84C400543296 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = "<group>"; };
+		9F7E5DA11E4C982300543296 /* TextMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessage.swift; sourceTree = "<group>"; };
 		9F844BD41E30D880001C5498 /* ChatsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		9F844BD91E30DF48001C5498 /* ContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactController.swift; sourceTree = "<group>"; };
@@ -182,6 +184,8 @@
 		9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
+		9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+Additions.swift"; sourceTree = "<group>"; };
+		9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConverter.swift; sourceTree = "<group>"; };
 		9FB8EA461E323B4000505441 /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
 		9FC72A2B1E25098000EF1141 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBootstrapParameters.swift; sourceTree = "<group>"; };
@@ -229,7 +233,6 @@
 				9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */,
 				9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */,
 				147513611E49C8A600E44A62 /* Networking.framework in Frameworks */,
-				9F6758651E3BA1850009ABCD /* UInt256.framework in Frameworks */,
 				9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */,
 				139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */,
 				9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */,
@@ -327,7 +330,6 @@
 				9F6758561E3BA1850009ABCD /* SweetFoundation.framework */,
 				9F6758571E3BA1850009ABCD /* SweetSwift.framework */,
 				9F6758581E3BA1850009ABCD /* SweetUIKit.framework */,
-				9F67585A1E3BA1850009ABCD /* UInt256.framework */,
 				9FE51CDD1E44B1C000FCB0E2 /* JSQMessages.framework */,
 				9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */,
 				9F7D05271E37961D00FF55B9 /* UIKit.framework */,
@@ -367,6 +369,7 @@
 		9F9238B31E24F1D2004BEEE0 /* Token */ = {
 			isa = PBXGroup;
 			children = (
+				9FAE4A6C1E4CBFCA00126217 /* Extensions */,
 				9FCDBAE81E28FD5600A70E07 /* Theme */,
 				9FC72A3B1E251ABE00EF1141 /* APIClients */,
 				9F9238CF1E24F3F1004BEEE0 /* Models */,
@@ -444,6 +447,7 @@
 				9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */,
 				9FB8EA461E323B4000505441 /* SofaWrapper.swift */,
 				143186BA1E49C5560025E9B7 /* App.swift */,
+				9F7E5DA11E4C982300543296 /* TextMessage.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -483,6 +487,15 @@
 				9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */,
 			);
 			path = "SF-UI-Text";
+			sourceTree = "<group>";
+		};
+		9FAE4A6C1E4CBFCA00126217 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */,
+				9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
@@ -578,6 +591,7 @@
 		9F9238A91E24F1D2004BEEE0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Bakken&Bæck";
 				TargetAttributes = {
@@ -660,7 +674,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/UInt256.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/JSQMessages.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Networking.framework",
@@ -729,6 +742,8 @@
 				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
 				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
+				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
+				9F7E5DA21E4C982300543296 /* TextMessage.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */,
 				1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
@@ -762,6 +777,7 @@
 				9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
+				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,
 				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,
 				1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */,
@@ -912,7 +928,7 @@
 					Reveal,
 				);
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -950,7 +966,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

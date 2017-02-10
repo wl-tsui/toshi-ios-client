@@ -2,6 +2,8 @@ import UIKit
 
 open class TabBarController: UITabBarController {
 
+    let tabBarSelectedIndexKey = "TabBarSelectedIndex"
+
     public var chatAPIClient: ChatAPIClient
 
     public var idAPIClient: IDAPIClient
@@ -34,6 +36,9 @@ open class TabBarController: UITabBarController {
 
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.tabBar.barTintColor = Theme.viewBackgroundColor
+
+        let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
+        self.selectedIndex = index
     }
 }
 
@@ -41,5 +46,9 @@ extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         self.automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets
+
+        if let index = self.viewControllers?.index(of: viewController) {
+            UserDefaults.standard.set(index, forKey: self.tabBarSelectedIndexKey)
+        }
     }
 }

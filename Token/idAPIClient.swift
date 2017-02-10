@@ -148,6 +148,16 @@ public class IDAPIClient: NSObject {
                 // we know it's a dictionary for this API
                 guard let json = json?.dictionary else { completion(nil); return }
                 let user = User(json: json)
+
+                print("Current user with address: \(user.address)")
+
+                // EthereumAPIClient.shared.registerForPushNotifications()
+                // EthereumAPIClient.shared.registerForNotifications()
+                //
+                //  DispatchQueue.main.asyncAfter(seconds: 10, execute: {
+                //    EthereumAPIClient.shared.deregisterForNotifications()
+                //  })
+
                 completion(user)
             case .failure(let json, let response, let error):
                 print(error.localizedDescription)

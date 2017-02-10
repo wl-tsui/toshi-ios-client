@@ -8,7 +8,6 @@ class AppsAPIClient {
     private var networking: Networking
     private var imageNetworking: Networking
 
-
     init() {
         self.networking = Networking(baseURL: "https://token-directory-service.herokuapp.com")
         self.imageNetworking = Networking(baseURL: "http://icons.iconarchive.com")

@@ -1,46 +1,10 @@
 import UIKit
 import SweetUIKit
 import JSQMessages
-import UInt256
-
-class TextMessage: JSQMessage {
-    private var sofaWrapper: SofaWrapper
-
-    var isDisplayable: Bool {
-        return [.message, .paymentRequest].contains(self.sofaWrapper.type)
-    }
-
-    override var text: String! {
-        get {
-            switch self.sofaWrapper.type {
-            case .message:
-                return (self.sofaWrapper as! SofaMessage).body
-            case .paymentRequest:
-                return (self.sofaWrapper as! SofaPaymentRequest).body
-            default:
-                return self.sofaWrapper.content
-            }
-        }
-    }
-
-    init(senderId: String, displayName: String, date: Date = Date(), isMedia: Bool = false, sofaWrapper: SofaWrapper, shouldProcess: Bool? = nil) {
-        self.sofaWrapper = sofaWrapper
-
-        super.init(senderId: senderId, senderDisplayName: displayName, date: date, text: "", isActionable: false)
-
-        let isIncoming = self.senderId != User.current!.address
-
-        // If shouldProcess is nil, we don't display the action buttons.
-        // If it's not nil we display buttons if it's true, the message is an incoming message and the sofawrapper is a payment request.
-        self.isActionable = shouldProcess != nil ? shouldProcess! && isIncoming && (self.sofaWrapper.type == .paymentRequest) : false
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 class MessagesViewController: JSQMessagesViewController {
+
+    let etherAPIClient = EthereumAPIClient.shared
 
     var messages = [TextMessage]()
 
@@ -174,7 +138,9 @@ class MessagesViewController: JSQMessagesViewController {
                 guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
                 guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { fatalError() }
 
-                self.handleInteraction(interaction)
+                DispatchQueue.main.async {
+                    self.handleInteraction(interaction)
+                }
             }
 
             DispatchQueue.main.async {
@@ -203,19 +169,19 @@ class MessagesViewController: JSQMessagesViewController {
         let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheetController.addAction(dismissAction)
 
-        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default, handler: {(_ action: UIAlertAction) -> Void in
+        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default, handler: { (_ action: UIAlertAction) -> Void in
 
-             self.showFingerprint(with: errorMessage.newIdentityKey(), signalId: errorMessage.theirSignalId())
+            self.showFingerprint(with: errorMessage.newIdentityKey(), signalId: errorMessage.theirSignalId())
         })
         actionSheetController.addAction(showSafteyNumberAction)
 
-        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default, handler: {(_ action: UIAlertAction) -> Void in
+        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default, handler: { (_ action: UIAlertAction) -> Void in
 
             errorMessage.acceptNewIdentityKey()
             if (errorMessage is TSInvalidIdentityKeySendingErrorMessage) {
-                self.messageSender.resendMessage(fromKeyError: (errorMessage as! TSInvalidIdentityKeySendingErrorMessage), success: {() -> Void in
+                self.messageSender.resendMessage(fromKeyError: (errorMessage as! TSInvalidIdentityKeySendingErrorMessage), success: { () -> Void in
                     print("Got it!")
-                }, failure: {(_ error: Error) -> Void in
+                }, failure: { (_ error: Error) -> Void in
                     print(error)
                 })
             }
@@ -225,13 +191,23 @@ class MessagesViewController: JSQMessagesViewController {
         self.present(actionSheetController, animated: true, completion: nil)
     }
 
+    /// Handle incoming interactions or previous messages when restoring a conversation.
+    ///
+    /// - Parameters:
+    ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
+    ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
+    ///
     func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
             self.handleInvalidKeyError(interaction)
 
             return
         }
-        
+
+        // We need to agree on how to deal with some specific sofa messages. For instance, if I receive a payment request
+        // and I never answer to it, if I leave the conversation and return, it will no longer be there (as it stands now). But
+        // odds are that the user will want to eventually address that payment request, so we should store its state alongside it.
+        // That way we know which requests were dealt with and can arrange the UI accordingly.
         if let message = interaction as? TSMessage, shouldProcessCommands {
             let type = SofaType(sofa: message.body!)
             switch type {
@@ -257,6 +233,10 @@ class MessagesViewController: JSQMessagesViewController {
 
     func message(at indexPath: IndexPath) -> TextMessage {
         return self.messages[indexPath.row]
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -385,20 +365,20 @@ extension MessagesViewController {
     override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForMessageBubbleTopLabelAt indexPath: IndexPath) -> NSAttributedString? {
         let message = self.message(at: indexPath)
 
-        //        if message.senderId == self.senderId {
-        return nil
-        //        }
-        //
+        if message.senderId == self.senderId() {
+            return nil
+        }
+
         // Group messages by the same author together. Only display username for the first one.
-        //        if (indexPath.item - 1 > 0) {
-        //            let previousIndexPath = IndexPath(item: indexPath.item - 1, section: indexPath.section)
-        //            let previousMessage = self.message(at: previousIndexPath)
-        //            if previousMessage.senderId == message.senderId {
-        //                return nil
-        //            }
-        //        }
-        //
-        // return NSAttributedString(string: message.senderDisplayName)
+        if (indexPath.item - 1 > 0) {
+            let previousIndexPath = IndexPath(item: indexPath.item - 1, section: indexPath.section)
+            let previousMessage = self.message(at: previousIndexPath)
+            if previousMessage.senderId == message.senderId {
+                return nil
+            }
+        }
+
+        return NSAttributedString(string: message.senderDisplayName)
     }
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, attributedTextForCellTopLabelAt indexPath: IndexPath) -> NSAttributedString? {
@@ -445,27 +425,28 @@ extension MessagesViewController {
 
     override func collectionView(_ collectionView: JSQMessagesCollectionView, avatarImageDataForItemAt indexPath: IndexPath) -> JSQMessageAvatarImageDataSource? {
         let message = self.message(at: indexPath)
-        
+
         if message.senderId == self.senderId() {
             return nil
         }
-        
+
         return self.contactAvatar
     }
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
-    
+
+    // TODO: Implement payment request UI.
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         let request: [String: Any] = ["body": "Thanks for the great time! Can you send your share of the tab?",
-            "value": UInt256(decimalString: "2000000000000000000").toHexString,
+            "value": "1000000000",
             "destinationAddress": self.cereal.address]
 
         let paymentRequest = SofaPaymentRequest(content: request)
 
         self.sendMessage(sofaWrapper: paymentRequest)
     }
-    
+
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
         print("pay button pressed")
     }
@@ -474,7 +455,24 @@ extension MessagesViewController: MessagesFloatingViewDelegate {
 extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
 
     public func messageView(_ messageView: JSQMessagesCollectionView, didTapApproveAt indexPath: IndexPath) {
-        //
+        guard let paymentRequest = self.message(at: indexPath).sofaWrapper as? SofaPaymentRequest else { fatalError("Could not retrieve payment request for approval.") }
+
+        guard let value = paymentRequest.value else { return }
+        guard let destination = paymentRequest.destinationAddress else { return }
+
+        // TODO: prevent concurrent calls
+        self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
+            let signedTransaction = "0x\(self.cereal.sign(message: transaction!))"
+
+            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
+                if error != nil {
+                    guard let json = json?.dictionary else { fatalError("!") }
+
+                    let alert = UIAlertController.dismissableAlert(title: json["message"] as! String, message: json["message"] as? String)
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
 
     public func messageView(_ messageView: JSQMessagesCollectionView, didTapRejectAt indexPath: IndexPath) {

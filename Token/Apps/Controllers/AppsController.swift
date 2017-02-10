@@ -46,7 +46,7 @@ class AppsController: UIViewController {
         return label
     }()
 
-    lazy var latestCollectionView: UICollectionView = {        
+    lazy var latestCollectionView: UICollectionView = {
         let view = self.constructCollectionView()
 
         return view
@@ -77,7 +77,7 @@ class AppsController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -141,6 +141,7 @@ class AppsController: UIViewController {
 }
 
 extension AppsController: UICollectionViewDataSource {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let section = collectionView == self.latestCollectionView ? Section.latest : Section.recommended
 
@@ -171,5 +172,4 @@ extension AppsController: UICollectionViewDataSource {
 }
 
 extension AppsController: UICollectionViewDelegate {
-
 }

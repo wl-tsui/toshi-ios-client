@@ -15,7 +15,6 @@ class HomeHeaderView: UICollectionReusableView {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 20)
         label.textColor = UIColor(hex: "161521")
-        label.text = "$5.80 USD"
 
         return label
     }()
@@ -24,7 +23,6 @@ class HomeHeaderView: UICollectionReusableView {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 16)
         label.textColor = UIColor(hex: "A4A4AB")
-        label.text = "0.9302 ETH"
 
         return label
     }()

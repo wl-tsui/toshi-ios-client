@@ -168,6 +168,20 @@ open class SofaPaymentRequest: SofaWrapper {
 
         return ""
     }
+
+    public var value: NSDecimalNumber? {
+        get {
+            guard let hexValue = self.json["value"] as? String else { return nil }
+
+            return NSDecimalNumber(hexadecimalString: hexValue)
+        }
+    }
+
+    public var destinationAddress: String? {
+        get {
+            return (self.json["destinationAddress"] as? String)
+        }
+    }
 }
 
 open class SofaPayment: SofaWrapper {

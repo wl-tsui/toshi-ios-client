@@ -1,6 +1,5 @@
 import UIKit
 import SweetSwift
-import UInt256
 
 public protocol JSONDataSerialization {
     var JSONData: Data { get }
@@ -139,18 +138,25 @@ public class User: NSObject, JSONDataSerialization {
     }
 
     // TODO: Add unit tests for this.
-    public static func balanceAttributedString(for balance: UInt256) -> NSAttributedString {
+    public static func balanceAttributedString(for balance: NSDecimalNumber) -> NSAttributedString {
         // Conversion from https://www.coinbase.com/charts
-        let currentUSDConversion = UInt256(decimalString: "10.20")
+        let currentUSDConversion = NSDecimalNumber(decimal: 10.26)
         // Conversion from http://ether.fund/tool/converter
-        let weisToEther = UInt256(hexString: "1000000000000000000")
-        let ether = balance / weisToEther
-        let usd: UInt256 = currentUSDConversion * ether
-        let usdText = "$\(usd.toDecimalString) USD"
+        let weisToEther = NSDecimalNumber(string: "1000000000000000000")
+        let ether = balance.dividing(by: weisToEther)
+        let usd: NSDecimalNumber = currentUSDConversion.multiplying(by: ether)
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currencyAccounting
+        numberFormatter.locale = Locale(identifier: "en_US")
+
+        let usdText = numberFormatter.string(from: usd)!
         let etherText = " · \(ether.toDecimalString) ETH"
+
         let text = usdText + etherText
         let coloredPart = etherText
         let range = (text as NSString).range(of: coloredPart)
+
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
 

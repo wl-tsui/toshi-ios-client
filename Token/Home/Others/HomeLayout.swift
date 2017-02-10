@@ -15,7 +15,7 @@ class HomeLayout: UICollectionViewFlowLayout {
         self.sectionInset = UIEdgeInsets(top: HomeLayout.verticalMargin, left: HomeLayout.horizontalMargin, bottom: HomeLayout.verticalMargin, right: HomeLayout.horizontalMargin)
         self.register(HomeHeaderView.self, forDecorationViewOfKind: HomeLayout.headerKind)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

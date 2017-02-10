@@ -1,6 +1,5 @@
 import UIKit
 import SweetUIKit
-import UInt256
 
 protocol MessagesFloatingViewDelegate: class {
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton)
@@ -44,7 +43,7 @@ class MessagesFloatingView: UIView {
         return button
     }()
 
-    var balance: UInt256? {
+    var balance: NSDecimalNumber? {
         didSet {
             if let balance = self.balance {
                 self.balanceLabel.attributedText = User.balanceAttributedString(for: balance)

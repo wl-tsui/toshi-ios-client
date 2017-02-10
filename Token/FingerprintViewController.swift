@@ -23,11 +23,11 @@ public class FingerprintViewController: UIViewController {
         return label
     }()
 
-//    lazy var cameraButton: UIButton = {
-//        let button = UIButton(withAutoLayout: true)
-//
-//        return button
-//    }()
+    //    lazy var cameraButton: UIButton = {
+    //        let button = UIButton(withAutoLayout: true)
+    //
+    //        return button
+    //    }()
 
     public init(fingerprint: OWSFingerprint) {
         self.fingerprint = fingerprint

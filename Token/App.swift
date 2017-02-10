@@ -11,14 +11,14 @@ struct App {
     init(json: [String: Any]) {
         self.displayName = json["displayName"] as! String
         self.avatarURL = json["avatarUrl"] as? String
-        self.image =  nil
+        self.image = nil
         self.category = "Unknown"
     }
 
     init(displayName: String, image: UIImage) {
         self.displayName = displayName
         self.image = image
-        self.avatarURL =  nil
+        self.avatarURL = nil
         self.category = "Unknown"
     }
 }

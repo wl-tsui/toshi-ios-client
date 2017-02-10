@@ -17,7 +17,7 @@ class HomeController: SweetCollectionController {
 
         super.init(collectionViewLayout: layout)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -46,6 +46,7 @@ class HomeController: SweetCollectionController {
 }
 
 extension HomeController: UICollectionViewDataSource {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.apps.count
     }
@@ -66,6 +67,7 @@ extension HomeController: UICollectionViewDataSource {
 }
 
 extension HomeController: UICollectionViewDelegate {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("selected index: \(indexPath)")
     }
