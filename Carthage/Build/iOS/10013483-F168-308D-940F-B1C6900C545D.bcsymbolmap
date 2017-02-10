@@ -6,12 +6,11 @@ __TMaP_
 _rt_swift_getExistentialTypeMetadata
 ___swift_noop_void_return
 ___swift_noop_self_return
-___swift_memmove_array16_8
 __TMaVCSo17JSONSerialization14WritingOptions
 _rt_swift_getInitializedObjCClass
-___swift_memcpy8_8
-___swift_memcpy_array8_8
-___swift_memmove_array8_8
+___swift_memcpy4_4
+___swift_memcpy_array4_4
+___swift_memmove_array4_4
 _rt_swift_release
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_CuRd__s8Sequencewx7ElementzWd__8Iterator7Element_rfqd__x
 __TTWVCSo17JSONSerialization14ReadingOptionss9Equatable10FoundationZFS1_oi2eefTxx_Sb
@@ -57,10 +56,11 @@ __TwxxO6Teapot4JSON
 __TwCpO6Teapot4JSON
 __TwcpO6Teapot4JSON
 __TwcaO6Teapot4JSON
-___swift_memcpy9_8
+___swift_memcpy5_4
 __TwtaO6Teapot4JSON
 __TwXxO6Teapot4JSON
 __TwCcO6Teapot4JSON
+___swift_memmove_array8_4
 __TwugO6Teapot4JSON
 __TwupO6Teapot4JSON
 __TwuiO6Teapot4JSON
@@ -80,13 +80,13 @@ __TMaGCs19_AnyIteratorBoxBaseT5labelGSqSS_5valueP___
 __TMaGCs17_AnyCollectionBoxT5labelGSqSS_5valueP____merged
 __swift_dead_method_stub
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_6insertfwx7ElementT8insertedSb17memberAfterInsertwxS3__
+__TTSf4g_d___TTSg5VCSo17JSONSerialization14WritingOptionsS0_s10SetAlgebra10Foundation___TFEsPs10SetAlgebraCft12arrayLiteralGSawx7Element__x
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_6updatefT4withwx7Element_GSqwxS3__
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_12intersectionfxx
-__TTSf4n_g_n___TTSg5P__SSSSs16TextOutputStreams___TFFs20_adHocPrint_unlockedu0_R_s16TextOutputStreamrFTxVs6MirrorRq_12isDebugPrintSb_T_L_13printTypeNameu0_R_S_rfPMP_T_
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_11subtractingfxx
+__TTSf4n_g_n___TTSg5P__SSSSs16TextOutputStreams___TFFs20_adHocPrint_unlockedu0_R_s16TextOutputStreamrFTxVs6MirrorRq_12isDebugPrintSb_T_L_13printTypeNameu0_R_S_rfPMP_T_
 __TTWVCSo17JSONSerialization14WritingOptionss16RawRepresentable10FoundationFS1_CfT8rawValuewx8RawValue_GSqx_
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_19symmetricDifferencefxx
-__TTSf4g_d___TTSg5VCSo17JSONSerialization14WritingOptionsS0_s10SetAlgebra10Foundation___TFEsPs10SetAlgebraCft12arrayLiteralGSawx7Element__x
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_16formIntersectionfxT_
 __TTWVCSo17JSONSerialization14WritingOptionss9OptionSet10FoundationFS1_CfT8rawValuewx8RawValue_x
 __TTWVCSo17JSONSerialization14WritingOptionss10SetAlgebra10FoundationFS1_8subtractfxT_
@@ -162,14 +162,14 @@ __TMLGCs19_AnyIteratorBoxBaseT5labelGSqSS_5valueP___
 __TMLPMP_
 __TMLPs17CustomReflectable_
 Apple LLVM version 8.0.0 (clang-800.0.42.1)
--emit-bc /Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot/JSON.swift /Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot/NetworkResult.swift /Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot/Teapot.swift -target arm64-apple-ios10 -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk -I /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Products/Release-iphoneos -F /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Products/Release-iphoneos -g -module-cache-path /Users/elvis/Library/Developer/Xcode/DerivedData/ModuleCache -serialize-debugging-options -Xcc -I/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-generated-files.hmap -Xcc -I/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-own-target-headers.hmap -Xcc -I/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/all-product-headers.yaml -Xcc -iquote -Xcc /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-project-headers.hmap -Xcc -I/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Products/Release-iphoneos/include -Xcc -I/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/DerivedSources/arm64 -Xcc -I/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/DerivedSources -Xcc -working-directory/Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot -emit-module-doc-path /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/Teapot.swiftdoc -O -module-name Teapot -emit-module-path /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/Teapot.swiftmodule -emit-objc-header-path /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/Teapot-Swift.h -serialize-diagnostics-path /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/JSON.dia -emit-dependencies-path /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/JSON.d -num-threads 4 -o /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/JSON.bc -o /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/NetworkResult.bc -o /Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/arm64/Teapot.bc -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift
+-emit-bc /Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot/JSON.swift /Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot/NetworkResult.swift /Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot/Teapot.swift -target armv7-apple-ios10 -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.2.sdk -I /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Products/Release-iphoneos -F /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Products/Release-iphoneos -g -module-cache-path /Users/elland/Library/Developer/Xcode/DerivedData/ModuleCache -serialize-debugging-options -Xcc -I/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-generated-files.hmap -Xcc -I/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-own-target-headers.hmap -Xcc -I/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/all-product-headers.yaml -Xcc -iquote -Xcc /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Teapot-project-headers.hmap -Xcc -I/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Products/Release-iphoneos/include -Xcc -I/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/DerivedSources/armv7 -Xcc -I/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/DerivedSources -Xcc -working-directory/Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot -emit-module-doc-path /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/Teapot.swiftdoc -O -module-name Teapot -emit-module-path /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/Teapot.swiftmodule -emit-objc-header-path /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/Teapot-Swift.h -serialize-diagnostics-path /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/JSON.dia -emit-dependencies-path /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/JSON.d -num-threads 4 -o /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/JSON.bc -o /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/NetworkResult.bc -o /Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/Objects-normal/armv7/Teapot.bc -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift
 <swift-imported-modules>
-/Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot
+/Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot
 Apple Swift version 3.0.2 (swiftlang-800.0.63 clang-800.0.42.1)
-/Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot/JSON.swift
+/Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot/JSON.swift
 _TMaGCs17_AnyCollectionBoxT5labelGSqSS_5valueP___
 JSON.swift
-/Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot
+/Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot
 _TMaT5labelGSqSS_5valueP__
 _TMaGSqSS_
 objectdestroy
@@ -186,10 +186,11 @@ _TMaP_
 _TwuiO6Teapot4JSON
 _TwupO6Teapot4JSON
 _TwugO6Teapot4JSON
+__swift_memmove_array8_4
 _TwCcO6Teapot4JSON
 _TwXxO6Teapot4JSON
 _TwtaO6Teapot4JSON
-__swift_memcpy9_8
+__swift_memcpy5_4
 _TwcaO6Teapot4JSON
 _TwcpO6Teapot4JSON
 _TwCpO6Teapot4JSON
@@ -297,11 +298,10 @@ union
 _TTSg5VCSo17JSONSerialization14ReadingOptionsS0_s9OptionSet10Foundation___TFEsPs9OptionSet5unionfxx
 _TTSg5VCSo17JSONSerialization14ReadingOptionsS0_s10SetAlgebra10Foundation___TFEsPs10SetAlgebraCft12arrayLiteralGSawx7Element__x
 get_field_types_WritingOptions
-__swift_memmove_array8_8
-__swift_memcpy_array8_8
-__swift_memcpy8_8
+__swift_memmove_array4_4
+__swift_memcpy_array4_4
+__swift_memcpy4_4
 _TMaVCSo17JSONSerialization14WritingOptions
-__swift_memmove_array16_8
 __swift_noop_self_return
 __swift_noop_void_return
 session.materialize
@@ -375,13 +375,13 @@ __TwCpO6Teapot13NetworkResult
 __TwcpO6Teapot13NetworkResult
 __TwcaO6Teapot13NetworkResult
 __TwTkO6Teapot13NetworkResult
-___swift_memcpy32_8
+___swift_memcpy16_4
 __TwtaO6Teapot13NetworkResult
 __TwalO6Teapot13NetworkResult
 ___swift_copy_outline_pointer
 __TwXxO6Teapot13NetworkResult
 __TwCcO6Teapot13NetworkResult
-___swift_memmove_array32_8
+___swift_memmove_array16_4
 __TwugO6Teapot13NetworkResult
 __TwupO6Teapot13NetworkResult
 __TwuiO6Teapot13NetworkResult
@@ -397,7 +397,7 @@ __TMLGSqO6Teapot4JSON_
 __TMLCSo15HTTPURLResponse
 __TMLTGSqO6Teapot4JSON_CSo15HTTPURLResponsePs5Error__
 __TMLPs5Error_
-/Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot/NetworkResult.swift
+/Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot/NetworkResult.swift
 _TMaTGSqO6Teapot4JSON_CSo15HTTPURLResponsePs5Error__
 _TMaPs5Error_
 _TMaCSo15HTTPURLResponse
@@ -408,13 +408,13 @@ get_field_types_NetworkResult
 _TwuiO6Teapot13NetworkResult
 _TwupO6Teapot13NetworkResult
 _TwugO6Teapot13NetworkResult
-__swift_memmove_array32_8
+__swift_memmove_array16_4
 _TwCcO6Teapot13NetworkResult
 _TwXxO6Teapot13NetworkResult
 __swift_copy_outline_pointer
 _TwalO6Teapot13NetworkResult
 _TwtaO6Teapot13NetworkResult
-__swift_memcpy32_8
+__swift_memcpy16_4
 _TwTkO6Teapot13NetworkResult
 _TwcaO6Teapot13NetworkResult
 _TwcpO6Teapot13NetworkResult
@@ -484,7 +484,7 @@ __TMLCSo13DispatchQueue
 _block_descriptor.9
 _objc_classes
 __TMOC6Teapot6Teapot4Verb
-/Users/elvis/Projects/BB/token-ios-client/Carthage/Checkouts/Teapot/Teapot/Teapot.swift
+/Users/elland/Documents/bb/token-ios-client/Carthage/Checkouts/Teapot/Teapot/Teapot.swift
 _TPA__TTSf2i_n_n_n___TFFFC6Teapot6Teapot7runTaskFT4withV10Foundation10URLRequest10completionFOS_13NetworkResultT__T_U_FTGSqVS1_4Data_GSqCSo11URLResponse_GSqPs5Error___T_U_FT_T_
 _TTSf2i_n_n_n___TFFFC6Teapot6Teapot7runTaskFT4withV10Foundation10URLRequest10completionFOS_13NetworkResultT__T_U_FTGSqVS1_4Data_GSqCSo11URLResponse_GSqPs5Error___T_U_FT_T_
 objectdestroy.5
@@ -572,4 +572,4 @@ _TFFC6Teapot6Teapot7executeFT4verbOS0_4Verb4pathSS10parametersGSqOS_4JSON_12head
 delete
 post
 get
-/Users/elvis/Library/Developer/Xcode/DerivedData/Teapot-bmbcfufpnounlpcrfrhyjygklsop/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/DerivedSources/Teapot_vers.c
+/Users/elland/Library/Developer/Xcode/DerivedData/Teapot-hbnrlqnzsznpahdpsdnzumzueyyc/Build/Intermediates/Teapot.build/Release-iphoneos/Teapot.build/DerivedSources/Teapot_vers.c

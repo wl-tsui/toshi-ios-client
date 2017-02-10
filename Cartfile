@@ -8,6 +8,4 @@ github "UseSweet/SweetFoundation" ~> 1.0
 github "UseSweet/SweetSwift" ~> 1.0
 github "UseSweet/SweetUIKit" ~> 1.0
 github "mxcl/PromiseKit" ~> 4.0
-github "tokenbrowser/UInt256" ~> 0.1
-#github "bakkenbaeck/BotKit" ~> 0.0
-git "../BotKit" "feature/actionable-readwrite"
+github "bakkenbaeck/BotKit" "master"
