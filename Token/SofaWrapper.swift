@@ -173,7 +173,11 @@ open class SofaPaymentRequest: SofaWrapper {
         get {
             guard let hexValue = self.json["value"] as? String else { return nil }
 
-            return NSDecimalNumber(hexadecimalString: hexValue)
+            if hexValue.hasPrefix("0x") {
+                return NSDecimalNumber(hexadecimalString: hexValue)
+            } else {
+                return NSDecimalNumber(string: hexValue)
+            }
         }
     }
 

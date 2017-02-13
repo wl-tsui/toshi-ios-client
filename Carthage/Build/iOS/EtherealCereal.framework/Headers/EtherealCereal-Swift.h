@@ -152,6 +152,7 @@ SWIFT_CLASS("_TtC14EtherealCereal14EtherealCereal")
 */
 - (NSString * _Nonnull)sha3WithString:(NSString * _Nonnull)string;
 - (NSString * _Nonnull)signWithMessage:(NSString * _Nonnull)message;
+- (NSString * _Nonnull)signWithHex:(NSString * _Nonnull)hex;
 - (nonnull instancetype)initWithPrivateKey:(NSString * _Nonnull)privateKey;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end

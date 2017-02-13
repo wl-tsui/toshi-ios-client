@@ -6,7 +6,7 @@ public extension NSDecimalNumber {
     }
 
     public var toHexString: String {
-        return BaseConverter.decToHex(self.toDecimalString)
+        return "0x\(BaseConverter.decToHex(self.toDecimalString).lowercased())"
     }
 
     public convenience init(hexadecimalString hexString: String) {

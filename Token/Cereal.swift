@@ -26,6 +26,10 @@ public class Cereal: NSObject {
         return self.cereal.sign(message: message)
     }
 
+    public func sign(hex: String) -> String {
+        return self.cereal.sign(hex: hex)
+    }
+
     public func sha3(string: String) -> String {
         return self.cereal.sha3(string: string)
     }

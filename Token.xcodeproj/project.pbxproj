@@ -33,6 +33,7 @@
 		9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; };
 		9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
 		9F6758631E3BA1850009ABCD /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; };
+		9F7B896D1E51C6DA009C192E /* TSInteraction+LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B896C1E51C6DA009C192E /* TSInteraction+LocalState.swift */; };
 		9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
 		9F7E5D841E4C770700543296 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E5D831E4C770700543296 /* Reveal.framework */; };
 		9F7E5D861E4C84C400543296 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E5D851E4C84C400543296 /* Networking.framework */; };
@@ -140,6 +141,7 @@
 		9F6758561E3BA1850009ABCD /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = SOURCE_ROOT; };
 		9F6758571E3BA1850009ABCD /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetSwift.framework; path = Carthage/Build/iOS/SweetSwift.framework; sourceTree = SOURCE_ROOT; };
 		9F6758581E3BA1850009ABCD /* SweetUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetUIKit.framework; path = Carthage/Build/iOS/SweetUIKit.framework; sourceTree = SOURCE_ROOT; };
+		9F7B896C1E51C6DA009C192E /* TSInteraction+LocalState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSInteraction+LocalState.swift"; sourceTree = "<group>"; };
 		9F7D05271E37961D00FF55B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F7E5D831E4C770700543296 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		9F7E5D851E4C84C400543296 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 			children = (
 				9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */,
 				9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */,
+				9F7B896C1E51C6DA009C192E /* TSInteraction+LocalState.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -760,6 +763,7 @@
 				9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */,
 				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
+				9F7B896D1E51C6DA009C192E /* TSInteraction+LocalState.swift in Sources */,
 				9FAACCB31E30E1EE00FB871D /* ContactsNavigationController.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
 				14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */,

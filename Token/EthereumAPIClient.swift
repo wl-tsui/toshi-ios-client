@@ -30,7 +30,7 @@ public class EthereumAPIClient {
         let parameters: [String: Any] = [
             "from": self.cereal.address,
             "to": address,
-            "value": value.toDecimalString,
+            "value": value.toHexString,
         ]
 
         let json = JSON(parameters)

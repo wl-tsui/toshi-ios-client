@@ -6,11 +6,13 @@ class MessagesViewController: JSQMessagesViewController {
 
     let etherAPIClient = EthereumAPIClient.shared
 
+    var interactions = [TSInteraction]()
+
     var messages = [TextMessage]()
 
-    var interactions = [TextMessage]() {
+    var allMessages = [TextMessage]() {
         didSet {
-            self.messages = self.interactions.filter { message -> Bool in
+            self.messages = self.allMessages.filter { message -> Bool in
                 return message.isDisplayable
             }
         }
@@ -139,7 +141,11 @@ class MessagesViewController: JSQMessagesViewController {
                 guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { fatalError() }
 
                 DispatchQueue.main.async {
-                    self.handleInteraction(interaction)
+                    var shouldProcess = false
+                    if let message = interaction as? TSMessage, SofaType(sofa: message.body!) == .paymentRequest {
+                        shouldProcess = true
+                    }
+                    self.handleInteraction(interaction, shouldProcessCommands: shouldProcess)
                 }
             }
 
@@ -204,10 +210,6 @@ class MessagesViewController: JSQMessagesViewController {
             return
         }
 
-        // We need to agree on how to deal with some specific sofa messages. For instance, if I receive a payment request
-        // and I never answer to it, if I leave the conversation and return, it will no longer be there (as it stands now). But
-        // odds are that the user will want to eventually address that payment request, so we should store its state alongside it.
-        // That way we know which requests were dealt with and can arrange the UI accordingly.
         if let message = interaction as? TSMessage, shouldProcessCommands {
             let type = SofaType(sofa: message.body!)
             switch type {
@@ -219,20 +221,38 @@ class MessagesViewController: JSQMessagesViewController {
             }
         }
 
+        /// TODO: Simplify how we deal with interactions vs text messages.
+        /// Since now we know we can expande the TSInteraction stored properties, maybe we can merge some of this together.
         if let message = interaction as? TSOutgoingMessage {
             let textMessage = TextMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), date: Date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!))
 
-            self.interactions.append(textMessage)
+            self.allMessages.append(textMessage)
+            self.interactions.append(message)
         } else if let message = interaction as? TSIncomingMessage {
             let name = self.contactsManager.displayName(forPhoneIdentifier: message.authorId)
-            let textMessage = TextMessage(senderId: message.authorId, displayName: name, date: message.date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!), shouldProcess: shouldProcessCommands)
+            let textMessage = TextMessage(senderId: message.authorId, displayName: name, date: message.date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!), shouldProcess: shouldProcessCommands && message.paymentState == .none)
 
-            self.interactions.append(textMessage)
+            self.allMessages.append(textMessage)
+            self.interactions.append(message)
         }
     }
 
     func message(at indexPath: IndexPath) -> TextMessage {
         return self.messages[indexPath.row]
+    }
+
+    func interaction(atRelative indexPath: IndexPath) -> TSInteraction {
+        var relativeIndexPath: IndexPath? = nil
+
+        let message = self.message(at: indexPath)
+        for interaction in self.allMessages {
+            if interaction == message {
+                relativeIndexPath = IndexPath(row: self.allMessages.index(of: interaction)!, section: 0)
+                break
+            }
+        }
+
+        return self.interactions[relativeIndexPath!.row]
     }
 
     func registerNotifications() {
@@ -260,8 +280,7 @@ class MessagesViewController: JSQMessagesViewController {
         // "UICollectionView performBatchUpdates can trigger a crash if the collection view is flagged for layout"
         // more: https://github.com/PSPDFKit-labs/radar.apple.com/tree/master/28167779%20-%20CollectionViewBatchingIssue
         // This was our #2 crash, and much exacerbated by the refactoring somewhere between 2.6.2.0-2.6.3.8
-        self.collectionView?.layoutIfNeeded()
-        // ENDHACK to work around radar #28167779
+        self.collectionView?.layoutIfNeeded()           // ENDHACK to work around radar #28167779
 
         var messageRowChanges = NSArray()
         var sectionChanges = NSArray()
@@ -454,22 +473,36 @@ extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
 
         // TODO: prevent concurrent calls
         self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
-            let signedTransaction = "0x\(self.cereal.sign(message: transaction!))"
+            let signedTransaction = "0x\(self.cereal.sign(hex: transaction!))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
                 if error != nil {
                     guard let json = json?.dictionary else { fatalError("!") }
 
-                    let alert = UIAlertController.dismissableAlert(title: json["message"] as! String, message: json["message"] as? String)
+                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
                     self.present(alert, animated: true)
+                } else {
+                    let message = self.message(at: indexPath)
+                    message.isActionable = false
+
+                    let interaction = self.interaction(atRelative: indexPath)
+                    interaction.paymentState = .pendingConfirmation
+                    interaction.save()
+
+                    self.collectionView?.reloadItems(at: [indexPath])
                 }
             }
         }
     }
 
     public func messageView(_ messageView: JSQMessagesCollectionView, didTapRejectAt indexPath: IndexPath) {
-        let message = self.message(at: indexPath)
-        message.isActionable = false
+        let textMessage = self.message(at: indexPath)
+        textMessage.isActionable = false
+
+        let interaction = self.interaction(atRelative: indexPath)
+        interaction.paymentState = .rejected
+        interaction.save()
+
         self.collectionView?.reloadItems(at: [indexPath])
     }
 }
