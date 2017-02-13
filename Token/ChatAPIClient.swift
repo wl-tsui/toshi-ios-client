@@ -25,7 +25,7 @@ public class ChatAPIClient: NSObject {
     }
 
     func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {
-        self.teapot.get("/v1/accounts/bootstrap/") { result in
+        self.teapot.get("/v1/accounts/bootstrap/") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 guard response.statusCode == 200 else { fatalError("Could not retrieve timestamp from chat service.") }

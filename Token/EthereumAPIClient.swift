@@ -13,7 +13,7 @@ public class EthereumAPIClient {
     }
 
     func timestamp(completion: @escaping((_ timestamp: String) -> Void)) {
-        self.teapot.get("/v1/timestamp") { result in
+        self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
                 guard let json = json?.dictionary else { fatalError() }
@@ -90,7 +90,7 @@ public class EthereumAPIClient {
     }
 
     public func getBalance(address: String, completion: @escaping((_ balance: NSDecimalNumber, _ error: Error?) -> Void)) {
-        self.teapot.get("/v1/balance/\(address)") { result in
+        self.teapot.get("/v1/balance/\(address)") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 guard response.statusCode == 200 else { fatalError() }

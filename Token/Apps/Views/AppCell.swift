@@ -76,13 +76,8 @@ class AppCell: UICollectionViewCell {
             if let image = app.image {
                 self.avatarImageView.image = image
             } else {
-                AppsAPIClient.shared.downloadImage(for: app) { result in
-                    switch result {
-                    case .success(let response):
-                        self.avatarImageView.image = response.image
-                    case .failure:
-                        self.avatarImageView.image = nil
-                    }
+                AppsAPIClient.shared.downloadImage(for: app) { image in
+                    self.avatarImageView.image = image
                 }
             }
         }

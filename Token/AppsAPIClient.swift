@@ -1,23 +1,28 @@
 import Foundation
-import Networking
+import Teapot
 import UIKit
 
 class AppsAPIClient {
     static let shared: AppsAPIClient = AppsAPIClient()
 
-    private var networking: Networking
-    private var imageNetworking: Networking
+    private var teapot: Teapot
+
+    private var imageTeapot: Teapot
+
+    private var imageCache = NSCache<NSString, UIImage>()
+
 
     init() {
-        self.networking = Networking(baseURL: "https://token-directory-service.herokuapp.com")
-        self.imageNetworking = Networking(baseURL: "http://icons.iconarchive.com")
+        self.teapot = Teapot(baseURL: URL(string: "https://token-directory-service.herokuapp.com")!)
+        self.imageTeapot = Teapot(baseURL: URL(string: "http://icons.iconarchive.com")!)
     }
 
     func getApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
-        self.networking.get("/v1/apps") { result in
+        self.teapot.get("/v1/apps") { (result: NetworkResult) in
             switch result {
-            case .success(let response):
-                let json = response.dictionaryBody
+            case .success(let json, let response):
+                print(response)
+                guard let json = json?.dictionary else { fatalError("No apps json!") }
 
                 var apps = [App]()
                 let appsJSON = json["apps"] as! [[String: Any]]
@@ -26,16 +31,33 @@ class AppsAPIClient {
                 }
 
                 completion(apps, nil)
-            case .failure(let response):
-                completion([App](), response.error)
+            case .failure(let json, let response, let error):
+                print(json ?? "")
+                print(response)
+                completion([App](), error)
             }
         }
     }
 
-    func downloadImage(for app: App, completion: @escaping(_ result: ImageResult) -> Void) {
-        if let avatarURL = app.avatarURL {
-            let (_, path) = Networking.splitBaseURLAndRelativePath(for: avatarURL)
-            self.imageNetworking.downloadImage(path, completion: completion)
+    func downloadImage(for app: App, completion: @escaping(_ image: UIImage?) -> Void) {
+        guard let avatarURL = app.avatarURL else { return }
+
+        let path = avatarURL.path
+        if let image = self.imageCache.object(forKey: path as NSString) {
+            completion(image)
+
+            return
+        }
+
+        self.imageTeapot.get(path) { (result: NetworkImageResult) in
+            switch result {
+            case .success(let image, _):
+                self.imageCache.setObject(image, forKey: path as NSString)
+                completion(image)
+            case .failure(_, let error):
+                print(error)
+                completion(nil)
+            }
         }
     }
 }

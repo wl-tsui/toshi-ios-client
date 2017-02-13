@@ -3,14 +3,14 @@ import UIKit
 
 struct App {
     let displayName: String
-    let avatarURL: String?
+    let avatarURL: URL?
     let image: UIImage?
     var category: String
     var ranking: Int?
 
     init(json: [String: Any]) {
         self.displayName = json["displayName"] as! String
-        self.avatarURL = json["avatarUrl"] as? String
+        self.avatarURL = URL(string: json["avatarUrl"] as? String ?? "")
         self.image = nil
         self.category = "Unknown"
     }

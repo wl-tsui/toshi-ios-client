@@ -13,7 +13,6 @@
 		145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
 		145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
 		146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146D564B1E4A77F200FE7944 /* AppCell.swift */; };
-		147513611E49C8A600E44A62 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 147513601E49C8A600E44A62 /* Networking.framework */; };
 		147513661E49CA5B00E44A62 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513651E49CA5B00E44A62 /* HomeController.swift */; };
 		147513681E49CA6F00E44A62 /* HomeItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513671E49CA6F00E44A62 /* HomeItemCell.swift */; };
 		1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513691E49D41200E44A62 /* HomeNavigationController.swift */; };
@@ -36,7 +35,6 @@
 		9F7B896D1E51C6DA009C192E /* TSInteraction+LocalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B896C1E51C6DA009C192E /* TSInteraction+LocalState.swift */; };
 		9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
 		9F7E5D841E4C770700543296 /* Reveal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E5D831E4C770700543296 /* Reveal.framework */; };
-		9F7E5D861E4C84C400543296 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7E5D851E4C84C400543296 /* Networking.framework */; };
 		9F7E5DA21E4C982300543296 /* TextMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* TextMessage.swift */; };
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
@@ -120,7 +118,6 @@
 		145666031E30D24C00E52027 /* MessagesFloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesFloatingView.swift; sourceTree = "<group>"; };
 		145666051E30D31A00E52027 /* EthereumAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAPIClient.swift; sourceTree = "<group>"; };
 		146D564B1E4A77F200FE7944 /* AppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCell.swift; sourceTree = "<group>"; };
-		147513601E49C8A600E44A62 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = "<group>"; };
 		147513651E49CA5B00E44A62 /* HomeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		147513671E49CA6F00E44A62 /* HomeItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeItemCell.swift; sourceTree = "<group>"; };
 		147513691E49D41200E44A62 /* HomeNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeNavigationController.swift; sourceTree = "<group>"; };
@@ -144,7 +141,6 @@
 		9F7B896C1E51C6DA009C192E /* TSInteraction+LocalState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TSInteraction+LocalState.swift"; sourceTree = "<group>"; };
 		9F7D05271E37961D00FF55B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F7E5D831E4C770700543296 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
-		9F7E5D851E4C84C400543296 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = Carthage/Build/iOS/Networking.framework; sourceTree = "<group>"; };
 		9F7E5DA11E4C982300543296 /* TextMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessage.swift; sourceTree = "<group>"; };
 		9F844BD41E30D880001C5498 /* ChatsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
@@ -231,10 +227,8 @@
 				9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */,
 				9F6758601E3BA1850009ABCD /* PromiseKit.framework in Frameworks */,
 				9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */,
-				9F7E5D861E4C84C400543296 /* Networking.framework in Frameworks */,
 				9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */,
 				9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */,
-				147513611E49C8A600E44A62 /* Networking.framework in Frameworks */,
 				9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */,
 				139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */,
 				9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */,
@@ -321,7 +315,6 @@
 		27842ECF00E36BC79A5918DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9F7E5D851E4C84C400543296 /* Networking.framework */,
 				9F7E5D831E4C770700543296 /* Reveal.framework */,
 				9FE4267B1E3F566B007ED2A4 /* Teapot.framework */,
 				9F6758501E3BA1850009ABCD /* CameraScanner.framework */,
@@ -679,7 +672,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/JSQMessages.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Networking.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (

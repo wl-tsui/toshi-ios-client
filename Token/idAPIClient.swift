@@ -61,7 +61,7 @@ public class IDAPIClient: NSObject {
     }
 
     func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {
-        self.teapot.get("/v1/timestamp") { result in
+        self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 print(response)
@@ -141,7 +141,7 @@ public class IDAPIClient: NSObject {
     }
 
     public func retrieveUser(username: String, completion: @escaping((User?) -> Void)) {
-        self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { result in
+        self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 print(response)
@@ -170,7 +170,7 @@ public class IDAPIClient: NSObject {
     }
 
     public func findContact(name: String, completion: @escaping((TokenContact?) -> Void)) {
-        self.teapot.get("/v1/user/\(name)") { result in
+        self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 print(response)
@@ -191,7 +191,7 @@ public class IDAPIClient: NSObject {
 
     public func searchContacts(name: String, completion: @escaping(([TokenContact]) -> Void)) {
         // /v1/search/user/?query=moxiemarl&offset=80&limit=20
-        self.teapot.get("/v1/search/user?query=\(name)") { result in
+        self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 print(response)
