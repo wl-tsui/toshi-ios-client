@@ -11,7 +11,7 @@ class ChatCell: UITableViewCell {
             let tokenContact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "")
             self.usernameLabel.text = tokenContact?.username == nil ? "" : "@\(tokenContact!.username)"
 
-            if let message = self.thread?.visibleInteractions.last, let messageBody = message.body {
+            if let message = self.thread?.visibleIncomingInteractions.last, let messageBody = message.body {
                 switch SofaType(sofa: messageBody) {
                 case .message:
                     self.lastMessageLabel.text = SofaMessage(content: messageBody).body

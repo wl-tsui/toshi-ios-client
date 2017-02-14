@@ -4,7 +4,7 @@
 
 @interface TSThread (Additions)
 
-@property (nonatomic, readonly) NSArray<TSMessage *> *visibleInteractions;
+@property (nonatomic, readonly) NSArray<TSMessage *> *visibleIncomingInteractions;
 
 - (NSArray<TSInteraction *> *)allInteractions;
 
