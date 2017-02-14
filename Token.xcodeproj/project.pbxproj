@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		139D3D551532132DEF30798A /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DBE29B1DAF5045495225177 /* libPods-CocoaPods-Token.a */; };
+		142709A21E531A6100BF964B /* Distribution.plist in Resources */ = {isa = PBXBuildFile; fileRef = 142709A11E531A6100BF964B /* Distribution.plist */; };
 		143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
 		143186BB1E49C5560025E9B7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
 		145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
@@ -213,6 +214,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		142709A11E531A6100BF964B /* Distribution.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Distribution.plist; sourceTree = "<group>"; };
 		143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsAPIClient.swift; sourceTree = "<group>"; };
 		143186BA1E49C5560025E9B7 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		145666031E30D24C00E52027 /* MessagesFloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesFloatingView.swift; sourceTree = "<group>"; };
@@ -224,7 +226,6 @@
 		1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		1475136E1E49FB8C00E44A62 /* HomeLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLayout.swift; sourceTree = "<group>"; };
 		147DFC4E1E51FFE100BF5DD6 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		147DFC4F1E51FFE100BF5DD6 /* Distribution.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Distribution.plist; path = "/Users/elvis/Projects/BB/token-ios-client/Distribution.plist"; sourceTree = "<absolute>"; };
 		14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsController.swift; sourceTree = "<group>"; };
 		14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsNavigationController.swift; sourceTree = "<group>"; };
 		3BB9C4D974A425E4ED6CCF4B /* Pods-CocoaPods-Token.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Token.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Token/Pods-CocoaPods-Token.release.xcconfig"; sourceTree = "<group>"; };
@@ -464,7 +465,7 @@
 				9FCDBAE01E28E71900A70E07 /* ContactsController.swift */,
 				9F844BD91E30DF48001C5498 /* ContactController.swift */,
 			);
-			name = Contacts;
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 		9F9238A81E24F1D2004BEEE0 = {
@@ -509,7 +510,7 @@
 				9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */,
 				9F9238B51E24F1D2004BEEE0 /* main.m */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		9F9238CC1E24F3D9004BEEE0 /* Resources */ = {
@@ -522,10 +523,10 @@
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
 				9F9238C51E24F1D2004BEEE0 /* Development.plist */,
-				147DFC4F1E51FFE100BF5DD6 /* Distribution.plist */,
+				142709A11E531A6100BF964B /* Distribution.plist */,
 				9FAACCB41E30F24100FB871D /* Localizable.strings */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
@@ -536,9 +537,9 @@
 				9FCDBAEF1E29063500A70E07 /* Messaging */,
 				14ED3AB91E4A2A8D00DF8079 /* Apps */,
 				9F844BD81E30DF3F001C5498 /* Contacts */,
-				9FE18B291E2D1FC700940DC8 /* Settings/Profile */,
+				9FE18B291E2D1FC700940DC8 /* Settings */,
 			);
-			name = Controllers;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		9F9238CE1E24F3EB004BEEE0 /* Views */ = {
@@ -548,7 +549,7 @@
 				9FE18B271E2D135F00940DC8 /* ContactCell.swift */,
 				9FE398401E2E225600386FAF /* ProfileItemCell.swift */,
 			);
-			name = Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		9F9238CF1E24F3F1004BEEE0 /* Models */ = {
@@ -570,7 +571,7 @@
 				143186BA1E49C5560025E9B7 /* App.swift */,
 				9F7E5DA11E4C982300543296 /* TextMessage.swift */,
 			);
-			name = Models;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		9FAACCD81E31120600FB871D /* SF-UI-Display */ = {
@@ -619,7 +620,7 @@
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
 			);
-			name = Extensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
@@ -630,7 +631,7 @@
 				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
 				143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */,
 			);
-			name = APIClients;
+			path = APIClients;
 			sourceTree = "<group>";
 		};
 		9FCDBACE1E27C24900A70E07 /* Notifications */ = {
@@ -643,7 +644,7 @@
 				9FCDBAC81E27C17500A70E07 /* NotificationsManager.h */,
 				9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */,
 			);
-			name = Notifications;
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		9FCDBAE81E28FD5600A70E07 /* Theme */ = {
@@ -651,7 +652,7 @@
 			children = (
 				9FCDBAE91E28FD5C00A70E07 /* Theme.swift */,
 			);
-			name = Theme;
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		9FCDBAEF1E29063500A70E07 /* Messaging */ = {
@@ -663,17 +664,17 @@
 				145666031E30D24C00E52027 /* MessagesFloatingView.swift */,
 				9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */,
 			);
-			name = Messaging;
+			path = Messaging;
 			sourceTree = "<group>";
 		};
 		9FD0ED201E2F8378000507B0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Protocols;
+			path = Protocols;
 			sourceTree = "<group>";
 		};
-		9FE18B291E2D1FC700940DC8 /* Settings/Profile */ = {
+		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */,
@@ -681,7 +682,7 @@
 				9F04A7221E38D1400043534A /* QRCodeController.swift */,
 				9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */,
 			);
-			name = Settings/Profile;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -788,6 +789,7 @@
 				147DFC341E51FFE100BF5DD6 /* SF-UI-Display-Thin.otf in Resources */,
 				147DFC351E51FFE100BF5DD6 /* SF-UI-Display-Medium.otf in Resources */,
 				147DFC361E51FFE100BF5DD6 /* LaunchScreen.storyboard in Resources */,
+				142709A21E531A6100BF964B /* Distribution.plist in Resources */,
 				147DFC371E51FFE100BF5DD6 /* SF-UI-Text-Medium.otf in Resources */,
 				147DFC381E51FFE100BF5DD6 /* SF-UI-Text-Bold.otf in Resources */,
 				147DFC391E51FFE100BF5DD6 /* Localizable.strings in Resources */,
@@ -1106,6 +1108,7 @@
 				9F9238C31E24F1D2004BEEE0 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1131,7 +1134,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Distribution.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Distribution.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1147,7 +1150,7 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
 				PRODUCT_NAME = Token;
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1174,7 +1177,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Distribution.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Distribution.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1185,7 +1188,7 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
 				PRODUCT_NAME = Token;
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1305,7 +1308,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Development.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Development.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1321,7 +1324,7 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1348,7 +1351,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Development.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Development.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1359,7 +1362,7 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
