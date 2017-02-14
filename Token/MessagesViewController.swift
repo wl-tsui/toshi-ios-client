@@ -450,7 +450,7 @@ extension MessagesViewController: MessagesFloatingViewDelegate {
     // TODO: Implement payment request UI.
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         let request: [String: Any] = ["body": "Thanks for the great time! Can you send your share of the tab?",
-            "value": "1000000000",
+            "value": "100000000000000000", // +/- $1
             "destinationAddress": self.cereal.address]
 
         let paymentRequest = SofaPaymentRequest(content: request)
