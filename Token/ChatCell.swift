@@ -11,8 +11,15 @@ class ChatCell: UITableViewCell {
             let tokenContact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "")
             self.usernameLabel.text = tokenContact?.username == nil ? "" : "@\(tokenContact!.username)"
 
-            if let sofaMessage = self.thread?.lastMessageLabel(), sofaMessage.length > 0 && SofaType(sofa: sofaMessage) == .message {
-                self.lastMessageLabel.text = SofaMessage(content: sofaMessage).body
+            if let message = self.thread?.visibleInteractions.last, let messageBody = message.body {
+                switch SofaType(sofa: messageBody) {
+                case .message:
+                    self.lastMessageLabel.text = SofaMessage(content: messageBody).body
+                case .paymentRequest:
+                    self.lastMessageLabel.text = SofaPaymentRequest(content: messageBody).body
+                default:
+                    self.lastMessageLabel.text = nil
+                }
             } else {
                 self.lastMessageLabel.text = nil
             }

@@ -1,5 +1,7 @@
 #import "Cryptotools.h"
 
+#import "TSThread+Additions.h"
+
 #import "AppDelegate.h"
 #import "ContactsManager.h"
 
