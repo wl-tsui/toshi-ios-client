@@ -77,7 +77,7 @@
 		147DFC261E51FFE100BF5DD6 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; };
 		147DFC281E51FFE100BF5DD6 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; };
 		147DFC291E51FFE100BF5DD6 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; };
-		147DFC2B1E51FFE100BF5DD6 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		147DFC2B1E51FFE100BF5DD6 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		147DFC2C1E51FFE100BF5DD6 /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCED1E31120600FB871D /* SF-UI-Text-Semibold.otf */; };
 		147DFC2D1E51FFE100BF5DD6 /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCD91E31120600FB871D /* SF-UI-Display-Black.otf */; };
 		147DFC2E1E51FFE100BF5DD6 /* SF-UI-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEA1E31120600FB871D /* SF-UI-Text-MediumItalic.otf */; };
@@ -105,10 +105,11 @@
 		147DFC441E51FFE100BF5DD6 /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE71E31120600FB871D /* SF-UI-Text-Light.otf */; };
 		147DFC451E51FFE100BF5DD6 /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDF1E31120600FB871D /* SF-UI-Display-Semibold.otf */; };
 		147DFC461E51FFE100BF5DD6 /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */; };
-		14870DA71E3F8AB500A2A041 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		14870DA71E3F8AB500A2A041 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */; };
 		14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
+		9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
@@ -782,7 +783,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				147DFC2B1E51FFE100BF5DD6 /* BuildFile in Resources */,
+				147DFC2B1E51FFE100BF5DD6 /* (null) in Resources */,
 				147DFC2C1E51FFE100BF5DD6 /* SF-UI-Text-Semibold.otf in Resources */,
 				147DFC2D1E51FFE100BF5DD6 /* SF-UI-Display-Black.otf in Resources */,
 				147DFC2E1E51FFE100BF5DD6 /* SF-UI-Text-MediumItalic.otf in Resources */,
@@ -817,7 +818,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14870DA71E3F8AB500A2A041 /* BuildFile in Resources */,
+				14870DA71E3F8AB500A2A041 /* (null) in Resources */,
 				9FAACD041E31120600FB871D /* SF-UI-Text-Semibold.otf in Resources */,
 				9FAACCF11E31120600FB871D /* SF-UI-Display-Black.otf in Resources */,
 				9FAACD011E31120600FB871D /* SF-UI-Text-MediumItalic.otf in Resources */,
@@ -926,7 +927,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5339263EC3B851184DFB321C /* [CP] Copy Pods Resources */ = {
@@ -986,7 +987,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1035,6 +1036,7 @@
 				147DFC0F1E51FFE100BF5DD6 /* User.swift in Sources */,
 				147DFC101E51FFE100BF5DD6 /* DateTimeFormatter.swift in Sources */,
 				147DFC111E51FFE100BF5DD6 /* SofaWrapper.swift in Sources */,
+				9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */,
 				147DFC121E51FFE100BF5DD6 /* main.m in Sources */,
 				147DFC131E51FFE100BF5DD6 /* TabBarController.swift in Sources */,
 				147DFC141E51FFE100BF5DD6 /* NSDecimalNumber+Additions.swift in Sources */,
