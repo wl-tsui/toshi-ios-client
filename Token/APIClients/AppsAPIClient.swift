@@ -11,7 +11,6 @@ class AppsAPIClient {
 
     private var imageCache = NSCache<NSString, UIImage>()
 
-
     init() {
         self.teapot = Teapot(baseURL: URL(string: "https://token-directory-service.herokuapp.com")!)
         self.imageTeapot = Teapot(baseURL: URL(string: "http://icons.iconarchive.com")!)

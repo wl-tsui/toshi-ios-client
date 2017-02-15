@@ -110,6 +110,10 @@
 		14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
 		9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
+		9F21E0631E546A03000E90C6 /* PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0621E546A03000E90C6 /* PaymentController.swift */; };
+		9F21E0641E546A03000E90C6 /* PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0621E546A03000E90C6 /* PaymentController.swift */; };
+		9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */; };
+		9F21E0671E546C4E000E90C6 /* PaymentSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
@@ -235,6 +239,8 @@
 		76E92E9D1B6103BA0F2F0A5C /* Pods-CocoaPods-Development.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.debug.xcconfig"; sourceTree = "<group>"; };
 		79029A36E29DDB0D5E4086BF /* libPods-CocoaPods-Distribution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Distribution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
+		9F21E0621E546A03000E90C6 /* PaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentController.swift; sourceTree = "<group>"; };
+		9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSendController.swift; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingNavigationController.swift; sourceTree = "<group>"; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		9F6758501E3BA1850009ABCD /* CameraScanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CameraScanner.framework; path = Carthage/Build/iOS/CameraScanner.framework; sourceTree = SOURCE_ROOT; };
@@ -670,6 +676,8 @@
 			isa = PBXGroup;
 			children = (
 				9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */,
+				9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */,
+				9F21E0621E546A03000E90C6 /* PaymentController.swift */,
 			);
 			name = Payments;
 			sourceTree = "<group>";
@@ -1011,6 +1019,7 @@
 			files = (
 				147DFBEB1E51FFE100BF5DD6 /* NotificationsManager.m in Sources */,
 				147DFBEC1E51FFE100BF5DD6 /* HomeLayout.swift in Sources */,
+				9F21E0671E546C4E000E90C6 /* PaymentSendController.swift in Sources */,
 				147DFBED1E51FFE100BF5DD6 /* ProfileEditController.swift in Sources */,
 				147DFBEE1E51FFE100BF5DD6 /* TokenContact.swift in Sources */,
 				147DFBEF1E51FFE100BF5DD6 /* SettingsNavigationController.swift in Sources */,
@@ -1052,7 +1061,6 @@
 				9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */,
 				147DFC121E51FFE100BF5DD6 /* main.m in Sources */,
 				147DFC131E51FFE100BF5DD6 /* TabBarController.swift in Sources */,
-				9F21E05E1E5463A4000E90C6 /* TSThread+Additions.m in Sources */,
 				147DFC141E51FFE100BF5DD6 /* NSDecimalNumber+Additions.swift in Sources */,
 				147DFC151E51FFE100BF5DD6 /* AppCell.swift in Sources */,
 				147DFC161E51FFE100BF5DD6 /* NotificationTracker.m in Sources */,
@@ -1060,6 +1068,7 @@
 				147DFC181E51FFE100BF5DD6 /* HomeItemCell.swift in Sources */,
 				147DFC191E51FFE100BF5DD6 /* AppsAPIClient.swift in Sources */,
 				147DFC1A1E51FFE100BF5DD6 /* QRCodeController.swift in Sources */,
+				9F21E0641E546A03000E90C6 /* PaymentController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1069,6 +1078,7 @@
 			files = (
 				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
 				1475136F1E49FB8C00E44A62 /* HomeLayout.swift in Sources */,
+				9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */,
 				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
 				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
@@ -1117,6 +1127,7 @@
 				147513681E49CA6F00E44A62 /* HomeItemCell.swift in Sources */,
 				143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */,
 				9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */,
+				9F21E0631E546A03000E90C6 /* PaymentController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

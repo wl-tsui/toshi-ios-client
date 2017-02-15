@@ -177,8 +177,7 @@ extension User {
 
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
-        
+
         return attributedString
     }
-
 }

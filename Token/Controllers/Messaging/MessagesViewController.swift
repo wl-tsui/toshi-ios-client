@@ -280,7 +280,7 @@ class MessagesViewController: JSQMessagesViewController {
         // "UICollectionView performBatchUpdates can trigger a crash if the collection view is flagged for layout"
         // more: https://github.com/PSPDFKit-labs/radar.apple.com/tree/master/28167779%20-%20CollectionViewBatchingIssue
         // This was our #2 crash, and much exacerbated by the refactoring somewhere between 2.6.2.0-2.6.3.8
-        self.collectionView?.layoutIfNeeded()           // ENDHACK to work around radar #28167779
+        self.collectionView?.layoutIfNeeded() // ENDHACK to work around radar #28167779
 
         var messageRowChanges = NSArray()
         var sectionChanges = NSArray()
@@ -446,7 +446,8 @@ extension MessagesViewController {
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
-   func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
+
+    func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
         let paymentRequestController = PaymentRequestController()
         paymentRequestController.delegate = self
 
@@ -454,11 +455,47 @@ extension MessagesViewController: MessagesFloatingViewDelegate {
     }
 
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
-        print("pay button pressed")
+        let paymentSendController = PaymentSendController()
+        paymentSendController.delegate = self
+
+        self.present(paymentSendController, animated: true)
+    }
+}
+
+extension MessagesViewController: PaymentSendControllerDelegate {
+
+    func paymentSendControllerDidFinish(valueInWei: NSDecimalNumber?) {
+        defer {
+            self.dismiss(animated: true)
+        }
+
+        guard let value = valueInWei else {
+            return
+        }
+
+        // TODO: prevent concurrent calls
+        // Also, extract this.
+        guard let destination = self.thread.contactIdentifier() else {
+            return
+        }
+
+        self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
+            let signedTransaction = "0x\(self.cereal.sign(hex: transaction!))"
+
+            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
+                if error != nil {
+                    guard let json = json?.dictionary else { fatalError("!") }
+
+                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
 }
 
 extension MessagesViewController: PaymentRequestControllerDelegate {
+
     func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
         defer {
             self.dismiss(animated: true)
@@ -471,7 +508,7 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
         let request: [String: Any] = [
             "body": "Payment request: \(User.dollarValueString(forWei: valueInWei)).",
             "value": valueInWei.toDecimalString,
-            "destinationAddress": self.cereal.address
+            "destinationAddress": self.cereal.address,
         ]
 
         let paymentRequest = SofaPaymentRequest(content: request)
@@ -489,6 +526,7 @@ extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
         guard let destination = paymentRequest.destinationAddress else { return }
 
         // TODO: prevent concurrent calls
+        // Also, extract this.
         self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
             let signedTransaction = "0x\(self.cereal.sign(hex: transaction!))"
 
