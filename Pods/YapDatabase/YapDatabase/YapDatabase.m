@@ -433,20 +433,12 @@ static int connectionBusyHandler(void *ptr, int count) {
 		
 			BOOL result = YES;
 			
-            if (result) {
-                result = [self openDatabase];
-            }
+			if (result) result = [self openDatabase];
 #ifdef SQLITE_HAS_CODEC
-            if (result) {
-                result = [self configureEncryptionForDatabase:db];
-            }
+            if (result) result = [self configureEncryptionForDatabase:db];
 #endif
-            if (result) {
-                result = [self configureDatabase:isNewDatabaseFile];
-            }
-            if (result) {
-                result = [self createTables];
-            }
+			if (result) result = [self configureDatabase:isNewDatabaseFile];
+			if (result) result = [self createTables];
 			
 			if (!result && db)
 			{
