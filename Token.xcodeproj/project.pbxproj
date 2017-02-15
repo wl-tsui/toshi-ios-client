@@ -180,6 +180,8 @@
 		9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
 		9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
+		9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
+		9FCF132E1E531B520078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
@@ -314,6 +316,7 @@
 		9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenContact.swift; sourceTree = "<group>"; };
 		9FCF13261E52FB160078FF7F /* TSThread+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TSThread+Additions.h"; sourceTree = "<group>"; };
 		9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSThread+Additions.m"; sourceTree = "<group>"; };
+		9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestController.swift; sourceTree = "<group>"; };
 		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
 		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
@@ -532,6 +535,7 @@
 				9FCDBAEF1E29063500A70E07 /* Messaging */,
 				14ED3AB91E4A2A8D00DF8079 /* Apps */,
 				9F844BD81E30DF3F001C5498 /* Contacts */,
+				9FCF132B1E531B380078FF7F /* Payments */,
 				9FE18B291E2D1FC700940DC8 /* Settings */,
 			);
 			path = Controllers;
@@ -660,6 +664,14 @@
 				9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */,
 			);
 			path = Messaging;
+			sourceTree = "<group>";
+		};
+		9FCF132B1E531B380078FF7F /* Payments */ = {
+			isa = PBXGroup;
+			children = (
+				9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */,
+			);
+			name = Payments;
 			sourceTree = "<group>";
 		};
 		9FD0ED201E2F8378000507B0 /* Protocols */ = {
@@ -1015,6 +1027,7 @@
 				147DFBFA1E51FFE100BF5DD6 /* ContactsController.swift in Sources */,
 				147DFBFB1E51FFE100BF5DD6 /* ChatsController.swift in Sources */,
 				147DFBFC1E51FFE100BF5DD6 /* HomeController.swift in Sources */,
+				9FCF132E1E531B520078FF7F /* PaymentRequestController.swift in Sources */,
 				147DFBFD1E51FFE100BF5DD6 /* ProfileController.swift in Sources */,
 				147DFBFE1E51FFE100BF5DD6 /* ProfileItemCell.swift in Sources */,
 				147DFBFF1E51FFE100BF5DD6 /* FingerprintViewController.swift in Sources */,
@@ -1039,6 +1052,7 @@
 				9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */,
 				147DFC121E51FFE100BF5DD6 /* main.m in Sources */,
 				147DFC131E51FFE100BF5DD6 /* TabBarController.swift in Sources */,
+				9F21E05E1E5463A4000E90C6 /* TSThread+Additions.m in Sources */,
 				147DFC141E51FFE100BF5DD6 /* NSDecimalNumber+Additions.swift in Sources */,
 				147DFC151E51FFE100BF5DD6 /* AppCell.swift in Sources */,
 				147DFC161E51FFE100BF5DD6 /* NotificationTracker.m in Sources */,
@@ -1065,6 +1079,7 @@
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
+				9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				143186BB1E49C5560025E9B7 /* App.swift in Sources */,

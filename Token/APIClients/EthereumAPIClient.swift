@@ -4,15 +4,42 @@ import Teapot
 public class EthereumAPIClient {
     static let shared: EthereumAPIClient = EthereumAPIClient()
 
+    private static let collectionKey = "ethereumExchangeRate"
+
     public var teapot: Teapot
+
+    private var exchangeTeapot: Teapot
 
     public var cereal = Cereal()
 
-    public init() {
-        self.teapot = Teapot(baseURL: URL(string: "https://token-eth-service.herokuapp.com")!)
+    let yap = Yap.sharedInstance
+
+    public var exchangeRate: Decimal {
+        get {
+            self.updateRate()
+
+            if let rate = self.yap.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
+                return rate
+            } else {
+                return 10.0
+            }
+        }
     }
 
-    func timestamp(completion: @escaping((_ timestamp: String) -> Void)) {
+    private init() {
+        self.teapot = Teapot(baseURL: URL(string: "https://token-eth-service.herokuapp.com")!)
+        self.exchangeTeapot = Teapot(baseURL: URL(string: "https://api.coinbase.com")!)
+
+        self.updateRate()
+    }
+
+    private func updateRate() {
+        self.getRate { (rate) in
+            self.yap.insert(object: rate, for: EthereumAPIClient.collectionKey)
+        }
+    }
+
+    func timestamp(_ completion: @escaping((_ timestamp: String) -> Void)) {
         self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
@@ -22,6 +49,23 @@ public class EthereumAPIClient {
                 completion(String(timestamp))
             case .failure(_, _, let error):
                 print(error)
+            }
+        }
+    }
+
+    func getRate(_ completion: @escaping((_ rate: Decimal) -> Void)) {
+        //
+        self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
+            switch result {
+            case .success(let json, _):
+                guard let json = json?.dictionary else { fatalError() }
+                guard let data = json["data"] as? [String: Any] else { fatalError() }
+                guard let rates = data["rates"] as? [String: Any] else { fatalError() }
+                guard let usd = rates["USD"] as? String else { fatalError() }
+
+                completion(Decimal(Double(usd)!))
+            case .failure(_, _, let error):
+                fatalError(error.localizedDescription)
             }
         }
     }

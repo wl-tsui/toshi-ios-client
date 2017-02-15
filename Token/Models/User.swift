@@ -136,30 +136,49 @@ public class User: NSObject, JSONDataSerialization {
     public override var description: String {
         return "<User: address: \(self.address), name: \(self.name), username: \(self.username)>"
     }
+}
 
-    // TODO: Add unit tests for this.
-    public static func balanceAttributedString(for balance: NSDecimalNumber) -> NSAttributedString {
+// Balance display, should move this somewhere else. Probably a UnitConverter struct.
+extension User {
+    public static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
+
+    public static var weisToEtherPowerOf10Constant: Int16 {
+        get {
+            return Int16(self.weisToEtherConstant.stringValue.length - 1)
+        }
+    }
+
+    public static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
+        return "\(balance.toDecimalString) ETH"
+    }
+
+    public static func dollarValueString(forWei balance: NSDecimalNumber) -> String {
+        let ether = balance.dividing(by: self.weisToEtherConstant)
         // Conversion from https://www.coinbase.com/charts
-        let currentUSDConversion = NSDecimalNumber(decimal: 10.26)
-        // Conversion from http://ether.fund/tool/converter
-        let weisToEther = NSDecimalNumber(string: "1000000000000000000")
-        let ether = balance.dividing(by: weisToEther)
-        let usd: NSDecimalNumber = currentUSDConversion.multiplying(by: ether)
+        let currentUSDConversion = NSDecimalNumber(decimal: EthereumAPIClient.shared.exchangeRate)
 
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currencyAccounting
         numberFormatter.locale = Locale(identifier: "en_US")
 
-        let usdText = numberFormatter.string(from: usd)!
-        let etherText = " · \(ether.toDecimalString) ETH"
+        let usd: NSDecimalNumber = currentUSDConversion.multiplying(by: ether)
 
-        let text = usdText + etherText
+        return numberFormatter.string(from: usd)!
+    }
+
+    // TODO: Add unit tests for this.
+    public static func balanceAttributedString(for balance: NSDecimalNumber) -> NSAttributedString {
+        let usdText = self.dollarValueString(forWei: balance)
+        let etherText = self.ethereumValueString(forEther: balance.dividing(by: self.weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
+
+        let text = usdText + " · " + etherText
         let coloredPart = etherText
         let range = (text as NSString).range(of: coloredPart)
 
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
-
+        
         return attributedString
     }
+
 }

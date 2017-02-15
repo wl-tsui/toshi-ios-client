@@ -446,20 +446,37 @@ extension MessagesViewController {
 }
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
+   func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
+        let paymentRequestController = PaymentRequestController()
+        paymentRequestController.delegate = self
 
-    // TODO: Implement payment request UI.
-    func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
-        let request: [String: Any] = ["body": "Thanks for the great time! Can you send your share of the tab?",
-            "value": "100000000000000000", // +/- $1
-            "destinationAddress": self.cereal.address]
-
-        let paymentRequest = SofaPaymentRequest(content: request)
-
-        self.sendMessage(sofaWrapper: paymentRequest)
+        self.present(paymentRequestController, animated: true)
     }
 
     func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
         print("pay button pressed")
+    }
+}
+
+extension MessagesViewController: PaymentRequestControllerDelegate {
+    func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
+        defer {
+            self.dismiss(animated: true)
+        }
+
+        guard let valueInWei = valueInWei else {
+            return
+        }
+
+        let request: [String: Any] = [
+            "body": "Payment request: \(User.dollarValueString(forWei: valueInWei)).",
+            "value": valueInWei.toDecimalString,
+            "destinationAddress": self.cereal.address
+        ]
+
+        let paymentRequest = SofaPaymentRequest(content: request)
+
+        self.sendMessage(sofaWrapper: paymentRequest)
     }
 }
 
