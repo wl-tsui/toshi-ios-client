@@ -72,7 +72,7 @@ public class EthereumAPIClient {
 
     public func createUnsignedTransaction(to address: String, value: NSDecimalNumber, completion: @escaping((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
         let parameters: [String: Any] = [
-            "from": self.cereal.address,
+            "from": self.cereal.paymentAddress,
             "to": address,
             "value": value.toHexString,
         ]
@@ -104,12 +104,12 @@ public class EthereumAPIClient {
             ]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = self.cereal.sha3(string: payloadString)
+            let hashedPayload = self.cereal.sha3WithWallet(string: payloadString)
 
-            let signature = "0x\(self.cereal.sign(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let signature = "0x\(self.cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headers: [String: String] = [
-                "Token-ID-Address": self.cereal.address,
+                "Token-ID-Address": self.cereal.paymentAddress,
                 "Token-Signature": signature,
                 "Token-Timestamp": timestamp,
             ]
@@ -155,13 +155,13 @@ public class EthereumAPIClient {
     public func registerForPushNotifications() {
         self.timestamp { (timestamp) in
             let path = "/v1/apn/register"
-            let address = self.cereal.address
+            let address = self.cereal.paymentAddress
 
             let params = ["registration_id": address]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = self.cereal.sha3(string: payloadString)
-            let signature = "0x\(self.cereal.sign(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = self.cereal.sha3WithWallet(string: payloadString)
+            let signature = "0x\(self.cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headerFields: [String: String] = [
                 "Token-ID-Address": address,
@@ -186,7 +186,7 @@ public class EthereumAPIClient {
 
     public func registerForNotifications() {
         self.timestamp { (timestamp) in
-            let address = self.cereal.address
+            let address = self.cereal.paymentAddress
             let path = "/v1/register"
 
             let params = [
@@ -196,8 +196,8 @@ public class EthereumAPIClient {
             ]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = self.cereal.sha3(string: payloadString)
-            let signature = "0x\(self.cereal.sign(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = self.cereal.sha3WithWallet(string: payloadString)
+            let signature = "0x\(self.cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headerFields: [String: String] = [
                 "Token-ID-Address": address,
@@ -223,7 +223,7 @@ public class EthereumAPIClient {
 
     public func deregisterForNotifications() {
         self.timestamp { (timestamp) in
-            let address = self.cereal.address
+            let address = self.cereal.paymentAddress
             let path = "/v1/deregister"
 
             let params = [
@@ -233,8 +233,8 @@ public class EthereumAPIClient {
             ]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = self.cereal.sha3(string: payloadString)
-            let signature = "0x\(self.cereal.sign(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = self.cereal.sha3WithWallet(string: payloadString)
+            let signature = "0x\(self.cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headerFields: [String: String] = [
                 "Token-ID-Address": address,

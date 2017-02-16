@@ -72,6 +72,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign, nonatomic) BOOL isActionable;
 
+/**
+ Specificies a title for the message. If this is nil the title won't be shown.
+ */
+@property (nonatomic) NSString *title;
+
+/**
+ Specificies an attributed title for the message. If this is nil the title won't be shown.
+ */
+@property (nonatomic) NSAttributedString *attributedTitle;
+
+/**
+ Specificies an attributed title for the message. If this is nil the subtitle won't be shown.
+ */
+@property (nonatomic) NSString *subtitle;
+
+/**
+ Specificies an attributed subtitle for the message. If this is nil the subtitle won't be shown.
+ */
+@property (nonatomic) NSAttributedString *attributedSubtitle;
 
 #pragma mark - Initialization
 

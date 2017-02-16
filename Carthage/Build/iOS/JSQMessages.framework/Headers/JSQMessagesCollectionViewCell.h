@@ -130,6 +130,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (weak, nonatomic, readonly, nullable) JSQMessagesCellTextView *textView;
 
+@property (weak, nonatomic, readonly, nullable) IBOutlet UIButton *rejectButton;
+
+@property (weak, nonatomic, readonly, nullable) IBOutlet UIButton *approveButton;
+
+@property (weak, nonatomic, readonly, nullable) IBOutlet UILabel *titleLabel;
+
+@property (weak, nonatomic, readonly, nullable) IBOutlet UILabel *subtitleLabel;
+
 /**
  *  Returns the bubble image view of the cell that is responsible for displaying message bubble images.
  *

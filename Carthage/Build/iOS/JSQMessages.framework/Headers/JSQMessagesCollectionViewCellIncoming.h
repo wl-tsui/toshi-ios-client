@@ -23,4 +23,5 @@
  *  of `JSQMessagesCollectionViewCell` that represents an incoming message data item.
  */
 @interface JSQMessagesCollectionViewCellIncoming : JSQMessagesCollectionViewCell
+
 @end

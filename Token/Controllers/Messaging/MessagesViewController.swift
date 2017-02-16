@@ -116,7 +116,7 @@ class MessagesViewController: JSQMessagesViewController {
 
         self.collectionView?.backgroundColor = Theme.messageViewBackgroundColor
 
-        self.ethereumAPIClient.getBalance(address: self.cereal.address) { balance, error in
+        self.ethereumAPIClient.getBalance(address: self.cereal.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 self.present(alertController, animated: true, completion: nil)
@@ -230,7 +230,13 @@ class MessagesViewController: JSQMessagesViewController {
             self.interactions.append(message)
         } else if let message = interaction as? TSIncomingMessage {
             let name = self.contactsManager.displayName(forPhoneIdentifier: message.authorId)
-            let textMessage = TextMessage(senderId: message.authorId, displayName: name, date: message.date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!), shouldProcess: shouldProcessCommands && message.paymentState == .none)
+            let sofaWrapper = SofaWrapper.wrapper(content: message.body!)
+            let textMessage = TextMessage(senderId: message.authorId, displayName: name, date: message.date(), sofaWrapper: sofaWrapper, shouldProcess: shouldProcessCommands && message.paymentState == .none)
+
+            if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
+                textMessage.title = "Payment request"
+                textMessage.attributedSubtitle = User.balanceAttributedString(for: paymentRequest.value!)
+            }
 
             self.allMessages.append(textMessage)
             self.interactions.append(message)
@@ -427,9 +433,19 @@ extension MessagesViewController {
 
         if message.senderId == senderId() {
             cell.textView?.textColor = Theme.outgoingMessageTextColor
+            cell.titleLabel?.textColor = Theme.outgoingMessageTextColor
+            cell.subtitleLabel?.textColor = Theme.outgoingMessageTextColor
         } else {
             cell.textView?.textColor = Theme.incomingMessageTextColor
+            cell.titleLabel?.textColor = Theme.incomingMessageTextColor
+            cell.subtitleLabel?.textColor = Theme.incomingMessageTextColor
         }
+
+        let approveTitle = NSAttributedString(string: cell.approveButton!.title(for: .normal)!, attributes: [NSFontAttributeName: Theme.semibold(size: 15), NSForegroundColorAttributeName: Theme.tintColor])
+        cell.approveButton!.setAttributedTitle(approveTitle, for: .normal)
+
+        let rejectTitle = NSAttributedString(string: cell.rejectButton!.title(for: .normal)!, attributes: [NSFontAttributeName: Theme.regular(size: 15), NSForegroundColorAttributeName: Theme.greyTextColor])
+        cell.rejectButton!.setAttributedTitle(rejectTitle, for: .normal)
 
         return cell
     }
@@ -475,12 +491,12 @@ extension MessagesViewController: PaymentSendControllerDelegate {
 
         // TODO: prevent concurrent calls
         // Also, extract this.
-        guard let destination = self.thread.contactIdentifier() else {
+        guard let contact = self.contactsManager.tokenContact(forAddress: self.thread.contactIdentifier()) else {
             return
         }
 
-        self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
-            let signedTransaction = "0x\(self.cereal.sign(hex: transaction!))"
+        self.etherAPIClient.createUnsignedTransaction(to: contact.paymentAddress, value: value) { (transaction, error) in
+            let signedTransaction = "0x\(self.cereal.signWithWallet(hex: transaction!))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
                 if error != nil {
@@ -528,7 +544,7 @@ extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
         // TODO: prevent concurrent calls
         // Also, extract this.
         self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
-            let signedTransaction = "0x\(self.cereal.sign(hex: transaction!))"
+            let signedTransaction = "0x\(self.cereal.signWithWallet(hex: transaction!))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
                 if error != nil {

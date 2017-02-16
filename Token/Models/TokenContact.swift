@@ -12,6 +12,8 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public var address: String
 
+    public var paymentAddress: String
+
     public var username: String
 
     public var name: String = ""
@@ -25,7 +27,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
     public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
-            "custom": ["name": self.name, "location": self.location, "about": self.about],
+            "custom": ["name": self.name, "location": self.location, "about": self.about, "payment_address": self.paymentAddress],
             "username": self.username,
             "avatar": "",
         ]
@@ -35,26 +37,18 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     init(json: [String: Any]) {
         self.address = json["owner_address"] as! String
+        self.paymentAddress = json["owner_address"] as! String
         self.username = json["username"] as! String
 
         if let json = json["custom"] as? [String: Any] {
             self.name = (json["name"] as? String) ?? ""
             self.location = (json["location"] as? String) ?? ""
             self.about = (json["about"] as? String) ?? ""
+
+            if let paymentAddress = (json["payment_address"] as? String) {
+                self.paymentAddress = paymentAddress
+            }
         }
-
-        super.init()
-
-        self.setupNotifications()
-    }
-
-    init(address: String, username: String, name: String? = "", about: String? = "", location: String? = "") {
-        self.address = address
-        self.username = username
-
-        self.name = name ?? ""
-        self.about = about ?? ""
-        self.location = location ?? ""
 
         super.init()
 

@@ -76,14 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isMediaMessage;
 
 /**
- *  This method is used to determine if the message data item contains actions.
- *
- *  @return A boolean value specifying whether or not this message contains actions.
- *  Return `YES` if this item contains actions, and `NO` if it doesn't.
- */
-- (BOOL)isActionable;
-
-/**
  *  @return An integer that can be used as a table address in a hash table structure.
  *
  *  @discussion This value must be unique for each message with distinct contents.
@@ -106,6 +98,22 @@ NS_ASSUME_NONNULL_BEGIN
  *  @warning You must not return `nil` from this method.
  */
 - (id<JSQMessageMediaData>)media;
+
+- (NSAttributedString *)attributedTitle;
+
+- (NSAttributedString *)attributedSubtitle;
+
+- (NSString *)title;
+
+- (NSString *)subtitle;
+
+/**
+ *  This method is used to determine if the message data item contains actions.
+ *
+ *  @return A boolean value specifying whether or not this message contains actions.
+ *  Return `YES` if this item contains actions, and `NO` if it doesn't.
+ */
+- (BOOL)isActionable;
 
 @end
 

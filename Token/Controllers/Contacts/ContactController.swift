@@ -44,8 +44,6 @@ public class ContactController: ProfileController {
 
     func didTapAddContactButton() {
         if !self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey) {
-            self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
-
             TSStorageManager.shared().dbConnection.readWrite { transaction in
                 var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
@@ -58,6 +56,7 @@ public class ContactController: ProfileController {
                 TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
             }
 
+            self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
             self.updateButton()
         }
     }

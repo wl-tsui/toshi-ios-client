@@ -1,4 +1,5 @@
 import UIKit
+import SweetFoundation
 import JSQMessages
 
 public class TextMessage: JSQMessage {
@@ -14,7 +15,11 @@ public class TextMessage: JSQMessage {
             case .message:
                 return (self.sofaWrapper as! SofaMessage).body
             case .paymentRequest:
-                return (self.sofaWrapper as! SofaPaymentRequest).body
+                let body = (self.sofaWrapper as! SofaPaymentRequest).body
+                if body.length > 0 {
+                    return body
+                }
+                return "Payment requested without message."
             default:
                 return self.sofaWrapper.content
             }

@@ -86,11 +86,19 @@ public class IDAPIClient: NSObject {
 
             self.fetchTimestamp { timestamp in
                 let path = "/v1/user"
-                let signature = "0x\(self.cereal.sign(message: "POST\n\(path)\n\(timestamp)\n"))"
+                let parameters =  ["custom":
+                    [
+                        "payment_address": self.cereal.paymentAddress
+                    ]
+                ]
+                let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
+                let hashedParameters = self.cereal.sha3WithID(string: parametersString)
+                let signature = "0x\(self.cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
 
                 let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
 
-                self.teapot.post(path, headerFields: fields) { result in
+                let json = JSON(parameters)
+                self.teapot.post(path, parameters: json, headerFields: fields) { result in
                     switch result {
                     case .success(let json, let response):
                         guard response.statusCode == 200 else { return }
@@ -115,8 +123,8 @@ public class IDAPIClient: NSObject {
             let path = "/v1/user"
             let payload = user.asRequestParameters()
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8)!
-            let hashedPayload = self.cereal.sha3(string: payloadString)
-            let signature = "0x\(self.cereal.sign(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = self.cereal.sha3WithID(string: payloadString)
+            let signature = "0x\(self.cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = JSON(payload)
