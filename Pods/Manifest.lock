@@ -104,19 +104,18 @@ PODS:
     - YapDatabase/SQLCipher/Core
 
 DEPENDENCIES:
-  - SignalServiceKit (from `https://github.com/tokenbrowser/SignalServiceKit.git`, branch `improve/refactor-certain-changes`)
+  - SignalServiceKit (from `https://github.com/tokenbrowser/SignalServiceKit.git`)
   - SocketRocket (from `https://github.com/facebook/SocketRocket.git`)
 
 EXTERNAL SOURCES:
   SignalServiceKit:
-    :branch: improve/refactor-certain-changes
     :git: https://github.com/tokenbrowser/SignalServiceKit.git
   SocketRocket:
     :git: https://github.com/facebook/SocketRocket.git
 
 CHECKOUT OPTIONS:
   SignalServiceKit:
-    :commit: af8e27266c4495b2aeff2f21f7ebbaa4570d4d9b
+    :commit: 3e2df333339514d79b9227637e4d6148fd54a51c
     :git: https://github.com/tokenbrowser/SignalServiceKit.git
   SocketRocket:
     :commit: 877ac7438be3ad0b45ef5ca3969574e4b97112bf
@@ -133,13 +132,13 @@ SPEC CHECKSUMS:
   ProtocolBuffers: d509225eb2ea43d9582a59e94348fcf86e2abd65
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
-  SignalServiceKit: 59a79a51b89b963ba94db30cc99ed5212da0bb9f
+  SignalServiceKit: ea91cd63d38dc0c114193bef4cbb9185391e5887
   SocketRocket: dbb1554b8fc288ef8ef370d6285aeca7361be31e
   SQLCipher: 43d12c0eb9c57fb438749618fc3ce0065509a559
   TwistedOakCollapsingFutures: f359b90f203e9ab13dfb92c9ff41842a7fe1cd0c
   UnionFind: c33be5adb12983981d6e827ea94fc7f9e370f52d
   YapDatabase: b1e43555a34a5298e23a045be96817a5ef0da58f
 
-PODFILE CHECKSUM: 855d0693381d6289d0a587526416983479165430
+PODFILE CHECKSUM: f6111758fb5ef88ed2f808c9fbd3af82bfe1fe98
 
 COCOAPODS: 1.1.1

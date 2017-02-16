@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
 
 abstract_target 'CocoaPods' do
-  pod 'SignalServiceKit', git: 'https://github.com/tokenbrowser/SignalServiceKit.git', branch: 'improve/refactor-certain-changes'
+  pod 'SignalServiceKit', git: 'https://github.com/tokenbrowser/SignalServiceKit.git'
   pod 'SocketRocket', git: 'https://github.com/facebook/SocketRocket.git'
 
   target 'Development' do
