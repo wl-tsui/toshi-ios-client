@@ -1,4 +1,4 @@
-github "bakkenbaeck/HDWallet" "master"
+github "tokenbrowser/HDWallet" "master"
 github "bakkenbaeck/Formulaic" ~> 0.0
 github "bakkenbaeck/Teapot" "master"
 github "bakkenbaeck/CameraScanner" ~> 0.0
