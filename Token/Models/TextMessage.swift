@@ -6,7 +6,7 @@ public class TextMessage: JSQMessage {
     public var sofaWrapper: SofaWrapper
 
     public var isDisplayable: Bool {
-        return [.message, .paymentRequest].contains(self.sofaWrapper.type)
+        return [.message, .paymentRequest, .payment].contains(self.sofaWrapper.type)
     }
 
     public override var text: String! {
@@ -20,6 +20,8 @@ public class TextMessage: JSQMessage {
                     return body
                 }
                 return "Payment requested without message."
+            case .payment:
+                return "Should be an empty string here but layout breaks for now."
             default:
                 return self.sofaWrapper.content
             }

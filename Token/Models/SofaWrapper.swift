@@ -169,9 +169,9 @@ open class SofaPaymentRequest: SofaWrapper {
         return ""
     }
 
-    public var value: NSDecimalNumber? {
+    public var value: NSDecimalNumber {
         get {
-            guard let hexValue = self.json["value"] as? String else { return nil }
+            guard let hexValue = self.json["value"] as? String else { fatalError() }
 
             if hexValue.hasPrefix("0x") {
                 return NSDecimalNumber(hexadecimalString: hexValue)
@@ -189,7 +189,38 @@ open class SofaPaymentRequest: SofaWrapper {
 }
 
 open class SofaPayment: SofaWrapper {
+    public enum Status: String {
+        case uncomfirmed = "unconfirmed"
+        case confirmed = "confirmed"
+    }
+
+    public var status: Status {
+        return .uncomfirmed
+    }
+
     public override var type: SofaType {
         return .payment
+    }
+
+    public var value: NSDecimalNumber {
+        get {
+            guard let hexValue = self.json["value"] as? String else { fatalError() }
+
+            if hexValue.hasPrefix("0x") {
+                return NSDecimalNumber(hexadecimalString: hexValue)
+            } else {
+                return NSDecimalNumber(string: hexValue)
+            }
+        }
+    }
+
+    public convenience init(txHash: String, valueHex: String) {
+        let payment: [String: String] = [
+            "status": Status.uncomfirmed.rawValue,
+            "txHash": txHash,
+            "value": valueHex
+        ]
+
+        self.init(content: payment)
     }
 }

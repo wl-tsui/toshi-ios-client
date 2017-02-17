@@ -226,6 +226,12 @@ class MessagesViewController: JSQMessagesViewController {
         if let message = interaction as? TSOutgoingMessage {
             let textMessage = TextMessage(senderId: self.senderId(), displayName: self.senderDisplayName(), date: Date(), sofaWrapper: SofaWrapper.wrapper(content: message.body!))
 
+            let sofaWrapper = SofaWrapper.wrapper(content: message.body!)
+            if let payment = sofaWrapper as? SofaPayment {
+                textMessage.title = "Payment sent"
+                textMessage.attributedSubtitle = User.balanceAttributedString(for: payment.value)
+            }
+
             self.allMessages.append(textMessage)
             self.interactions.append(message)
         } else if let message = interaction as? TSIncomingMessage {
@@ -235,7 +241,12 @@ class MessagesViewController: JSQMessagesViewController {
 
             if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 textMessage.title = "Payment request"
-                textMessage.attributedSubtitle = User.balanceAttributedString(for: paymentRequest.value!)
+                textMessage.attributedSubtitle = User.balanceAttributedString(for: paymentRequest.value)
+            }
+
+            if let payment = sofaWrapper as? SofaPayment {
+                textMessage.title = "Payment sent"
+                textMessage.attributedSubtitle = User.balanceAttributedString(for: payment.value)
             }
 
             self.allMessages.append(textMessage)
@@ -504,6 +515,10 @@ extension MessagesViewController: PaymentSendControllerDelegate {
 
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
                     self.present(alert, animated: true)
+                } else if let json = json?.dictionary {
+                    guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                    let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
+                    self.sendMessage(sofaWrapper: payment)
                 }
             }
         }
@@ -538,7 +553,7 @@ extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
     public func messageView(_ messageView: JSQMessagesCollectionView, didTapApproveAt indexPath: IndexPath) {
         guard let paymentRequest = self.message(at: indexPath).sofaWrapper as? SofaPaymentRequest else { fatalError("Could not retrieve payment request for approval.") }
 
-        guard let value = paymentRequest.value else { return }
+        let value = paymentRequest.value
         guard let destination = paymentRequest.destinationAddress else { return }
 
         // TODO: prevent concurrent calls
@@ -552,7 +567,8 @@ extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
 
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
                     self.present(alert, animated: true)
-                } else {
+                } else if let json = json?.dictionary {
+                    // update payment request message
                     let message = self.message(at: indexPath)
                     message.isActionable = false
 
@@ -561,6 +577,12 @@ extension MessagesViewController: JSQMessagesViewActionButtonsDelegate {
                     interaction.save()
 
                     self.collectionView?.reloadItems(at: [indexPath])
+
+                    // send payment message
+                    guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                    let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
+
+                    self.sendMessage(sofaWrapper: payment)
                 }
             }
         }
