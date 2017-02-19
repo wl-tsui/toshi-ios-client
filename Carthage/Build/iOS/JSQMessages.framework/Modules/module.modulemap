@@ -4,3 +4,7 @@ framework module JSQMessages {
   export *
   module * { export * }
 }
+
+module JSQMessages.Swift {
+    header "JSQMessages-Swift.h"
+}
