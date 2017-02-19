@@ -93,7 +93,6 @@ open class ChatsController: SweetTableController {
         self.tableView.beginUpdates()
 
         for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
-
             switch (rowChange.type) {
             case .delete:
                 self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
@@ -134,6 +133,23 @@ open class ChatsController: SweetTableController {
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
 
             thread = object
+        }
+
+        return thread!
+    }
+
+    func thread(withAddress address: String) -> TSThread {
+        var thread: TSThread? = nil
+
+        self.uiDatabaseConnection.read { transaction in
+            transaction.enumerateRows(inCollection: TSThread.collection(), using: { (_, object, _, stop) in
+                if let possibleThread = object as? TSThread {
+                    if possibleThread.contactIdentifier() == address {
+                        thread = possibleThread
+                        stop.pointee = true
+                    }
+                }
+            })
         }
 
         return thread!

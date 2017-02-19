@@ -8,6 +8,8 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
 
+    public static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
+
     public static let collectionKey: String = "TokenContacts"
 
     public var address: String

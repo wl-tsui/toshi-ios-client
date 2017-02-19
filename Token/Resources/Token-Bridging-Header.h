@@ -10,6 +10,7 @@
 #import <YapDatabase/YapDatabaseViewTransaction.h>
 #import <YapDatabase/YapDatabaseConnection.h>
 #import <YapDatabase/YapDatabaseViewConnection.h>
+#import <YapDatabase/YapDatabaseViewTypes.h>
 
 #import <SignalServiceKit/TSPreKeyManager.h>
 #import <SignalServiceKit/TSSocketManager.h>

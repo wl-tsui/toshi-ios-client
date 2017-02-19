@@ -24,4 +24,14 @@ public class MessagingNavigationController: UINavigationController {
         super.viewDidLoad()
         self.navigationBar.barTintColor = Theme.tintColor
     }
+
+    public func openThread(withAddress address: String) {
+        self.popToRootViewController(animated: false)
+        guard let chatsController = self.topViewController as? ChatsController else { fatalError() }
+
+        let thread = chatsController.thread(withAddress: address)
+        let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatsController.chatAPIClient)
+
+        self.pushViewController(messagesController, animated: false)
+    }
 }

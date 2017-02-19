@@ -64,7 +64,8 @@ public class EthereumAPIClient {
                 guard let usd = rates["USD"] as? String else { fatalError() }
 
                 completion(Decimal(Double(usd)!))
-            case .failure(_, _, let error):
+            case .failure(_, let response, let error):
+                print(response)
                 fatalError(error.localizedDescription)
             }
         }

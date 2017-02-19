@@ -8,6 +8,12 @@ open class TabBarController: UITabBarController {
 
     public var idAPIClient: IDAPIClient
 
+    private var homeController: HomeNavigationController!
+    private var messagingController: MessagingNavigationController!
+    private var appsController: AppsNavigationController!
+    private var contactsController: ContactsNavigationController!
+    private var settingsController: SettingsNavigationController!
+
     public init(chatAPIClient: ChatAPIClient, idAPIClient: IDAPIClient) {
         self.chatAPIClient = chatAPIClient
         self.idAPIClient = idAPIClient
@@ -25,13 +31,20 @@ open class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         // TODO: Refactor all this navigation controllers subclasses into one, they have similar code
-        let home = HomeNavigationController(rootViewController: HomeController())
-        let messaging = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
-        let apps = AppsNavigationController(rootViewController: AppsController())
-        let contacts = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
-        let settings = SettingsNavigationController(rootViewController: ProfileController(idAPIClient: self.idAPIClient))
+        self.homeController = HomeNavigationController(rootViewController: HomeController())
+        self.messagingController = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
+        self.appsController = AppsNavigationController(rootViewController: AppsController())
+        self.contactsController = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
+        self.settingsController = SettingsNavigationController(rootViewController: ProfileController(idAPIClient: self.idAPIClient))
 
-        self.viewControllers = [home, messaging, apps, contacts, settings]
+        self.viewControllers = [
+            self.homeController,
+            self.messagingController,
+            self.appsController,
+            self.contactsController,
+            self.settingsController
+        ]
+
         self.view.tintColor = Theme.tintColor
 
         self.view.backgroundColor = Theme.viewBackgroundColor
@@ -39,6 +52,12 @@ open class TabBarController: UITabBarController {
 
         let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
         self.selectedIndex = index
+    }
+
+    public func displayMessage(forAddress address: String) {
+        self.selectedIndex = self.viewControllers!.index(of: self.messagingController)!
+
+        self.messagingController.openThread(withAddress: address)
     }
 }
 

@@ -12,14 +12,14 @@ public extension Array {
 open class ContactsController: SweetTableController {
 
     lazy var mappings: YapDatabaseViewMappings = {
-        let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
-        mappings.setIsReversed(true, forGroup: TSInboxGroup)
+        let mappings = YapDatabaseViewMappings(groups: [TokenContact.collectionKey], view: TokenContact.viewExtensionName)
+        mappings.setIsReversed(true, forGroup: TokenContact.collectionKey)
 
         return mappings
     }()
 
     lazy var uiDatabaseConnection: YapDatabaseConnection = {
-        let database = TSStorageManager.shared().database()!
+        let database = Yap.sharedInstance.database
         let dbConnection = database.newConnection()
         dbConnection.beginLongLivedReadTransaction()
 
@@ -63,6 +63,8 @@ open class ContactsController: SweetTableController {
         self.chatAPIClient = chatAPIClient
 
         super.init(style: .plain)
+
+        self.registerTokenContactsDatabaseView()
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
@@ -109,6 +111,45 @@ open class ContactsController: SweetTableController {
 
         self.navigationItem.rightBarButtonItem = nil
         self.definesPresentationContext = false
+    }
+
+    func contactSorting() -> YapDatabaseViewSorting {
+        let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
+            guard let data1 = object1 as? Data, let json1 = try? JSONSerialization.jsonObject(with: data1, options: []), let contactJson1 = json1 as? [String: Any] else { fatalError() }
+
+            guard let data2 = object2 as? Data, let json2 = try? JSONSerialization.jsonObject(with: data2, options: []), let contactJson2 = json2 as? [String: Any] else { fatalError() }
+
+            let contact1 = TokenContact(json: contactJson1)
+            let contact2 = TokenContact(json: contactJson2)
+
+            return contact1.username.compare(contact2.username)
+        }
+
+        return viewSorting
+    }
+
+    @discardableResult
+    func registerTokenContactsDatabaseView() -> Bool {
+        // Check if it's already registered.
+        guard Yap.sharedInstance.database.registeredExtension(TokenContact.viewExtensionName) == nil else { return true }
+
+        let viewGrouping = YapDatabaseViewGrouping.withObjectBlock { (_, _, _, object) -> String? in
+            if let _ = object as? Data {
+                return TokenContact.collectionKey
+            }
+
+            return nil
+        }
+
+        let viewSorting = self.contactSorting()
+
+        let options = YapDatabaseViewOptions()
+        options.isPersistent = false
+        options.allowedCollections = YapWhitelistBlacklist(whitelist: Set([TokenContact.collectionKey]))
+
+        let databaseView = YapDatabaseView(grouping: viewGrouping, sorting: viewSorting, versionTag: "1", options: options)
+
+        return Yap.sharedInstance.database.register(databaseView, withName: TokenContact.viewExtensionName)
     }
 
     func contactsDidUpdate() {
@@ -189,8 +230,9 @@ open class ContactsController: SweetTableController {
     }
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
-        let thread = self.thread(at: indexPath)
-        let address = thread.contactIdentifier()!
+        let contact = self.contact(at: indexPath)
+        let address = contact.address
+        
         print("Updating contact infor for address: \(address).")
 
         self.idAPIClient.findContact(name: address) { (contact) in
@@ -204,17 +246,20 @@ open class ContactsController: SweetTableController {
         }
     }
 
-    func thread(at indexPath: IndexPath) -> TSThread {
-        var thread: TSThread? = nil
+    func contact(at indexPath: IndexPath) -> TokenContact {
+        var contact: TokenContact? = nil
 
         self.uiDatabaseConnection.read { transaction in
-            guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
-            guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
+            guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TokenContact.viewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
 
-            thread = object
+            guard let data = dbExtension.object(at: indexPath, with: self.mappings) as? Data else { fatalError() }
+            guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { fatalError() }
+            guard let json = jsonObject as? [String: Any] else { fatalError() }
+
+            contact = TokenContact(json: json)
         }
 
-        return thread!
+        return contact!
     }
 }
 
@@ -242,12 +287,7 @@ extension ContactsController: UITableViewDataSource {
         if self.searchController.isActive {
             cell.contact = self.contacts[indexPath.row]
         } else {
-            let thread = self.thread(at: indexPath)
-            let delegate = UIApplication.shared.delegate as! AppDelegate
-
-            let contact = delegate.contactsManager.tokenContact(forAddress: thread.contactIdentifier())
-
-            cell.contact = contact
+            cell.contact = self.contact(at: indexPath)
         }
 
         return cell

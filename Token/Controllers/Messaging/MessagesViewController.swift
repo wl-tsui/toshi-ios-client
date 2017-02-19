@@ -142,7 +142,7 @@ class MessagesViewController: JSQMessagesViewController {
 
                 DispatchQueue.main.async {
                     var shouldProcess = false
-                    if let message = interaction as? TSMessage, SofaType(sofa: message.body!) == .paymentRequest {
+                    if let message = interaction as? TSMessage, SofaType(sofa: message.body ?? "") == .paymentRequest {
                         shouldProcess = true
                     }
                     self.handleInteraction(interaction, shouldProcessCommands: shouldProcess)
@@ -205,7 +205,9 @@ class MessagesViewController: JSQMessagesViewController {
     ///
     func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
-            self.handleInvalidKeyError(interaction)
+            DispatchQueue.main.async {
+                self.handleInvalidKeyError(interaction)
+            }
 
             return
         }
