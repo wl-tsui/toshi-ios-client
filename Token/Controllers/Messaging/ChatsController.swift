@@ -117,11 +117,7 @@ open class ChatsController: SweetTableController {
 
         self.idAPIClient.findContact(name: address) { (contact) in
             if let contact = contact {
-                print("Added contact info for \(contact.username)")
-
-                self.tableView.beginUpdates()
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-                self.tableView.endUpdates()
+                print("Updated contact info for \(contact.username)")
             }
         }
     }
