@@ -7,5 +7,5 @@ github "UseSweet/SweetFoundation" ~> 1.0
 github "UseSweet/SweetSwift" ~> 1.0
 github "UseSweet/SweetUIKit" ~> 1.0
 github "mxcl/PromiseKit" ~> 4.0
-github "bakkenbaeck/BotKit" "fixup/visual"
+github "bakkenbaeck/BotKit" "master"
 github "bakkenbaeck/EtherealCereal" ~> 0.0.2

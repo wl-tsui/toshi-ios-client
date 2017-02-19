@@ -6,6 +6,12 @@ open class TabBarController: UITabBarController {
 
     public var chatAPIClient: ChatAPIClient
 
+    open override var selectedIndex: Int {
+        didSet {
+            UserDefaults.standard.set(selectedIndex, forKey: self.tabBarSelectedIndexKey)
+        }
+    }
+
     public var idAPIClient: IDAPIClient
 
     private var homeController: HomeNavigationController!
@@ -65,9 +71,5 @@ extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         self.automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets
-
-        if let index = self.viewControllers?.index(of: viewController) {
-            UserDefaults.standard.set(index, forKey: self.tabBarSelectedIndexKey)
-        }
     }
 }

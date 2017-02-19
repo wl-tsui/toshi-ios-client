@@ -7,13 +7,10 @@ class AppsAPIClient {
 
     private var teapot: Teapot
 
-    private var imageTeapot: Teapot
-
     private var imageCache = NSCache<NSString, UIImage>()
 
     init() {
         self.teapot = Teapot(baseURL: URL(string: "https://token-directory-service.herokuapp.com")!)
-        self.imageTeapot = Teapot(baseURL: URL(string: "http://icons.iconarchive.com")!)
     }
 
     func getApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
@@ -48,12 +45,12 @@ class AppsAPIClient {
             return
         }
 
-        self.imageTeapot.get(path) { (result: NetworkImageResult) in
+        Teapot(baseURL: avatarURL).get() { (result: NetworkImageResult) in
             switch result {
             case .success(let image, _):
                 self.imageCache.setObject(image, forKey: path as NSString)
                 completion(image)
-            case .failure(_, let error):
+            case .failure(let response, let error):
                 print(error)
                 completion(nil)
             }
