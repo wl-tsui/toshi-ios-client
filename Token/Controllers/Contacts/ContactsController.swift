@@ -30,7 +30,7 @@ open class ContactsController: SweetTableController {
 
     public var idAPIClient: IDAPIClient
 
-    var contacts = [TokenContact]()
+    var searchContacts = [TokenContact]()
 
     lazy var scannerController: ScannerViewController = {
         let controller = ScannerViewController(instructions: "Scan a profile code or QR code", types: [.qrCode])
@@ -52,7 +52,7 @@ open class ContactsController: SweetTableController {
         controller.dimsBackgroundDuringPresentation = false
         controller.hidesNavigationBarDuringPresentation = false
         controller.searchBar.barTintColor = Theme.tintColor
-        controller.searchBar.tintColor = Theme.lightTextColor
+        controller.searchBar.tintColor = Theme.tintColor
         controller.searchBar.delegate = self
 
         return controller
@@ -91,8 +91,9 @@ open class ContactsController: SweetTableController {
         self.tableView.separatorStyle = .none
         self.tableView.tableHeaderView = self.searchController.searchBar
 
+        self.definesPresentationContext = true
+
         self.displayContacts()
-        NotificationCenter.default.addObserver(self, selector: #selector(ContactsController.contactsDidUpdate), name: TokenContact.didUpdateContactInfoNotification, object: nil)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -103,14 +104,12 @@ open class ContactsController: SweetTableController {
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         self.navigationItem.rightBarButtonItem = nil
-        self.definesPresentationContext = false
     }
 
     func contactSorting() -> YapDatabaseViewSorting {
@@ -152,23 +151,8 @@ open class ContactsController: SweetTableController {
         return Yap.sharedInstance.database.register(databaseView, withName: TokenContact.viewExtensionName)
     }
 
-    func contactsDidUpdate() {
-        // TODO: see if we can update only the desired row.
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
-        let contactsManager = delegate.contactsManager
-        self.contacts = contactsManager.tokenContacts()
-
-        if !self.searchController.isActive {
-            self.tableView.reloadData()
-        }
-    }
-
     func displayContacts() {
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
-        let contactsManager = delegate.contactsManager
-        self.contacts = contactsManager.tokenContacts()
+        self.searchController.isActive = false
         self.tableView.reloadData()
     }
 
@@ -275,7 +259,7 @@ extension ContactsController: UITableViewDataSource {
 
     open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.searchController.isActive {
-            return self.contacts.count
+            return self.searchContacts.count
         }
 
         return Int(self.mappings.numberOfItems(inSection: UInt(section)))
@@ -285,7 +269,7 @@ extension ContactsController: UITableViewDataSource {
         let cell = tableView.dequeue(ContactCell.self, for: indexPath)
 
         if self.searchController.isActive {
-            cell.contact = self.contacts[indexPath.row]
+            cell.contact = self.searchContacts[indexPath.row]
         } else {
             cell.contact = self.contact(at: indexPath)
         }
@@ -305,11 +289,9 @@ extension ContactsController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.searchController.isActive = false
-        self.tableView.reloadData()
+        self.searchController.searchBar.resignFirstResponder()
 
-        // show add contact page
-        let contact = self.contacts[indexPath.row]
+        let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath)
         let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
 
         self.navigationController?.pushViewController(contactController, animated: true)
@@ -359,7 +341,7 @@ extension ContactsController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text, text.length > 0 {
             self.idAPIClient.searchContacts(name: text) { contacts in
-                self.contacts = contacts
+                self.searchContacts = contacts
                 self.tableView.reloadData()
             }
         }

@@ -126,7 +126,7 @@ public class ContactController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.title = "Profile"
+        self.title = "Contact"
 
     }
 
@@ -152,10 +152,11 @@ public class ContactController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.nameLabel.text = User.current?.username
-        self.aboutContentLabel.text = User.current?.about
-        self.locationContentLabel.text = User.current?.location
-        self.avatar.image = User.current?.avatar ?? #imageLiteral(resourceName: "igor")
+        self.nameLabel.text = self.contact.username
+        self.aboutContentLabel.text = self.contact.about
+        self.locationContentLabel.text = self.contact.location
+        self.avatar.image = self.contact.avatar ?? #imageLiteral(resourceName: "colin")
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
 
         self.updateButton()
@@ -272,24 +273,28 @@ public class ContactController: UIViewController {
 
     func didTapMessageContactButton() {
         let contact = self.contact
-        if !self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey) {
-            TSStorageManager.shared().dbConnection.readWrite { transaction in
-                var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
+        let isContactRegistered = self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey)
 
-                if recipient == nil {
-                    recipient = SignalRecipient(textSecureIdentifier: self.contact.address, relay: nil, supportsVoice: false)
-                }
+        TSStorageManager.shared().dbConnection.readWrite { transaction in
+            var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
-                recipient?.save(with: transaction)
-
-                TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
+            if recipient == nil {
+                recipient = SignalRecipient(textSecureIdentifier: self.contact.address, relay: nil, supportsVoice: false)
             }
 
+            recipient?.save(with: transaction)
+
+            TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
+        }
+
+        if !isContactRegistered {
             self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
             self.updateButton()
         }
 
-        (self.tabBarController as? TabBarController)?.displayMessage(forAddress: contact.address)
+        DispatchQueue.main.async {
+            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: contact.address)
+        }
     }
 
     func didTapAddContactButton() {

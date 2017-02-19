@@ -29,6 +29,8 @@ public class MessagingNavigationController: UINavigationController {
         self.popToRootViewController(animated: false)
         guard let chatsController = self.topViewController as? ChatsController else { fatalError() }
 
+        chatsController.tableView.reloadData()
+        
         let thread = chatsController.thread(withAddress: address)
         let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatsController.chatAPIClient)
 
