@@ -14,8 +14,8 @@ class MessagesViewController: NOCChatViewController {
         didSet {
             let current = Set(self.messages)
             let previous = Set(oldValue)
-            let new = current.subtracting(previous).sorted { (m1, m2) -> Bool in
-                return m1.date.compare(m2.date) == .orderedDescending
+            let new = current.subtracting(previous).sorted { (message1, message2) -> Bool in
+                return message1.date.compare(message2.date) == .orderedDescending
             }
 
             new.forEach { (message) in

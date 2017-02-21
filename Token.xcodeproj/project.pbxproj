@@ -153,19 +153,6 @@
 		9F584C751E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
 		9F584C761E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
 		9F584C771E5C33180093FA4D /* NoChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C781E5C33220093FA4D /* NoChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C7A1E5C33220093FA4D /* HPGrowingTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C7B1E5C33220093FA4D /* YYText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C7C1E5C33220093FA4D /* HDWallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C7D1E5C33220093FA4D /* Teapot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C7E1E5C33220093FA4D /* CameraScanner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C7F1E5C33220093FA4D /* EtherealCereal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C801E5C33220093FA4D /* Formulaic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C811E5C33220093FA4D /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C821E5C33220093FA4D /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758551E3BA1850009ABCD /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C831E5C33220093FA4D /* SweetFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C841E5C33220093FA4D /* SweetSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F584C851E5C33220093FA4D /* SweetUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
@@ -268,29 +255,6 @@
 				9F40F3DC1E5A061E007A7DE7 /* YYText.framework in Embed Frameworks */,
 				9F40F3B61E59FD5E007A7DE7 /* SweetSwift.framework in Embed Frameworks */,
 				9F40F3B71E59FD5E007A7DE7 /* SweetUIKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		147DFC4A1E51FFE100BF5DD6 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9F584C781E5C33220093FA4D /* NoChat.framework in Embed Frameworks */,
-				9F584C7A1E5C33220093FA4D /* HPGrowingTextView.framework in Embed Frameworks */,
-				9F584C7B1E5C33220093FA4D /* YYText.framework in Embed Frameworks */,
-				9F584C7C1E5C33220093FA4D /* HDWallet.framework in Embed Frameworks */,
-				9F584C7D1E5C33220093FA4D /* Teapot.framework in Embed Frameworks */,
-				9F584C7E1E5C33220093FA4D /* CameraScanner.framework in Embed Frameworks */,
-				9F584C7F1E5C33220093FA4D /* EtherealCereal.framework in Embed Frameworks */,
-				9F584C801E5C33220093FA4D /* Formulaic.framework in Embed Frameworks */,
-				9F584C811E5C33220093FA4D /* KeychainSwift.framework in Embed Frameworks */,
-				9F584C821E5C33220093FA4D /* PromiseKit.framework in Embed Frameworks */,
-				9F584C831E5C33220093FA4D /* SweetFoundation.framework in Embed Frameworks */,
-				9F584C841E5C33220093FA4D /* SweetSwift.framework in Embed Frameworks */,
-				9F584C851E5C33220093FA4D /* SweetUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -838,9 +802,9 @@
 				147DFBEA1E51FFE100BF5DD6 /* Sources */,
 				147DFC1B1E51FFE100BF5DD6 /* Frameworks */,
 				147DFC2A1E51FFE100BF5DD6 /* Resources */,
-				147DFC4A1E51FFE100BF5DD6 /* Embed Frameworks */,
 				AE78788A7C2B466158AE73FD /* [CP] Embed Pods Frameworks */,
 				58A1BD2AAFF141D30BE9118C /* [CP] Copy Pods Resources */,
+				9FFB8CEB1E5C7B01001FA019 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1030,6 +994,33 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		9FFB8CEB1E5C7B01001FA019 /* Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/NoChat.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/HPGrowingTextView.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/YYText.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/HDWallet.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CameraScanner.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/EtherealCereal.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Formulaic.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
+			);
+			name = "Copy Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		ADF2C181BDC09443A08E5CB2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1236,7 +1227,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 29X3GG489T;
-				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1277,7 +1267,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 29X3GG489T;
-				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
