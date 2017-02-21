@@ -127,7 +127,6 @@ public class ContactController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.title = "Contact"
-
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -156,7 +155,7 @@ public class ContactController: UIViewController {
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
         self.avatar.image = self.contact.avatar ?? #imageLiteral(resourceName: "colin")
-        
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
 
         self.updateButton()
@@ -255,7 +254,7 @@ public class ContactController: UIViewController {
 
         self.locationContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
     }
-    
+
     func displayQRCode() {
         let controller = QRCodeController(string: User.current!.address)
         self.present(controller, animated: true)

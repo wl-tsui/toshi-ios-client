@@ -51,7 +51,7 @@ public class Cereal: NSObject {
         self.walletCereal = EtherealCereal(privateKey: walletPrivateKey)
     }
 
-    // Mark: Sign with id
+    // MARK: - Sign with id
 
     public func signWithID(message: String) -> String {
         return self.idCereal.sign(message: message)
@@ -65,7 +65,7 @@ public class Cereal: NSObject {
         return self.idCereal.sha3(string: string)
     }
 
-    // Mark: Sign with wallet
+    // MARK: - Sign with wallet
 
     public func signWithWallet(message: String) -> String {
         return self.walletCereal.sign(message: message)

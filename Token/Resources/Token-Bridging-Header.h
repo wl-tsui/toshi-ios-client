@@ -47,5 +47,7 @@
 #import <AxolotlKit/SignedPreKeyRecord.h>
 #import <AxolotlKit/NSData+keyVersionByte.h>
 
+#import <Mantle/MTLModel.h>
+
 #import <Curve25519.h>
 #import <Ed25519.h>

@@ -175,7 +175,7 @@ extension User {
         let coloredPart = etherText
         let range = (text as NSString).range(of: coloredPart)
 
-        let attributedString = NSMutableAttributedString(string: text)
+        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Theme.regular(size: 15)])
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
 
         return attributedString

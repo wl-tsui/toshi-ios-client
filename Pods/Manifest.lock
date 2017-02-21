@@ -115,7 +115,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SignalServiceKit:
-    :commit: 3e2df333339514d79b9227637e4d6148fd54a51c
+    :commit: 762bd97ab7323328325cd22a90f52d5bc6605bf6
     :git: https://github.com/tokenbrowser/SignalServiceKit.git
   SocketRocket:
     :commit: 877ac7438be3ad0b45ef5ca3969574e4b97112bf
@@ -141,4 +141,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f6111758fb5ef88ed2f808c9fbd3af82bfe1fe98
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.0.1

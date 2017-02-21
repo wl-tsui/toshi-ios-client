@@ -1,3 +1,6 @@
+github "tokenbrowser/NoChat" "master"
+github "ibireme/YYText" "master"
+github "tokenbrowser/GrowingTextView"
 github "tokenbrowser/HDWallet" "master"
 github "bakkenbaeck/Formulaic" ~> 0.0
 github "bakkenbaeck/Teapot" "master"
@@ -7,5 +10,4 @@ github "UseSweet/SweetFoundation" ~> 1.0
 github "UseSweet/SweetSwift" ~> 1.0
 github "UseSweet/SweetUIKit" ~> 1.0
 github "mxcl/PromiseKit" ~> 4.0
-github "bakkenbaeck/BotKit" "master"
 github "bakkenbaeck/EtherealCereal" ~> 0.0.2

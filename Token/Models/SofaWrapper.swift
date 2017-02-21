@@ -189,6 +189,7 @@ open class SofaPaymentRequest: SofaWrapper {
 }
 
 open class SofaPayment: SofaWrapper {
+
     public enum Status: String {
         case uncomfirmed = "unconfirmed"
         case confirmed = "confirmed"
@@ -218,7 +219,7 @@ open class SofaPayment: SofaWrapper {
         let payment: [String: String] = [
             "status": Status.uncomfirmed.rawValue,
             "txHash": txHash,
-            "value": valueHex
+            "value": valueHex,
         ]
 
         self.init(content: payment)

@@ -52,7 +52,7 @@ open class ContactsController: SweetTableController {
         controller.dimsBackgroundDuringPresentation = false
         controller.hidesNavigationBarDuringPresentation = false
         controller.searchBar.barTintColor = Theme.tintColor
-        controller.searchBar.tintColor = Theme.tintColor
+        controller.searchBar.tintColor = Theme.greyTextColor
         controller.searchBar.delegate = self
 
         return controller
@@ -92,6 +92,9 @@ open class ContactsController: SweetTableController {
         self.tableView.tableHeaderView = self.searchController.searchBar
 
         self.definesPresentationContext = true
+
+        let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+        appearance.setTitleColor(Theme.lightTextColor, for: .normal)
 
         self.displayContacts()
     }
@@ -216,7 +219,7 @@ open class ContactsController: SweetTableController {
     func updateContactIfNeeded(at indexPath: IndexPath) {
         let contact = self.contact(at: indexPath)
         let address = contact.address
-        
+
         print("Updating contact infor for address: \(address).")
 
         self.idAPIClient.findContact(name: address) { (contact) in

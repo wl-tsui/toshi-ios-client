@@ -28,7 +28,7 @@ public class MessagingNavigationController: UINavigationController {
     public func openThread(withAddress address: String) {
         self.popToRootViewController(animated: false)
         guard let chatsController = self.topViewController as? ChatsController else { fatalError() }
-        
+
         let thread = chatsController.thread(withAddress: address)
         let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatsController.chatAPIClient)
 
