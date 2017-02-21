@@ -20,10 +20,9 @@ class AppsAPIClient {
                 print(response)
                 guard let json = json?.dictionary else { fatalError("No apps json!") }
 
-                var apps = [App]()
                 let appsJSON = json["apps"] as! [[String: Any]]
-                for appJSON in appsJSON {
-                    apps.append(App(json: appJSON))
+                let apps = appsJSON.map { json in
+                    App(json: json)
                 }
 
                 completion(apps, nil)
@@ -50,9 +49,36 @@ class AppsAPIClient {
             case .success(let image, _):
                 self.imageCache.setObject(image, forKey: path as NSString)
                 completion(image)
-            case .failure(let response, let error):
+            case .failure(_, let error):
                 print(error)
                 completion(nil)
+            }
+        }
+    }
+
+    func search(_ searchTerm: String, completion: @escaping (_ apps: [App], _ error: Error?) -> Void) {
+        guard searchTerm.length > 0 else {
+            completion([App](), nil)
+            return
+        }
+
+        self.teapot.get("/v1/search/apps/?query=\(searchTerm)") { (result: NetworkResult) in
+            switch result {
+            case .success(let json, _):
+                guard let json = json?.dictionary else { fatalError("No apps json!") }
+
+                guard let appsJSON = json["apps"] as? [[String: Any]] else {
+                    completion([App](), nil)
+                    return
+                }
+
+                let apps = appsJSON.map { json in
+                    App(json: json)
+                }
+
+                completion(apps, nil)
+            case .failure(_, _, let error):
+                completion([App](), error)
             }
         }
     }

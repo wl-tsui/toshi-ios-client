@@ -58,6 +58,31 @@ class AppsController: UIViewController {
         return view
     }()
 
+    lazy var searchResultsView: SearchResultsView = {
+        let view = SearchResultsView(withAutoLayout: true)
+        view.selectionDelegate = self
+
+        return view
+    }()
+
+    fileprivate lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.delegate = self
+
+        searchController.searchBar.sizeToFit()
+        searchController.searchBar.delegate = self
+
+        return searchController
+    }()
+
+    lazy var containerView: UIView = {
+        let view = UIView(withAutoLayout: true)
+
+        return view
+    }()
+
     var latestApps = [App]() {
         didSet {
             self.latestCollectionView.reloadData()
@@ -87,14 +112,21 @@ class AppsController: UIViewController {
 
         self.title = "Apps"
 
+        self.view.addSubview(self.searchResultsView)
+        self.searchResultsView.fillSuperview()
+        self.searchResultsView.isHidden = true
+
+        self.view.addSubview(self.containerView)
+        self.containerView.fillSuperview()
+
         let separatorView = UIView(withAutoLayout: true)
         separatorView.backgroundColor = UIColor.gray
 
-        self.view.addSubview(separatorView)
-        self.view.addSubview(self.latestCollectionView)
-        self.view.addSubview(self.recommendedCollectionView)
-        self.view.addSubview(self.latestTitleLabel)
-        self.view.addSubview(self.recommendedTitleLabel)
+        self.containerView.addSubview(separatorView)
+        self.containerView.addSubview(self.latestCollectionView)
+        self.containerView.addSubview(self.recommendedCollectionView)
+        self.containerView.addSubview(self.latestTitleLabel)
+        self.containerView.addSubview(self.recommendedTitleLabel)
 
         self.latestCollectionView.backgroundColor = Theme.viewBackgroundColor
         self.latestCollectionView.dataSource = self
@@ -128,6 +160,8 @@ class AppsController: UIViewController {
         self.latestCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.latestCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: AppsController.cellHeight).isActive = true
 
+        self.navigationItem.titleView = searchController.searchBar
+
         self.appsAPIClient.getApps { apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
@@ -136,6 +170,22 @@ class AppsController: UIViewController {
 
             self.latestApps = apps
             self.recommendedApps = apps
+        }
+    }
+
+    func showSearchResultsView(shouldShow: Bool) {
+        self.containerView.isHidden = shouldShow
+        self.searchResultsView.isHidden = !shouldShow
+    }
+
+    func reload(searchText: String) {
+        self.appsAPIClient.search(searchText) { apps, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                self.present(alertController, animated: true, completion: nil)
+            }
+
+            self.searchResultsView.results = apps
         }
     }
 }
@@ -172,4 +222,29 @@ extension AppsController: UICollectionViewDataSource {
 }
 
 extension AppsController: UICollectionViewDelegate {
+}
+
+extension AppsController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.length == 0 {
+            self.searchResultsView.results = [App]()
+        }
+        self.showSearchResultsView(shouldShow: searchText.length > 0)
+
+        // Throttles search to delay performing a search while the user is typing.
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload(searchText:)), object: searchText)
+        self.perform(#selector(reload(searchText:)), with: searchText, afterDelay: 0.5)
+    }
+}
+
+extension AppsController: UISearchControllerDelegate {
+    func didDismissSearchController(_ searchController: UISearchController) {
+        self.showSearchResultsView(shouldShow: false)
+    }
+}
+
+extension AppsController: SearchResultsViewDelegate {
+    func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: App) {
+        print(app.displayName)
+    }
 }

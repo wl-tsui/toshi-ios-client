@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
 		143186BB1E49C5560025E9B7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
+		143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143586FF1E5C4CB4007A268A /* SearchResultsView.swift */; };
+		143587011E5C4CB4007A268A /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143586FF1E5C4CB4007A268A /* SearchResultsView.swift */; };
+		143587031E5C4CBE007A268A /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143587021E5C4CBE007A268A /* SearchResultCell.swift */; };
+		143587041E5C4CBE007A268A /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143587021E5C4CBE007A268A /* SearchResultCell.swift */; };
 		145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
 		145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
 		146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146D564B1E4A77F200FE7944 /* AppCell.swift */; };
@@ -298,6 +302,8 @@
 		142709A11E531A6100BF964B /* Distribution.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Distribution.plist; sourceTree = "<group>"; };
 		143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsAPIClient.swift; sourceTree = "<group>"; };
 		143186BA1E49C5560025E9B7 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		143586FF1E5C4CB4007A268A /* SearchResultsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
+		143587021E5C4CBE007A268A /* SearchResultCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		145666031E30D24C00E52027 /* MessagesFloatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesFloatingView.swift; sourceTree = "<group>"; };
 		145666051E30D31A00E52027 /* EthereumAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAPIClient.swift; sourceTree = "<group>"; };
 		146D564B1E4A77F200FE7944 /* AppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCell.swift; sourceTree = "<group>"; };
@@ -518,6 +524,7 @@
 			children = (
 				14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */,
 				14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */,
+				143586FF1E5C4CB4007A268A /* SearchResultsView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -526,6 +533,7 @@
 			isa = PBXGroup;
 			children = (
 				146D564B1E4A77F200FE7944 /* AppCell.swift */,
+				143587021E5C4CBE007A268A /* SearchResultCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1103,6 +1111,8 @@
 				147DFC001E51FFE100BF5DD6 /* MessagesFloatingView.swift in Sources */,
 				147DFC011E51FFE100BF5DD6 /* ChatCell.swift in Sources */,
 				147DFC021E51FFE100BF5DD6 /* TSInteraction+Additions.swift in Sources */,
+				143587041E5C4CBE007A268A /* SearchResultCell.swift in Sources */,
+				143587011E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
 				147DFC031E51FFE100BF5DD6 /* ContactsNavigationController.swift in Sources */,
 				147DFC041E51FFE100BF5DD6 /* Theme.swift in Sources */,
 				147DFC051E51FFE100BF5DD6 /* AppsNavigationController.swift in Sources */,
@@ -1169,6 +1179,8 @@
 				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
+				143587031E5C4CBE007A268A /* SearchResultCell.swift in Sources */,
+				143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
 				9FAACCB31E30E1EE00FB871D /* ContactsNavigationController.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
 				14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */,
