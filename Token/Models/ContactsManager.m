@@ -69,13 +69,9 @@
 }
 
 - (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber {
-    for (Contact *contact in self.signalContacts) {
-        if ([contact.userTextPhoneNumbers.firstObject isEqualToString:phoneNumber]) {
-            return contact.image;
-        }
-    }
+    TokenContact *contact = [self tokenContactForAddress:phoneNumber];
 
-    return nil;
+    return contact.avatar;
 }
 
 @end

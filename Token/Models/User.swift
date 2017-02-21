@@ -75,9 +75,8 @@ public class User: NSObject, JSONDataSerialization {
     public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
-            "custom": ["name": self.name, "location": self.location, "about": self.about],
+            "custom": ["name": self.name, "location": self.location, "about": self.about, "avatar": self.avatarPath],
             "username": self.username,
-            "avatar": self.avatarPath,
         ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
@@ -91,9 +90,12 @@ public class User: NSObject, JSONDataSerialization {
             self.name = json["name"] as? String ?? ""
             self.location = json["location"] as? String ?? ""
             self.about = json["about"] as? String ?? ""
+            self.avatarPath = json["avatar"] as? String ?? ""
         }
 
         super.init()
+
+        self.updateAvatar()
     }
 
     init(address: String, username: String, name: String?, about: String?, location: String?) {
@@ -105,7 +107,16 @@ public class User: NSObject, JSONDataSerialization {
         self.location = location ?? ""
     }
 
+    func updateAvatar() {
+        if self.avatarPath.length > 0 {
+            IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
+                self.avatar = image
+            }
+        }
+    }
+
     public func update() {
+        self.updateAvatar()
         let json = self.JSONData
         User.yap.insert(object: json, for: User.storedUserKey)
     }
@@ -125,6 +136,10 @@ public class User: NSObject, JSONDataSerialization {
             }
             if self.name.length > 0 {
                 custom["name"] = self.name
+            }
+
+            if self.avatarPath.length > 0 {
+                custom["avatar"] = self.avatarPath
             }
 
             params["custom"] = custom

@@ -14,6 +14,7 @@ class ActionableMessageCell: MessageCell {
     lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 1
+        view.adjustsFontSizeToFitWidth = true
 
         return view
     }()
@@ -21,6 +22,7 @@ class ActionableMessageCell: MessageCell {
     lazy var subtitleLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 1
+        view.adjustsFontSizeToFitWidth = true
 
         return view
     }()

@@ -883,7 +883,7 @@
 				ORGANIZATIONNAME = "Bakken&Bæck";
 				TargetAttributes = {
 					147DFBE81E51FFE100BF5DD6 = {
-						DevelopmentTeam = 3TAZ984YN3;
+						DevelopmentTeam = 29X3GG489T;
 					};
 					9F9238B01E24F1D2004BEEE0 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1235,7 +1235,7 @@
 			baseConfigurationReference = 685269D508E80AB5000F52FA /* Pods-CocoaPods-Distribution.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3TAZ984YN3;
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1262,7 +1262,7 @@
 					"-lz",
 				);
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1276,7 +1276,7 @@
 			baseConfigurationReference = 0382951D8A732E1BF1A453F4 /* Pods-CocoaPods-Distribution.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 3TAZ984YN3;
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1300,7 +1300,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.enterprise;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

@@ -154,7 +154,7 @@ public class ContactController: UIViewController {
         self.nameLabel.text = self.contact.username
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
-        self.avatar.image = self.contact.avatar ?? #imageLiteral(resourceName: "colin")
+        self.avatar.image = self.contact.avatar
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
 

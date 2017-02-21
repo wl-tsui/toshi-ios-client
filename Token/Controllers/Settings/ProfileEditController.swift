@@ -39,7 +39,6 @@ open class ProfileEditController: UIViewController {
     lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.clipsToBounds = true
-        view.image = #imageLiteral(resourceName: "igor")
 
         return view
     }()

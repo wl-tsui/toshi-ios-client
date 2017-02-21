@@ -10,21 +10,25 @@ private let TG_EPSILON = CGFloat(0.0001)
 
 class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
-    var stripeLayer: CALayer!
-    var backgroundView: UIView!
+    var stripeLayer: CALayer
+    var backgroundView: UIView
 
-    var inputField: HPGrowingTextView!
-    var inputFiledClippingContainer: UIView!
-    var fieldBackground: UIImageView!
+    var inputField: HPGrowingTextView
+    var inputFieldClippingContainer: UIView
+    var fieldBackground: UIImageView
 
-    var sendButton: UIButton!
-    var attachButton: UIButton!
-    var micButton: UIButton!
+    var sendButton: UIButton
+    var attachButton: UIButton
 
     private var sendButtonWidth = CGFloat(0)
+
+    var currentSendButtonWidth: CGFloat {
+        return (self.sendButton.isHidden ? 8 : self.sendButtonWidth)
+    }
+
     private let inputFiledInsets = UIEdgeInsets(top: 9, left: 41, bottom: 8, right: 0)
-    private let inputFiledInternalEdgeInsets = UIEdgeInsets(top: -3 - TGRetinaPixel, left: 0, bottom: 0, right: 0)
-    private let baseHeight = CGFloat(45)
+    private let inputFiledInternalEdgeInsets = UIEdgeInsets(top: -2 - TGRetinaPixel, left: 6, bottom: 0, right: 6)
+    private let baseHeight = CGFloat(48)
 
     private var parentSize = CGSize.zero
 
@@ -32,24 +36,24 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
     private var keyboardHeight = CGFloat(0)
 
     override init(frame: CGRect) {
-        self.sendButtonWidth = min(150, (NSLocalizedString("Send", comment: "") as NSString).size(attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 17)]).width + 8)
+        self.sendButtonWidth = min(150, "Send".size(attributes: [NSFontAttributeName: Theme.semibold(size: 16)]).width + 12)
 
         self.backgroundView = UIView()
-        self.backgroundView.backgroundColor = UIColor(colorLiteralRed: 250 / 255.0, green: 250 / 255.0, blue: 250 / 255.0, alpha: 1)
+        self.backgroundView.backgroundColor = Theme.inputFieldBackgroundColor
 
         self.stripeLayer = CALayer()
-        self.stripeLayer.backgroundColor = UIColor(colorLiteralRed: 179 / 255.0, green: 170 / 255.0, blue: 178 / 255.0, alpha: 1).cgColor
+        self.stripeLayer.backgroundColor = Theme.borderColor.cgColor
 
         let filedBackgroundImage = #imageLiteral(resourceName: "TGInputFieldBackground")
         self.fieldBackground = UIImageView(image: filedBackgroundImage)
-        self.fieldBackground.frame = CGRect(x: 41, y: 9, width: frame.width - 41 - sendButtonWidth - 1, height: 28)
+        self.fieldBackground.frame = CGRect(x: 41, y: 9, width: frame.width - 41 - 1, height: 31)
 
         let inputFiledClippingFrame = self.fieldBackground.frame
-        self.inputFiledClippingContainer = UIView(frame: inputFiledClippingFrame)
-        self.inputFiledClippingContainer.clipsToBounds = true
+        self.inputFieldClippingContainer = UIView(frame: inputFiledClippingFrame)
+        self.inputFieldClippingContainer.clipsToBounds = true
 
         self.inputField = HPGrowingTextView(frame: CGRect(x: self.inputFiledInternalEdgeInsets.left, y: self.inputFiledInternalEdgeInsets.top, width: inputFiledClippingFrame.width - self.inputFiledInternalEdgeInsets.left, height: inputFiledClippingFrame.height))
-        self.inputField.placeholder = NSLocalizedString("Message", comment: "")
+        self.inputField.placeholder = "Message"
         self.inputField.animateHeightChange = false
         self.inputField.animationDuration = 0
         self.inputField.font = .systemFont(ofSize: 16)
@@ -63,7 +67,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
         self.sendButton = UIButton(type: .system)
         self.sendButton.isExclusiveTouch = true
-        self.sendButton.setTitle(NSLocalizedString("Send", comment: ""), for: .normal)
+        self.sendButton.setAttributedTitle(NSAttributedString(string: "Send", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.semibold(size: 16)]), for: .normal)
         self.sendButton.setTitleColor(UIColor(colorLiteralRed: 0 / 255.0, green: 126 / 255.0, blue: 229 / 255.0, alpha: 1), for: .normal)
         self.sendButton.setTitleColor(UIColor(colorLiteralRed: 142 / 255.0, green: 142 / 255.0, blue: 147 / 255.0, alpha: 1), for: .disabled)
         self.sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
@@ -74,26 +78,21 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         self.attachButton.isExclusiveTouch = true
         self.attachButton.setImage(#imageLiteral(resourceName: "TGAttachButton"), for: .normal)
 
-        self.micButton = UIButton(type: .system)
-        self.micButton.isExclusiveTouch = true
-        self.micButton.setImage(#imageLiteral(resourceName: "TGMicButton"), for: .normal)
-
         super.init(frame: frame)
 
         self.addSubview(self.backgroundView)
         self.layer.addSublayer(self.stripeLayer)
         self.addSubview(self.fieldBackground)
-        self.addSubview(self.inputFiledClippingContainer)
+        self.addSubview(self.inputFieldClippingContainer)
 
         self.inputField.maxNumberOfLines = self.maxNumberOfLines(forSize: self.parentSize)
         self.inputField.delegate = self
-        self.inputFiledClippingContainer.addSubview(self.inputField)
+        self.inputFieldClippingContainer.addSubview(self.inputField)
 
         self.sendButton.addTarget(self, action: #selector(didTapSendButton(_:)), for: .touchUpInside)
 
         self.addSubview(self.sendButton)
         self.addSubview(self.attachButton)
-        self.addSubview(self.micButton)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -107,15 +106,13 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
         self.stripeLayer.frame = CGRect(x: 0, y: -TGRetinaPixel, width: self.bounds.width, height: TGRetinaPixel)
 
-        self.fieldBackground.frame = CGRect(x: self.inputFiledInsets.left, y: self.inputFiledInsets.top, width: self.bounds.width - self.inputFiledInsets.left - self.inputFiledInsets.right - self.sendButtonWidth - 1, height: self.bounds.height - self.inputFiledInsets.top - self.inputFiledInsets.bottom)
+        self.fieldBackground.frame = CGRect(x: self.inputFiledInsets.left, y: self.inputFiledInsets.top, width: self.bounds.width - self.inputFiledInsets.left - self.inputFiledInsets.right - self.currentSendButtonWidth - 1, height: 31)
 
-        self.inputFiledClippingContainer.frame = fieldBackground.frame
+        self.inputFieldClippingContainer.frame = fieldBackground.frame
 
         self.sendButton.frame = CGRect(x: self.bounds.width - self.sendButtonWidth, y: self.bounds.height - self.baseHeight, width: self.sendButtonWidth, height: self.baseHeight)
 
         self.attachButton.frame = CGRect(x: 0, y: self.bounds.height - self.baseHeight, width: 40, height: self.baseHeight)
-
-        self.micButton.frame = CGRect(x: self.bounds.width - self.sendButtonWidth, y: self.bounds.height - self.baseHeight, width: self.sendButtonWidth, height: self.baseHeight)
     }
 
     override func endInputting(_ animated: Bool) {
@@ -147,7 +144,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         if duration > DBL_EPSILON {
             inputFieldSnapshotView = self.inputField.internalTextView.snapshotView(afterScreenUpdates: false)
             if let v = inputFieldSnapshotView {
-                v.frame = self.inputField.frame.offsetBy(dx: self.inputFiledClippingContainer.frame.origin.x, dy: self.inputFiledClippingContainer.frame.origin.y)
+                v.frame = self.inputField.frame.offsetBy(dx: self.inputFieldClippingContainer.frame.origin.x, dy: self.inputFieldClippingContainer.frame.origin.y)
 
                 self.addSubview(v)
             }
@@ -171,7 +168,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
                 if let v = inputFieldSnapshotView {
                     self.inputField.alpha = 1
-                    v.frame = self.inputField.frame.offsetBy(dx: self.inputFiledClippingContainer.frame.origin.x, dy: self.inputFiledClippingContainer.frame.origin.y)
+                    v.frame = self.inputField.frame.offsetBy(dx: self.inputFieldClippingContainer.frame.origin.x, dy: self.inputFieldClippingContainer.frame.origin.y)
                     v.alpha = 0
                 }
             }, completion: { (_) in
@@ -184,9 +181,23 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
     func toggleSendButtonEnabled() {
         let hasText = self.inputField.internalTextView.hasText
-        self.sendButton.isEnabled = hasText
+        let wasHidden = self.sendButton.isHidden
+
+        // We check if button state changed as well as if we have text to
+        // set the new alpha. This makes it so that it only hides if it will re-appear
+        self.sendButton.alpha = (hasText == wasHidden && hasText) ? 0 : 1
         self.sendButton.isHidden = !hasText
-        self.micButton.isHidden = hasText
+        self.sendButton.isEnabled = hasText
+
+        if hasText == wasHidden {
+            UIView.animate(withDuration: 0.15, animations: {
+                self.layoutSubviews()
+            }, completion: { _ in
+                UIView.animate(withDuration: 0.15, animations: {
+                    self.sendButton.alpha = hasText ? 1 : 0
+                })
+            })
+        }
     }
 
     func clearInputField() {
@@ -251,7 +262,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
     }
 
     private func heightForInputFiledHeight(_ inputFiledHeight: CGFloat) -> CGFloat {
-        return max(self.baseHeight, inputFiledHeight - 8 + self.inputFiledInsets.top + self.inputFiledInsets.bottom)
+        return max(self.baseHeight, inputFiledHeight - 10 + self.inputFiledInsets.top + self.inputFiledInsets.bottom)
     }
 
     private func updateInputFiledLayout() {
@@ -262,12 +273,13 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         let inputFiledInsets = self.inputFiledInsets
         let inputFiledInternalEdgeInsets = self.inputFiledInternalEdgeInsets
 
-        let inputFiledClippingFrame = CGRect(x: inputFiledInsets.left, y: inputFiledInsets.top, width: self.parentSize.width - inputFiledInsets.left - inputFiledInsets.right - self.sendButtonWidth - 1, height: 0)
+        let inputFiledClippingFrame = CGRect(x: inputFiledInsets.left, y: inputFiledInsets.top, width: self.parentSize.width - inputFiledInsets.left - inputFiledInsets.right - self.currentSendButtonWidth - 1, height: 0)
 
         let inputFieldFrame = CGRect(x: inputFiledInternalEdgeInsets.left, y: inputFiledInternalEdgeInsets.top, width: inputFiledClippingFrame.width - inputFiledInternalEdgeInsets.left, height: 0)
 
         self.inputField.frame = inputFieldFrame
         self.inputField.internalTextView.frame = CGRect(x: 0, y: 0, width: inputFieldFrame.width, height: inputFieldFrame.height)
+        self.fieldBackground.frame = CGRect(x: 41, y: 9, width: self.frame.width - 41 - self.currentSendButtonWidth - 1, height: 31)
 
         self.inputField.maxNumberOfLines = self.maxNumberOfLines(forSize: parentSize)
         self.inputField.refreshHeight()

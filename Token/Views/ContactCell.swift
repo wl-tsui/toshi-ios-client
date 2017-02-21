@@ -12,9 +12,12 @@ class ContactCell: UITableViewCell {
                     self.nameLabel.text = "@\(contact.username)"
                     self.usernameLabel.text = nil
                 }
+
+                self.avatarImageView.image = contact.avatar
             } else {
                 self.usernameLabel.text = nil
                 self.nameLabel.text = nil
+                self.avatarImageView.image = nil
             }
         }
     }
@@ -40,7 +43,6 @@ class ContactCell: UITableViewCell {
 
     lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.image = [#imageLiteral(resourceName: "daniel"), #imageLiteral(resourceName: "igor"), #imageLiteral(resourceName: "colin")].any
 
         return view
     }()

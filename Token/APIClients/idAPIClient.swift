@@ -5,6 +5,8 @@ import Teapot
 public class IDAPIClient: NSObject {
     // https://token-id-service.herokuapp.com
 
+    static let shared: IDAPIClient = IDAPIClient(cereal: Cereal())
+
     public static let updateContactsNotification = Notification.Name(rawValue: "UpdateContactWithAddress")
 
     public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
@@ -12,6 +14,8 @@ public class IDAPIClient: NSObject {
     public var cereal: Cereal
 
     public var teapot: Teapot
+
+    private var imageCache = NSCache<NSString, UIImage>()
 
     let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
 
@@ -172,6 +176,26 @@ public class IDAPIClient: NSObject {
                 print(response)
                 print(json?.dictionary ?? "")
 
+                completion(nil)
+            }
+        }
+    }
+
+    func downloadAvatar(path: String, completion: @escaping(_ image: UIImage?) -> Void) {
+        if let image = self.imageCache.object(forKey: path as NSString) {
+            completion(image)
+
+            return
+        }
+
+        self.teapot.get(path) { (result: NetworkImageResult) in
+            switch result {
+            case .success(let image, _):
+                self.imageCache.setObject(image, forKey: path as NSString)
+                completion(image)
+            case .failure(let response, let error):
+                print(response)
+                print(error)
                 completion(nil)
             }
         }

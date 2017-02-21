@@ -14,7 +14,9 @@ class MessagesViewController: NOCChatViewController {
         didSet {
             let current = Set(self.messages)
             let previous = Set(oldValue)
-            let new = current.subtracting(previous)
+            let new = current.subtracting(previous).sorted { (m1, m2) -> Bool in
+                return m1.date.compare(m2.date) == .orderedDescending
+            }
 
             new.forEach { (message) in
                 self.interactions.insert(message.signalMessage, at: 0)
@@ -419,15 +421,13 @@ extension MessagesViewController: ActionableCellDelegate {
         let message = self.message(at: indexPath)
         message.isActionable = false
 
-        let interaction = self.interaction(at: indexPath)
-        interaction.paymentState = .rejected
-        interaction.save()
-
         let layout = self.layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
 
-        self.collectionView.reloadItems(at: [indexPath])
+        let interaction = self.interaction(at: indexPath)
+        interaction.paymentState = .rejected
+        interaction.save()
     }
 
     func didTapApproveButton(_ messageCell: ActionableMessageCell) {

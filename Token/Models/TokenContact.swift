@@ -24,14 +24,15 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public var location: String = ""
 
+    public var avatarPath: String = ""
+
     public var avatar: UIImage?
 
     public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
-            "custom": ["name": self.name, "location": self.location, "about": self.about, "payment_address": self.paymentAddress],
+            "custom": ["name": self.name, "location": self.location, "about": self.about, "payment_address": self.paymentAddress, "avatar": self.avatarPath],
             "username": self.username,
-            "avatar": "",
         ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
@@ -46,6 +47,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
             self.name = (json["name"] as? String) ?? ""
             self.location = (json["location"] as? String) ?? ""
             self.about = (json["about"] as? String) ?? ""
+            self.avatarPath = (json["avatar"] as? String) ?? ""
 
             if let paymentAddress = (json["payment_address"] as? String) {
                 self.paymentAddress = paymentAddress
@@ -53,6 +55,12 @@ public class TokenContact: NSObject, JSONDataSerialization {
         }
 
         super.init()
+
+        if self.avatarPath.length > 0 {
+            IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
+                self.avatar = image
+            }
+        }
 
         self.setupNotifications()
     }

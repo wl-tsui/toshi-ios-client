@@ -11,6 +11,13 @@ class ActionableMessageCellLayout: MessageCellLayout {
         return self.message.attributedSubtitle
     }
 
+    override var attributedTime: NSAttributedString? {
+        get {
+            return NSAttributedString()
+        }
+        set { }
+    }
+
     var subtitleLabelFrame: CGRect = .zero
     var titleLabelFrame: CGRect = .zero
 
@@ -44,7 +51,7 @@ class ActionableMessageCellLayout: MessageCellLayout {
         let dynamicFont = Style.textFont
         text.yy_setAttribute(NSFontAttributeName, value: dynamicFont)
 
-        let preferredMaxBubbleWidth = ceil(width * 0.75)
+        let preferredMaxBubbleWidth = ceil(self.width * 0.85)
         var bubbleViewWidth = preferredMaxBubbleWidth
 
         // prelayout
@@ -151,28 +158,36 @@ class ActionableMessageCellLayout: MessageCellLayout {
         }
 
         if let attributedTitle = self.attributedTitle {
+            let textLabelWidth = min(preferredMaxBubbleWidth, attributedTitle.boundingRect(with: .zero, options: [], context: nil).integral.width)
             let size = attributedTitle.boundingRect(with: CGSize(width: textLabelWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size
             self.titleLabelFrame = CGRect(x: self.textLabelFrame.origin.x, y: textMargin.top, width: size.width, height: size.height)
 
             let diff = self.titleLabelFrame.height + textMargin.top
+            let width = textMargin.left + textLabelWidth + hPadding + hPadding / 2 + deliveryStatusWidth + textMargin.right
 
             bubbleViewHeight += diff
             self.textLabelFrame.origin.y += diff
             self.bubbleImageViewFrame.size.height = bubbleViewHeight
+            self.bubbleImageViewFrame.size.width = max(self.bubbleImageViewFrame.width, width)
             self.bubbleViewFrame.size.height = bubbleViewHeight
+            self.bubbleViewFrame.size.width = max(self.bubbleViewFrame.width, width)
         }
 
         if let attributedSubtitle = self.attributedSubtitle {
+            let textLabelWidth = min(preferredMaxBubbleWidth, attributedSubtitle.boundingRect(with: .zero, options: [], context: nil).integral.width)
             let size = attributedSubtitle.boundingRect(with: CGSize(width: textLabelWidth, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil).size
             let top = textMargin.top + self.titleLabelFrame.maxY
             self.subtitleLabelFrame = CGRect(x: self.textLabelFrame.origin.x, y: top, width: size.width, height: size.height)
 
             let diff = self.subtitleLabelFrame.height + textMargin.top
+            let width = textMargin.left + textLabelWidth + hPadding + hPadding / 2 + deliveryStatusWidth + textMargin.right
 
             bubbleViewHeight += diff
             self.textLabelFrame.origin.y += diff
             self.bubbleImageViewFrame.size.height = bubbleViewHeight
+            self.bubbleImageViewFrame.size.width = max(self.bubbleImageViewFrame.width, width)
             self.bubbleViewFrame.size.height = bubbleViewHeight
+            self.bubbleViewFrame.size.width = max(self.bubbleViewFrame.width, width)
         }
 
         if let item = self.chatItem as? Message, item.isActionable {

@@ -39,6 +39,10 @@ extension Theme {
         return #colorLiteral(red: 0.952861011, green: 0.952994287, blue: 0.9528188109, alpha: 1)
     }
 
+    public static var inputFieldBackgroundColor: UIColor {
+        return UIColor(hex: "FAFAFA")
+    }
+
     public static var navigationTitleTextColor: UIColor {
         return .white
     }

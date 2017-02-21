@@ -136,7 +136,7 @@ open class ProfileController: UIViewController {
         self.nameLabel.text = User.current?.username
         self.aboutContentLabel.text = User.current?.about
         self.locationContentLabel.text = User.current?.location
-        self.avatar.image = User.current?.avatar ?? #imageLiteral(resourceName: "igor")
+        self.avatar.image = User.current?.avatar
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
     }
 

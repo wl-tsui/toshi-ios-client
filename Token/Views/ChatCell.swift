@@ -26,7 +26,7 @@ class ChatCell: UITableViewCell {
 
             // TODO: placeholder for now, remove it once we have avatar support on the API level
             if self.avatarImageView.image == nil {
-                self.avatarImageView.image = self.thread?.image() ?? [#imageLiteral(resourceName: "daniel")].any
+                self.avatarImageView.image = self.thread?.image()
             }
 
             if let date = self.thread?.lastMessageDate() {

@@ -1,6 +1,6 @@
 import Foundation
 
-private var stateAssociationKey: Void?
+private var stateAssociationKey: UInt8 = 0
 
 extension TSInteraction {
 
@@ -12,7 +12,7 @@ extension TSInteraction {
         case paid = 4
     }
 
-    private var paymentStateRaw: Int {
+    public var paymentStateRaw: Int {
         get {
             return objc_getAssociatedObject(self, &stateAssociationKey) as? Int ?? 0
         }

@@ -46,10 +46,12 @@ class AppsAPIClient {
 
         Teapot(baseURL: avatarURL).get() { (result: NetworkImageResult) in
             switch result {
-            case .success(let image, _):
+            case .success(let image, let response):
+                print(response)
                 self.imageCache.setObject(image, forKey: path as NSString)
                 completion(image)
-            case .failure(_, let error):
+            case .failure(let response, let error):
+                print(response)
                 print(error)
                 completion(nil)
             }
