@@ -15,6 +15,7 @@ public class SettingsNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         self.tabBarItem = UITabBarItem(title: "Settings", image: #imageLiteral(resourceName: "settings"), tag: 0)
+        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
     public required init?(coder aDecoder: NSCoder) {

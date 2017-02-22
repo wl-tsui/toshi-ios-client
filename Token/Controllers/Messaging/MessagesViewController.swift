@@ -144,6 +144,12 @@ class MessagesViewController: NOCChatViewController {
         self.loadMessages()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.thread.markAllAsRead()
+    }
+
     override func registerChatItemCells() {
         self.collectionView.register(MessageCell.self, forCellWithReuseIdentifier: MessageCell.reuseIdentifier())
         self.collectionView.register(ActionableMessageCell.self, forCellWithReuseIdentifier: ActionableMessageCell.reuseIdentifier())

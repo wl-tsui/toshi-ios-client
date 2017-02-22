@@ -14,6 +14,7 @@ public class ContactsNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         self.tabBarItem = UITabBarItem(title: "Contacts", image: #imageLiteral(resourceName: "contacts"), tag: 1)
+        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
     public required init?(coder aDecoder: NSCoder) {

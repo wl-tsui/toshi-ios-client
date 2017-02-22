@@ -15,6 +15,7 @@ public class AppsNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         self.tabBarItem = UITabBarItem(title: "Apps", image: #imageLiteral(resourceName: "apps"), tag: 0)
+        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
     public required init?(coder aDecoder: NSCoder) {

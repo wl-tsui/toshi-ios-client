@@ -50,16 +50,7 @@
             NSLog(@"The app was launched in an unknown way");
         }
 
-        //        [OWSSyncPushTokensJob runWithPushManager:[PushManager sharedManager]
-        //                                  accountManager:self.accountManager
-        //                                     preferences:[[PropertyListPreferences alloc] init]].then(^{
-        //            NSLog(@"Successfully ran syncPushTokensJob.");
-        //        }).catch(^(NSError *_Nonnull error) {
-        //            NSLog(@"Failed to run syncPushTokensJob with error: %@", error);
-        //        });
-
         [self registerForRemoteNotifications];
-
         [TSPreKeyManager refreshPreKeys];
     }];
 
@@ -140,7 +131,7 @@
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
 
@@ -175,11 +166,17 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-    NSLog(@"!");
+
+    NSLog(@"! %@", notification);
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-   NSLog(@"!");
+   NSLog(@"! %@", response);
+
+    TabBarController *tabBarController = (TabBarController *)self.window.rootViewController;
+    [tabBarController updateBadge];
+
+    completionHandler();
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {

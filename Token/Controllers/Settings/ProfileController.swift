@@ -14,7 +14,7 @@ open class ProfileController: UIViewController {
     }()
 
     lazy var qrCode: UIImage = {
-        let image = UIImage.imageQRCode(for: User.current!.address, resizeRate: 0.8)
+        let image = UIImage.imageQRCode(for: User.current?.address ?? "", resizeRate: 0.8)
         let filter = CIFilter(name: "CIMaskToAlpha")!
 
         filter.setDefaults()

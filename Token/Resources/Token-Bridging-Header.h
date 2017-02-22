@@ -15,6 +15,7 @@
 #import <SignalServiceKit/TSPreKeyManager.h>
 #import <SignalServiceKit/TSSocketManager.h>
 #import <SignalServiceKit/TSAccountManager.h>
+#import <SignalServiceKit/TSMessagesManager.h>
 #import <SignalServiceKit/OWSError.h>
 #import <SignalServiceKit/TSDatabaseView.h>
 #import <SignalServiceKit/OWSMessageSender.h>

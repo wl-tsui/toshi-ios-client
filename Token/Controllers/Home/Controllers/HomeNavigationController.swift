@@ -15,6 +15,7 @@ public class HomeNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
         self.tabBarItem = UITabBarItem(title: "Home", image: #imageLiteral(resourceName: "home"), tag: 0)
+        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
     public required init?(coder aDecoder: NSCoder) {

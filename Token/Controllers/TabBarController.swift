@@ -1,8 +1,18 @@
 import UIKit
 
+let TabBarItemTitleOffset: CGFloat = -3.0
+
 open class TabBarController: UITabBarController {
 
     let tabBarSelectedIndexKey = "TabBarSelectedIndex"
+
+    lazy var uiDatabaseConnection: YapDatabaseConnection = {
+        let database = TSStorageManager.shared().database()!
+        let dbConnection = database.newConnection()
+        dbConnection.beginLongLivedReadTransaction()
+
+        return dbConnection
+    }()
 
     public var chatAPIClient: ChatAPIClient
 
@@ -21,6 +31,22 @@ open class TabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
 
         self.delegate = self
+
+        let notificationController = NotificationCenter.default
+        notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+    }
+    func yapDatabaseDidChange(notification: NSNotification) {
+        let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
+
+        // If changes do not affect current view, update and return without updating collection view
+        // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
+        // table/collection view backing model.
+        let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
+
+        guard hasChangesForCurrentView else { return }
+
+        self.updateBadge()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -52,6 +78,24 @@ open class TabBarController: UITabBarController {
 
         let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
         self.selectedIndex = index
+    }
+
+    public func updateBadge() {
+        var count: UInt = 0
+        self.uiDatabaseConnection.read { transaction in
+            transaction.enumerateRows(inCollection: TSThread.collection(), using: { (_, object, _, stop) in
+                if let thread = object as? TSThread {
+                    count += TSMessagesManager.shared().unreadMessages(in: thread)
+                }
+            })
+        }
+
+        if count > 0 {
+            self.messagingController.tabBarItem.badgeValue = "\(count)"
+            self.messagingController.tabBarItem.badgeColor = .red
+        } else {
+            self.messagingController.tabBarItem.badgeValue = nil
+        }
     }
 
     public func displayMessage(forAddress address: String) {
