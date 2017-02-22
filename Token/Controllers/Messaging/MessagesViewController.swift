@@ -553,7 +553,7 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
         let request: [String: Any] = [
             "body": "Payment request: \(User.dollarValueString(forWei: valueInWei)).",
             "value": valueInWei.toDecimalString,
-            "destinationAddress": self.cereal.address,
+            "destinationAddress": self.cereal.paymentAddress,
         ]
 
         let paymentRequest = SofaPaymentRequest(content: request)

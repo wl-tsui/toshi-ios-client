@@ -2,6 +2,8 @@
 
 #import "Token-Swift.h"
 
+#import <EtherealCereal/EtherealCereal.h>
+
 #import "NotificationsManager.h"
 #import "PushManager.h"
 
@@ -25,7 +27,6 @@
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.cereal = [[Cereal alloc] init];
@@ -56,6 +57,8 @@
         //        }).catch(^(NSError *_Nonnull error) {
         //            NSLog(@"Failed to run syncPushTokensJob with error: %@", error);
         //        });
+
+        [self registerForRemoteNotifications];
 
         [TSPreKeyManager refreshPreKeys];
     }];
@@ -116,11 +119,6 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-
-}
-
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
     UIBackgroundTaskIdentifier __block bgTask = UIBackgroundTaskInvalid;
     bgTask = [application beginBackgroundTaskWithExpirationHandler:^{ }];
 
@@ -136,16 +134,23 @@
     });
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+
+}
+
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
-        [TSSocketManager becomeActiveFromForeground];
-    }];
+
 }
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-
+    [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
+        // We're double checking that the app is active, to be sure since we
+        // can't verify in production env due to code
+        // signing.
+        [TSSocketManager becomeActiveFromForeground];
+    }];
 }
 
 
@@ -153,7 +158,50 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Push notifications
+
+- (void)registerForRemoteNotifications {
+    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+
+    [center requestAuthorizationWithOptions:authOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (error){
+            @throw error.localizedDescription;
+        } else if (granted) {
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        }
+    }];
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    NSLog(@"!");
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+   NSLog(@"!");
+}
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"!");
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [deviceToken hexadecimalString];
+
+    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:token voipToken:@"" success:^{
+        NSLog(@"chat PN register - SUCCESS: %@", token);
+    } failure:^(NSError * _Nonnull error) {
+        NSLog(@"chat PN register -  FAILURE");
+    }];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"!");
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void (^)())completionHandler {
+
     NSLog(@"!");
 }
 

@@ -38,7 +38,6 @@ public class TokenContact: NSObject, JSONDataSerialization {
             "name": self.name,
             "location": self.location,
             "about": self.about,
-            "payment_address": self.paymentAddress,
             "avatar": self.avatarPath,
             "avatarDataHex": imageDataString,
         ]
@@ -47,6 +46,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
             "owner_address": self.address,
             "custom": custom,
             "username": self.username,
+            "payment_address": self.paymentAddress,
         ]
 
         return try! JSONSerialization.data(withJSONObject: json, options: [])
@@ -54,7 +54,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     init(json: [String: Any]) {
         self.address = json["owner_address"] as! String
-        self.paymentAddress = json["owner_address"] as! String
+        self.paymentAddress = (json["payment_address"] as? String) ?? json["owner_address"] as! String
         self.username = json["username"] as! String
 
         if let json = json["custom"] as? [String: Any] {
@@ -62,10 +62,6 @@ public class TokenContact: NSObject, JSONDataSerialization {
             self.location = (json["location"] as? String) ?? ""
             self.about = (json["about"] as? String) ?? ""
             self.avatarPath = (json["avatar"] as? String) ?? ""
-
-            if let paymentAddress = (json["payment_address"] as? String) {
-                self.paymentAddress = paymentAddress
-            }
 
             if let avatarDataHex = (json["avatarDataHex"] as? String), avatarDataHex.length > 0, let hexData = avatarDataHex.hexadecimalData {
                 self.avatar = UIImage(data: hexData)

@@ -90,10 +90,8 @@ public class IDAPIClient: NSObject {
 
             self.fetchTimestamp { timestamp in
                 let path = "/v1/user"
-                let parameters = ["custom":
-                    [
-                        "payment_address": self.cereal.paymentAddress,
-                    ],
+                let parameters = [
+                    "payment_address": self.cereal.paymentAddress,
                 ]
                 let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
                 let hashedParameters = self.cereal.sha3WithID(string: parametersString)

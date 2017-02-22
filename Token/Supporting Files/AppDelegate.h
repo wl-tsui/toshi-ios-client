@@ -4,7 +4,9 @@
 #import <SignalServiceKit/ContactsUpdater.h>
 #import "ContactsManager.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@import UserNotifications;
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 
 @property (nullable, strong, nonatomic) UIWindow *window;
 
