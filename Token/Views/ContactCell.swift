@@ -13,7 +13,14 @@ class ContactCell: UITableViewCell {
                     self.usernameLabel.text = nil
                 }
 
-                self.avatarImageView.image = contact.avatar
+                if let avatar = contact.avatar {
+                    self.avatarImageView.image = avatar
+                } else {
+                    IDAPIClient.shared.downloadAvatar(path: contact.avatarPath) { image in
+                        contact.avatar = image
+                        self.avatarImageView.image = image
+                    }
+                }
             } else {
                 self.usernameLabel.text = nil
                 self.nameLabel.text = nil

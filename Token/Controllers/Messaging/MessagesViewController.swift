@@ -8,18 +8,12 @@ class MessagesViewController: NOCChatViewController {
 
     var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
 
-    var interactions = [TSInteraction]()
-
     var messages = [Message]() {
         didSet {
             let current = Set(self.messages)
             let previous = Set(oldValue)
             let new = current.subtracting(previous).sorted { (message1, message2) -> Bool in
-                return message1.date.compare(message2.date) == .orderedDescending
-            }
-
-            new.forEach { (message) in
-                self.interactions.insert(message.signalMessage, at: 0)
+                return message1.date.compare(message2.date) == .orderedAscending
             }
 
             let displayables = new.filter { (message) -> Bool in
@@ -28,7 +22,15 @@ class MessagesViewController: NOCChatViewController {
 
             // Only animate if we're adding one message, for bulk-insert we want them instant.
             let isAnimated = displayables.count == 1
-            self.addMessages(Array(displayables), scrollToBottom: true, animated: isAnimated)
+            self.addMessages(displayables, scrollToBottom: true, animated: isAnimated)
+        }
+    }
+
+    var visibleMessages: [Message] {
+        get {
+            return self.messages.filter { (message) -> Bool in
+                return message.isDisplayable
+            }
         }
     }
 
@@ -166,7 +168,7 @@ class MessagesViewController: NOCChatViewController {
                         shouldProcess = true
                     }
                     if let result = self.handleInteraction(interaction, shouldProcessCommands: shouldProcess) {
-                        messages.insert(result, at: 0)
+                        messages.append(result)
                     }
                 }
             }
@@ -293,11 +295,11 @@ class MessagesViewController: NOCChatViewController {
 
             for message in messages {
                 let layout = self.createLayout(with: message)!
-                layouts.insert(layout, at: 0)
+                layouts.append(layout)
             }
 
             DispatchQueue.main.async {
-                self.insertLayouts(layouts, at: indexes, animated: animated)
+                self.insertLayouts(layouts.reversed(), at: indexes, animated: animated)
                 if scrollToBottom {
                     self.scrollToBottom(animated: animated)
                 }
@@ -307,12 +309,12 @@ class MessagesViewController: NOCChatViewController {
 
     // MARK: - Helper methods
 
-    func message(at indexPath: IndexPath) -> Message {
-        return self.messages[indexPath.row]
+    func visibleMessage(at indexPath: IndexPath) -> Message {
+        return self.visibleMessages[indexPath.row]
     }
 
-    func interaction(at indexPath: IndexPath) -> TSInteraction {
-        return self.interactions[indexPath.row]
+    func message(at indexPath: IndexPath) -> Message {
+        return self.messages[indexPath.row]
     }
 
     func registerNotifications() {
@@ -321,7 +323,7 @@ class MessagesViewController: NOCChatViewController {
     }
 
     func reversedIndexPath(_ indexPath: IndexPath) -> IndexPath {
-        let row = (self.collectionView(self.collectionView, numberOfItemsInSection: indexPath.section) - 1) - indexPath.item
+        let row = (self.visibleMessages.count - 1) - indexPath.item
         return IndexPath(row: row, section: indexPath.section)
     }
 
@@ -367,17 +369,21 @@ class MessagesViewController: NOCChatViewController {
                     guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { fatalError("woot") }
 
                     if let result = self.handleInteraction(interaction, shouldProcessCommands: true) {
-                        self.messages.insert(result, at: 0)
+                        DispatchQueue.main.async {
+                            self.messages.append(result)
+                        }
                     }
                 case .update:
                     guard let interaction = dbExtension.object(at: change.indexPath, with: self.mappings) as? TSMessage else { continue }
 
-                    let indexPath = self.reversedIndexPath(change.indexPath)
+                    let indexPath = change.indexPath
                     let message = self.message(at: indexPath)
                     message.signalMessage = interaction
-                    if let layout = self.createLayout(with: message) {
-                        DispatchQueue.main.async {
-                            self.updateLayout(at: UInt(indexPath.row), to: layout, animated: true)
+                    DispatchQueue.main.async {
+                        if let visibleIndex = self.visibleMessages.index(of: message), let layout = self.layouts[visibleIndex] as? MessageCellLayout {
+                            layout.chatItem = message
+                            let visibleIndexPath = self.reversedIndexPath(IndexPath(item: visibleIndex, section: 0))
+                            self.collectionView.reloadItems(at: [visibleIndexPath])
                         }
                     }
                 default:
@@ -417,23 +423,27 @@ extension MessagesViewController: ActionableCellDelegate {
 
     func didTapRejectButton(_ messageCell: ActionableMessageCell) {
         guard let indexPath = self.collectionView.indexPath(for: messageCell) else { return }
+        let visibleMessageIndexPath = self.reversedIndexPath(indexPath)
 
-        let message = self.message(at: indexPath)
+        let message = self.visibleMessage(at: visibleMessageIndexPath)
         message.isActionable = false
 
         let layout = self.layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
 
-        let interaction = self.interaction(at: indexPath)
+        let interaction = message.signalMessage
         interaction.paymentState = .rejected
         interaction.save()
     }
 
     func didTapApproveButton(_ messageCell: ActionableMessageCell) {
         guard let indexPath = self.collectionView.indexPath(for: messageCell) else { return }
+        let visibleMessageIndexPath = self.reversedIndexPath(indexPath)
 
-        guard let paymentRequest = self.message(at: indexPath).sofaWrapper as? SofaPaymentRequest else { fatalError("Could not retrieve payment request for approval.") }
+        let message = self.visibleMessage(at: visibleMessageIndexPath)
+
+        guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { fatalError("Could not retrieve payment request for approval.") }
 
         let value = paymentRequest.value
         guard let destination = paymentRequest.destinationAddress else { return }
@@ -451,14 +461,11 @@ extension MessagesViewController: ActionableCellDelegate {
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {
                     // update payment request message
-                    let message = self.message(at: indexPath)
                     message.isActionable = false
 
-                    let interaction = self.interaction(at: indexPath)
+                    let interaction = message.signalMessage
                     interaction.paymentState = .pendingConfirmation
-                    interaction.save()
-
-                    self.collectionView.reloadItems(at: [indexPath])
+                    interaction.save()                    
 
                     // send payment message
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }

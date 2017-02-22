@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 /// A Token contact. Not to be confused with a (signal) Contact.
 /// We use this for our UI and contact management with the ID server.
@@ -29,9 +29,23 @@ public class TokenContact: NSObject, JSONDataSerialization {
     public var avatar: UIImage?
 
     public var JSONData: Data {
+        var imageDataString = ""
+        if let image = self.avatar, let data = (UIImagePNGRepresentation(image) ?? UIImageJPEGRepresentation(image, 1.0)) {
+            imageDataString = data.hexadecimalString
+        }
+
+        let custom: [String: Any] = [
+            "name": self.name,
+            "location": self.location,
+            "about": self.about,
+            "payment_address": self.paymentAddress,
+            "avatar": self.avatarPath,
+            "avatarDataHex": imageDataString,
+        ]
+
         let json: [String: Any] = [
             "owner_address": self.address,
-            "custom": ["name": self.name, "location": self.location, "about": self.about, "payment_address": self.paymentAddress, "avatar": self.avatarPath],
+            "custom": custom,
             "username": self.username,
         ]
 
@@ -51,6 +65,10 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
             if let paymentAddress = (json["payment_address"] as? String) {
                 self.paymentAddress = paymentAddress
+            }
+
+            if let avatarDataHex = (json["avatarDataHex"] as? String), avatarDataHex.length > 0, let hexData = avatarDataHex.hexadecimalData {
+                self.avatar = UIImage(data: hexData)
             }
         }
 

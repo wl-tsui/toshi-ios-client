@@ -21,8 +21,8 @@ class AppsAPIClient {
                 guard let json = json?.dictionary else { fatalError("No apps json!") }
 
                 let appsJSON = json["apps"] as! [[String: Any]]
-                let apps = appsJSON.map { json in
-                    App(json: json)
+                let apps: [App] = appsJSON.map { json in
+                    return App(json: json)
                 }
 
                 completion(apps, nil)

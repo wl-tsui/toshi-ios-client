@@ -1,5 +1,6 @@
 import UIKit
 import SweetUIKit
+import SweetFoundation
 import SweetSwift
 import CameraScanner
 
@@ -340,9 +341,14 @@ extension ContactsController: UISearchBarDelegate {
 }
 
 extension ContactsController: UISearchResultsUpdating {
-
+    
     public func updateSearchResults(for searchController: UISearchController) {
-        if let text = searchController.searchBar.text, text.length > 0 {
+        guard let text = searchController.searchBar.text else { return }
+
+        if text.length == 0 {
+            self.searchContacts = []
+            self.tableView.reloadData()
+        } else {
             self.idAPIClient.searchContacts(name: text) { contacts in
                 self.searchContacts = contacts
                 self.tableView.reloadData()

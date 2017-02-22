@@ -6,7 +6,7 @@ github "bakkenbaeck/Formulaic" ~> 0.0
 github "bakkenbaeck/Teapot" "master"
 github "bakkenbaeck/CameraScanner" ~> 0.0
 github "marketplacer/keychain-swift" ~> 7.0
-github "UseSweet/SweetFoundation" ~> 1.0
+github "UseSweet/SweetFoundation" ~> 1.2.0
 github "UseSweet/SweetSwift" ~> 1.0
 github "UseSweet/SweetUIKit" ~> 1.0
 github "mxcl/PromiseKit" ~> 4.0
