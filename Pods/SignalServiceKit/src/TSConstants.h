@@ -21,8 +21,14 @@ typedef enum { kSMSVerification, kPhoneNumberVerification } VerificationTranspor
 
 #define textSecureHTTPTimeOut 10
 
-#define textSecureWebSocketAPI @"wss://token-chat-service.herokuapp.com/v1/websocket/"
-#define textSecureServerURL @"https://token-chat-service.herokuapp.com"
+
+// development
+#define textSecureWebSocketAPI @"wss://token-chat-service-development.herokuapp.com/v1/websocket/"
+#define textSecureServerURL @"https://token-chat-service-development.herokuapp.com"
+
+// Production
+//#define textSecureWebSocketAPI @"wss://token-chat-service.herokuapp.com/v1/websocket/"
+//#define textSecureServerURL @"https://token-chat-service.herokuapp.com"
 
 //#define textSecureWebSocketAPI    @"wss://textsecure-service-staging.whispersystems.org/v1/websocket/"
 //#define textSecureServerURL       @"https://textsecure-service-staging.whispersystems.org/"

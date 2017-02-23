@@ -36,8 +36,32 @@ class ChatCell: UITableViewCell {
                     self.lastMessageDateLabel.text = DateTimeFormatter.dateFormatter.string(from: date)
                 }
             }
+
+            if let thread =  self.thread {
+                let count = TSMessagesManager.shared().unreadMessages(in: thread)
+                if count > 0 {
+                    self.unreadLabel.text = "\(count)"
+                    self.unreadLabel.isHidden = false
+                } else {
+                    self.unreadLabel.text = nil
+                    self.unreadLabel.isHidden = true
+                }
+            }
         }
     }
+
+    lazy var unreadLabel: UILabel = {
+        let view = UILabel(withAutoLayout: true)
+        view.textAlignment = .center
+        view.font = Theme.medium(size: 12)
+        view.textColor = Theme.lightTextColor
+        view.backgroundColor = Theme.tintColor
+
+        view.layer.cornerRadius = 12
+        view.layer.masksToBounds = true
+
+        return view
+    }()
 
     lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
@@ -81,6 +105,7 @@ class ChatCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        self.contentView.addSubview(self.unreadLabel)
         self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.usernameLabel)
         self.contentView.addSubview(self.lastMessageLabel)
@@ -103,6 +128,11 @@ class ChatCell: UITableViewCell {
         self.lastMessageDateLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
         self.lastMessageDateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: margin).isActive = true
         self.lastMessageDateLabel.rightAnchor.constraint(equalTo: self.self.contentView.rightAnchor, constant: -margin).isActive = true
+
+        self.unreadLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        self.unreadLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        self.unreadLabel.topAnchor.constraint(equalTo: self.lastMessageDateLabel.bottomAnchor).isActive = true
+        self.unreadLabel.rightAnchor.constraint(equalTo: self.self.contentView.rightAnchor, constant: -margin).isActive = true
 
         self.lastMessageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
         self.lastMessageLabel.topAnchor.constraint(equalTo: self.lastMessageDateLabel.bottomAnchor).isActive = true

@@ -20,7 +20,7 @@ public class ChatAPIClient: NSObject {
 
     public init(cereal: Cereal) {
         self.cereal = cereal
-        self.baseURL = URL(string: "https://token-chat-service.herokuapp.com")!
+        self.baseURL = URL(string: TokenChatServiceBaseURLPath)!
         self.teapot = Teapot(baseURL: self.baseURL)
     }
 

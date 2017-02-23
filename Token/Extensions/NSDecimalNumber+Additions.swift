@@ -4,7 +4,7 @@ public extension NSDecimalNumber {
 
     public static var weiRoundingBehavior: NSDecimalNumberHandler {
         get {
-            return NSDecimalNumberHandler(roundingMode: .up, scale: User.weisToEtherPowerOf10Constant, raiseOnExactness: false, raiseOnOverflow: true, raiseOnUnderflow: true, raiseOnDivideByZero: true)
+            return NSDecimalNumberHandler(roundingMode: .up, scale: EthereumConverter.weisToEtherPowerOf10Constant, raiseOnExactness: false, raiseOnOverflow: true, raiseOnUnderflow: true, raiseOnDivideByZero: true)
         }
     }
 

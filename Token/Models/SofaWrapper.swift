@@ -98,6 +98,10 @@ open class SofaMessage: SofaWrapper {
 
         return ""
     }()
+
+    public convenience init(body: String) {
+        self.init(content: ["body": body])
+    }
 }
 
 /// SOFA::Command:{
@@ -141,7 +145,7 @@ open class SofaMetadataResponse: SofaWrapper {
         var response = [String: Any]()
         for value in metadataRequest.values {
             if value == "paymentAddress" {
-                response[value] = User.current!.address
+                response[value] = ""
             } else if value == "language" {
                 let locale = Locale.current
                 response[value] = locale.identifier
@@ -196,7 +200,18 @@ open class SofaPayment: SofaWrapper {
     }
 
     public var status: Status {
-        return .uncomfirmed
+        guard let status = self.json["status"] as? String else { return .uncomfirmed }
+        return Status(rawValue: status)!
+    }
+
+    public var recipientAddress: String? {
+        guard let address = self.json["toAddress"] as? String else { return nil }
+        return address
+    }
+
+    public var senderAddress: String? {
+        guard let address = self.json["fromAddress"] as? String else { return nil }
+        return address
     }
 
     public override var type: SofaType {

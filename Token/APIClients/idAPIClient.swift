@@ -3,8 +3,6 @@ import SweetFoundation
 import Teapot
 
 public class IDAPIClient: NSObject {
-    // https://token-id-service.herokuapp.com
-
     static let shared: IDAPIClient = IDAPIClient(cereal: Cereal())
 
     public static let updateContactsNotification = Notification.Name(rawValue: "UpdateContactWithAddress")
@@ -29,7 +27,7 @@ public class IDAPIClient: NSObject {
 
     public init(cereal: Cereal) {
         self.cereal = cereal
-        self.baseURL = URL(string: "https://token-id-service.herokuapp.com")!
+        self.baseURL = URL(string: TokenIdServiceBaseURLPath)!
         self.teapot = Teapot(baseURL: self.baseURL)
 
         super.init()
@@ -160,13 +158,6 @@ public class IDAPIClient: NSObject {
                 let user = User(json: json)
 
                 print("Current user with address: \(user.address)")
-
-                // EthereumAPIClient.shared.registerForPushNotifications()
-                // EthereumAPIClient.shared.registerForNotifications()
-                //
-                //  DispatchQueue.main.asyncAfter(seconds: 10, execute: {
-                //    EthereumAPIClient.shared.deregisterForNotifications()
-                //  })
 
                 completion(user)
             case .failure(let json, let response, let error):

@@ -110,8 +110,8 @@ extension PaymentController: UITextFieldDelegate {
                 let etherValue = currencyValue.decimalValue / EthereumAPIClient.shared.exchangeRate
                 let ether = NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
 
-                self.valueInWei = ether.multiplying(byPowerOf10: User.weisToEtherPowerOf10Constant)
-                self.etherAmountLabel.text = User.ethereumValueString(forEther: ether)
+                self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
+                self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
             } else {
                 self.etherAmountLabel.text = "0.0 EHT"
             }

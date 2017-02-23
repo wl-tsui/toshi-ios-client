@@ -10,9 +10,7 @@
 		143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
 		143186BB1E49C5560025E9B7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
 		143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143586FF1E5C4CB4007A268A /* SearchResultsView.swift */; };
-		143587011E5C4CB4007A268A /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143586FF1E5C4CB4007A268A /* SearchResultsView.swift */; };
 		143587031E5C4CBE007A268A /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143587021E5C4CBE007A268A /* SearchResultCell.swift */; };
-		143587041E5C4CBE007A268A /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143587021E5C4CBE007A268A /* SearchResultCell.swift */; };
 		145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
 		145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
 		146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146D564B1E4A77F200FE7944 /* AppCell.swift */; };
@@ -21,93 +19,6 @@
 		1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513691E49D41200E44A62 /* HomeNavigationController.swift */; };
 		1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */; };
 		1475136F1E49FB8C00E44A62 /* HomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136E1E49FB8C00E44A62 /* HomeLayout.swift */; };
-		147DFBEB1E51FFE100BF5DD6 /* NotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */; };
-		147DFBEC1E51FFE100BF5DD6 /* HomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136E1E49FB8C00E44A62 /* HomeLayout.swift */; };
-		147DFBED1E51FFE100BF5DD6 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
-		147DFBEE1E51FFE100BF5DD6 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
-		147DFBEF1E51FFE100BF5DD6 /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */; };
-		147DFBF01E51FFE100BF5DD6 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
-		147DFBF11E51FFE100BF5DD6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* Message.swift */; };
-		147DFBF21E51FFE100BF5DD6 /* AppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */; };
-		147DFBF31E51FFE100BF5DD6 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513691E49D41200E44A62 /* HomeNavigationController.swift */; };
-		147DFBF41E51FFE100BF5DD6 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
-		147DFBF51E51FFE100BF5DD6 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
-		147DFBF61E51FFE100BF5DD6 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
-		147DFBF71E51FFE100BF5DD6 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
-		147DFBF81E51FFE100BF5DD6 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
-		147DFBF91E51FFE100BF5DD6 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
-		147DFBFA1E51FFE100BF5DD6 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE01E28E71900A70E07 /* ContactsController.swift */; };
-		147DFBFB1E51FFE100BF5DD6 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
-		147DFBFC1E51FFE100BF5DD6 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513651E49CA5B00E44A62 /* HomeController.swift */; };
-		147DFBFD1E51FFE100BF5DD6 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE21E28E71900A70E07 /* ProfileController.swift */; };
-		147DFBFE1E51FFE100BF5DD6 /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
-		147DFBFF1E51FFE100BF5DD6 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
-		147DFC001E51FFE100BF5DD6 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
-		147DFC011E51FFE100BF5DD6 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D31E24F42A004BEEE0 /* ChatCell.swift */; };
-		147DFC021E51FFE100BF5DD6 /* TSInteraction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B896C1E51C6DA009C192E /* TSInteraction+Additions.swift */; };
-		147DFC031E51FFE100BF5DD6 /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCB21E30E1EE00FB871D /* ContactsNavigationController.swift */; };
-		147DFC041E51FFE100BF5DD6 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
-		147DFC051E51FFE100BF5DD6 /* AppsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */; };
-		147DFC061E51FFE100BF5DD6 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
-		147DFC071E51FFE100BF5DD6 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
-		147DFC081E51FFE100BF5DD6 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBACC1E27C24400A70E07 /* PushManager.m */; };
-		147DFC091E51FFE100BF5DD6 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
-		147DFC0A1E51FFE100BF5DD6 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
-		147DFC0B1E51FFE100BF5DD6 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
-		147DFC0C1E51FFE100BF5DD6 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
-		147DFC0D1E51FFE100BF5DD6 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
-		147DFC0E1E51FFE100BF5DD6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
-		147DFC0F1E51FFE100BF5DD6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADC1E28E57100A70E07 /* User.swift */; };
-		147DFC101E51FFE100BF5DD6 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
-		147DFC111E51FFE100BF5DD6 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
-		147DFC121E51FFE100BF5DD6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
-		147DFC131E51FFE100BF5DD6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
-		147DFC141E51FFE100BF5DD6 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
-		147DFC151E51FFE100BF5DD6 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146D564B1E4A77F200FE7944 /* AppCell.swift */; };
-		147DFC161E51FFE100BF5DD6 /* NotificationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */; };
-		147DFC171E51FFE100BF5DD6 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */; };
-		147DFC181E51FFE100BF5DD6 /* HomeItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513671E49CA6F00E44A62 /* HomeItemCell.swift */; };
-		147DFC191E51FFE100BF5DD6 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
-		147DFC1A1E51FFE100BF5DD6 /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
-		147DFC1C1E51FFE100BF5DD6 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; };
-		147DFC1D1E51FFE100BF5DD6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */; };
-		147DFC1F1E51FFE100BF5DD6 /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; };
-		147DFC201E51FFE100BF5DD6 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758551E3BA1850009ABCD /* PromiseKit.framework */; };
-		147DFC211E51FFE100BF5DD6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
-		147DFC221E51FFE100BF5DD6 /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
-		147DFC231E51FFE100BF5DD6 /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; };
-		147DFC241E51FFE100BF5DD6 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
-		147DFC261E51FFE100BF5DD6 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; };
-		147DFC281E51FFE100BF5DD6 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; };
-		147DFC291E51FFE100BF5DD6 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; };
-		147DFC2B1E51FFE100BF5DD6 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		147DFC2C1E51FFE100BF5DD6 /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCED1E31120600FB871D /* SF-UI-Text-Semibold.otf */; };
-		147DFC2D1E51FFE100BF5DD6 /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCD91E31120600FB871D /* SF-UI-Display-Black.otf */; };
-		147DFC2E1E51FFE100BF5DD6 /* SF-UI-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEA1E31120600FB871D /* SF-UI-Text-MediumItalic.otf */; };
-		147DFC2F1E51FFE100BF5DD6 /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
-		147DFC301E51FFE100BF5DD6 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
-		147DFC311E51FFE100BF5DD6 /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDE1E31120600FB871D /* SF-UI-Display-Regular.otf */; };
-		147DFC321E51FFE100BF5DD6 /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDC1E31120600FB871D /* SF-UI-Display-Light.otf */; };
-		147DFC331E51FFE100BF5DD6 /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE11E31120600FB871D /* SF-UI-Display-Ultralight.otf */; };
-		147DFC341E51FFE100BF5DD6 /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE01E31120600FB871D /* SF-UI-Display-Thin.otf */; };
-		147DFC351E51FFE100BF5DD6 /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDD1E31120600FB871D /* SF-UI-Display-Medium.otf */; };
-		147DFC361E51FFE100BF5DD6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
-		147DFC371E51FFE100BF5DD6 /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE91E31120600FB871D /* SF-UI-Text-Medium.otf */; };
-		147DFC381E51FFE100BF5DD6 /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE31E31120600FB871D /* SF-UI-Text-Bold.otf */; };
-		147DFC391E51FFE100BF5DD6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCB41E30F24100FB871D /* Localizable.strings */; };
-		147DFC3A1E51FFE100BF5DD6 /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDA1E31120600FB871D /* SF-UI-Display-Bold.otf */; };
-		147DFC3B1E51FFE100BF5DD6 /* SF-UI-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE51E31120600FB871D /* SF-UI-Text-Heavy.otf */; };
-		147DFC3C1E51FFE100BF5DD6 /* SF-UI-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEC1E31120600FB871D /* SF-UI-Text-RegularItalic.otf */; };
-		147DFC3D1E51FFE100BF5DD6 /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEB1E31120600FB871D /* SF-UI-Text-Regular.otf */; };
-		147DFC3E1E51FFE100BF5DD6 /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */; };
-		147DFC3F1E51FFE100BF5DD6 /* SF-UI-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDB1E31120600FB871D /* SF-UI-Display-Heavy.otf */; };
-		147DFC401E51FFE100BF5DD6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */; };
-		147DFC411E51FFE100BF5DD6 /* SF-UI-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE61E31120600FB871D /* SF-UI-Text-HeavyItalic.otf */; };
-		147DFC421E51FFE100BF5DD6 /* SF-UI-Text-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE41E31120600FB871D /* SF-UI-Text-BoldItalic.otf */; };
-		147DFC431E51FFE100BF5DD6 /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE81E31120600FB871D /* SF-UI-Text-LightItalic.otf */; };
-		147DFC441E51FFE100BF5DD6 /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE71E31120600FB871D /* SF-UI-Text-Light.otf */; };
-		147DFC451E51FFE100BF5DD6 /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDF1E31120600FB871D /* SF-UI-Display-Semibold.otf */; };
-		147DFC461E51FFE100BF5DD6 /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */; };
 		14870DA71E3F8AB500A2A041 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */; };
 		14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */; };
@@ -115,11 +26,22 @@
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
 		9F210E531E5AE03F0000DAE5 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F210E521E5AE03F0000DAE5 /* RevealServer.framework */; };
 		9F210E541E5AE06D0000DAE5 /* RevealServer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F210E521E5AE03F0000DAE5 /* RevealServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
+		9F21624C1E5EE08800292B14 /* ActionableMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */; };
+		9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
+		9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
 		9F21E0631E546A03000E90C6 /* PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0621E546A03000E90C6 /* PaymentController.swift */; };
-		9F21E0641E546A03000E90C6 /* PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0621E546A03000E90C6 /* PaymentController.swift */; };
 		9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */; };
-		9F21E0671E546C4E000E90C6 /* PaymentSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */; };
+		9F2433BD1E5F3A22003D95A1 /* TokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433BC1E5F3A22003D95A1 /* TokenURLPaths.swift */; };
+		9F2433C51E5F3F14003D95A1 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433C41E5F3F14003D95A1 /* NotificationService.swift */; };
+		9F2433C91E5F3F14003D95A1 /* TokenNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9F2433CE1E5F4157003D95A1 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
+		9F2433CF1E5F4160003D95A1 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
+		9F2433D01E5F4172003D95A1 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
+		9F2433D11E5F41C2003D95A1 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
+		9F2433D21E5F41CE003D95A1 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
+		9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
+		9F2433D71E5F4AAB003D95A1 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; };
+		9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
 		9F40F3AD1E59FD5E007A7DE7 /* HDWallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3AF1E59FD5E007A7DE7 /* Teapot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3B01E59FD5E007A7DE7 /* CameraScanner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -131,27 +53,18 @@
 		9F40F3B61E59FD5E007A7DE7 /* SweetSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3B71E59FD5E007A7DE7 /* SweetUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3C01E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */; };
-		9F40F3C11E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */; };
 		9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */; };
-		9F40F3C31E59FE97007A7DE7 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */; };
 		9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BB1E59FE97007A7DE7 /* TGBaseMessageCell.swift */; };
-		9F40F3C51E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BB1E59FE97007A7DE7 /* TGBaseMessageCell.swift */; };
 		9F40F3C61E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BC1E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift */; };
-		9F40F3C71E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BC1E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift */; };
 		9F40F3C81E59FE97007A7DE7 /* TGClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BD1E59FE97007A7DE7 /* TGClockProgressView.swift */; };
-		9F40F3C91E59FE97007A7DE7 /* TGClockProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BD1E59FE97007A7DE7 /* TGClockProgressView.swift */; };
 		9F40F3CA1E59FE97007A7DE7 /* TGDeliveryStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BE1E59FE97007A7DE7 /* TGDeliveryStatusView.swift */; };
-		9F40F3CB1E59FE97007A7DE7 /* TGDeliveryStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BE1E59FE97007A7DE7 /* TGDeliveryStatusView.swift */; };
 		9F40F3CC1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */; };
-		9F40F3CD1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */; };
 		9F40F3D71E5A061C007A7DE7 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; };
-		9F40F3D81E5A061C007A7DE7 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; };
 		9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; };
-		9F40F3DA1E5A061C007A7DE7 /* YYText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; };
 		9F40F3DB1E5A061E007A7DE7 /* HPGrowingTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3DC1E5A061E007A7DE7 /* YYText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F5706661E5F16BC00EB5D90 /* EthereumConverter+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */; };
 		9F584C751E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
-		9F584C761E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
 		9F584C771E5C33180093FA4D /* NoChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
@@ -206,15 +119,11 @@
 		9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
 		9FC0D3E11E55A1E300A46760 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; };
-		9FC0D3E21E55A1E300A46760 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; };
 		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
 		9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
 		9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
 		9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
 		9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
-		9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */; };
-		9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBACC1E27C24400A70E07 /* PushManager.m */; };
-		9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */; };
 		9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
 		9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
 		9FCDBADD1E28E57100A70E07 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADC1E28E57100A70E07 /* User.swift */; };
@@ -225,14 +134,22 @@
 		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
 		9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
 		9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
-		9FCF132E1E531B520078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; };
 		9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
-		AA10A3AE40F096FA61FF48BF /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4731C266CA530FE6400B25E2 /* libPods-CocoaPods-Distribution.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9F2433C71E5F3F14003D95A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9F9238A91E24F1D2004BEEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9F2433C11E5F3F14003D95A1;
+			remoteInfo = TokenNotifications;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		1462543C1E4326DA00A3B822 /* Embed Frameworks */ = {
@@ -259,6 +176,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9F2433CD1E5F3F14003D95A1 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9F2433C91E5F3F14003D95A1 /* TokenNotifications.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -276,7 +204,6 @@
 		147513691E49D41200E44A62 /* HomeNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HomeNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
 		1475136E1E49FB8C00E44A62 /* HomeLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLayout.swift; sourceTree = "<group>"; };
-		147DFC4E1E51FFE100BF5DD6 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsController.swift; sourceTree = "<group>"; };
 		14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppsNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		4731C266CA530FE6400B25E2 /* libPods-CocoaPods-Distribution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Distribution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -285,8 +212,18 @@
 		990964CA5766AC2F323FDF06 /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
 		9F210E521E5AE03F0000DAE5 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevealServer.framework; sourceTree = "<group>"; };
+		9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionableMessageCellLayout.swift; sourceTree = "<group>"; };
+		9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumNotificationHandler.swift; sourceTree = "<group>"; };
+		9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundNotificationHandler.swift; sourceTree = "<group>"; };
 		9F21E0621E546A03000E90C6 /* PaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentController.swift; sourceTree = "<group>"; };
 		9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSendController.swift; sourceTree = "<group>"; };
+		9F2433BC1E5F3A22003D95A1 /* TokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenURLPaths.swift; sourceTree = "<group>"; };
+		9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TokenNotifications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F2433C41E5F3F14003D95A1 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		9F2433C61E5F3F14003D95A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalNotificationHandler.swift; sourceTree = "<group>"; };
+		9F2433D61E5F4A1F003D95A1 /* TokenNotifications.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TokenNotifications.entitlements; sourceTree = "<group>"; };
+		9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumConverter.swift; sourceTree = "<group>"; };
 		9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputTextPanel.swift; sourceTree = "<group>"; };
 		9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		9F40F3BB1E59FE97007A7DE7 /* TGBaseMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGBaseMessageCell.swift; sourceTree = "<group>"; };
@@ -296,6 +233,7 @@
 		9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCellLayout.swift; sourceTree = "<group>"; };
 		9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HPGrowingTextView.framework; path = Carthage/Build/iOS/HPGrowingTextView.framework; sourceTree = "<group>"; };
 		9F40F3D61E5A061C007A7DE7 /* YYText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YYText.framework; path = Carthage/Build/iOS/YYText.framework; sourceTree = "<group>"; };
+		9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EthereumConverter+Additions.swift"; sourceTree = "<group>"; };
 		9F584C741E5C33140093FA4D /* NoChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NoChat.framework; path = Carthage/Build/iOS/NoChat.framework; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessagingNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -351,7 +289,7 @@
 		9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
 		9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+Additions.swift"; sourceTree = "<group>"; };
-		9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConverter.swift; sourceTree = "<group>"; };
+		9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverter.swift; path = ../Extensions/BaseConverter.swift; sourceTree = "<group>"; };
 		9FB8EA461E323B4000505441 /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
 		9FC0D3E01E55A1E300A46760 /* HDWallet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDWallet.framework; path = Carthage/Build/iOS/HDWallet.framework; sourceTree = "<group>"; };
 		9FC72A2B1E25098000EF1141 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
@@ -363,12 +301,6 @@
 		9FC72A431E252CFA00EF1141 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
 		9FC848301E5DB1B600568F1B /* Token.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Token.entitlements; sourceTree = "<group>"; };
 		9FCDBAC61E27B37F00A70E07 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
-		9FCDBAC81E27C17500A70E07 /* NotificationsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsManager.h; sourceTree = "<group>"; };
-		9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsManager.m; sourceTree = "<group>"; };
-		9FCDBACB1E27C24400A70E07 /* PushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushManager.h; sourceTree = "<group>"; };
-		9FCDBACC1E27C24400A70E07 /* PushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushManager.m; sourceTree = "<group>"; };
-		9FCDBACF1E27C2B200A70E07 /* NotificationTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationTracker.h; sourceTree = "<group>"; };
-		9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationTracker.m; sourceTree = "<group>"; };
 		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
 		9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = idAPIClient.swift; sourceTree = "<group>"; };
 		9FCDBADC1E28E57100A70E07 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -389,26 +321,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		147DFC1B1E51FFE100BF5DD6 /* Frameworks */ = {
+		9F2433BF1E5F3F14003D95A1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F40F3D81E5A061C007A7DE7 /* HPGrowingTextView.framework in Frameworks */,
-				147DFC1C1E51FFE100BF5DD6 /* Formulaic.framework in Frameworks */,
-				147DFC1D1E51FFE100BF5DD6 /* AVFoundation.framework in Frameworks */,
-				147DFC1F1E51FFE100BF5DD6 /* EtherealCereal.framework in Frameworks */,
-				147DFC201E51FFE100BF5DD6 /* PromiseKit.framework in Frameworks */,
-				147DFC211E51FFE100BF5DD6 /* UIKit.framework in Frameworks */,
-				147DFC221E51FFE100BF5DD6 /* CameraScanner.framework in Frameworks */,
-				147DFC231E51FFE100BF5DD6 /* SweetFoundation.framework in Frameworks */,
-				147DFC241E51FFE100BF5DD6 /* SweetSwift.framework in Frameworks */,
-				9F584C761E5C33140093FA4D /* NoChat.framework in Frameworks */,
-				9FC0D3E21E55A1E300A46760 /* HDWallet.framework in Frameworks */,
-				9F40F3DA1E5A061C007A7DE7 /* YYText.framework in Frameworks */,
-				147DFC261E51FFE100BF5DD6 /* Teapot.framework in Frameworks */,
-				147DFC281E51FFE100BF5DD6 /* SweetUIKit.framework in Frameworks */,
-				147DFC291E51FFE100BF5DD6 /* KeychainSwift.framework in Frameworks */,
-				AA10A3AE40F096FA61FF48BF /* libPods-CocoaPods-Distribution.a in Frameworks */,
+				9F2433D11E5F41C2003D95A1 /* SweetSwift.framework in Frameworks */,
+				9F2433D71E5F4AAB003D95A1 /* KeychainSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +446,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9F2433C31E5F3F14003D95A1 /* TokenNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				9F2433D61E5F4A1F003D95A1 /* TokenNotifications.entitlements */,
+				9F2433C41E5F3F14003D95A1 /* NotificationService.swift */,
+				9F2433C61E5F3F14003D95A1 /* Info.plist */,
+			);
+			path = TokenNotifications;
+			sourceTree = "<group>";
+		};
 		9F40F3B81E59FE97007A7DE7 /* MessageUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,8 +466,19 @@
 				9F40F3BD1E59FE97007A7DE7 /* TGClockProgressView.swift */,
 				9F40F3BE1E59FE97007A7DE7 /* TGDeliveryStatusView.swift */,
 				9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */,
+				9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */,
 			);
 			path = MessageUI;
+			sourceTree = "<group>";
+		};
+		9F5706641E5F16A500EB5D90 /* Converters */ = {
+			isa = PBXGroup;
+			children = (
+				9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */,
+				9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */,
+				9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */,
+			);
+			name = Converters;
 			sourceTree = "<group>";
 		};
 		9F844BD81E30DF3F001C5498 /* Contacts */ = {
@@ -557,6 +496,7 @@
 			children = (
 				9FC848301E5DB1B600568F1B /* Token.entitlements */,
 				9F9238B31E24F1D2004BEEE0 /* Token */,
+				9F2433C31E5F3F14003D95A1 /* TokenNotifications */,
 				9F9238B21E24F1D2004BEEE0 /* Products */,
 				27842ECF00E36BC79A5918DA /* Frameworks */,
 				B838B526FCA89ABC2A27042B /* Pods */,
@@ -567,7 +507,7 @@
 			isa = PBXGroup;
 			children = (
 				9F9238B11E24F1D2004BEEE0 /* Token.app */,
-				147DFC4E1E51FFE100BF5DD6 /* Token.app */,
+				9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -642,6 +582,7 @@
 		9F9238CF1E24F3F1004BEEE0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9F5706641E5F16A500EB5D90 /* Converters */,
 				9FCDBACE1E27C24900A70E07 /* Notifications */,
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
 				9FC72A2B1E25098000EF1141 /* AccountManager.swift */,
@@ -702,7 +643,6 @@
 			isa = PBXGroup;
 			children = (
 				9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */,
-				9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */,
 				9F7B896C1E51C6DA009C192E /* TSInteraction+Additions.swift */,
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
@@ -713,6 +653,7 @@
 		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
 			isa = PBXGroup;
 			children = (
+				9F2433BC1E5F3A22003D95A1 /* TokenURLPaths.swift */,
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
 				9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */,
 				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
@@ -724,12 +665,9 @@
 		9FCDBACE1E27C24900A70E07 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				9FCDBACF1E27C2B200A70E07 /* NotificationTracker.h */,
-				9FCDBAD01E27C2B200A70E07 /* NotificationTracker.m */,
-				9FCDBACB1E27C24400A70E07 /* PushManager.h */,
-				9FCDBACC1E27C24400A70E07 /* PushManager.m */,
-				9FCDBAC81E27C17500A70E07 /* NotificationsManager.h */,
-				9FCDBAC91E27C17500A70E07 /* NotificationsManager.m */,
+				9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */,
+				9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */,
+				9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -796,30 +734,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		147DFBE81E51FFE100BF5DD6 /* Distribution */ = {
+		9F2433C11E5F3F14003D95A1 /* TokenNotifications */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 147DFC4B1E51FFE100BF5DD6 /* Build configuration list for PBXNativeTarget "Distribution" */;
+			buildConfigurationList = 9F2433CA1E5F3F14003D95A1 /* Build configuration list for PBXNativeTarget "TokenNotifications" */;
 			buildPhases = (
-				ADF2C181BDC09443A08E5CB2 /* [CP] Check Pods Manifest.lock */,
-				147DFBEA1E51FFE100BF5DD6 /* Sources */,
-				147DFC1B1E51FFE100BF5DD6 /* Frameworks */,
-				147DFC2A1E51FFE100BF5DD6 /* Resources */,
-				AE78788A7C2B466158AE73FD /* [CP] Embed Pods Frameworks */,
-				58A1BD2AAFF141D30BE9118C /* [CP] Copy Pods Resources */,
-				9FFB8CEB1E5C7B01001FA019 /* Copy Frameworks */,
+				9F2433BE1E5F3F14003D95A1 /* Sources */,
+				9F2433BF1E5F3F14003D95A1 /* Frameworks */,
+				9F2433C01E5F3F14003D95A1 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Distribution;
-			productName = Token;
-			productReference = 147DFC4E1E51FFE100BF5DD6 /* Token.app */;
-			productType = "com.apple.product-type.application";
+			name = TokenNotifications;
+			productName = TokenNotifications;
+			productReference = 9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
-		9F9238B01E24F1D2004BEEE0 /* Development */ = {
+		9F9238B01E24F1D2004BEEE0 /* Token */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Development" */;
+			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Token" */;
 			buildPhases = (
 				62DF46412C184F502CAB066C /* [CP] Check Pods Manifest.lock */,
 				9F9238AD1E24F1D2004BEEE0 /* Sources */,
@@ -828,12 +762,14 @@
 				1462543C1E4326DA00A3B822 /* Embed Frameworks */,
 				D38AD1AE7AB4822DF479228C /* [CP] Embed Pods Frameworks */,
 				1E02A34C028A01DBA24DE4C0 /* [CP] Copy Pods Resources */,
+				9F2433CD1E5F3F14003D95A1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9F2433C81E5F3F14003D95A1 /* PBXTargetDependency */,
 			);
-			name = Development;
+			name = Token;
 			productName = Token;
 			productReference = 9F9238B11E24F1D2004BEEE0 /* Token.app */;
 			productType = "com.apple.product-type.application";
@@ -848,10 +784,15 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Bakken&Bæck";
 				TargetAttributes = {
-					147DFBE81E51FFE100BF5DD6 = {
+					9F2433C11E5F3F14003D95A1 = {
+						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 29X3GG489T;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
-							com.apple.Push = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 						};
@@ -862,7 +803,13 @@
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 							com.apple.Push = {
@@ -885,45 +832,17 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9F9238B01E24F1D2004BEEE0 /* Development */,
-				147DFBE81E51FFE100BF5DD6 /* Distribution */,
+				9F9238B01E24F1D2004BEEE0 /* Token */,
+				9F2433C11E5F3F14003D95A1 /* TokenNotifications */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		147DFC2A1E51FFE100BF5DD6 /* Resources */ = {
+		9F2433C01E5F3F14003D95A1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				147DFC2B1E51FFE100BF5DD6 /* (null) in Resources */,
-				147DFC2C1E51FFE100BF5DD6 /* SF-UI-Text-Semibold.otf in Resources */,
-				147DFC2D1E51FFE100BF5DD6 /* SF-UI-Display-Black.otf in Resources */,
-				147DFC2E1E51FFE100BF5DD6 /* SF-UI-Text-MediumItalic.otf in Resources */,
-				147DFC2F1E51FFE100BF5DD6 /* SF-UI-Text-UltrathinItalic.otf in Resources */,
-				147DFC301E51FFE100BF5DD6 /* token.cer in Resources */,
-				147DFC311E51FFE100BF5DD6 /* SF-UI-Display-Regular.otf in Resources */,
-				147DFC321E51FFE100BF5DD6 /* SF-UI-Display-Light.otf in Resources */,
-				147DFC331E51FFE100BF5DD6 /* SF-UI-Display-Ultralight.otf in Resources */,
-				147DFC341E51FFE100BF5DD6 /* SF-UI-Display-Thin.otf in Resources */,
-				147DFC351E51FFE100BF5DD6 /* SF-UI-Display-Medium.otf in Resources */,
-				147DFC361E51FFE100BF5DD6 /* LaunchScreen.storyboard in Resources */,
-				147DFC371E51FFE100BF5DD6 /* SF-UI-Text-Medium.otf in Resources */,
-				147DFC381E51FFE100BF5DD6 /* SF-UI-Text-Bold.otf in Resources */,
-				147DFC391E51FFE100BF5DD6 /* Localizable.strings in Resources */,
-				147DFC3A1E51FFE100BF5DD6 /* SF-UI-Display-Bold.otf in Resources */,
-				147DFC3B1E51FFE100BF5DD6 /* SF-UI-Text-Heavy.otf in Resources */,
-				147DFC3C1E51FFE100BF5DD6 /* SF-UI-Text-RegularItalic.otf in Resources */,
-				147DFC3D1E51FFE100BF5DD6 /* SF-UI-Text-Regular.otf in Resources */,
-				147DFC3E1E51FFE100BF5DD6 /* SF-UI-Text-SemiboldItalic.otf in Resources */,
-				147DFC3F1E51FFE100BF5DD6 /* SF-UI-Display-Heavy.otf in Resources */,
-				147DFC401E51FFE100BF5DD6 /* Assets.xcassets in Resources */,
-				147DFC411E51FFE100BF5DD6 /* SF-UI-Text-HeavyItalic.otf in Resources */,
-				147DFC421E51FFE100BF5DD6 /* SF-UI-Text-BoldItalic.otf in Resources */,
-				147DFC431E51FFE100BF5DD6 /* SF-UI-Text-LightItalic.otf in Resources */,
-				147DFC441E51FFE100BF5DD6 /* SF-UI-Text-Light.otf in Resources */,
-				147DFC451E51FFE100BF5DD6 /* SF-UI-Display-Semibold.otf in Resources */,
-				147DFC461E51FFE100BF5DD6 /* SF-UI-Text-Ultrathin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,21 +899,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		58A1BD2AAFF141D30BE9118C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		62DF46412C184F502CAB066C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1008,63 +912,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9FFB8CEB1E5C7B01001FA019 /* Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/NoChat.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/HPGrowingTextView.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/YYText.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/HDWallet.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/CameraScanner.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/EtherealCereal.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Formulaic.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
-			);
-			name = "Copy Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		ADF2C181BDC09443A08E5CB2 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		AE78788A7C2B466158AE73FD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D38AD1AE7AB4822DF479228C /* [CP] Embed Pods Frameworks */ = {
@@ -1085,71 +932,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		147DFBEA1E51FFE100BF5DD6 /* Sources */ = {
+		9F2433BE1E5F3F14003D95A1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				147DFBEB1E51FFE100BF5DD6 /* NotificationsManager.m in Sources */,
-				147DFBEC1E51FFE100BF5DD6 /* HomeLayout.swift in Sources */,
-				9F21E0671E546C4E000E90C6 /* PaymentSendController.swift in Sources */,
-				147DFBED1E51FFE100BF5DD6 /* ProfileEditController.swift in Sources */,
-				147DFBEE1E51FFE100BF5DD6 /* TokenContact.swift in Sources */,
-				147DFBEF1E51FFE100BF5DD6 /* SettingsNavigationController.swift in Sources */,
-				147DFBF01E51FFE100BF5DD6 /* BaseConverter.swift in Sources */,
-				147DFBF11E51FFE100BF5DD6 /* Message.swift in Sources */,
-				147DFBF21E51FFE100BF5DD6 /* AppsController.swift in Sources */,
-				9F40F3C71E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift in Sources */,
-				147DFBF31E51FFE100BF5DD6 /* HomeNavigationController.swift in Sources */,
-				147DFBF41E51FFE100BF5DD6 /* Yap.swift in Sources */,
-				147DFBF51E51FFE100BF5DD6 /* ContactController.swift in Sources */,
-				147DFBF61E51FFE100BF5DD6 /* idAPIClient.swift in Sources */,
-				147DFBF71E51FFE100BF5DD6 /* MessagingNavigationController.swift in Sources */,
-				147DFBF81E51FFE100BF5DD6 /* ContactsManager.m in Sources */,
-				147DFBF91E51FFE100BF5DD6 /* App.swift in Sources */,
-				147DFBFA1E51FFE100BF5DD6 /* ContactsController.swift in Sources */,
-				147DFBFB1E51FFE100BF5DD6 /* ChatsController.swift in Sources */,
-				147DFBFC1E51FFE100BF5DD6 /* HomeController.swift in Sources */,
-				9FCF132E1E531B520078FF7F /* PaymentRequestController.swift in Sources */,
-				147DFBFD1E51FFE100BF5DD6 /* ProfileController.swift in Sources */,
-				147DFBFE1E51FFE100BF5DD6 /* ProfileItemCell.swift in Sources */,
-				147DFBFF1E51FFE100BF5DD6 /* FingerprintViewController.swift in Sources */,
-				9F40F3C11E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */,
-				147DFC001E51FFE100BF5DD6 /* MessagesFloatingView.swift in Sources */,
-				147DFC011E51FFE100BF5DD6 /* ChatCell.swift in Sources */,
-				147DFC021E51FFE100BF5DD6 /* TSInteraction+Additions.swift in Sources */,
-				143587041E5C4CBE007A268A /* SearchResultCell.swift in Sources */,
-				143587011E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
-				147DFC031E51FFE100BF5DD6 /* ContactsNavigationController.swift in Sources */,
-				147DFC041E51FFE100BF5DD6 /* Theme.swift in Sources */,
-				147DFC051E51FFE100BF5DD6 /* AppsNavigationController.swift in Sources */,
-				9F40F3CB1E59FE97007A7DE7 /* TGDeliveryStatusView.swift in Sources */,
-				147DFC061E51FFE100BF5DD6 /* CryptoTools.m in Sources */,
-				147DFC071E51FFE100BF5DD6 /* ChatAPIClient.swift in Sources */,
-				147DFC081E51FFE100BF5DD6 /* PushManager.m in Sources */,
-				147DFC091E51FFE100BF5DD6 /* Cereal.swift in Sources */,
-				147DFC0A1E51FFE100BF5DD6 /* EthereumAPIClient.swift in Sources */,
-				147DFC0B1E51FFE100BF5DD6 /* ContactCell.swift in Sources */,
-				147DFC0C1E51FFE100BF5DD6 /* MessagesViewController.swift in Sources */,
-				9F40F3C91E59FE97007A7DE7 /* TGClockProgressView.swift in Sources */,
-				147DFC0D1E51FFE100BF5DD6 /* UserBootstrapParameters.swift in Sources */,
-				147DFC0E1E51FFE100BF5DD6 /* AppDelegate.m in Sources */,
-				9F40F3CD1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */,
-				147DFC0F1E51FFE100BF5DD6 /* User.swift in Sources */,
-				147DFC101E51FFE100BF5DD6 /* DateTimeFormatter.swift in Sources */,
-				147DFC111E51FFE100BF5DD6 /* SofaWrapper.swift in Sources */,
-				9F40F3C31E59FE97007A7DE7 /* MessageCell.swift in Sources */,
-				9F21E0611E546888000E90C6 /* TSThread+Additions.m in Sources */,
-				147DFC121E51FFE100BF5DD6 /* main.m in Sources */,
-				147DFC131E51FFE100BF5DD6 /* TabBarController.swift in Sources */,
-				147DFC141E51FFE100BF5DD6 /* NSDecimalNumber+Additions.swift in Sources */,
-				9F40F3C51E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
-				147DFC151E51FFE100BF5DD6 /* AppCell.swift in Sources */,
-				147DFC161E51FFE100BF5DD6 /* NotificationTracker.m in Sources */,
-				147DFC171E51FFE100BF5DD6 /* HomeHeaderView.swift in Sources */,
-				147DFC181E51FFE100BF5DD6 /* HomeItemCell.swift in Sources */,
-				147DFC191E51FFE100BF5DD6 /* AppsAPIClient.swift in Sources */,
-				147DFC1A1E51FFE100BF5DD6 /* QRCodeController.swift in Sources */,
-				9F21E0641E546A03000E90C6 /* PaymentController.swift in Sources */,
+				9F2433CF1E5F4160003D95A1 /* EthereumConverter.swift in Sources */,
+				9F2433C51E5F3F14003D95A1 /* NotificationService.swift in Sources */,
+				9F2433D01E5F4172003D95A1 /* SofaWrapper.swift in Sources */,
+				9F2433CE1E5F4157003D95A1 /* NSDecimalNumber+Additions.swift in Sources */,
+				9F2433D21E5F41CE003D95A1 /* BaseConverter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,10 +948,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9FCDBACA1E27C17500A70E07 /* NotificationsManager.m in Sources */,
 				1475136F1E49FB8C00E44A62 /* HomeLayout.swift in Sources */,
 				9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */,
 				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
+				9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */,
+				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
 				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
@@ -1184,16 +976,17 @@
 				9F40F3C01E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */,
 				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
+				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
 				143587031E5C4CBE007A268A /* SearchResultCell.swift in Sources */,
 				143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
 				9FAACCB31E30E1EE00FB871D /* ContactsNavigationController.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
 				14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */,
+				9F2433BD1E5F3A22003D95A1 /* TokenURLPaths.swift in Sources */,
 				9F40F3CA1E59FE97007A7DE7 /* TGDeliveryStatusView.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
-				9FCDBACD1E27C24400A70E07 /* PushManager.m in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
 				145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
@@ -1208,20 +1001,30 @@
 				9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
+				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
 				9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
+				9F5706661E5F16BC00EB5D90 /* EthereumConverter+Additions.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,
-				9FCDBAD11E27C2B200A70E07 /* NotificationTracker.m in Sources */,
 				1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */,
 				147513681E49CA6F00E44A62 /* HomeItemCell.swift in Sources */,
 				143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */,
 				9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */,
 				9F21E0631E546A03000E90C6 /* PaymentController.swift in Sources */,
+				9F21624C1E5EE08800292B14 /* ActionableMessageCellLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9F2433C81E5F3F14003D95A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9F2433C11E5F3F14003D95A1 /* TokenNotifications */;
+			targetProxy = 9F2433C71E5F3F14003D95A1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */ = {
@@ -1236,82 +1039,49 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		147DFC4C1E51FFE100BF5DD6 /* Debug */ = {
+		9F2433CB1E5F3F14003D95A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 685269D508E80AB5000F52FA /* Pods-CocoaPods-Distribution.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TokenNotifications/TokenNotifications.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 29X3GG489T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
-					"$(PROJECT_DIR)",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"SQLITE_HAS_CODEC=1",
-					HAVE_CONFIG_H,
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Distribution.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-lz",
-				);
-				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
-				PRODUCT_NAME = Token;
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
+				INFOPLIST_FILE = TokenNotifications/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.TokenNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		147DFC4D1E51FFE100BF5DD6 /* Release */ = {
+		9F2433CC1E5F3F14003D95A1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0382951D8A732E1BF1A453F4 /* Pods-CocoaPods-Distribution.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TokenNotifications/TokenNotifications.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 29X3GG489T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
-					"$(PROJECT_DIR)",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"SQLITE_HAS_CODEC=1",
-					HAVE_CONFIG_H,
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Distribution.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)",
-				);
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
-				PRODUCT_NAME = Token;
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				INFOPLIST_FILE = TokenNotifications/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.TokenNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1412,8 +1182,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 47C9A897E50DCA6DB734F79F /* Pods-CocoaPods-Development.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT = YES;
 				DEVELOPMENT_TEAM = 29X3GG489T;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1445,6 +1218,8 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1456,8 +1231,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 990964CA5766AC2F323FDF06 /* Pods-CocoaPods-Development.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT = NO;
 				DEVELOPMENT_TEAM = 29X3GG489T;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1484,6 +1262,8 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -1494,14 +1274,13 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		147DFC4B1E51FFE100BF5DD6 /* Build configuration list for PBXNativeTarget "Distribution" */ = {
+		9F2433CA1E5F3F14003D95A1 /* Build configuration list for PBXNativeTarget "TokenNotifications" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				147DFC4C1E51FFE100BF5DD6 /* Debug */,
-				147DFC4D1E51FFE100BF5DD6 /* Release */,
+				9F2433CB1E5F3F14003D95A1 /* Debug */,
+				9F2433CC1E5F3F14003D95A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Token" */ = {
 			isa = XCConfigurationList;
@@ -1512,7 +1291,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Development" */ = {
+		9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Token" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F9238C91E24F1D2004BEEE0 /* Debug */,

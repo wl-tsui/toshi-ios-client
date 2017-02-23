@@ -4,9 +4,6 @@
 
 #import <EtherealCereal/EtherealCereal.h>
 
-#import "NotificationsManager.h"
-#import "PushManager.h"
-
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
@@ -35,6 +32,7 @@
     self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
     self.idAPIClient = [[IDAPIClient alloc] initWithCereal:self.cereal];
 
+    [self registerForRemoteNotifications];
     [self setupBasicAppearance];
     [self setupTSKitEnv];
 
@@ -50,7 +48,6 @@
             NSLog(@"The app was launched in an unknown way");
         }
 
-        [self registerForRemoteNotifications];
         [TSPreKeyManager refreshPreKeys];
     }];
 
@@ -94,7 +91,6 @@
     [TextSecureKitEnv sharedEnv].contactsManager = [[ContactsManager alloc] init];
     TSStorageManager *storageManager = [TSStorageManager sharedManager];
     [storageManager setupDatabase];
-    [TextSecureKitEnv sharedEnv].notificationsManager = [[NotificationsManager alloc] init];
 
     self.networkManager = [TSNetworkManager sharedManager];
     self.contactsManager = [[ContactsManager alloc] init];
@@ -167,7 +163,9 @@
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
 
-    NSLog(@"! %@", notification);
+    [BackgroundNotificationHandler handle:notification :^(UNNotificationPresentationOptions options) {
+        completionHandler(options);
+    }];
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
@@ -180,7 +178,14 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    NSLog(@"!");
+
+    [SignalNotificationHandler handleMessage:userInfo completion:^(UIBackgroundFetchResult result) {
+        completionHandler(result);
+    }];
+
+    [EthereumNotificationHandler handlePayment:userInfo completion:^(UIBackgroundFetchResult result) {
+        completionHandler(result);
+    }];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -188,6 +193,13 @@
 
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:token voipToken:@"" success:^{
         NSLog(@"chat PN register - SUCCESS: %@", token);
+
+        [[EthereumAPIClient shared] registerForNotifications: ^(BOOL success){
+            if (success) {
+                [[EthereumAPIClient shared] registerForPushNotificationsWithDeviceToken: token];
+            }
+        }];
+
     } failure:^(NSError * _Nonnull error) {
         NSLog(@"chat PN register -  FAILURE");
     }];

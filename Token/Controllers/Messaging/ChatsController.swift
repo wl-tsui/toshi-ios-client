@@ -125,7 +125,7 @@ open class ChatsController: SweetTableController {
     func thread(at indexPath: IndexPath) -> TSThread {
         var thread: TSThread? = nil
         self.uiDatabaseConnection.read { transaction in
-            guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
+            guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
 
             thread = object

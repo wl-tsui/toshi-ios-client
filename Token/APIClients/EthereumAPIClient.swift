@@ -1,7 +1,8 @@
 import Foundation
 import Teapot
 
-public class EthereumAPIClient {
+public class EthereumAPIClient: NSObject {
+
     static let shared: EthereumAPIClient = EthereumAPIClient()
 
     private static let collectionKey = "ethereumExchangeRate"
@@ -19,16 +20,20 @@ public class EthereumAPIClient {
             self.updateRate()
 
             if let rate = self.yap.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
-                return rate
+                EthereumConverter.latestExchangeRate = rate
             } else {
-                return 10.0
+                EthereumConverter.latestExchangeRate = 10.0
             }
+
+            return EthereumConverter.latestExchangeRate
         }
     }
 
-    private init() {
-        self.teapot = Teapot(baseURL: URL(string: "https://token-eth-service.herokuapp.com")!)
+    private override init() {
+        self.teapot = Teapot(baseURL: URL(string: TokenEthereumServiceBaseURLPath)!)
         self.exchangeTeapot = Teapot(baseURL: URL(string: "https://api.coinbase.com")!)
+
+        super.init()
 
         self.updateRate()
     }
@@ -153,12 +158,12 @@ public class EthereumAPIClient {
         }
     }
 
-    public func registerForPushNotifications() {
+    public func registerForPushNotifications(deviceToken: String) {
         self.timestamp { (timestamp) in
             let path = "/v1/apn/register"
             let address = self.cereal.paymentAddress
 
-            let params = ["registration_id": address]
+            let params = ["registration_id": deviceToken]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
             let hashedPayload = self.cereal.sha3WithWallet(string: payloadString)
@@ -185,9 +190,9 @@ public class EthereumAPIClient {
         }
     }
 
-    public func registerForNotifications() {
+    public func registerForNotifications(_ completion: @escaping((_ success: Bool) -> Void)) {
         self.timestamp { (timestamp) in
-            let address = self.cereal.paymentAddress
+            let address = User.current!.paymentAddress
             let path = "/v1/register"
 
             let params = [
@@ -213,10 +218,12 @@ public class EthereumAPIClient {
                 case .success(let json, let response):
                     print(json ?? "")
                     print(response)
+                    completion(true)
                 case .failure(let json, let response, let error):
                     print(json ?? "")
                     print(response)
                     print(error)
+                    completion(false)
                 }
             }
         }

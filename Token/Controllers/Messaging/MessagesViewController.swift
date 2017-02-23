@@ -49,6 +49,10 @@ class MessagesViewController: NOCChatViewController {
         return dbConnection
     }()
 
+    lazy var editingDatabaseConnection: YapDatabaseConnection = {
+        return self.storageManager.newDatabaseConnection()
+    }()
+
     var thread: TSThread
 
     var chatAPIClient: ChatAPIClient
@@ -144,10 +148,50 @@ class MessagesViewController: NOCChatViewController {
         self.loadMessages()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+        self.inputPanel?.becomeFirstResponder()
+        self.inputPanel?.resignFirstResponder()
+        self.reloadDraft()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         self.thread.markAllAsRead()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.saveDraft()
+
+        self.thread.markAllAsRead()
+    }
+
+    func saveDraft() {
+        guard let inputPanel = self.inputPanel as? ChatInputTextPanel else { return }
+
+        let thread = self.thread
+        guard let text = inputPanel.text else { return }
+
+        self.editingDatabaseConnection.asyncReadWrite { transaction in
+            thread.setDraft(text, transaction:transaction)
+        }
+    }
+
+    func reloadDraft() {
+        let thread = self.thread
+        var placeholder: String? = nil
+
+        self.editingDatabaseConnection.asyncReadWrite( { transaction in
+            placeholder = thread.currentDraft(with: transaction)
+        }, completionBlock: {
+            DispatchQueue.main.async {
+                guard let inputPanel = self.inputPanel as? ChatInputTextPanel else { return }
+                inputPanel.text = placeholder
+            }
+        })
     }
 
     override func registerChatItemCells() {
@@ -265,8 +309,9 @@ class MessagesViewController: NOCChatViewController {
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.date(), isOutgoing: true)
 
             if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
+                message.messageType = "Actionable"
                 message.title = "Payment sent"
-                message.attributedSubtitle = User.balanceAttributedString(for: payment.value)
+                message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: payment.value)
             }
 
             return message
@@ -277,12 +322,13 @@ class MessagesViewController: NOCChatViewController {
             if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
-                message.attributedSubtitle = User.balanceAttributedString(for: paymentRequest.value)
+                message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: paymentRequest.value)
             }
 
             if let payment = sofaWrapper as? SofaPayment {
-                message.title = "Payment sent"
-                message.attributedSubtitle = User.balanceAttributedString(for: payment.value)
+                message.messageType = "Actionable"
+                message.title = "Payment received"
+                message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: payment.value)
             }
 
             return message
@@ -557,7 +603,7 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
         }
 
         let request: [String: Any] = [
-            "body": "Payment request: \(User.dollarValueString(forWei: valueInWei)).",
+            "body": "Payment request: \(EthereumConverter.dollarValueString(forWei: valueInWei)).",
             "value": valueInWei.toDecimalString,
             "destinationAddress": self.cereal.paymentAddress,
         ]

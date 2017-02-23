@@ -138,7 +138,7 @@ open class ProfileEditController: UIViewController {
             }
         }
 
-        let user = User(address: User.current!.address, username: username, name: name, about: about, location: location)
+        let user = User(address: User.current!.address, paymentAddress: User.current!.paymentAddress, username: username, name: name, about: about, location: location)
         self.idAPIClient.updateUser(user) { success in
             if !success {
                 let alert = UIAlertController.dismissableAlert(title: "Error", message: "Could not update user!")

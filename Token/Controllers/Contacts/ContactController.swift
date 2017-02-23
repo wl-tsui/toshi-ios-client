@@ -262,7 +262,7 @@ public class ContactController: UIViewController {
 
     func updateButton() {
         let isContactAdded = self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey)
-        let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
+        let fontColor = isContactAdded ? Theme.tintColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add contact"
 
         self.addContactButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)

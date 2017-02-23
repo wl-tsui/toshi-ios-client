@@ -1,4 +1,5 @@
 import UIKit
+import UserNotifications
 
 let TabBarItemTitleOffset: CGFloat = -3.0
 
@@ -13,6 +14,15 @@ open class TabBarController: UITabBarController {
 
         return dbConnection
     }()
+
+    lazy var mappings: YapDatabaseViewMappings = {
+        let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
+        mappings.setIsReversed(true, forGroup: TSInboxGroup)
+
+        return mappings
+    }()
+
+    let yap = Yap.sharedInstance
 
     public var chatAPIClient: ChatAPIClient
 
@@ -35,18 +45,75 @@ open class TabBarController: UITabBarController {
         let notificationController = NotificationCenter.default
         notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
+
     func yapDatabaseDidChange(notification: NSNotification) {
+        defer { self.updateBadge() }
+        
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
         // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
         // table/collection view backing model.
-        let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
         let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
 
-        guard hasChangesForCurrentView else { return }
+        guard hasChangesForCurrentView else {
+            self.uiDatabaseConnection.read { transaction in
+                self.mappings.update(with: transaction)
+            }
 
-        self.updateBadge()
+            return
+        }
+
+        if self.selectedViewController == self.messagingController {
+            return
+        }
+
+        var messageRowChanges = NSArray()
+        var sectionChanges = NSArray()
+
+        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+
+        if messageRowChanges.count == 0 {
+            return
+        }
+
+        self.uiDatabaseConnection.asyncRead { transaction in
+            for change in messageRowChanges as! [YapDatabaseViewRowChange] {
+                guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError("!!!!") }
+
+                switch change.type {
+                case .update:
+                    guard let thread = dbExtension.object(at: change.indexPath, with: self.mappings) as? TSThread else { continue }
+                    guard let last = thread.visibleIncomingInteractions.last, !last.wasRead else { continue }
+
+                    if let date = self.yap.retrieveObject(for: thread.name(), in: "UnreadMessageLocalNotifications") as? Date, date == last.date() {
+                        continue
+                    } else {
+                        self.yap.insert(object: last.date(), for: thread.name(), in: "UnreadMessageLocalNotifications")
+                    }
+
+                    let content = UNMutableNotificationContent()
+                    content.title = thread.name()
+
+                    if let body = last.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
+                        content.body = sofa.body
+                    } else {
+                        content.body = "New message."
+                    }
+
+                    content.sound = UNNotificationSound.default()
+
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                    let request = UNNotificationRequest(identifier: thread.name(), content: content, trigger: trigger)
+
+                    let center = UNUserNotificationCenter.current()
+                    center.add(request, withCompletionHandler: nil)
+                default:
+                    break
+                }
+            }
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -78,6 +145,12 @@ open class TabBarController: UITabBarController {
 
         let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
         self.selectedIndex = index
+
+        self.uiDatabaseConnection.asyncRead { transaction in
+            self.mappings.update(with: transaction)
+        }
+
+        self.updateBadge()
     }
 
     public func updateBadge() {

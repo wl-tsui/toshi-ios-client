@@ -138,6 +138,8 @@ class MessageCell: TGBaseMessageCell {
             }
         }
 
+        self.deliveryStatusView.clipsToBounds = true
+
         self.bubbleView.addSubview(self.textLabel)
         self.bubbleImageView.addSubview(self.timeLabel)
         self.bubbleImageView.addSubview(self.deliveryStatusView)

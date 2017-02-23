@@ -20,7 +20,7 @@ extension Theme {
     }
 
     public static var greyTextColor: UIColor {
-        return #colorLiteral(red: 0.6129867435, green: 0.6279211044, blue: 0.6319037676, alpha: 1)
+        return #colorLiteral(red: 0.2899953127, green: 0.2891595364, blue: 0.3430404067, alpha: 1)
     }
 
     public static var lightGreyTextColor: UIColor {
@@ -60,11 +60,11 @@ extension Theme {
     }
 
     public static var outgoingMessageTextColor: UIColor {
-        return .white
+        return self.lightTextColor
     }
 
     public static var incomingMessageTextColor: UIColor {
-        return #colorLiteral(red: 0.3489781618, green: 0.3490435183, blue: 0.3489740491, alpha: 1)
+        return #colorLiteral(red: 0.2899953127, green: 0.2891595364, blue: 0.3430404067, alpha: 1)
     }
 }
 

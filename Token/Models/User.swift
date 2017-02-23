@@ -1,5 +1,6 @@
 import UIKit
 import SweetSwift
+import KeychainSwift
 
 public protocol JSONDataSerialization {
     var JSONData: Data { get }
@@ -27,6 +28,11 @@ public class User: NSObject, JSONDataSerialization {
         }
         set {
             newValue?.update()
+
+            if let user = newValue {
+                let keychain = KeychainSwift()
+                keychain.set(user.paymentAddress, forKey: "CurrentUserPaymentAddress")
+            }
 
             _current = newValue
         }
@@ -72,9 +78,12 @@ public class User: NSObject, JSONDataSerialization {
 
     public let address: String
 
+    public let paymentAddress: String
+
     public var JSONData: Data {
         let json: [String: Any] = [
             "owner_address": self.address,
+            "payment_address": self.paymentAddress,
             "custom": ["name": self.name, "location": self.location, "about": self.about, "avatar": self.avatarPath],
             "username": self.username,
         ]
@@ -84,6 +93,7 @@ public class User: NSObject, JSONDataSerialization {
 
     init(json: [String: Any]) {
         self.address = json["owner_address"] as! String
+        self.paymentAddress = (json["payment_address"] as? String) ?? (json["owner_address"] as! String)
         self.username = json["username"] as! String
 
         if let json = json["custom"] as? [String: Any] {
@@ -98,9 +108,10 @@ public class User: NSObject, JSONDataSerialization {
         self.updateAvatar()
     }
 
-    init(address: String, username: String, name: String?, about: String?, location: String?) {
+    init(address: String, paymentAddress: String, username: String, name: String?, about: String?, location: String?) {
         self.address = address
         self.username = username
+        self.paymentAddress = paymentAddress
 
         self.name = name ?? ""
         self.about = about ?? ""
@@ -149,50 +160,6 @@ public class User: NSObject, JSONDataSerialization {
     }
 
     public override var description: String {
-        return "<User: address: \(self.address), name: \(self.name), username: \(self.username)>"
-    }
-}
-
-// Balance display, should move this somewhere else. Probably a UnitConverter struct.
-extension User {
-    public static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
-
-    public static var weisToEtherPowerOf10Constant: Int16 {
-        get {
-            return Int16(self.weisToEtherConstant.stringValue.length - 1)
-        }
-    }
-
-    public static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
-        return "\(balance.toDecimalString) ETH"
-    }
-
-    public static func dollarValueString(forWei balance: NSDecimalNumber) -> String {
-        let ether = balance.dividing(by: self.weisToEtherConstant)
-        // Conversion from https://www.coinbase.com/charts
-        let currentUSDConversion = NSDecimalNumber(decimal: EthereumAPIClient.shared.exchangeRate)
-
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currencyAccounting
-        numberFormatter.locale = Locale(identifier: "en_US")
-
-        let usd: NSDecimalNumber = currentUSDConversion.multiplying(by: ether)
-
-        return numberFormatter.string(from: usd)!
-    }
-
-    // TODO: Add unit tests for this.
-    public static func balanceAttributedString(for balance: NSDecimalNumber) -> NSAttributedString {
-        let usdText = self.dollarValueString(forWei: balance)
-        let etherText = self.ethereumValueString(forEther: balance.dividing(by: self.weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
-
-        let text = usdText + " · " + etherText
-        let coloredPart = etherText
-        let range = (text as NSString).range(of: coloredPart)
-
-        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Theme.regular(size: 15)])
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
-
-        return attributedString
+        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(self.username)>"
     }
 }

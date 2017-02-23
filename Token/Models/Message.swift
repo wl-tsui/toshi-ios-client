@@ -67,7 +67,7 @@ public class Message: NSObject, NOCChatItem {
                 }
                 return "Payment requested without message."
             case .payment:
-                return "Should be an empty string here but layout breaks for now."
+                return ""
             default:
                 return self.sofaWrapper.content
             }

@@ -10,7 +10,7 @@ class AppsAPIClient {
     private var imageCache = NSCache<NSString, UIImage>()
 
     init() {
-        self.teapot = Teapot(baseURL: URL(string: "https://token-directory-service.herokuapp.com")!)
+        self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }
 
     func getApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {

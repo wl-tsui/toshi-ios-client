@@ -312,22 +312,11 @@ extension ContactsController: ScannerViewControllerDelegate {
         self.idAPIClient.findContact(name: result) { contact in
             guard let contact = contact else { return }
 
-            TSStorageManager.shared().dbConnection.readWrite { transaction in
-                var recipient = SignalRecipient(textSecureIdentifier: contact.address, with: transaction)
+            self.dismiss(animated: true) {
+                let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
 
-                if recipient == nil {
-                    recipient = SignalRecipient(textSecureIdentifier: contact.address, relay: nil, supportsVoice: false)
-                }
-
-                recipient?.save(with: transaction)
-
-                TSContactThread.getOrCreateThread(withContactId: contact.address, transaction: transaction)
+                self.navigationController?.pushViewController(contactController, animated: true)
             }
-
-            print("Added contact info for \(contact.username)")
-
-            self.tableView.reloadData()
-            self.dismiss(animated: true)
         }
     }
 }

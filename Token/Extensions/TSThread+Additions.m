@@ -1,9 +1,8 @@
 #import "TSThread+Additions.h"
-#import <SignalServiceKit/TSIncomingMessage.h>
 
 @implementation TSThread (Additions)
 
-- (NSArray<TSMessage *> *)visibleIncomingInteractions {
+- (NSArray<TSIncomingMessage *> *)visibleIncomingInteractions {
     NSMutableArray *visible = [NSMutableArray array];
 
     for (TSInteraction *interaction in self.allInteractions) {

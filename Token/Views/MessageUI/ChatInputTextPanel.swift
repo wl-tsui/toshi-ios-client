@@ -10,6 +10,16 @@ private let TG_EPSILON = CGFloat(0.0001)
 
 class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
+    public var text: String? {
+        get {
+            return self.inputField.internalTextView.text
+        }
+        set {
+            self.inputField.internalTextView.text = nil
+            self.inputField.internalTextView.insertText(newValue ?? "")
+        }
+    }
+
     var stripeLayer: CALayer
     var backgroundView: UIView
 
@@ -99,6 +109,18 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func becomeFirstResponder() -> Bool {
+        return self.inputField.internalTextView.becomeFirstResponder()
+    }
+
+    override func resignFirstResponder() -> Bool {
+        return self.inputField.internalTextView.resignFirstResponder()
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -106,7 +128,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
 
         self.stripeLayer.frame = CGRect(x: 0, y: -TGRetinaPixel, width: self.bounds.width, height: TGRetinaPixel)
 
-        self.fieldBackground.frame = CGRect(x: self.inputFiledInsets.left, y: self.inputFiledInsets.top, width: self.bounds.width - self.inputFiledInsets.left - self.inputFiledInsets.right - self.currentSendButtonWidth - 1, height: 31)
+        self.fieldBackground.frame = CGRect(x: self.inputFiledInsets.left, y: self.inputFiledInsets.top, width: self.bounds.width - self.inputFiledInsets.left - self.inputFiledInsets.right - self.currentSendButtonWidth - 1, height: self.bounds.height - self.inputFiledInsets.top - self.inputFiledInsets.bottom)
 
         self.inputFieldClippingContainer.frame = fieldBackground.frame
 
@@ -154,7 +176,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
             self.updateInputFiledLayout()
         }
 
-        let inputContainerHeight = self.heightForInputFiledHeight(self.inputField.frame.size.height)
+        let inputContainerHeight = self.heightForInputFieldHeight(self.inputField.frame.size.height)
         let newInputContainerFrame = CGRect(x: 0, y: messageAreaSize.height - keyboardHeight - inputContainerHeight, width: messageAreaSize.width, height: inputContainerHeight)
 
         if duration > DBL_EPSILON {
@@ -208,8 +230,12 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
     }
 
     func growingTextView(_ growingTextView: HPGrowingTextView!, willChangeHeight height: Float) {
-        let inputContainerHeight = heightForInputFiledHeight(CGFloat(height))
-        let newInputContainerFrame = CGRect(x: 0, y: messageAreaSize.height - keyboardHeight - inputContainerHeight, width: messageAreaSize.width, height: inputContainerHeight)
+        let inputContainerHeight = self.heightForInputFieldHeight(CGFloat(height))
+
+        let y = self.messageAreaSize == .zero ? self.frame.origin.y - (inputContainerHeight - self.frame.height) : self.messageAreaSize.height - self.keyboardHeight - inputContainerHeight
+        let width = self.messageAreaSize == .zero ? self.frame.width : self.messageAreaSize.width
+
+        let newInputContainerFrame = CGRect(x: 0, y: y, width: width, height: inputContainerHeight)
 
         UIView.animate(withDuration: 0.3) {
             self.frame = newInputContainerFrame
@@ -249,7 +275,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
             self.messageAreaSize = messageAreaSize
             self.keyboardHeight = keyboardHeight
 
-            let inputContainerHeight = self.heightForInputFiledHeight(inputFiledHeight)
+            let inputContainerHeight = self.heightForInputFieldHeight(inputFiledHeight)
             self.frame = CGRect(x: 0, y: messageAreaSize.height - keyboardHeight - inputContainerHeight, width: self.messageAreaSize.width, height: inputContainerHeight)
             self.layoutSubviews()
         }
@@ -261,7 +287,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         }
     }
 
-    private func heightForInputFiledHeight(_ inputFiledHeight: CGFloat) -> CGFloat {
+    private func heightForInputFieldHeight(_ inputFiledHeight: CGFloat) -> CGFloat {
         return max(self.baseHeight, inputFiledHeight - 10 + self.inputFiledInsets.top + self.inputFiledInsets.bottom)
     }
 
