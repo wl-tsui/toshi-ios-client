@@ -201,7 +201,7 @@
         }];
 
     } failure:^(NSError * _Nonnull error) {
-        NSLog(@"chat PN register -  FAILURE");
+        NSLog(@"chat PN register - FAILURE: %@", error.localizedDescription);
     }];
 }
 

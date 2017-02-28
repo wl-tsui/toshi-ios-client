@@ -28,13 +28,6 @@ public class ContactController: UIViewController {
         return UIImage(ciImage: cImage)
     }()
 
-    lazy var avatarContainer: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.image = #imageLiteral(resourceName: "AvatarContainer")
-
-        return view
-    }()
-
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
@@ -183,7 +176,6 @@ public class ContactController: UIViewController {
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.avatarContainer)
         self.view.addSubview(self.avatar)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.usernameLabel)
@@ -200,25 +192,18 @@ public class ContactController: UIViewController {
 
         let height: CGFloat = 38.0
         let marginHorizontal: CGFloat = 20.0
-        let marginVertical: CGFloat = 12.0
-        let avatarSize: CGFloat = 106
-        let avatarContainerSize: CGFloat = 166
-
-        self.avatarContainer.set(height: avatarContainerSize)
-        self.avatarContainer.set(width: avatarContainerSize)
-        self.avatarContainer.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: marginHorizontal).isActive = true
-        self.avatarContainer.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        let marginVertical: CGFloat = 16.0
+        let avatarSize: CGFloat = 166
 
         self.avatar.set(height: avatarSize)
         self.avatar.set(width: avatarSize)
+        self.avatar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: marginHorizontal).isActive = true
+        self.avatar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.avatar.layer.cornerRadius = avatarSize / 2
-
-        self.avatar.centerYAnchor.constraint(equalTo: self.avatarContainer.centerYAnchor).isActive = true
-        self.avatar.centerXAnchor.constraint(equalTo: self.avatarContainer.centerXAnchor).isActive = true
 
         self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: marginVertical).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: marginVertical).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
@@ -281,7 +266,7 @@ public class ContactController: UIViewController {
     }
 
     func updateButton() {
-        let isContactAdded = self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey)
+        let isContactAdded = self.yap.containsObject(for: self.contact.address, in: TokenContact.collectionKey)
         let fontColor = isContactAdded ? Theme.tintColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add contact"
 
