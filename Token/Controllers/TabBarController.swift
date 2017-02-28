@@ -65,7 +65,7 @@ open class TabBarController: UITabBarController {
             return
         }
 
-        if self.selectedViewController == self.messagingController {
+        if self.selectedViewController == self.messagingController && UIApplication.shared.applicationState == .active {
             return
         }
 

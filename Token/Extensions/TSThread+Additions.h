@@ -7,6 +7,10 @@
 
 @property (nonatomic, readonly) NSArray<TSIncomingMessage *> *visibleIncomingInteractions;
 
+@end
+
+@interface TSThread (Exposed)
+
 - (NSArray<TSInteraction *> *)allInteractions;
 
 @end

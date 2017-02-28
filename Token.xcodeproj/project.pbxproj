@@ -32,15 +32,7 @@
 		9F21E0631E546A03000E90C6 /* PaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0621E546A03000E90C6 /* PaymentController.swift */; };
 		9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */; };
 		9F2433BD1E5F3A22003D95A1 /* TokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433BC1E5F3A22003D95A1 /* TokenURLPaths.swift */; };
-		9F2433C51E5F3F14003D95A1 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433C41E5F3F14003D95A1 /* NotificationService.swift */; };
-		9F2433C91E5F3F14003D95A1 /* TokenNotifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9F2433CE1E5F4157003D95A1 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
-		9F2433CF1E5F4160003D95A1 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
-		9F2433D01E5F4172003D95A1 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
-		9F2433D11E5F41C2003D95A1 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
-		9F2433D21E5F41CE003D95A1 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
-		9F2433D71E5F4AAB003D95A1 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; };
 		9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
 		9F40F3AD1E59FD5E007A7DE7 /* HDWallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3AF1E59FD5E007A7DE7 /* Teapot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -141,16 +133,6 @@
 		9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		9F2433C71E5F3F14003D95A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9F9238A91E24F1D2004BEEE0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9F2433C11E5F3F14003D95A1;
-			remoteInfo = TokenNotifications;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		1462543C1E4326DA00A3B822 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -182,7 +164,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9F2433C91E5F3F14003D95A1 /* TokenNotifications.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,11 +199,7 @@
 		9F21E0621E546A03000E90C6 /* PaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentController.swift; sourceTree = "<group>"; };
 		9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentSendController.swift; sourceTree = "<group>"; };
 		9F2433BC1E5F3A22003D95A1 /* TokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenURLPaths.swift; sourceTree = "<group>"; };
-		9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TokenNotifications.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F2433C41E5F3F14003D95A1 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
-		9F2433C61E5F3F14003D95A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalNotificationHandler.swift; sourceTree = "<group>"; };
-		9F2433D61E5F4A1F003D95A1 /* TokenNotifications.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TokenNotifications.entitlements; sourceTree = "<group>"; };
 		9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumConverter.swift; sourceTree = "<group>"; };
 		9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputTextPanel.swift; sourceTree = "<group>"; };
 		9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -321,15 +298,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9F2433BF1E5F3F14003D95A1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9F2433D11E5F41C2003D95A1 /* SweetSwift.framework in Frameworks */,
-				9F2433D71E5F4AAB003D95A1 /* KeychainSwift.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9F9238AE1E24F1D2004BEEE0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -446,16 +414,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		9F2433C31E5F3F14003D95A1 /* TokenNotifications */ = {
-			isa = PBXGroup;
-			children = (
-				9F2433D61E5F4A1F003D95A1 /* TokenNotifications.entitlements */,
-				9F2433C41E5F3F14003D95A1 /* NotificationService.swift */,
-				9F2433C61E5F3F14003D95A1 /* Info.plist */,
-			);
-			path = TokenNotifications;
-			sourceTree = "<group>";
-		};
 		9F40F3B81E59FE97007A7DE7 /* MessageUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,7 +454,6 @@
 			children = (
 				9FC848301E5DB1B600568F1B /* Token.entitlements */,
 				9F9238B31E24F1D2004BEEE0 /* Token */,
-				9F2433C31E5F3F14003D95A1 /* TokenNotifications */,
 				9F9238B21E24F1D2004BEEE0 /* Products */,
 				27842ECF00E36BC79A5918DA /* Frameworks */,
 				B838B526FCA89ABC2A27042B /* Pods */,
@@ -507,7 +464,6 @@
 			isa = PBXGroup;
 			children = (
 				9F9238B11E24F1D2004BEEE0 /* Token.app */,
-				9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -734,23 +690,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9F2433C11E5F3F14003D95A1 /* TokenNotifications */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9F2433CA1E5F3F14003D95A1 /* Build configuration list for PBXNativeTarget "TokenNotifications" */;
-			buildPhases = (
-				9F2433BE1E5F3F14003D95A1 /* Sources */,
-				9F2433BF1E5F3F14003D95A1 /* Frameworks */,
-				9F2433C01E5F3F14003D95A1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TokenNotifications;
-			productName = TokenNotifications;
-			productReference = 9F2433C21E5F3F14003D95A1 /* TokenNotifications.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		9F9238B01E24F1D2004BEEE0 /* Token */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Token" */;
@@ -767,7 +706,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9F2433C81E5F3F14003D95A1 /* PBXTargetDependency */,
 			);
 			name = Token;
 			productName = Token;
@@ -784,19 +722,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Bakken&Bæck";
 				TargetAttributes = {
-					9F2433C11E5F3F14003D95A1 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 29X3GG489T;
-						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-							com.apple.Keychain = {
-								enabled = 1;
-							};
-						};
-					};
 					9F9238B01E24F1D2004BEEE0 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 29X3GG489T;
@@ -833,19 +758,11 @@
 			projectRoot = "";
 			targets = (
 				9F9238B01E24F1D2004BEEE0 /* Token */,
-				9F2433C11E5F3F14003D95A1 /* TokenNotifications */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		9F2433C01E5F3F14003D95A1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9F9238AF1E24F1D2004BEEE0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -932,18 +849,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		9F2433BE1E5F3F14003D95A1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9F2433CF1E5F4160003D95A1 /* EthereumConverter.swift in Sources */,
-				9F2433C51E5F3F14003D95A1 /* NotificationService.swift in Sources */,
-				9F2433D01E5F4172003D95A1 /* SofaWrapper.swift in Sources */,
-				9F2433CE1E5F4157003D95A1 /* NSDecimalNumber+Additions.swift in Sources */,
-				9F2433D21E5F41CE003D95A1 /* BaseConverter.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9F9238AD1E24F1D2004BEEE0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1018,14 +923,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		9F2433C81E5F3F14003D95A1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9F2433C11E5F3F14003D95A1 /* TokenNotifications */;
-			targetProxy = 9F2433C71E5F3F14003D95A1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -1039,52 +936,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		9F2433CB1E5F3F14003D95A1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = TokenNotifications/TokenNotifications.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 29X3GG489T;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				INFOPLIST_FILE = TokenNotifications/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.TokenNotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		9F2433CC1E5F3F14003D95A1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = TokenNotifications/TokenNotifications.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 29X3GG489T;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				INFOPLIST_FILE = TokenNotifications/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.TokenNotificationService;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		9F9238C61E24F1D2004BEEE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1274,14 +1125,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9F2433CA1E5F3F14003D95A1 /* Build configuration list for PBXNativeTarget "TokenNotifications" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9F2433CB1E5F3F14003D95A1 /* Debug */,
-				9F2433CC1E5F3F14003D95A1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
 		9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Token" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
