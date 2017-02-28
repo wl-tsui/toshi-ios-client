@@ -158,7 +158,7 @@ class MessageCell: TGBaseMessageCell {
             self.bubbleImageView.frame = cellLayout.bubbleImageViewFrame
             self.bubbleImageView.image = self.isHighlight ? cellLayout.highlightBubbleImage : cellLayout.bubbleImage
 
-            self.bubbleImageView.tintColor = cellLayout.isOutgoing ? (self.isHighlight ? UIColor.cyan : Theme.outgoingMessageBackgroundColor) : (self.isHighlight ? UIColor.magenta : Theme.incomingMessageBackgroundColor)
+            self.bubbleImageView.tintColor = cellLayout.isOutgoing ? Theme.outgoingMessageBackgroundColor : Theme.incomingMessageBackgroundColor
 
             self.textLabel.frame = cellLayout.textLabelFrame
             self.textLabel.textLayout = cellLayout.textLayout

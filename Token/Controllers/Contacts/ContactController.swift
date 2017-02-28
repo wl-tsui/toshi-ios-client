@@ -44,6 +44,16 @@ public class ContactController: UIViewController {
         return view
     }()
 
+    lazy var usernameLabel: UILabel = {
+        let view = UILabel(withAutoLayout: true)
+        view.numberOfLines = 0
+        view.textAlignment = .center
+        view.font = Theme.bold(size: 14)
+        view.textColor = Theme.greyTextColor
+
+        return view
+    }()
+
     lazy var addContactButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
         view.setAttributedTitle(NSAttributedString(string: "Add contact", attributes: [NSFontAttributeName: Theme.semibold(size: 13)]), for: .normal)
@@ -151,7 +161,14 @@ public class ContactController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.nameLabel.text = self.contact.username
+        if self.contact.name.length > 0 {
+            self.nameLabel.text = self.contact.name
+            self.usernameLabel.text = "@\(self.contact.username)"
+        } else {
+            self.usernameLabel.text = nil
+            self.nameLabel.text = "@\(self.contact.username)"
+        }
+
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
         self.avatar.image = self.contact.avatar
@@ -166,13 +183,10 @@ public class ContactController: UIViewController {
     }
 
     func addSubviewsAndConstraints() {
-        // debug
-        //        [locationContentLabel, locationTitleLabel, aboutContentLabel, aboutTitleLabel].forEach { (view) in
-        //            view.backgroundColor = Theme.randomColor
-        //        }
         self.view.addSubview(self.avatarContainer)
         self.view.addSubview(self.avatar)
         self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.addContactButton)
         self.view.addSubview(self.messageContactButton)
 
@@ -202,20 +216,26 @@ public class ContactController: UIViewController {
         self.avatar.centerYAnchor.constraint(equalTo: self.avatarContainer.centerYAnchor).isActive = true
         self.avatar.centerXAnchor.constraint(equalTo: self.avatarContainer.centerXAnchor).isActive = true
 
-        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
         self.nameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: marginVertical).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
+        self.usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.usernameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.usernameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+
         self.messageContactButton.set(height: height)
-        self.messageContactButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.messageContactButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.messageContactButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.messageContactButton.rightAnchor.constraint(equalTo: self.addContactButton.leftAnchor, constant: -marginHorizontal).isActive = true
 
         self.messageContactButton.widthAnchor.constraint(equalTo: self.addContactButton.widthAnchor).isActive = true
 
         self.addContactButton.set(height: height)
-        self.addContactButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.addContactButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.addContactButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         // We set the view and separator width cosntraints to be the same, to force the scrollview content size to conform to the window

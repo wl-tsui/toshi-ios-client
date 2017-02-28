@@ -24,8 +24,6 @@
 		14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */; };
 		4456E9E55DC76C67E89BBD7E /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D23B29F137F692D63E6C4E24 /* libPods-CocoaPods-Development.a */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
-		9F210E531E5AE03F0000DAE5 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F210E521E5AE03F0000DAE5 /* RevealServer.framework */; };
-		9F210E541E5AE06D0000DAE5 /* RevealServer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F210E521E5AE03F0000DAE5 /* RevealServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F21624C1E5EE08800292B14 /* ActionableMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */; };
 		9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
@@ -34,16 +32,6 @@
 		9F2433BD1E5F3A22003D95A1 /* TokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433BC1E5F3A22003D95A1 /* TokenURLPaths.swift */; };
 		9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
 		9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
-		9F40F3AD1E59FD5E007A7DE7 /* HDWallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3AF1E59FD5E007A7DE7 /* Teapot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B01E59FD5E007A7DE7 /* CameraScanner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B11E59FD5E007A7DE7 /* EtherealCereal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B21E59FD5E007A7DE7 /* Formulaic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B31E59FD5E007A7DE7 /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B41E59FD5E007A7DE7 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758551E3BA1850009ABCD /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B51E59FD5E007A7DE7 /* SweetFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B61E59FD5E007A7DE7 /* SweetSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3B71E59FD5E007A7DE7 /* SweetUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F40F3C01E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */; };
 		9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */; };
 		9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BB1E59FE97007A7DE7 /* TGBaseMessageCell.swift */; };
@@ -53,11 +41,8 @@
 		9F40F3CC1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */; };
 		9F40F3D71E5A061C007A7DE7 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; };
 		9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; };
-		9F40F3DB1E5A061E007A7DE7 /* HPGrowingTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F40F3DC1E5A061E007A7DE7 /* YYText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F5706661E5F16BC00EB5D90 /* EthereumConverter+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */; };
 		9F584C751E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
-		9F584C771E5C33180093FA4D /* NoChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
 		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
@@ -81,6 +66,8 @@
 		9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
 		9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D31E24F42A004BEEE0 /* ChatCell.swift */; };
 		9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
+		9FA12BE81E65A116003705F6 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA12BE71E65A116003705F6 /* RevealServer.framework */; };
+		9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA12BE71E65A116003705F6 /* RevealServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FAACCB31E30E1EE00FB871D /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCB21E30E1EE00FB871D /* ContactsNavigationController.swift */; };
 		9FAACCB51E30F24100FB871D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCB41E30F24100FB871D /* Localizable.strings */; };
 		9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */; };
@@ -140,32 +127,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9F40F3AD1E59FD5E007A7DE7 /* HDWallet.framework in Embed Frameworks */,
-				9F210E541E5AE06D0000DAE5 /* RevealServer.framework in Embed Frameworks */,
-				9F40F3AF1E59FD5E007A7DE7 /* Teapot.framework in Embed Frameworks */,
-				9F40F3B01E59FD5E007A7DE7 /* CameraScanner.framework in Embed Frameworks */,
-				9F584C771E5C33180093FA4D /* NoChat.framework in Embed Frameworks */,
-				9F40F3B11E59FD5E007A7DE7 /* EtherealCereal.framework in Embed Frameworks */,
-				9F40F3B21E59FD5E007A7DE7 /* Formulaic.framework in Embed Frameworks */,
-				9F40F3B31E59FD5E007A7DE7 /* KeychainSwift.framework in Embed Frameworks */,
-				9F40F3B41E59FD5E007A7DE7 /* PromiseKit.framework in Embed Frameworks */,
-				9F40F3B51E59FD5E007A7DE7 /* SweetFoundation.framework in Embed Frameworks */,
-				9F40F3DB1E5A061E007A7DE7 /* HPGrowingTextView.framework in Embed Frameworks */,
-				9F40F3DC1E5A061E007A7DE7 /* YYText.framework in Embed Frameworks */,
-				9F40F3B61E59FD5E007A7DE7 /* SweetSwift.framework in Embed Frameworks */,
-				9F40F3B71E59FD5E007A7DE7 /* SweetUIKit.framework in Embed Frameworks */,
+				9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9F2433CD1E5F3F14003D95A1 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -192,7 +156,6 @@
 		685269D508E80AB5000F52FA /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		990964CA5766AC2F323FDF06 /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
-		9F210E521E5AE03F0000DAE5 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevealServer.framework; sourceTree = "<group>"; };
 		9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionableMessageCellLayout.swift; sourceTree = "<group>"; };
 		9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumNotificationHandler.swift; sourceTree = "<group>"; };
 		9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundNotificationHandler.swift; sourceTree = "<group>"; };
@@ -239,6 +202,7 @@
 		9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Token-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F9238D31E24F42A004BEEE0 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cereal.swift; sourceTree = "<group>"; };
+		9FA12BE71E65A116003705F6 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevealServer.framework; sourceTree = "<group>"; };
 		9FAACCB21E30E1EE00FB871D /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ContactsNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9FAACCB41E30F24100FB871D /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SettingsNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -303,6 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F67585D1E3BA1850009ABCD /* Formulaic.framework in Frameworks */,
+				9FA12BE81E65A116003705F6 /* RevealServer.framework in Frameworks */,
 				9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */,
 				9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */,
 				9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */,
@@ -311,7 +276,6 @@
 				9F584C751E5C33140093FA4D /* NoChat.framework in Frameworks */,
 				9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */,
 				9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */,
-				9F210E531E5AE03F0000DAE5 /* RevealServer.framework in Frameworks */,
 				9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */,
 				9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */,
 				9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */,
@@ -392,8 +356,8 @@
 		27842ECF00E36BC79A5918DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9FA12BE71E65A116003705F6 /* RevealServer.framework */,
 				9F584C741E5C33140093FA4D /* NoChat.framework */,
-				9F210E521E5AE03F0000DAE5 /* RevealServer.framework */,
 				9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */,
 				9F40F3D61E5A061C007A7DE7 /* YYText.framework */,
 				9FC0D3E01E55A1E300A46760 /* HDWallet.framework */,
@@ -697,11 +661,12 @@
 				62DF46412C184F502CAB066C /* [CP] Check Pods Manifest.lock */,
 				9F9238AD1E24F1D2004BEEE0 /* Sources */,
 				9F9238AE1E24F1D2004BEEE0 /* Frameworks */,
+				9FA12BE61E659EED003705F6 /* Bump build number */,
 				9F9238AF1E24F1D2004BEEE0 /* Resources */,
 				1462543C1E4326DA00A3B822 /* Embed Frameworks */,
 				D38AD1AE7AB4822DF479228C /* [CP] Embed Pods Frameworks */,
 				1E02A34C028A01DBA24DE4C0 /* [CP] Copy Pods Resources */,
-				9F2433CD1E5F3F14003D95A1 /* Embed App Extensions */,
+				9FB017271E658ECC00BD5B81 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -726,7 +691,7 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 29X3GG489T;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -830,6 +795,47 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		9FA12BE61E659EED003705F6 /* Bump build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bump build number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi\n";
+		};
+		9FB017271E658ECC00BD5B81 /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/NoChat.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/HPGrowingTextView.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/YYText.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/HDWallet.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CameraScanner.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/EtherealCereal.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Formulaic.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
+			);
+			name = "Copy Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks ";
 		};
 		D38AD1AE7AB4822DF479228C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1069,8 +1075,8 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "fd5d8188-6095-47bb-9d99-d1c5cda018cd";
+				PROVISIONING_PROFILE_SPECIFIER = "BB Token Development";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1085,7 +1091,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT = NO;
 				DEVELOPMENT_TEAM = 29X3GG489T;
 				ENABLE_BITCODE = NO;
@@ -1113,8 +1119,8 @@
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
 				PRODUCT_NAME = Token;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ee8ddf72-d1f6-44bd-8410-6f7fc9a16654";
+				PROVISIONING_PROFILE_SPECIFIER = "BB Token Testflight";
 				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;

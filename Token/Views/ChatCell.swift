@@ -24,10 +24,8 @@ class ChatCell: UITableViewCell {
                 self.lastMessageLabel.text = nil
             }
 
-            // TODO: placeholder for now, remove it once we have avatar support on the API level
-            if self.avatarImageView.image == nil {
-                self.avatarImageView.image = self.thread?.image()
-            }
+
+            self.avatarImageView.image = self.thread?.image()
 
             if let date = self.thread?.lastMessageDate() {
                 if DateTimeFormatter.isDate(date, sameDayAs: Date()) {

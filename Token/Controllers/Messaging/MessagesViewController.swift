@@ -136,15 +136,7 @@ class MessagesViewController: NOCChatViewController {
         self.collectionView.keyboardDismissMode = .interactive
         self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
 
-        self.ethereumAPIClient.getBalance(address: self.cereal.paymentAddress) { balance, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                self.present(alertController, animated: true, completion: nil)
-            } else {
-                self.ethereumPromptView.balance = balance
-            }
-        }
-
+        self.updateBalance()
         self.loadMessages()
     }
 
@@ -167,6 +159,28 @@ class MessagesViewController: NOCChatViewController {
         self.saveDraft()
 
         self.thread.markAllAsRead()
+    }
+
+    func updateBalance(_ notification: Notification? = nil) {
+        if let notification = notification, let balance = notification.object as? NSDecimalNumber {
+            self.set(balance: balance)
+
+            return
+        }
+
+        self.ethereumAPIClient.getBalance(address: self.cereal.paymentAddress) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.set(balance: balance)
+            }
+        }
+
+    }
+
+    func set(balance: NSDecimalNumber) {
+        self.ethereumPromptView.balance = balance
     }
 
     func saveDraft() {
@@ -310,8 +324,8 @@ class MessagesViewController: NOCChatViewController {
 
             if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
                 message.messageType = "Actionable"
-                message.title = "Payment sent"
-                message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: payment.value)
+                message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
+                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(for: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 
             return message
@@ -327,8 +341,8 @@ class MessagesViewController: NOCChatViewController {
 
             if let payment = sofaWrapper as? SofaPayment {
                 message.messageType = "Actionable"
-                message.title = "Payment received"
-                message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: payment.value)
+                message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
+                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(for: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 
             return message
@@ -370,8 +384,9 @@ class MessagesViewController: NOCChatViewController {
     }
 
     func registerNotifications() {
-        let notificationController = NotificationCenter.default
-        notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
     }
 
     func reversedIndexPath(_ indexPath: IndexPath) -> IndexPath {

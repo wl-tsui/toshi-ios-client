@@ -1,5 +1,9 @@
 import Foundation
 
+public extension NSNotification.Name {
+    public static let ethereumPaymentConfirmationNotification = NSNotification.Name(rawValue: "EthereumPaymentConfirmationNotification")
+}
+
 class EthereumNotificationHandler: NSObject {
     public static func handlePayment(_ userInfo: [String: Any], completion: @escaping((_ state: UIBackgroundFetchResult) -> Void)) {
         if userInfo["type"] as? String == "signal_message" { return }
@@ -20,8 +24,19 @@ class EthereumNotificationHandler: NSObject {
             print(balance)
             print(error?.localizedDescription ?? "")
 
+            defer {
+                completion(.newData)
+            }
+
             guard let sofa = SofaWrapper.wrapper(content: body) as? SofaPayment, sofa.status == .confirmed else {
                 completion(.noData)
+
+                return
+            }
+
+            if UIApplication.shared.applicationState == .active {
+                let notification = Notification(name: .ethereumPaymentConfirmationNotification, object: balance, userInfo: nil)
+                NotificationCenter.default.post(notification)
 
                 return
             }
@@ -42,9 +57,6 @@ class EthereumNotificationHandler: NSObject {
 
             let center = UNUserNotificationCenter.current()
             center.add(request, withCompletionHandler: nil)
-
-
-            completion(.newData)
         }
     }
 }

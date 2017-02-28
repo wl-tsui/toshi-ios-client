@@ -32,7 +32,7 @@ open class ProfileController: UIViewController {
         return view
     }()
 
-    lazy var usernameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
         view.textAlignment = .center
@@ -41,7 +41,7 @@ open class ProfileController: UIViewController {
         return view
     }()
 
-    lazy var nameLabel: UILabel = {
+    lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
         view.textAlignment = .center
@@ -143,12 +143,12 @@ open class ProfileController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let displayName = User.current?.name, let username = User.current?.username {
-            self.usernameLabel.text = displayName
-            self.nameLabel.text = "@\(username)"
-        } else if let username = User.current?.username {
-            self.nameLabel.text = nil
+        if let displayName = User.current?.name, displayName.length > 0, let username = User.current?.username {
+            self.nameLabel.text = displayName
             self.usernameLabel.text = "@\(username)"
+        } else if let username = User.current?.username {
+            self.usernameLabel.text = nil
+            self.nameLabel.text = "@\(username)"
         }
 
         self.aboutContentLabel.text = User.current?.about
@@ -169,14 +169,10 @@ open class ProfileController: UIViewController {
     }
 
     func addSubviewsAndConstraints() {
-        // debug
-        //        [locationContentLabel, locationTitleLabel, aboutContentLabel, aboutTitleLabel].forEach { (view) in
-        //            view.backgroundColor = Theme.randomColor
-        //        }
         self.view.addSubview(self.avatarContainer)
         self.view.addSubview(self.avatar)
-        self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.editProfileButton)
 
         self.view.addSubview(self.aboutSeparatorView)
@@ -205,19 +201,19 @@ open class ProfileController: UIViewController {
         self.avatar.centerYAnchor.constraint(equalTo: self.avatarContainer.centerYAnchor).isActive = true
         self.avatar.centerXAnchor.constraint(equalTo: self.avatarContainer.centerXAnchor).isActive = true
 
-        self.usernameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        self.usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-        self.usernameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: marginVertical).isActive = true
-        self.usernameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.usernameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-
-        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarContainer.bottomAnchor, constant: marginVertical).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
+        self.usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.usernameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.usernameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+
         self.editProfileButton.set(height: height)
-        self.editProfileButton.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginHorizontal).isActive = true
+        self.editProfileButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: marginHorizontal).isActive = true
         self.editProfileButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.editProfileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
