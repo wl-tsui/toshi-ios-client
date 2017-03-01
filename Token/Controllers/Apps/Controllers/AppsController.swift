@@ -225,6 +225,7 @@ extension AppsController: UICollectionViewDelegate {
 }
 
 extension AppsController: UISearchBarDelegate {
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.length == 0 {
             self.searchResultsView.results = [App]()
@@ -238,12 +239,14 @@ extension AppsController: UISearchBarDelegate {
 }
 
 extension AppsController: UISearchControllerDelegate {
+
     func didDismissSearchController(_ searchController: UISearchController) {
         self.showSearchResultsView(shouldShow: false)
     }
 }
 
 extension AppsController: SearchResultsViewDelegate {
+
     func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: App) {
         print(app.displayName)
     }

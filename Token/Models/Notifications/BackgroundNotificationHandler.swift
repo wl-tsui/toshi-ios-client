@@ -2,9 +2,10 @@ import Foundation
 import UserNotifications
 
 public class BackgroundNotificationHandler: NSObject {
+
     public static func handle(_ notification: UNNotification, _ completion: @escaping((_ options: UNNotificationPresentationOptions) -> Void)) {
 
-        let body = notification.request.content.body;
+        let body = notification.request.content.body
 
         if SofaType(sofa: body) == .none {
             completion([.badge, .sound, .alert])
@@ -35,7 +36,7 @@ public class BackgroundNotificationHandler: NSObject {
         let value = EthereumConverter.dollarValueString(forWei: payment.value)
         content.body = "You've received \(value)."
 
-        content.sound = UNNotificationSound.default()
+        content.sound = UNNotificationSound(named: "PN.m4a")
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: content.title, content: content, trigger: trigger)

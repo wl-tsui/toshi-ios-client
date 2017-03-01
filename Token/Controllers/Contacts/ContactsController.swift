@@ -312,6 +312,8 @@ extension ContactsController: ScannerViewControllerDelegate {
         self.idAPIClient.findContact(name: result) { contact in
             guard let contact = contact else { return }
 
+            SoundPlayer.shared.playSound(type: .scanned)
+
             self.dismiss(animated: true) {
                 let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
 
@@ -330,7 +332,7 @@ extension ContactsController: UISearchBarDelegate {
 }
 
 extension ContactsController: UISearchResultsUpdating {
-    
+
     public func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
 

@@ -176,7 +176,6 @@ class MessagesViewController: NOCChatViewController {
                 self.set(balance: balance)
             }
         }
-
     }
 
     func set(balance: NSDecimalNumber) {
@@ -190,7 +189,7 @@ class MessagesViewController: NOCChatViewController {
         guard let text = inputPanel.text else { return }
 
         self.editingDatabaseConnection.asyncReadWrite { transaction in
-            thread.setDraft(text, transaction:transaction)
+            thread.setDraft(text, transaction: transaction)
         }
     }
 
@@ -198,7 +197,7 @@ class MessagesViewController: NOCChatViewController {
         let thread = self.thread
         var placeholder: String? = nil
 
-        self.editingDatabaseConnection.asyncReadWrite( { transaction in
+        self.editingDatabaseConnection.asyncReadWrite({ transaction in
             placeholder = thread.currentDraft(with: transaction)
         }, completionBlock: {
             DispatchQueue.main.async {
@@ -220,7 +219,7 @@ class MessagesViewController: NOCChatViewController {
             self.mappings.update(with: transaction)
 
             var messages = [Message]()
-            
+
             for i in 0 ..< self.mappings.numberOfItems(inSection: 0) {
                 let indexPath = IndexPath(row: Int(i), section: 0)
                 guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
@@ -291,11 +290,11 @@ class MessagesViewController: NOCChatViewController {
     }
 
     /// Handle incoming interactions or previous messages when restoring a conversation.
-    /// 
+    ///
     /// - Parameters:
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
-    /// 
+    ///
     func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message? {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
             DispatchQueue.main.async {
@@ -438,6 +437,16 @@ class MessagesViewController: NOCChatViewController {
                     if let result = self.handleInteraction(interaction, shouldProcessCommands: true) {
                         DispatchQueue.main.async {
                             self.messages.append(result)
+
+                            if result.isOutgoing {
+                                if result.sofaWrapper.type == .paymentRequest {
+                                    SoundPlayer.shared.playSound(type: .requestPayment)
+                                } else {
+                                    SoundPlayer.shared.playSound(type: .messageSent)
+                                }
+                            } else {
+                                SoundPlayer.shared.playSound(type: .messageReceived)
+                            }
                         }
                     }
                 case .update:
@@ -532,7 +541,7 @@ extension MessagesViewController: ActionableCellDelegate {
 
                     let interaction = message.signalMessage
                     interaction.paymentState = .pendingConfirmation
-                    interaction.save()                    
+                    interaction.save()
 
                     // send payment message
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }

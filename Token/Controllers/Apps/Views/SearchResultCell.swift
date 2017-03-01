@@ -90,7 +90,7 @@ class SearchResultCell: UITableViewCell {
         self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }

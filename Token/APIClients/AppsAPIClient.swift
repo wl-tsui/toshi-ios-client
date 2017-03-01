@@ -58,7 +58,7 @@ class AppsAPIClient {
         }
     }
 
-    func search(_ searchTerm: String, completion: @escaping (_ apps: [App], _ error: Error?) -> Void) {
+    func search(_ searchTerm: String, completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
         guard searchTerm.length > 0 else {
             completion([App](), nil)
             return

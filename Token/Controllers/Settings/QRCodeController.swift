@@ -34,7 +34,7 @@ class QRCodeController: UIViewController {
     convenience init(string: String) {
         self.init(nibName: nil, bundle: nil)
 
-        self.qrCodeImageView.image = UIImage.imageQRCode(for: User.current!.address, resizeRate: 20.0)
+        self.qrCodeImageView.image = UIImage.imageQRCode(for: string, resizeRate: 20.0)
     }
 
     override func viewDidLoad() {

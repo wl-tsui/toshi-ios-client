@@ -15,7 +15,7 @@ class ActionableMessageCellLayout: MessageCellLayout {
         get {
             return NSAttributedString()
         }
-        set { }
+        set {}
     }
 
     var subtitleLabelFrame: CGRect = .zero
@@ -195,12 +195,12 @@ class ActionableMessageCellLayout: MessageCellLayout {
 
             self.rejectButtonFrame = CGRect(x: x, y: bubbleViewHeight, width: buttonWidth, height: height)
             self.acceptButtonFrame = CGRect(x: x + buttonWidth - 1, y: bubbleViewHeight, width: buttonWidth, height: height)
-            
+
             bubbleViewHeight += self.rejectButtonFrame.height
             self.bubbleImageViewFrame.size.height = bubbleViewHeight
             self.bubbleViewFrame.size.height = bubbleViewHeight
         }
-        
+
         self.height = bubbleViewHeight + self.bubbleViewMargin.top + self.bubbleViewMargin.bottom
     }
 }

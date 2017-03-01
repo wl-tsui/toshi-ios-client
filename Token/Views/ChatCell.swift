@@ -24,7 +24,6 @@ class ChatCell: UITableViewCell {
                 self.lastMessageLabel.text = nil
             }
 
-
             self.avatarImageView.image = self.thread?.image()
 
             if let date = self.thread?.lastMessageDate() {
@@ -35,7 +34,7 @@ class ChatCell: UITableViewCell {
                 }
             }
 
-            if let thread =  self.thread {
+            if let thread = self.thread {
                 let count = TSMessagesManager.shared().unreadMessages(in: thread)
                 if count > 0 {
                     self.unreadLabel.text = "\(count)"

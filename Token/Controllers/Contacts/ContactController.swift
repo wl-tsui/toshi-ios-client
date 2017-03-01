@@ -17,7 +17,7 @@ public class ContactController: UIViewController {
     }()
 
     lazy var qrCode: UIImage = {
-        let image = UIImage.imageQRCode(for: User.current!.address, resizeRate: 0.8)
+        let image = UIImage.imageQRCode(for: self.contact.address, resizeRate: 0.8)
         let filter = CIFilter(name: "CIMaskToAlpha")!
 
         filter.setDefaults()
@@ -261,7 +261,7 @@ public class ContactController: UIViewController {
     }
 
     func displayQRCode() {
-        let controller = QRCodeController(string: User.current!.address)
+        let controller = QRCodeController(string: self.contact.address)
         self.present(controller, animated: true)
     }
 
@@ -314,6 +314,9 @@ public class ContactController: UIViewController {
             }
 
             self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+
+            SoundPlayer.shared.playSound(type: .addedContact)
+
             self.updateButton()
         }
     }

@@ -5,6 +5,7 @@ public extension NSNotification.Name {
 }
 
 class EthereumNotificationHandler: NSObject {
+
     public static func handlePayment(_ userInfo: [String: Any], completion: @escaping((_ state: UIBackgroundFetchResult) -> Void)) {
         if userInfo["type"] as? String == "signal_message" { return }
 
@@ -50,7 +51,7 @@ class EthereumNotificationHandler: NSObject {
                 content.body = "Payment sent: \(EthereumConverter.dollarValueString(forWei: sofa.value))."
             }
 
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound(named: "PN.m4a")
 
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: content.title, content: content, trigger: trigger)

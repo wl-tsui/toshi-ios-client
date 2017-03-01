@@ -48,7 +48,7 @@ open class TabBarController: UITabBarController {
 
     func yapDatabaseDidChange(notification: NSNotification) {
         defer { self.updateBadge() }
-        
+
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -102,7 +102,7 @@ open class TabBarController: UITabBarController {
                         content.body = "New message."
                     }
 
-                    content.sound = UNNotificationSound.default()
+                    content.sound = UNNotificationSound(named: "PN.m4a")
 
                     let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                     let request = UNNotificationRequest(identifier: thread.name(), content: content, trigger: trigger)

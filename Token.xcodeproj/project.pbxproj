@@ -19,7 +19,6 @@
 		1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513691E49D41200E44A62 /* HomeNavigationController.swift */; };
 		1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */; };
 		1475136F1E49FB8C00E44A62 /* HomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136E1E49FB8C00E44A62 /* HomeLayout.swift */; };
-		14870DA71E3F8AB500A2A041 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */; };
 		14ED3ABF1E4A347400DF8079 /* AppsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */; };
 		4456E9E55DC76C67E89BBD7E /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D23B29F137F692D63E6C4E24 /* libPods-CocoaPods-Development.a */; };
@@ -68,6 +67,10 @@
 		9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
 		9FA12BE81E65A116003705F6 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA12BE71E65A116003705F6 /* RevealServer.framework */; };
 		9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA12BE71E65A116003705F6 /* RevealServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEB1E65CF61003705F6 /* PN.m4a */; };
+		9FA12BF01E65D043003705F6 /* messageSent.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEF1E65D043003705F6 /* messageSent.m4a */; };
+		9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA12BF11E65D135003705F6 /* SoundPlayer.swift */; };
+		9FA12BF41E66CA42003705F6 /* messageReceived.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BF31E66CA42003705F6 /* messageReceived.m4a */; };
 		9FAACCB31E30E1EE00FB871D /* ContactsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCB21E30E1EE00FB871D /* ContactsNavigationController.swift */; };
 		9FAACCB51E30F24100FB871D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCB41E30F24100FB871D /* Localizable.strings */; };
 		9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */; };
@@ -118,6 +121,9 @@
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; };
 		9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
+		9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF611E66CD6C00948277 /* requestPayment.m4a */; };
+		9FEFEF641E66CE0000948277 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
+		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -203,6 +209,10 @@
 		9F9238D31E24F42A004BEEE0 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cereal.swift; sourceTree = "<group>"; };
 		9FA12BE71E65A116003705F6 /* RevealServer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevealServer.framework; sourceTree = "<group>"; };
+		9FA12BEB1E65CF61003705F6 /* PN.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = PN.m4a; sourceTree = "<group>"; };
+		9FA12BEF1E65D043003705F6 /* messageSent.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = messageSent.m4a; sourceTree = "<group>"; };
+		9FA12BF11E65D135003705F6 /* SoundPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundPlayer.swift; sourceTree = "<group>"; };
+		9FA12BF31E66CA42003705F6 /* messageReceived.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = messageReceived.m4a; sourceTree = "<group>"; };
 		9FAACCB21E30E1EE00FB871D /* ContactsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ContactsNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9FAACCB41E30F24100FB871D /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SettingsNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -258,6 +268,9 @@
 		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
 		9FE4267B1E3F566B007ED2A4 /* Teapot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Teapot.framework; path = Carthage/Build/iOS/Teapot.framework; sourceTree = SOURCE_ROOT; };
 		9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FingerprintViewController.swift; sourceTree = "<group>"; };
+		9FEFEF611E66CD6C00948277 /* requestPayment.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = requestPayment.m4a; sourceTree = "<group>"; };
+		9FEFEF631E66CE0000948277 /* scan.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = scan.m4a; sourceTree = "<group>"; };
+		9FEFEF651E66CF6E00948277 /* addContactApp.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = addContactApp.m4a; sourceTree = "<group>"; };
 		D23B29F137F692D63E6C4E24 /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -461,6 +474,7 @@
 		9F9238CC1E24F3D9004BEEE0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9FA12BEA1E65CF59003705F6 /* Sounds */,
 				9FAACCD81E31120600FB871D /* SF-UI-Display */,
 				9FAACCE21E31120600FB871D /* SF-UI-Text */,
 				9FCDBAC61E27B37F00A70E07 /* token.cer */,
@@ -502,6 +516,7 @@
 		9F9238CF1E24F3F1004BEEE0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9FA12BF11E65D135003705F6 /* SoundPlayer.swift */,
 				9F5706641E5F16A500EB5D90 /* Converters */,
 				9FCDBACE1E27C24900A70E07 /* Notifications */,
 				9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */,
@@ -520,6 +535,19 @@
 				9F7E5DA11E4C982300543296 /* Message.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		9FA12BEA1E65CF59003705F6 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				9FEFEF651E66CF6E00948277 /* addContactApp.m4a */,
+				9FEFEF631E66CE0000948277 /* scan.m4a */,
+				9FEFEF611E66CD6C00948277 /* requestPayment.m4a */,
+				9FA12BF31E66CA42003705F6 /* messageReceived.m4a */,
+				9FA12BEF1E65D043003705F6 /* messageSent.m4a */,
+				9FA12BEB1E65CF61003705F6 /* PN.m4a */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		9FAACCD81E31120600FB871D /* SF-UI-Display */ = {
@@ -732,15 +760,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14870DA71E3F8AB500A2A041 /* (null) in Resources */,
 				9FAACD041E31120600FB871D /* SF-UI-Text-Semibold.otf in Resources */,
 				9FAACCF11E31120600FB871D /* SF-UI-Display-Black.otf in Resources */,
 				9FAACD011E31120600FB871D /* SF-UI-Text-MediumItalic.otf in Resources */,
+				9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */,
 				9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */,
 				9FAACCF61E31120600FB871D /* SF-UI-Display-Regular.otf in Resources */,
 				9FAACCF41E31120600FB871D /* SF-UI-Display-Light.otf in Resources */,
 				9FAACCF91E31120600FB871D /* SF-UI-Display-Ultralight.otf in Resources */,
+				9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */,
 				9FAACCF81E31120600FB871D /* SF-UI-Display-Thin.otf in Resources */,
 				9FAACCF51E31120600FB871D /* SF-UI-Display-Medium.otf in Resources */,
 				9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */,
@@ -751,14 +780,18 @@
 				9FAACCFC1E31120600FB871D /* SF-UI-Text-Heavy.otf in Resources */,
 				9FAACD031E31120600FB871D /* SF-UI-Text-RegularItalic.otf in Resources */,
 				9FAACD021E31120600FB871D /* SF-UI-Text-Regular.otf in Resources */,
+				9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */,
 				9FAACD051E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				9FAACCF31E31120600FB871D /* SF-UI-Display-Heavy.otf in Resources */,
 				9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */,
 				9FAACCFD1E31120600FB871D /* SF-UI-Text-HeavyItalic.otf in Resources */,
 				9FAACCFB1E31120600FB871D /* SF-UI-Text-BoldItalic.otf in Resources */,
+				9FA12BF41E66CA42003705F6 /* messageReceived.m4a in Resources */,
 				9FAACCFF1E31120600FB871D /* SF-UI-Text-LightItalic.otf in Resources */,
 				9FAACCFE1E31120600FB871D /* SF-UI-Text-Light.otf in Resources */,
 				9FAACCF71E31120600FB871D /* SF-UI-Display-Semibold.otf in Resources */,
+				9FEFEF641E66CE0000948277 /* scan.m4a in Resources */,
+				9FA12BF01E65D043003705F6 /* messageSent.m4a in Resources */,
 				9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -890,6 +923,7 @@
 				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
 				143587031E5C4CBE007A268A /* SearchResultCell.swift in Sources */,
+				9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */,
 				143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
 				9FAACCB31E30E1EE00FB871D /* ContactsNavigationController.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
