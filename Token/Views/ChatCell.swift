@@ -135,7 +135,7 @@ class ChatCell: UITableViewCell {
         self.lastMessageLabel.topAnchor.constraint(equalTo: self.lastMessageDateLabel.bottomAnchor).isActive = true
         self.lastMessageLabel.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor).isActive = true
         self.lastMessageLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin).isActive = true
-        self.lastMessageLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin).isActive = true
+        self.lastMessageLabel.rightAnchor.constraint(equalTo: self.unreadLabel.leftAnchor, constant: -margin).isActive = true
         self.lastMessageLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -margin).isActive = true
 
         self.separatorView.set(height: 1.0)
