@@ -163,19 +163,21 @@
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
 
+    NSLog(@"TOKEN WOKE UP 1");
+
     [BackgroundNotificationHandler handle:notification :^(UNNotificationPresentationOptions options) {
         completionHandler(options);
     }];
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-   NSLog(@"! %@", response);
-
-    TabBarController *tabBarController = (TabBarController *)self.window.rootViewController;
-    [tabBarController updateBadge];
-
-    completionHandler();
-}
+//- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+//   NSLog(@"! %@", response);
+//
+//    TabBarController *tabBarController = (TabBarController *)self.window.rootViewController;
+//    [tabBarController updateBadge];
+//
+//    completionHandler();
+//}
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
@@ -192,7 +194,7 @@
     NSString *token = [deviceToken hexadecimalString];
 
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:token voipToken:@"" success:^{
-        NSLog(@"chat PN register - SUCCESS: %@", token);
+        NSLog(@"TOKEN: chat PN register - SUCCESS: %@", token);
 
         [[EthereumAPIClient shared] registerForNotifications: ^(BOOL success){
             if (success) {
@@ -201,7 +203,7 @@
         }];
 
     } failure:^(NSError * _Nonnull error) {
-        NSLog(@"chat PN register - FAILURE: %@", error.localizedDescription);
+        NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);
     }];
 }
 

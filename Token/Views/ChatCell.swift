@@ -126,6 +126,7 @@ class ChatCell: UITableViewCell {
         self.lastMessageDateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: margin).isActive = true
         self.lastMessageDateLabel.rightAnchor.constraint(equalTo: self.self.contentView.rightAnchor, constant: -margin).isActive = true
 
+        self.unreadLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         self.unreadLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
         self.unreadLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
         self.unreadLabel.topAnchor.constraint(equalTo: self.lastMessageDateLabel.bottomAnchor).isActive = true

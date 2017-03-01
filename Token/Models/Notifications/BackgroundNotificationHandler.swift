@@ -26,7 +26,7 @@ public class BackgroundNotificationHandler: NSObject {
             return
         }
 
-        completion([])
+        completion([.badge, .sound, .alert])
     }
 
     static func enqueueLocalNotification(for payment: SofaPayment) {
