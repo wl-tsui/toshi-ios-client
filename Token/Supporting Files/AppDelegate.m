@@ -25,9 +25,14 @@
 
 @property (nonatomic) OWSMessageFetcherJob *messageFetcherJob;
 
+@property (nonatomic) NSString *token;
+@property (nonatomic) NSString *voipToken;
+
 @end
 
 @implementation AppDelegate
+@synthesize token = _token;
+@synthesize voipToken = _voipToken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.cereal = [[Cereal alloc] init];
@@ -152,6 +157,36 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Accessors 
+
+- (NSString *)token {
+    if (!_token) {
+        _token = @"";
+    }
+
+    return _token;
+}
+
+- (NSString *)voipToken {
+    if (!_voipToken) {
+        _voipToken = @"";
+    }
+
+    return _voipToken;
+}
+
+- (void)setToken:(NSString *)token {
+    _token = token;
+
+    [self updateRemoteNotificationCredentials];
+}
+
+- (void)setVoipToken:(NSString *)voipToken {
+    _voipToken = voipToken;
+
+    [self updateRemoteNotificationCredentials];
+}
+
 #pragma mark - Push notifications
 
 - (void)registerForRemoteNotifications {
@@ -175,6 +210,21 @@
     voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
 }
 
+- (void)updateRemoteNotificationCredentials {
+    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:self.voipToken success:^{
+        NSLog(@"TOKEN: chat PN register - SUCCESS: token: %@, voip: %@", self.token, self.voipToken);
+
+        [[EthereumAPIClient shared] registerForNotifications: ^(BOOL success){
+            if (success) {
+                [[EthereumAPIClient shared] registerForPushNotificationsWithDeviceToken:self.token];
+            }
+        }];
+
+    } failure:^(NSError * _Nonnull error) {
+        NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);
+    }];
+}
+
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type {
     [self.messageFetcherJob runAsync];
 }
@@ -184,14 +234,7 @@
 }
 
 - (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
-    NSLog(@"Type: %@", type);
-    NSString *token = [credentials.token ows_tripToken];
-
-    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:@"" voipToken:token success:^{
-        NSLog(@"TOKEN: chat PN register - SUCCESS: %@", token);
-    } failure:^(NSError * _Nonnull error) {
-        NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);
-    }];
+    self.voipToken = [credentials.token ows_tripToken];
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
@@ -223,20 +266,7 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *token = [deviceToken hexadecimalString];
-
-    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:token voipToken:@"" success:^{
-        NSLog(@"TOKEN: chat PN register - SUCCESS: %@", token);
-
-        [[EthereumAPIClient shared] registerForNotifications: ^(BOOL success){
-            if (success) {
-                [[EthereumAPIClient shared] registerForPushNotificationsWithDeviceToken: token];
-            }
-        }];
-
-    } failure:^(NSError * _Nonnull error) {
-        NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);
-    }];
+    self.token = [deviceToken hexadecimalString];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
