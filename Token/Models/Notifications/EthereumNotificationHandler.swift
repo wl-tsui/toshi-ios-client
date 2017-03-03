@@ -1,4 +1,5 @@
 import Foundation
+import UserNotifications
 
 public extension NSNotification.Name {
     public static let ethereumPaymentConfirmationNotification = NSNotification.Name(rawValue: "EthereumPaymentConfirmationNotification")

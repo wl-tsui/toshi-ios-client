@@ -32,7 +32,7 @@ public struct SoundPlayer {
 
     func playSound(type: SoundType) {
         guard UIApplication.shared.applicationState == .active else { return }
-        
+
         let id = self.soundID(for: type)
         AudioServicesPlaySystemSound(id)
     }

@@ -2,8 +2,11 @@
 
 #import "Token-Swift.h"
 
+#import "NSData+ows_StripToken.h"
+
 #import <EtherealCereal/EtherealCereal.h>
 
+#import <SignalServiceKit/OWSSignalService.h>
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
@@ -19,7 +22,8 @@
 @property (nonnull, nonatomic) IDAPIClient *idAPIClient;
 
 @property (nonatomic) OWSIncomingMessageReadObserver *incomingMessageReadObserver;
-//@property (nonatomic) OWSStaleNotificationObserver *staleNotificationObserver;
+
+@property (nonatomic) OWSMessageFetcherJob *messageFetcherJob;
 
 @end
 
@@ -32,7 +36,6 @@
     self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
     self.idAPIClient = [[IDAPIClient alloc] initWithCereal:self.cereal];
 
-    [self registerForRemoteNotifications];
     [self setupBasicAppearance];
     [self setupTSKitEnv];
 
@@ -49,6 +52,10 @@
         }
 
         [TSPreKeyManager refreshPreKeys];
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self registerForRemoteNotifications];
+        });
     }];
 
     self.window = [[UIWindow alloc] init];
@@ -89,6 +96,7 @@
 
 - (void)setupTSKitEnv {
     [TextSecureKitEnv sharedEnv].contactsManager = [[ContactsManager alloc] init];
+    [TextSecureKitEnv sharedEnv].notificationsManager = [[SignalNotificationManager alloc] init];
     TSStorageManager *storageManager = [TSStorageManager sharedManager];
     [storageManager setupDatabase];
 
@@ -125,9 +133,8 @@
 
 }
 
-
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [SignalNotificationManager updateApplicationBadgeNumber];
 }
 
 
@@ -159,29 +166,54 @@
             [[UIApplication sharedApplication] registerForRemoteNotifications];
         }
     }];
+
+    OWSSignalService *signalService = [OWSSignalService new];
+    self.messageFetcherJob = [[OWSMessageFetcherJob alloc] initWithMessagesManager:[TSMessagesManager sharedManager] messageSender:self.messageSender networkManager:self.networkManager signalService:signalService];
+
+    PKPushRegistry *voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
+    voipRegistry.delegate = self;
+    voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type {
+    [self.messageFetcherJob runAsync];
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didInvalidatePushTokenForType:(PKPushType)type {
+
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
+    NSLog(@"Type: %@", type);
+    NSString *token = [credentials.token ows_tripToken];
+
+    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:@"" voipToken:token success:^{
+        NSLog(@"TOKEN: chat PN register - SUCCESS: %@", token);
+    } failure:^(NSError * _Nonnull error) {
+        NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);
+    }];
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-
-    NSLog(@"TOKEN WOKE UP 1");
-
     [BackgroundNotificationHandler handle:notification :^(UNNotificationPresentationOptions options) {
         completionHandler(options);
     }];
 }
 
-//- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-//   NSLog(@"! %@", response);
-//
-//    TabBarController *tabBarController = (TabBarController *)self.window.rootViewController;
-//    [tabBarController updateBadge];
-//
-//    completionHandler();
-//}
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+
+    NSLog(@"Handle action for %@.", response);
+
+    completionHandler();
+}
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
     [SignalNotificationHandler handleMessage:userInfo completion:^(UIBackgroundFetchResult result) {
+        if (result == UIBackgroundFetchResultNewData) {
+            [self.messageFetcherJob runAsync];
+        }
+
         completionHandler(result);
     }];
 

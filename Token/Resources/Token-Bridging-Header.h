@@ -12,6 +12,10 @@
 #import <YapDatabase/YapDatabaseViewConnection.h>
 #import <YapDatabase/YapDatabaseViewTypes.h>
 
+#import <SignalServiceKit/NotificationsProtocol.h>
+#import <SignalServiceKit/OWSGetMessagesRequest.h>
+#import <SignalServiceKit/OWSAcknowledgeMessageDeliveryRequest.h>
+#import <SignalServiceKit/OWSSignalService.h>
 #import <SignalServiceKit/TSPreKeyManager.h>
 #import <SignalServiceKit/TSSocketManager.h>
 #import <SignalServiceKit/TSAccountManager.h>

@@ -47,7 +47,7 @@ public final class Yap: NSObject, Singleton {
     }
 
     /// Insert a object into the database using the main thread default connection.
-    ///
+    /// 
     /// - Parameters:
     ///   - object: Object to be stored. Must be serialisable. If nil, delete the record from the database.
     ///   - key: Key to store and retrieve object.
@@ -60,7 +60,7 @@ public final class Yap: NSObject, Singleton {
     }
 
     /// Checks whether an object was stored for a given key inside a given (optional) collection.
-    ///
+    /// 
     /// - Parameter key: Key to check for the presence of a stored object.
     /// - Returns: Bool whether or not a certain object was stored for that key.
     public final func containsObject(for key: String, in collection: String? = nil) -> Bool {
@@ -68,7 +68,7 @@ public final class Yap: NSObject, Singleton {
     }
 
     /// Retrieve an object for a given key inside a given (optional) collection.
-    ///
+    /// 
     /// - Parameters:
     ///   - key: Key used to store the object
     ///   - collection: Optional. The name of the collection the object was stored in.
@@ -83,7 +83,7 @@ public final class Yap: NSObject, Singleton {
     }
 
     /// Retrieve all objects from a given collection.
-    ///
+    /// 
     /// - Parameters:
     ///   - collection: The name of the collection to be retrieved.
     /// - Returns: The stored objects inside the collection.

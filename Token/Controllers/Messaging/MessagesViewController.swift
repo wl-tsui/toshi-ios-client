@@ -152,6 +152,7 @@ class MessagesViewController: NOCChatViewController {
         super.viewDidAppear(animated)
 
         self.thread.markAllAsRead()
+        SignalNotificationManager.updateApplicationBadgeNumber()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -159,6 +160,7 @@ class MessagesViewController: NOCChatViewController {
         self.saveDraft()
 
         self.thread.markAllAsRead()
+        SignalNotificationManager.updateApplicationBadgeNumber()
     }
 
     func updateBalance(_ notification: Notification? = nil) {
@@ -290,11 +292,11 @@ class MessagesViewController: NOCChatViewController {
     }
 
     /// Handle incoming interactions or previous messages when restoring a conversation.
-    ///
+    /// 
     /// - Parameters:
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
-    ///
+    /// 
     func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message? {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
             DispatchQueue.main.async {

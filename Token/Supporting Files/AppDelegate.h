@@ -4,9 +4,10 @@
 #import <SignalServiceKit/ContactsUpdater.h>
 #import "ContactsManager.h"
 
+@import PushKit;
 @import UserNotifications;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, PKPushRegistryDelegate, UNUserNotificationCenterDelegate>
 
 @property (nullable, strong, nonatomic) UIWindow *window;
 
