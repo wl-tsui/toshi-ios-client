@@ -2,7 +2,7 @@ import UIKit
 import SweetUIKit
 import NoChat
 
-class MessagesViewController: NOCChatViewController {
+class MessagesViewController: MessagesCollectionViewController {
 
     let etherAPIClient = EthereumAPIClient.shared
 
@@ -334,13 +334,13 @@ class MessagesViewController: NOCChatViewController {
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body!)
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.date(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
 
-            if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
+            if let message = sofaWrapper as? SofaMessage {
+                self.buttons = message.buttons
+            } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
                 message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: paymentRequest.value)
-            }
-
-            if let payment = sofaWrapper as? SofaPayment {
+            } else if let payment = sofaWrapper as? SofaPayment {
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
                 message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(for: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
@@ -494,6 +494,20 @@ class MessagesViewController: NOCChatViewController {
         }
 
         return cell
+    }
+
+    // MARK: - Control handling
+
+    override func controlsCollectionViewDidSelectControl(at index: Int) {
+        // only send back the `value` buttons.
+        // action buttons should be handled locally. skipping for now
+        let button = self.buttons[index]
+        guard button.value != nil else { return }
+
+        let command = SofaCommand(button: button)
+
+        self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
+        self.sendMessage(sofaWrapper: command)
     }
 }
 

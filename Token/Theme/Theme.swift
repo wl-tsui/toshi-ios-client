@@ -51,6 +51,10 @@ extension Theme {
         return #colorLiteral(red: 0.844350934, green: 0.8593074083, blue: 0.8632498384, alpha: 1)
     }
 
+    public static var actionButtonTitleColor: UIColor {
+        return UIColor(hex: "0BBEE3")
+    }
+
     public static var outgoingMessageBackgroundColor: UIColor {
         return #colorLiteral(red: 0, green: 0.7567782402, blue: 0.9079027772, alpha: 1)
     }

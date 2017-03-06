@@ -9,10 +9,8 @@ struct App {
     var ranking: Int?
 
     init(json: [String: Any]) {
-        let manifest = json["manifest"] as! [String: Any]
-
-        self.displayName = manifest["displayName"] as! String
-        self.avatarURL = URL(string: manifest["avatarUrl"] as? String ?? "")
+        self.displayName = json["username"] as! String
+        self.avatarURL = URL(string: json["avatar"] as? String ?? "")
         self.image = nil
         self.category = "Unknown"
     }

@@ -83,6 +83,58 @@ open class SofaWrapper: SofaWrapperProtocol {
 }
 
 open class SofaMessage: SofaWrapper {
+    open class Button {
+        public enum ControlType: String {
+            case button = "button"
+            case group = "group"
+        }
+
+        open var type: ControlType
+
+        private var _label: String
+
+        open var label: String {
+            get {
+                switch self.type {
+                case .button:
+                    return self._label
+                case .group:
+                    return self._label.appending(" ▴")
+                }
+            }
+        }
+
+        // values are to be sent back as SofaCommands
+        open var value: Any?
+
+        // Actions are to be handled locally.
+        open var action: Any?
+
+        open var subcontrols: [Button] = []
+
+        public init(json: [String: Any]) {
+            self.type = ControlType(rawValue: json["type"] as! String)!
+            self._label = json["label"] as! String
+
+            switch self.type {
+            case .button:
+                if let value = json["value"] {
+                    self.value = value
+                }
+                if let action = json["action"] {
+                    self.action = action
+                }
+            case .group:
+                let controls = json["controls"] as! [[String: Any]]
+                self.subcontrols = controls.map { (control) -> Button in
+                    return Button(json: control)
+                }
+
+                print(self.subcontrols)
+            }
+        }
+    }
+
     public override var type: SofaType {
         return .message
     }
@@ -99,6 +151,23 @@ open class SofaMessage: SofaWrapper {
         return ""
     }()
 
+    open lazy var buttons: [SofaMessage.Button] = {
+        guard self.content.hasPrefix(self.type.rawValue) else {
+            fatalError("Creating SofaMessage with invalid type!")
+        }
+
+        // [{"type": "button", "label": "Red Cross", "value": "red-cross"},…]
+        var buttons = [Button]()
+        if let controls = self.json["controls"] as? [[String: Any]] {
+
+            for control in controls {
+                buttons.append(Button(json: control))
+            }
+        }
+
+        return buttons
+    }()
+
     public convenience init(body: String) {
         self.init(content: ["body": body])
     }
@@ -111,6 +180,15 @@ open class SofaMessage: SofaWrapper {
 open class SofaCommand: SofaWrapper {
     public override var type: SofaType {
         return .command
+    }
+
+    public convenience init(button: SofaMessage.Button) {
+        let json: [String: Any] = [
+            "body": button.label,
+            "value": button.value!
+        ]
+
+        self.init(content: json)
     }
 }
 
@@ -193,7 +271,6 @@ open class SofaPaymentRequest: SofaWrapper {
 }
 
 open class SofaPayment: SofaWrapper {
-
     public enum Status: String {
         case uncomfirmed = "unconfirmed"
         case confirmed = "confirmed"

@@ -1,5 +1,5 @@
 framework module NoChat {
-  umbrella header "NoChat.h"
+  umbrella header "NoChat-umbrella.h"
 
   export *
   module * { export * }
