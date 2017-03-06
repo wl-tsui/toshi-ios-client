@@ -43,7 +43,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
         ]
 
         let json: [String: Any] = [
-            "owner_address": self.address,
+            "token_id": self.address,
             "custom": custom,
             "username": self.username,
             "payment_address": self.paymentAddress,
@@ -53,8 +53,8 @@ public class TokenContact: NSObject, JSONDataSerialization {
     }
 
     init(json: [String: Any]) {
-        self.address = json["owner_address"] as! String
-        self.paymentAddress = (json["payment_address"] as? String) ?? json["owner_address"] as! String
+        self.address = json["token_id"] as! String
+        self.paymentAddress = (json["payment_address"] as? String) ?? json["token_id"] as! String
         self.username = json["username"] as! String
 
         if let json = json["custom"] as? [String: Any] {
