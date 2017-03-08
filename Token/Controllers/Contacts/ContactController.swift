@@ -227,7 +227,7 @@ public class ContactController: UIViewController {
         // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest
         // possible width that satisfy all other constraints.
         self.aboutSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.aboutSeparatorView.set(height: 1.0)
+        self.aboutSeparatorView.set(height: 1.0 / UIScreen.main.scale)
         self.aboutSeparatorView.topAnchor.constraint(equalTo: self.addContactButton.bottomAnchor, constant: marginVertical).isActive = true
         self.aboutSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.aboutSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -242,7 +242,7 @@ public class ContactController: UIViewController {
         self.aboutContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.locationSeparatorView.set(height: 1.0)
+        self.locationSeparatorView.set(height: 1.0 / UIScreen.main.scale)
         self.locationSeparatorView.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.locationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.locationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
