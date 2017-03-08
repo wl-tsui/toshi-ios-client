@@ -39,7 +39,6 @@
 		9F40F3CC1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */; };
 		9F40F3D71E5A061C007A7DE7 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; };
 		9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; };
-		9F5706661E5F16BC00EB5D90 /* EthereumConverter+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */; };
 		9F584C751E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
@@ -130,7 +129,6 @@
 		9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF611E66CD6C00948277 /* requestPayment.m4a */; };
 		9FEFEF641E66CE0000948277 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
 		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
-		BB75A1C0B7C95397E4C78FFF /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0036B48033B484EBCE524F22 /* libPods-CocoaPods-Token.a */; };
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
 		D6B4030ADC3A25530DE70264 /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A15E33AB8011E1BD67093C /* libPods-CocoaPods-Token.a */; };
 /* End PBXBuildFile section */
@@ -186,7 +184,6 @@
 		9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCellLayout.swift; sourceTree = "<group>"; };
 		9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HPGrowingTextView.framework; path = Carthage/Build/iOS/HPGrowingTextView.framework; sourceTree = "<group>"; };
 		9F40F3D61E5A061C007A7DE7 /* YYText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YYText.framework; path = Carthage/Build/iOS/YYText.framework; sourceTree = "<group>"; };
-		9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EthereumConverter+Additions.swift"; sourceTree = "<group>"; };
 		9F584C741E5C33140093FA4D /* NoChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NoChat.framework; path = Carthage/Build/iOS/NoChat.framework; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessagingNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
@@ -427,7 +424,6 @@
 			children = (
 				9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */,
 				9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */,
-				9F5706651E5F16BC00EB5D90 /* EthereumConverter+Additions.swift */,
 			);
 			name = Converters;
 			sourceTree = "<group>";
@@ -988,7 +984,6 @@
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
 				9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
-				9F5706661E5F16BC00EB5D90 /* EthereumConverter+Additions.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,
 				1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */,
 				147513681E49CA6F00E44A62 /* HomeItemCell.swift in Sources */,

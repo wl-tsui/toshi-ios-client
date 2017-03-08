@@ -326,7 +326,7 @@ class MessagesViewController: MessagesCollectionViewController {
             if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
-                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(for: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
+                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 
             return message
@@ -339,11 +339,11 @@ class MessagesViewController: MessagesCollectionViewController {
             } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
-                message.attributedSubtitle = EthereumConverter.balanceAttributedString(for: paymentRequest.value)
+                message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value)
             } else if let payment = sofaWrapper as? SofaPayment {
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
-                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(for: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
+                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 
             return message
@@ -648,7 +648,7 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
         }
 
         let request: [String: Any] = [
-            "body": "Payment request: \(EthereumConverter.dollarValueString(forWei: valueInWei)).",
+            "body": "Payment request: \(EthereumConverter.balanceAttributedString(forWei: valueInWei).string).",
             "value": valueInWei.toDecimalString,
             "destinationAddress": self.cereal.paymentAddress,
         ]

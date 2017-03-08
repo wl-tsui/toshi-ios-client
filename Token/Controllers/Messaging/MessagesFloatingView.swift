@@ -46,7 +46,7 @@ class MessagesFloatingView: UIView {
     var balance: NSDecimalNumber? {
         didSet {
             if let balance = self.balance {
-                self.balanceLabel.attributedText = EthereumConverter.balanceAttributedString(for: balance)
+                self.balanceLabel.attributedText = EthereumConverter.balanceAttributedString(forWei: balance)
             } else {
                 self.balanceLabel.attributedText = nil
             }

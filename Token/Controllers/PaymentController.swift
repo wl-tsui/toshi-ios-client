@@ -47,7 +47,7 @@ class PaymentController: UIViewController {
         view.adjustsFontSizeToFitWidth = true
         view.font = Theme.medium(size: 16)
         view.textColor = Theme.greyTextColor
-        view.text = "0.0 EHT"
+        view.text = EthereumConverter.ethereumValueString(forEther: 0)
 
         return view
     }()
@@ -113,7 +113,7 @@ extension PaymentController: UITextFieldDelegate {
                 self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
                 self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
             } else {
-                self.etherAmountLabel.text = "0.0 EHT"
+                self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
             }
         }
 

@@ -33,7 +33,7 @@ public class BackgroundNotificationHandler: NSObject {
         let content = UNMutableNotificationContent()
         content.title = "Payment received!"
 
-        let value = EthereumConverter.dollarValueString(forWei: payment.value)
+        let value = EthereumConverter.fiatValueString(forWei: payment.value)
         content.body = "You've received \(value)."
 
         content.sound = UNNotificationSound(named: "PN.m4a")
