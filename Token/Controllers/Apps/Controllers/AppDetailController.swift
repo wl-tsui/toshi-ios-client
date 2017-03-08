@@ -26,7 +26,7 @@ class AppDetailController: UIViewController {
 
     lazy var addContactButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Add contact", attributes: [NSFontAttributeName: Theme.semibold(size: 13)]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Add app", attributes: [NSFontAttributeName: Theme.semibold(size: 13)]), for: .normal)
         view.setTitleColor(Theme.darkTextColor, for: .normal)
         view.addTarget(self, action: #selector(didTapAddContactButton), for: .touchUpInside)
 
