@@ -20,15 +20,15 @@ extension Theme {
     }
 
     public static var greyTextColor: UIColor {
-        return #colorLiteral(red: 0.2899953127, green: 0.2891595364, blue: 0.3430404067, alpha: 1)
+        return UIColor(hex: "4A4A57")
     }
 
     public static var lightGreyTextColor: UIColor {
-        return #colorLiteral(red: 0.952861011, green: 0.952994287, blue: 0.9528188109, alpha: 1)
+        return UIColor(hex: "F3F3F3")
     }
 
     public static var tintColor: UIColor {
-        return #colorLiteral(red: 0, green: 0.761487186, blue: 0.3963804841, alpha: 1)
+        return UIColor(hex: "00C365")
     }
 
     public static var viewBackgroundColor: UIColor {
@@ -36,7 +36,7 @@ extension Theme {
     }
 
     public static var messageViewBackgroundColor: UIColor {
-        return #colorLiteral(red: 0.952861011, green: 0.952994287, blue: 0.9528188109, alpha: 1)
+        return UIColor(hex: "F3F3F3")
     }
 
     public static var inputFieldBackgroundColor: UIColor {
@@ -48,7 +48,7 @@ extension Theme {
     }
 
     public static var borderColor: UIColor {
-        return #colorLiteral(red: 0.844350934, green: 0.8593074083, blue: 0.8632498384, alpha: 1)
+        return UIColor(hex: "D7DBDC")
     }
 
     public static var actionButtonTitleColor: UIColor {
@@ -56,11 +56,11 @@ extension Theme {
     }
 
     public static var outgoingMessageBackgroundColor: UIColor {
-        return #colorLiteral(red: 0, green: 0.7567782402, blue: 0.9079027772, alpha: 1)
+        return UIColor(hex: "00C1E7")
     }
 
     public static var incomingMessageBackgroundColor: UIColor {
-        return #colorLiteral(red: 0.9999160171, green: 1, blue: 0.9998719096, alpha: 1)
+        return .white
     }
 
     public static var outgoingMessageTextColor: UIColor {
@@ -68,7 +68,7 @@ extension Theme {
     }
 
     public static var incomingMessageTextColor: UIColor {
-        return #colorLiteral(red: 0.2899953127, green: 0.2891595364, blue: 0.3430404067, alpha: 1)
+        return UIColor(hex: "4A4A57")
     }
 }
 
