@@ -14,7 +14,7 @@ class AppsAPIClient {
     }
 
     func getApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
-        self.teapot.get("/v1/apps") { (result: NetworkResult) in
+        self.teapot.get("/v1/apps/featured") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 print(response)

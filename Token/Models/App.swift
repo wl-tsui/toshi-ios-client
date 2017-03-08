@@ -10,9 +10,13 @@ struct App {
 
     init(json: [String: Any]) {
         self.displayName = json["username"] as! String
-        self.avatarURL = URL(string: json["avatar"] as? String ?? "")
         self.image = nil
         self.category = "Unknown"
+        if let custom = json["custom"] as? [String: Any] {
+            self.avatarURL = URL(string: custom["avatar"] as? String ?? "")
+        } else {
+            self.avatarURL = nil
+        }
     }
 
     init(displayName: String, image: UIImage) {
