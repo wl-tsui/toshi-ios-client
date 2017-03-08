@@ -441,7 +441,7 @@ class MessagesViewController: MessagesCollectionViewController {
                             self.messages.append(result)
 
                             // mark incoming as read, after appending them to the tableview, since this will trigger an update
-                            if let incoming = interaction as? TSIncomingMessage {
+                            if let incoming = interaction as? TSIncomingMessage, !incoming.wasRead {
                                 incoming.markAsReadLocally()
                             }
 
