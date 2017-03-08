@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1426D2421E7054AB0045EF09 /* AppDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1426D2411E7054AB0045EF09 /* AppDetailController.swift */; };
 		143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
 		143186BB1E49C5560025E9B7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
 		143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143586FF1E5C4CB4007A268A /* SearchResultsView.swift */; };
@@ -148,6 +149,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1426D2411E7054AB0045EF09 /* AppDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDetailController.swift; sourceTree = "<group>"; };
 		142709A11E531A6100BF964B /* Distribution.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Distribution.plist; sourceTree = "<group>"; };
 		143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsAPIClient.swift; sourceTree = "<group>"; };
 		143186BA1E49C5560025E9B7 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				14ED3ABC1E4A2B3400DF8079 /* AppsController.swift */,
 				14ED3ABE1E4A347400DF8079 /* AppsNavigationController.swift */,
 				143586FF1E5C4CB4007A268A /* SearchResultsView.swift */,
+				1426D2411E7054AB0045EF09 /* AppDetailController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -941,6 +944,7 @@
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				143186BB1E49C5560025E9B7 /* App.swift in Sources */,
+				1426D2421E7054AB0045EF09 /* AppDetailController.swift in Sources */,
 				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
 				9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */,
 				147513661E49CA5B00E44A62 /* HomeController.swift in Sources */,

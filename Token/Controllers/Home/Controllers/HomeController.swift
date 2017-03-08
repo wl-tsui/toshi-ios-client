@@ -81,6 +81,8 @@ extension HomeController: UICollectionViewDataSource {
 extension HomeController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("selected index: \(indexPath)")
+        let app = self.apps[indexPath.row]
+        let appController = AppDetailController(app: app)
+        self.navigationController?.pushViewController(appController, animated: true)
     }
 }
