@@ -3,6 +3,7 @@ import SweetUIKit
 
 class HomeController: SweetCollectionController {
     var appsAPIClient: AppsAPIClient
+    var ethererumAPIClient: EthereumAPIClient
 
     var apps = [App]() {
         didSet {
@@ -10,8 +11,9 @@ class HomeController: SweetCollectionController {
         }
     }
 
-    init(appsAPIClient: AppsAPIClient = .shared) {
+    init(appsAPIClient: AppsAPIClient = .shared, ethererumAPIClient: EthereumAPIClient = .shared) {
         self.appsAPIClient = appsAPIClient
+        self.ethererumAPIClient = ethererumAPIClient
 
         let layout = HomeLayout()
 
@@ -60,9 +62,19 @@ extension HomeController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeue(HomeHeaderView.self, ofKind: HomeLayout.headerKind, for: indexPath)
+        let view = collectionView.dequeue(HomeHeaderView.self, ofKind: HomeLayout.headerKind, for: indexPath)!
 
-        return view!
+        self.ethererumAPIClient.getBalance(address: Cereal().paymentAddress) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                view.balance = balance
+            }
+
+        }
+
+        return view
     }
 }
 

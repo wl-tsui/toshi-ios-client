@@ -11,15 +11,7 @@ class HomeHeaderView: UICollectionReusableView {
         return label
     }()
 
-    lazy var dollarsBalanceLabel: UILabel = {
-        let label = UILabel(withAutoLayout: true)
-        label.font = Theme.regular(size: 20)
-        label.textColor = UIColor(hex: "161521")
-
-        return label
-    }()
-
-    lazy var ethereumTitleLabel: UILabel = {
+    lazy var balanceLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 16)
         label.textColor = UIColor(hex: "A4A4AB")
@@ -64,8 +56,7 @@ class HomeHeaderView: UICollectionReusableView {
         self.addSubview(smallSeparatorView)
         self.addSubview(self.actionsStackView)
         self.addSubview(self.balanceTitleLabel)
-        self.addSubview(self.dollarsBalanceLabel)
-        self.addSubview(self.ethereumTitleLabel)
+        self.addSubview(self.balanceLabel)
 
         sectionSeparatorView.heightAnchor.constraint(equalToConstant: 10).isActive = true
         sectionSeparatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
@@ -82,19 +73,25 @@ class HomeHeaderView: UICollectionReusableView {
         smallSeparatorView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
         smallSeparatorView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
 
-        self.dollarsBalanceLabel.bottomAnchor.constraint(equalTo: smallSeparatorView.topAnchor, constant: -24).isActive = true
-        self.dollarsBalanceLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
-        self.dollarsBalanceLabel.rightAnchor.constraint(equalTo: self.ethereumTitleLabel.rightAnchor).isActive = true
+        self.balanceLabel.bottomAnchor.constraint(equalTo: smallSeparatorView.topAnchor, constant: -24).isActive = true
+        self.balanceLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15).isActive = true
 
-        self.ethereumTitleLabel.bottomAnchor.constraint(equalTo: smallSeparatorView.topAnchor, constant: -24).isActive = true
-        self.ethereumTitleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15).isActive = true
-
-        self.balanceTitleLabel.bottomAnchor.constraint(equalTo: self.dollarsBalanceLabel.topAnchor, constant: -10).isActive = true
+        self.balanceTitleLabel.bottomAnchor.constraint(equalTo: smallSeparatorView.topAnchor, constant: -25).isActive = true
         self.balanceTitleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
         self.balanceTitleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15).isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    var balance: NSDecimalNumber? {
+        didSet {
+            if let balance = self.balance {
+                self.balanceLabel.attributedText = EthereumConverter.balanceAttributedString(for: balance)
+            } else {
+                self.balanceLabel.attributedText = nil
+            }
+        }
     }
 }
