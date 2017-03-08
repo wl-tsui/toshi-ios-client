@@ -119,6 +119,8 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    [SignalNotificationManager updateApplicationBadgeNumber];
+
     UIBackgroundTaskIdentifier __block bgTask = UIBackgroundTaskInvalid;
     bgTask = [application beginBackgroundTaskWithExpirationHandler:^{ }];
 

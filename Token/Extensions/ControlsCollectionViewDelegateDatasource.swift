@@ -1,7 +1,7 @@
 import UIKit
 import UICollectionViewLeftAlignedLayout
 
-protocol ControlViewActionDelegate {
+protocol ControlViewActionDelegate: class {
     func controlsCollectionViewDidSelectControl(at index: Int)
 }
 
@@ -14,7 +14,7 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
 
     var controlsCollectionView: ControlsCollectionView?
 
-    var actionDelegate: ControlViewActionDelegate?
+    weak var actionDelegate: ControlViewActionDelegate?
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items.count

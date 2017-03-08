@@ -1,15 +1,11 @@
 import UIKit
 
-protocol PaymentSendControllerDelegate {
+protocol PaymentSendControllerDelegate: class {
     func paymentSendControllerDidFinish(valueInWei: NSDecimalNumber?)
 }
 
 class PaymentSendController: PaymentController {
-    var delegate: PaymentSendControllerDelegate?
-
-    deinit {
-        delegate = nil
-    }
+    weak var delegate: PaymentSendControllerDelegate?
 
     lazy var continueBarButton: UIBarButtonItem = {
         let item = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(send))

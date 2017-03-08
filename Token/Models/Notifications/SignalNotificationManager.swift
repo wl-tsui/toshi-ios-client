@@ -13,10 +13,11 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
     }
 
     public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in thread: TSThread!) {
-        defer { SignalNotificationManager.updateApplicationBadgeNumber() }
         guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController.selectedViewController != SignalNotificationManager.tabbarController.messagingController else {
             return
         }
+
+        defer { SignalNotificationManager.updateApplicationBadgeNumber() }
 
         let content = UNMutableNotificationContent()
         content.title = name

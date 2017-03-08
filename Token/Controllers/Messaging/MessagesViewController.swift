@@ -440,6 +440,11 @@ class MessagesViewController: MessagesCollectionViewController {
                         DispatchQueue.main.async {
                             self.messages.append(result)
 
+                            // mark incoming as read, after appending them to the tableview, since this will trigger an update
+                            if let incoming = interaction as? TSIncomingMessage {
+                                incoming.markAsReadLocally()
+                            }
+
                             if result.isOutgoing {
                                 if result.sofaWrapper.type == .paymentRequest {
                                     SoundPlayer.shared.playSound(type: .requestPayment)
