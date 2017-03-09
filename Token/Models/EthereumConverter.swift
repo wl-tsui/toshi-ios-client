@@ -5,8 +5,6 @@ struct EthereumConverter {
     
     static let forcedLocale = "en_US"
 
-    public static var latestExchangeRate = Decimal(10.0)
-
     public static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
 
     public static var weisToEtherPowerOf10Constant: Int16 {
@@ -14,6 +12,12 @@ struct EthereumConverter {
             return Int16(self.weisToEtherConstant.stringValue.length - 1)
         }
     }
+    
+    public static func localFiatToEther(forFiat balance: NSNumber) -> NSDecimalNumber {
+        let etherValue = balance.decimalValue / EthereumAPIClient.shared.exchangeRate
+        return NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
+    }
+
 
     public static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
         let numberFormatter = NumberFormatter()
@@ -22,19 +26,15 @@ struct EthereumConverter {
         numberFormatter.maximumFractionDigits = 4
         return "\(numberFormatter.string(from: balance)!) ETH"
     }
-
+    
     public static func fiatValueString(forWei balance: NSDecimalNumber) -> String {
-        
         let ether = balance.dividing(by: self.weisToEtherConstant)
-        // Conversion from https://www.coinbase.com/charts
-        let currentFiatConversion = NSDecimalNumber(decimal: self.latestExchangeRate)
-
+        let currentFiatConversion = NSDecimalNumber(decimal: EthereumAPIClient.shared.exchangeRate)
+        let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = Locale(identifier: self.forcedLocale)
-
-        let fiat: NSDecimalNumber = currentFiatConversion.multiplying(by: ether)
-
         return numberFormatter.string(from: fiat)!
     }
     

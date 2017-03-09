@@ -18,14 +18,12 @@ public class EthereumAPIClient: NSObject {
     public var exchangeRate: Decimal {
         get {
             self.updateRate()
-
+            
             if let rate = self.yap.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
-                EthereumConverter.latestExchangeRate = rate
+                return rate
             } else {
-                EthereumConverter.latestExchangeRate = 10.0
+                return 15.0
             }
-
-            return EthereumConverter.latestExchangeRate
         }
     }
 
