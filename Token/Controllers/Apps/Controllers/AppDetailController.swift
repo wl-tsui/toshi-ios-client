@@ -26,7 +26,6 @@ class AppDetailController: UIViewController {
 
     lazy var addContactButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Add app", attributes: [NSFontAttributeName: Theme.semibold(size: 13)]), for: .normal)
         view.setTitleColor(Theme.darkTextColor, for: .normal)
         view.addTarget(self, action: #selector(didTapAddContactButton), for: .touchUpInside)
 
@@ -234,7 +233,7 @@ class AppDetailController: UIViewController {
     func updateButton() {
         let isContactAdded = false // add real logic
         let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
-        let title = isContactAdded ? "✓ Added" : "Add bot"
+        let title = isContactAdded ? "✓ Added" : "Add app"
 
         self.addContactButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)
         self.addContactButton.removeTarget(nil, action: nil, for: .allEvents)
