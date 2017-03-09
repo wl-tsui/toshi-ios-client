@@ -342,7 +342,7 @@ class MessagesViewController: MessagesCollectionViewController {
                 message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value)
             } else if let payment = sofaWrapper as? SofaPayment {
                 message.messageType = "Actionable"
-                message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
+                message.attributedTitle = NSAttributedString(string: "Payment received", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
                 message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 

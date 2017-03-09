@@ -223,7 +223,7 @@ open class SofaMetadataResponse: SofaWrapper {
         var response = [String: Any]()
         for value in metadataRequest.values {
             if value == "paymentAddress" {
-                response[value] = ""
+                response[value] = User.current?.paymentAddress ?? ""
             } else if value == "language" {
                 let locale = Locale.current
                 response[value] = locale.identifier
@@ -272,13 +272,14 @@ open class SofaPaymentRequest: SofaWrapper {
 
 open class SofaPayment: SofaWrapper {
     public enum Status: String {
-        case uncomfirmed = "unconfirmed"
+        case unconfirmed = "unconfirmed"
         case confirmed = "confirmed"
+        case error = "error"
     }
 
     public var status: Status {
-        guard let status = self.json["status"] as? String else { return .uncomfirmed }
-        return Status(rawValue: status)!
+        guard let status = self.json["status"] as? String else { return .unconfirmed }
+        return Status(rawValue: status) ?? .unconfirmed
     }
 
     public var recipientAddress: String? {
@@ -309,7 +310,7 @@ open class SofaPayment: SofaWrapper {
 
     public convenience init(txHash: String, valueHex: String) {
         let payment: [String: String] = [
-            "status": Status.uncomfirmed.rawValue,
+            "status": Status.unconfirmed.rawValue,
             "txHash": txHash,
             "value": valueHex,
         ]
