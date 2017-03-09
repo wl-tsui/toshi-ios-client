@@ -83,7 +83,7 @@ open class SofaWrapper: SofaWrapperProtocol {
 }
 
 open class SofaMessage: SofaWrapper {
-    open class Button {
+    open class Button: Equatable {
         public enum ControlType: String {
             case button = "button"
             case group = "group"
@@ -129,9 +129,16 @@ open class SofaMessage: SofaWrapper {
                 self.subcontrols = controls.map { (control) -> Button in
                     return Button(json: control)
                 }
-
-                print(self.subcontrols)
             }
+        }
+
+        public static func ==(lhs: SofaMessage.Button, rhs: SofaMessage.Button) -> Bool {
+            let lhv = lhs.value as AnyObject
+            let rhv = rhs.value as AnyObject
+            let lha = lhs.action as AnyObject
+            let rha = rhs.action as AnyObject
+
+            return lhs._label == rhs._label && lhs.type == rhs.type && lhv === rhv && lha === rha
         }
     }
 

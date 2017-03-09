@@ -137,7 +137,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-
+    [SignalNotificationManager updateApplicationBadgeNumber];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

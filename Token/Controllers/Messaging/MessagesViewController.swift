@@ -503,12 +503,12 @@ class MessagesViewController: MessagesCollectionViewController {
 
     // MARK: - Control handling
 
-    override func controlsCollectionViewDidSelectControl(at index: Int) {
-        // only send back the `value` buttons.
-        // action buttons should be handled locally. skipping for now
-        let button = self.buttons[index]
-        guard button.value != nil else { return }
+    override func didTapControlButton(_ button: SofaMessage.Button) {
+        guard button.value != nil else {
+            print("Implement handling actions. action: \(button.action)")
 
+            return
+        }
         let command = SofaCommand(button: button)
 
         self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false

@@ -2,7 +2,59 @@ import UIKit
 import UICollectionViewLeftAlignedLayout
 
 protocol ControlViewActionDelegate: class {
-    func controlsCollectionViewDidSelectControl(at index: Int)
+    func controlsCollectionViewDidSelectControl(_ button: SofaMessage.Button)
+}
+
+class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateLeftAlignedLayout, ControlCellDelegate {
+    var items: [SofaMessage.Button] = [] {
+        didSet {
+            self.subcontrolsCollectionView?.isUserInteractionEnabled = true
+        }
+    }
+
+    var subcontrolsCollectionView: UICollectionView?
+
+    var actionDelegate: ControlViewActionDelegate?
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.items.count
+    }
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return self.items.count == 0 ? 0 : 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: SubcontrolCell = collectionView.dequeue(SubcontrolCell.self, for: indexPath)
+        cell.buttonItem = self.items[indexPath.row]
+        cell.delegate = self
+
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 44)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+
+    func didTapButton(for cell: ControlCell) {
+        guard let indexPath = self.subcontrolsCollectionView?.indexPath(for: cell) else { return }
+//        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
+
+        self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.row])
+    }
+
+    func reversedControlIndexPath(_ indexPath: IndexPath) -> IndexPath {
+        let row = (self.items.count - 1) - indexPath.item
+        return IndexPath(row: row, section: indexPath.section)
+    }
 }
 
 class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateLeftAlignedLayout, ControlCellDelegate {
@@ -43,9 +95,9 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
 
     func didTapButton(for cell: ControlCell) {
         guard let indexPath = self.controlsCollectionView?.indexPath(for: cell) else { return }
-        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
+//        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
 
-        self.actionDelegate?.controlsCollectionViewDidSelectControl(at: normalizedIndexPath.row)
+        self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.row])
     }
 
     func reversedControlIndexPath(_ indexPath: IndexPath) -> IndexPath {
