@@ -9,14 +9,21 @@ class SecurityCell: BaseCell {
         return view
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
         view.font = Theme.semibold(size: 15)
         view.numberOfLines = 0
+        view.text = ""
         
         return view
     }()
+    
+    var title: String? {
+        didSet {
+            self.titleLabel.text = title
+        }
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError()

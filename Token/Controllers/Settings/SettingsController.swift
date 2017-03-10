@@ -11,6 +11,9 @@ open class SettingsController: SweetTableController {
     let sectionTitles = ["Your profile", "Security", "Settings"]
     let sectionErrors = [nil, "Your account is at risk", nil]
 
+    let securityTitles = ["Store backup phrase", "Choose trusted friends"]
+    let settingsTitles = ["Local currency", "About", "Sign in on another device", "Sign out"]
+    
     public required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
@@ -69,6 +72,12 @@ extension SettingsController: UITableViewDelegate {
         if let cell = cell as? BaseCell {
             cell.selectionStyle = .none
             cell.setIndex(indexPath.row, from: tableView.numberOfRows(inSection: indexPath.section))
+        }
+        
+        if let cell = cell as? SecurityCell {
+            cell.title = securityTitles[indexPath.row]
+        } else if let cell = cell as? SettingsCell {
+            cell.title = settingsTitles[indexPath.row]
         }
     }
     
