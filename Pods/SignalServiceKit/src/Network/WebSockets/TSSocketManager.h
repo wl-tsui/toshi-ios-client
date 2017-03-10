@@ -29,4 +29,6 @@ extern NSString *const SocketConnectingNotification;
 + (void)resignActivity;
 + (void)sendNotification;
 
++ (void)setBaseURL:(NSString *)baseURL;
+
 @end

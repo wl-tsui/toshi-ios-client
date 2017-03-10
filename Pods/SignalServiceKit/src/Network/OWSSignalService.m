@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com/v1/websocket/";
+
 @interface OWSSignalService ()
 
 @property (nonatomic, readonly, strong) OWSCensorshipConfiguration *censorshipConfiguration;
@@ -29,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
     _censorshipConfiguration = [OWSCensorshipConfiguration new];
 
     return self;
+}
+
++ (void)setBaseURL:(NSString *)baseURL {
+    TextSecureServerURL = baseURL;
 }
 
 - (BOOL)isCensored
@@ -56,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (AFHTTPSessionManager *)defaultHTTPSessionManager
 {
-    NSURL *baseURL = [[NSURL alloc] initWithString:textSecureServerURL];
+    NSURL *baseURL = [[NSURL alloc] initWithString:TextSecureServerURL];
     NSURLSessionConfiguration *sessionConf = NSURLSessionConfiguration.ephemeralSessionConfiguration;
     AFHTTPSessionManager *sessionManager =
         [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];
@@ -78,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSURLSessionConfiguration *sessionConf = NSURLSessionConfiguration.ephemeralSessionConfiguration;
     AFHTTPSessionManager *sessionManager =
         [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];
-    
+
     sessionManager.securityPolicy = [[self class] googlePinningPolicy];
 
     sessionManager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -108,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
                     reason:[NSString stringWithFormat:@"Missing signing certificate for service googlePinningPolicy"]
                     userInfo:nil];
         }
-        
+
         NSData *googleCertData = [NSData dataWithContentsOfFile:path options:0 error:&error];
         if (!googleCertData) {
             if (error) {
@@ -118,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
                 @throw [NSException exceptionWithName:@"OWSSignalServiceHTTPSecurityPolicy" reason:reason userInfo:nil];
             }
         }
-        
+
         NSSet<NSData *> *certificates = [NSSet setWithObject:googleCertData];
         securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate withPinnedCertificates:certificates];
     });

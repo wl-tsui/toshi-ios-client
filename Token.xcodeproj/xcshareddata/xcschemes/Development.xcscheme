@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
                BuildableName = "Token.app"
-               BlueprintName = "Token"
+               BlueprintName = "Development"
                ReferencedContainer = "container:Token.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
             BuildableName = "Token.app"
-            BlueprintName = "Token"
+            BlueprintName = "Development"
             ReferencedContainer = "container:Token.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
             BuildableName = "Token.app"
-            BlueprintName = "Token"
+            BlueprintName = "Development"
             ReferencedContainer = "container:Token.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -76,7 +76,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
             BuildableName = "Token.app"
-            BlueprintName = "Token"
+            BlueprintName = "Development"
             ReferencedContainer = "container:Token.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

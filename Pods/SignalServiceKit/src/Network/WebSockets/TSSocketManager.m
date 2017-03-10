@@ -25,6 +25,7 @@
 NSString *const SocketOpenedNotification     = @"SocketOpenedNotification";
 NSString *const SocketClosedNotification     = @"SocketClosedNotification";
 NSString *const SocketConnectingNotification = @"SocketConnectingNotification";
+static NSString *TextSecureWebSocketAPI = @"wss://token-chat-service.herokuapp.com/v1/websocket/";
 
 @interface TSSocketManager ()
 
@@ -78,6 +79,10 @@ NSString *const SocketConnectingNotification = @"SocketConnectingNotification";
     return sharedMyManager;
 }
 
++ (void)setBaseURL:(NSString *)baseURL {
+    TextSecureWebSocketAPI = baseURL;
+}
+
 #pragma mark - Manage Socket
 
 + (void)becomeActive
@@ -115,7 +120,7 @@ NSString *const SocketConnectingNotification = @"SocketConnectingNotification";
     socket.delegate = nil;
 
     // Create a new web socket.
-    NSString *webSocketConnect = [textSecureWebSocketAPI stringByAppendingString:[self webSocketAuthenticationString]];
+    NSString *webSocketConnect = [TextSecureWebSocketAPI stringByAppendingString:[self webSocketAuthenticationString]];
     NSURL *webSocketConnectURL   = [NSURL URLWithString:webSocketConnect];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:webSocketConnectURL];
 
