@@ -265,6 +265,7 @@
 		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
 		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
+		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 		E1A95D5A1E6F031F002762DA /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D591E6F031F002762DA /* ProfileCell.swift */; };
@@ -432,6 +433,7 @@
 		9FEFEF651E66CF6E00948277 /* addContactApp.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = addContactApp.m4a; sourceTree = "<group>"; };
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
 		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeader.swift; sourceTree = "<group>"; };
 		A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		BC21FC800942A0C8C2144319 /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -898,11 +900,12 @@
 		E1A95D581E6F031F002762DA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E1A95D5D1E6F1114002762DA /* BaseCell.swift */,
 				E1A95D591E6F031F002762DA /* ProfileCell.swift */,
+				E1F1D4381E70416800CC314D /* RatingView.swift */,
 				E1A95D5B1E6F10FC002762DA /* SecurityCell.swift */,
 				A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */,
-				E1A95D5D1E6F1114002762DA /* BaseCell.swift */,
-				E1F1D4381E70416800CC314D /* RatingView.swift */,
+				A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1391,6 +1394,7 @@
 				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
 				9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */,
 				147513661E49CA5B00E44A62 /* HomeController.swift in Sources */,
+				A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */,
 				E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */,
 				9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */,
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,

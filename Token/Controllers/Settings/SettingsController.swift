@@ -9,6 +9,7 @@ open class SettingsController: SweetTableController {
     let numberOfRows = [1, 2, 4]
     let cellTypes: [BaseCell.Type] = [ProfileCell.self, SecurityCell.self, SettingsCell.self]
     let sectionTitles = ["Your profile", "Security", "Settings"]
+    let sectionErrors = [nil, "Your account is at risk", nil]
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("")
@@ -53,28 +54,11 @@ extension SettingsController: UITableViewDataSource {
     }
 
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        
-        let label = UILabel(withAutoLayout: true)
-        label.textColor = Theme.greyTextColor
-        label.font = Theme.regular(size: 14)
-        label.text = self.sectionTitles[section]
-        view.addSubview(label)
-        
-        let margin: CGFloat = 16
-        
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: margin),
-            label.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 5),
-            label.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -margin)
-            ])
-        
-        return view
+        return SettingsSectionHeader(title: sectionTitles[section], error: sectionErrors[section])
     }
     
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 35
+        return 25
     }
 }
 

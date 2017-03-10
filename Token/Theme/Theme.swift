@@ -82,6 +82,10 @@ extension Theme {
     public static var incomingMessageTextColor: UIColor {
         return UIColor(hex: "4A4A57")
     }
+    
+    public static var errorColor: UIColor {
+        return UIColor(hex: "FF0000")
+    }
 }
 
 extension Theme {
