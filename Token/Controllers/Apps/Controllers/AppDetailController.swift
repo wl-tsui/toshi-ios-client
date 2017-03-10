@@ -231,7 +231,7 @@ class AppDetailController: UIViewController {
     }
 
     func updateButton() {
-        let isContactAdded = false // add real logic
+        let isContactAdded = self.yap.containsObject(for: self.app.address, in: TokenContact.collectionKey)
         let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add app"
 
@@ -241,8 +241,49 @@ class AppDetailController: UIViewController {
     }
 
     func didTapMessageContactButton() {
+        let isContactRegistered = self.yap.containsObject(for: self.app.address, in: TokenContact.collectionKey)
+
+        TSStorageManager.shared().dbConnection.readWrite { transaction in
+            var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
+
+            if recipient == nil {
+                recipient = SignalRecipient(textSecureIdentifier: self.app.address, relay: nil, supportsVoice: false)
+            }
+
+            recipient?.save(with: transaction)
+
+            TSContactThread.getOrCreateThread(withContactId: self.app.address, transaction: transaction)
+        }
+
+        if !isContactRegistered {
+            let contact = TokenContact(json: self.app.json)
+            self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+            self.updateButton()
+        }
+
+        DispatchQueue.main.async {
+            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.app.address)
+        }
     }
 
     func didTapAddContactButton() {
+        if !self.yap.containsObject(for: self.app.address, in: TokenContact.collectionKey) {
+            TSStorageManager.shared().dbConnection.readWrite { transaction in
+                var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
+
+                if recipient == nil {
+                    recipient = SignalRecipient(textSecureIdentifier: self.app.address, relay: nil, supportsVoice: false)
+                }
+
+                recipient?.save(with: transaction)
+            }
+
+            let contact = TokenContact(json: self.app.json)
+            self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+
+            SoundPlayer.shared.playSound(type: .addedContact)
+            
+            self.updateButton()
+        }
     }
 }
