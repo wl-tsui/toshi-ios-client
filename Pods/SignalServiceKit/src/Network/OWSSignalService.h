@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setBaseURL:(NSString *)baseURL;
 
++ (NSString *)baseURL;
+
 @end
 
 NS_ASSUME_NONNULL_END

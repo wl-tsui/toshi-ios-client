@@ -89,5 +89,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>TokenChatServiceBaseURL</key>
+	<string>https://token-chat-service.herokuapp.com</string>
 </dict>
 </plist>

@@ -16,12 +16,6 @@
 #import <SignalServiceKit/OWSIncomingMessageReadObserver.h>
 #import <SignalServiceKit/TSSocketManager.h>
 
-NSString * const DevelopmentTextSecureWebSocketAPI = @"wss://token-chat-service-development.herokuapp.com/v1/websocket/";
-NSString * const DevelopmentTextSecureServerURL = @"https://token-chat-service-development.herokuapp.com";
-
-NSString * const DistributionTextSecureWebSocketAPI = @"wss://token-chat-service.herokuapp.com/v1/websocket/";
-NSString * const DistributionTextSecureServerURL = @"https://token-chat-service.herokuapp.com";
-
 @interface AppDelegate ()
 @property (nonnull, nonatomic) Cereal *cereal;
 @property (nonnull, nonatomic) ChatAPIClient *chatAPIClient;
@@ -41,8 +35,8 @@ NSString * const DistributionTextSecureServerURL = @"https://token-chat-service.
 @synthesize voipToken = _voipToken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [TSSocketManager setBaseURL:DistributionTextSecureWebSocketAPI];
-    [OWSSignalService setBaseURL:DistributionTextSecureServerURL];
+    NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
+    [OWSSignalService setBaseURL:tokenChatServiceBaseURL];
 
     self.cereal = [[Cereal alloc] init];
     [[TSStorageManager sharedManager] storePhoneNumber:self.cereal.address];

@@ -13,6 +13,7 @@
 		143186BB1E49C5560025E9B7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
 		143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143586FF1E5C4CB4007A268A /* SearchResultsView.swift */; };
 		143587031E5C4CBE007A268A /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143587021E5C4CBE007A268A /* SearchResultCell.swift */; };
+		1437EC141E72F2CD00CE7A1F /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666031E30D24C00E52027 /* MessagesFloatingView.swift */; };
 		145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
 		146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146D564B1E4A77F200FE7944 /* AppCell.swift */; };
@@ -1306,6 +1307,7 @@
 				149F9A7A1E72E29A00FB74AA /* ContactsController.swift in Sources */,
 				149F9A7B1E72E29A00FB74AA /* ChatsController.swift in Sources */,
 				149F9A7C1E72E29A00FB74AA /* HomeController.swift in Sources */,
+				1437EC141E72F2CD00CE7A1F /* SettingsSectionHeader.swift in Sources */,
 				149F9A7D1E72E29A00FB74AA /* SettingsController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
 				149F9A7F1E72E29A00FB74AA /* ProfileController.swift in Sources */,

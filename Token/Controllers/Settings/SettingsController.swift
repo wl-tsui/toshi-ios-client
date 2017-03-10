@@ -56,7 +56,7 @@ extension SettingsController: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return SettingsSectionHeader(title: sectionTitles[section], error: sectionErrors[section])
     }
-    
+
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 25
     }

@@ -37,6 +37,10 @@ static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com"
     TextSecureServerURL = baseURL;
 }
 
++ (NSString *)baseURL {
+    return TextSecureServerURL;
+}
+
 - (BOOL)isCensored
 {
     NSString *localNumber = [TSAccountManager localNumber];

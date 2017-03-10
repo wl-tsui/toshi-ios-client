@@ -82,6 +82,8 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>TokenChatServiceBaseURL</key>
+	<string>https://token-chat-service-development.herokuapp.com</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
