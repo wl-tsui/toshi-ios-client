@@ -539,6 +539,15 @@ extension MessagesViewController: ActionableCellDelegate {
         let visibleMessageIndexPath = self.reversedIndexPath(indexPath)
 
         let message = self.visibleMessage(at: visibleMessageIndexPath)
+        message.isActionable = false
+        
+        let layout = self.layouts[indexPath.item] as? MessageCellLayout
+        layout?.chatItem = message
+        layout?.calculate()
+        
+        let interaction = message.signalMessage
+        interaction.paymentState = .pendingConfirmation
+        interaction.save()
 
         guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { fatalError("Could not retrieve payment request for approval.") }
 
