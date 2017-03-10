@@ -649,7 +649,7 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
 
         let request: [String: Any] = [
             "body": "Payment request: \(EthereumConverter.balanceAttributedString(forWei: valueInWei).string).",
-            "value": valueInWei.toDecimalString,
+            "value": valueInWei.toHexString,
             "destinationAddress": self.cereal.paymentAddress,
         ]
 
