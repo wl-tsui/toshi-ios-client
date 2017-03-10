@@ -2,6 +2,13 @@ import SweetUIKit
 
 class SecurityCell: BaseCell {
     
+    lazy var checkbox: Checkbox = {
+        let view = Checkbox(withAutoLayout: true)
+        view.checked = false
+        
+        return view
+    }()
+    
     lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
@@ -20,7 +27,13 @@ class SecurityCell: BaseCell {
         
         let margin = CGVector(dx: 46, dy: 16)
         
+        self.contentView.addSubview(self.checkbox)
         self.contentView.addSubview(self.titleLabel)
+        
+        NSLayoutConstraint.activate([
+            self.checkbox.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: (margin.dx / 2) - (Checkbox.size / 2)),
+            self.checkbox.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor)
+            ])
         
         self.titleLabel.text = "Store backup phrase"
         NSLayoutConstraint.activate([

@@ -76,7 +76,6 @@ extension SettingsController: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 35
     }
-
 }
 
 extension SettingsController: UITableViewDelegate {
@@ -98,6 +97,9 @@ extension SettingsController: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected:\(indexPath)")
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
+            cell.checkbox.checked = !cell.checkbox.checked
+        }
     }
 }
