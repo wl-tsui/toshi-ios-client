@@ -12,7 +12,7 @@ open class RatingView: UIView {
         self.init(frame: .zero)
         
         self.numberOfStars = numberOfStars
-        
+
         let backgroundStars = UIView(withAutoLayout: true)
         backgroundStars.layer.mask = self.starsMask
         backgroundStars.backgroundColor = Theme.ratingBackground

@@ -10,11 +10,11 @@ class SecurityCell: BaseCell {
         
         return view
     }()
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

@@ -50,38 +50,38 @@ class AppDetailController: UIViewController {
         return view
     }()
 
-    lazy var aboutSeparatorView: UIView = {
+    lazy var reputationSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
         view.backgroundColor = Theme.borderColor
 
         return view
     }()
 
-    lazy var aboutTitleLabel: UILabel = {
+    lazy var reputationTitleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.text = "About"
+        view.text = "Reputation"
         view.textColor = .lightGray
         view.font = .systemFont(ofSize: 15)
 
         return view
     }()
 
-    lazy var aboutContentLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
+    lazy var reputationView: UIView = {
+        let view = ReputationView(withAutoLayout: true)
 
         return view
     }()
 
-    lazy var locationSeparatorView: UIView = {
+    lazy var categorySeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
         view.backgroundColor = Theme.borderColor
 
         return view
     }()
 
-    lazy var locationTitleLabel: UILabel = {
+    lazy var categoryTitleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.text = "Location"
+        view.text = "Category"
         view.textColor = Theme.darkTextColor
         view.textColor = .lightGray
         view.font = .systemFont(ofSize: 15)
@@ -89,7 +89,7 @@ class AppDetailController: UIViewController {
         return view
     }()
 
-    lazy var locationContentLabel: UILabel = {
+    lazy var categoryContentLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
 
         return view
@@ -131,7 +131,7 @@ class AppDetailController: UIViewController {
         super.viewWillAppear(animated)
 
         self.nameLabel.text = self.app.displayName
-        self.aboutContentLabel.text = self.app.category
+        self.categoryContentLabel.text = self.app.category
 
         if let image = self.app.image {
             self.avatar.image = image
@@ -154,13 +154,13 @@ class AppDetailController: UIViewController {
         self.view.addSubview(self.addContactButton)
         self.view.addSubview(self.messageContactButton)
 
-        self.view.addSubview(self.aboutSeparatorView)
-        self.view.addSubview(self.aboutTitleLabel)
-        self.view.addSubview(self.aboutContentLabel)
+        self.view.addSubview(self.reputationSeparatorView)
+        self.view.addSubview(self.reputationTitleLabel)
+        self.view.addSubview(self.reputationView)
 
-        self.view.addSubview(self.locationSeparatorView)
-        self.view.addSubview(self.locationTitleLabel)
-        self.view.addSubview(self.locationContentLabel)
+        self.view.addSubview(self.categorySeparatorView)
+        self.view.addSubview(self.categoryTitleLabel)
+        self.view.addSubview(self.categoryContentLabel)
 
         let height: CGFloat = 38.0
         let marginHorizontal: CGFloat = 20.0
@@ -191,38 +191,38 @@ class AppDetailController: UIViewController {
         // We set the view and separator width cosntraints to be the same, to force the scrollview content size to conform to the window
         // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest
         // possible width that satisfy all other constraints.
-        self.aboutSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.aboutSeparatorView.set(height: 1.0)
-        self.aboutSeparatorView.topAnchor.constraint(equalTo: self.addContactButton.bottomAnchor, constant: marginVertical).isActive = true
-        self.aboutSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.aboutSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.reputationSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.reputationSeparatorView.set(height: 1.0)
+        self.reputationSeparatorView.topAnchor.constraint(equalTo: self.addContactButton.bottomAnchor, constant: marginVertical).isActive = true
+        self.reputationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.reputationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
-        self.aboutTitleLabel.set(height: 32)
-        self.aboutTitleLabel.topAnchor.constraint(equalTo: self.aboutSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
-        self.aboutTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.aboutTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        self.reputationTitleLabel.set(height: 32)
+        self.reputationTitleLabel.topAnchor.constraint(equalTo: self.reputationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+        self.reputationTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.reputationTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.aboutContentLabel.topAnchor.constraint(equalTo: self.aboutTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.aboutContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-
-        self.locationSeparatorView.set(height: 1.0)
-        self.locationSeparatorView.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.locationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.locationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-
-        self.locationTitleLabel.set(height: 32)
-        self.locationTitleLabel.topAnchor.constraint(equalTo: self.locationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
-        self.locationTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.locationTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-
-        self.locationContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.locationContentLabel.topAnchor.constraint(equalTo: self.locationTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-
-        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
+        self.reputationView.heightAnchor.constraint(greaterThanOrEqualToConstant: ReputationView.height).isActive = true
+        self.reputationView.topAnchor.constraint(equalTo: self.reputationTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.reputationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.reputationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+//
+//        self.categorySeparatorView.set(height: 1.0)
+//        self.categorySeparatorView.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: marginVertical).isActive = true
+//        self.categorySeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+//        self.categorySeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+//
+//        self.categoryTitleLabel.set(height: 32)
+//        self.categoryTitleLabel.topAnchor.constraint(equalTo: self.categorySeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+//        self.categoryTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+//        self.categoryTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+//
+//        self.categoryContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+//        self.categoryContentLabel.topAnchor.constraint(equalTo: self.categoryTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
+//        self.categoryContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+//        self.categoryContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+//
+//        self.categoryContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
     }
 
     func displayQRCode() {

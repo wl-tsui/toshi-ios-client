@@ -7,7 +7,7 @@ class ProfileCell: BaseCell {
         view.textColor = Theme.darkTextColor
         view.font = Theme.semibold(size: 15)
         view.numberOfLines = 0
-        
+
         return view
     }()
     
@@ -36,7 +36,7 @@ class ProfileCell: BaseCell {
         view.font = Theme.regular(size: 14)
         view.textAlignment = .right
         view.numberOfLines = 0
-        
+
         return view
     }()
     
@@ -59,7 +59,7 @@ class ProfileCell: BaseCell {
         let imageSize: CGFloat = 44
         
         self.contentView.addSubview(self.avatarImageView)
-        
+
         self.avatarImageView.clipsToBounds = true
         self.avatarImageView.layer.cornerRadius = imageSize / 2
         

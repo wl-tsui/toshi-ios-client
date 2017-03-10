@@ -7,14 +7,14 @@ class SettingsCell: BaseCell {
         view.textColor = Theme.darkTextColor
         view.font = Theme.semibold(size: 15)
         view.numberOfLines = 0
-        
+
         return view
     }()
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

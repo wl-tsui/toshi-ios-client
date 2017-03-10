@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1400418A1E71588A00C1FD87 /* ReputationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140041891E71588A00C1FD87 /* ReputationView.swift */; };
 		1426D2421E7054AB0045EF09 /* AppDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1426D2411E7054AB0045EF09 /* AppDetailController.swift */; };
 		143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
 		143186BB1E49C5560025E9B7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186BA1E49C5560025E9B7 /* App.swift */; };
@@ -155,6 +156,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		140041891E71588A00C1FD87 /* ReputationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReputationView.swift; sourceTree = "<group>"; };
 		1426D2411E7054AB0045EF09 /* AppDetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDetailController.swift; sourceTree = "<group>"; };
 		142709A11E531A6100BF964B /* Distribution.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Distribution.plist; sourceTree = "<group>"; };
 		143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsAPIClient.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 			children = (
 				146D564B1E4A77F200FE7944 /* AppCell.swift */,
 				143587021E5C4CBE007A268A /* SearchResultCell.swift */,
+				140041891E71588A00C1FD87 /* ReputationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -962,6 +965,7 @@
 				14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */,
 				9F40F3C61E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift in Sources */,
 				1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */,
+				1400418A1E71588A00C1FD87 /* ReputationView.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,

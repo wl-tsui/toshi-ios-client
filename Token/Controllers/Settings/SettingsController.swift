@@ -9,7 +9,7 @@ open class SettingsController: SweetTableController {
     let numberOfRows = [1, 2, 4]
     let cellTypes: [BaseCell.Type] = [ProfileCell.self, SecurityCell.self, SettingsCell.self]
     let sectionTitles = ["Your profile", "Security", "Settings"]
-    
+
     public required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
@@ -31,7 +31,7 @@ open class SettingsController: SweetTableController {
         self.tableView.delegate = self
         self.tableView.separatorStyle = .none
         self.tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-        
+
         for type in self.cellTypes {
             self.tableView.register(type)
         }
@@ -51,7 +51,7 @@ extension SettingsController: UITableViewDataSource {
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return tableView.dequeue(cellTypes[indexPath.section], for: indexPath)
     }
-    
+
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         
