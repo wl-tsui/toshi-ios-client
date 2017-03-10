@@ -36,7 +36,7 @@ class HomeController: SweetCollectionController {
         self.collectionView.register(HomeItemCell.self)
         self.collectionView.register(HomeHeaderView.self, ofKind: HomeLayout.headerKind)
 
-        self.appsAPIClient.getApps { apps, error in
+        self.appsAPIClient.getFeaturedApps { apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 self.present(alertController, animated: true, completion: nil)

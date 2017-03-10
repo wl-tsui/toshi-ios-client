@@ -13,7 +13,7 @@ class AppsAPIClient {
         self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }
 
-    func getApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
+    func getFeaturedApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
         self.teapot.get("/v1/apps/featured") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):

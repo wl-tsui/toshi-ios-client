@@ -5,39 +5,7 @@ class AppsController: UIViewController {
     static let cellHeight = CGFloat(220)
     static let cellWidth = CGFloat(90)
 
-    enum Section: Int {
-        case latest, recommended
-    }
-
-    func constructLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: AppsController.cellWidth, height: AppsController.cellHeight)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: HomeLayout.horizontalMargin, bottom: 0, right: HomeLayout.horizontalMargin)
-        layout.minimumLineSpacing = 15
-
-        return layout
-    }
-
-    func constructCollectionView() -> UICollectionView {
-        let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.constructLayout())
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.showsHorizontalScrollIndicator = false
-        view.showsVerticalScrollIndicator = false
-
-        return view
-    }
-
     lazy var latestTitleLabel: UILabel = {
-        let label = UILabel(withAutoLayout: true)
-        label.text = "Recommended"
-        label.font = Theme.regular(size: 14)
-        label.textColor = UIColor(hex: "A4A4AB")
-
-        return label
-    }()
-
-    lazy var recommendedTitleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.text = "Latest"
         label.font = Theme.regular(size: 14)
@@ -46,14 +14,26 @@ class AppsController: UIViewController {
         return label
     }()
 
-    lazy var latestCollectionView: UICollectionView = {
-        let view = self.constructCollectionView()
+    lazy var recommendedTitleLabel: UILabel = {
+        let label = UILabel(withAutoLayout: true)
+        label.text = "Recommended"
+        label.font = Theme.regular(size: 14)
+        label.textColor = UIColor(hex: "A4A4AB")
 
-        return view
+        return label
     }()
 
     lazy var recommendedCollectionView: UICollectionView = {
-        let view = self.constructCollectionView()
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: AppsController.cellWidth, height: AppsController.cellHeight)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: HomeLayout.horizontalMargin, bottom: 0, right: HomeLayout.horizontalMargin)
+        layout.minimumLineSpacing = 15
+
+        let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsHorizontalScrollIndicator = false
+        view.showsVerticalScrollIndicator = false
 
         return view
     }()
@@ -82,12 +62,6 @@ class AppsController: UIViewController {
 
         return view
     }()
-
-    var latestApps = [App]() {
-        didSet {
-            self.latestCollectionView.reloadData()
-        }
-    }
 
     var recommendedApps = [App]() {
         didSet {
@@ -123,15 +97,8 @@ class AppsController: UIViewController {
         separatorView.backgroundColor = UIColor.gray
 
         self.containerView.addSubview(separatorView)
-        self.containerView.addSubview(self.latestCollectionView)
         self.containerView.addSubview(self.recommendedCollectionView)
-        self.containerView.addSubview(self.latestTitleLabel)
         self.containerView.addSubview(self.recommendedTitleLabel)
-
-        self.latestCollectionView.backgroundColor = Theme.viewBackgroundColor
-        self.latestCollectionView.dataSource = self
-        self.latestCollectionView.delegate = self
-        self.latestCollectionView.register(AppCell.self)
 
         self.recommendedCollectionView.backgroundColor = Theme.viewBackgroundColor
         self.recommendedCollectionView.dataSource = self
@@ -151,24 +118,14 @@ class AppsController: UIViewController {
         separatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
         separatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
 
-        self.latestTitleLabel.topAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: -15).isActive = true
-        self.latestTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
-        self.latestTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
-
-        self.latestCollectionView.topAnchor.constraint(equalTo: self.latestTitleLabel.bottomAnchor, constant: 20).isActive = true
-        self.latestCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.latestCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.latestCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: AppsController.cellHeight).isActive = true
-
         self.navigationItem.titleView = searchController.searchBar
 
-        self.appsAPIClient.getApps { apps, error in
+        self.appsAPIClient.getFeaturedApps { apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 self.present(alertController, animated: true, completion: nil)
             }
 
-            self.latestApps = apps
             self.recommendedApps = apps
         }
     }
@@ -193,28 +150,13 @@ class AppsController: UIViewController {
 extension AppsController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = collectionView == self.latestCollectionView ? Section.latest : Section.recommended
-
-        switch section {
-        case .latest:
-            return self.latestApps.count
-        case .recommended:
-            return self.recommendedApps.count
-        }
+        return self.recommendedApps.count
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = collectionView == self.latestCollectionView ? Section.latest : Section.recommended
         let cell = collectionView.dequeue(AppCell.self, for: indexPath)
 
-        let app: App
-        switch section {
-        case .latest:
-            app = self.latestApps[indexPath.row]
-        case .recommended:
-            app = self.recommendedApps[indexPath.row]
-        }
-
+        let app = self.recommendedApps[indexPath.row]
         cell.app = app
 
         return cell
@@ -222,6 +164,11 @@ extension AppsController: UICollectionViewDataSource {
 }
 
 extension AppsController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let app = self.recommendedApps[indexPath.row]
+        let appController = AppDetailController(app: app)
+        self.navigationController?.pushViewController(appController, animated: true)
+    }
 }
 
 extension AppsController: UISearchBarDelegate {
@@ -248,6 +195,7 @@ extension AppsController: UISearchControllerDelegate {
 extension AppsController: SearchResultsViewDelegate {
 
     func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: App) {
-        print(app.displayName)
+        let appController = AppDetailController(app: app)
+        self.navigationController?.pushViewController(appController, animated: true)
     }
 }
