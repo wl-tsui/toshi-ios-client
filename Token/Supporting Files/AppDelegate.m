@@ -41,8 +41,8 @@ NSString * const DistributionTextSecureServerURL = @"https://token-chat-service.
 @synthesize voipToken = _voipToken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [OWSSignalService setBaseURL:DevelopmentTextSecureWebSocketAPI];
-    [TSSocketManager setBaseURL:DevelopmentTextSecureWebSocketAPI];
+    [TSSocketManager setBaseURL:DistributionTextSecureWebSocketAPI];
+    [OWSSignalService setBaseURL:DistributionTextSecureServerURL];
 
     self.cereal = [[Cereal alloc] init];
     [[TSStorageManager sharedManager] storePhoneNumber:self.cereal.address];

@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com/v1/websocket/";
+static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com";
 
 @interface OWSSignalService ()
 
