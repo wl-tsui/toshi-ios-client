@@ -115,7 +115,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SignalServiceKit:
-    :commit: 1ba0f83ab3473a28d3abf828b2c6a15cd08ccdcd
+    :commit: 53bfb333e05aee340f15092fedcabdb43c643473
     :git: https://github.com/tokenbrowser/SignalServiceKit.git
   SocketRocket:
     :commit: 877ac7438be3ad0b45ef5ca3969574e4b97112bf

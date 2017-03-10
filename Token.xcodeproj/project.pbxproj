@@ -268,6 +268,7 @@
 		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
 		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
+		DF10DA99BB9ED4C75421640F /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5CDC5628EC8E3A581DB43C /* libPods-CocoaPods-Distribution.a */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 		E1A95D5A1E6F031F002762DA /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D591E6F031F002762DA /* ProfileCell.swift */; };
 		E1A95D5C1E6F10FC002762DA /* SecurityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D5B1E6F10FC002762DA /* SecurityCell.swift */; };
@@ -466,6 +467,7 @@
 				149F9AC01E72E29A00FB74AA /* KeychainSwift.framework in Frameworks */,
 				149F9AC11E72E29A00FB74AA /* HDWallet.framework in Frameworks */,
 				149F9AC21E72E29A00FB74AA /* libPods-CocoaPods-Development.a in Frameworks */,
+				DF10DA99BB9ED4C75421640F /* libPods-CocoaPods-Distribution.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1109,7 +1111,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		149F9AC31E72E29A00FB74AA /* Bump build number */ = {
@@ -1138,7 +1140,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		149F9AE91E72E29A00FB74AA /* [CP] Copy Pods Resources */ = {
@@ -1153,7 +1155,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		149F9AEA1E72E29A00FB74AA /* Copy Carthage Frameworks */ = {
@@ -1211,7 +1213,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		9FA12BE61E659EED003705F6 /* Bump build number */ = {
@@ -1469,7 +1471,7 @@
 /* Begin XCBuildConfiguration section */
 		149F9AEC1E72E29A00FB74AA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3792EEE42F397342AA67CF7D /* Pods-CocoaPods-Development.debug.xcconfig */;
+			baseConfigurationReference = 21C18022E25A13D670BB406A /* Pods-CocoaPods-Distribution.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
@@ -1512,7 +1514,7 @@
 		};
 		149F9AED1E72E29A00FB74AA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC21FC800942A0C8C2144319 /* Pods-CocoaPods-Development.release.xcconfig */;
+			baseConfigurationReference = 626847A05B6B231F02E4B0A9 /* Pods-CocoaPods-Distribution.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
