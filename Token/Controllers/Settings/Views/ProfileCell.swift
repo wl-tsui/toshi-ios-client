@@ -82,14 +82,12 @@ class ProfileCell: BaseCell {
         namesContainer.addSubview(self.usernameLabel)
         namesContainer.addSubview(self.nameLabel)
         
-        self.nameLabel.text = "Firstname Lastname"
         NSLayoutConstraint.activate([
             self.nameLabel.topAnchor.constraint(equalTo: namesContainer.topAnchor),
             self.nameLabel.leftAnchor.constraint(equalTo: namesContainer.leftAnchor),
             self.nameLabel.rightAnchor.constraint(equalTo: namesContainer.rightAnchor)
             ])
         
-        self.usernameLabel.text = "@username"
         NSLayoutConstraint.activate([
             self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: interLabelMargin),
             self.usernameLabel.leftAnchor.constraint(equalTo: namesContainer.leftAnchor),
@@ -124,5 +122,22 @@ class ProfileCell: BaseCell {
             self.ratingLabel.rightAnchor.constraint(equalTo: ratingContainer.rightAnchor),
             self.ratingLabel.bottomAnchor.constraint(lessThanOrEqualTo: ratingContainer.bottomAnchor)
             ])
+        
+        if let displayName = User.current?.name, displayName.length > 0, let username = User.current?.username {
+            self.nameLabel.text = displayName
+            self.usernameLabel.text = "@\(username)"
+        } else if let username = User.current?.username {
+            self.usernameLabel.text = nil
+            self.nameLabel.text = "@\(username)"
+        }
+        
+        if let image = User.current?.avatar {
+            self.avatarImageView.image = image
+        } else if let avatarPath = User.current?.avatarPath {
+            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
+                User.current?.avatar = image
+                self.avatarImageView.image = image
+            }
+        }
     }
 }

@@ -98,7 +98,9 @@ extension SettingsController: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
+        if indexPath.section == 0 {
+            self.navigationController?.pushViewController(ProfileController(idAPIClient: self.idAPIClient), animated: true)
+        } else if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
             cell.checkbox.checked = !cell.checkbox.checked
         }
     }
