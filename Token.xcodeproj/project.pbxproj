@@ -131,7 +131,13 @@
 		9FEFEF641E66CE0000948277 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
 		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
+		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
 		D6B4030ADC3A25530DE70264 /* libPods-CocoaPods-Token.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A15E33AB8011E1BD67093C /* libPods-CocoaPods-Token.a */; };
+		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
+		E1A95D5A1E6F031F002762DA /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D591E6F031F002762DA /* ProfileCell.swift */; };
+		E1A95D5C1E6F10FC002762DA /* SecurityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D5B1E6F10FC002762DA /* SecurityCell.swift */; };
+		E1A95D5E1E6F1114002762DA /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D5D1E6F1114002762DA /* BaseCell.swift */; };
+		E1F1D4391E70416800CC314D /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F1D4381E70416800CC314D /* RatingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -286,6 +292,12 @@
 		9FEFEF631E66CE0000948277 /* scan.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = scan.m4a; sourceTree = "<group>"; };
 		9FEFEF651E66CF6E00948277 /* addContactApp.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = addContactApp.m4a; sourceTree = "<group>"; };
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
+		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		E1A95D591E6F031F002762DA /* ProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		E1A95D5B1E6F10FC002762DA /* SecurityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityCell.swift; sourceTree = "<group>"; };
+		E1A95D5D1E6F1114002762DA /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		E1F1D4381E70416800CC314D /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -691,10 +703,12 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				E1A95D581E6F031F002762DA /* Views */,
 				9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */,
+				E1A95D541E6EF092002762DA /* SettingsController.swift */,
 				9FCDBAE21E28E71900A70E07 /* ProfileController.swift */,
-				9F04A7221E38D1400043534A /* QRCodeController.swift */,
 				9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */,
+				9F04A7221E38D1400043534A /* QRCodeController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -706,6 +720,18 @@
 				892CDB242668D0FE3D3F1785 /* Pods-CocoaPods-Token.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E1A95D581E6F031F002762DA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E1A95D591E6F031F002762DA /* ProfileCell.swift */,
+				E1A95D5B1E6F10FC002762DA /* SecurityCell.swift */,
+				A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */,
+				E1A95D5D1E6F1114002762DA /* BaseCell.swift */,
+				E1F1D4381E70416800CC314D /* RatingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -931,6 +957,7 @@
 				9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
+				A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */,
 				9F7E5DA21E4C982300543296 /* Message.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */,
 				9F40F3C61E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift in Sources */,
@@ -943,17 +970,20 @@
 				9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
+				E1A95D5E1E6F1114002762DA /* BaseCell.swift in Sources */,
 				143186BB1E49C5560025E9B7 /* App.swift in Sources */,
 				1426D2421E7054AB0045EF09 /* AppDetailController.swift in Sources */,
 				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
 				9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */,
 				147513661E49CA5B00E44A62 /* HomeController.swift in Sources */,
+				E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */,
 				9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */,
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */,
 				9F40F3C01E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */,
 				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
+				E1F1D4391E70416800CC314D /* RatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
 				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
@@ -975,6 +1005,7 @@
 				9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */,
 				9F40F3C81E59FE97007A7DE7 /* TGClockProgressView.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
+				E1A95D5A1E6F031F002762DA /* ProfileCell.swift in Sources */,
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				9F40F3CC1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */,
 				9FDB3B171E6D640900EE5FD7 /* ControlCell.swift in Sources */,
@@ -986,6 +1017,7 @@
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
+				E1A95D5C1E6F10FC002762DA /* SecurityCell.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
 				9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,

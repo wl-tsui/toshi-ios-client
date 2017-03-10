@@ -38,7 +38,7 @@ open class TabBarController: UITabBarController {
         self.messagingController = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
 //        self.appsController = AppsNavigationController(rootViewController: AppsController())
         self.contactsController = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
-        self.settingsController = SettingsNavigationController(rootViewController: ProfileController(idAPIClient: self.idAPIClient))
+        self.settingsController = SettingsNavigationController(rootViewController: SettingsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
 
         self.viewControllers = [
             self.homeController,
