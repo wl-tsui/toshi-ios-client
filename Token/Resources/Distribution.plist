@@ -37,6 +37,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Required to scan codes for adding contacts and payments.</string>
+	<key>TokenChatServiceBaseURL</key>
+	<string>https://token-chat-service.herokuapp.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-UI-Display-Black.otf</string>
@@ -89,7 +91,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>TokenChatServiceBaseURL</key>
-	<string>https://token-chat-service.herokuapp.com</string>
 </dict>
 </plist>
