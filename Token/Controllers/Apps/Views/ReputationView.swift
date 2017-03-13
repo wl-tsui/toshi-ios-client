@@ -8,7 +8,7 @@ class ReputationView: UIView {
         let label = UILabel(withAutoLayout: true)
         label.text = "4.5"
         label.font = Theme.light(size: 49)
-        label.textColor = UIColor(hex: "EB6E00")
+        label.textColor = Theme.ratingTint
         label.textAlignment = .center
 
         return label
@@ -24,7 +24,7 @@ class ReputationView: UIView {
     private lazy var ratingsCountLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.text = "522 ratings"
-        label.textColor = UIColor(hex: "9E9E9E")
+        label.textColor = Theme.lightGreyTextColor
         label.font = Theme.regular(size: 14)
 
         return label
@@ -82,6 +82,10 @@ class ReputationView: UIView {
         self.addSubview(self.twoStarsBarView)
         self.addSubview(self.oneStarsBarView)
 
+        let horizontalMargin: CGFloat = 31
+        let height: CGFloat = 16
+        let bottomSpacing: CGFloat = 2
+
         NSLayoutConstraint.activate([
             self.ratingLabel.topAnchor.constraint(equalTo: self.topAnchor),
             self.ratingLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
@@ -94,28 +98,28 @@ class ReputationView: UIView {
 
             self.fiveStarsBarView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
             self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: 31),
-            self.fiveStarsBarView.heightAnchor.constraint(equalToConstant: 16),
+            self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
+            self.fiveStarsBarView.heightAnchor.constraint(equalToConstant: height),
 
-            self.fourStarsBarView.topAnchor.constraint(equalTo: self.fiveStarsBarView.bottomAnchor, constant: 2),
+            self.fourStarsBarView.topAnchor.constraint(equalTo: self.fiveStarsBarView.bottomAnchor, constant: bottomSpacing),
             self.fourStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.fourStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: 31),
-            self.fourStarsBarView.heightAnchor.constraint(equalToConstant: 16),
+            self.fourStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
+            self.fourStarsBarView.heightAnchor.constraint(equalToConstant: height),
 
-            self.threeStarsBarView.topAnchor.constraint(equalTo: self.fourStarsBarView.bottomAnchor, constant: 2),
+            self.threeStarsBarView.topAnchor.constraint(equalTo: self.fourStarsBarView.bottomAnchor, constant: bottomSpacing),
             self.threeStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.threeStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: 31),
-            self.threeStarsBarView.heightAnchor.constraint(equalToConstant: 16),
+            self.threeStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
+            self.threeStarsBarView.heightAnchor.constraint(equalToConstant: height),
 
-            self.twoStarsBarView.topAnchor.constraint(equalTo: self.threeStarsBarView.bottomAnchor, constant: 2),
+            self.twoStarsBarView.topAnchor.constraint(equalTo: self.threeStarsBarView.bottomAnchor, constant: bottomSpacing),
             self.twoStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.twoStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: 31),
-            self.twoStarsBarView.heightAnchor.constraint(equalToConstant: 16),
+            self.twoStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
+            self.twoStarsBarView.heightAnchor.constraint(equalToConstant: height),
 
-            self.oneStarsBarView.topAnchor.constraint(equalTo: self.twoStarsBarView.bottomAnchor, constant: 2),
+            self.oneStarsBarView.topAnchor.constraint(equalTo: self.twoStarsBarView.bottomAnchor, constant: bottomSpacing),
             self.oneStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.oneStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: 31),
-            self.oneStarsBarView.heightAnchor.constraint(equalToConstant: 16),
+            self.oneStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
+            self.oneStarsBarView.heightAnchor.constraint(equalToConstant: height),
         ])
     }
 
@@ -133,7 +137,7 @@ class ReputationView: UIView {
 class ReputationBarView: UIView {
     private lazy var numberLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
-        label.textColor = UIColor(hex: "757575")
+        label.textColor = Theme.greyTextColor
         label.font = Theme.medium(size: 13)
         label.text = "5"
 
@@ -141,7 +145,7 @@ class ReputationBarView: UIView {
     }()
 
     private lazy var starImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "gray-star")!)
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "gray-star"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
         return imageView
@@ -149,13 +153,15 @@ class ReputationBarView: UIView {
 
     private lazy var barView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = UIColor(hex: "EB6E00")
+        view.backgroundColor = Theme.ratingTint
         view.layer.cornerRadius = 2.0
 
         return view
     }()
 
-    var barWidthAnchor: NSLayoutConstraint?
+    lazy var barWidthAnchor: NSLayoutConstraint = {
+        return self.barView.widthAnchor.constraint(equalToConstant: self.totalWidth)
+    }()
 
     let totalWidth: CGFloat = 180
 
@@ -180,8 +186,7 @@ class ReputationBarView: UIView {
             self.barView.leftAnchor.constraint(equalTo: self.starImageView.rightAnchor, constant: 8),
         ])
 
-        self.barWidthAnchor = self.barView.widthAnchor.constraint(equalToConstant: self.totalWidth)
-        self.barWidthAnchor?.isActive = true
+        self.barWidthAnchor.isActive = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -196,10 +201,8 @@ class ReputationBarView: UIView {
 
     var percentage: CGFloat = 0 {
         didSet {
-            self.barWidthAnchor?.isActive = false
-            let constant = (self.percentage * self.totalWidth)
-            self.barWidthAnchor = self.barView.widthAnchor.constraint(equalToConstant: constant)
-            self.barWidthAnchor?.isActive = true
+            self.barWidthAnchor.constant = (self.percentage * self.totalWidth)
+            self.layoutIfNeeded()
         }
     }
 }

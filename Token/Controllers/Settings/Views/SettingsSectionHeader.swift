@@ -22,7 +22,7 @@ class SettingsSectionHeader: UIView {
 
     lazy var errorImage: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.image = UIImage(named: "error")
+        view.image = #imageLiteral(resourceName: "error")
 
         return view
     }()

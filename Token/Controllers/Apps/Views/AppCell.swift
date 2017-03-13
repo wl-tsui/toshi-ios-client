@@ -13,7 +13,7 @@ class AppCell: UICollectionViewCell {
     lazy var displayNameLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.medium(size: 15)
-        label.textColor = UIColor(hex: "161621")
+        label.textColor = Theme.darkTextColor
         label.textAlignment = .center
         label.numberOfLines = 0
 
@@ -23,7 +23,7 @@ class AppCell: UICollectionViewCell {
     lazy var categoryLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.medium(size: 14)
-        label.textColor = UIColor(hex: "9E9E9E")
+        label.textColor = Theme.lightGreyTextColor
         label.textAlignment = .center
         label.numberOfLines = 0
 
@@ -32,7 +32,7 @@ class AppCell: UICollectionViewCell {
 
     lazy var rankingImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.image = UIImage(named: "2-star")!
+        view.image = #imageLiteral(resourceName: "two-star")
 
         return view
     }()

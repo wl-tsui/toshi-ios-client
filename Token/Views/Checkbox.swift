@@ -29,7 +29,7 @@ class Checkbox: UIView {
 
         let imageView = UIImageView(withAutoLayout: true)
         imageView.contentMode = .center
-        imageView.image = UIImage(named: "checkmark")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = #imageLiteral(resourceName: "checkmark").withRenderingMode(.alwaysTemplate)
         imageView.tintColor = Theme.viewBackgroundColor
         view.addSubview(imageView)
 

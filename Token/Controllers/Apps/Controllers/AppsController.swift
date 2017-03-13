@@ -9,7 +9,7 @@ class AppsController: UIViewController {
         let label = UILabel(withAutoLayout: true)
         label.text = "Latest"
         label.font = Theme.regular(size: 14)
-        label.textColor = UIColor(hex: "A4A4AB")
+        label.textColor = Theme.greyTextColor
 
         return label
     }()
@@ -18,7 +18,7 @@ class AppsController: UIViewController {
         let label = UILabel(withAutoLayout: true)
         label.text = "Recommended"
         label.font = Theme.regular(size: 14)
-        label.textColor = UIColor(hex: "A4A4AB")
+        label.textColor = Theme.greyTextColor
 
         return label
     }()

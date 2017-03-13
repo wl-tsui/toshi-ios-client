@@ -56,7 +56,7 @@ class BaseCell: UITableViewCell {
 
     lazy var disclosureIndicator: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.image = UIImage(named: "disclosure_indicator")
+        view.image = #imageLiteral(resourceName: "disclosure_indicator")
 
         return view
     }()

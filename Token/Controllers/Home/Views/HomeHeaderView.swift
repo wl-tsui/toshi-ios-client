@@ -5,7 +5,7 @@ class HomeHeaderView: UICollectionReusableView {
     lazy var balanceTitleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 14)
-        label.textColor = UIColor(hex: "A4A4AB")
+        label.textColor = Theme.greyTextColor
         label.text = "Balance"
 
         return label
@@ -14,23 +14,23 @@ class HomeHeaderView: UICollectionReusableView {
     lazy var balanceLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 16)
-        label.textColor = UIColor(hex: "A4A4AB")
+        label.textColor = Theme.greyTextColor
 
         return label
     }()
 
     lazy var actionsStackView: UIStackView = {
         let pay = HomeItemCell()
-        pay.app = App(displayName: "Pay", image: UIImage(named: "pay-button")!)
+        pay.app = App(displayName: "Pay", image: #imageLiteral(resourceName: "pay-button"))
 
         let request = HomeItemCell()
-        request.app = App(displayName: "Request", image: UIImage(named: "request-button")!)
+        request.app = App(displayName: "Request", image: #imageLiteral(resourceName: "request-button"))
 
         let addMoney = HomeItemCell()
-        addMoney.app = App(displayName: "Add Money", image: UIImage(named: "add-money-button")!)
+        addMoney.app = App(displayName: "Add Money", image: #imageLiteral(resourceName: "add-money-button"))
 
         let scanQR = HomeItemCell()
-        scanQR.app = App(displayName: "Scan QR", image: UIImage(named: "scan-qr-button")!)
+        scanQR.app = App(displayName: "Scan QR", image: #imageLiteral(resourceName: "scan-qr-button"))
 
         let stackView = UIStackView(arrangedSubviews: [pay, request, addMoney, scanQR])
         stackView.axis = .horizontal
@@ -47,10 +47,10 @@ class HomeHeaderView: UICollectionReusableView {
         self.backgroundColor = Theme.viewBackgroundColor
 
         let sectionSeparatorView = UIView(withAutoLayout: true)
-        sectionSeparatorView.backgroundColor = UIColor(hex: "E7E9EA")
+        sectionSeparatorView.backgroundColor = Theme.borderColor
 
         let smallSeparatorView = UIView(withAutoLayout: true)
-        smallSeparatorView.backgroundColor = UIColor(hex: "E7E9EA")
+        smallSeparatorView.backgroundColor = Theme.borderColor
 
         self.addSubview(sectionSeparatorView)
         self.addSubview(smallSeparatorView)

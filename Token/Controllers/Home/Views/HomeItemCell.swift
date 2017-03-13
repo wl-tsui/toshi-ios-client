@@ -11,7 +11,7 @@ class HomeItemCell: UICollectionViewCell {
     lazy var displayNameLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.medium(size: 14)
-        label.textColor = UIColor(hex: "161621")
+        label.textColor = Theme.darkTextColor
         label.textAlignment = .center
         label.numberOfLines = 0
 

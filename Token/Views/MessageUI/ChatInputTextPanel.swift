@@ -78,8 +78,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         self.sendButton = UIButton(type: .system)
         self.sendButton.isExclusiveTouch = true
         self.sendButton.setAttributedTitle(NSAttributedString(string: "Send", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.semibold(size: 16)]), for: .normal)
-        self.sendButton.setTitleColor(UIColor(colorLiteralRed: 0 / 255.0, green: 126 / 255.0, blue: 229 / 255.0, alpha: 1), for: .normal)
-        self.sendButton.setTitleColor(UIColor(colorLiteralRed: 142 / 255.0, green: 142 / 255.0, blue: 147 / 255.0, alpha: 1), for: .disabled)
+        self.sendButton.setAttributedTitle(NSAttributedString(string: "Send", attributes: [NSForegroundColorAttributeName: Theme.greyTextColor, NSFontAttributeName: Theme.semibold(size: 16)]), for: .disabled)
         self.sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         self.sendButton.isEnabled = false
         self.sendButton.isHidden = true
