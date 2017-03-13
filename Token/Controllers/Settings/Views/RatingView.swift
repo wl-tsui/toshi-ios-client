@@ -4,51 +4,59 @@ import SweetUIKit
 open class RatingView: UIView {
 
     static let starSize: CGFloat = 12
-
     private var rating: Float = 0
     private var numberOfStars: Int = 0
-    private var ratingConstraint: NSLayoutConstraint?
-
+    
+    private lazy var backgroundStars: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.layer.mask = self.starsMask
+        view.backgroundColor = Theme.ratingBackground
+        
+        return view
+    }()
+    
+    private lazy var ratingStars: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.layer.mask = self.starsMask
+        view.backgroundColor = Theme.ratingTint
+        
+        return view
+    }()
+    
+    private lazy var ratingConstraint: NSLayoutConstraint = {
+        return self.ratingStars.widthAnchor.constraint(equalToConstant: 0)
+    }()
+    
     convenience init(numberOfStars: Int) {
         self.init(frame: .zero)
-
         self.numberOfStars = numberOfStars
-
-        let backgroundStars = UIView(withAutoLayout: true)
-        backgroundStars.layer.mask = self.starsMask
-        backgroundStars.backgroundColor = Theme.ratingBackground
-        self.addSubview(backgroundStars)
-
+        
+        self.addSubview(self.backgroundStars)
+        
         NSLayoutConstraint.activate([
-            backgroundStars.topAnchor.constraint(equalTo: self.topAnchor),
-            backgroundStars.leftAnchor.constraint(equalTo: self.leftAnchor),
-            backgroundStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            backgroundStars.rightAnchor.constraint(equalTo: self.rightAnchor),
-            backgroundStars.widthAnchor.constraint(equalToConstant: RatingView.starSize * CGFloat(numberOfStars)),
-            backgroundStars.heightAnchor.constraint(equalToConstant: RatingView.starSize),
-        ])
-
-        let ratingStars = UIView(withAutoLayout: true)
-        ratingStars.layer.mask = self.starsMask
-        ratingStars.backgroundColor = Theme.ratingTint
-        self.addSubview(ratingStars)
-
+            self.backgroundStars.topAnchor.constraint(equalTo: self.topAnchor),
+            self.backgroundStars.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.backgroundStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.backgroundStars.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.backgroundStars.widthAnchor.constraint(equalToConstant: RatingView.starSize * CGFloat(numberOfStars)).priority(.high),
+            self.backgroundStars.heightAnchor.constraint(equalToConstant: RatingView.starSize).priority(.high)
+            ])
+        
+        self.addSubview(self.ratingStars)
+        
         NSLayoutConstraint.activate([
-            ratingStars.topAnchor.constraint(equalTo: self.topAnchor),
-            ratingStars.leftAnchor.constraint(equalTo: self.leftAnchor),
-            ratingStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            ratingStars.heightAnchor.constraint(equalToConstant: RatingView.starSize),
-        ])
-
-        self.ratingConstraint = ratingStars.widthAnchor.constraint(equalToConstant: 0)
-        self.ratingConstraint?.isActive = true
-        self.layoutIfNeeded()
+            self.ratingStars.topAnchor.constraint(equalTo: self.topAnchor),
+            self.ratingStars.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.ratingStars.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            ])
+        
+        self.ratingConstraint.isActive = true
     }
 
     func set(rating: Float, animated: Bool = false) {
         self.rating = min(Float(self.numberOfStars), max(0, rating))
-        self.ratingConstraint?.constant = RatingView.starSize * CGFloat(rating)
-
+        self.ratingConstraint.constant = RatingView.starSize * CGFloat(rating)
+        
         if animated {
             UIViewPropertyAnimator(duration: 1, dampingRatio: 0.9) {
                 self.layoutIfNeeded()

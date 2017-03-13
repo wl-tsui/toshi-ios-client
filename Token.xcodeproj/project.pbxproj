@@ -266,6 +266,7 @@
 		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
 		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
+		A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
 		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		DF10DA99BB9ED4C75421640F /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D5CDC5628EC8E3A581DB43C /* libPods-CocoaPods-Distribution.a */; };
@@ -435,6 +436,7 @@
 		9FEFEF651E66CF6E00948277 /* addContactApp.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = addContactApp.m4a; sourceTree = "<group>"; };
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
 		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Additions.swift"; sourceTree = "<group>"; };
 		A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeader.swift; sourceTree = "<group>"; };
 		A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		BC21FC800942A0C8C2144319 /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
@@ -798,6 +800,7 @@
 				9FEB8C891E6832120088D5A6 /* NSData+ows_StripToken.h */,
 				9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */,
 				9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */,
+				A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */,
 				9F7B896C1E51C6DA009C192E /* TSInteraction+Additions.swift */,
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
@@ -1423,6 +1426,7 @@
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
 				145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */,
+				A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
 				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
 				9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */,

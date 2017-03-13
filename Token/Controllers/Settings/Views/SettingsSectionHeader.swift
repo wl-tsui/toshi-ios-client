@@ -23,6 +23,8 @@ class SettingsSectionHeader: UIView {
     lazy var errorImage: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.image = #imageLiteral(resourceName: "error")
+        view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        view.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
         return view
     }()
@@ -45,20 +47,18 @@ class SettingsSectionHeader: UIView {
                 self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
                 self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin),
 
-                self.errorImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 3),
-                self.errorImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin),
-                self.errorImage.widthAnchor.constraint(equalToConstant: 12),
-                self.errorImage.heightAnchor.constraint(equalToConstant: 12),
-
                 self.errorLabel.topAnchor.constraint(equalTo: self.topAnchor),
-                self.errorLabel.leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor),
+                self.errorLabel.leftAnchor.constraint(greaterThanOrEqualTo: self.titleLabel.rightAnchor),
                 self.errorLabel.rightAnchor.constraint(equalTo: self.errorImage.leftAnchor, constant: -5),
+                
+                self.errorImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 3),
+                self.errorImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
             ])
         } else {
             NSLayoutConstraint.activate([
                 self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
                 self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin),
-                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin),
+                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
             ])
         }
     }
