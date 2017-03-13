@@ -5,7 +5,7 @@ class HomeController: SweetCollectionController {
     var appsAPIClient: AppsAPIClient
     var ethererumAPIClient: EthereumAPIClient
 
-    var apps = [App]() {
+    var apps = [TokenContact]() {
         didSet {
             self.collectionView.reloadData()
         }
@@ -81,7 +81,7 @@ extension HomeController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let app = self.apps[indexPath.row]
-        let appController = AppDetailController(app: app)
+        let appController = AppController(app: app)
         self.navigationController?.pushViewController(appController, animated: true)
     }
 }

@@ -9,7 +9,7 @@ public class ContactController: UIViewController {
 
     let yap: Yap = Yap.sharedInstance
 
-    lazy var avatar: UIImageView = {
+    lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.clipsToBounds = true
 
@@ -129,6 +129,7 @@ public class ContactController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.edgesForExtendedLayout = .bottom
         self.title = "Contact"
     }
 
@@ -147,15 +148,14 @@ public class ContactController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = Theme.viewBackgroundColor
-        self.automaticallyAdjustsScrollViewInsets = false
         self.addSubviewsAndConstraints()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if self.contact.name.length > 0 {
-            self.nameLabel.text = self.contact.name
+        if self.contact.displayName.length > 0 {
+            self.nameLabel.text = self.contact.displayName
             self.usernameLabel.text = "@\(self.contact.username)"
         } else {
             self.usernameLabel.text = nil
@@ -164,7 +164,7 @@ public class ContactController: UIViewController {
 
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
-        self.avatar.image = self.contact.avatar
+        self.avatarImageView.image = self.contact.avatar
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
 
@@ -176,7 +176,7 @@ public class ContactController: UIViewController {
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.avatar)
+        self.view.addSubview(self.avatarImageView)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.addContactButton)
@@ -195,15 +195,15 @@ public class ContactController: UIViewController {
         let marginVertical: CGFloat = 16.0
         let avatarSize: CGFloat = 166
 
-        self.avatar.set(height: avatarSize)
-        self.avatar.set(width: avatarSize)
-        self.avatar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: marginHorizontal).isActive = true
-        self.avatar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.avatar.layer.cornerRadius = avatarSize / 2
+        self.avatarImageView.set(height: avatarSize)
+        self.avatarImageView.set(width: avatarSize)
+        self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 26).isActive = true
+        self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.avatarImageView.layer.cornerRadius = avatarSize / 2
 
         self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: marginVertical).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: marginVertical).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
@@ -257,7 +257,7 @@ public class ContactController: UIViewController {
         self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
+        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
     }
 
     func displayQRCode() {

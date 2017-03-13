@@ -5,9 +5,9 @@ class ContactCell: UITableViewCell {
     var contact: TokenContact? {
         didSet {
             if let contact = self.contact {
-                if contact.name.length > 0 {
+                if contact.displayName.length > 0 {
                     self.usernameLabel.text = "@\(contact.username)"
-                    self.nameLabel.text = contact.name
+                    self.nameLabel.text = contact.displayName
                 } else {
                     self.nameLabel.text = "@\(contact.username)"
                     self.usernameLabel.text = nil

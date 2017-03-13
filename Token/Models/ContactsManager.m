@@ -61,7 +61,7 @@
     NSMutableArray <Contact *> *contacts = [NSMutableArray array];
 
     for (TokenContact *tokenContact in self.tokenContacts) {
-        Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
+        Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.displayName andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
         [contacts addObject:contact];
     }
 

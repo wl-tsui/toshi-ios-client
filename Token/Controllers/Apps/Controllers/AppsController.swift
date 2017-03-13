@@ -63,7 +63,7 @@ class AppsController: UIViewController {
         return view
     }()
 
-    var recommendedApps = [App]() {
+    var recommendedApps = [TokenContact]() {
         didSet {
             self.recommendedCollectionView.reloadData()
         }
@@ -167,7 +167,7 @@ extension AppsController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let app = self.recommendedApps[indexPath.row]
-        let appController = AppDetailController(app: app)
+        let appController = AppController(app: app)
         self.navigationController?.pushViewController(appController, animated: true)
     }
 }
@@ -176,7 +176,7 @@ extension AppsController: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.length == 0 {
-            self.searchResultsView.results = [App]()
+            self.searchResultsView.results = [TokenContact]()
         }
         self.showSearchResultsView(shouldShow: searchText.length > 0)
 
@@ -195,8 +195,8 @@ extension AppsController: UISearchControllerDelegate {
 
 extension AppsController: SearchResultsViewDelegate {
 
-    func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: App) {
-        let appController = AppDetailController(app: app)
+    func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: TokenContact) {
+        let appController = AppController(app: app)
         self.navigationController?.pushViewController(appController, animated: true)
     }
 }

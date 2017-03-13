@@ -6,7 +6,7 @@ open class ProfileController: UIViewController {
 
     var idAPIClient: IDAPIClient
 
-    lazy var avatar: UIImageView = {
+    lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.clipsToBounds = true
 
@@ -111,6 +111,7 @@ open class ProfileController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.edgesForExtendedLayout = .bottom
         self.title = "Profile"
     }
 
@@ -129,7 +130,7 @@ open class ProfileController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = Theme.viewBackgroundColor
-        self.automaticallyAdjustsScrollViewInsets = false
+
         self.addSubviewsAndConstraints()
     }
 
@@ -147,11 +148,11 @@ open class ProfileController: UIViewController {
         self.aboutContentLabel.text = User.current?.about
         self.locationContentLabel.text = User.current?.location
         if let image = User.current?.avatar {
-            self.avatar.image = image
+            self.avatarImageView.image = image
         } else if let avatarPath = User.current?.avatarPath {
             IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
                 User.current?.avatar = image
-                self.avatar.image = image
+                self.avatarImageView.image = image
             }
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
@@ -162,7 +163,7 @@ open class ProfileController: UIViewController {
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.avatar)
+        self.view.addSubview(self.avatarImageView)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.usernameLabel)
         self.view.addSubview(self.editProfileButton)
@@ -180,15 +181,15 @@ open class ProfileController: UIViewController {
         let marginVertical: CGFloat = 16.0
         let avatarSize: CGFloat = 166
 
-        self.avatar.set(height: avatarSize)
-        self.avatar.set(width: avatarSize)
-        self.avatar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: marginHorizontal).isActive = true
-        self.avatar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.avatar.layer.cornerRadius = avatarSize / 2
+        self.avatarImageView.set(height: avatarSize)
+        self.avatarImageView.set(width: avatarSize)
+        self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 26).isActive = true
+        self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.avatarImageView.layer.cornerRadius = avatarSize / 2
 
         self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: marginVertical).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: marginVertical).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
@@ -236,7 +237,7 @@ open class ProfileController: UIViewController {
         self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
     }
 
     func displayQRCode() {

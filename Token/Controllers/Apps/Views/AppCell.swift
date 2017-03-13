@@ -62,7 +62,7 @@ class AppCell: UICollectionViewCell {
         self.rankingImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
     }
 
-    var app: App? {
+    var app: TokenContact? {
         didSet {
             guard let app = self.app else {
                 self.displayNameLabel.text = nil
@@ -73,7 +73,7 @@ class AppCell: UICollectionViewCell {
             self.displayNameLabel.text = app.displayName
             self.categoryLabel.text = app.category
 
-            if let image = app.image {
+            if let image = app.avatar {
                 self.avatarImageView.image = image
             } else {
                 AppsAPIClient.shared.downloadImage(for: app) { image in

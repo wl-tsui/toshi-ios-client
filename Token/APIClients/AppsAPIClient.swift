@@ -13,7 +13,7 @@ class AppsAPIClient {
         self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }
 
-    func getFeaturedApps(completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
+    func getFeaturedApps(completion: @escaping(_ apps: [TokenContact], _ error: Error?) -> Void) {
         self.teapot.get("/v1/apps/featured") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
@@ -21,34 +21,36 @@ class AppsAPIClient {
                 guard let json = json?.dictionary else { fatalError("No apps json!") }
 
                 let appsJSON = json["apps"] as! [[String: Any]]
-                let apps: [App] = appsJSON.map { json in
-                    return App(json: json)
+                let apps = appsJSON.map { json -> TokenContact in
+                    let app = TokenContact(json: json)
+                    app.isApp = true
+                    
+                    return app
                 }
 
                 completion(apps, nil)
             case .failure(let json, let response, let error):
                 print(json ?? "")
                 print(response)
-                completion([App](), error)
+                completion([TokenContact](), error)
             }
         }
     }
 
-    func downloadImage(for app: App, completion: @escaping(_ image: UIImage?) -> Void) {
-        guard let avatarURL = app.avatarURL else { return }
+    func downloadImage(for app: TokenContact, completion: @escaping(_ image: UIImage?) -> Void) {
+        guard let pathURL = URL(string: app.avatarPath) else { return }
 
-        let path = avatarURL.path
-        if let image = self.imageCache.object(forKey: path as NSString) {
+        if let image = self.imageCache.object(forKey: app.avatarPath as NSString) {
             completion(image)
 
             return
         }
 
-        Teapot(baseURL: avatarURL).get() { (result: NetworkImageResult) in
+        Teapot(baseURL: pathURL).get() { (result: NetworkImageResult) in
             switch result {
             case .success(let image, let response):
                 print(response)
-                self.imageCache.setObject(image, forKey: path as NSString)
+                self.imageCache.setObject(image, forKey: app.avatarPath as NSString)
                 completion(image)
             case .failure(let response, let error):
                 print(response)
@@ -58,9 +60,9 @@ class AppsAPIClient {
         }
     }
 
-    func search(_ searchTerm: String, completion: @escaping(_ apps: [App], _ error: Error?) -> Void) {
+    func search(_ searchTerm: String, completion: @escaping(_ apps: [TokenContact], _ error: Error?) -> Void) {
         guard searchTerm.length > 0 else {
-            completion([App](), nil)
+            completion([TokenContact](), nil)
             return
         }
 
@@ -70,17 +72,20 @@ class AppsAPIClient {
                 guard let json = json?.dictionary else { fatalError("No apps json!") }
 
                 guard let appsJSON = json["apps"] as? [[String: Any]] else {
-                    completion([App](), nil)
+                    completion([TokenContact](), nil)
                     return
                 }
 
-                let apps = appsJSON.map { json in
-                    App(json: json)
+                let apps = appsJSON.map { json -> TokenContact in
+                    let app = TokenContact(json: json)
+                    app.isApp = true
+
+                    return app
                 }
 
                 completion(apps, nil)
             case .failure(_, _, let error):
-                completion([App](), error)
+                completion([TokenContact](), error)
             }
         }
     }

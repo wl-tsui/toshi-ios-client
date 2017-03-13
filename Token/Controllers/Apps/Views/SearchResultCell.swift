@@ -1,13 +1,13 @@
 import UIKit
 
 class SearchResultCell: UITableViewCell {
-    var app: App? {
+    var app: TokenContact? {
         didSet {
             if let app = self.app {
                 self.usernameLabel.text = app.category
                 self.nameLabel.text = app.displayName
 
-                if let image = app.image {
+                if let image = app.avatar {
                     self.avatarImageView.image = image
                 } else {
                     AppsAPIClient.shared.downloadImage(for: app) { image in

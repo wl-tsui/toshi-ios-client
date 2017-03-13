@@ -35,19 +35,20 @@ class HomeItemCell: UICollectionViewCell {
         self.displayNameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
     }
 
-    var app: App? {
+    var app: TokenContact? {
         didSet {
             guard let app = self.app else {
                 self.displayNameLabel.text = nil
                 self.avatarImageView.image = nil
+
                 return
             }
 
             self.displayNameLabel.text = app.displayName
 
-            if let image = app.image {
+            if let image = self.app?.avatar {
                 self.avatarImageView.image = image
-            } else {
+            } else if let app = self.app {
                 AppsAPIClient.shared.downloadImage(for: app) { image in
                     self.avatarImageView.image = image
                 }

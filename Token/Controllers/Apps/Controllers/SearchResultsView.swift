@@ -2,13 +2,13 @@ import UIKit
 import SweetUIKit
 
 protocol SearchResultsViewDelegate: class {
-    func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: App)
+    func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: TokenContact)
 }
 
 class SearchResultsView: UITableView {
     weak var selectionDelegate: SearchResultsViewDelegate?
 
-    var results = [App]() {
+    var results = [TokenContact]() {
         didSet {
             self.reloadData()
         }

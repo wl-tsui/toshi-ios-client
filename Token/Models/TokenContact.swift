@@ -12,13 +12,17 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public static let collectionKey: String = "TokenContacts"
 
+    public var isApp: Bool = false
+
+    public var category = "Unknown"
+
     public var address: String
 
     public var paymentAddress: String
 
     public var username: String
 
-    public var name: String = ""
+    public var displayName: String = ""
 
     public var about: String = ""
 
@@ -35,7 +39,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
         }
 
         let custom: [String: Any] = [
-            "name": self.name,
+            "name": self.displayName,
             "location": self.location,
             "about": self.about,
             "avatar": self.avatarPath,
@@ -45,6 +49,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
         let json: [String: Any] = [
             "token_id": self.address,
             "custom": custom,
+            "is_app": self.isApp,
             "username": self.username,
             "payment_address": self.paymentAddress,
         ]
@@ -56,9 +61,10 @@ public class TokenContact: NSObject, JSONDataSerialization {
         self.address = json["token_id"] as! String
         self.paymentAddress = (json["payment_address"] as? String) ?? json["token_id"] as! String
         self.username = json["username"] as! String
+        self.isApp = json["is_app"] as! Bool
 
         if let json = json["custom"] as? [String: Any] {
-            self.name = (json["name"] as? String) ?? ""
+            self.displayName = (json["name"] as? String) ?? ""
             self.location = (json["location"] as? String) ?? ""
             self.about = (json["about"] as? String) ?? ""
             self.avatarPath = (json["avatar"] as? String) ?? ""
@@ -71,8 +77,14 @@ public class TokenContact: NSObject, JSONDataSerialization {
         super.init()
 
         if self.avatarPath.length > 0 {
-            IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
-                self.avatar = image
+            if self.isApp {
+                AppsAPIClient.shared.downloadImage(for: self) { image in
+                    self.avatar = image
+                }
+            } else  {
+                IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
+                    self.avatar = image
+                }
             }
         }
 
@@ -87,17 +99,17 @@ public class TokenContact: NSObject, JSONDataSerialization {
         guard let tokenContact = notification.object as? TokenContact else { return }
         guard tokenContact.address == self.address else { return }
 
-        if self.username == tokenContact.username && self.name == tokenContact.name && self.location == tokenContact.location && self.about == tokenContact.about {
+        if self.username == tokenContact.username && self.displayName == tokenContact.displayName && self.location == tokenContact.location && self.about == tokenContact.about {
             return
         }
 
         self.username = tokenContact.username
-        self.name = tokenContact.name
+        self.displayName = tokenContact.displayName
         self.location = tokenContact.location
         self.about = tokenContact.about
     }
 
     public override var description: String {
-        return "<TokenContact: address: \(self.address), name: \(self.name), username: \(self.username)>"
+        return "<TokenContact: address: \(self.address), name: \(self.displayName), username: \(self.username)>"
     }
 }
