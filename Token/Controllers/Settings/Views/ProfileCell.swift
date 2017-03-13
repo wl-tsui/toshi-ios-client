@@ -47,6 +47,28 @@ class ProfileCell: BaseCell {
 
         return view
     }()
+    
+    var user: User? {
+        didSet {
+            
+            if let displayName = self.user?.name, displayName.length > 0, let username = self.user?.username {
+                self.nameLabel.text = displayName
+                self.usernameLabel.text = "@\(username)"
+            } else if let username = self.user?.username {
+                self.usernameLabel.text = nil
+                self.nameLabel.text = "@\(username)"
+            }
+            
+            if let image = self.user?.avatar {
+                self.avatarImageView.image = image
+            } else if let avatarPath = self.user?.avatarPath {
+                IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
+                    self.user?.avatar = image
+                    self.avatarImageView.image = image
+                }
+            }
+        }
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError()
@@ -123,22 +145,5 @@ class ProfileCell: BaseCell {
             self.ratingLabel.rightAnchor.constraint(equalTo: ratingContainer.rightAnchor),
             self.ratingLabel.bottomAnchor.constraint(lessThanOrEqualTo: ratingContainer.bottomAnchor),
         ])
-
-        if let displayName = User.current?.name, displayName.length > 0, let username = User.current?.username {
-            self.nameLabel.text = displayName
-            self.usernameLabel.text = "@\(username)"
-        } else if let username = User.current?.username {
-            self.usernameLabel.text = nil
-            self.nameLabel.text = "@\(username)"
-        }
-
-        if let image = User.current?.avatar {
-            self.avatarImageView.image = image
-        } else if let avatarPath = User.current?.avatarPath {
-            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
-                User.current?.avatar = image
-                self.avatarImageView.image = image
-            }
-        }
     }
 }

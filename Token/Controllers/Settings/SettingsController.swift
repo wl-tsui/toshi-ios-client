@@ -41,6 +41,11 @@ open class SettingsController: SweetTableController {
             self.tableView.register(type)
         }
     }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
+    }
 }
 
 extension SettingsController: UITableViewDataSource {
@@ -75,7 +80,9 @@ extension SettingsController: UITableViewDelegate {
             cell.setIndex(indexPath.row, from: tableView.numberOfRows(inSection: indexPath.section))
         }
 
-        if let cell = cell as? SecurityCell {
+        if let cell = cell as? ProfileCell {
+            cell.user = User.current
+        } else if let cell = cell as? SecurityCell {
             cell.title = securityTitles[indexPath.row]
         } else if let cell = cell as? SettingsCell {
             cell.title = settingsTitles[indexPath.row]
