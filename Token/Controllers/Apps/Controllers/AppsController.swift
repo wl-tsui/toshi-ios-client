@@ -164,6 +164,7 @@ extension AppsController: UICollectionViewDataSource {
 }
 
 extension AppsController: UICollectionViewDelegate {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let app = self.recommendedApps[indexPath.row]
         let appController = AppDetailController(app: app)

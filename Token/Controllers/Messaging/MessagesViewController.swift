@@ -292,11 +292,11 @@ class MessagesViewController: MessagesCollectionViewController {
     }
 
     /// Handle incoming interactions or previous messages when restoring a conversation.
-    /// 
+    ///
     /// - Parameters:
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
-    /// 
+    ///
     func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message? {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
             DispatchQueue.main.async {
@@ -540,11 +540,11 @@ extension MessagesViewController: ActionableCellDelegate {
 
         let message = self.visibleMessage(at: visibleMessageIndexPath)
         message.isActionable = false
-        
+
         let layout = self.layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
-        
+
         let interaction = message.signalMessage
         interaction.paymentState = .pendingConfirmation
         interaction.save()

@@ -24,7 +24,7 @@ class MessagesCollectionViewController: NOCChatViewController {
                 // has filled in its cells. Thanks UIKit.
                 DispatchQueue.main.asyncAfter(seconds: 0.1) {
                     var height: CGFloat = 0
-                    (self.controlsView.visibleCells as? [ControlCell])?.forEach{ (cell) in
+                    (self.controlsView.visibleCells as? [ControlCell])?.forEach { (cell) in
                         height = max(height, cell.frame.maxY)
                     }
 
@@ -93,7 +93,6 @@ class MessagesCollectionViewController: NOCChatViewController {
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0
 
-
         // Upside down collection views!
         view.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -137,7 +136,6 @@ class MessagesCollectionViewController: NOCChatViewController {
         // to be implemented by subclass
     }
 
-
     // TODO: simplify and better document?
     // also more testing.
     func displayState(for button: SofaMessage.Button?) -> DisplayState {
@@ -160,6 +158,7 @@ class MessagesCollectionViewController: NOCChatViewController {
 }
 
 extension MessagesCollectionViewController: ControlViewActionDelegate {
+
     func controlsCollectionViewDidSelectControl(_ button: SofaMessage.Button) {
         switch button.type {
         case .button:
@@ -242,7 +241,7 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
             self.view.layoutIfNeeded()
             // now that it's too small to see, we can unset hidden
             self.subcontrolsView.isHidden = false
-            
+
             // ✨ Animate that beauty in! ✨
             self.subcontrolsViewHeightConstraint.constant = height
             UIView.animate(withDuration: 0.15) {

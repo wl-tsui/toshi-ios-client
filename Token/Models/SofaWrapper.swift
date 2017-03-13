@@ -83,7 +83,9 @@ open class SofaWrapper: SofaWrapperProtocol {
 }
 
 open class SofaMessage: SofaWrapper {
+
     open class Button: Equatable {
+
         public enum ControlType: String {
             case button = "button"
             case group = "group"
@@ -192,7 +194,7 @@ open class SofaCommand: SofaWrapper {
     public convenience init(button: SofaMessage.Button) {
         let json: [String: Any] = [
             "body": button.label,
-            "value": button.value!
+            "value": button.value!,
         ]
 
         self.init(content: json)
@@ -278,6 +280,7 @@ open class SofaPaymentRequest: SofaWrapper {
 }
 
 open class SofaPayment: SofaWrapper {
+
     public enum Status: String {
         case unconfirmed = "unconfirmed"
         case confirmed = "confirmed"

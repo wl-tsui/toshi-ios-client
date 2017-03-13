@@ -38,11 +38,11 @@ extension Theme {
     public static var messageViewBackgroundColor: UIColor {
         return UIColor(hex: "F3F3F3")
     }
-    
+
     public static var settingsBackgroundColor: UIColor {
         return UIColor(hex: "FCFCFC")
     }
-    
+
     public static var inputFieldBackgroundColor: UIColor {
         return UIColor(hex: "FAFAFA")
     }
@@ -50,7 +50,7 @@ extension Theme {
     public static var navigationTitleTextColor: UIColor {
         return .white
     }
-    
+
     public static var borderColor: UIColor {
         return UIColor(hex: "D7DBDC")
     }
@@ -66,11 +66,11 @@ extension Theme {
     public static var incomingMessageBackgroundColor: UIColor {
         return .white
     }
-    
+
     public static var ratingBackground: UIColor {
         return UIColor(hex: "D1D1D1")
     }
-    
+
     public static var ratingTint: UIColor {
         return UIColor(hex: "EB6E00")
     }
@@ -82,7 +82,7 @@ extension Theme {
     public static var incomingMessageTextColor: UIColor {
         return UIColor(hex: "4A4A57")
     }
-    
+
     public static var errorColor: UIColor {
         return UIColor(hex: "FF0000")
     }

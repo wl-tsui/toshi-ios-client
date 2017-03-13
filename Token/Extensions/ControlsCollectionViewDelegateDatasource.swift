@@ -46,7 +46,7 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
 
     func didTapButton(for cell: ControlCell) {
         guard let indexPath = self.subcontrolsCollectionView?.indexPath(for: cell) else { return }
-//        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
+        //        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
 
         self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.row])
     }
@@ -95,7 +95,7 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
 
     func didTapButton(for cell: ControlCell) {
         guard let indexPath = self.controlsCollectionView?.indexPath(for: cell) else { return }
-//        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
+        //        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
 
         self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.row])
     }

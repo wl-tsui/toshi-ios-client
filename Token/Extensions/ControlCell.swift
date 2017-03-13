@@ -95,4 +95,3 @@ class ControlCell: UICollectionViewCell {
         self.delegate?.didTapButton(for: self)
     }
 }
-

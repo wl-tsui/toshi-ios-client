@@ -116,7 +116,7 @@ class ReputationView: UIView {
             self.oneStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.oneStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: 31),
             self.oneStarsBarView.heightAnchor.constraint(equalToConstant: 16),
-            ])
+        ])
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -178,7 +178,7 @@ class ReputationBarView: UIView {
             self.barView.topAnchor.constraint(equalTo: self.topAnchor),
             self.barView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.barView.leftAnchor.constraint(equalTo: self.starImageView.rightAnchor, constant: 8),
-            ])
+        ])
 
         self.barWidthAnchor = self.barView.widthAnchor.constraint(equalToConstant: self.totalWidth)
         self.barWidthAnchor?.isActive = true

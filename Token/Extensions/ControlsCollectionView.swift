@@ -2,6 +2,7 @@ import UIKit
 import UICollectionViewLeftAlignedLayout
 
 class ControlsCollectionView: UICollectionView {
+
     convenience init() {
         self.init(frame: .zero, collectionViewLayout: UICollectionViewLeftAlignedLayout())
     }

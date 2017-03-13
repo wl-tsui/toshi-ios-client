@@ -18,7 +18,7 @@ public class EthereumAPIClient: NSObject {
     public var exchangeRate: Decimal {
         get {
             self.updateRate()
-            
+
             if let rate = self.yap.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
                 return rate
             } else {

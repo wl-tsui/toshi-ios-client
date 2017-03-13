@@ -206,23 +206,23 @@ class AppDetailController: UIViewController {
         self.reputationView.topAnchor.constraint(equalTo: self.reputationTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.reputationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.reputationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-//
-//        self.categorySeparatorView.set(height: 1.0)
-//        self.categorySeparatorView.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: marginVertical).isActive = true
-//        self.categorySeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-//        self.categorySeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-//
-//        self.categoryTitleLabel.set(height: 32)
-//        self.categoryTitleLabel.topAnchor.constraint(equalTo: self.categorySeparatorView.bottomAnchor, constant: marginVertical).isActive = true
-//        self.categoryTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-//        self.categoryTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-//
-//        self.categoryContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-//        self.categoryContentLabel.topAnchor.constraint(equalTo: self.categoryTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
-//        self.categoryContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-//        self.categoryContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-//
-//        self.categoryContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
+        //
+        //        self.categorySeparatorView.set(height: 1.0)
+        //        self.categorySeparatorView.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: marginVertical).isActive = true
+        //        self.categorySeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        //        self.categorySeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        //
+        //        self.categoryTitleLabel.set(height: 32)
+        //        self.categoryTitleLabel.topAnchor.constraint(equalTo: self.categorySeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+        //        self.categoryTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        //        self.categoryTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        //
+        //        self.categoryContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        //        self.categoryContentLabel.topAnchor.constraint(equalTo: self.categoryTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
+        //        self.categoryContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        //        self.categoryContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        //
+        //        self.categoryContentLabel.bottomAnchor.constraint(equalTo: self.bottomLayoutGuide.topAnchor).isActive = true
     }
 
     func displayQRCode() {
@@ -282,7 +282,7 @@ class AppDetailController: UIViewController {
             self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
 
             SoundPlayer.shared.playSound(type: .addedContact)
-            
+
             self.updateButton()
         }
     }

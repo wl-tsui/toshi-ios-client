@@ -71,7 +71,6 @@ extension HomeController: UICollectionViewDataSource {
             } else {
                 view.balance = balance
             }
-
         }
 
         return view
