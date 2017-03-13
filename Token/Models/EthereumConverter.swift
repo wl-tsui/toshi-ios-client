@@ -15,6 +15,7 @@ struct EthereumConverter {
 
     public static func localFiatToEther(forFiat balance: NSNumber) -> NSDecimalNumber {
         let etherValue = balance.decimalValue / EthereumAPIClient.shared.exchangeRate
+
         return NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
     }
 
@@ -23,6 +24,7 @@ struct EthereumConverter {
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 4
         numberFormatter.maximumFractionDigits = 4
+
         return "\(numberFormatter.string(from: balance)!) ETH"
     }
 
@@ -34,6 +36,7 @@ struct EthereumConverter {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = Locale(identifier: self.forcedLocale)
+
         return numberFormatter.string(from: fiat)!
     }
 

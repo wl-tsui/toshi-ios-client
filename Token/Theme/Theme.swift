@@ -27,6 +27,10 @@ extension Theme {
         return UIColor(hex: "9E9E9E")
     }
 
+    public static var lighterGreyTextColor: UIColor {
+        return UIColor(hex: "F3F3F3")
+    }
+
     public static var tintColor: UIColor {
         return UIColor(hex: "00C365")
     }

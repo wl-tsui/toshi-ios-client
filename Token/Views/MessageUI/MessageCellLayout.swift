@@ -201,7 +201,7 @@ class MessageCellLayout: TGBaseMessageCellLayout {
         static let linkBackgroundColor = UIColor(colorLiteralRed: 191 / 255.0, green: 223 / 255.0, blue: 254 / 255.0, alpha: 1)
 
         static let timeFont = UIFont.systemFont(ofSize: 12)
-        static let outgoingTimeColor = Theme.lightGreyTextColor
+        static let outgoingTimeColor = Theme.lighterGreyTextColor
         static let incomingTimeColor = Theme.greyTextColor
 
         static let timeFormatter: DateFormatter = {

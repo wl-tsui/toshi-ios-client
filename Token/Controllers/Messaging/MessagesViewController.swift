@@ -463,6 +463,12 @@ class MessagesViewController: MessagesCollectionViewController {
                     let message = self.message(at: indexPath)
                     message.signalMessage = interaction
                     DispatchQueue.main.async {
+                        guard self.visibleMessages.count == self.layouts.count else {
+                            print("Called before colection view had a chance to insert message.")
+
+                            return
+                        }
+
                         if let visibleIndex = self.visibleMessages.index(of: message), let layout = self.layouts[visibleIndex] as? MessageCellLayout {
                             layout.chatItem = message
                             let visibleIndexPath = self.reversedIndexPath(IndexPath(item: visibleIndex, section: 0))
