@@ -315,7 +315,7 @@ public class ContactController: UIViewController {
 
             self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
 
-            SoundPlayer.shared.playSound(type: .addedContact)
+            SoundPlayer.playSound(type: .addedContact)
 
             self.updateButton()
         }

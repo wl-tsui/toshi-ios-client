@@ -67,6 +67,8 @@ open class TabBarController: UITabBarController {
 extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        SoundPlayer.playSound(type: .menuButton)
+
         self.automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets
 
         if let index = self.viewControllers?.index(of: viewController) {

@@ -189,6 +189,8 @@
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
+		9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
+		9F8C340F1E715C7A005178F9 /* menuButton.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340E1E715C7A005178F9 /* menuButton.m4a */; };
 		9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */; };
 		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
@@ -349,6 +351,8 @@
 		9F844BD41E30D880001C5498 /* ChatsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		9F844BD91E30DF48001C5498 /* ContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactController.swift; sourceTree = "<group>"; };
+		9F8C340C1E71530A005178F9 /* paymentSend.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = paymentSend.m4a; sourceTree = "<group>"; };
+		9F8C340E1E715C7A005178F9 /* menuButton.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = menuButton.m4a; sourceTree = "<group>"; };
 		9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9238B51E24F1D2004BEEE0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -750,6 +754,8 @@
 		9FA12BEA1E65CF59003705F6 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				9F8C340E1E715C7A005178F9 /* menuButton.m4a */,
+				9F8C340C1E71530A005178F9 /* paymentSend.m4a */,
 				9FEFEF651E66CF6E00948277 /* addContactApp.m4a */,
 				9FEFEF631E66CE0000948277 /* scan.m4a */,
 				9FEFEF611E66CD6C00948277 /* requestPayment.m4a */,
@@ -1078,6 +1084,7 @@
 				9FAACCF91E31120600FB871D /* SF-UI-Display-Ultralight.otf in Resources */,
 				9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */,
 				9FAACCF81E31120600FB871D /* SF-UI-Display-Thin.otf in Resources */,
+				9F8C340F1E715C7A005178F9 /* menuButton.m4a in Resources */,
 				9FAACCF51E31120600FB871D /* SF-UI-Display-Medium.otf in Resources */,
 				9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */,
 				9FAACD001E31120600FB871D /* SF-UI-Text-Medium.otf in Resources */,
@@ -1100,6 +1107,7 @@
 				9FEFEF641E66CE0000948277 /* scan.m4a in Resources */,
 				9FA12BF01E65D043003705F6 /* messageSent.m4a in Resources */,
 				9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */,
+				9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

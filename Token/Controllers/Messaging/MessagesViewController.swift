@@ -447,12 +447,14 @@ class MessagesViewController: MessagesCollectionViewController {
 
                             if result.isOutgoing {
                                 if result.sofaWrapper.type == .paymentRequest {
-                                    SoundPlayer.shared.playSound(type: .requestPayment)
+                                    SoundPlayer.playSound(type: .requestPayment)
+                                } else if result.sofaWrapper.type == .payment {
+                                    SoundPlayer.playSound(type: .paymentSend)
                                 } else {
-                                    SoundPlayer.shared.playSound(type: .messageSent)
+                                    SoundPlayer.playSound(type: .messageSent)
                                 }
                             } else {
-                                SoundPlayer.shared.playSound(type: .messageReceived)
+                                SoundPlayer.playSound(type: .messageReceived)
                             }
                         }
                     }

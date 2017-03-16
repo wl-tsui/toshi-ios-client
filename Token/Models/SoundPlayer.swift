@@ -6,9 +6,11 @@ public struct SoundPlayer {
     enum SoundType: String {
         case messageSent = "messageSent"
         case messageReceived = "messageReceived"
-        case requestPayment = "requestPayment"
         case scanned = "scan"
         case addedContact = "addContactApp"
+        case requestPayment = "requestPayment"
+        case paymentSend = "paymentSend"
+        case menuButton = "menuButton"
     }
 
     static let shared = SoundPlayer()
@@ -19,6 +21,10 @@ public struct SoundPlayer {
         self.sounds = [
             self.soundID(for: .messageSent),
         ]
+    }
+
+    static func playSound(type: SoundType) {
+        self.shared.playSound(type: type)
     }
 
     func soundID(for type: SoundType) -> SystemSoundID {
