@@ -5,6 +5,8 @@ import HDWallet
 /// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages.
 public class Cereal: NSObject {
 
+    let entropyByteCount = 16
+
     var idCereal: EtherealCereal
 
     var walletCereal: EtherealCereal
@@ -27,7 +29,7 @@ public class Cereal: NSObject {
         if let words = self.yap.retrieveObject(for: Cereal.collectionKey) as? String {
             self.mnemonic = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english)!
         } else {
-            var entropy = Data(count: 32)
+            var entropy = Data(count: self.entropyByteCount)
             // This creates the private key inside a block, result is of internal type ResultType.
             // We just need to check if it's 0 to ensure that there were no errors.
             let result = entropy.withUnsafeMutableBytes { mutableBytes in
