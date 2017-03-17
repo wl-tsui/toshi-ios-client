@@ -8,7 +8,11 @@ github "mxcl/PromiseKit" "4.1.7"
 github "UseSweet/SweetFoundation" "1.2.1"
 github "UseSweet/SweetSwift" "1.2.0"
 github "UseSweet/SweetUIKit" "1.9.0"
+<<<<<<< HEAD
 github "bakkenbaeck/Teapot" "8415d97612a4e2cb2d15b3aa52dd3570751bc947"
 github "mokagio/UICollectionViewLeftAlignedLayout" "83fd602765d67daa36daf271a18e6d8f2fccd39d"
+=======
+github "bakkenbaeck/Teapot" "0.0.1"
+>>>>>>> e9f2059... Updated Teapot.
 github "ibireme/YYText" "02eba9ffd392892a2fca5ed98f6628d29003ef78"
 github "marketplacer/keychain-swift" "7.0.1"
