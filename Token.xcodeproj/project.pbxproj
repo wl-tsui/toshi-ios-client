@@ -119,13 +119,11 @@
 		149F9AC51E72E29A00FB74AA /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCED1E31120600FB871D /* SF-UI-Text-Semibold.otf */; };
 		149F9AC61E72E29A00FB74AA /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCD91E31120600FB871D /* SF-UI-Display-Black.otf */; };
 		149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEA1E31120600FB871D /* SF-UI-Text-MediumItalic.otf */; };
-		149F9AC81E72E29A00FB74AA /* PN.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEB1E65CF61003705F6 /* PN.m4a */; };
 		149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
 		149F9ACA1E72E29A00FB74AA /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
 		149F9ACB1E72E29A00FB74AA /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDE1E31120600FB871D /* SF-UI-Display-Regular.otf */; };
 		149F9ACC1E72E29A00FB74AA /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDC1E31120600FB871D /* SF-UI-Display-Light.otf */; };
 		149F9ACD1E72E29A00FB74AA /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE11E31120600FB871D /* SF-UI-Display-Ultralight.otf */; };
-		149F9ACE1E72E29A00FB74AA /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 		149F9ACF1E72E29A00FB74AA /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE01E31120600FB871D /* SF-UI-Display-Thin.otf */; };
 		149F9AD01E72E29A00FB74AA /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDD1E31120600FB871D /* SF-UI-Display-Medium.otf */; };
 		149F9AD11E72E29A00FB74AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
@@ -136,18 +134,14 @@
 		149F9AD61E72E29A00FB74AA /* SF-UI-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE51E31120600FB871D /* SF-UI-Text-Heavy.otf */; };
 		149F9AD71E72E29A00FB74AA /* SF-UI-Text-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEC1E31120600FB871D /* SF-UI-Text-RegularItalic.otf */; };
 		149F9AD81E72E29A00FB74AA /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEB1E31120600FB871D /* SF-UI-Text-Regular.otf */; };
-		149F9AD91E72E29A00FB74AA /* requestPayment.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF611E66CD6C00948277 /* requestPayment.m4a */; };
 		149F9ADA1E72E29A00FB74AA /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */; };
 		149F9ADB1E72E29A00FB74AA /* SF-UI-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDB1E31120600FB871D /* SF-UI-Display-Heavy.otf */; };
 		149F9ADC1E72E29A00FB74AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */; };
 		149F9ADD1E72E29A00FB74AA /* SF-UI-Text-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE61E31120600FB871D /* SF-UI-Text-HeavyItalic.otf */; };
 		149F9ADE1E72E29A00FB74AA /* SF-UI-Text-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE41E31120600FB871D /* SF-UI-Text-BoldItalic.otf */; };
-		149F9ADF1E72E29A00FB74AA /* messageReceived.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BF31E66CA42003705F6 /* messageReceived.m4a */; };
 		149F9AE01E72E29A00FB74AA /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE81E31120600FB871D /* SF-UI-Text-LightItalic.otf */; };
 		149F9AE11E72E29A00FB74AA /* SF-UI-Text-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE71E31120600FB871D /* SF-UI-Text-Light.otf */; };
 		149F9AE21E72E29A00FB74AA /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDF1E31120600FB871D /* SF-UI-Display-Semibold.otf */; };
-		149F9AE31E72E29A00FB74AA /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
-		149F9AE41E72E29A00FB74AA /* messageSent.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEF1E65D043003705F6 /* messageSent.m4a */; };
 		149F9AE51E72E29A00FB74AA /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */; };
 		14A769E11E72EC70007B4C1A /* DistributionTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */; };
 		14E4D8D01E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */; };
@@ -232,6 +226,15 @@
 		9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
 		9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
+		9FB36EA51E7C272400DB6F86 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
+		9FB36EA81E7C27A300DB6F86 /* menuButton.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340E1E715C7A005178F9 /* menuButton.m4a */; };
+		9FB36EA91E7C27A300DB6F86 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
+		9FB36EAA1E7C27A300DB6F86 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
+		9FB36EAB1E7C27A300DB6F86 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
+		9FB36EAC1E7C27A300DB6F86 /* requestPayment.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF611E66CD6C00948277 /* requestPayment.m4a */; };
+		9FB36EAD1E7C27A300DB6F86 /* messageReceived.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BF31E66CA42003705F6 /* messageReceived.m4a */; };
+		9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEF1E65D043003705F6 /* messageSent.m4a */; };
+		9FB36EAF1E7C27A300DB6F86 /* PN.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEB1E65CF61003705F6 /* PN.m4a */; };
 		9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
 		9FC0D3E11E55A1E300A46760 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; };
 		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
@@ -1036,35 +1039,37 @@
 				149F9AC51E72E29A00FB74AA /* SF-UI-Text-Semibold.otf in Resources */,
 				149F9AC61E72E29A00FB74AA /* SF-UI-Display-Black.otf in Resources */,
 				149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */,
-				149F9AC81E72E29A00FB74AA /* PN.m4a in Resources */,
 				149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */,
+				9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */,
 				149F9ACA1E72E29A00FB74AA /* token.cer in Resources */,
 				149F9ACB1E72E29A00FB74AA /* SF-UI-Display-Regular.otf in Resources */,
 				149F9ACC1E72E29A00FB74AA /* SF-UI-Display-Light.otf in Resources */,
 				149F9ACD1E72E29A00FB74AA /* SF-UI-Display-Ultralight.otf in Resources */,
-				149F9ACE1E72E29A00FB74AA /* addContactApp.m4a in Resources */,
 				149F9ACF1E72E29A00FB74AA /* SF-UI-Display-Thin.otf in Resources */,
+				9FB36EAC1E7C27A300DB6F86 /* requestPayment.m4a in Resources */,
 				149F9AD01E72E29A00FB74AA /* SF-UI-Display-Medium.otf in Resources */,
 				149F9AD11E72E29A00FB74AA /* LaunchScreen.storyboard in Resources */,
+				9FB36EAB1E7C27A300DB6F86 /* scan.m4a in Resources */,
+				9FB36EA81E7C27A300DB6F86 /* menuButton.m4a in Resources */,
 				149F9AD21E72E29A00FB74AA /* SF-UI-Text-Medium.otf in Resources */,
 				149F9AD31E72E29A00FB74AA /* SF-UI-Text-Bold.otf in Resources */,
 				149F9AD41E72E29A00FB74AA /* Localizable.strings in Resources */,
 				149F9AD51E72E29A00FB74AA /* SF-UI-Display-Bold.otf in Resources */,
 				149F9AD61E72E29A00FB74AA /* SF-UI-Text-Heavy.otf in Resources */,
+				9FB36EAF1E7C27A300DB6F86 /* PN.m4a in Resources */,
+				9FB36EA91E7C27A300DB6F86 /* paymentSend.m4a in Resources */,
 				149F9AD71E72E29A00FB74AA /* SF-UI-Text-RegularItalic.otf in Resources */,
 				149F9AD81E72E29A00FB74AA /* SF-UI-Text-Regular.otf in Resources */,
-				149F9AD91E72E29A00FB74AA /* requestPayment.m4a in Resources */,
 				149F9ADA1E72E29A00FB74AA /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				149F9ADB1E72E29A00FB74AA /* SF-UI-Display-Heavy.otf in Resources */,
 				149F9ADC1E72E29A00FB74AA /* Assets.xcassets in Resources */,
 				149F9ADD1E72E29A00FB74AA /* SF-UI-Text-HeavyItalic.otf in Resources */,
 				149F9ADE1E72E29A00FB74AA /* SF-UI-Text-BoldItalic.otf in Resources */,
-				149F9ADF1E72E29A00FB74AA /* messageReceived.m4a in Resources */,
 				149F9AE01E72E29A00FB74AA /* SF-UI-Text-LightItalic.otf in Resources */,
 				149F9AE11E72E29A00FB74AA /* SF-UI-Text-Light.otf in Resources */,
+				9FB36EAA1E7C27A300DB6F86 /* addContactApp.m4a in Resources */,
+				9FB36EAD1E7C27A300DB6F86 /* messageReceived.m4a in Resources */,
 				149F9AE21E72E29A00FB74AA /* SF-UI-Display-Semibold.otf in Resources */,
-				149F9AE31E72E29A00FB74AA /* scan.m4a in Resources */,
-				149F9AE41E72E29A00FB74AA /* messageSent.m4a in Resources */,
 				149F9AE51E72E29A00FB74AA /* SF-UI-Text-Ultrathin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1358,6 +1363,7 @@
 				149F9A9C1E72E29A00FB74AA /* MessageCellLayout.swift in Sources */,
 				149F9A9D1E72E29A00FB74AA /* ControlCell.swift in Sources */,
 				149F9A9E1E72E29A00FB74AA /* User.swift in Sources */,
+				9FB36EA51E7C272400DB6F86 /* NSLayoutConstraint+Additions.swift in Sources */,
 				149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */,
 				149F9AA01E72E29A00FB74AA /* SofaWrapper.swift in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,
