@@ -44,7 +44,11 @@ open class SettingsController: SweetTableController {
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.reloadData()
+		self.tableView.reloadData()
+        
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        self.navigationItem.backBarButtonItem = backItem
     }
 }
 
@@ -100,6 +104,8 @@ extension SettingsController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             self.navigationController?.pushViewController(ProfileController(idAPIClient: self.idAPIClient), animated: true)
+        } else if indexPath.section == 1, indexPath.row == 0 {
+            self.navigationController?.pushViewController(BackupPhraseEnableController(idAPIClient: self.idAPIClient), animated: true)
         } else if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
             cell.checkbox.checked = !cell.checkbox.checked
         }

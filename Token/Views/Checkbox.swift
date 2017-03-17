@@ -6,9 +6,10 @@ class Checkbox: UIView {
 
     private lazy var unCheckedView: UIView = {
         let view = UIView(withAutoLayout: true)
+        view.isUserInteractionEnabled = false
 
         let layer = CAShapeLayer()
-        layer.fillColor = UIColor.clear.cgColor
+        layer.fillColor = UIColor.white.cgColor
         layer.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: Checkbox.size, height: Checkbox.size)).cgPath
         layer.strokeColor = Theme.borderColor.cgColor
         layer.lineWidth = 1
@@ -19,6 +20,7 @@ class Checkbox: UIView {
 
     private lazy var checkedView: UIView = {
         let view = UIView(withAutoLayout: true)
+        view.isUserInteractionEnabled = false
 
         let layer = CAShapeLayer()
         layer.fillColor = Theme.tintColor.cgColor
@@ -28,6 +30,7 @@ class Checkbox: UIView {
         view.layer.addSublayer(layer)
 
         let imageView = UIImageView(withAutoLayout: true)
+        imageView.isUserInteractionEnabled = false
         imageView.contentMode = .center
         imageView.image = #imageLiteral(resourceName: "checkmark").withRenderingMode(.alwaysTemplate)
         imageView.tintColor = Theme.viewBackgroundColor
@@ -45,8 +48,8 @@ class Checkbox: UIView {
 
     var checked: Bool = false {
         didSet {
-            unCheckedView.isHidden = checked
-            checkedView.isHidden = !checked
+            self.unCheckedView.isHidden = checked
+            self.checkedView.isHidden = !checked
         }
     }
 
