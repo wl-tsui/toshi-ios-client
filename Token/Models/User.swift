@@ -44,33 +44,27 @@ public class User: NSObject, JSONDataSerialization {
         }
     }
 
-    public var name: String = "" {
+    public var name: String? {
         didSet {
             self.update()
         }
     }
 
-    public var about: String = "" {
+    public var about: String? {
         didSet {
             self.update()
         }
     }
 
-    public var location: String = "" {
+    public var location: String? {
         didSet {
             self.update()
         }
     }
 
-    public var avatarPath: String = "" {
+    public var avatarPath: String? {
         didSet {
             self.update()
-        }
-    }
-
-    var hasCustomFields: Bool {
-        get {
-            return (self.about.length > 0 || self.location.length > 0 || self.name.length > 0)
         }
     }
 
@@ -81,27 +75,29 @@ public class User: NSObject, JSONDataSerialization {
     public let paymentAddress: String
 
     public var JSONData: Data {
-        let json: [String: Any] = [
+        return try! JSONSerialization.data(withJSONObject: self.asDict, options: [])
+    }
+
+    public var asDict: [String: Any?] {
+        return [
             "token_id": self.address,
             "payment_address": self.paymentAddress,
-            "custom": ["name": self.name, "location": self.location, "about": self.about, "avatar": self.avatarPath],
             "username": self.username,
+            "about": self.about,
+            "location": self.location,
+            "name": self.name,
+            "avatar": self.avatarPath
         ]
-
-        return try! JSONSerialization.data(withJSONObject: json, options: [])
     }
 
     init(json: [String: Any]) {
         self.address = json["token_id"] as! String
         self.paymentAddress = (json["payment_address"] as? String) ?? (json["token_id"] as! String)
         self.username = json["username"] as! String
-
-        if let json = json["custom"] as? [String: Any] {
-            self.name = json["name"] as? String ?? ""
-            self.location = json["location"] as? String ?? ""
-            self.about = json["about"] as? String ?? ""
-            self.avatarPath = json["avatar"] as? String ?? ""
-        }
+        self.name = json["name"] as? String
+        self.location = json["location"] as? String
+        self.about = json["about"] as? String
+        self.avatarPath = json["avatar"] as? String
 
         super.init()
 
@@ -112,15 +108,15 @@ public class User: NSObject, JSONDataSerialization {
         self.address = address
         self.username = username
         self.paymentAddress = paymentAddress
-
-        self.name = name ?? ""
-        self.about = about ?? ""
-        self.location = location ?? ""
+        self.name = name
+        self.about = about
+        self.location = location
     }
 
     func updateAvatar() {
-        if self.avatarPath.length > 0 {
-            IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
+        guard let avatarPath = self.avatarPath else { return }
+        if avatarPath.length > 0 {
+            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
                 self.avatar = image
             }
         }
@@ -130,33 +126,6 @@ public class User: NSObject, JSONDataSerialization {
         self.updateAvatar()
         let json = self.JSONData
         User.yap.insert(object: json, for: User.storedUserKey)
-    }
-
-    public func asRequestParameters() -> [String: Any] {
-        var params: [String: Any] = [
-            "username": self.username,
-        ]
-
-        if self.hasCustomFields {
-            var custom = [String: Any]()
-            if self.about.length > 0 {
-                custom["about"] = self.about
-            }
-            if self.location.length > 0 {
-                custom["location"] = self.location
-            }
-            if self.name.length > 0 {
-                custom["name"] = self.name
-            }
-
-            if self.avatarPath.length > 0 {
-                custom["avatar"] = self.avatarPath
-            }
-
-            params["custom"] = custom
-        }
-
-        return params
     }
 
     public override var description: String {

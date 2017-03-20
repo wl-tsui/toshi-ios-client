@@ -121,13 +121,14 @@ public class IDAPIClient: NSObject {
     public func updateUser(_ user: User, completion: @escaping((_ success: Bool) -> Void)) {
         self.fetchTimestamp { timestamp in
             let path = "/v1/user"
-            let payload = user.asRequestParameters()
-            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8)!
+            let payload = user.JSONData
+            let payloadString = String(data: payload, encoding: .utf8)!
+
             let hashedPayload = self.cereal.sha3WithID(string: payloadString)
             let signature = "0x\(self.cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-            let json = JSON(payload)
+            let json = JSON(user.asDict)
 
             self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
                 switch result {

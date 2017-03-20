@@ -9,10 +9,10 @@ open class ProfileEditController: UIViewController {
         let dataSource = FormDataSource(delegate: nil)
 
         dataSource.items = [
-            FormItem(title: "Username", value: User.current?.username ?? "", fieldName: "username", type: .input),
-            FormItem(title: "Display name", value: User.current?.name ?? "", fieldName: "name", type: .input),
-            FormItem(title: "About", value: User.current?.about ?? "", fieldName: "about", type: .input),
-            FormItem(title: "Location", value: User.current?.location ?? "", fieldName: "location", type: .input),
+            FormItem(title: "Username", value: User.current?.username, fieldName: "username", type: .input),
+            FormItem(title: "Display name", value: User.current?.name, fieldName: "name", type: .input),
+            FormItem(title: "About", value: User.current?.about, fieldName: "about", type: .input),
+            FormItem(title: "Location", value: User.current?.location, fieldName: "location", type: .input),
         ]
 
         return dataSource
@@ -88,6 +88,9 @@ open class ProfileEditController: UIViewController {
 
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.addSubviewsAndConstraints()
+
+        guard let user = User.current else { return }
+        self.avatarImageView.image = user.avatar
     }
 
     func addSubviewsAndConstraints() {
@@ -121,24 +124,20 @@ open class ProfileEditController: UIViewController {
     }
 
     func saveAndDismiss() {
-        var username = ""
-        var name: String?
-        var location: String?
-        var about: String?
+        guard let user = User.current else { return }
 
         for item in self.dataSource.items {
             if item.fieldName == "username" {
-                username = item.value as? String ?? User.current!.username
+                user.username = item.value as? String ?? User.current!.username
             } else if item.fieldName == "name" {
-                name = item.value as? String
+                user.name = item.value as? String
             } else if item.fieldName == "about" {
-                about = item.value as? String
+                user.about = item.value as? String
             } else if item.fieldName == "location" {
-                location = item.value as? String
+                user.location = item.value as? String
             }
         }
 
-        let user = User(address: User.current!.address, paymentAddress: User.current!.paymentAddress, username: username, name: name, about: about, location: location)
         self.idAPIClient.updateUser(user) { success in
             if !success {
                 let alert = UIAlertController.dismissableAlert(title: "Error", message: "Could not update user!")
