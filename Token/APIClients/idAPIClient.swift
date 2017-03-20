@@ -199,7 +199,6 @@ public class IDAPIClient: NSObject {
                 guard let json = json?.dictionary else { completion(nil); return }
 
                 let contact = TokenContact(json: json)
-                self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
                 NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
 
                 completion(contact)

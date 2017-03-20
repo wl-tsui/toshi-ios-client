@@ -78,7 +78,13 @@ class HomeController: UIViewController {
     }
 
     func updateBalance(_ notification: Notification? = nil) {
-        self.ethereumAPIClient.getBalance(address: User.current!.paymentAddress) { balance, error in
+        guard let user = User.current else {
+            self.containerView.balance = NSDecimalNumber.zero
+
+            return
+        }
+        
+        self.ethereumAPIClient.getBalance(address: user.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 self.present(alertController, animated: true, completion: nil)
