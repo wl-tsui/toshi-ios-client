@@ -20,8 +20,6 @@
 		147513681E49CA6F00E44A62 /* HomeItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513671E49CA6F00E44A62 /* HomeItemCell.swift */; };
 		1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147513691E49D41200E44A62 /* HomeNavigationController.swift */; };
 		1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */; };
-		1475136F1E49FB8C00E44A62 /* HomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136E1E49FB8C00E44A62 /* HomeLayout.swift */; };
-		149F9A601E72E29A00FB74AA /* HomeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1475136E1E49FB8C00E44A62 /* HomeLayout.swift */; };
 		149F9A611E72E29A00FB74AA /* PaymentSendController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */; };
 		149F9A621E72E29A00FB74AA /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
@@ -169,6 +167,8 @@
 		9F584C751E5C33140093FA4D /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F584C741E5C33140093FA4D /* NoChat.framework */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
+		9F66BBB91E7FCE2C00C4148A /* HomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */; };
+		9F66BBBA1E7FCE2C00C4148A /* HomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */; };
 		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
 		9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; };
 		9F67585D1E3BA1850009ABCD /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; };
@@ -224,6 +224,8 @@
 		9FAACD051E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */; };
 		9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */; };
 		9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
+		9FAC46ED1E800C13005F76A9 /* UIColor+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */; };
+		9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */; };
 		9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		9FB36EA51E7C272400DB6F86 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
@@ -330,7 +332,6 @@
 		147513671E49CA6F00E44A62 /* HomeItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeItemCell.swift; sourceTree = "<group>"; };
 		147513691E49D41200E44A62 /* HomeNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HomeNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeHeaderView.swift; sourceTree = "<group>"; };
-		1475136E1E49FB8C00E44A62 /* HomeLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLayout.swift; sourceTree = "<group>"; };
 		149F9AEE1E72E29A00FB74AA /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentTokenURLPaths.swift; sourceTree = "<group>"; };
 		14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionTokenURLPaths.swift; sourceTree = "<group>"; };
@@ -362,6 +363,7 @@
 		9F584C741E5C33140093FA4D /* NoChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NoChat.framework; path = Carthage/Build/iOS/NoChat.framework; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessagingNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
 		9F6758501E3BA1850009ABCD /* CameraScanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CameraScanner.framework; path = Carthage/Build/iOS/CameraScanner.framework; sourceTree = SOURCE_ROOT; };
 		9F6758511E3BA1850009ABCD /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
 		9F6758521E3BA1850009ABCD /* Formulaic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Formulaic.framework; path = Carthage/Build/iOS/Formulaic.framework; sourceTree = SOURCE_ROOT; };
@@ -420,6 +422,7 @@
 		9FAACCEE1E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		9FAACCEF1E31120600FB871D /* SF-UI-Text-Ultrathin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Ultrathin.otf"; sourceTree = "<group>"; };
 		9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-UltrathinItalic.otf"; sourceTree = "<group>"; };
+		9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Additions.swift"; sourceTree = "<group>"; };
 		9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+Additions.swift"; sourceTree = "<group>"; };
 		9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseConverter.swift; path = ../Extensions/BaseConverter.swift; sourceTree = "<group>"; };
 		9FB8EA461E323B4000505441 /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
@@ -541,7 +544,6 @@
 		147513621E49CA4500E44A62 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				1475136D1E49FB7D00E44A62 /* Others */,
 				147513631E49CA5300E44A62 /* Controllers */,
 				147513641E49CA5300E44A62 /* Views */,
 			);
@@ -564,14 +566,6 @@
 				1475136B1E49F3A700E44A62 /* HomeHeaderView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		1475136D1E49FB7D00E44A62 /* Others */ = {
-			isa = PBXGroup;
-			children = (
-				1475136E1E49FB8C00E44A62 /* HomeLayout.swift */,
-			);
-			path = Others;
 			sourceTree = "<group>";
 		};
 		14ED3AB91E4A2A8D00DF8079 /* Apps */ = {
@@ -764,6 +758,7 @@
 				9F40F3B81E59FE97007A7DE7 /* MessageUI */,
 				9FE398401E2E225600386FAF /* ProfileItemCell.swift */,
 				A9AC74101E78064500365029 /* TextLabel.swift */,
+				9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */,
 				A9AC740D1E78051F00365029 /* TitleLabel.swift */,
 			);
 			path = Views;
@@ -855,6 +850,7 @@
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
+				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1360,10 +1356,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				149F9A601E72E29A00FB74AA /* HomeLayout.swift in Sources */,
 				149F9A611E72E29A00FB74AA /* PaymentSendController.swift in Sources */,
 				149F9A621E72E29A00FB74AA /* ProfileEditController.swift in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
+				9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */,
 				149F9A651E72E29A00FB74AA /* TokenContact.swift in Sources */,
 				149F9A661E72E29A00FB74AA /* MessageFetcherJob.swift in Sources */,
@@ -1410,6 +1406,7 @@
 				A9AC74151E78231A00365029 /* BackupPhraseView.swift in Sources */,
 				149F9A891E72E29A00FB74AA /* SoundPlayer.swift in Sources */,
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
+				9F66BBBA1E7FCE2C00C4148A /* HomeButton.swift in Sources */,
 				149F9A8B1E72E29A00FB74AA /* SearchResultsView.swift in Sources */,
 				149F9A8C1E72E29A00FB74AA /* ContactsNavigationController.swift in Sources */,
 				A9BF33B31E76F8D0009A51AA /* BackupPhraseEnableController.swift in Sources */,
@@ -1460,10 +1457,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1475136F1E49FB8C00E44A62 /* HomeLayout.swift in Sources */,
 				9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */,
 				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
 				9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */,
+				9FAC46ED1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
 				9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */,
@@ -1510,6 +1507,7 @@
 				A9BF33AD1E76DF0B009A51AA /* BackupPhraseEnableController.swift in Sources */,
 				9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */,
 				9FDB3B1B1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
+				9F66BBB91E7FCE2C00C4148A /* HomeButton.swift in Sources */,
 				143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
 				A9AC74141E78231A00365029 /* BackupPhraseView.swift in Sources */,
 				A9AC74081E77E37500365029 /* ActionButton.swift in Sources */,

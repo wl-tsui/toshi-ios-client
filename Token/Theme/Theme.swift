@@ -5,6 +5,12 @@ import SweetFoundation
 public final class Theme: NSObject {}
 
 extension Theme {
+    public static var borderHeight: CGFloat {
+        return 1.0 / UIScreen.main.scale
+    }
+}
+
+extension Theme {
     public static var randomColor: UIColor {
         let colors = [UIColor.lightGray, UIColor.green, UIColor.red, UIColor.magenta, UIColor.purple, UIColor.blue, UIColor.yellow]
 

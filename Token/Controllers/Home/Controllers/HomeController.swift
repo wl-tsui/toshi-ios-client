@@ -1,9 +1,9 @@
 import UIKit
 import SweetUIKit
 
-class HomeController: SweetCollectionController {
+class HomeController: UIViewController {
     var appsAPIClient: AppsAPIClient
-    var ethererumAPIClient: EthereumAPIClient
+    var ethereumAPIClient: EthereumAPIClient
 
     var apps = [TokenContact]() {
         didSet {
@@ -11,13 +11,34 @@ class HomeController: SweetCollectionController {
         }
     }
 
+    lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alwaysBounceVertical = true
+        view.delegate = self
+        view.dataSource = self
+        view.backgroundColor = Theme.viewBackgroundColor
+
+        view.register(HomeItemCell.self)
+
+        return view
+    }()
+
+    lazy var containerView: HomeContainerView = {
+        let view = HomeContainerView(withAutoLayout: true)
+        
+        return view
+    }()
+
     init(appsAPIClient: AppsAPIClient = .shared, ethererumAPIClient: EthereumAPIClient = .shared) {
         self.appsAPIClient = appsAPIClient
-        self.ethererumAPIClient = ethererumAPIClient
+        self.ethereumAPIClient = ethererumAPIClient
 
-        let layout = HomeLayout()
+        super.init(nibName: nil, bundle: nil)
 
-        super.init(collectionViewLayout: layout)
+        self.updateBalance()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -28,13 +49,23 @@ class HomeController: SweetCollectionController {
         super.viewDidLoad()
 
         self.title = "Home"
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-        self.collectionView.backgroundColor = Theme.viewBackgroundColor
 
-        self.collectionView.register(HomeItemCell.self)
-        self.collectionView.register(HomeHeaderView.self, ofKind: HomeLayout.headerKind)
+        self.view.backgroundColor = Theme.borderColor
+
+        self.view.addSubview(self.containerView)
+        self.view.addSubview(self.collectionView)
+
+        self.containerView.set(height: 230)
+        self.containerView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
+        self.containerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.containerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+
+        // TODO: adjust insets for full content
+        self.collectionView.contentInset = UIEdgeInsetsMake(12, 12, 0, 0)
+        self.collectionView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor, constant: 12).isActive = true
+        self.collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 
         self.appsAPIClient.getFeaturedApps { apps, error in
             if let error = error {
@@ -43,6 +74,17 @@ class HomeController: SweetCollectionController {
             }
 
             self.apps = apps
+        }
+    }
+
+    func updateBalance(_ notification: Notification? = nil) {
+        self.ethereumAPIClient.getBalance(address: User.current!.paymentAddress) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.containerView.balance = balance
+            }
         }
     }
 }
@@ -60,20 +102,19 @@ extension HomeController: UICollectionViewDataSource {
 
         return cell
     }
+}
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeue(HomeHeaderView.self, ofKind: HomeLayout.headerKind, for: indexPath)!
+extension HomeController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 60, height: 120)
+    }
 
-        self.ethererumAPIClient.getBalance(address: Cereal().paymentAddress) { balance, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                self.present(alertController, animated: true, completion: nil)
-            } else {
-                view.balance = balance
-            }
-        }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
 
-        return view
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
     }
 }
 

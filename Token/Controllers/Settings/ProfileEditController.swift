@@ -58,7 +58,7 @@ open class ProfileEditController: UIViewController {
         view.dataSource = self
         view.separatorStyle = .none
         view.register(ProfileItemCell.self)
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = Theme.borderHeight
         view.layer.borderColor = Theme.borderColor.cgColor
         view.alwaysBounceVertical = false
 

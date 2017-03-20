@@ -31,7 +31,7 @@ class AppController: UIViewController {
 
         view.layer.cornerRadius = 4.0
         view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = Theme.borderHeight
 
         return view
     }()
@@ -208,7 +208,7 @@ class AppController: UIViewController {
         self.reputationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.reputationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.categorySeparatorView.set(height: 1.0 / UIScreen.main.scale)
+        self.categorySeparatorView.set(height: Theme.borderHeight)
         self.categorySeparatorView.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: marginVertical).isActive = true
         self.categorySeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.categorySeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true

@@ -52,7 +52,7 @@ open class ProfileController: UIViewController {
 
         view.layer.cornerRadius = 4.0
         view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = Theme.borderHeight
 
         return view
     }()
@@ -207,7 +207,7 @@ open class ProfileController: UIViewController {
         // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest
         // possible width that satisfy all other constraints.
         self.aboutSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.aboutSeparatorView.set(height: 1.0 / UIScreen.main.scale)
+        self.aboutSeparatorView.set(height: Theme.borderHeight)
         self.aboutSeparatorView.topAnchor.constraint(equalTo: self.editProfileButton.bottomAnchor, constant: marginHorizontal).isActive = true
         self.aboutSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.aboutSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
@@ -222,7 +222,7 @@ open class ProfileController: UIViewController {
         self.aboutContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.locationSeparatorView.set(height: 1.0 / UIScreen.main.scale)
+        self.locationSeparatorView.set(height: Theme.borderHeight)
         self.locationSeparatorView.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.locationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.locationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true

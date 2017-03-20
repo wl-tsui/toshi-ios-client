@@ -164,12 +164,6 @@ class MessagesViewController: MessagesCollectionViewController {
     }
 
     func updateBalance(_ notification: Notification? = nil) {
-        if let notification = notification, let balance = notification.object as? NSDecimalNumber {
-            self.set(balance: balance)
-
-            return
-        }
-
         self.ethereumAPIClient.getBalance(address: self.cereal.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)

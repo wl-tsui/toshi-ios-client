@@ -24,6 +24,5 @@ public class AppsNavigationController: UINavigationController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationBar.barTintColor = Theme.tintColor
     }
 }

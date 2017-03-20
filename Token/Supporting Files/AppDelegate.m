@@ -96,6 +96,7 @@
     UINavigationBar *navBarAppearance = [UINavigationBar appearance];
     [navBarAppearance setTitleTextAttributes:attributtes];
     [navBarAppearance setTintColor:[Theme navigationTitleTextColor]];
+    [navBarAppearance setBarTintColor:[Theme tintColor]];
 
     attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme regularWithSize:17]};
     UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];

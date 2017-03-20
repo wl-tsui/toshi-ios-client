@@ -80,7 +80,7 @@ class ControlCell: UICollectionViewCell {
         self.contentView.backgroundColor = Theme.incomingMessageBackgroundColor
         self.contentView.layer.cornerRadius = 8.0
         self.contentView.layer.borderColor = Theme.borderColor.cgColor
-        self.contentView.layer.borderWidth = 1.0
+        self.contentView.layer.borderWidth = Theme.borderHeight
 
         self.contentView.addSubview(self.button)
 

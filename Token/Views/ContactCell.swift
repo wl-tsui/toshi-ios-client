@@ -93,7 +93,7 @@ class ContactCell: UITableViewCell {
         self.usernameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin).isActive = true
         self.usernameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -margin).isActive = true
 
-        self.separatorView.set(height: 1.0 / UIScreen.main.scale)
+        self.separatorView.set(height: Theme.borderHeight)
         self.separatorView.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor).isActive = true
         self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
         self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true

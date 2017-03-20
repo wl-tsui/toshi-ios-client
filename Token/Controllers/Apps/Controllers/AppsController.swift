@@ -27,7 +27,7 @@ class AppsController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: AppsController.cellWidth, height: AppsController.cellHeight)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: HomeLayout.horizontalMargin, bottom: 0, right: HomeLayout.horizontalMargin)
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: HomeLayout.horizontalMargin, bottom: 0, right: HomeLayout.horizontalMargin)
         layout.minimumLineSpacing = 15
 
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)

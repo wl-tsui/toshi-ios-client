@@ -91,7 +91,7 @@ class MessagesCollectionViewController: NOCChatViewController {
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
         view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = Theme.borderHeight
 
         // Upside down collection views!
         view.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)

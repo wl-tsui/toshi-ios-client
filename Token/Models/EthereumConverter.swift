@@ -28,6 +28,10 @@ struct EthereumConverter {
         return "\(numberFormatter.string(from: balance)!) ETH"
     }
 
+    public static func ethereumValueString(forWei balance: NSDecimalNumber) -> String {
+        return self.ethereumValueString(forEther: balance.dividing(by: self.weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
+    }
+
     public static func fiatValueString(forWei balance: NSDecimalNumber) -> String {
         let ether = balance.dividing(by: self.weisToEtherConstant)
         let currentFiatConversion = NSDecimalNumber(decimal: EthereumAPIClient.shared.exchangeRate)
@@ -42,14 +46,16 @@ struct EthereumConverter {
 
     public static func balanceAttributedString(forWei balance: NSDecimalNumber) -> NSAttributedString {
         let fiatText = "\(self.fiatValueString(forWei: balance)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
-        let etherText = self.ethereumValueString(forEther: balance.dividing(by: self.weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
+        let etherText = self.ethereumValueString(forWei: balance)
 
-        let text = fiatText + " · " + etherText
-        let coloredPart = etherText
-        let range = (text as NSString).range(of: coloredPart)
+        let fiatTextFull = fiatText + " · "
+        let text = fiatTextFull + etherText
+        let etherRange = (text as NSString).range(of: etherText)
+        let fiatRange = (text as NSString).range(of: fiatTextFull)
 
         let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Theme.regular(size: 15)])
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: range)
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: etherRange)
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.darkTextColor, range: fiatRange)
 
         return attributedString
     }
