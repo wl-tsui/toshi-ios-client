@@ -21,21 +21,15 @@ class BackupPhraseVerifyController: UIViewController {
         return view
     }()
     
-    fileprivate lazy var randomPhraseView: BackupPhraseView = {
-        var words = Array(Cereal().mnemonic.words[0..<12])
-        words.shuffle()
-        
-        let view = BackupPhraseView(with: words)
+    fileprivate lazy var shuffledPhraseView: BackupPhraseView = {
+        let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .shuffled)
         view.addDelegate = self
         
         return view
     }()
     
     fileprivate lazy var verifyPhraseView: BackupPhraseView = {
-        let view = BackupPhraseView(with: nil)
-        view.backgroundColor = UIColor(white: 0.9, alpha: 1)
-        view.layer.cornerRadius = 4
-        view.clipsToBounds = true
+        let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .verification)
         view.removeDelegate = self
         
         return view
@@ -68,7 +62,7 @@ class BackupPhraseVerifyController: UIViewController {
         self.view.addSubview(self.titleLabel)
         self.view.addSubview(self.textLabel)
         self.view.addSubview(self.verifyPhraseView)
-        self.view.addSubview(self.randomPhraseView)
+        self.view.addSubview(self.shuffledPhraseView)
         
         /*
          Between each view we place a layout-guide to add dynamic control of
@@ -110,14 +104,14 @@ class BackupPhraseVerifyController: UIViewController {
             
             self.guides[3].topAnchor.constraint(equalTo: self.verifyPhraseView.bottomAnchor),
             self.guides[3].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[3].bottomAnchor.constraint(equalTo: self.randomPhraseView.topAnchor),
+            self.guides[3].bottomAnchor.constraint(equalTo: self.shuffledPhraseView.topAnchor),
             self.guides[3].rightAnchor.constraint(equalTo: self.view.rightAnchor),
             
-            self.randomPhraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
-            self.randomPhraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
-            self.randomPhraseView.heightAnchor.constraint(equalTo: self.verifyPhraseView.heightAnchor).priority(.high),
+            self.shuffledPhraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
+            self.shuffledPhraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
+            self.shuffledPhraseView.heightAnchor.constraint(equalTo: self.verifyPhraseView.heightAnchor).priority(.high),
             
-            self.guides[4].topAnchor.constraint(equalTo: self.randomPhraseView.bottomAnchor),
+            self.guides[4].topAnchor.constraint(equalTo: self.shuffledPhraseView.bottomAnchor),
             self.guides[4].leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.guides[4].bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.guides[4].rightAnchor.constraint(equalTo: self.view.rightAnchor),
@@ -147,6 +141,6 @@ extension BackupPhraseVerifyController: RemoveDelegate {
         guard let word = wordView.word else { return }
         
         self.verifyPhraseView.remove(word)
-        self.randomPhraseView.reset(word)
+        self.shuffledPhraseView.reset(word)
     }
 }

@@ -36,6 +36,10 @@ class BackupPhraseWordView: UIControl {
         return view
     }()
     
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .light)
+    }()
+    
     var word: Word?
     
     convenience init(with word: Word) {
@@ -117,16 +121,12 @@ class BackupPhraseWordView: UIControl {
     
     override var isHighlighted: Bool {
         didSet {
-            UIView.highlightAnimation {
-                self.backgroundOverlay.alpha = self.isHighlighted ? 1 : 0
-            }
-        }
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            UIView.highlightAnimation {
-                self.backgroundOverlay.alpha = self.isSelected ? 1 : 0
+            if self.isHighlighted != oldValue {
+                self.feedbackGenerator.impactOccurred()
+                
+                UIView.highlightAnimation {
+                    self.backgroundOverlay.alpha = self.isHighlighted ? 1 : 0
+                }
             }
         }
     }

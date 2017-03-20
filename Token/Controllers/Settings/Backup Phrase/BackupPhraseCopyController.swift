@@ -28,9 +28,7 @@ class BackupPhraseCopyController: UIViewController {
     }()
     
     private lazy var phraseView: BackupPhraseView = {
-        let words = Array(Cereal().mnemonic.words[0..<12])
-        let view = BackupPhraseView(with: words)
-        view.isUserInteractionEnabled = false
+        let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .original)
         
         return view
     }()

@@ -19,6 +19,10 @@ class CheckboxControl: UIControl {
         return view
     }()
     
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+        return UIImpactFeedbackGenerator(style: .light)
+    }()
+    
     var title: String? {
         didSet {
             guard let title = self.title else { return }
@@ -60,18 +64,13 @@ class CheckboxControl: UIControl {
     
     override var isHighlighted: Bool {
         didSet {
-            UIView.highlightAnimation {
-                self.checkbox.alpha = self.isHighlighted ? 0.6 : 1
-                self.titleLabel.alpha = self.isHighlighted ? 0.6 : 1
-            }
-        }
-    }
-    
-    override var isSelected: Bool {
-        didSet {
-            UIView.highlightAnimation {
-                self.checkbox.alpha = self.isSelected ? 0.6 : 1
-                self.titleLabel.alpha = self.isSelected ? 0.6 : 1
+            if self.isHighlighted != oldValue {
+                self.feedbackGenerator.impactOccurred()
+                
+                UIView.highlightAnimation {
+                    self.checkbox.alpha = self.isHighlighted ? 0.6 : 1
+                    self.titleLabel.alpha = self.isHighlighted ? 0.6 : 1
+                }
             }
         }
     }
