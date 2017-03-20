@@ -2,7 +2,7 @@ import UIKit
 import SweetUIKit
 
 typealias Word = String
-typealias Words = [Word]
+typealias Phrase = [Word]
 typealias Layout = [NSLayoutConstraint]
 
 protocol AddDelegate {
@@ -13,18 +13,37 @@ protocol RemoveDelegate {
     func remove(_ wordView: BackupPhraseWordView)
 }
 
+protocol VerificationDelegate {
+    func verify(_ phrase: Phrase) -> VerificationStatus
+}
+
 enum BackupPhraseType {
     case original
     case shuffled
     case verification
 }
 
+enum VerificationStatus {
+    case tooShort
+    case correct
+    case incorrect
+}
+
 class BackupPhraseView: UIView {
     
-    var type: BackupPhraseType = .original
+    private var type: BackupPhraseType = .original
+    private var verificationStatus: VerificationStatus = .tooShort {
+        didSet {
+            if case .incorrect = self.verificationStatus {
+                DispatchQueue.main.asyncAfter(seconds: 0.5) {
+                    self.shake()
+                }
+            }
+        }
+    }
     
-    private var words: Words = []
-    private var addedWords: Words = []
+    private var originalPhrase: Phrase = []
+    private var currentPhrase: Phrase = []
     private var layout: Layout = []
     
     let margin: CGFloat = 10
@@ -32,16 +51,17 @@ class BackupPhraseView: UIView {
     
     var addDelegate: AddDelegate?
     var removeDelegate: RemoveDelegate?
+    var verificationDelegate: VerificationDelegate?
     
     var wordViews: [BackupPhraseWordView] = []
     var containers: [UILayoutGuide] = []
     
-    convenience init(with words: Words, for type: BackupPhraseType) {
+    convenience init(with originalPhrase: Phrase, for type: BackupPhraseType) {
         self.init(withAutoLayout: true)
         self.type = type
 
-        self.words = Array(words[0..<12])
-        self.wordViews = self.wordViews(for: self.words)
+        self.originalPhrase = Array(originalPhrase[0..<12])
+        self.wordViews = self.wordViews(for: self.originalPhrase)
         
         for wordView in self.wordViews {
             self.addSubview(wordView)
@@ -50,11 +70,11 @@ class BackupPhraseView: UIView {
         switch self.type {
         case .original:
             self.isUserInteractionEnabled = false
-            self.addedWords.append(contentsOf: self.words)
+            self.currentPhrase.append(contentsOf: self.originalPhrase)
             self.activateNewLayout()
         case .shuffled:
-            self.words.shuffle()
-            self.addedWords.append(contentsOf: self.words)
+            self.originalPhrase.shuffle()
+            self.currentPhrase.append(contentsOf: self.originalPhrase)
             self.activateNewLayout()
         case .verification:
             self.backgroundColor = UIColor(white: 0.9, alpha: 1)
@@ -65,14 +85,14 @@ class BackupPhraseView: UIView {
     }
     
     func add(_ word: Word) {
-        self.addedWords.append(word)
+        self.currentPhrase.append(word)
         
         self.deactivateLayout()
         self.activateNewLayout()
         self.animateLayout()
         
         self.wordViews.filter { wordView in
-            self.addedWords.contains(wordView.word!)
+            self.currentPhrase.contains(wordView.word!)
             }.forEach { wordView in
                 
                 if word == wordView.word {
@@ -85,10 +105,13 @@ class BackupPhraseView: UIView {
                 }, completion: nil)
         }
         
+        if let verificationDelegate = self.verificationDelegate {
+            self.verificationStatus = verificationDelegate.verify(self.currentPhrase)
+        }
     }
     
     func remove(_ word: Word) {
-        self.addedWords = self.addedWords.filter { currentWord in
+        self.currentPhrase = self.currentPhrase.filter { currentWord in
             currentWord != word
         }
         
@@ -97,7 +120,7 @@ class BackupPhraseView: UIView {
         self.animateLayout()
         
         self.wordViews.filter { wordView in
-            !addedWords.contains(wordView.word!)
+            !currentPhrase.contains(wordView.word!)
             }.forEach { wordView in
                 wordView.alpha = 0
         }
@@ -130,9 +153,9 @@ class BackupPhraseView: UIView {
         self.layout.removeAll()
     }
     
-    func wordViews(for words: Words) -> [BackupPhraseWordView] {
+    func wordViews(for phrase: Phrase) -> [BackupPhraseWordView] {
         
-        return words.map { word -> BackupPhraseWordView in
+        return phrase.map { word -> BackupPhraseWordView in
             let wordView = BackupPhraseWordView(with: word)
             wordView.isAddedForVerification = false
             wordView.addTarget(self, action: #selector(toggleAddedState(for:)), for: .touchUpInside)
@@ -152,12 +175,12 @@ class BackupPhraseView: UIView {
         return container
     }
     
-    func addedWordViews() -> [BackupPhraseWordView] {
+    func currentWordViews() -> [BackupPhraseWordView] {
         var views: [BackupPhraseWordView] = []
         
-        for addedWord in self.addedWords {
+        for currentWord in self.currentPhrase {
             for wordView in self.wordViews {
-                if let word = wordView.word, word == addedWord {
+                if let word = wordView.word, word == currentWord {
                     views.append(wordView)
                     
                     if case .verification = self.type {
@@ -173,10 +196,10 @@ class BackupPhraseView: UIView {
     private func activateNewLayout() {
         var origin = CGPoint(x: 0, y: self.margin)
         var container = self.newContainer(withOffset: origin.y)
-        let addedWordViews = self.addedWordViews()
+        let currentWordViews = self.currentWordViews()
         var previousWordView: UIView?
         
-        for wordView in addedWordViews {
+        for wordView in currentWordViews {
             let size = wordView.getSize()
             let newWidth = origin.x + size.width + self.margin
             
@@ -197,7 +220,7 @@ class BackupPhraseView: UIView {
             self.layout.append(wordView.leftAnchor.constraint(equalTo: previousWordView?.rightAnchor ?? container.leftAnchor, constant: self.margin))
             self.layout.append(wordView.bottomAnchor.constraint(equalTo: container.bottomAnchor))
             
-            if let lastWordView = addedWordViews.last, lastWordView == wordView {
+            if let lastWordView = currentWordViews.last, lastWordView == wordView {
                 self.layout.append(wordView.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -self.margin))
             }
             
@@ -216,7 +239,7 @@ class BackupPhraseView: UIView {
         guard let lastContainer = containers.last else { return }
         
         self.wordViews.filter { wordView in
-            !self.addedWords.contains(wordView.word!)
+            !self.currentPhrase.contains(wordView.word!)
             }.forEach { wordView in
                 wordView.alpha = 0
                 

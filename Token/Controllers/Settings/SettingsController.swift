@@ -2,6 +2,8 @@ import UIKit
 import SweetUIKit
 
 open class SettingsController: SweetTableController {
+    
+    var didVerifyBackupPhrase = false
 
     public var chatAPIClient: ChatAPIClient
     public var idAPIClient: IDAPIClient
@@ -67,7 +69,9 @@ extension SettingsController: UITableViewDataSource {
     }
 
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return SettingsSectionHeader(title: sectionTitles[section], error: sectionErrors[section])
+        let view = SettingsSectionHeader(title: sectionTitles[section], error: sectionErrors[section])
+        view.setErrorHidden(self.didVerifyBackupPhrase, animated: false)
+        return view
     }
 
     open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -88,6 +92,17 @@ extension SettingsController: UITableViewDelegate {
             cell.user = User.current
         } else if let cell = cell as? SecurityCell {
             cell.title = securityTitles[indexPath.row]
+            
+            if indexPath.row == 0 {
+                DispatchQueue.main.asyncAfter(seconds: 0.5) {
+                    
+                    if self.didVerifyBackupPhrase == true, cell.checkbox.checked == false {
+                        cell.checkbox.bounce()
+                    }
+                    
+                    cell.checkbox.checked = self.didVerifyBackupPhrase
+                }
+            }
         } else if let cell = cell as? SettingsCell {
             cell.title = settingsTitles[indexPath.row]
         }

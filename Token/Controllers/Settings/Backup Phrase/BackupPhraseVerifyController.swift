@@ -31,6 +31,7 @@ class BackupPhraseVerifyController: UIViewController {
     fileprivate lazy var verifyPhraseView: BackupPhraseView = {
         let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .verification)
         view.removeDelegate = self
+        view.verificationDelegate = self
         
         return view
     }()
@@ -122,6 +123,10 @@ class BackupPhraseVerifyController: UIViewController {
             self.guides[3].heightAnchor.constraint(equalTo: self.guides[2].heightAnchor),
             self.guides[4].heightAnchor.constraint(equalTo: self.guides[3].heightAnchor),
             ])
+        
+        if let controller = self.navigationController?.viewControllers[0] as? SettingsController {
+            controller.didVerifyBackupPhrase = false
+        }
     }
 }
 
@@ -142,5 +147,31 @@ extension BackupPhraseVerifyController: RemoveDelegate {
         
         self.verifyPhraseView.remove(word)
         self.shuffledPhraseView.reset(word)
+    }
+}
+
+extension BackupPhraseVerifyController: VerificationDelegate {
+    
+    func verify(_ phrase: Phrase) -> VerificationStatus {
+        let originalPhrase = Array(Cereal().mnemonic.words[0..<12])
+        
+        guard originalPhrase.count == phrase.count else {
+            return .tooShort
+        }
+        
+        if originalPhrase == phrase {
+            DispatchQueue.main.asyncAfter(seconds: 0.5) {
+                
+                if let controller = self.navigationController?.viewControllers[0] as? SettingsController {
+                    controller.didVerifyBackupPhrase = true
+                }
+                
+                let _ = self.navigationController?.popToRootViewController(animated: true)
+            }
+            
+            return .correct
+        }
+        
+        return .incorrect
     }
 }

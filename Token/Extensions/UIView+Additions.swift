@@ -20,4 +20,12 @@ public extension UIView {
             self.transform = .identity
         }, completion: nil)
     }
+    
+    func shake() {
+        self.transform = CGAffineTransform(translationX: 10, y: 0)
+        
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 50, options: .easeOut, animations: {
+            self.transform = .identity
+        }, completion: nil)
+    }
 }

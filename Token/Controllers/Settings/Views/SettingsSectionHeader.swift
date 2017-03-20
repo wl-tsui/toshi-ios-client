@@ -31,6 +31,7 @@ class SettingsSectionHeader: UIView {
 
     convenience init(title: String, error: String? = nil) {
         self.init()
+        self.clipsToBounds = true
 
         let margin: CGFloat = 16
 
@@ -60,6 +61,19 @@ class SettingsSectionHeader: UIView {
                 self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin),
                 self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
             ])
+        }
+    }
+    
+    func setErrorHidden(_ hidden: Bool, animated: Bool) {
+        
+        if animated {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+                self.errorLabel.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity
+                self.errorImage.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity
+            }, completion: nil)
+        } else {
+            self.errorLabel.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity
+            self.errorImage.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity
         }
     }
 }
