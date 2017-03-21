@@ -434,10 +434,6 @@ class MessagesViewController: MessagesCollectionViewController {
                         DispatchQueue.main.async {
                             self.messages.append(result)
 
-                            // mark incoming as read, after appending them to the tableview, since this will trigger an update
-                            if let incoming = interaction as? TSIncomingMessage, !incoming.wasRead {
-                                incoming.markAsReadLocally()
-                            }
 
                             if result.isOutgoing {
                                 if result.sofaWrapper.type == .paymentRequest {
@@ -449,6 +445,14 @@ class MessagesViewController: MessagesCollectionViewController {
                                 }
                             } else {
                                 SoundPlayer.playSound(type: .messageReceived)
+                            }
+
+                            // mark incoming as read, after appending them to the tableview, since this will trigger an update
+                            // use dispatch after b/c of UIKit, as it delays updating the collection view content
+                            DispatchQueue.main.asyncAfter(seconds: 0.15) {
+                                if let incoming = interaction as? TSIncomingMessage, !incoming.wasRead {
+                                    incoming.markAsReadLocally()
+                                }
                             }
                         }
                     }
