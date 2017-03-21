@@ -60,6 +60,12 @@ class BackupPhraseVerifyController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = Theme.settingsBackgroundColor
 
+        self.addSubviewsAndConstraints()
+
+        NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: self.verifyPhraseView.verificationStatus)
+    }
+
+    func addSubviewsAndConstraints() {
         self.view.addSubview(self.titleLabel)
         self.view.addSubview(self.textLabel)
         self.view.addSubview(self.verifyPhraseView)
@@ -123,8 +129,6 @@ class BackupPhraseVerifyController: UIViewController {
             self.guides[3].heightAnchor.constraint(equalTo: self.guides[2].heightAnchor),
             self.guides[4].heightAnchor.constraint(equalTo: self.guides[3].heightAnchor),
         ])
-
-        NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: self.verifyPhraseView.verificationStatus)
     }
 }
 
