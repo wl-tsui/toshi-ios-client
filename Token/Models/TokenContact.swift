@@ -81,7 +81,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
                 AppsAPIClient.shared.downloadImage(for: self) { image in
                     self.avatar = image
                 }
-            } else  {
+            } else {
                 IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
                     self.avatar = image
                 }

@@ -64,7 +64,7 @@ class ActionableMessageCell: MessageCell {
         self.timeLabel.isHidden = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -127,7 +127,7 @@ class MessageCell: TGBaseMessageCell {
         self.textLabel.fadeOnAsynchronouslyDisplay = false
         self.textLabel.fadeOnHighlight = false
 
-        self.textLabel.highlightTapAction = { [weak self](containerView, text, range, rect) -> Void in
+        self.textLabel.highlightTapAction = { [weak self](_, text, range, _) -> Void in
             if range.location >= text.length { return }
             let highlight = text.yy_attribute(YYTextHighlightAttributeName, at: UInt(range.location)) as! YYTextHighlight
             guard let info = highlight.userInfo, info.count > 0 else { return }
@@ -145,7 +145,7 @@ class MessageCell: TGBaseMessageCell {
         self.bubbleImageView.addSubview(self.deliveryStatusView)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

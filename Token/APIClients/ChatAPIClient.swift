@@ -15,7 +15,7 @@ public class ChatAPIClient: NSObject {
     public var baseURL: URL
 
     public lazy var storageManager: TSStorageManager = {
-        return TSStorageManager.shared()
+        TSStorageManager.shared()
     }()
 
     public init(cereal: Cereal) {
@@ -24,7 +24,7 @@ public class ChatAPIClient: NSObject {
         self.teapot = Teapot(baseURL: self.baseURL)
     }
 
-    func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {
+    func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
         self.teapot.get("/v1/accounts/bootstrap/") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):

@@ -26,7 +26,7 @@ class HomeController: UIViewController {
 
     lazy var containerView: HomeContainerView = {
         let view = HomeContainerView(withAutoLayout: true)
-        
+
         return view
     }()
 
@@ -41,7 +41,7 @@ class HomeController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -77,13 +77,13 @@ class HomeController: UIViewController {
         }
     }
 
-    func updateBalance(_ notification: Notification? = nil) {
+    func updateBalance(_: Notification? = nil) {
         guard let user = User.current else {
             self.containerView.balance = NSDecimalNumber.zero
 
             return
         }
-        
+
         self.ethereumAPIClient.getBalance(address: user.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
@@ -97,7 +97,7 @@ class HomeController: UIViewController {
 
 extension HomeController: UICollectionViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return self.apps.count
     }
 
@@ -111,22 +111,22 @@ extension HomeController: UICollectionViewDataSource {
 }
 
 extension HomeController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         return CGSize(width: 60, height: 80)
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
         return 12
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
         return 12
     }
 }
 
 extension HomeController: UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let app = self.apps[indexPath.row]
         let appController = AppController(app: app)
         self.navigationController?.pushViewController(appController, animated: true)

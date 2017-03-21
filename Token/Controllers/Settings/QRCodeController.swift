@@ -59,7 +59,7 @@ class QRCodeController: UIViewController {
 
 extension QRCodeController: UIToolbarDelegate {
 
-    func position(for bar: UIBarPositioning) -> UIBarPosition {
+    func position(for _: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
 }

@@ -47,7 +47,7 @@ public class IDAPIClient: NSObject {
 
                 if let dictionary = dictionary as? [String: Any] {
                     let tokenContact = TokenContact(json: dictionary)
-                    self.findContact(name: tokenContact.address) { contact in
+                    self.findContact(name: tokenContact.address) { _ in
                         semaphore.signal()
                     }
                     // calls to `wait()` need to be balanced with calls to `signal()`
@@ -62,7 +62,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    func fetchTimestamp(_ completion: @escaping((Int) -> Void)) {
+    func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
         self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
@@ -78,7 +78,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    public func registerUserIfNeeded(_ success: @escaping((Void) -> Void)) {
+    public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {
         self.retrieveUser(username: self.cereal.address) { user in
             guard user == nil else {
                 User.current = user
@@ -118,7 +118,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    public func updateUser(_ user: User, completion: @escaping((_ success: Bool) -> Void)) {
+    public func updateUser(_ user: User, completion: @escaping ((_ success: Bool) -> Void)) {
         self.fetchTimestamp { timestamp in
             let path = "/v1/user"
             let payload = user.JSONData
@@ -149,7 +149,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    public func retrieveUser(username: String, completion: @escaping((User?) -> Void)) {
+    public func retrieveUser(username: String, completion: @escaping ((User?) -> Void)) {
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
@@ -171,7 +171,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    func downloadAvatar(path: String, completion: @escaping(_ image: UIImage?) -> Void) {
+    func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
         if let image = self.imageCache.object(forKey: path as NSString) {
             completion(image)
 
@@ -191,7 +191,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    public func findContact(name: String, completion: @escaping((TokenContact?) -> Void)) {
+    public func findContact(name: String, completion: @escaping ((TokenContact?) -> Void)) {
         self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
@@ -210,7 +210,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    public func searchContacts(name: String, completion: @escaping(([TokenContact]) -> Void)) {
+    public func searchContacts(name: String, completion: @escaping (([TokenContact]) -> Void)) {
         // /v1/search/user/?query=moxiemarl&offset=80&limit=20
         self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
             switch result {

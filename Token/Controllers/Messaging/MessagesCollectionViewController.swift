@@ -24,7 +24,7 @@ class MessagesCollectionViewController: NOCChatViewController {
                 // has filled in its cells. Thanks UIKit.
                 DispatchQueue.main.asyncAfter(seconds: 0.1) {
                     var height: CGFloat = 0
-                    (self.controlsView.visibleCells as? [ControlCell])?.forEach { (cell) in
+                    (self.controlsView.visibleCells as? [ControlCell])?.forEach { cell in
                         height = max(height, cell.frame.maxY)
                     }
 
@@ -57,15 +57,15 @@ class MessagesCollectionViewController: NOCChatViewController {
     }()
 
     lazy var controlsViewHeightConstraint: NSLayoutConstraint = {
-        return self.controlsView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
+        self.controlsView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
     }()
 
     lazy var subcontrolsViewHeightConstraint: NSLayoutConstraint = {
-        return self.subcontrolsView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
+        self.subcontrolsView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
     }()
 
     lazy var subcontrolsViewWidthConstraint: NSLayoutConstraint = {
-        return self.subcontrolsView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
+        self.subcontrolsView.widthAnchor.constraint(equalToConstant: self.view.frame.width)
     }()
 
     lazy var controlsView: ControlsCollectionView = {
@@ -132,7 +132,7 @@ class MessagesCollectionViewController: NOCChatViewController {
         self.hideSubcontrolsMenu()
     }
 
-    func didTapControlButton(_ button: SofaMessage.Button) {
+    func didTapControlButton(_: SofaMessage.Button) {
         // to be implemented by subclass
     }
 
@@ -191,7 +191,7 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
         self.subcontrolsViewHeightConstraint.constant = 0
         UIView.animate(withDuration: 0.15, animations: {
             self.view.layoutIfNeeded()
-        }, completion: { success in
+        }, completion: { _ in
             self.subcontrolsView.backgroundColor = .clear
 
             completion?()

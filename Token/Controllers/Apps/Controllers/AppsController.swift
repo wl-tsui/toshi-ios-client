@@ -27,7 +27,7 @@ class AppsController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: AppsController.cellWidth, height: AppsController.cellHeight)
-//        layout.sectionInset = UIEdgeInsets(top: 0, left: HomeLayout.horizontalMargin, bottom: 0, right: HomeLayout.horizontalMargin)
+        //        layout.sectionInset = UIEdgeInsets(top: 0, left: HomeLayout.horizontalMargin, bottom: 0, right: HomeLayout.horizontalMargin)
         layout.minimumLineSpacing = 15
 
         let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
@@ -77,7 +77,7 @@ class AppsController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -149,7 +149,7 @@ class AppsController: UIViewController {
 
 extension AppsController: UICollectionViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return self.recommendedApps.count
     }
 
@@ -165,7 +165,7 @@ extension AppsController: UICollectionViewDataSource {
 
 extension AppsController: UICollectionViewDelegate {
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let app = self.recommendedApps[indexPath.row]
         let appController = AppController(app: app)
         self.navigationController?.pushViewController(appController, animated: true)
@@ -174,7 +174,7 @@ extension AppsController: UICollectionViewDelegate {
 
 extension AppsController: UISearchBarDelegate {
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_: UISearchBar, textDidChange searchText: String) {
         if searchText.length == 0 {
             self.searchResultsView.results = [TokenContact]()
         }
@@ -188,14 +188,14 @@ extension AppsController: UISearchBarDelegate {
 
 extension AppsController: UISearchControllerDelegate {
 
-    func didDismissSearchController(_ searchController: UISearchController) {
+    func didDismissSearchController(_: UISearchController) {
         self.showSearchResultsView(shouldShow: false)
     }
 }
 
 extension AppsController: SearchResultsViewDelegate {
 
-    func searchResultsView(_ searchResultsView: SearchResultsView, didTapApp app: TokenContact) {
+    func searchResultsView(_: SearchResultsView, didTapApp app: TokenContact) {
         let appController = AppController(app: app)
         self.navigationController?.pushViewController(appController, animated: true)
     }

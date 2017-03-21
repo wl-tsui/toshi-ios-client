@@ -16,14 +16,12 @@ public class EthereumAPIClient: NSObject {
     let yap = Yap.sharedInstance
 
     public var exchangeRate: Decimal {
-        get {
-            self.updateRate()
+        self.updateRate()
 
-            if let rate = self.yap.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
-                return rate
-            } else {
-                return 15.0
-            }
+        if let rate = self.yap.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
+            return rate
+        } else {
+            return 15.0
         }
     }
 
@@ -37,12 +35,12 @@ public class EthereumAPIClient: NSObject {
     }
 
     private func updateRate() {
-        self.getRate { (rate) in
+        self.getRate { rate in
             self.yap.insert(object: rate, for: EthereumAPIClient.collectionKey)
         }
     }
 
-    func timestamp(_ completion: @escaping((_ timestamp: String) -> Void)) {
+    func timestamp(_ completion: @escaping ((_ timestamp: String) -> Void)) {
         self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
@@ -56,7 +54,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    func getRate(_ completion: @escaping((_ rate: Decimal) -> Void)) {
+    func getRate(_ completion: @escaping ((_ rate: Decimal) -> Void)) {
         //
         self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
             switch result {
@@ -74,7 +72,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func createUnsignedTransaction(to address: String, value: NSDecimalNumber, completion: @escaping((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
+    public func createUnsignedTransaction(to address: String, value: NSDecimalNumber, completion: @escaping ((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
         let parameters: [String: Any] = [
             "from": self.cereal.paymentAddress,
             "to": address,
@@ -97,8 +95,8 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping((_ json: JSON?, _ error: Error?) -> Void)) {
-        self.timestamp { (timestamp) in
+    public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ json: JSON?, _ error: Error?) -> Void)) {
+        self.timestamp { timestamp in
 
             let path = "/v1/tx"
 
@@ -120,7 +118,7 @@ public class EthereumAPIClient: NSObject {
 
             let json = JSON(params)
 
-            self.teapot.post(path, parameters: json, headerFields: headers) { (result) in
+            self.teapot.post(path, parameters: json, headerFields: headers) { result in
                 switch result {
                 case .success(let json, let response):
                     print(response)
@@ -137,7 +135,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func getBalance(address: String, completion: @escaping((_ balance: NSDecimalNumber, _ error: Error?) -> Void)) {
+    public func getBalance(address: String, completion: @escaping ((_ balance: NSDecimalNumber, _ error: Error?) -> Void)) {
         self.teapot.get("/v1/balance/\(address)") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
@@ -157,7 +155,7 @@ public class EthereumAPIClient: NSObject {
     }
 
     public func registerForPushNotifications(deviceToken: String) {
-        self.timestamp { (timestamp) in
+        self.timestamp { timestamp in
             let path = "/v1/apn/register"
             let address = self.cereal.paymentAddress
 
@@ -188,8 +186,8 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func registerForNotifications(_ completion: @escaping((_ success: Bool) -> Void)) {
-        self.timestamp { (timestamp) in
+    public func registerForNotifications(_ completion: @escaping ((_ success: Bool) -> Void)) {
+        self.timestamp { timestamp in
             let address = User.current!.paymentAddress
             let path = "/v1/register"
 
@@ -211,7 +209,7 @@ public class EthereumAPIClient: NSObject {
 
             let json = JSON(params)
 
-            self.teapot.post(path, parameters: json, headerFields: headerFields) { (result) in
+            self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                 switch result {
                 case .success(let json, let response):
                     print(json ?? "")
@@ -228,7 +226,7 @@ public class EthereumAPIClient: NSObject {
     }
 
     public func deregisterForNotifications() {
-        self.timestamp { (timestamp) in
+        self.timestamp { timestamp in
             let address = self.cereal.paymentAddress
             let path = "/v1/deregister"
 
@@ -250,7 +248,7 @@ public class EthereumAPIClient: NSObject {
 
             let json = JSON(params)
 
-            self.teapot.post(path, parameters: json, headerFields: headerFields) { (result) in
+            self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                 switch result {
                 case .success(let json, let response):
                     print(json ?? "")

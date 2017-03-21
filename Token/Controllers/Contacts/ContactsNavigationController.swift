@@ -17,7 +17,7 @@ public class ContactsNavigationController: UINavigationController {
         self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("")
     }
 

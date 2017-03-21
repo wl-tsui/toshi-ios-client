@@ -13,7 +13,7 @@ class AppsAPIClient {
         self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }
 
-    func getFeaturedApps(completion: @escaping(_ apps: [TokenContact], _ error: Error?) -> Void) {
+    func getFeaturedApps(completion: @escaping (_ apps: [TokenContact], _ error: Error?) -> Void) {
         self.teapot.get("/v1/apps/featured") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
@@ -24,7 +24,7 @@ class AppsAPIClient {
                 let apps = appsJSON.map { json -> TokenContact in
                     let app = TokenContact(json: json)
                     app.isApp = true
-                    
+
                     return app
                 }
 
@@ -37,7 +37,7 @@ class AppsAPIClient {
         }
     }
 
-    func downloadImage(for app: TokenContact, completion: @escaping(_ image: UIImage?) -> Void) {
+    func downloadImage(for app: TokenContact, completion: @escaping (_ image: UIImage?) -> Void) {
         guard let pathURL = URL(string: app.avatarPath) else { return }
 
         if let image = self.imageCache.object(forKey: app.avatarPath as NSString) {
@@ -60,7 +60,7 @@ class AppsAPIClient {
         }
     }
 
-    func search(_ searchTerm: String, completion: @escaping(_ apps: [TokenContact], _ error: Error?) -> Void) {
+    func search(_ searchTerm: String, completion: @escaping (_ apps: [TokenContact], _ error: Error?) -> Void) {
         guard searchTerm.length > 0 else {
             completion([TokenContact](), nil)
             return

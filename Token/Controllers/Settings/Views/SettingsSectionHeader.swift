@@ -51,21 +51,21 @@ class SettingsSectionHeader: UIView {
                 self.errorLabel.topAnchor.constraint(equalTo: self.topAnchor),
                 self.errorLabel.leftAnchor.constraint(greaterThanOrEqualTo: self.titleLabel.rightAnchor),
                 self.errorLabel.rightAnchor.constraint(equalTo: self.errorImage.leftAnchor, constant: -5),
-                
+
                 self.errorImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 3),
-                self.errorImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
+                self.errorImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin),
             ])
         } else {
             NSLayoutConstraint.activate([
                 self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
                 self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin),
-                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
+                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin),
             ])
         }
     }
-    
+
     func setErrorHidden(_ hidden: Bool, animated: Bool) {
-        
+
         if animated {
             UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
                 self.errorLabel.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity

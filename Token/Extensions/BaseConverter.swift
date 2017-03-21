@@ -1,10 +1,3 @@
-//
-//  BaseConverter.swift
-//  Crypto Coin Swift
-//
-//  Created by Sjors Provoost on 24-06-14.
-//
-
 // Convert between strings in arbitrary base, ported from http://danvk.org/hex2dec.html
 public struct BaseConverter {
     let base: Int
@@ -16,7 +9,7 @@ public struct BaseConverter {
 
         var carry = 0
         var i = 0
-        while (i < n || carry > 0) {
+        while i < n || carry > 0 {
             let xi = i < x.count ? x[i] : 0
             let yi = i < y.count ? y[i] : 0
             let zi = carry + xi + yi
@@ -35,19 +28,19 @@ public struct BaseConverter {
 
         var numU: UInt32 = UInt32(num)
 
-        if (numU == 0) {
+        if numU == 0 {
             return []
         }
 
         var result: [Int] = []
         var power = x
 
-        while (true) {
+        while true {
             if numU & 1 > 0 {
                 result = add(result, y: power)
             }
             numU = numU >> 1
-            if (numU == 0) {
+            if numU == 0 {
                 break
             }
             power = add(power, y: power)

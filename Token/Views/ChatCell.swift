@@ -145,7 +145,7 @@ class ChatCell: UITableViewCell {
         self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 }

@@ -35,7 +35,7 @@ public class FingerprintViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError()
     }
 

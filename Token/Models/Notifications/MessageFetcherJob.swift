@@ -1,6 +1,3 @@
-//  Created by Michael Kirk on 12/19/16.
-//  Copyright © 2016 Open Whisper Systems. All rights reserved.
-
 import Foundation
 import PromiseKit
 
@@ -37,7 +34,7 @@ class MessageFetcherJob: NSObject {
 
         let promiseId = NSDate().timeIntervalSince1970
         NSLog("\(self.TAG) starting promise: \(promiseId)")
-        let runPromise = self.fetchUndeliveredMessages().then { (envelopes: [OWSSignalServiceProtosEnvelope], more: Bool) -> () in
+        let runPromise = self.fetchUndeliveredMessages().then { (envelopes: [OWSSignalServiceProtosEnvelope], more: Bool) -> Void in
             for envelope in envelopes {
                 NSLog("\(self.TAG) received envelope.")
                 self.messagesManager.handleReceivedEnvelope(envelope)
@@ -162,7 +159,7 @@ class MessageFetcherJob: NSObject {
 
             self.networkManager.makeRequest(
                 messagesRequest,
-                success: { (task: URLSessionDataTask?, responseObject: Any?) -> () in
+                success: { (_: URLSessionDataTask?, responseObject: Any?) -> Void in
                     guard let (envelopes, more) = self.parseMessagesResponse(responseObject: responseObject) else {
                         NSLog("\(self.TAG) response object had unexpected content")
                         return reject(OWSErrorMakeUnableToProcessServerResponseError())
@@ -170,7 +167,7 @@ class MessageFetcherJob: NSObject {
 
                     fulfill((envelopes: envelopes, more: more))
                 },
-                failure: { (task: URLSessionDataTask?, error: Error?) in
+                failure: { (_: URLSessionDataTask?, error: Error?) in
                     guard let error = error else {
                         NSLog("\(self.TAG) error was surpringly nil. sheesh rough day.")
                         return reject(OWSErrorMakeUnableToProcessServerResponseError())
@@ -184,11 +181,11 @@ class MessageFetcherJob: NSObject {
     func acknowledgeDelivery(envelope: OWSSignalServiceProtosEnvelope) {
         let request = OWSAcknowledgeMessageDeliveryRequest(source: envelope.source, timestamp: envelope.timestamp)
         self.networkManager.makeRequest(request,
-            success: { (task: URLSessionDataTask?, responseObject: Any?) -> () in
-                NSLog("\(self.TAG) acknowledged delivery for message at timestamp: \(envelope.timestamp)")
-            },
-            failure: { (task: URLSessionDataTask?, error: Error?) in
-                NSLog("\(self.TAG) acknowledging delivery for message at timestamp: \(envelope.timestamp) failed with error: \(error)")
+                                        success: { (_: URLSessionDataTask?, _: Any?) -> Void in
+                                            NSLog("\(self.TAG) acknowledged delivery for message at timestamp: \(envelope.timestamp)")
+                                        },
+                                        failure: { (_: URLSessionDataTask?, error: Error?) in
+                                            NSLog("\(self.TAG) acknowledging delivery for message at timestamp: \(envelope.timestamp) failed with error: \(error)")
         })
     }
 }

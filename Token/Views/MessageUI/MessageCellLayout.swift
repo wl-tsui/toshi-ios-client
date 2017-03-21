@@ -230,7 +230,7 @@ class TGTextLinePositionModifier: NSObject, YYTextLinePositionModifier {
         }
     }
 
-    func modifyLines(_ lines: [YYTextLine], fromText text: NSAttributedString, in container: YYTextContainer) {
+    func modifyLines(_ lines: [YYTextLine], fromText _: NSAttributedString, in _: YYTextContainer) {
         let ascent = font.pointSize * 0.86
 
         let lineHeight = font.pointSize * lineHeightMultiple
@@ -241,7 +241,7 @@ class TGTextLinePositionModifier: NSObject, YYTextLinePositionModifier {
         }
     }
 
-    func copy(with zone: NSZone? = nil) -> Any {
+    func copy(with _: NSZone? = nil) -> Any {
         let one = TGTextLinePositionModifier()
         one.font = font
         one.paddingTop = paddingTop

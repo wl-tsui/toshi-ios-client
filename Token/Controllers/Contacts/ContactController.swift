@@ -133,7 +133,7 @@ public class ContactController: UIViewController {
         self.title = "Contact"
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("")
     }
 

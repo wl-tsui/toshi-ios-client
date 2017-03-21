@@ -108,7 +108,7 @@ class AppController: UIViewController {
         self.edgesForExtendedLayout = .bottom
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("")
     }
 
@@ -222,7 +222,7 @@ class AppController: UIViewController {
         self.categoryContentLabel.topAnchor.constraint(equalTo: self.categoryTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.categoryContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.categoryContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-        
+
         self.categoryContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
     }
 

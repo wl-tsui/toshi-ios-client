@@ -18,7 +18,7 @@ class SettingsCell: BaseCell {
         }
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 

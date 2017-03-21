@@ -36,7 +36,7 @@ class AccountManager: NSObject {
 
     func updatePushTokens(pushToken: String, voipToken: String) -> Promise<Void> {
         return firstly {
-            return self.updateTextSecurePushTokens(pushToken: pushToken, voipToken: voipToken)
+            self.updateTextSecurePushTokens(pushToken: pushToken, voipToken: voipToken)
         }.then {
             print("\(self.TAG) Successfully updated text secure push tokens.")
         }
@@ -51,8 +51,8 @@ class AccountManager: NSObject {
     private func registerForTextSecure(verificationCode: String) -> Promise<Void> {
         return Promise { fulfill, reject in
             self.textSecureAccountManager.verifyAccount(withCode: verificationCode,
-                success: fulfill,
-                failure: reject)
+                                                        success: fulfill,
+                                                        failure: reject)
         }
     }
 }

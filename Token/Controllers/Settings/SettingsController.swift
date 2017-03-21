@@ -2,7 +2,7 @@ import UIKit
 import SweetUIKit
 
 open class SettingsController: SweetTableController {
-    
+
     var didVerifyBackupPhrase = false
 
     public var chatAPIClient: ChatAPIClient
@@ -17,7 +17,7 @@ open class SettingsController: SweetTableController {
     let securityTitles = ["Store backup phrase", "Choose trusted friends"]
     let settingsTitles = ["Local currency", "About", "Sign in on another device", "Sign out"]
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("")
     }
 
@@ -43,11 +43,11 @@ open class SettingsController: SweetTableController {
             self.tableView.register(type)
         }
     }
-    
+
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-		self.tableView.reloadData()
-        
+        self.tableView.reloadData()
+
         let backItem = UIBarButtonItem()
         backItem.title = "Back"
         self.navigationItem.backBarButtonItem = backItem
@@ -56,11 +56,11 @@ open class SettingsController: SweetTableController {
 
 extension SettingsController: UITableViewDataSource {
 
-    open func numberOfSections(in tableView: UITableView) -> Int {
+    open func numberOfSections(in _: UITableView) -> Int {
         return self.numberOfSections
     }
 
-    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.numberOfRows[section]
     }
 
@@ -68,13 +68,13 @@ extension SettingsController: UITableViewDataSource {
         return tableView.dequeue(cellTypes[indexPath.section], for: indexPath)
     }
 
-    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    open func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = SettingsSectionHeader(title: sectionTitles[section], error: sectionErrors[section])
         view.setErrorHidden(self.didVerifyBackupPhrase, animated: false)
         return view
     }
 
-    open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    open func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
         return 25
     }
 }
@@ -92,14 +92,14 @@ extension SettingsController: UITableViewDelegate {
             cell.user = User.current
         } else if let cell = cell as? SecurityCell {
             cell.title = securityTitles[indexPath.row]
-            
+
             if indexPath.row == 0 {
                 DispatchQueue.main.asyncAfter(seconds: 0.5) {
-                    
+
                     if self.didVerifyBackupPhrase == true, cell.checkbox.checked == false {
                         cell.checkbox.bounce()
                     }
-                    
+
                     cell.checkbox.checked = self.didVerifyBackupPhrase
                 }
             }
@@ -108,11 +108,11 @@ extension SettingsController: UITableViewDelegate {
         }
     }
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 

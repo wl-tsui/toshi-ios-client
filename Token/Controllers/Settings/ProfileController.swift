@@ -115,7 +115,7 @@ open class ProfileController: UIViewController {
         self.title = "Profile"
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("")
     }
 

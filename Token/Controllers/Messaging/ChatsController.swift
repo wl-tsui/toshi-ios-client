@@ -39,7 +39,7 @@ open class ChatsController: SweetTableController {
         self.registerNotifications()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError()
     }
 
@@ -67,7 +67,7 @@ open class ChatsController: SweetTableController {
         notificationController.addObserver(self, selector: #selector(ChatsController.contactsDidUpdate), name: TokenContact.didUpdateContactInfoNotification, object: nil)
     }
 
-    func yapDatabaseDidChange(notification: NSNotification) {
+    func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -92,8 +92,8 @@ open class ChatsController: SweetTableController {
 
         self.tableView.beginUpdates()
 
-        for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
-            switch (rowChange.type) {
+        for rowChange in messageRowChanges as! [YapDatabaseViewRowChange] {
+            switch rowChange.type {
             case .delete:
                 self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
             case .insert:
@@ -115,7 +115,7 @@ open class ChatsController: SweetTableController {
         let address = thread.contactIdentifier()!
         print("Updating contact infor for address: \(address).")
 
-        self.idAPIClient.findContact(name: address) { (contact) in
+        self.idAPIClient.findContact(name: address) { contact in
             if let contact = contact {
                 print("Updated contact info for \(contact.username)")
             }
@@ -123,7 +123,7 @@ open class ChatsController: SweetTableController {
     }
 
     func thread(at indexPath: IndexPath) -> TSThread {
-        var thread: TSThread? = nil
+        var thread: TSThread?
         self.uiDatabaseConnection.read { transaction in
             guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
@@ -135,17 +135,17 @@ open class ChatsController: SweetTableController {
     }
 
     func thread(withAddress address: String) -> TSThread {
-        var thread: TSThread? = nil
+        var thread: TSThread?
 
         self.uiDatabaseConnection.read { transaction in
-            transaction.enumerateRows(inCollection: TSThread.collection(), using: { (_, object, _, stop) in
+            transaction.enumerateRows(inCollection: TSThread.collection()) { _, object, _, stop in
                 if let possibleThread = object as? TSThread {
                     if possibleThread.contactIdentifier() == address {
                         thread = possibleThread
                         stop.pointee = true
                     }
                 }
-            })
+            }
         }
 
         return thread!
@@ -154,15 +154,15 @@ open class ChatsController: SweetTableController {
 
 extension ChatsController: UITableViewDelegate {
 
-    open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    open func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thread = self.thread(at: indexPath)
         let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatAPIClient)
         self.navigationController?.pushViewController(messagesController, animated: true)
@@ -171,11 +171,11 @@ extension ChatsController: UITableViewDelegate {
 
 extension ChatsController: UITableViewDataSource {
 
-    open func numberOfSections(in tableView: UITableView) -> Int {
+    open func numberOfSections(in _: UITableView) -> Int {
         return Int(self.mappings.numberOfSections())
     }
 
-    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(self.mappings.numberOfItems(inSection: UInt(section)))
     }
 

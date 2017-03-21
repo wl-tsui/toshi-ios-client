@@ -3,16 +3,14 @@ import UIKit
 public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
     static var tabbarController: TabBarController {
-        get {
-            guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not find application delegate.") }
-            guard let window = delegate.window else { fatalError("Could not find application window.") }
-            guard let tabbarController = window.rootViewController as? TabBarController else { fatalError("Could not find tabbar root.") }
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not find application delegate.") }
+        guard let window = delegate.window else { fatalError("Could not find application window.") }
+        guard let tabbarController = window.rootViewController as? TabBarController else { fatalError("Could not find tabbar root.") }
 
-            return tabbarController
-        }
+        return tabbarController
     }
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in thread: TSThread!) {
+    public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in _: TSThread!) {
         guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController.selectedViewController != SignalNotificationManager.tabbarController.messagingController else {
             return
         }

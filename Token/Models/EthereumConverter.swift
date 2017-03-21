@@ -8,9 +8,7 @@ struct EthereumConverter {
     public static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
 
     public static var weisToEtherPowerOf10Constant: Int16 {
-        get {
-            return Int16(self.weisToEtherConstant.stringValue.length - 1)
-        }
+        return Int16(self.weisToEtherConstant.stringValue.length - 1)
     }
 
     public static func localFiatToEther(forFiat balance: NSNumber) -> NSDecimalNumber {

@@ -20,7 +20,7 @@ extension UIImage {
 
         let coloredImg = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return coloredImg!
     }
 }

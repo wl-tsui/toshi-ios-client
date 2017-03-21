@@ -79,7 +79,7 @@ open class ProfileEditController: UIViewController {
         fatalError()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError()
     }
 
@@ -151,18 +151,18 @@ open class ProfileEditController: UIViewController {
 
 extension ProfileEditController: UITableViewDelegate {
 
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 }
 
 extension ProfileEditController: UITableViewDataSource {
 
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return self.dataSource.count
     }
 
@@ -178,7 +178,7 @@ extension ProfileEditController: UITableViewDataSource {
 
 extension ProfileEditController: UIToolbarDelegate {
 
-    public func position(for bar: UIBarPositioning) -> UIBarPosition {
+    public func position(for _: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
 }

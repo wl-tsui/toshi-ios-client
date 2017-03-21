@@ -27,10 +27,8 @@ class MessagesViewController: MessagesCollectionViewController {
     }
 
     var visibleMessages: [Message] {
-        get {
-            return self.messages.filter { (message) -> Bool in
-                return message.isDisplayable
-            }
+        return self.messages.filter { (message) -> Bool in
+            message.isDisplayable
         }
     }
 
@@ -50,7 +48,7 @@ class MessagesViewController: MessagesCollectionViewController {
     }()
 
     lazy var editingDatabaseConnection: YapDatabaseConnection = {
-        return self.storageManager.newDatabaseConnection()
+        self.storageManager.newDatabaseConnection()
     }()
 
     var thread: TSThread
@@ -115,7 +113,7 @@ class MessagesViewController: MessagesCollectionViewController {
         self.registerNotifications()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 
@@ -140,7 +138,7 @@ class MessagesViewController: MessagesCollectionViewController {
         self.loadMessages()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
 
         self.inputPanel?.becomeFirstResponder()
@@ -163,7 +161,7 @@ class MessagesViewController: MessagesCollectionViewController {
         SignalNotificationManager.updateApplicationBadgeNumber()
     }
 
-    func updateBalance(_ notification: Notification? = nil) {
+    func updateBalance(_: Notification? = nil) {
         self.ethereumAPIClient.getBalance(address: self.cereal.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
@@ -191,7 +189,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
     func reloadDraft() {
         let thread = self.thread
-        var placeholder: String? = nil
+        var placeholder: String?
 
         self.editingDatabaseConnection.asyncReadWrite({ transaction in
             placeholder = thread.currentDraft(with: transaction)
@@ -244,7 +242,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
     // Mark: Handle new messages
 
-    func showFingerprint(with identityKey: Data, signalId: String) {
+    func showFingerprint(with _: Data, signalId _: String) {
         // Postpone this for now
         print("Should display fingerprint comparison UI.")
         //        let builder = OWSFingerprintBuilder(storageManager: self.storageManager, contactsManager: self.contactsManager)
@@ -263,23 +261,23 @@ class MessagesViewController: MessagesCollectionViewController {
         let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheetController.addAction(dismissAction)
 
-        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default, handler: { (_ action: UIAlertAction) -> Void in
+        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
 
             self.showFingerprint(with: errorMessage.newIdentityKey(), signalId: errorMessage.theirSignalId())
-        })
+        }
         actionSheetController.addAction(showSafteyNumberAction)
 
-        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default, handler: { (_ action: UIAlertAction) -> Void in
+        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
 
             errorMessage.acceptNewIdentityKey()
-            if (errorMessage is TSInvalidIdentityKeySendingErrorMessage) {
+            if errorMessage is TSInvalidIdentityKeySendingErrorMessage {
                 self.messageSender.resendMessage(fromKeyError: (errorMessage as! TSInvalidIdentityKeySendingErrorMessage), success: { () -> Void in
                     print("Got it!")
                 }, failure: { (_ error: Error) -> Void in
                     print(error)
                 })
             }
-        })
+        }
         actionSheetController.addAction(acceptSafetyNumberAction)
 
         self.present(actionSheetController, animated: true, completion: nil)
@@ -391,7 +389,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
     // MARK: Handle database changes
 
-    func yapDatabaseDidChange(notification: NSNotification) {
+    func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -433,7 +431,6 @@ class MessagesViewController: MessagesCollectionViewController {
                     if let result = self.handleInteraction(interaction, shouldProcessCommands: true) {
                         DispatchQueue.main.async {
                             self.messages.append(result)
-
 
                             if result.isOutgoing {
                                 if result.sofaWrapper.type == .paymentRequest {
@@ -562,10 +559,10 @@ extension MessagesViewController: ActionableCellDelegate {
 
         // TODO: prevent concurrent calls
         // Also, extract this.
-        self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { (transaction, error) in
+        self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { transaction, error in
             let signedTransaction = "0x\(self.cereal.signWithWallet(hex: transaction!))"
 
-            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
+            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
                 if error != nil {
                     guard let json = json?.dictionary else { fatalError("!") }
 
@@ -592,7 +589,7 @@ extension MessagesViewController: ActionableCellDelegate {
 
 extension MessagesViewController: ChatInputTextPanelDelegate {
 
-    func inputTextPanel(_ inputTextPanel: ChatInputTextPanel, requestSendText text: String) {
+    func inputTextPanel(_: ChatInputTextPanel, requestSendText text: String) {
         let wrapper = SofaMessage(content: ["body": text])
         self.sendMessage(sofaWrapper: wrapper)
     }
@@ -600,14 +597,14 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
 
 extension MessagesViewController: MessagesFloatingViewDelegate {
 
-    func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressRequestButton button: UIButton) {
+    func messagesFloatingView(_: MessagesFloatingView, didPressRequestButton _: UIButton) {
         let paymentRequestController = PaymentRequestController()
         paymentRequestController.delegate = self
 
         self.present(paymentRequestController, animated: true)
     }
 
-    func messagesFloatingView(_ messagesFloatingView: MessagesFloatingView, didPressPayButton button: UIButton) {
+    func messagesFloatingView(_: MessagesFloatingView, didPressPayButton _: UIButton) {
         let paymentSendController = PaymentSendController()
         paymentSendController.delegate = self
 
@@ -632,10 +629,10 @@ extension MessagesViewController: PaymentSendControllerDelegate {
             return
         }
 
-        self.etherAPIClient.createUnsignedTransaction(to: contact.paymentAddress, value: value) { (transaction, error) in
+        self.etherAPIClient.createUnsignedTransaction(to: contact.paymentAddress, value: value) { transaction, error in
             let signedTransaction = "0x\(self.cereal.signWithWallet(hex: transaction!))"
 
-            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { (json, error) in
+            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
                 if error != nil {
                     guard let json = json?.dictionary else { fatalError("!") }
 

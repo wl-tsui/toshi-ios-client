@@ -104,7 +104,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         self.addSubview(self.attachButton)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -136,7 +136,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         self.attachButton.frame = CGRect(x: 0, y: self.bounds.height - self.baseHeight, width: 40, height: self.baseHeight)
     }
 
-    override func endInputting(_ animated: Bool) {
+    override func endInputting(_: Bool) {
         if self.inputField.internalTextView.isFirstResponder {
             self.inputField.internalTextView.resignFirstResponder()
         }
@@ -192,7 +192,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
                     v.frame = self.inputField.frame.offsetBy(dx: self.inputFieldClippingContainer.frame.origin.x, dy: self.inputFieldClippingContainer.frame.origin.y)
                     v.alpha = 0
                 }
-            }, completion: { (_) in
+            }, completion: { _ in
                 inputFieldSnapshotView?.removeFromSuperview()
             })
         } else {
@@ -214,9 +214,9 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
             UIView.animate(withDuration: 0.15, animations: {
                 self.layoutSubviews()
             }, completion: { _ in
-                UIView.animate(withDuration: 0.15, animations: {
+                UIView.animate(withDuration: 0.15) {
                     self.sendButton.alpha = hasText ? 1 : 0
-                })
+                }
             })
         }
     }
@@ -228,7 +228,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         self.toggleSendButtonEnabled()
     }
 
-    func growingTextView(_ growingTextView: HPGrowingTextView!, willChangeHeight height: Float) {
+    func growingTextView(_: HPGrowingTextView!, willChangeHeight height: Float) {
         let inputContainerHeight = self.heightForInputFieldHeight(CGFloat(height))
 
         let y = self.messageAreaSize == .zero ? self.frame.origin.y - (inputContainerHeight - self.frame.height) : self.messageAreaSize.height - self.keyboardHeight - inputContainerHeight
@@ -244,11 +244,11 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
         self.delegate?.inputPanel(self, willChangeHeight: inputContainerHeight, duration: 0.3, animationCurve: 0)
     }
 
-    func growingTextViewDidChange(_ growingTextView: HPGrowingTextView!) {
+    func growingTextViewDidChange(_: HPGrowingTextView!) {
         self.toggleSendButtonEnabled()
     }
 
-    func didTapSendButton(_ sender: UIButton) {
+    func didTapSendButton(_: UIButton) {
         // Resign and become first responder to accept auto-correct suggestions
         self.inputField.internalTextView.resignFirstResponder()
         self.inputField.internalTextView.becomeFirstResponder()
@@ -317,7 +317,7 @@ class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
     private func maxNumberOfLines(forSize size: CGSize) -> Int32 {
         if size.height <= 320 {
             return 3
-        } else if (size.height <= 480) {
+        } else if size.height <= 480 {
             return 5
         } else {
             return 7

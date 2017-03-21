@@ -47,10 +47,10 @@ class ProfileCell: BaseCell {
 
         return view
     }()
-    
+
     var user: User? {
         didSet {
-            
+
             if let displayName = self.user?.name, displayName.length > 0, let username = self.user?.username {
                 self.nameLabel.text = displayName
                 self.usernameLabel.text = "@\(username)"
@@ -58,7 +58,7 @@ class ProfileCell: BaseCell {
                 self.usernameLabel.text = nil
                 self.nameLabel.text = "@\(username)"
             }
-            
+
             if let image = self.user?.avatar {
                 self.avatarImageView.image = image
             } else if let avatarPath = self.user?.avatarPath {
@@ -70,7 +70,7 @@ class ProfileCell: BaseCell {
         }
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 
@@ -99,7 +99,7 @@ class ProfileCell: BaseCell {
         NSLayoutConstraint.activate([
             namesContainer.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: margin),
             namesContainer.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin),
-            namesContainer.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -margin)
+            namesContainer.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -margin),
         ])
 
         namesContainer.addSubview(self.usernameLabel)

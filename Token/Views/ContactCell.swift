@@ -99,7 +99,7 @@ class ContactCell: UITableViewCell {
         self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 }

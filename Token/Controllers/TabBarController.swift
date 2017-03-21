@@ -26,7 +26,7 @@ open class TabBarController: UITabBarController {
         self.delegate = self
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError()
     }
 
@@ -66,7 +66,7 @@ open class TabBarController: UITabBarController {
 
 extension TabBarController: UITabBarControllerDelegate {
 
-    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    public func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
         SoundPlayer.playSound(type: .menuButton)
 
         self.automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets

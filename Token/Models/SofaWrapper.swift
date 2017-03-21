@@ -40,15 +40,13 @@ open class SofaWrapper: SofaWrapperProtocol {
     open var content: String = ""
 
     open var json: [String: Any] {
-        get {
-            let sofaBody = self.content.replacingOccurrences(of: self.type.rawValue, with: "")
-            let data = sofaBody.data(using: .utf8)!
+        let sofaBody = self.content.replacingOccurrences(of: self.type.rawValue, with: "")
+        let data = sofaBody.data(using: .utf8)!
 
-            guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return [String: Any]() }
-            guard let json = jsonObject as? [String: Any] else { return [String: Any]() }
+        guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return [String: Any]() }
+        guard let json = jsonObject as? [String: Any] else { return [String: Any]() }
 
-            return json
-        }
+        return json
     }
 
     public static func wrapper(content: String) -> SofaWrapper {
@@ -87,8 +85,8 @@ open class SofaMessage: SofaWrapper {
     open class Button: Equatable {
 
         public enum ControlType: String {
-            case button = "button"
-            case group = "group"
+            case button
+            case group
         }
 
         open var type: ControlType
@@ -96,13 +94,11 @@ open class SofaMessage: SofaWrapper {
         private var _label: String
 
         open var label: String {
-            get {
-                switch self.type {
-                case .button:
-                    return self._label
-                case .group:
-                    return self._label.appending(" ▴")
-                }
+            switch self.type {
+            case .button:
+                return self._label
+            case .group:
+                return self._label.appending(" ▴")
             }
         }
 
@@ -261,30 +257,26 @@ open class SofaPaymentRequest: SofaWrapper {
     }
 
     public var value: NSDecimalNumber {
-        get {
-            guard let hexValue = self.json["value"] as? String else { fatalError() }
+        guard let hexValue = self.json["value"] as? String else { fatalError() }
 
-            if hexValue.hasPrefix("0x") {
-                return NSDecimalNumber(hexadecimalString: hexValue)
-            } else {
-                return NSDecimalNumber(string: hexValue)
-            }
+        if hexValue.hasPrefix("0x") {
+            return NSDecimalNumber(hexadecimalString: hexValue)
+        } else {
+            return NSDecimalNumber(string: hexValue)
         }
     }
 
     public var destinationAddress: String? {
-        get {
-            return (self.json["destinationAddress"] as? String)
-        }
+        return (self.json["destinationAddress"] as? String)
     }
 }
 
 open class SofaPayment: SofaWrapper {
 
     public enum Status: String {
-        case unconfirmed = "unconfirmed"
-        case confirmed = "confirmed"
-        case error = "error"
+        case unconfirmed
+        case confirmed
+        case error
     }
 
     public var status: Status {
@@ -307,14 +299,12 @@ open class SofaPayment: SofaWrapper {
     }
 
     public var value: NSDecimalNumber {
-        get {
-            guard let hexValue = self.json["value"] as? String else { fatalError() }
+        guard let hexValue = self.json["value"] as? String else { fatalError() }
 
-            if hexValue.hasPrefix("0x") {
-                return NSDecimalNumber(hexadecimalString: hexValue)
-            } else {
-                return NSDecimalNumber(string: hexValue)
-            }
+        if hexValue.hasPrefix("0x") {
+            return NSDecimalNumber(hexadecimalString: hexValue)
+        } else {
+            return NSDecimalNumber(string: hexValue)
         }
     }
 

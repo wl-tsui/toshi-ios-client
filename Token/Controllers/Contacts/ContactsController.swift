@@ -76,7 +76,7 @@ open class ContactsController: SweetTableController {
         self.registerNotifications()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError("")
     }
 
@@ -171,7 +171,7 @@ open class ContactsController: SweetTableController {
         notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
-    func yapDatabaseDidChange(notification: NSNotification) {
+    func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -198,9 +198,9 @@ open class ContactsController: SweetTableController {
 
         self.tableView.beginUpdates()
 
-        for rowChange in (messageRowChanges as! [YapDatabaseViewRowChange]) {
+        for rowChange in messageRowChanges as! [YapDatabaseViewRowChange] {
 
-            switch (rowChange.type) {
+            switch rowChange.type {
             case .delete:
                 self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
             case .insert:
@@ -223,7 +223,7 @@ open class ContactsController: SweetTableController {
 
         print("Updating contact infor for address: \(address).")
 
-        self.idAPIClient.findContact(name: address) { (contact) in
+        self.idAPIClient.findContact(name: address) { contact in
             if let contact = contact {
                 print("Added contact info for \(contact.username)")
 
@@ -235,7 +235,7 @@ open class ContactsController: SweetTableController {
     }
 
     func contact(at indexPath: IndexPath) -> TokenContact {
-        var contact: TokenContact? = nil
+        var contact: TokenContact?
 
         self.uiDatabaseConnection.read { transaction in
             guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TokenContact.viewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
@@ -253,7 +253,7 @@ open class ContactsController: SweetTableController {
 
 extension ContactsController: UITableViewDataSource {
 
-    open func numberOfSections(in tableView: UITableView) -> Int {
+    open func numberOfSections(in _: UITableView) -> Int {
         if self.searchController.isActive {
             return 1
         }
@@ -261,7 +261,7 @@ extension ContactsController: UITableViewDataSource {
         return Int(self.mappings.numberOfSections())
     }
 
-    open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.searchController.isActive {
             return self.searchContacts.count
         }
@@ -284,15 +284,15 @@ extension ContactsController: UITableViewDataSource {
 
 extension ContactsController: UITableViewDelegate {
 
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
 
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchController.searchBar.resignFirstResponder()
 
         let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath)
@@ -304,11 +304,11 @@ extension ContactsController: UITableViewDelegate {
 
 extension ContactsController: ScannerViewControllerDelegate {
 
-    public func scannerViewControllerDidCancel(_ controller: ScannerViewController) {
+    public func scannerViewControllerDidCancel(_: ScannerViewController) {
         self.dismiss(animated: true)
     }
 
-    public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+    public func scannerViewController(_: ScannerViewController, didScanResult result: String) {
         self.idAPIClient.findContact(name: result) { contact in
             guard let contact = contact else { return }
 

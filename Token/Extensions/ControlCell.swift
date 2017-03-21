@@ -7,9 +7,7 @@ protocol ControlCellDelegate {
 class SubcontrolCell: ControlCell {
 
     override var buttonInsets: UIEdgeInsets {
-        get {
-            return UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 64)
-        }
+        return UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 64)
     }
 
     lazy var separatorView: UIView = {
@@ -41,7 +39,7 @@ class SubcontrolCell: ControlCell {
         self.button.fillSuperview(with: self.buttonInsets)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 }
@@ -50,9 +48,7 @@ class ControlCell: UICollectionViewCell {
     var delegate: ControlCellDelegate?
 
     var buttonInsets: UIEdgeInsets {
-        get {
-            return UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
-        }
+        return UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
 
     var buttonItem: SofaMessage.Button? {
@@ -87,7 +83,7 @@ class ControlCell: UICollectionViewCell {
         self.button.fillSuperview(with: self.buttonInsets)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 

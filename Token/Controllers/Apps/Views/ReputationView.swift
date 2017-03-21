@@ -123,7 +123,7 @@ class ReputationView: UIView {
         ])
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -160,7 +160,7 @@ class ReputationBarView: UIView {
     }()
 
     lazy var barWidthAnchor: NSLayoutConstraint = {
-        return self.barView.widthAnchor.constraint(equalToConstant: self.totalWidth)
+        self.barView.widthAnchor.constraint(equalToConstant: self.totalWidth)
     }()
 
     let totalWidth: CGFloat = 180
@@ -189,7 +189,7 @@ class ReputationBarView: UIView {
         self.barWidthAnchor.isActive = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

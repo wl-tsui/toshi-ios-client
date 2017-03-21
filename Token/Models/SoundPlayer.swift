@@ -4,13 +4,13 @@ import AudioToolbox
 public struct SoundPlayer {
 
     enum SoundType: String {
-        case messageSent = "messageSent"
-        case messageReceived = "messageReceived"
+        case messageSent
+        case messageReceived
         case scanned = "scan"
         case addedContact = "addContactApp"
-        case requestPayment = "requestPayment"
-        case paymentSend = "paymentSend"
-        case menuButton = "menuButton"
+        case requestPayment
+        case paymentSend
+        case menuButton
     }
 
     static let shared = SoundPlayer()

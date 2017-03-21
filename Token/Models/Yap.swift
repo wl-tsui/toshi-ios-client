@@ -26,7 +26,7 @@ public final class Yap: NSObject, Singleton {
 
         if let dbPwd = keychain.getData("DBPWD") {
             options.cipherKeyBlock = {
-                return dbPwd
+                dbPwd
             }
 
             databasePassword = dbPwd
@@ -35,7 +35,7 @@ public final class Yap: NSObject, Singleton {
 
             keychain.set(databasePassword, forKey: "DBPWD")
             options.cipherKeyBlock = {
-                return databasePassword
+                databasePassword
             }
         }
 
@@ -54,7 +54,7 @@ public final class Yap: NSObject, Singleton {
     ///   - collection: Optional. The name of the collection the object belongs to. Helps with organisation.
     ///   - metadata: Optional. Any serialisable object. Could be a related object, a description, a timestamp, a dictionary, and so on.
     public final func insert(object: Any?, for key: String, in collection: String? = nil, with metadata: Any? = nil) {
-        self.mainConnection.readWrite { (transaction) in
+        self.mainConnection.readWrite { transaction in
             transaction.setObject(object, forKey: key, inCollection: collection, withMetadata: metadata)
         }
     }
@@ -74,8 +74,8 @@ public final class Yap: NSObject, Singleton {
     ///   - collection: Optional. The name of the collection the object was stored in.
     /// - Returns: The stored object.
     public final func retrieveObject(for key: String, in collection: String? = nil) -> Any? {
-        var object: Any? = nil
-        self.mainConnection.read { (transaction) in
+        var object: Any?
+        self.mainConnection.read { transaction in
             object = transaction.object(forKey: key, inCollection: collection)
         }
 
@@ -90,10 +90,10 @@ public final class Yap: NSObject, Singleton {
     public final func retrieveObjects(in collection: String) -> [Any] {
         var objects = [Any]()
 
-        self.mainConnection.read { (transaction) in
-            transaction.enumerateKeysAndObjects(inCollection: collection, using: { key, object, _ in
+        self.mainConnection.read { transaction in
+            transaction.enumerateKeysAndObjects(inCollection: collection) { _, object, _ in
                 objects.append(object)
-            })
+            }
         }
 
         return objects

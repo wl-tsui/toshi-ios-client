@@ -66,7 +66,7 @@ class ProfileItemCell: UITableViewCell {
         NotificationCenter.default.addObserver(self, selector: #selector(ProfileItemCell.textFieldDidChange), name: .UITextFieldTextDidChange, object: self.itemTextField)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 

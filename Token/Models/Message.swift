@@ -44,9 +44,7 @@ public class Message: NSObject, NOCChatItem {
     public var isActionable: Bool
 
     public var deliveryStatus: TSOutgoingMessageState {
-        get {
-            return (self.signalMessage as? TSOutgoingMessage)?.messageState ?? .attemptingOut
-        }
+        return (self.signalMessage as? TSOutgoingMessage)?.messageState ?? .attemptingOut
     }
 
     public var sofaWrapper: SofaWrapper
@@ -56,21 +54,19 @@ public class Message: NSObject, NOCChatItem {
     }
 
     var text: String {
-        get {
-            switch self.sofaWrapper.type {
-            case .message:
-                return (self.sofaWrapper as! SofaMessage).body
-            case .paymentRequest:
-                let body = (self.sofaWrapper as! SofaPaymentRequest).body
-                if body.length > 0 {
-                    return body
-                }
-                return "Payment requested without message."
-            case .payment:
-                return ""
-            default:
-                return self.sofaWrapper.content
+        switch self.sofaWrapper.type {
+        case .message:
+            return (self.sofaWrapper as! SofaMessage).body
+        case .paymentRequest:
+            let body = (self.sofaWrapper as! SofaPaymentRequest).body
+            if body.length > 0 {
+                return body
             }
+            return "Payment requested without message."
+        case .payment:
+            return ""
+        default:
+            return self.sofaWrapper.content
         }
     }
 

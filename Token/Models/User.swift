@@ -86,7 +86,7 @@ public class User: NSObject, JSONDataSerialization {
             "about": self.about,
             "location": self.location,
             "name": self.name,
-            "avatar": self.avatarPath
+            "avatar": self.avatarPath,
         ]
     }
 

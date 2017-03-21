@@ -7,7 +7,7 @@ public extension NSNotification.Name {
 
 class EthereumNotificationHandler: NSObject {
 
-    public static func handlePayment(_ userInfo: [String: Any], completion: @escaping((_ state: UIBackgroundFetchResult) -> Void)) {
+    public static func handlePayment(_ userInfo: [String: Any], completion: @escaping ((_ state: UIBackgroundFetchResult) -> Void)) {
         if userInfo["type"] as? String == "signal_message" { return }
 
         guard let body = userInfo["sofa"] as? String else {
@@ -22,7 +22,7 @@ class EthereumNotificationHandler: NSObject {
             return
         }
 
-        EthereumAPIClient.shared.getBalance(address: Cereal().paymentAddress) { (balance, error) in
+        EthereumAPIClient.shared.getBalance(address: Cereal().paymentAddress) { balance, error in
             print(balance)
             print(error?.localizedDescription ?? "")
 

@@ -141,7 +141,7 @@ extension PaymentController: UITextFieldDelegate {
 
 extension PaymentController: UIToolbarDelegate {
 
-    func position(for bar: UIBarPositioning) -> UIBarPosition {
+    func position(for _: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
 }
