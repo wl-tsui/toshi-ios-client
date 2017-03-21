@@ -3,7 +3,9 @@ import SweetUIKit
 
 open class SettingsController: SweetTableController {
 
-    var didVerifyBackupPhrase = false
+    public static let verificationStatusChanged = Notification.Name(rawValue: "VerificationStatusChanged")
+
+    private var verificationStatus: VerificationStatus = .unverified
 
     public var chatAPIClient: ChatAPIClient
     public var idAPIClient: IDAPIClient
@@ -26,8 +28,20 @@ open class SettingsController: SweetTableController {
         self.chatAPIClient = chatAPIClient
 
         super.init(style: .grouped)
-
         self.title = "Settings"
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
+    }
+
+    func updateVerificationStatus(_ notification: Notification) {
+
+        if let verificationStatus = notification.object as? VerificationStatus {
+            self.verificationStatus = verificationStatus
+        }
+    }
+
+    var didVerifyBackupPhrase: Bool {
+        return self.verificationStatus == .correct
     }
 
     open override func viewDidLoad() {
@@ -71,6 +85,7 @@ extension SettingsController: UITableViewDataSource {
     open func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = SettingsSectionHeader(title: sectionTitles[section], error: sectionErrors[section])
         view.setErrorHidden(self.didVerifyBackupPhrase, animated: false)
+
         return view
     }
 

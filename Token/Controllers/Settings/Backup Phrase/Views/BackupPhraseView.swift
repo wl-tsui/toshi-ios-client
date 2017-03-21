@@ -24,6 +24,7 @@ enum BackupPhraseType {
 }
 
 enum VerificationStatus {
+    case unverified
     case tooShort
     case correct
     case incorrect
@@ -32,9 +33,12 @@ enum VerificationStatus {
 class BackupPhraseView: UIView {
 
     private var type: BackupPhraseType = .original
-    private var verificationStatus: VerificationStatus = .tooShort {
+
+    var verificationStatus: VerificationStatus = .unverified {
         didSet {
-            if case .incorrect = self.verificationStatus {
+            NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: self.verificationStatus)
+
+            if self.verificationStatus == .incorrect {
                 DispatchQueue.main.asyncAfter(seconds: 0.5) {
                     self.shake()
                 }
@@ -60,7 +64,9 @@ class BackupPhraseView: UIView {
         self.init(withAutoLayout: true)
         self.type = type
 
-        self.originalPhrase = Array(originalPhrase[0 ..< 12])
+        assert(originalPhrase.count <= 12, "Too large")
+
+        self.originalPhrase = originalPhrase
         self.wordViews = self.wordViews(for: self.originalPhrase)
 
         for wordView in self.wordViews {
@@ -105,9 +111,7 @@ class BackupPhraseView: UIView {
             }, completion: nil)
         }
 
-        if let verificationDelegate = self.verificationDelegate {
-            self.verificationStatus = verificationDelegate.verify(self.currentPhrase)
-        }
+        self.verificationStatus = self.verificationDelegate?.verify(self.currentPhrase) ?? .unverified
     }
 
     func remove(_ word: Word) {
@@ -120,7 +124,7 @@ class BackupPhraseView: UIView {
         self.animateLayout()
 
         self.wordViews.filter { wordView in
-            !currentPhrase.contains(wordView.word!)
+            !self.currentPhrase.contains(wordView.word!)
         }.forEach { wordView in
             wordView.alpha = 0
         }

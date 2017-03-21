@@ -124,9 +124,7 @@ class BackupPhraseVerifyController: UIViewController {
             self.guides[4].heightAnchor.constraint(equalTo: self.guides[3].heightAnchor),
         ])
 
-        if let controller = self.navigationController?.viewControllers[0] as? SettingsController {
-            controller.didVerifyBackupPhrase = false
-        }
+        NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: self.verifyPhraseView.verificationStatus)
     }
 }
 
@@ -153,7 +151,9 @@ extension BackupPhraseVerifyController: RemoveDelegate {
 extension BackupPhraseVerifyController: VerificationDelegate {
 
     func verify(_ phrase: Phrase) -> VerificationStatus {
-        let originalPhrase = Array(Cereal().mnemonic.words[0 ..< 12])
+        assert(Cereal().mnemonic.words.count <= 12, "Too large")
+
+        let originalPhrase = Cereal().mnemonic.words
 
         guard originalPhrase.count == phrase.count else {
             return .tooShort
@@ -161,11 +161,6 @@ extension BackupPhraseVerifyController: VerificationDelegate {
 
         if originalPhrase == phrase {
             DispatchQueue.main.asyncAfter(seconds: 0.5) {
-
-                if let controller = self.navigationController?.viewControllers[0] as? SettingsController {
-                    controller.didVerifyBackupPhrase = true
-                }
-
                 _ = self.navigationController?.popToRootViewController(animated: true)
             }
 
