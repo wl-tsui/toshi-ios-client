@@ -33,6 +33,15 @@ class BackupPhraseCopyController: UIViewController {
         return view
     }()
 
+    private lazy var confirmationButton: ConfirmationButton = {
+        let view = ConfirmationButton(withAutoLayout: true)
+        view.title = "Copy phrase to clipboard"
+        view.confirmation = "Copied to clipboard"
+        view.addTarget(self, action: #selector(copyToClipBoard(_:)), for: .touchUpInside)
+
+        return view
+    }()
+
     private init() {
         fatalError()
     }
@@ -56,6 +65,7 @@ class BackupPhraseCopyController: UIViewController {
         self.view.addSubview(self.titleLabel)
         self.view.addSubview(self.textLabel)
         self.view.addSubview(self.phraseView)
+        self.view.addSubview(self.confirmationButton)
         self.view.addSubview(self.actionButton)
 
         NSLayoutConstraint.activate([
@@ -70,6 +80,9 @@ class BackupPhraseCopyController: UIViewController {
             self.phraseView.topAnchor.constraint(equalTo: self.textLabel.bottomAnchor, constant: 60),
             self.phraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15),
             self.phraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15),
+
+            self.confirmationButton.topAnchor.constraint(equalTo: self.phraseView.bottomAnchor, constant: 20),
+            self.confirmationButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
 
             self.actionButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.actionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30),
@@ -87,5 +100,14 @@ class BackupPhraseCopyController: UIViewController {
     func proceed(_: ActionButton) {
         let controller = BackupPhraseVerifyController(idAPIClient: self.idAPIClient)
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+
+    func copyToClipBoard(_ button: ConfirmationButton) {
+
+        UIPasteboard.general.string = Cereal().mnemonic.words.joined(separator: " ")
+
+        DispatchQueue.main.asyncAfter(seconds: 0.1) {
+            button.contentState = button.contentState == .actionable ? .confirmation : .actionable
+        }
     }
 }

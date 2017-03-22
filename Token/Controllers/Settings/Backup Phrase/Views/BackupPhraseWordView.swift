@@ -138,7 +138,7 @@ extension UIView {
 
         let shapeLayer = CAShapeLayer()
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        shapeLayer.strokeColor = UIColor.black.withAlphaComponent(0.1).cgColor
         shapeLayer.lineWidth = 2
         shapeLayer.lineJoin = kCALineJoinRound
         self.layer.addSublayer(shapeLayer)

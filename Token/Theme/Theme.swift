@@ -49,6 +49,10 @@ extension Theme {
         return UIColor(hex: "F3F3F3")
     }
 
+    public static var backupPhraseBackgroundColor: UIColor {
+        return UIColor(hex: "F6F6F6")
+    }
+
     public static var settingsBackgroundColor: UIColor {
         return UIColor(hex: "FCFCFC")
     }

@@ -274,6 +274,7 @@
 		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
+		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
 		A9AC74081E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC74091E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
@@ -470,6 +471,7 @@
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
 		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
+		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -777,6 +779,7 @@
 				A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */,
 				A9BF33B61E76F918009A51AA /* CheckboxControl.swift */,
 				9FE18B271E2D135F00940DC8 /* ContactCell.swift */,
+				A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */,
 				9F40F3B81E59FE97007A7DE7 /* MessageUI */,
 				9FE398401E2E225600386FAF /* ProfileItemCell.swift */,
 				A9AC74101E78064500365029 /* TextLabel.swift */,
@@ -1528,6 +1531,7 @@
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */,
 				9F7E5DA21E4C982300543296 /* Message.swift in Sources */,
+				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */,
 				9F40F3C61E59FE97007A7DE7 /* TGBaseMessageCellLayout.swift in Sources */,
 				1475136A1E49D41200E44A62 /* HomeNavigationController.swift in Sources */,
@@ -1936,6 +1940,7 @@
 				14147EA71E8119F0006BD47B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		149F9AEB1E72E29A00FB74AA /* Build configuration list for PBXNativeTarget "Distribution" */ = {
 			isa = XCConfigurationList;

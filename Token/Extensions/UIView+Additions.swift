@@ -16,7 +16,7 @@ public extension UIView {
     func bounce() {
         self.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
 
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 150, options: .easeOut, animations: {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 200, options: .easeOut, animations: {
             self.transform = .identity
         }, completion: nil)
     }
