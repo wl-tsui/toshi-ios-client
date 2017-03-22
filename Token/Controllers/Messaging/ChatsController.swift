@@ -150,6 +150,23 @@ open class ChatsController: SweetTableController {
 
         return thread!
     }
+
+    func thread(withIdentifier identifier: String) -> TSThread? {
+        var thread: TSThread?
+
+        self.uiDatabaseConnection.read { transaction in
+            transaction.enumerateRows(inCollection: TSThread.collection()) { _, object, _, stop in
+                if let possibleThread = object as? TSThread {
+                    if possibleThread.uniqueId == identifier {
+                        thread = possibleThread
+                        stop.pointee = true
+                    }
+                }
+            }
+        }
+
+        return thread
+    }
 }
 
 extension ChatsController: UITableViewDelegate {
@@ -164,7 +181,7 @@ extension ChatsController: UITableViewDelegate {
 
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thread = self.thread(at: indexPath)
-        let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatAPIClient)
+        let messagesController = MessagesViewController(thread: thread, chatAPIClient: self.chatAPIClient)
         self.navigationController?.pushViewController(messagesController, animated: true)
     }
 }

@@ -12,6 +12,8 @@ public extension Array {
 
 open class ContactsController: SweetTableController {
 
+    let selectedContactKey = "SelectedContact"
+
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TokenContact.collectionKey], view: TokenContact.viewExtensionName)
         mappings.setIsReversed(true, forGroup: TokenContact.collectionKey)
@@ -98,6 +100,16 @@ open class ContactsController: SweetTableController {
         appearance.setTitleColor(Theme.lightTextColor, for: .normal)
 
         self.displayContacts()
+
+        if let address = UserDefaults.standard.string(forKey: self.selectedContactKey) {
+            // This doesn't restore a contact if they are not our contact, but a search result
+            DispatchQueue.main.asyncAfter(seconds: 0.0) {
+                guard let contact = self.contact(withAddress: address) else { return }
+
+                let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+                self.navigationController?.pushViewController(contactController, animated: true)
+            }
+        }
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -118,14 +130,13 @@ open class ContactsController: SweetTableController {
 
     func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
-            guard let data1 = object1 as? Data, let json1 = try? JSONSerialization.jsonObject(with: data1, options: []), let contactJson1 = json1 as? [String: Any] else { fatalError() }
+            guard let data1 = object1 as? Data else { fatalError() }
+            guard let data2 = object2 as? Data else { fatalError() }
 
-            guard let data2 = object2 as? Data, let json2 = try? JSONSerialization.jsonObject(with: data2, options: []), let contactJson2 = json2 as? [String: Any] else { fatalError() }
+            let contact1 = TokenContact.contact(withData: data1)
+            let contact2 = TokenContact.contact(withData: data2)
 
-            let contact1 = TokenContact(json: contactJson1)
-            let contact2 = TokenContact(json: contactJson2)
-
-            return contact1.username.compare(contact2.username)
+            return contact1!.username.compare(contact2!.username)
         }
 
         return viewSorting
@@ -241,13 +252,23 @@ open class ContactsController: SweetTableController {
             guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TokenContact.viewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
 
             guard let data = dbExtension.object(at: indexPath, with: self.mappings) as? Data else { fatalError() }
-            guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { fatalError() }
-            guard let json = jsonObject as? [String: Any] else { fatalError() }
 
-            contact = TokenContact(json: json)
+            contact = TokenContact.contact(withData: data)
         }
 
         return contact!
+    }
+
+    func contact(withAddress address: String) -> TokenContact? {
+        var contact: TokenContact?
+
+        self.uiDatabaseConnection.read { transaction in
+            if let data = transaction.object(forKey: address, inCollection: TokenContact.collectionKey) as? Data {
+                contact = TokenContact.contact(withData: data)
+            }
+        }
+
+        return contact
     }
 }
 
@@ -299,6 +320,8 @@ extension ContactsController: UITableViewDelegate {
         let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
 
         self.navigationController?.pushViewController(contactController, animated: true)
+
+        UserDefaults.standard.setValue(contact.address, forKey: self.selectedContactKey)
     }
 }
 

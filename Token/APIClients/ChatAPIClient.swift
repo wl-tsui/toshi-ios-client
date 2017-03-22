@@ -4,7 +4,9 @@ import SweetFoundation
 
 public class ChatAPIClient: NSObject {
 
-    public var cereal: Cereal
+    static let shared: ChatAPIClient = ChatAPIClient()
+
+    public let cereal = Cereal()
 
     public var teapot: Teapot
 
@@ -18,10 +20,11 @@ public class ChatAPIClient: NSObject {
         TSStorageManager.shared()
     }()
 
-    public init(cereal: Cereal) {
-        self.cereal = cereal
+    private override init() {
         self.baseURL = URL(string: TokenChatServiceBaseURLPath)!
         self.teapot = Teapot(baseURL: self.baseURL)
+
+        super.init()
     }
 
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {

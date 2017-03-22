@@ -302,7 +302,7 @@ public class ContactController: UIViewController {
     }
 
     func didTapAddContactButton() {
-        if !self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey) {
+        if !self.yap.containsObject(for: self.contact.address, in: TokenContact.collectionKey) {
             TSStorageManager.shared().dbConnection.readWrite { transaction in
                 var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
@@ -313,7 +313,7 @@ public class ContactController: UIViewController {
                 recipient?.save(with: transaction)
             }
 
-            self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+            self.yap.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenContact.collectionKey)
 
             SoundPlayer.playSound(type: .addedContact)
 

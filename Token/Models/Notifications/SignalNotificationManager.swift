@@ -10,7 +10,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         return tabbarController
     }
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in _: TSThread!) {
+    public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in thread: TSThread!) {
         guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController.selectedViewController != SignalNotificationManager.tabbarController.messagingController else {
             return
         }
@@ -19,6 +19,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
         let content = UNMutableNotificationContent()
         content.title = name
+        content.threadIdentifier = thread.uniqueId
 
         if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
             content.body = sofa.body

@@ -255,6 +255,8 @@
 		9FCDBAF51E2CDDB100A70E07 /* TokenContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAF41E2CDDB100A70E07 /* TokenContact.swift */; };
 		9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
 		9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
+		9FD25D3C1E813C3F0011F164 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
+		9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
 		9FDAA8D81E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FDAA8D71E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework */; };
 		9FDB3B171E6D640900EE5FD7 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */; };
 		9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */; };
@@ -452,6 +454,7 @@
 		9FCF13261E52FB160078FF7F /* TSThread+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TSThread+Additions.h"; sourceTree = "<group>"; };
 		9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSThread+Additions.m"; sourceTree = "<group>"; };
 		9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestController.swift; sourceTree = "<group>"; };
+		9FD25D3B1E813C3F0011F164 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		9FDAA8D71E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICollectionViewLeftAlignedLayout.framework; path = Carthage/Build/iOS/UICollectionViewLeftAlignedLayout.framework; sourceTree = "<group>"; };
 		9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsCollectionView.swift; sourceTree = "<group>"; };
@@ -807,6 +810,7 @@
 				9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */,
 				9FB8EA461E323B4000505441 /* SofaWrapper.swift */,
 				9F7E5DA11E4C982300543296 /* Message.swift */,
+				9FD25D3B1E813C3F0011F164 /* Navigator.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1439,6 +1443,7 @@
 				149F9A721E72E29A00FB74AA /* PaymentRequestController.swift in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
 				149F9A741E72E29A00FB74AA /* ControlsCollectionView.swift in Sources */,
+				9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */,
 				A9AC74181E78277700365029 /* BackupPhraseWordView.swift in Sources */,
 				149F9A751E72E29A00FB74AA /* MessagingNavigationController.swift in Sources */,
 				A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */,
@@ -1541,6 +1546,7 @@
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */,
+				9FD25D3C1E813C3F0011F164 /* Navigator.swift in Sources */,
 				9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */,
 				9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */,

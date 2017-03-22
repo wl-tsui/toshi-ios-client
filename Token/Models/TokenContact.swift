@@ -91,6 +91,14 @@ public class TokenContact: NSObject, JSONDataSerialization {
         self.setupNotifications()
     }
 
+    // calling this with invalid data will crash the app
+    static func contact(withData data: Data) -> TokenContact? {
+        guard let deserialised = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
+        guard let json = deserialised as? [String: Any] else { return nil }
+
+        return TokenContact(json: json)
+    }
+
     func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
     }

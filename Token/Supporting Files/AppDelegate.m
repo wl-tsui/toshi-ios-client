@@ -41,7 +41,7 @@
     self.cereal = [[Cereal alloc] init];
     [[TSStorageManager sharedManager] storePhoneNumber:self.cereal.address];
 
-    self.chatAPIClient = [[ChatAPIClient alloc] initWithCereal:self.cereal];
+    self.chatAPIClient = [ChatAPIClient shared];
     self.idAPIClient = [[IDAPIClient alloc] initWithCereal:self.cereal];
 
     [self setupBasicAppearance];
@@ -148,7 +148,6 @@
     [SignalNotificationManager updateApplicationBadgeNumber];
 }
 
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
         // We're double checking that the app is active, to be sure since we
@@ -251,7 +250,8 @@
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
 
-    NSLog(@"Handle action for %@.", response);
+    NSString *identifier = response.notification.request.content.threadIdentifier;
+    [Navigator navigateTo:identifier animated:YES];
 
     completionHandler();
 }
@@ -276,11 +276,6 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"!");
-}
-
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo withResponseInfo:(NSDictionary *)responseInfo completionHandler:(void (^)())completionHandler {
-
     NSLog(@"!");
 }
 

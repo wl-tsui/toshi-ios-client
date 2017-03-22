@@ -5,6 +5,14 @@ let TabBarItemTitleOffset: CGFloat = -3.0
 
 open class TabBarController: UITabBarController {
 
+    public enum Tab {
+        case home
+        case messaging
+        case apps
+        case contacts
+        case settings
+    }
+
     let tabBarSelectedIndexKey = "TabBarSelectedIndex"
 
     public var chatAPIClient: ChatAPIClient
@@ -61,6 +69,21 @@ open class TabBarController: UITabBarController {
         self.selectedIndex = self.viewControllers!.index(of: self.messagingController)!
 
         self.messagingController.openThread(withAddress: address)
+    }
+
+    public func `switch`(to tab: Tab) {
+        switch tab {
+        case .home:
+            self.selectedIndex = 0
+        case .messaging:
+            self.selectedIndex = 1
+        case .apps:
+            self.selectedIndex = 2
+        case .contacts:
+            self.selectedIndex = 3
+        case .settings:
+            self.selectedIndex = 4
+        }
     }
 }
 
