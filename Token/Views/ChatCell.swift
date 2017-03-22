@@ -6,11 +6,7 @@ import SweetFoundation
 class ChatCell: UITableViewCell {
     var thread: TSThread? {
         didSet {
-            guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
-
-            let tokenContact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "")
-            self.usernameLabel.text = tokenContact?.username == nil ? "" : "@\(tokenContact!.username)"
-
+            // last visible message
             if let message = self.thread?.visibleIncomingInteractions.last, let messageBody = message.body {
                 switch SofaType(sofa: messageBody) {
                 case .message:
@@ -24,8 +20,7 @@ class ChatCell: UITableViewCell {
                 self.lastMessageLabel.text = nil
             }
 
-            self.avatarImageView.image = self.thread?.image()
-
+            // date
             if let date = self.thread?.lastMessageDate() {
                 if DateTimeFormatter.isDate(date, sameDayAs: Date()) {
                     self.lastMessageDateLabel.text = DateTimeFormatter.timeFormatter.string(from: date)
@@ -34,6 +29,7 @@ class ChatCell: UITableViewCell {
                 }
             }
 
+            // unread badge
             if let thread = self.thread {
                 let count = TSMessagesManager.shared().unreadMessages(in: thread)
                 if count > 0 {
@@ -42,6 +38,17 @@ class ChatCell: UITableViewCell {
                 } else {
                     self.unreadLabel.text = nil
                     self.unreadLabel.isHidden = true
+                }
+            }
+
+            guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+            if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
+                self.updateContact(contact)
+            } else {
+                IDAPIClient.shared.findContact(name: self.thread?.contactIdentifier() ?? "") { contact in
+                    // TODO: Contact no longer exists. Handle this case. Delete thread probably?
+                    guard let contact = contact else { fatalError("Contact no longer exists. Handle this case") }
+                    self.updateContact(contact)
                 }
             }
         }
@@ -147,5 +154,16 @@ class ChatCell: UITableViewCell {
 
     required init?(coder _: NSCoder) {
         fatalError()
+    }
+
+    func updateContact(_ contact: TokenContact) {
+        self.usernameLabel.text = contact.displayName.length > 0 ? contact.displayName : "@\(contact.username)"
+        self.avatarImageView.image = contact.avatar
+
+        if contact.avatar == nil {
+            IDAPIClient.shared.downloadAvatar(path: contact.avatarPath) { image in
+                self.avatarImageView.image = image
+            }
+        }
     }
 }
