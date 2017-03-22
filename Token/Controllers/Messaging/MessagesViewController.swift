@@ -299,7 +299,7 @@ class MessagesViewController: MessagesCollectionViewController {
         }
 
         if let message = interaction as? TSMessage, shouldProcessCommands {
-            let type = SofaType(sofa: message.body!)
+            let type = SofaType(sofa: message.body)
             switch type {
             case .metadataRequest:
                 let metadataResponse = SofaMetadataResponse(metadataRequest: SofaMetadataRequest(content: message.body!))
@@ -455,8 +455,9 @@ class MessagesViewController: MessagesCollectionViewController {
                     }
                 case .update:
                     guard let interaction = dbExtension.object(at: change.indexPath, with: self.mappings) as? TSMessage else { continue }
-
                     let indexPath = change.indexPath
+                    guard self.messages.count > indexPath.row else { continue }
+
                     let message = self.message(at: indexPath)
                     message.signalMessage = interaction
                     DispatchQueue.main.async {

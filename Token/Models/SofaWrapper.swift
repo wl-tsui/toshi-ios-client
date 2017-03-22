@@ -9,7 +9,13 @@ public enum SofaType: String {
     case paymentRequest = "SOFA::PaymentRequest:"
     case payment = "SOFA::Payment:"
 
-    init(sofa: String) {
+    init(sofa: String?) {
+        guard let sofa = sofa else {
+            self = .none
+
+            return
+        }
+
         if sofa.hasPrefix(SofaType.message.rawValue) {
             self = .message
         } else if sofa.hasPrefix(SofaType.command.rawValue) {
