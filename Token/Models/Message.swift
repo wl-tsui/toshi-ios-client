@@ -47,26 +47,29 @@ public class Message: NSObject, NOCChatItem {
         return (self.signalMessage as? TSOutgoingMessage)?.messageState ?? .attemptingOut
     }
 
-    public var sofaWrapper: SofaWrapper
+    public var sofaWrapper: SofaWrapper?
 
     public var isDisplayable: Bool {
-        return [.message, .paymentRequest, .payment].contains(self.sofaWrapper.type)
+        guard let sofaWrapper = self.sofaWrapper else { return false }
+        return [.message, .paymentRequest, .payment].contains(sofaWrapper.type)
     }
 
     var text: String {
-        switch self.sofaWrapper.type {
+        guard let sofaWrapper = self.sofaWrapper else { return "" }
+        switch sofaWrapper.type {
         case .message:
-            return (self.sofaWrapper as! SofaMessage).body
+            return (sofaWrapper as! SofaMessage).body
         case .paymentRequest:
-            let body = (self.sofaWrapper as! SofaPaymentRequest).body
+            let body = (sofaWrapper as! SofaPaymentRequest).body
             if body.length > 0 {
                 return body
             }
+
             return "Payment requested without message."
         case .payment:
             return ""
         default:
-            return self.sofaWrapper.content
+            return sofaWrapper.content
         }
     }
 
@@ -78,12 +81,12 @@ public class Message: NSObject, NOCChatItem {
         return self.messageType
     }
 
-    init(sofaWrapper: SofaWrapper, signalMessage: TSMessage, date: Date? = nil, isOutgoing: Bool = true, shouldProcess: Bool = false) {
+    init(sofaWrapper: SofaWrapper?, signalMessage: TSMessage, date: Date? = nil, isOutgoing: Bool = true, shouldProcess: Bool = false) {
         self.sofaWrapper = sofaWrapper
         self.isOutgoing = isOutgoing
         self.signalMessage = signalMessage
         self.date = date ?? Date()
-        self.isActionable = shouldProcess && !isOutgoing && (sofaWrapper.type == .paymentRequest)
+        self.isActionable = shouldProcess && !isOutgoing && (sofaWrapper?.type == .paymentRequest)
 
         super.init()
     }

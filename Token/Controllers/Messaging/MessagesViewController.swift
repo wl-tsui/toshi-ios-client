@@ -224,9 +224,8 @@ class MessagesViewController: MessagesCollectionViewController {
                     if let message = interaction as? TSMessage, SofaType(sofa: message.body ?? "") == .paymentRequest {
                         shouldProcess = true
                     }
-                    if let result = self.handleInteraction(interaction, shouldProcessCommands: shouldProcess) {
-                        messages.append(result)
-                    }
+
+                    messages.append(self.handleInteraction(interaction, shouldProcessCommands: shouldProcess))
                 }
             }
 
@@ -289,13 +288,13 @@ class MessagesViewController: MessagesCollectionViewController {
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
     ///
-    func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message? {
+    func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
             DispatchQueue.main.async {
                 self.handleInvalidKeyError(interaction)
             }
 
-            return nil
+            return Message(sofaWrapper: nil, signalMessage: interaction, date: interaction.date(), isOutgoing: false)
         }
 
         if let message = interaction as? TSMessage, shouldProcessCommands {
@@ -340,7 +339,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
             return message
         } else {
-            return nil
+            return Message(sofaWrapper: nil, signalMessage: interaction as! TSMessage, date: interaction.date(), isOutgoing: false)
         }
     }
 
@@ -428,36 +427,30 @@ class MessagesViewController: MessagesCollectionViewController {
                 case .insert:
                     guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { fatalError("woot") }
 
-                    if let result = self.handleInteraction(interaction, shouldProcessCommands: true) {
-                        DispatchQueue.main.async {
-                            self.messages.append(result)
+                    DispatchQueue.main.async {
+                        let result = self.handleInteraction(interaction, shouldProcessCommands: true)
+                        self.messages.append(result)
 
-                            if result.isOutgoing {
-                                if result.sofaWrapper.type == .paymentRequest {
-                                    SoundPlayer.playSound(type: .requestPayment)
-                                } else if result.sofaWrapper.type == .payment {
-                                    SoundPlayer.playSound(type: .paymentSend)
-                                } else {
-                                    SoundPlayer.playSound(type: .messageSent)
-                                }
+                        if result.isOutgoing {
+                            if result.sofaWrapper?.type == .paymentRequest {
+                                SoundPlayer.playSound(type: .requestPayment)
+                            } else if result.sofaWrapper?.type == .payment {
+                                SoundPlayer.playSound(type: .paymentSend)
                             } else {
-                                SoundPlayer.playSound(type: .messageReceived)
+                                SoundPlayer.playSound(type: .messageSent)
                             }
+                        } else {
+                            SoundPlayer.playSound(type: .messageReceived)
+                        }
 
-                            // mark incoming as read, after appending them to the tableview, since this will trigger an update
-                            // use dispatch after b/c of UIKit, as it delays updating the collection view content
-                            DispatchQueue.main.asyncAfter(seconds: 0.15) {
-                                if let incoming = interaction as? TSIncomingMessage, !incoming.wasRead {
-                                    incoming.markAsReadLocally()
-                                }
-                            }
+                        if let incoming = interaction as? TSIncomingMessage, !incoming.wasRead {
+                            incoming.markAsReadLocally()
                         }
                     }
                 case .update:
                     guard let interaction = dbExtension.object(at: change.indexPath, with: self.mappings) as? TSMessage else { continue }
-                    let indexPath = change.indexPath
-                    guard self.messages.count > indexPath.row else { continue }
 
+                    let indexPath = change.indexPath
                     let message = self.message(at: indexPath)
                     message.signalMessage = interaction
                     DispatchQueue.main.async {
