@@ -239,6 +239,7 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
             self.subcontrolsView.isHidden = false
             self.view.layoutIfNeeded()
 
+            completion?()
         }
     }
 }
