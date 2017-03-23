@@ -48,8 +48,8 @@ class ContactCell: UITableViewCell {
         return view
     }()
 
-    lazy var avatarImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
+    lazy var avatarImageView: AvatarImageView = {
+        let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
@@ -75,7 +75,7 @@ class ContactCell: UITableViewCell {
         let height: CGFloat = 24.0
 
         self.avatarImageView.clipsToBounds = true
-        self.avatarImageView.layer.cornerRadius = imageSize / 2
+        self.avatarImageView.cornerRadius = imageSize / 2
 
         self.avatarImageView.set(height: imageSize)
         self.avatarImageView.set(width: imageSize)

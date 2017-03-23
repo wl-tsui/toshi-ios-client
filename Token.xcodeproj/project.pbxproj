@@ -273,6 +273,9 @@
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
 		9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
 		9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
+		9FF6AF9F1E83DE04001B5907 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
+		9FF6AFA01E83DE04001B5907 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
+		9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
 		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
@@ -473,6 +476,7 @@
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
 		9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewRightAlignedLayout.h; sourceTree = "<group>"; };
 		9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewRightAlignedLayout.m; sourceTree = "<group>"; };
+		9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
@@ -786,6 +790,7 @@
 				A9AC74101E78064500365029 /* TextLabel.swift */,
 				9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */,
 				A9AC740D1E78051F00365029 /* TitleLabel.swift */,
+				9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1452,6 +1457,7 @@
 				149F9A7B1E72E29A00FB74AA /* ChatsController.swift in Sources */,
 				149F9A7C1E72E29A00FB74AA /* HomeController.swift in Sources */,
 				1437EC141E72F2CD00CE7A1F /* SettingsSectionHeader.swift in Sources */,
+				9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */,
 				149F9A7D1E72E29A00FB74AA /* SettingsController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
 				A9AC74091E77E37500365029 /* ActionButton.swift in Sources */,
@@ -1477,6 +1483,7 @@
 				149F9A8C1E72E29A00FB74AA /* ContactsNavigationController.swift in Sources */,
 				A9BF33B31E76F8D0009A51AA /* BackupPhraseEnableController.swift in Sources */,
 				149F9A8D1E72E29A00FB74AA /* Theme.swift in Sources */,
+				9FF6AFA01E83DE04001B5907 /* AvatarImageView.swift in Sources */,
 				14A769E11E72EC70007B4C1A /* DistributionTokenURLPaths.swift in Sources */,
 				149F9A8E1E72E29A00FB74AA /* AppsNavigationController.swift in Sources */,
 				149F9A8F1E72E29A00FB74AA /* TGDeliveryStatusView.swift in Sources */,
@@ -1564,6 +1571,7 @@
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */,
 				9F40F3C01E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */,
+				9FF6AF9F1E83DE04001B5907 /* AvatarImageView.swift in Sources */,
 				145666041E30D24C00E52027 /* MessagesFloatingView.swift in Sources */,
 				E1F1D4391E70416800CC314D /* RatingView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,

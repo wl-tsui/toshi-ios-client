@@ -41,9 +41,8 @@ class ProfileCell: BaseCell {
         return view
     }()
 
-    lazy var avatarImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.backgroundColor = .lightGray
+    lazy var avatarImageView: AvatarImageView = {
+        let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
@@ -84,7 +83,7 @@ class ProfileCell: BaseCell {
         self.contentView.addSubview(self.avatarImageView)
 
         self.avatarImageView.clipsToBounds = true
-        self.avatarImageView.layer.cornerRadius = imageSize / 2
+        self.avatarImageView.cornerRadius = imageSize / 2
 
         self.avatarImageView.set(height: imageSize)
         self.avatarImageView.set(width: imageSize)

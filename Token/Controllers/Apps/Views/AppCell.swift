@@ -4,8 +4,8 @@ import SweetUIKit
 class AppCell: UICollectionViewCell {
     static let avatarSize = CGFloat(89)
 
-    lazy var avatarImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
+    lazy var avatarImageView: AvatarImageView = {
+        let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()

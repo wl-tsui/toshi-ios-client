@@ -9,9 +9,8 @@ public class ContactController: UIViewController {
 
     let yap: Yap = Yap.sharedInstance
 
-    lazy var avatarImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.clipsToBounds = true
+    lazy var avatarImageView: AvatarImageView = {
+        let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
@@ -199,7 +198,7 @@ public class ContactController: UIViewController {
         self.avatarImageView.set(width: avatarSize)
         self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 26).isActive = true
         self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.avatarImageView.layer.cornerRadius = avatarSize / 2
+        self.avatarImageView.cornerRadius = avatarSize / 2
 
         self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true

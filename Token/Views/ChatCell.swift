@@ -67,10 +67,8 @@ class ChatCell: UITableViewCell {
         return view
     }()
 
-    lazy var avatarImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 22
+    lazy var avatarImageView: AvatarImageView = {
+        let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
@@ -121,6 +119,8 @@ class ChatCell: UITableViewCell {
 
         self.avatarImageView.set(height: 44)
         self.avatarImageView.set(width: 44)
+        self.avatarImageView.cornerRadius = 22
+        
         self.avatarImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         self.avatarImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin).isActive = true
 

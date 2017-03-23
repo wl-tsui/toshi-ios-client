@@ -10,7 +10,6 @@ class AppController: UIViewController {
 
     lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.clipsToBounds = true
 
         return view
     }()

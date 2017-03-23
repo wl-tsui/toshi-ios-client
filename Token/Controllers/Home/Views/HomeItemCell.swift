@@ -2,8 +2,8 @@ import UIKit
 import SweetUIKit
 
 class HomeItemCell: UICollectionViewCell {
-    lazy var avatarImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
+    lazy var avatarImageView: AvatarImageView = {
+        let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
