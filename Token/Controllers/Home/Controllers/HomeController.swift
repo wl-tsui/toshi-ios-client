@@ -77,6 +77,12 @@ class HomeController: UIViewController {
         }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.updateBalance()
+    }
+
     func updateBalance(_: Notification? = nil) {
         guard let user = User.current else {
             self.containerView.balance = NSDecimalNumber.zero

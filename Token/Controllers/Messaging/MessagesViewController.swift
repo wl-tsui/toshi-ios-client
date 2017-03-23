@@ -311,9 +311,6 @@ class MessagesViewController: MessagesCollectionViewController {
         /// TODO: Simplify how we deal with interactions vs text messages.
         /// Since now we know we can expande the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = interaction as? TSOutgoingMessage {
-            // now we only show commands if last message is incoming and contains buttons
-            // that means that as soon as we send a new message, buttons are gone.
-            self.buttons = []
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body!)
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.date(), isOutgoing: true)
 
@@ -509,8 +506,10 @@ class MessagesViewController: MessagesCollectionViewController {
 
             return
         }
-        let command = SofaCommand(button: button)
 
+        // clear the buttons
+        self.buttons = []
+        let command = SofaCommand(button: button)
         self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
         self.sendMessage(sofaWrapper: command)
     }
