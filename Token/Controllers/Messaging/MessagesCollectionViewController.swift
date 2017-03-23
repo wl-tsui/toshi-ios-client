@@ -17,7 +17,7 @@ class MessagesCollectionViewController: NOCChatViewController {
                 self.controlsView.isHidden = true
                 self.updateSubcontrols(with: nil)
                 self.controlsViewHeightConstraint.constant = self.view.frame.height
-                self.controlsViewDelegateDatasource.items = self.buttons.reversed()
+                self.controlsViewDelegateDatasource.items = self.buttons
                 self.controlsView.reloadData()
 
                 // Re-enqueues this back to the main queue to ensure the collection view
@@ -25,6 +25,7 @@ class MessagesCollectionViewController: NOCChatViewController {
                 DispatchQueue.main.asyncAfter(seconds: 0.1) {
                     var height: CGFloat = 0
                     (self.controlsView.visibleCells as? [ControlCell])?.forEach { cell in
+                        cell.transform = CGAffineTransform(scaleX: -1, y: -1)
                         height = max(height, cell.frame.maxY)
                     }
 
@@ -34,9 +35,8 @@ class MessagesCollectionViewController: NOCChatViewController {
                     self.additionalContentInsets.bottom = height
                     self.controlsViewHeightConstraint.constant = height
                     self.controlsView.isHidden = false
-                    UIView.animate(withDuration: 0.15) {
-                        self.view.layoutIfNeeded()
-                    }
+                    self.view.layoutIfNeeded()
+                    self.scrollToBottom(animated: false)
                 }
             }
         }
@@ -74,7 +74,7 @@ class MessagesCollectionViewController: NOCChatViewController {
         view.clipsToBounds = true
 
         // Upside down collection views!
-        view.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+        view.transform = CGAffineTransform(scaleX: -1, y: -1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
 
@@ -94,7 +94,7 @@ class MessagesCollectionViewController: NOCChatViewController {
         view.layer.borderWidth = Theme.borderHeight
 
         // Upside down collection views!
-        view.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+        view.transform = CGAffineTransform(scaleX: 1, y: -1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
 
@@ -187,18 +187,19 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
         self.subcontrolsViewDelegateDatasource.items = []
         self.currentButton = nil
 
-        // ✨ Animate that beauty in! ✨
         self.subcontrolsViewHeightConstraint.constant = 0
-        UIView.animate(withDuration: 0.15, animations: {
-            self.view.layoutIfNeeded()
-        }, completion: { _ in
-            self.subcontrolsView.backgroundColor = .clear
+        self.subcontrolsView.backgroundColor = .clear
+        self.subcontrolsView.isHidden = true
 
-            completion?()
-        })
+        self.controlsView.deselectButtons()
+
+        self.view.layoutIfNeeded()
+
+        completion?()
     }
 
     func showSubcontrolsMenu(button: SofaMessage.Button, completion: (() -> Void)? = nil) {
+        self.controlsView.deselectButtons()
         // ensure we have enough height to fill in all the views
         self.subcontrolsViewHeightConstraint.constant = self.view.frame.height
         // ensure we won't be flashing unfinished content
@@ -218,6 +219,7 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
         self.subcontrolsViewDelegateDatasource.items = button.subcontrols.reversed()
         // adds some margins
         self.subcontrolsViewWidthConstraint.constant = maxWidth
+
         self.currentButton = button
 
         self.subcontrolsView.reloadData()
@@ -230,25 +232,13 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
             // calculates the new menu height
             for cell in self.subcontrolsView.visibleCells {
                 height += cell.frame.height
+                cell.transform = CGAffineTransform(scaleX: 1, y: -1)
             }
 
-            // let's prepare for animating! First set the height to 0.
-            self.subcontrolsViewHeightConstraint.constant = 0
-            // reset the background colour to the design.
-            self.subcontrolsView.backgroundColor = Theme.viewBackgroundColor
-            // force it to update it's size with 0 height.
-            // also remember that layoutIfNeeded is called on the superview.
-            self.view.layoutIfNeeded()
-            // now that it's too small to see, we can unset hidden
-            self.subcontrolsView.isHidden = false
-
-            // ✨ Animate that beauty in! ✨
             self.subcontrolsViewHeightConstraint.constant = height
-            UIView.animate(withDuration: 0.15) {
-                self.view.layoutIfNeeded()
+            self.subcontrolsView.isHidden = false
+            self.view.layoutIfNeeded()
 
-                completion?()
-            }
         }
     }
 }

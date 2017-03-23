@@ -1,9 +1,11 @@
 #import "Cryptotools.h"
 
 #import "TSThread+Additions.h"
+#import "UICollectionViewRightAlignedLayout.h"
 
 #import "AppDelegate.h"
 #import "ContactsManager.h"
+#import "UICollectionViewRightAlignedLayout.h"
 
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseViewMappings.h>

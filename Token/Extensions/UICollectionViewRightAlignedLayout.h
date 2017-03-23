@@ -1,4 +1,3 @@
-
 // Copyright (c) 2014 Giovanni Lodi
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,22 +18,20 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /**
- *  Simple UICollectionViewFlowLayout that aligns the cells to the left rather than justify them
- *
- *  Based on http://stackoverflow.com/questions/13017257/how-do-you-determine-spacing-between-cells-in-uicollectionview-flowlayout
+ *  Simple UICollectionViewFlowLayout that aligns the cells to the right rather than justify them
  */
 
 #import <UIKit/UIKit.h>
 
-@interface UICollectionViewLeftAlignedLayout : UICollectionViewFlowLayout
+@interface UICollectionViewRightAlignedLayout : UICollectionViewFlowLayout
 
 @end
 
 /**
  *  Just a convenience protocol to keep things consistent.
  *  Someone could find it confusing for a delegate object to conform to UICollectionViewDelegateFlowLayout
- *  while using UICollectionViewLeftAlignedLayout.
+ *  while using UICollectionViewRightAlignedLayout.
  */
-@protocol UICollectionViewDelegateLeftAlignedLayout <UICollectionViewDelegateFlowLayout>
+@protocol UICollectionViewDelegateRightAlignedLayout <UICollectionViewDelegateFlowLayout>
 
 @end

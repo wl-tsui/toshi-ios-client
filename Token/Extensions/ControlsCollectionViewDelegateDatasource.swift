@@ -1,11 +1,10 @@
 import UIKit
-import UICollectionViewLeftAlignedLayout
 
 protocol ControlViewActionDelegate: class {
     func controlsCollectionViewDidSelectControl(_ button: SofaMessage.Button)
 }
 
-class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateLeftAlignedLayout, ControlCellDelegate {
+class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateRightAlignedLayout, ControlCellDelegate {
     var items: [SofaMessage.Button] = [] {
         didSet {
             self.subcontrolsCollectionView?.isUserInteractionEnabled = true
@@ -57,7 +56,7 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
     }
 }
 
-class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateLeftAlignedLayout, ControlCellDelegate {
+class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateRightAlignedLayout, ControlCellDelegate {
     var items: [SofaMessage.Button] = [] {
         didSet {
             self.controlsCollectionView?.isUserInteractionEnabled = true
@@ -95,8 +94,6 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
 
     func didTapButton(for cell: ControlCell) {
         guard let indexPath = self.controlsCollectionView?.indexPath(for: cell) else { return }
-        //        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
-
         self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.row])
     }
 

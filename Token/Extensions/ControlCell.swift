@@ -62,8 +62,9 @@ class ControlCell: UICollectionViewCell {
     lazy var button: UIButton = {
         let view = UIButton(withAutoLayout: true)
         view.setTitleColor(Theme.actionButtonTitleColor, for: .normal)
+        view.setTitleColor(Theme.greyTextColor, for: .highlighted)
+        view.setTitleColor(Theme.greyTextColor, for: .selected)
         view.titleLabel?.font = Theme.medium(size: 15)
-        view.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
 
         view.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
 
@@ -88,6 +89,8 @@ class ControlCell: UICollectionViewCell {
     }
 
     func didTapButton() {
+        let wasSelected = self.button.isSelected
         self.delegate?.didTapButton(for: self)
+        self.button.isSelected = !wasSelected
     }
 }

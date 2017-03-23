@@ -1,10 +1,9 @@
 import UIKit
-import UICollectionViewLeftAlignedLayout
 
 class ControlsCollectionView: UICollectionView {
 
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: UICollectionViewLeftAlignedLayout())
+        self.init(frame: .zero, collectionViewLayout: UICollectionViewRightAlignedLayout())
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -15,5 +14,11 @@ class ControlsCollectionView: UICollectionView {
         }
 
         return false
+    }
+
+    func deselectButtons() {
+        self.visibleCells.forEach { cell in
+            (cell as? ControlCell)?.button.isSelected = false
+        }
     }
 }

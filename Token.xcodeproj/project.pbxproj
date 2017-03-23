@@ -108,7 +108,6 @@
 		149F9AB91E72E29A00FB74AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
 		149F9ABA1E72E29A00FB74AA /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
 		149F9ABB1E72E29A00FB74AA /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; };
-		149F9ABC1E72E29A00FB74AA /* UICollectionViewLeftAlignedLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FDAA8D71E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework */; };
 		149F9ABD1E72E29A00FB74AA /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; };
 		149F9ABE1E72E29A00FB74AA /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; };
 		149F9ABF1E72E29A00FB74AA /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; };
@@ -257,7 +256,6 @@
 		9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
 		9FD25D3C1E813C3F0011F164 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
 		9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
-		9FDAA8D81E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FDAA8D71E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework */; };
 		9FDB3B171E6D640900EE5FD7 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */; };
 		9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */; };
 		9FDB3B1B1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B1A1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift */; };
@@ -273,6 +271,8 @@
 		9FEFEF641E66CE0000948277 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
 		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
+		9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
+		9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
 		A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */; };
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
@@ -455,7 +455,6 @@
 		9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSThread+Additions.m"; sourceTree = "<group>"; };
 		9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestController.swift; sourceTree = "<group>"; };
 		9FD25D3B1E813C3F0011F164 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
-		9FDAA8D71E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UICollectionViewLeftAlignedLayout.framework; path = Carthage/Build/iOS/UICollectionViewLeftAlignedLayout.framework; sourceTree = "<group>"; };
 		9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsCollectionView.swift; sourceTree = "<group>"; };
 		9FDB3B1A1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsCollectionViewDelegateDatasource.swift; sourceTree = "<group>"; };
@@ -472,6 +471,8 @@
 		9FEFEF631E66CE0000948277 /* scan.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = scan.m4a; sourceTree = "<group>"; };
 		9FEFEF651E66CF6E00948277 /* addContactApp.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = addContactApp.m4a; sourceTree = "<group>"; };
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
+		9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewRightAlignedLayout.h; sourceTree = "<group>"; };
+		9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewRightAlignedLayout.m; sourceTree = "<group>"; };
 		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
@@ -518,7 +519,6 @@
 				149F9AB91E72E29A00FB74AA /* UIKit.framework in Frameworks */,
 				149F9ABA1E72E29A00FB74AA /* CameraScanner.framework in Frameworks */,
 				149F9ABB1E72E29A00FB74AA /* SweetFoundation.framework in Frameworks */,
-				149F9ABC1E72E29A00FB74AA /* UICollectionViewLeftAlignedLayout.framework in Frameworks */,
 				149F9ABD1E72E29A00FB74AA /* SweetSwift.framework in Frameworks */,
 				149F9ABE1E72E29A00FB74AA /* Teapot.framework in Frameworks */,
 				149F9ABF1E72E29A00FB74AA /* SweetUIKit.framework in Frameworks */,
@@ -544,7 +544,6 @@
 				9F7D05281E37961D00FF55B9 /* UIKit.framework in Frameworks */,
 				9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */,
 				9F6758611E3BA1850009ABCD /* SweetFoundation.framework in Frameworks */,
-				9FDAA8D81E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework in Frameworks */,
 				9F6758621E3BA1850009ABCD /* SweetSwift.framework in Frameworks */,
 				9FE4267C1E3F566B007ED2A4 /* Teapot.framework in Frameworks */,
 				9F6758631E3BA1850009ABCD /* SweetUIKit.framework in Frameworks */,
@@ -626,7 +625,6 @@
 		27842ECF00E36BC79A5918DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9FDAA8D71E67180A002189AB /* UICollectionViewLeftAlignedLayout.framework */,
 				9FA12BE71E65A116003705F6 /* RevealServer.framework */,
 				9F584C741E5C33140093FA4D /* NoChat.framework */,
 				9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */,
@@ -947,6 +945,8 @@
 		9FDB3B151E6D63D900EE5FD7 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */,
+				9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */,
 				9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */,
 				9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */,
 				9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */,
@@ -1311,7 +1311,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/UICollectionViewLeftAlignedLayout.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1383,7 +1382,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/UICollectionViewLeftAlignedLayout.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1474,6 +1472,7 @@
 				149F9A891E72E29A00FB74AA /* SoundPlayer.swift in Sources */,
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F66BBBA1E7FCE2C00C4148A /* HomeButton.swift in Sources */,
+				9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,
 				149F9A8B1E72E29A00FB74AA /* SearchResultsView.swift in Sources */,
 				149F9A8C1E72E29A00FB74AA /* ContactsNavigationController.swift in Sources */,
 				A9BF33B31E76F8D0009A51AA /* BackupPhraseEnableController.swift in Sources */,
@@ -1606,6 +1605,7 @@
 				9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */,
+				9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
