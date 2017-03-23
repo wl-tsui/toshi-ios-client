@@ -36,6 +36,8 @@ class MessagesCollectionViewController: NOCChatViewController {
                     self.controlsViewHeightConstraint.constant = height
                     self.controlsView.isHidden = false
                     self.view.layoutIfNeeded()
+                    self.controlsView.deselectButtons()
+                    
                     self.scrollToBottom(animated: false)
                 }
             }
