@@ -3,18 +3,109 @@ import SweetUIKit
 
 class ActionButton: UIControl {
 
+    var titleColor = StateColor()
+    var buttonColor = StateColor()
+    var borderColor = StateColor()
+
+    struct StateColor {
+        var color: [String: UIColor] = [:]
+
+        subscript(state: ButtonState) -> UIColor? {
+            get {
+                return color[state.key]
+            } set {
+                color[state.key] = newValue
+            }
+        }
+    }
+
+    enum ButtonState: String {
+        case normal
+        case highlighted
+        case disabled
+
+        var key: String {
+            return self.rawValue
+        }
+    }
+
+    var buttonState: ButtonState = .normal {
+        didSet {
+            self.restyle()
+        }
+    }
+
+    enum ButtonStyle {
+        case primary
+        case secondary
+        case plain
+    }
+
+    var style: ButtonStyle? {
+        get {
+            return self.style
+        } set {
+            guard let style = newValue else { return }
+
+            switch style {
+            case .primary:
+                // Primary buttons have the tint color as background with a light text color
+                self.titleColor[.normal] = Theme.lightTextColor
+                self.buttonColor[.normal] = Theme.tintColor
+                self.borderColor[.normal] = Theme.tintColor
+
+                self.titleColor[.highlighted] = Theme.lightTextColor
+                self.buttonColor[.highlighted] = Theme.tintColor
+                self.borderColor[.highlighted] = Theme.tintColor
+
+                self.titleColor[.disabled] = Theme.lightTextColor
+                self.buttonColor[.disabled] = Theme.greyTextColor
+                self.borderColor[.disabled] = Theme.greyTextColor
+            case .secondary:
+                // Secondary buttons have a white background with a dark text color and a border
+                self.titleColor[.normal] = Theme.darkTextColor
+                self.buttonColor[.normal] = .white
+                self.borderColor[.normal] = Theme.greyTextColor
+
+                self.titleColor[.highlighted] = Theme.darkTextColor
+                self.buttonColor[.highlighted] = .white
+                self.borderColor[.highlighted] = Theme.greyTextColor
+
+                self.titleColor[.disabled] = Theme.greyTextColor
+                self.buttonColor[.disabled] = .clear
+                self.borderColor[.disabled] = Theme.greyTextColor
+            case .plain:
+                // Plain buttons have no background with the tint color for the title
+                self.titleColor[.normal] = Theme.tintColor
+                self.buttonColor[.normal] = .clear
+                self.borderColor[.normal] = .clear
+
+                self.titleColor[.highlighted] = Theme.tintColor
+                self.buttonColor[.highlighted] = .clear
+                self.borderColor[.highlighted] = .clear
+
+                self.titleColor[.disabled] = Theme.greyTextColor
+                self.buttonColor[.disabled] = .clear
+                self.borderColor[.disabled] = .clear
+            }
+
+            self.restyle()
+        }
+    }
+
     private lazy var background: UIView = {
         let view = UIView(withAutoLayout: true)
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
+        view.layer.borderWidth = Theme.borderHeight
 
         return view
     }()
 
     private lazy var backgroundOverlay: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         view.isUserInteractionEnabled = false
         view.alpha = 0
 
@@ -24,11 +115,14 @@ class ActionButton: UIControl {
     private lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.font = Theme.regular(size: 16)
-        view.textColor = Theme.lightTextColor
         view.textAlignment = .center
         view.isUserInteractionEnabled = false
 
         return view
+    }()
+
+    private lazy var guides: [UILayoutGuide] = {
+        [UILayoutGuide(), UILayoutGuide()]
     }()
 
     private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
@@ -49,9 +143,15 @@ class ActionButton: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        self.style = .primary
+
         self.addSubview(self.background)
         self.background.addSubview(self.backgroundOverlay)
         self.addSubview(self.titleLabel)
+
+        for guide in self.guides {
+            self.addLayoutGuide(guide)
+        }
 
         NSLayoutConstraint.activate([
             self.background.topAnchor.constraint(equalTo: self.topAnchor),
@@ -65,12 +165,23 @@ class ActionButton: UIControl {
             self.backgroundOverlay.rightAnchor.constraint(equalTo: self.rightAnchor),
 
             self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30),
             self.titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30),
 
-            self.heightAnchor.constraint(equalToConstant: 44).priority(.high),
-            self.widthAnchor.constraint(greaterThanOrEqualToConstant: 160).priority(.high),
+            self.guides[0].topAnchor.constraint(equalTo: self.topAnchor),
+            self.guides[0].leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.guides[0].bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.guides[0].rightAnchor.constraint(equalTo: self.titleLabel.leftAnchor),
+            self.guides[0].widthAnchor.constraint(greaterThanOrEqualToConstant: 30),
+
+            self.guides[1].topAnchor.constraint(equalTo: self.topAnchor),
+            self.guides[1].leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor),
+            self.guides[1].bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.guides[1].rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.guides[1].widthAnchor.constraint(greaterThanOrEqualToConstant: 30),
+
+            self.guides[0].widthAnchor.constraint(equalTo: self.guides[1].widthAnchor).priority(.high),
+
+            self.heightAnchor.constraint(equalToConstant: 44),
         ])
     }
 
@@ -82,16 +193,31 @@ class ActionButton: UIControl {
                 UIView.highlightAnimation {
                     self.backgroundOverlay.alpha = self.isHighlighted ? 1 : 0
                 }
+
+                self.buttonState = self.isHighlighted ? .highlighted : .normal
+
+                UIView.highlightAnimation {
+                    self.restyle()
+                }
             }
         }
     }
 
     override var isEnabled: Bool {
         didSet {
+            self.buttonState = self.isEnabled ? .normal : .disabled
+
             UIView.highlightAnimation {
-                self.background.backgroundColor = self.isEnabled ? Theme.tintColor : Theme.greyTextColor
-                self.alpha = self.isEnabled ? 1 : 0.6
+                self.restyle()
             }
         }
+    }
+
+    private func restyle() {
+        self.alpha = self.isEnabled ? 1 : 0.6
+
+        self.titleLabel.textColor = self.titleColor[self.buttonState]
+        self.background.backgroundColor = self.buttonColor[self.buttonState]
+        self.background.layer.borderColor = self.borderColor[self.buttonState]?.cgColor
     }
 }

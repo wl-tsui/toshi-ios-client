@@ -138,6 +138,10 @@ extension SettingsController: UITableViewDelegate {
             self.navigationController?.pushViewController(BackupPhraseEnableController(idAPIClient: self.idAPIClient), animated: true)
         } else if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
             cell.checkbox.checked = !cell.checkbox.checked
+        } else if indexPath.section == 2, indexPath.row == 3 {
+            self.tabBarController?.present(SignInNavigationController(rootViewController: SignInController(idAPIClient: self.idAPIClient)), animated: true) {
+                // clean up
+            }
         }
     }
 }

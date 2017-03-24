@@ -21,7 +21,6 @@ class BackupPhraseCopyController: UIViewController {
     private lazy var actionButton: ActionButton = {
         let view = ActionButton(withAutoLayout: true)
         view.title = "Verify phrase"
-        view.isEnabled = true
         view.addTarget(self, action: #selector(proceed(_:)), for: .touchUpInside)
 
         return view
