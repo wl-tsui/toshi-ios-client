@@ -377,8 +377,8 @@ class MessagesViewController: MessagesCollectionViewController {
 
     func registerNotifications() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
     }
 
     func reversedIndexPath(_ indexPath: IndexPath) -> IndexPath {

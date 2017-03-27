@@ -10,19 +10,19 @@ class TGClockProgressView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+        self.commonInit()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
+        self.commonInit()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        frameView.frame = bounds
-        minView.frame = bounds
-        hourView.frame = bounds
+        self.frameView.frame = bounds
+        self.minView.frame = bounds
+        self.hourView.frame = bounds
     }
 
     func startAnimating() {
@@ -30,13 +30,13 @@ class TGClockProgressView: UIView {
             return
         }
 
-        hourView.layer.removeAllAnimations()
-        minView.layer.removeAllAnimations()
+        self.hourView.layer.removeAllAnimations()
+        self.minView.layer.removeAllAnimations()
 
-        isAnimating = true
+        self.isAnimating = true
 
-        animateHourView()
-        animateMinView()
+        self.animateHourView()
+        self.animateMinView()
     }
 
     func stopAnimating() {
@@ -44,23 +44,23 @@ class TGClockProgressView: UIView {
             return
         }
 
-        isAnimating = false
+        self.isAnimating = false
 
-        hourView.layer.removeAllAnimations()
-        minView.layer.removeAllAnimations()
+        self.hourView.layer.removeAllAnimations()
+        self.minView.layer.removeAllAnimations()
     }
 
     private func commonInit() {
         backgroundColor = UIColor.clear
 
-        frameView.image = Constant.progressFrameImage
-        addSubview(frameView)
+        self.frameView.image = Constant.progressFrameImage
+        addSubview(self.frameView)
 
-        minView.image = Constant.progressMinImage
-        addSubview(minView)
+        self.minView.image = Constant.progressMinImage
+        addSubview(self.minView)
 
-        hourView.image = Constant.progressHourImage
-        addSubview(hourView)
+        self.hourView.image = Constant.progressHourImage
+        addSubview(self.hourView)
     }
 
     private func animateHourView() {

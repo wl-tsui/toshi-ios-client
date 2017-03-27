@@ -75,7 +75,7 @@ open class RatingView: UIView {
 
         var mutablePath: CGMutablePath?
 
-        for i in 0 ..< numberOfStars {
+        for i in 0 ..< self.numberOfStars {
 
             if let mutablePath = mutablePath {
                 mutablePath.addPath(self.starPath(with: starRadius, offset: CGFloat(i) * RatingView.starSize))

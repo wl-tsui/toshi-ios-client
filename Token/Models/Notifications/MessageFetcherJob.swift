@@ -52,19 +52,19 @@ class MessageFetcherJob: NSObject {
         }
 
         // maintain reference to make sure it's not de-alloced prematurely.
-        runPromises[promiseId] = runPromise
+        self.runPromises[promiseId] = runPromise
     }
 
     // use in DEBUG or wherever you can't receive push notifications to poll for messages.
     // Do not use in production.
     func startRunLoop(timeInterval: Double) {
         NSLog("\(TAG) Starting message fetch polling. This should not be used in production.")
-        timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(runAsync), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(self.runAsync), userInfo: nil, repeats: true)
     }
 
     func stopRunLoop() {
-        timer?.invalidate()
-        timer = nil
+        self.timer?.invalidate()
+        self.timer = nil
     }
 
     func parseMessagesResponse(responseObject: Any?) -> (envelopes: [OWSSignalServiceProtosEnvelope], more: Bool)? {

@@ -118,7 +118,7 @@ class AppsController: UIViewController {
         separatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15).isActive = true
         separatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15).isActive = true
 
-        self.navigationItem.titleView = searchController.searchBar
+        self.navigationItem.titleView = self.searchController.searchBar
 
         self.appsAPIClient.getFeaturedApps { apps, error in
             if let error = error {

@@ -106,7 +106,7 @@ class InputField: UIView {
             self.shortBottomSeparatorView.isHidden = true
         }
 
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tap(_:))))
     }
 
     func tap(_: UITapGestureRecognizer) {

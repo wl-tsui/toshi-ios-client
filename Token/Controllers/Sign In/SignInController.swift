@@ -75,7 +75,7 @@ open class SignInController: UIViewController {
 
         self.addSubviewsAndConstraints()
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
         tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
     }

@@ -37,7 +37,7 @@ class TGBaseMessageCell: NOCChatItemCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        itemView?.addSubview(bubbleView)
+        itemView?.addSubview(self.bubbleView)
     }
 
     required init?(coder _: NSCoder) {
@@ -50,7 +50,7 @@ class TGBaseMessageCell: NOCChatItemCell {
                 fatalError("invalid layout type")
             }
 
-            bubbleView.frame = cellLayout.bubbleViewFrame
+            self.bubbleView.frame = cellLayout.bubbleViewFrame
         }
     }
 }

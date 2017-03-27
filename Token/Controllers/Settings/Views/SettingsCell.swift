@@ -14,7 +14,7 @@ class SettingsCell: BaseCell {
 
     var title: String? {
         didSet {
-            self.titleLabel.text = title
+            self.titleLabel.text = self.title
         }
     }
 

@@ -38,7 +38,7 @@ class HomeController: UIViewController {
 
         self.updateBalance()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
     }
 
     required init?(coder _: NSCoder) {

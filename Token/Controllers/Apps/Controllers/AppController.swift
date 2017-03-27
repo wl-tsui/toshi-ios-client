@@ -237,7 +237,7 @@ class AppController: UIViewController {
 
         self.addContactButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)
         self.addContactButton.removeTarget(nil, action: nil, for: .allEvents)
-        self.addContactButton.addTarget(self, action: #selector(didTapAddContactButton), for: .touchUpInside)
+        self.addContactButton.addTarget(self, action: #selector(self.didTapAddContactButton), for: .touchUpInside)
     }
 
     func didTapMessageContactButton() {

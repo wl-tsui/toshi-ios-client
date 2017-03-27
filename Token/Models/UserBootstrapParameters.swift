@@ -79,6 +79,6 @@ public class UserBootstrapParameter {
             storageManager.storePreKey(prekey.id, preKeyRecord: prekey)
         }
 
-        storageManager.storeSignedPreKey(signedPrekey.id, signedPreKeyRecord: signedPrekey)
+        storageManager.storeSignedPreKey(self.signedPrekey.id, signedPreKeyRecord: self.signedPrekey)
     }
 }

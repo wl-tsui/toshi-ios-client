@@ -37,13 +37,13 @@ public struct BaseConverter {
 
         while true {
             if numU & 1 > 0 {
-                result = add(result, y: power)
+                result = self.add(result, y: power)
             }
             numU = numU >> 1
             if numU == 0 {
                 break
             }
-            power = add(power, y: power)
+            power = self.add(power, y: power)
         }
 
         return result
@@ -59,7 +59,7 @@ public struct BaseConverter {
 
         if digits.count > 0 {
             for i in (0 ... (digits.count - 1)).reversed() {
-                let n = stringToInt(digits[i])
+                let n = self.stringToInt(digits[i])
 
                 if n != nil {
                     ary.append(n!)

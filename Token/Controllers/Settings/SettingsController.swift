@@ -30,7 +30,7 @@ open class SettingsController: SweetTableController {
         super.init(style: .grouped)
         self.title = "Settings"
 
-        NotificationCenter.default.addObserver(self, selector: #selector(updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
     }
 
     func updateVerificationStatus(_ notification: Notification) {

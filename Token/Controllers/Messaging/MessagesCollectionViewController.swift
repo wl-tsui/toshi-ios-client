@@ -37,7 +37,7 @@ class MessagesCollectionViewController: NOCChatViewController {
                     self.controlsView.isHidden = false
                     self.view.layoutIfNeeded()
                     self.controlsView.deselectButtons()
-                    
+
                     self.scrollToBottom(animated: false)
                 }
             }

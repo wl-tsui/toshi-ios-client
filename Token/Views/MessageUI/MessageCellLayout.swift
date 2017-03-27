@@ -231,12 +231,12 @@ class TGTextLinePositionModifier: NSObject, YYTextLinePositionModifier {
     }
 
     func modifyLines(_ lines: [YYTextLine], fromText _: NSAttributedString, in _: YYTextContainer) {
-        let ascent = font.pointSize * 0.86
+        let ascent = self.font.pointSize * 0.86
 
-        let lineHeight = font.pointSize * lineHeightMultiple
+        let lineHeight = self.font.pointSize * lineHeightMultiple
         for line in lines {
             var position = line.position
-            position.y = paddingTop + ascent + CGFloat(line.row) * lineHeight
+            position.y = self.paddingTop + ascent + CGFloat(line.row) * lineHeight
             line.position = position
         }
     }
@@ -256,9 +256,9 @@ class TGTextLinePositionModifier: NSObject, YYTextLinePositionModifier {
             return 0
         }
 
-        let ascent = font.pointSize * 0.86
-        let descent = font.pointSize * 0.14
-        let lineHeight = font.pointSize * lineHeightMultiple
+        let ascent = self.font.pointSize * 0.86
+        let descent = self.font.pointSize * 0.14
+        let lineHeight = self.font.pointSize * lineHeightMultiple
 
         return self.paddingTop + self.paddingBottom + ascent + descent + CGFloat(lineCount - 1) * lineHeight
     }
