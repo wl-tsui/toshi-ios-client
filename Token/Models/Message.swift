@@ -51,7 +51,7 @@ public class Message: NSObject, NOCChatItem {
 
     public var isDisplayable: Bool {
         guard let sofaWrapper = self.sofaWrapper else { return false }
-        return [.message, .paymentRequest, .payment].contains(sofaWrapper.type)
+        return [.message, .paymentRequest, .payment, .command].contains(sofaWrapper.type)
     }
 
     var text: String {
@@ -68,6 +68,8 @@ public class Message: NSObject, NOCChatItem {
             return "Payment requested without message."
         case .payment:
             return ""
+        case .command:
+            return (sofaWrapper as! SofaCommand).body
         default:
             return sofaWrapper.content
         }

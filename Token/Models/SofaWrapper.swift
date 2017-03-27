@@ -189,6 +189,18 @@ open class SofaMessage: SofaWrapper {
 //      "value": "timetable"
 //  }
 open class SofaCommand: SofaWrapper {
+    open lazy var body: String = {
+        guard self.content.hasPrefix(self.type.rawValue) else {
+            fatalError("Creating SofaMessage with invalid type!")
+        }
+
+        if let messageText = self.json["body"] as? String {
+            return messageText
+        }
+
+        return ""
+    }()
+
     public override var type: SofaType {
         return .command
     }
