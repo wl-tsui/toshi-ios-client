@@ -45,8 +45,8 @@ open class ProfileController: UIViewController {
 
     lazy var editProfileButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.semibold(size: 13)]), for: .normal)
-        view.setTitleColor(Theme.darkTextColor, for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: Theme.darkTextColor]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: Theme.tintColor]), for: .highlighted)
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
 
         view.layer.cornerRadius = 4.0

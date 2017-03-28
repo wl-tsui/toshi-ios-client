@@ -42,8 +42,12 @@ struct EthereumConverter {
         return numberFormatter.string(from: fiat)!
     }
 
+    public static func fiatValueStringWithCode(forWei balance: NSDecimalNumber) -> String {
+        return "\(self.fiatValueString(forWei: balance)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
+    }
+
     public static func balanceAttributedString(forWei balance: NSDecimalNumber) -> NSAttributedString {
-        let fiatText = "\(self.fiatValueString(forWei: balance)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
+        let fiatText = self.fiatValueStringWithCode(forWei: balance)
         let etherText = self.ethereumValueString(forWei: balance)
 
         let fiatTextFull = fiatText + " · "

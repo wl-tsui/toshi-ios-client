@@ -5,6 +5,8 @@ import Teapot
 public class IDAPIClient: NSObject {
     static let shared: IDAPIClient = IDAPIClient(cereal: Cereal())
 
+    static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
+
     public static let updateContactsNotification = Notification.Name(rawValue: "UpdateContactWithAddress")
 
     public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
@@ -118,7 +120,7 @@ public class IDAPIClient: NSObject {
         }
     }
 
-    public func updateUser(_ user: User, completion: @escaping ((_ success: Bool) -> Void)) {
+    public func updateUser(_ user: User, completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         self.fetchTimestamp { timestamp in
             let path = "/v1/user"
             let payload = user.JSONData
@@ -138,12 +140,11 @@ public class IDAPIClient: NSObject {
 
                     let user = User(json: json)
                     User.current = user
-                    completion(true)
+                    completion(true, nil)
                 case .failure(let json, let response, let error):
-                    print(error)
-                    print(json ?? "")
-                    print(response)
-                    completion(false)
+                    let errors = json?.dictionary?["errors"] as? [[String: Any]]
+                    let message = errors?.first?["message"] as? String
+                    completion(false, message)
                 }
             }
         }

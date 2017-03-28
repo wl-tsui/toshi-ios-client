@@ -130,7 +130,7 @@ class HomeContainerView: UIView {
     var balance: NSDecimalNumber? {
         didSet {
             if let balance = self.balance {
-                self.balanceFiatLabel.text = EthereumConverter.fiatValueString(forWei: balance)
+                self.balanceFiatLabel.text = EthereumConverter.fiatValueStringWithCode(forWei: balance)
                 self.balanceEtherLabel.text = EthereumConverter.ethereumValueString(forWei: balance)
             } else {
                 self.balanceFiatLabel.text = nil

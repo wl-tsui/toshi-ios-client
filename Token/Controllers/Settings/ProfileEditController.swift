@@ -7,9 +7,10 @@ open class ProfileEditController: UIViewController {
 
     lazy var dataSource: FormDataSource = {
         let dataSource = FormDataSource(delegate: nil)
+        let usernameValidator = TextInputValidator(minLength: 2, maxLength: 60, validationPattern: IDAPIClient.usernameValidationPattern)
 
         dataSource.items = [
-            FormItem(title: "Username", value: User.current?.username, fieldName: "username", type: .input),
+            FormItem(title: "Username", value: User.current?.username, fieldName: "username", type: .input, textInputValidator: usernameValidator),
             FormItem(title: "Display name", value: User.current?.name, fieldName: "name", type: .input),
             FormItem(title: "About", value: User.current?.about, fieldName: "about", type: .input),
             FormItem(title: "Location", value: User.current?.location, fieldName: "location", type: .input),
@@ -123,11 +124,22 @@ open class ProfileEditController: UIViewController {
     }
 
     func saveAndDismiss() {
+        // TODO: Because we are updating the local User and then passing that user as a parameter to IDAPICLIENT,
+        // if the API call fails, our local copy is not rolled back. For now I'm manually rolling back username
+        // as it is the only one that could fail server-side validation, but this should be applied to all
+        // failures and fields.
         guard let user = User.current else { return }
+        let oldUsername = user.username
 
         for item in self.dataSource.items {
             if item.fieldName == "username" {
-                user.username = item.value as? String ?? User.current!.username
+                if item.validate() {
+                    user.username = item.value as? String ?? User.current!.username
+                } else {
+                    let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
+                    self.present(alert, animated: true)
+                    return
+                }
             } else if item.fieldName == "name" {
                 user.name = item.value as? String
             } else if item.fieldName == "about" {
@@ -137,9 +149,10 @@ open class ProfileEditController: UIViewController {
             }
         }
 
-        self.idAPIClient.updateUser(user) { success in
+        self.idAPIClient.updateUser(user) { success, message in
             if !success {
-                let alert = UIAlertController.dismissableAlert(title: "Error", message: "Could not update user!")
+                user.username = oldUsername
+                let alert = UIAlertController.dismissableAlert(title: "Error", message: message)
                 self.present(alert, animated: true)
             } else {
                 self.dismiss(animated: true)
@@ -168,7 +181,7 @@ extension ProfileEditController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ProfileItemCell.self, for: indexPath)
         let formItem = self.dataSource.item(at: indexPath)
-
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.formItem = formItem
 
         return cell
