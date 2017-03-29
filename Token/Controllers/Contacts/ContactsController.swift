@@ -107,7 +107,7 @@ open class ContactsController: SweetTableController {
                 guard let contact = self.contact(withAddress: address) else { return }
 
                 let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
-                self.navigationController?.pushViewController(contactController, animated: true)
+                self.navigationController?.pushViewController(contactController, animated: false)
             }
         }
     }
