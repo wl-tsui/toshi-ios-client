@@ -151,6 +151,15 @@ SWIFT_CLASS("_TtC14EtherealCereal14EtherealCereal")
   A KECCAK-256-encoded base64 encoded string.
 */
 - (NSString * _Nonnull)sha3WithString:(NSString * _Nonnull)string;
+/**
+  Returns a KECCAK-256 encoded in base64.
+  \param data Data to be KECCAK-256 encoded.
+
+
+  returns:
+  A KECCAK-256-encoded base64 encoded string.
+*/
+- (NSString * _Nonnull)sha3WithData:(NSData * _Nonnull)data;
 - (NSString * _Nonnull)signWithMessage:(NSString * _Nonnull)message;
 - (NSString * _Nonnull)signWithHex:(NSString * _Nonnull)hex;
 - (nonnull instancetype)initWithPrivateKey:(NSString * _Nonnull)privateKey;

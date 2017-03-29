@@ -49,7 +49,6 @@ class ProfileCell: BaseCell {
 
     var user: User? {
         didSet {
-
             if let displayName = self.user?.name, displayName.length > 0, let username = self.user?.username {
                 self.nameLabel.text = displayName
                 self.usernameLabel.text = "@\(username)"

@@ -48,6 +48,7 @@ open class ProfileEditController: UIViewController {
 
         let title = NSAttributedString(string: "Change picture", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 16)])
         view.setAttributedTitle(title, for: .normal)
+        view.addTarget(self, action: #selector(updateAvatar), for: .touchUpInside)
 
         return view
     }()
@@ -119,6 +120,18 @@ open class ProfileEditController: UIViewController {
         self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
 
+    func updateAvatar() {
+        let camera = UIImagePickerController()
+        camera.allowsEditing = true
+        camera.sourceType = .camera
+        camera.cameraCaptureMode = .photo
+        camera.cameraFlashMode = .off
+        camera.delegate = self
+        camera.showsCameraControls = true
+
+        self.present(camera, animated: true)
+    }
+
     func cancelAndDismiss() {
         self.dismiss(animated: true)
     }
@@ -157,6 +170,23 @@ open class ProfileEditController: UIViewController {
             } else {
                 self.dismiss(animated: true)
             }
+        }
+    }
+}
+
+extension ProfileEditController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerControllerDidCancel(_: UIImagePickerController) {
+        self.dismiss(animated: true)
+    }
+
+    public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        guard let user = User.current else { return }
+        guard let croppedImage = info[UIImagePickerControllerEditedImage] as? UIImage else { return }
+
+        self.avatarImageView.image = croppedImage
+
+        self.idAPIClient.updateAvatar(croppedImage) { _ in
+            self.dismiss(animated: true)
         }
     }
 }

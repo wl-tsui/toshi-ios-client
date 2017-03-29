@@ -26,6 +26,7 @@ public class MessagingNavigationController: UINavigationController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        // TODO: move restoration to the tabbar controller, so we only restore the currently selected.
         if let address = UserDefaults.standard.string(forKey: self.selectedThreadAddressKey) {
             // we delay by one cycle and it's enough for UIKit to set the children viewcontrollers
             // for the navigation controller. Otherwise `viewcontrollers` will be nil and it wont restore.

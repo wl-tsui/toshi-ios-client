@@ -79,7 +79,7 @@ public class EthereumAPIClient: NSObject {
             "value": value.toHexString,
         ]
 
-        let json = JSON(parameters)
+        let json = RequestParameter(parameters)
 
         self.teapot.post("/v1/tx/skel", parameters: json) { result in
             switch result {
@@ -95,7 +95,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ json: JSON?, _ error: Error?) -> Void)) {
+    public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ json: RequestParameter?, _ error: Error?) -> Void)) {
         self.timestamp { timestamp in
 
             let path = "/v1/tx"
@@ -116,7 +116,7 @@ public class EthereumAPIClient: NSObject {
                 "Token-Timestamp": timestamp,
             ]
 
-            let json = JSON(params)
+            let json = RequestParameter(params)
 
             self.teapot.post(path, parameters: json, headerFields: headers) { result in
                 switch result {
@@ -128,7 +128,7 @@ public class EthereumAPIClient: NSObject {
                     print(response)
                     print(json ?? "")
                     print(error)
-                    let json = JSON((json!.dictionary!["errors"] as! [[String: Any]]).first!)
+                    let json = RequestParameter((json!.dictionary!["errors"] as! [[String: Any]]).first!)
                     completion(json, error)
                 }
             }
@@ -171,7 +171,7 @@ public class EthereumAPIClient: NSObject {
                 "Token-Timestamp": timestamp,
             ]
 
-            let json = JSON(params)
+            let json = RequestParameter(params)
             self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                 switch result {
                 case .success(let json, let response):
@@ -207,7 +207,7 @@ public class EthereumAPIClient: NSObject {
                 "Token-Timestamp": timestamp,
             ]
 
-            let json = JSON(params)
+            let json = RequestParameter(params)
 
             self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                 switch result {
@@ -246,7 +246,7 @@ public class EthereumAPIClient: NSObject {
                 "Token-Timestamp": timestamp,
             ]
 
-            let json = JSON(params)
+            let json = RequestParameter(params)
 
             self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                 switch result {

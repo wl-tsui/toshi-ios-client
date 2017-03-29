@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 import SweetFoundation
 import Teapot
 
@@ -99,7 +99,7 @@ public class IDAPIClient: NSObject {
 
                 let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
 
-                let json = JSON(parameters)
+                let json = RequestParameter(parameters)
                 self.teapot.post(path, parameters: json, headerFields: fields) { result in
                     switch result {
                     case .success(let json, let response):
@@ -120,6 +120,34 @@ public class IDAPIClient: NSObject {
         }
     }
 
+    public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool) -> Void)) {
+        self.fetchTimestamp { timestamp in
+            let path = "/v1/user"
+            let boundary = "teapot.boundary"
+            let payload = self.teapot.multipartData(from: avatar, boundary: boundary, filename: "avatar.png")
+            let hashedPayload = self.cereal.sha3WithID(data: payload)
+            let signature = "0x\(self.cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+
+            let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+            let json = RequestParameter(payload)
+
+            self.teapot.put(path, parameters: json, headerFields: fields) { result in
+                switch result {
+                case .success(let json, _):
+                    guard let userDict = json?.dictionary else { completion(false); return }
+
+                    User.current = User(json: userDict)
+
+                    completion(true)
+                case .failure(_, _, let error):
+                    // TODO: show error
+                    print(error)
+                    completion(false)
+                }
+            }
+        }
+    }
+
     public func updateUser(_ user: User, completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         self.fetchTimestamp { timestamp in
             let path = "/v1/user"
@@ -130,7 +158,7 @@ public class IDAPIClient: NSObject {
             let signature = "0x\(self.cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-            let json = JSON(user.asDict)
+            let json = RequestParameter(user.asDict)
 
             self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
                 switch result {
@@ -173,11 +201,11 @@ public class IDAPIClient: NSObject {
     }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-        if let image = self.imageCache.object(forKey: path as NSString) {
-            completion(image)
-
-            return
-        }
+//        if let image = self.imageCache.object(forKey: path as NSString) {
+//            completion(image)
+//
+//            return
+//        }
 
         self.teapot.get(path) { (result: NetworkImageResult) in
             switch result {

@@ -55,9 +55,9 @@ public class ChatAPIClient: NSObject {
             let signature = "0x\(self.cereal.signWithID(message: message))"
 
             let fields: [String: String] = ["Token-ID-Address": self.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-            let json = JSON(payload)
+            let requestParameter = RequestParameter(payload)
 
-            self.teapot.put(path, parameters: json, headerFields: fields) { result in
+            self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
                 switch result {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {

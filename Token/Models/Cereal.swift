@@ -67,6 +67,10 @@ public class Cereal: NSObject {
         return self.idCereal.sha3(string: string)
     }
 
+    public func sha3WithID(data: Data) -> String {
+        return self.idCereal.sha3(data: data)
+    }
+
     // MARK: - Sign with wallet
 
     public func signWithWallet(message: String) -> String {

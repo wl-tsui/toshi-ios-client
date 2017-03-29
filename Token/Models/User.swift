@@ -101,31 +101,24 @@ public class User: NSObject, JSONDataSerialization {
 
         super.init()
 
-        self.updateAvatar()
-    }
-
-    init(address: String, paymentAddress: String, username: String, name: String?, about: String?, location: String?) {
-        self.address = address
-        self.username = username
-        self.paymentAddress = paymentAddress
-        self.name = name
-        self.about = about
-        self.location = location
-    }
-
-    func updateAvatar() {
-        guard let avatarPath = self.avatarPath else { return }
-        if avatarPath.length > 0 {
-            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
-                self.avatar = image
-            }
-        }
+        self.update()
     }
 
     public func update() {
-        self.updateAvatar()
-        let json = self.JSONData
-        User.yap.insert(object: json, for: User.storedUserKey)
+        guard let avatarPath = self.avatarPath else {
+            let json = self.JSONData
+            User.yap.insert(object: json, for: User.storedUserKey)
+
+            return
+        }
+
+        if avatarPath.length > 0 {
+            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
+                self.avatar = image
+                let json = self.JSONData
+                User.yap.insert(object: json, for: User.storedUserKey)
+            }
+        }
     }
 
     public override var description: String {
