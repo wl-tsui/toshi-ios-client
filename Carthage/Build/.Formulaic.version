@@ -1,0 +1,10 @@
+{
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "commitish" : "0.0.2",
+  "iOS" : [
+    {
+      "hash" : "8c24903fe7d4762798de790763b7368aef5d690c1ad599c81485cd164661d5d3",
+      "name" : "Formulaic"
+    }
+  ]
+}

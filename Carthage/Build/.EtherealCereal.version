@@ -1,9 +1,9 @@
 {
-  "xcodeVersion" : "Xcode 8.2.1\nBuild version 8C1002",
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
   "commitish" : "0.0.3",
   "iOS" : [
     {
-      "hash" : "e5d458c13441026dd8f0c19474313b05d96fa3aa1d823823393ca618a91b5630",
+      "hash" : "12a72c32a8ff3a91fd0036640e3c9d1bd9406d6862b865509b2b23e764eba531",
       "name" : "EtherealCereal"
     }
   ]

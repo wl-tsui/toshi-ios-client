@@ -1,0 +1,10 @@
+{
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "commitish" : "1.2.0",
+  "iOS" : [
+    {
+      "hash" : "3239637cbb9647ac0bd1c7bac33a9217a10d755b853f08f4e5b5fd3e7c09cd97",
+      "name" : "SweetSwift"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
+  "commitish" : "1.1.1",
+  "iOS" : [
+    {
+      "hash" : "96363f976b1df3108cb86d05bedbf66358a583069d2ab0309bee8883be31b4be",
+      "name" : "HPGrowingTextView"
+    }
+  ]
+}
