@@ -268,14 +268,10 @@ public class ContactController: UIViewController {
         let title = isContactAdded ? "✓ Added" : "Add contact"
 
         self.addContactButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)
-        self.addContactButton.removeTarget(nil, action: nil, for: .allEvents)
-        self.addContactButton.addTarget(self, action: #selector(self.didTapAddContactButton), for: .touchUpInside)
     }
 
     func didTapMessageContactButton() {
-        let contact = self.contact
-        let isContactRegistered = Yap.sharedInstance.containsObject(for: contact.address, in: TokenContact.collectionKey)
-
+        // create thread if needed
         TSStorageManager.shared().dbConnection.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
@@ -284,36 +280,30 @@ public class ContactController: UIViewController {
             }
 
             recipient?.save(with: transaction)
-
-            TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
-        }
-
-        if !isContactRegistered {
-            Yap.sharedInstance.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
-            self.updateButton()
+            let thread = TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
+            if thread.archivalDate() != nil {
+                thread.unarchiveThread(with: transaction)
+            }
         }
 
         DispatchQueue.main.async {
-            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: contact.address)
+            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.contact.address)
         }
     }
 
     func didTapAddContactButton() {
-        if !Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenContact.collectionKey) {
+        if Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenContact.collectionKey) {
+            Yap.sharedInstance.removeObject(for: self.contact.address, in: TokenContact.collectionKey)
+
             TSStorageManager.shared().dbConnection.readWrite { transaction in
-                var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
-
-                if recipient == nil {
-                    recipient = SignalRecipient(textSecureIdentifier: self.contact.address, relay: nil, supportsVoice: false)
-                }
-
-                recipient?.save(with: transaction)
+                let thread = TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
+                thread.archiveThread(with: transaction)
             }
 
+            self.updateButton()
+        } else {
             Yap.sharedInstance.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenContact.collectionKey)
-
             SoundPlayer.playSound(type: .addedContact)
-
             self.updateButton()
         }
     }

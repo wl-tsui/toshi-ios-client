@@ -226,7 +226,15 @@ public class IDAPIClient: NSObject {
 
                 completion(contact)
             case .failure(_, let response, let error):
-                print(response)
+                if response.statusCode == 404 {
+                    // contact was deleted from the server. If we don't have it locally, delete the signal thread.
+                    if !Yap.sharedInstance.containsObject(for: name, in: TokenContact.collectionKey) {
+                        TSStorageManager.shared().dbConnection.readWrite { transaction in
+                            let thread = TSContactThread.getOrCreateThread(withContactId: name, transaction: transaction)
+                            thread.archiveThread(with: transaction)
+                        }
+                    }
+                }
                 print(error.localizedDescription)
                 completion(nil)
             }

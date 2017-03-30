@@ -114,7 +114,6 @@ open class ContactsController: SweetTableController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         self.navigationItem.rightBarButtonItem = self.scanContactButton
     }
 
@@ -192,6 +191,9 @@ open class ContactsController: SweetTableController {
             self.uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
+
+            // unlike most yap-connected views, this one is always in the hierarchy, so we reload data if we don't need to live-update
+            self.tableView.reloadData()
 
             return
         }
@@ -317,9 +319,14 @@ extension ContactsController: UITableViewDelegate {
         self.searchController.searchBar.resignFirstResponder()
 
         let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath)
-        let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
 
-        self.navigationController?.pushViewController(contactController, animated: true)
+        if contact.isApp {
+            let appController = AppController(app: contact)
+            self.navigationController?.pushViewController(appController, animated: true)
+        } else {
+            let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+            self.navigationController?.pushViewController(contactController, animated: true)
+        }
 
         UserDefaults.standard.setValue(contact.address, forKey: self.selectedContactKey)
     }

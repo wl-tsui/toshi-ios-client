@@ -64,6 +64,12 @@ public final class Yap: NSObject, Singleton {
         }
     }
 
+    public final func removeObject(for key: String, in collection: String? = nil) {
+        self.mainConnection.readWrite { transaction in
+            transaction.removeObject(forKey: key, inCollection: collection)
+        }
+    }
+
     /// Checks whether an object was stored for a given key inside a given (optional) collection.
     ///
     /// - Parameter key: Key to check for the presence of a stored object.

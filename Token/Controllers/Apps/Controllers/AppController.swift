@@ -2,7 +2,9 @@ import UIKit
 import SweetUIKit
 
 class AppController: UIViewController {
-    var appsAPIClient: AppsAPIClient
+    var appsAPIClient: AppsAPIClient {
+        return AppsAPIClient.shared
+    }
 
     public var app: TokenContact
 
@@ -96,10 +98,8 @@ class AppController: UIViewController {
         fatalError()
     }
 
-    init(app: TokenContact, appsAPIClient: AppsAPIClient = .shared) {
+    init(app: TokenContact) {
         self.app = app
-        self.appsAPIClient = appsAPIClient
-
         super.init(nibName: nil, bundle: nil)
 
         self.edgesForExtendedLayout = .bottom
@@ -230,17 +230,14 @@ class AppController: UIViewController {
 
     func updateButton() {
         let isContactAdded = Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey)
-        let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
+        let fontColor = isContactAdded ? Theme.tintColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add app"
 
         self.addContactButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)
-        self.addContactButton.removeTarget(nil, action: nil, for: .allEvents)
-        self.addContactButton.addTarget(self, action: #selector(self.didTapAddContactButton), for: .touchUpInside)
     }
 
     func didTapMessageContactButton() {
-        let isContactRegistered = Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey)
-
+        // create thread if needed
         TSStorageManager.shared().dbConnection.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
 
@@ -249,13 +246,10 @@ class AppController: UIViewController {
             }
 
             recipient?.save(with: transaction)
-
-            TSContactThread.getOrCreateThread(withContactId: self.app.address, transaction: transaction)
-        }
-
-        if !isContactRegistered {
-            Yap.sharedInstance.insert(object: self.app.JSONData, for: self.app.address, in: TokenContact.collectionKey)
-            self.updateButton()
+            let thread = TSContactThread.getOrCreateThread(withContactId: self.app.address, transaction: transaction)
+            if thread.archivalDate() != nil {
+                thread.unarchiveThread(with: transaction)
+            }
         }
 
         DispatchQueue.main.async {
@@ -264,21 +258,18 @@ class AppController: UIViewController {
     }
 
     func didTapAddContactButton() {
-        if !Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey) {
+        if Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey) {
+            Yap.sharedInstance.removeObject(for: self.app.address, in: TokenContact.collectionKey)
+
             TSStorageManager.shared().dbConnection.readWrite { transaction in
-                var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
-
-                if recipient == nil {
-                    recipient = SignalRecipient(textSecureIdentifier: self.app.address, relay: nil, supportsVoice: false)
-                }
-
-                recipient?.save(with: transaction)
+                let thread = TSContactThread.getOrCreateThread(withContactId: self.app.address, transaction: transaction)
+                thread.archiveThread(with: transaction)
             }
 
+            self.updateButton()
+        } else {
             Yap.sharedInstance.insert(object: self.app.JSONData, for: self.app.address, in: TokenContact.collectionKey)
-
-            SoundPlayer.shared.playSound(type: .addedContact)
-
+            SoundPlayer.playSound(type: .addedContact)
             self.updateButton()
         }
     }

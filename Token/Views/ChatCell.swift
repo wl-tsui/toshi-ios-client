@@ -46,8 +46,7 @@ class ChatCell: UITableViewCell {
                 self.updateContact(contact)
             } else {
                 IDAPIClient.shared.findContact(name: self.thread?.contactIdentifier() ?? "") { contact in
-                    // TODO: Contact no longer exists. Handle this case. Delete thread probably?
-                    guard let contact = contact else { fatalError("Contact no longer exists. Handle this case") }
+                    guard let contact = contact else { return }
                     self.updateContact(contact)
                 }
             }
