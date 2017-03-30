@@ -259,6 +259,7 @@
 		9FDB3B171E6D640900EE5FD7 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */; };
 		9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */; };
 		9FDB3B1B1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B1A1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift */; };
+		9FDCE4831E8D5923003A996F /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CD51E85291600160637 /* KeyboardInfo.swift */; };
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
@@ -1515,6 +1516,7 @@
 				149F9A931E72E29A00FB74AA /* Cereal.swift in Sources */,
 				149F9A941E72E29A00FB74AA /* EthereumAPIClient.swift in Sources */,
 				149F9A951E72E29A00FB74AA /* ContactCell.swift in Sources */,
+				9FDCE4831E8D5923003A996F /* KeyboardInfo.swift in Sources */,
 				149F9A961E72E29A00FB74AA /* MessagesViewController.swift in Sources */,
 				149F9A971E72E29A00FB74AA /* MessagesCollectionViewController.swift in Sources */,
 				149F9A981E72E29A00FB74AA /* TGClockProgressView.swift in Sources */,
