@@ -17,9 +17,6 @@
 #import <SignalServiceKit/TSSocketManager.h>
 
 @interface AppDelegate ()
-@property (nonnull, nonatomic) Cereal *cereal;
-@property (nonnull, nonatomic) ChatAPIClient *chatAPIClient;
-@property (nonnull, nonatomic) IDAPIClient *idAPIClient;
 
 @property (nonatomic) OWSIncomingMessageReadObserver *incomingMessageReadObserver;
 
@@ -38,16 +35,79 @@
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
     [OWSSignalService setBaseURL:tokenChatServiceBaseURL];
 
-    self.cereal = [[Cereal alloc] init];
-    [[TSStorageManager sharedManager] storePhoneNumber:self.cereal.address];
-
-    self.chatAPIClient = [ChatAPIClient shared];
-    self.idAPIClient = [[IDAPIClient alloc] initWithCereal:self.cereal];
-
     [self setupBasicAppearance];
     [self setupTSKitEnv];
+    [self setupSignalService];
 
-    UIApplicationState launchState = application.applicationState;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSignOut) name:@"UserDidSignOut" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNewUser) name:@"CreateNewUser" object:nil];
+
+    [self configureAndPresentWindow];
+
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RequiresSignIn"]) {
+        [self presentSignIn];
+    } else {
+        [self createNewUser];
+    }
+
+    return YES;
+}
+
+- (void)configureAndPresentWindow {
+    self.window = [[UIWindow alloc] init];
+    self.window.backgroundColor = [Theme viewBackgroundColor];
+    self.window.rootViewController = [[TabBarController alloc] init];
+
+    [self.window makeKeyAndVisible];
+}
+
+- (void)userDidSignOut {
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+    [[TSStorageManager sharedManager] wipeSignalStorage];
+    [[Yap sharedInstance] wipeStorage];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];
+    exit(0);
+}
+
+- (void)createNewUser {
+    if (User.current == nil) {
+        [[IDAPIClient shared] registerUserIfNeeded:^{
+            [[ChatAPIClient shared] registerUser];
+            [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+        }];
+    } else {
+        [[IDAPIClient shared] retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
+            NSLog(@"%@", user);
+            if (user == nil) {
+                [[IDAPIClient shared] registerUserIfNeeded:^{
+                    [[ChatAPIClient shared] registerUser];
+                }];
+            }
+        }];
+    }
+}
+
+- (void)presentSignIn {
+    SignInNavigationController *signInNavigationController = [[SignInNavigationController alloc] init];
+    [self.window.rootViewController presentViewController:signInNavigationController animated:NO completion:nil];
+}
+
+- (void)setupBasicAppearance {
+    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme boldWithSize:17]};
+
+    UINavigationBar *navBarAppearance = [UINavigationBar appearance];
+    [navBarAppearance setTitleTextAttributes:attributtes];
+    [navBarAppearance setTintColor:[Theme navigationTitleTextColor]];
+    [navBarAppearance setBarTintColor:[Theme tintColor]];
+
+    attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme regularWithSize:17]};
+    UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
+    [barButtonAppearance setTitleTextAttributes:attributtes forState:UIControlStateNormal];
+}
+
+- (void)setupSignalService {
+    [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
+    UIApplicationState launchState = [UIApplication sharedApplication].applicationState;
     [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
         if (launchState == UIApplicationStateInactive) {
             NSLog(@"The app was launched from inactive");
@@ -65,42 +125,6 @@
             [self registerForRemoteNotifications];
         });
     }];
-
-    self.window = [[UIWindow alloc] init];
-    self.window.backgroundColor = [Theme viewBackgroundColor];
-    self.window.rootViewController = [[TabBarController alloc] initWithChatAPIClient:self.chatAPIClient idAPIClient:self.idAPIClient];
-
-    [self.window makeKeyAndVisible];
-
-    if (User.current == nil) {
-        [self.idAPIClient registerUserIfNeeded:^{
-            [self.chatAPIClient registerUserIfNeeded];
-        }];
-    } else {
-        [self.idAPIClient retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
-            NSLog(@"%@", user);
-            if (user == nil) {
-                [self.idAPIClient registerUserIfNeeded:^{
-                    [self.chatAPIClient registerUserIfNeeded];
-                }];
-            }
-        }];
-    }
-
-    return YES;
-}
-
-- (void)setupBasicAppearance {
-    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme boldWithSize:17]};
-
-    UINavigationBar *navBarAppearance = [UINavigationBar appearance];
-    [navBarAppearance setTitleTextAttributes:attributtes];
-    [navBarAppearance setTintColor:[Theme navigationTitleTextColor]];
-    [navBarAppearance setBarTintColor:[Theme tintColor]];
-
-    attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme regularWithSize:17]};
-    UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
-    [barButtonAppearance setTitleTextAttributes:attributtes forState:UIControlStateNormal];
 }
 
 - (void)setupTSKitEnv {
@@ -117,9 +141,6 @@
 
     self.incomingMessageReadObserver = [[OWSIncomingMessageReadObserver alloc] initWithStorageManager:storageManager messageSender:self.messageSender];
     [self.incomingMessageReadObserver startObserving];
-
-//    self.staleNotificationObserver = [OWSStaleNotificationObserver new];
-//    [self.staleNotificationObserver startObserving];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -156,7 +177,6 @@
         [TSSocketManager becomeActiveFromForeground];
     }];
 }
-
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

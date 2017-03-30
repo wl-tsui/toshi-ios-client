@@ -5,6 +5,8 @@ import HDWallet
 /// An EtherealCereal wrapper. Generates the address and public key for a given private key. Signs messages.
 public class Cereal: NSObject {
 
+    static var shared: Cereal = Cereal()
+
     let entropyByteCount = 16
 
     var idCereal: EtherealCereal
@@ -12,8 +14,6 @@ public class Cereal: NSObject {
     var walletCereal: EtherealCereal
 
     var mnemonic: BTCMnemonic
-
-    let yap = Yap.sharedInstance
 
     private static let collectionKey = "cerealPrivateKey"
 
@@ -25,8 +25,27 @@ public class Cereal: NSObject {
         return self.walletCereal.address
     }
 
+    // restore from words
+    public init?(words: [String]) {
+        guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
+        self.mnemonic = mnemonic
+
+        Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.collectionKey)
+
+        // ID path 0H/1/0
+        let idKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
+        let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
+        self.idCereal = EtherealCereal(privateKey: idPrivateKey)
+
+        // wallet path: 0H/0/0
+        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
+        self.walletCereal = EtherealCereal(privateKey: walletPrivateKey)
+    }
+
+    // restore from local user or create new
     public override init() {
-        if let words = self.yap.retrieveObject(for: Cereal.collectionKey) as? String {
+        if let words = Yap.sharedInstance.retrieveObject(for: Cereal.collectionKey) as? String {
             self.mnemonic = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english)!
         } else {
             var entropy = Data(count: self.entropyByteCount)
@@ -39,7 +58,7 @@ public class Cereal: NSObject {
 
             self.mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english)!
 
-            self.yap.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.collectionKey)
+            Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.collectionKey)
         }
 
         // ID path 0H/1/0

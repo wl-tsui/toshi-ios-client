@@ -6,17 +6,9 @@ public class SignInNavigationController: UINavigationController {
         return .lightContent
     }
 
-    public override init(rootViewController: UIViewController) {
-        super.init(rootViewController: rootViewController)
+    convenience init() {
+        self.init(rootViewController: SignInController(idAPIClient: IDAPIClient.shared))
         self.title = "Sign in"
-    }
-
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-
-    public required init?(coder _: NSCoder) {
-        fatalError("")
     }
 
     public override func viewDidLoad() {

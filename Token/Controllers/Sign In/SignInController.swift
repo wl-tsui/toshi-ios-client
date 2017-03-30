@@ -1,24 +1,13 @@
 import UIKit
 import SweetUIKit
 
+extension NSNotification.Name {
+    public static let CreateNewUser = NSNotification.Name(rawValue: "CreateNewUser")
+}
+
 open class SignInController: UIViewController {
 
     let idAPIClient: IDAPIClient
-
-    private init() {
-        fatalError()
-    }
-
-    public required init?(coder _: NSCoder) {
-        fatalError("")
-    }
-
-    public init(idAPIClient: IDAPIClient) {
-        self.idAPIClient = idAPIClient
-
-        super.init(nibName: nil, bundle: nil)
-        self.title = "Sign in"
-    }
 
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView(withAutoLayout: true)
@@ -49,6 +38,7 @@ open class SignInController: UIViewController {
     private lazy var signInButton: ActionButton = {
         let view = ActionButton(withAutoLayout: true)
         view.title = "Sign in"
+        view.addTarget(self, action: #selector(signInWithPasshphrase), for: .touchUpInside)
 
         return view
     }()
@@ -65,9 +55,25 @@ open class SignInController: UIViewController {
         let view = ActionButton(withAutoLayout: true)
         view.title = "Create a new account"
         view.style = .plain
+        view.addTarget(self, action: #selector(createNewUser), for: .touchUpInside)
 
         return view
     }()
+
+    private init() {
+        fatalError()
+    }
+
+    public required init?(coder _: NSCoder) {
+        fatalError("")
+    }
+
+    public init(idAPIClient: IDAPIClient) {
+        self.idAPIClient = idAPIClient
+
+        super.init(nibName: nil, bundle: nil)
+        self.title = "Sign in"
+    }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,15 +93,6 @@ open class SignInController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        // this close button is temporary
-        let closeItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(close(_:)))
-        closeItem.title = "Close"
-        self.navigationItem.leftBarButtonItem = closeItem
-
-        let backItem = UIBarButtonItem()
-        backItem.title = "Back"
-        self.navigationItem.backBarButtonItem = backItem
     }
 
     func close(_: Any) {
@@ -156,5 +153,48 @@ open class SignInController: UIViewController {
             self.createAccountButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin),
             self.createAccountButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -margin),
         ])
+    }
+
+    func createNewUser() {
+        NotificationCenter.default.post(name: .CreateNewUser, object: nil)
+    }
+
+    func signInWithPasshphrase() {
+        guard let passphrase = self.passwordField.textField.text else {
+            return
+        }
+
+        let words = passphrase.trimmingCharacters(in: .whitespaces).components(separatedBy: " ")
+        guard words.count == 12 else {
+            let alert = UIAlertController.dismissableAlert(title: "Invalid passphrase", message: "Make sure your backup phrase consists of 12 words, separated by a single space.")
+            self.present(alert, animated: true)
+
+            return
+        }
+
+        guard let cereal = Cereal(words: words) else {
+            let alert = UIAlertController.dismissableAlert(title: "Invalid passphrase", message: "Are you sure you typed your backup phrase correctly?")
+            self.present(alert, animated: true)
+
+            return
+        }
+
+        let idClient = IDAPIClient.shared
+        idClient.retrieveUser(username: cereal.address) { (user) in
+            if let user = user {
+                User.current = user
+                ChatAPIClient.shared.registerUser()
+                Cereal.shared = cereal
+                UserDefaults.standard.set(false, forKey: "RequiresSignIn")
+
+                NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: VerificationStatus.correct)
+                guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+                delegate.setupSignalService()
+                
+                self.dismiss(animated: true)
+            } else {
+                print("OPS! No such user")
+            }
+        }
     }
 }

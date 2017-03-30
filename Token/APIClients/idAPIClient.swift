@@ -3,15 +3,13 @@ import SweetFoundation
 import Teapot
 
 public class IDAPIClient: NSObject {
-    static let shared: IDAPIClient = IDAPIClient(cereal: Cereal())
+    public static let shared: IDAPIClient = IDAPIClient()
 
-    static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
+    public static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
 
     public static let updateContactsNotification = Notification.Name(rawValue: "UpdateContactWithAddress")
 
     public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
-
-    public var cereal: Cereal
 
     public var teapot: Teapot
 
@@ -19,16 +17,9 @@ public class IDAPIClient: NSObject {
 
     let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
 
-    let yap: Yap = Yap.sharedInstance
-
-    public var address: String {
-        return self.cereal.address
-    }
-
     public var baseURL: URL
 
-    public init(cereal: Cereal) {
-        self.cereal = cereal
+    private override init() {
         self.baseURL = URL(string: TokenIdServiceBaseURLPath)!
         self.teapot = Teapot(baseURL: self.baseURL)
 
@@ -41,7 +32,7 @@ public class IDAPIClient: NSObject {
     /// once all the contacts have been processed.
     func updateContacts() {
         self.contactUpdateQueue.async {
-            guard let contactsData = self.yap.retrieveObjects(in: TokenContact.collectionKey) as? [Data] else { fatalError() }
+            guard let contactsData = Yap.sharedInstance.retrieveObjects(in: TokenContact.collectionKey) as? [Data] else { fatalError() }
             let semaphore = DispatchSemaphore(value: 0)
 
             for contactData in contactsData {
@@ -81,7 +72,7 @@ public class IDAPIClient: NSObject {
     }
 
     public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {
-        self.retrieveUser(username: self.cereal.address) { user in
+        self.retrieveUser(username: Cereal.shared.address) { user in
             guard user == nil else {
                 User.current = user
 
@@ -89,15 +80,16 @@ public class IDAPIClient: NSObject {
             }
 
             self.fetchTimestamp { timestamp in
+                let cereal = Cereal.shared
                 let path = "/v1/user"
                 let parameters = [
-                    "payment_address": self.cereal.paymentAddress,
+                    "payment_address": cereal.paymentAddress,
                 ]
                 let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
-                let hashedParameters = self.cereal.sha3WithID(string: parametersString)
-                let signature = "0x\(self.cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
+                let hashedParameters = cereal.sha3WithID(string: parametersString)
+                let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
 
-                let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
 
                 let json = RequestParameter(parameters)
                 self.teapot.post(path, parameters: json, headerFields: fields) { result in
@@ -107,7 +99,7 @@ public class IDAPIClient: NSObject {
                         guard let json = json?.dictionary else { return }
 
                         User.current = User(json: json)
-                        print("Registered user with address: \(self.cereal.address)")
+                        print("Registered user with address: \(cereal.address)")
 
                         success()
                     case .failure(let json, let response, let error):
@@ -122,13 +114,14 @@ public class IDAPIClient: NSObject {
 
     public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool) -> Void)) {
         self.fetchTimestamp { timestamp in
+            let cereal = Cereal.shared
             let path = "/v1/user"
             let boundary = "teapot.boundary"
             let payload = self.teapot.multipartData(from: avatar, boundary: boundary, filename: "avatar.png")
-            let hashedPayload = self.cereal.sha3WithID(data: payload)
-            let signature = "0x\(self.cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = cereal.sha3WithID(data: payload)
+            let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
             let json = RequestParameter(payload)
 
             self.teapot.put(path, parameters: json, headerFields: fields) { result in
@@ -150,14 +143,15 @@ public class IDAPIClient: NSObject {
 
     public func updateUser(_ user: User, completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         self.fetchTimestamp { timestamp in
+            let cereal = Cereal.shared
             let path = "/v1/user"
             let payload = user.JSONData
             let payloadString = String(data: payload, encoding: .utf8)!
 
-            let hashedPayload = self.cereal.sha3WithID(string: payloadString)
-            let signature = "0x\(self.cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = cereal.sha3WithID(string: payloadString)
+            let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": self.cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(user.asDict)
 
             self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in

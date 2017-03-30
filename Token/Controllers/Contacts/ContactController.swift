@@ -7,8 +7,6 @@ public class ContactController: UIViewController {
 
     public var contact: TokenContact
 
-    let yap: Yap = Yap.sharedInstance
-
     lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withAutoLayout: true)
 
@@ -265,7 +263,7 @@ public class ContactController: UIViewController {
     }
 
     func updateButton() {
-        let isContactAdded = self.yap.containsObject(for: self.contact.address, in: TokenContact.collectionKey)
+        let isContactAdded = Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenContact.collectionKey)
         let fontColor = isContactAdded ? Theme.tintColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add contact"
 
@@ -276,7 +274,7 @@ public class ContactController: UIViewController {
 
     func didTapMessageContactButton() {
         let contact = self.contact
-        let isContactRegistered = self.yap.containsObject(for: contact.address, in: TokenContact.collectionKey)
+        let isContactRegistered = Yap.sharedInstance.containsObject(for: contact.address, in: TokenContact.collectionKey)
 
         TSStorageManager.shared().dbConnection.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
@@ -291,7 +289,7 @@ public class ContactController: UIViewController {
         }
 
         if !isContactRegistered {
-            self.yap.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
+            Yap.sharedInstance.insert(object: contact.JSONData, for: contact.address, in: TokenContact.collectionKey)
             self.updateButton()
         }
 
@@ -301,7 +299,7 @@ public class ContactController: UIViewController {
     }
 
     func didTapAddContactButton() {
-        if !self.yap.containsObject(for: self.contact.address, in: TokenContact.collectionKey) {
+        if !Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenContact.collectionKey) {
             TSStorageManager.shared().dbConnection.readWrite { transaction in
                 var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
@@ -312,7 +310,7 @@ public class ContactController: UIViewController {
                 recipient?.save(with: transaction)
             }
 
-            self.yap.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenContact.collectionKey)
+            Yap.sharedInstance.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenContact.collectionKey)
 
             SoundPlayer.playSound(type: .addedContact)
 

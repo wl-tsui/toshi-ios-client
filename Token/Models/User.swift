@@ -9,15 +9,15 @@ public protocol JSONDataSerialization {
 /// Current User. Responsible for current session management.
 public class User: NSObject, JSONDataSerialization {
 
-    static let yap = Yap.sharedInstance
-
     private static let storedUserKey = "StoredUser"
+
+    var balance = NSDecimalNumber.zero
 
     static var _current: User?
 
     public static var current: User? {
         get {
-            if let userData = (self.yap.retrieveObject(for: User.storedUserKey) as? Data), _current == nil,
+            if let userData = (Yap.sharedInstance.retrieveObject(for: User.storedUserKey) as? Data), _current == nil,
                 let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
                 let json = deserialised as? [String: Any] {
 
@@ -107,7 +107,7 @@ public class User: NSObject, JSONDataSerialization {
     public func update() {
         guard let avatarPath = self.avatarPath else {
             let json = self.JSONData
-            User.yap.insert(object: json, for: User.storedUserKey)
+            Yap.sharedInstance.insert(object: json, for: User.storedUserKey)
 
             return
         }
@@ -116,12 +116,12 @@ public class User: NSObject, JSONDataSerialization {
             IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
                 self.avatar = image
                 let json = self.JSONData
-                User.yap.insert(object: json, for: User.storedUserKey)
+                Yap.sharedInstance.insert(object: json, for: User.storedUserKey)
             }
         }
     }
 
     public override var description: String {
-        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(self.username)>"
+        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name ?? ""), username: \(self.username)>"
     }
 }

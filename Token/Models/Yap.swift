@@ -15,9 +15,9 @@ public final class Yap: NSObject, Singleton {
 
     private var databasePassword: Data
 
-    private override init() {
-        guard let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(".Signal.sqlite").path else { fatalError("Missing resource path!") }
+    private let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(".Signal.sqlite").path
 
+    private override init() {
         let options = YapDatabaseOptions()
         options.corruptAction = .fail
 
@@ -41,9 +41,14 @@ public final class Yap: NSObject, Singleton {
 
         self.databasePassword = databasePassword
 
-        self.database = YapDatabase(path: path, options: options)
+        self.database = YapDatabase(path: self.path, options: options)
 
         self.mainConnection = self.database.newConnection()
+    }
+
+    public func wipeStorage() {
+        KeychainSwift().delete("DBPWD")
+        try! FileManager.default.removeItem(atPath: self.path)
     }
 
     /// Insert a object into the database using the main thread default connection.

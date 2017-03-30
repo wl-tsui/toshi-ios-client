@@ -6,6 +6,7 @@ class SettingsCell: BaseCell {
     private lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
+        view.highlightedTextColor = Theme.greyTextColor
         view.font = Theme.semibold(size: 15)
         view.numberOfLines = 0
 

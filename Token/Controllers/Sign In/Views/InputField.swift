@@ -14,7 +14,6 @@ class InputField: UIView {
 
     lazy var textField: UITextField = {
         let view = UITextField(withAutoLayout: true)
-        view.isSecureTextEntry = self.type == .password
         view.font = Theme.regular(size: 16)
         view.textColor = Theme.darkTextColor
         view.delegate = self

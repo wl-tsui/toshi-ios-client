@@ -6,8 +6,6 @@ class AppController: UIViewController {
 
     public var app: TokenContact
 
-    let yap: Yap = Yap.sharedInstance
-
     lazy var avatarImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
 
@@ -231,7 +229,7 @@ class AppController: UIViewController {
     }
 
     func updateButton() {
-        let isContactAdded = self.yap.containsObject(for: self.app.address, in: TokenContact.collectionKey)
+        let isContactAdded = Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey)
         let fontColor = isContactAdded ? Theme.greyTextColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add app"
 
@@ -241,7 +239,7 @@ class AppController: UIViewController {
     }
 
     func didTapMessageContactButton() {
-        let isContactRegistered = self.yap.containsObject(for: self.app.address, in: TokenContact.collectionKey)
+        let isContactRegistered = Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey)
 
         TSStorageManager.shared().dbConnection.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
@@ -256,7 +254,7 @@ class AppController: UIViewController {
         }
 
         if !isContactRegistered {
-            self.yap.insert(object: self.app.JSONData, for: self.app.address, in: TokenContact.collectionKey)
+            Yap.sharedInstance.insert(object: self.app.JSONData, for: self.app.address, in: TokenContact.collectionKey)
             self.updateButton()
         }
 
@@ -266,7 +264,7 @@ class AppController: UIViewController {
     }
 
     func didTapAddContactButton() {
-        if !self.yap.containsObject(for: self.app.address, in: TokenContact.collectionKey) {
+        if !Yap.sharedInstance.containsObject(for: self.app.address, in: TokenContact.collectionKey) {
             TSStorageManager.shared().dbConnection.readWrite { transaction in
                 var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
 
@@ -277,7 +275,7 @@ class AppController: UIViewController {
                 recipient?.save(with: transaction)
             }
 
-            self.yap.insert(object: self.app.JSONData, for: self.app.address, in: TokenContact.collectionKey)
+            Yap.sharedInstance.insert(object: self.app.JSONData, for: self.app.address, in: TokenContact.collectionKey)
 
             SoundPlayer.shared.playSound(type: .addedContact)
 

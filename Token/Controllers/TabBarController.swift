@@ -15,9 +15,17 @@ open class TabBarController: UITabBarController {
 
     let tabBarSelectedIndexKey = "TabBarSelectedIndex"
 
-    public var chatAPIClient: ChatAPIClient
+    public var chatAPIClient: ChatAPIClient {
+        get {
+            return ChatAPIClient.shared
+        }
+    }
 
-    public var idAPIClient: IDAPIClient
+    public var idAPIClient: IDAPIClient {
+        get {
+            return IDAPIClient.shared
+        }
+    }
 
     internal var homeController: HomeNavigationController!
     internal var messagingController: MessagingNavigationController!
@@ -25,10 +33,7 @@ open class TabBarController: UITabBarController {
     internal var contactsController: ContactsNavigationController!
     internal var settingsController: SettingsNavigationController!
 
-    public init(chatAPIClient: ChatAPIClient, idAPIClient: IDAPIClient) {
-        self.chatAPIClient = chatAPIClient
-        self.idAPIClient = idAPIClient
-
+    public init() {
         super.init(nibName: nil, bundle: nil)
 
         self.delegate = self

@@ -1,6 +1,10 @@
 import UIKit
 import SweetUIKit
 
+public extension NSNotification.Name {
+    public static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
+}
+
 open class SettingsController: SweetTableController {
 
     public static let verificationStatusChanged = Notification.Name(rawValue: "VerificationStatusChanged")
@@ -34,7 +38,6 @@ open class SettingsController: SweetTableController {
     }
 
     func updateVerificationStatus(_ notification: Notification) {
-
         if let verificationStatus = notification.object as? VerificationStatus {
             self.verificationStatus = verificationStatus
         }
@@ -65,6 +68,40 @@ open class SettingsController: SweetTableController {
         let backItem = UIBarButtonItem()
         backItem.title = "Back"
         self.navigationItem.backBarButtonItem = backItem
+    }
+
+    func handleSignOut() {
+        let alert = self.alertController(verificationStatus: self.verificationStatus, balance: User.current!.balance)
+        // We dispatch it back to the main thread here, even tho we are already inside the main thread
+        // to avoid some weird issue where the alert controller will take seconds to present, instead of being instant.
+        DispatchQueue.main.async {
+            self.present(alert, animated: true)
+        }
+    }
+
+    func alertController(verificationStatus status: VerificationStatus, balance: NSDecimalNumber) -> UIAlertController {
+        var alert: UIAlertController
+
+        if status == .correct {
+            alert = UIAlertController(title: "Have you secured your backup phrase?", message: "Without this you will not be able to recover your account or sign back in.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            alert.addAction(UIAlertAction(title: "Sign out", style: .destructive) { action in
+                NotificationCenter.default.post(name: .UserDidSignOut, object: nil)
+            })
+        } else if balance == .zero {
+            alert = UIAlertController(title: "Are you sure you want to sign out?", message: "Since you have no funds and did not secure your account, it will be deleted.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { action in
+                NotificationCenter.default.post(name: .UserDidSignOut, object: nil)
+            })
+        } else {
+            alert = UIAlertController(title: "Sign out cancelled", message: "You need to complete at least one of the security steps to sign out.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+        }
+
+        return alert
     }
 }
 
@@ -139,9 +176,7 @@ extension SettingsController: UITableViewDelegate {
         } else if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
             cell.checkbox.checked = !cell.checkbox.checked
         } else if indexPath.section == 2, indexPath.row == 3 {
-            self.tabBarController?.present(SignInNavigationController(rootViewController: SignInController(idAPIClient: self.idAPIClient)), animated: true) {
-                // clean up
-            }
+            self.handleSignOut()
         }
     }
 }

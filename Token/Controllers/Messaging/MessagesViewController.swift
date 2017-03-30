@@ -65,8 +65,6 @@ class MessagesViewController: MessagesCollectionViewController {
 
     var storageManager: TSStorageManager
 
-    let cereal = Cereal()
-
     lazy var ethereumPromptView: MessagesFloatingView = {
         let view = MessagesFloatingView(withAutoLayout: true)
         view.delegate = self
@@ -162,7 +160,7 @@ class MessagesViewController: MessagesCollectionViewController {
     }
 
     func updateBalance(_: Notification? = nil) {
-        self.ethereumAPIClient.getBalance(address: self.cereal.paymentAddress) { balance, error in
+        self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 self.present(alertController, animated: true, completion: nil)
@@ -377,7 +375,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
     func registerNotifications() {
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(self.yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
     }
 
@@ -556,7 +554,7 @@ extension MessagesViewController: ActionableCellDelegate {
         // TODO: prevent concurrent calls
         // Also, extract this.
         self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { transaction, error in
-            let signedTransaction = "0x\(self.cereal.signWithWallet(hex: transaction!))"
+            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
                 if error != nil {
@@ -626,7 +624,7 @@ extension MessagesViewController: PaymentSendControllerDelegate {
         }
 
         self.etherAPIClient.createUnsignedTransaction(to: contact.paymentAddress, value: value) { transaction, error in
-            let signedTransaction = "0x\(self.cereal.signWithWallet(hex: transaction!))"
+            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
                 if error != nil {
@@ -658,7 +656,7 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
         let request: [String: Any] = [
             "body": "Payment request: \(EthereumConverter.balanceAttributedString(forWei: valueInWei).string).",
             "value": valueInWei.toHexString,
-            "destinationAddress": self.cereal.paymentAddress,
+            "destinationAddress": Cereal.shared.paymentAddress,
         ]
 
         let paymentRequest = SofaPaymentRequest(content: request)

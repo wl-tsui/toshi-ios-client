@@ -16,5 +16,7 @@
 @property (nonnull, nonatomic) ContactsUpdater *contactsUpdater;
 @property (nonnull, nonatomic) OWSMessageSender *messageSender;
 
+- (void)setupSignalService;
+
 @end
 

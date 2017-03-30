@@ -6,13 +6,7 @@ public class ChatAPIClient: NSObject {
 
     static let shared: ChatAPIClient = ChatAPIClient()
 
-    public let cereal = Cereal()
-
     public var teapot: Teapot
-
-    public var address: String {
-        return self.cereal.address
-    }
 
     public var baseURL: URL
 
@@ -44,17 +38,18 @@ public class ChatAPIClient: NSObject {
         }
     }
 
-    public func registerUserIfNeeded() {
+    public func registerUser() {
         self.fetchTimestamp { timestamp in
+            let cereal = Cereal.shared
             let parameters = UserBootstrapParameter(storageManager: self.storageManager)
             let path = "/v1/accounts/bootstrap"
             let payload = parameters.payload
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8)!
-            let hashedPayload = self.cereal.sha3WithID(string: payloadString)
+            let hashedPayload = cereal.sha3WithID(string: payloadString)
             let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
-            let signature = "0x\(self.cereal.signWithID(message: message))"
+            let signature = "0x\(cereal.signWithID(message: message))"
 
-            let fields: [String: String] = ["Token-ID-Address": self.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let requestParameter = RequestParameter(payload)
 
             self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
@@ -67,7 +62,7 @@ public class ChatAPIClient: NSObject {
                     }
 
                     TSStorageManager.storeServerToken(DeviceSpecificPassword, signalingKey: parameters.signalingKey)
-                    print("Successfully registered chat user with address: \(self.cereal.address)")
+                    print("Successfully registered chat user with address: \(cereal.address)")
                 case .failure(let json, let response, let error):
                     print(json ?? "")
                     print(response)
