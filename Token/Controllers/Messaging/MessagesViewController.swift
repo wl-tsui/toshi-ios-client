@@ -132,7 +132,7 @@ class MessagesViewController: MessagesCollectionViewController {
         self.collectionView.keyboardDismissMode = .interactive
         self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
 
-        self.updateBalance()
+        self.fetchAndUpdateBalance()
         self.loadMessages()
     }
 
@@ -159,7 +159,7 @@ class MessagesViewController: MessagesCollectionViewController {
         SignalNotificationManager.updateApplicationBadgeNumber()
     }
 
-    func updateBalance(_: Notification? = nil) {
+    func fetchAndUpdateBalance() {
         self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
@@ -168,6 +168,11 @@ class MessagesViewController: MessagesCollectionViewController {
                 self.set(balance: balance)
             }
         }
+    }
+
+    func handleBalanceUpdate(notification: Notification) {
+        guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
+        self.set(balance: balance)
     }
 
     func set(balance: NSDecimalNumber) {
@@ -376,7 +381,7 @@ class MessagesViewController: MessagesCollectionViewController {
     func registerNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(self.updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
 
     func reversedIndexPath(_ indexPath: IndexPath) -> IndexPath {

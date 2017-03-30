@@ -86,14 +86,14 @@ open class SettingsController: SweetTableController {
             alert = UIAlertController(title: "Have you secured your backup phrase?", message: "Without this you will not be able to recover your account or sign back in.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-            alert.addAction(UIAlertAction(title: "Sign out", style: .destructive) { action in
+            alert.addAction(UIAlertAction(title: "Sign out", style: .destructive) { _ in
                 NotificationCenter.default.post(name: .UserDidSignOut, object: nil)
             })
         } else if balance == .zero {
             alert = UIAlertController(title: "Are you sure you want to sign out?", message: "Since you have no funds and did not secure your account, it will be deleted.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { action in
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
                 NotificationCenter.default.post(name: .UserDidSignOut, object: nil)
             })
         } else {

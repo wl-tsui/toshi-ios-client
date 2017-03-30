@@ -100,7 +100,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
     }
 
     func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
     }
 
     func updateIfNeeded(_ notification: Notification) {

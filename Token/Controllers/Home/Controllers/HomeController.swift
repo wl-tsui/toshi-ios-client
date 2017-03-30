@@ -36,9 +36,9 @@ class HomeController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.updateBalance()
+        self.fetchAndUpdateBalance()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateBalance), name: .ethereumPaymentConfirmationNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
 
     required init?(coder _: NSCoder) {
@@ -80,10 +80,10 @@ class HomeController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.updateBalance()
+        self.fetchAndUpdateBalance()
     }
 
-    func updateBalance(_: Notification? = nil) {
+    func fetchAndUpdateBalance() {
         guard let user = User.current else {
             self.containerView.balance = NSDecimalNumber.zero
 
@@ -98,6 +98,11 @@ class HomeController: UIViewController {
                 self.containerView.balance = balance
             }
         }
+    }
+
+    func handleBalanceUpdate(notification: Notification) {
+        guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
+        self.containerView.balance = balance
     }
 }
 

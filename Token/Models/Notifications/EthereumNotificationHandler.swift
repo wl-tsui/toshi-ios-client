@@ -2,8 +2,18 @@ import Foundation
 import UserNotifications
 
 public extension NSNotification.Name {
-    public static let ethereumPaymentConfirmationNotification = NSNotification.Name(rawValue: "EthereumPaymentConfirmationNotification")
+    public static let ethereumBalanceUpdateNotification = NSNotification.Name(rawValue: "EthereumBalanceUpdateNotification")
+
+    public static let ethereumPaymentUnconfirmedNotification = NSNotification.Name(rawValue: "EthereumPaymentUnconfirmedNotification")
+    public static let ethereumPaymentConfirmedNotification = NSNotification.Name(rawValue: "EthereumPaymentConfirmedNotification")
+    public static let ethereumPaymentErrorNotification = NSNotification.Name(rawValue: "EthereumPaymentErrorNotification")
 }
+
+let paymentStatusMap = [
+    SofaPayment.Status.unconfirmed: NSNotification.Name.ethereumPaymentUnconfirmedNotification,
+    SofaPayment.Status.confirmed: NSNotification.Name.ethereumPaymentConfirmedNotification,
+    SofaPayment.Status.error: NSNotification.Name.ethereumPaymentErrorNotification,
+]
 
 class EthereumNotificationHandler: NSObject {
 
@@ -30,35 +40,41 @@ class EthereumNotificationHandler: NSObject {
                 completion(.newData)
             }
 
-            guard let sofa = SofaWrapper.wrapper(content: body) as? SofaPayment, sofa.status == .confirmed else {
+            guard let sofa = SofaWrapper.wrapper(content: body) as? SofaPayment else {
                 completion(.noData)
 
                 return
             }
 
             if UIApplication.shared.applicationState == .active {
-                let notification = Notification(name: .ethereumPaymentConfirmationNotification, object: balance, userInfo: nil)
-                NotificationCenter.default.post(notification)
+                let balanceNotification = Notification(name: .ethereumBalanceUpdateNotification, object: balance, userInfo: nil)
+                NotificationCenter.default.post(balanceNotification)
+
+                guard let notificationName = paymentStatusMap[sofa.status] else { return }
+                let paymentNotification = Notification(name: notificationName, object: sofa, userInfo: nil)
+                NotificationCenter.default.post(paymentNotification)
 
                 return
             }
 
-            let content = UNMutableNotificationContent()
-            content.title = "Payment"
+            if sofa.status == .unconfirmed {
+                let content = UNMutableNotificationContent()
+                content.title = "Payment"
 
-            if sofa.recipientAddress == User.current?.paymentAddress {
-                content.body = "Payment received: \(EthereumConverter.fiatValueString(forWei: sofa.value))."
-            } else {
-                content.body = "Payment sent: \(EthereumConverter.fiatValueString(forWei: sofa.value))."
+                if sofa.recipientAddress == User.current?.paymentAddress {
+                    content.body = "Payment received: \(EthereumConverter.fiatValueString(forWei: sofa.value))."
+                } else {
+                    content.body = "Payment sent: \(EthereumConverter.fiatValueString(forWei: sofa.value))."
+                }
+
+                content.sound = UNNotificationSound(named: "PN.m4a")
+
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                let request = UNNotificationRequest(identifier: content.title, content: content, trigger: trigger)
+
+                let center = UNUserNotificationCenter.current()
+                center.add(request, withCompletionHandler: nil)
             }
-
-            content.sound = UNNotificationSound(named: "PN.m4a")
-
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-            let request = UNNotificationRequest(identifier: content.title, content: content, trigger: trigger)
-
-            let center = UNUserNotificationCenter.current()
-            center.add(request, withCompletionHandler: nil)
         }
     }
 }

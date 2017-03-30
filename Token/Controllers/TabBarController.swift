@@ -16,15 +16,11 @@ open class TabBarController: UITabBarController {
     let tabBarSelectedIndexKey = "TabBarSelectedIndex"
 
     public var chatAPIClient: ChatAPIClient {
-        get {
-            return ChatAPIClient.shared
-        }
+        return ChatAPIClient.shared
     }
 
     public var idAPIClient: IDAPIClient {
-        get {
-            return IDAPIClient.shared
-        }
+        return IDAPIClient.shared
     }
 
     internal var homeController: HomeNavigationController!

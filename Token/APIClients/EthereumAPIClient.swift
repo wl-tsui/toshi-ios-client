@@ -137,12 +137,12 @@ public class EthereumAPIClient: NSObject {
                 guard response.statusCode == 200 else { fatalError() }
                 guard let json = json?.dictionary else { fatalError() }
 
-                let confirmedBalanceString = json["confirmed_balance"] as? String ?? "0"
-                let confirmedBalance = NSDecimalNumber(hexadecimalString: confirmedBalanceString)
+                let unconfirmedBalanceString = json["unconfirmed_balance"] as? String ?? "0"
+                let unconfirmedBalance = NSDecimalNumber(hexadecimalString: unconfirmedBalanceString)
 
-                User.current?.balance = confirmedBalance
+                User.current?.balance = unconfirmedBalance
 
-                completion(confirmedBalance, nil)
+                completion(unconfirmedBalance, nil)
             case .failure(let json, let response, let error):
                 completion(0, error)
                 print(error)

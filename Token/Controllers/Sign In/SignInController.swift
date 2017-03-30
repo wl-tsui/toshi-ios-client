@@ -180,7 +180,7 @@ open class SignInController: UIViewController {
         }
 
         let idClient = IDAPIClient.shared
-        idClient.retrieveUser(username: cereal.address) { (user) in
+        idClient.retrieveUser(username: cereal.address) { user in
             if let user = user {
                 User.current = user
                 ChatAPIClient.shared.registerUser()
@@ -190,7 +190,7 @@ open class SignInController: UIViewController {
                 NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: VerificationStatus.correct)
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
                 delegate.setupSignalService()
-                
+
                 self.dismiss(animated: true)
             } else {
                 print("OPS! No such user")

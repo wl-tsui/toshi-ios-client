@@ -195,11 +195,11 @@ public class IDAPIClient: NSObject {
     }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-//        if let image = self.imageCache.object(forKey: path as NSString) {
-//            completion(image)
-//
-//            return
-//        }
+        //        if let image = self.imageCache.object(forKey: path as NSString) {
+        //            completion(image)
+        //
+        //            return
+        //        }
 
         self.teapot.get(path) { (result: NetworkImageResult) in
             switch result {
