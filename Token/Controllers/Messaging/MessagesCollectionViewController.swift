@@ -10,35 +10,70 @@ class MessagesCollectionViewController: NOCChatViewController {
         case doNothing
     }
 
+    lazy var chatInputTextPanel: ChatInputTextPanel = {
+        let view = ChatInputTextPanel()
+        view.delegate = self
+
+        return view
+    }()
+
+    let buttonMargin: CGFloat = 10
+
+    var buttonsHeight: CGFloat = 0 {
+        didSet {
+            self.chatInputTextPanel.buttonsHeight = self.buttonsHeight > 0 ? self.buttonsHeight + (2 * self.buttonMargin) : 0
+            updateConstraints()
+        }
+    }
+
+    var heightOfKeyboard: CGFloat = 0 {
+        didSet {
+            updateConstraints()
+        }
+    }
+
+    func updateConstraints() {
+        self.controlsViewHeightConstraint.constant = self.buttonsHeight
+        self.controlsViewBottomConstraint.constant = self.heightOfKeyboard > 0 ? -self.heightOfKeyboard + self.buttonMargin + self.buttonsHeight : -self.buttonMargin - ChatInputTextPanel.defaultHeight
+        view.layoutIfNeeded()
+    }
+
     var buttons: [SofaMessage.Button] = [] {
         didSet {
             // Ensure we're dealing with layout inside the main queue.
             DispatchQueue.main.async {
                 self.controlsView.isHidden = true
                 self.updateSubcontrols(with: nil)
-                self.controlsViewHeightConstraint.constant = self.view.frame.height
+                self.controlsViewHeightConstraint.constant = 500
+                self.controlsViewBottomConstraint.constant = -100
                 self.controlsViewDelegateDatasource.items = self.buttons
                 self.controlsView.reloadData()
+                self.view.layoutIfNeeded()
 
                 // Re-enqueues this back to the main queue to ensure the collection view
                 // has filled in its cells. Thanks UIKit.
-                DispatchQueue.main.asyncAfter(seconds: 0.1) {
+                DispatchQueue.main.asyncAfter(seconds: 0.5) {
                     var height: CGFloat = 0
-                    (self.controlsView.visibleCells as? [ControlCell])?.forEach { cell in
-                        cell.transform = CGAffineTransform(scaleX: -1, y: -1)
-                        height = max(height, cell.frame.maxY)
+
+                    self.controlsViewHeightConstraint.constant = 500
+                    self.controlsView.reloadData()
+                    self.view.layoutIfNeeded()
+
+                    let controlCells = self.controlsView.visibleCells.flatMap { cell in cell as? ControlCell }
+
+                    for controlCell in controlCells {
+                        controlCell.transform = CGAffineTransform(scaleX: -1, y: -1)
+                        height = max(height, controlCell.frame.maxY)
                     }
 
-                    self.controlsViewHeightConstraint.constant = 0
-                    self.view.layoutIfNeeded()
+                    self.buttonsHeight = height
 
-                    self.additionalContentInsets.bottom = height
-                    self.controlsViewHeightConstraint.constant = height
                     self.controlsView.isHidden = false
-                    self.view.layoutIfNeeded()
                     self.controlsView.deselectButtons()
 
-                    self.scrollToBottom(animated: false)
+                    self.view.layoutIfNeeded()
+
+                    self.scrollToBottom(animated: true)
                 }
             }
         }
@@ -58,12 +93,16 @@ class MessagesCollectionViewController: NOCChatViewController {
         return subcontrolsViewDelegateDatasource
     }()
 
+    lazy var controlsViewBottomConstraint: NSLayoutConstraint = {
+        self.controlsView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+    }()
+
     lazy var controlsViewHeightConstraint: NSLayoutConstraint = {
-        self.controlsView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
+        self.controlsView.heightAnchor.constraint(equalToConstant: 0)
     }()
 
     lazy var subcontrolsViewHeightConstraint: NSLayoutConstraint = {
-        self.subcontrolsView.heightAnchor.constraint(equalToConstant: self.view.frame.height)
+        self.subcontrolsView.heightAnchor.constraint(equalToConstant: 0)
     }()
 
     lazy var subcontrolsViewWidthConstraint: NSLayoutConstraint = {
@@ -127,7 +166,8 @@ class MessagesCollectionViewController: NOCChatViewController {
         self.controlsViewHeightConstraint.isActive = true
         self.controlsView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
         self.controlsView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-        self.controlsView.bottomAnchor.constraint(equalTo: self.inputPanel!.topAnchor, constant: -6).isActive = true
+
+        self.controlsViewBottomConstraint.isActive = true
 
         self.controlsViewDelegateDatasource.controlsCollectionView = self.controlsView
 

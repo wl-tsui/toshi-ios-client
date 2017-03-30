@@ -19,7 +19,7 @@ class BackupPhraseCopyController: UIViewController {
     }()
 
     private lazy var actionButton: ActionButton = {
-        let view = ActionButton(withAutoLayout: true)
+        let view = ActionButton(margin: 30)
         view.title = "Verify phrase"
         view.addTarget(self, action: #selector(proceed(_:)), for: .touchUpInside)
 

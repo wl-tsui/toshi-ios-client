@@ -28,7 +28,7 @@ class BackupPhraseEnableController: UIViewController {
     }()
 
     private lazy var actionButton: ActionButton = {
-        let view = ActionButton(withAutoLayout: true)
+        let view = ActionButton(margin: 30)
         view.title = "Continue"
         view.isEnabled = false
         view.addTarget(self, action: #selector(proceed(_:)), for: .touchUpInside)

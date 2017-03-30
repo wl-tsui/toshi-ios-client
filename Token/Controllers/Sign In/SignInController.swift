@@ -36,7 +36,7 @@ open class SignInController: UIViewController {
     }()
 
     private lazy var signInButton: ActionButton = {
-        let view = ActionButton(withAutoLayout: true)
+        let view = ActionButton(margin: 30)
         view.title = "Sign in"
         view.addTarget(self, action: #selector(signInWithPasshphrase), for: .touchUpInside)
 
@@ -44,7 +44,7 @@ open class SignInController: UIViewController {
     }()
 
     private lazy var scanQRButton: ActionButton = {
-        let view = ActionButton(withAutoLayout: true)
+        let view = ActionButton(margin: 30)
         view.title = "Scan QR to sign in"
         view.style = .secondary
 
@@ -52,7 +52,7 @@ open class SignInController: UIViewController {
     }()
 
     private lazy var createAccountButton: ActionButton = {
-        let view = ActionButton(withAutoLayout: true)
+        let view = ActionButton(margin: 30)
         view.title = "Create a new account"
         view.style = .plain
         view.addTarget(self, action: #selector(createNewUser), for: .touchUpInside)

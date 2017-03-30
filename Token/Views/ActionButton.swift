@@ -3,6 +3,8 @@ import SweetUIKit
 
 class ActionButton: UIControl {
 
+    static let height: CGFloat = 44
+
     var titleColor = StateColor()
     var buttonColor = StateColor()
     var borderColor = StateColor()
@@ -112,13 +114,17 @@ class ActionButton: UIControl {
         return view
     }()
 
-    private lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.font = Theme.regular(size: 16)
         view.textAlignment = .center
         view.isUserInteractionEnabled = false
 
         return view
+    }()
+
+    lazy var heightConstraint: NSLayoutConstraint = {
+        self.heightAnchor.constraint(equalToConstant: ActionButton.height)
     }()
 
     private lazy var guides: [UILayoutGuide] = {
@@ -135,15 +141,12 @@ class ActionButton: UIControl {
             self.titleLabel.text = title
         }
     }
-
-    required init?(coder _: NSCoder) {
-        fatalError()
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    
+    convenience init(margin: CGFloat) {
+        self.init(frame: .zero)
 
         self.style = .primary
+        self.translatesAutoresizingMaskIntoConstraints = false
 
         self.addSubview(self.background)
         self.background.addSubview(self.backgroundOverlay)
@@ -171,17 +174,17 @@ class ActionButton: UIControl {
             self.guides[0].leftAnchor.constraint(equalTo: self.leftAnchor),
             self.guides[0].bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.guides[0].rightAnchor.constraint(equalTo: self.titleLabel.leftAnchor),
-            self.guides[0].widthAnchor.constraint(greaterThanOrEqualToConstant: 30),
+            self.guides[0].widthAnchor.constraint(greaterThanOrEqualToConstant: margin),
 
             self.guides[1].topAnchor.constraint(equalTo: self.topAnchor),
             self.guides[1].leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor),
             self.guides[1].bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.guides[1].rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.guides[1].widthAnchor.constraint(greaterThanOrEqualToConstant: 30),
+            self.guides[1].widthAnchor.constraint(greaterThanOrEqualToConstant: margin),
 
             self.guides[0].widthAnchor.constraint(equalTo: self.guides[1].widthAnchor).priority(.high),
 
-            self.heightAnchor.constraint(equalToConstant: 44),
+            heightConstraint,
         ])
     }
 
@@ -194,7 +197,7 @@ class ActionButton: UIControl {
                     self.backgroundOverlay.alpha = self.isHighlighted ? 1 : 0
                 }
 
-                self.buttonState = self.isHighlighted ? .highlighted : .normal
+                self.buttonState = self.isHighlighted ? .highlighted : self.isEnabled ? .normal : .disabled
 
                 UIView.highlightAnimation {
                     self.restyle()
@@ -214,7 +217,7 @@ class ActionButton: UIControl {
     }
 
     private func restyle() {
-        self.alpha = self.isEnabled ? 1 : 0.6
+        self.alpha = self.buttonState == .disabled ? 0.6 : 1
 
         self.titleLabel.textColor = self.titleColor[self.buttonState]
         self.background.backgroundColor = self.buttonColor[self.buttonState]

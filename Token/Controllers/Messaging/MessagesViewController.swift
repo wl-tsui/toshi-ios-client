@@ -84,10 +84,6 @@ class MessagesViewController: MessagesCollectionViewController {
         }
     }
 
-    override class func inputPanelClass() -> AnyClass? {
-        return ChatInputTextPanel.self
-    }
-
     // MARK: - Init
 
     init(thread: TSThread, chatAPIClient: ChatAPIClient, ethereumAPIClient: EthereumAPIClient = .shared) {
@@ -104,15 +100,40 @@ class MessagesViewController: MessagesCollectionViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.hidesBottomBarWhenPushed = true
+        hidesBottomBarWhenPushed = true
 
-        self.title = thread.name()
+        title = thread.name()
 
-        self.registerNotifications()
+        registerNotifications()
+
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        center.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
     }
 
     required init?(coder _: NSCoder) {
         fatalError()
+    }
+
+    fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
+        let info = KeyboardInfo(notification.userInfo)
+        heightOfKeyboard = info.endFrame.height
+    }
+
+    fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
+        let info = KeyboardInfo(notification.userInfo)
+        heightOfKeyboard = info.endFrame.height
+    }
+
+    fileprivate dynamic func keyboardWillHide(_: Notification) {
+        heightOfKeyboard = 0
+    }
+
+    fileprivate dynamic func keyboardDidHide(_: Notification) {
+        heightOfKeyboard = 0
+        becomeFirstResponder()
     }
 
     // MARK: View life-cycle
@@ -120,28 +141,35 @@ class MessagesViewController: MessagesCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.additionalContentInsets.top = MessagesFloatingView.height
-        self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
+        view.backgroundColor = Theme.messageViewBackgroundColor
+        containerView?.backgroundColor = nil
 
-        self.view.addSubview(self.ethereumPromptView)
+        view.addSubview(self.ethereumPromptView)
         self.ethereumPromptView.heightAnchor.constraint(equalToConstant: MessagesFloatingView.height).isActive = true
-        self.ethereumPromptView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
-        self.ethereumPromptView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.ethereumPromptView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.ethereumPromptView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        self.ethereumPromptView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        self.ethereumPromptView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
         self.collectionView.keyboardDismissMode = .interactive
-        self.collectionView.backgroundColor = Theme.messageViewBackgroundColor
+        self.collectionView.backgroundColor = nil
 
+        becomeFirstResponder()
         self.fetchAndUpdateBalance()
         self.loadMessages()
     }
 
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
-
-        self.inputPanel?.becomeFirstResponder()
-        self.inputPanel?.resignFirstResponder()
         self.reloadDraft()
+        view.layoutIfNeeded()
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+
+    override var inputAccessoryView: UIView? {
+        return self.chatInputTextPanel
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -180,10 +208,8 @@ class MessagesViewController: MessagesCollectionViewController {
     }
 
     func saveDraft() {
-        guard let inputPanel = self.inputPanel as? ChatInputTextPanel else { return }
-
         let thread = self.thread
-        guard let text = inputPanel.text else { return }
+        guard let text = self.chatInputTextPanel.text else { return }
 
         self.editingDatabaseConnection.asyncReadWrite { transaction in
             thread.setDraft(text, transaction: transaction)
@@ -198,8 +224,7 @@ class MessagesViewController: MessagesCollectionViewController {
             placeholder = thread.currentDraft(with: transaction)
         }, completionBlock: {
             DispatchQueue.main.async {
-                guard let inputPanel = self.inputPanel as? ChatInputTextPanel else { return }
-                inputPanel.text = placeholder
+                self.chatInputTextPanel.text = "" // placeholder
             }
         })
     }
@@ -282,7 +307,7 @@ class MessagesViewController: MessagesCollectionViewController {
         }
         actionSheetController.addAction(acceptSafetyNumberAction)
 
-        self.present(actionSheetController, animated: true, completion: nil)
+        present(actionSheetController, animated: true, completion: nil)
     }
 
     /// Handle incoming interactions or previous messages when restoring a conversation.
@@ -329,7 +354,7 @@ class MessagesViewController: MessagesCollectionViewController {
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.date(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
 
             if let message = sofaWrapper as? SofaMessage {
-                self.buttons = message.buttons
+                buttons = message.buttons
             } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
@@ -371,11 +396,11 @@ class MessagesViewController: MessagesCollectionViewController {
     // MARK: - Helper methods
 
     func visibleMessage(at indexPath: IndexPath) -> Message {
-        return self.visibleMessages[indexPath.row]
+        return visibleMessages[indexPath.row]
     }
 
     func message(at indexPath: IndexPath) -> Message {
-        return self.messages[indexPath.row]
+        return messages[indexPath.row]
     }
 
     func registerNotifications() {
@@ -511,9 +536,9 @@ class MessagesViewController: MessagesCollectionViewController {
         }
 
         // clear the buttons
-        self.buttons = []
+        buttons = []
         let command = SofaCommand(button: button)
-        self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
+        controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
         self.sendMessage(sofaWrapper: command)
     }
 }
@@ -522,12 +547,12 @@ extension MessagesViewController: ActionableCellDelegate {
 
     func didTapRejectButton(_ messageCell: ActionableMessageCell) {
         guard let indexPath = self.collectionView.indexPath(for: messageCell) else { return }
-        let visibleMessageIndexPath = self.reversedIndexPath(indexPath)
+        let visibleMessageIndexPath = reversedIndexPath(indexPath)
 
-        let message = self.visibleMessage(at: visibleMessageIndexPath)
+        let message = visibleMessage(at: visibleMessageIndexPath)
         message.isActionable = false
 
-        let layout = self.layouts[indexPath.item] as? MessageCellLayout
+        let layout = layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
 
@@ -538,12 +563,12 @@ extension MessagesViewController: ActionableCellDelegate {
 
     func didTapApproveButton(_ messageCell: ActionableMessageCell) {
         guard let indexPath = self.collectionView.indexPath(for: messageCell) else { return }
-        let visibleMessageIndexPath = self.reversedIndexPath(indexPath)
+        let visibleMessageIndexPath = reversedIndexPath(indexPath)
 
-        let message = self.visibleMessage(at: visibleMessageIndexPath)
+        let message = visibleMessage(at: visibleMessageIndexPath)
         message.isActionable = false
 
-        let layout = self.layouts[indexPath.item] as? MessageCellLayout
+        let layout = layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
 
@@ -590,7 +615,11 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
 
     func inputTextPanel(_: ChatInputTextPanel, requestSendText text: String) {
         let wrapper = SofaMessage(content: ["body": text])
-        self.sendMessage(sofaWrapper: wrapper)
+        sendMessage(sofaWrapper: wrapper)
+    }
+
+    func keyboardMoved(with offset: CGFloat) {
+        controlsViewBottomConstraint.constant = -offset + buttonMargin + buttonsHeight
     }
 }
 
@@ -600,14 +629,14 @@ extension MessagesViewController: MessagesFloatingViewDelegate {
         let paymentRequestController = PaymentRequestController()
         paymentRequestController.delegate = self
 
-        self.present(paymentRequestController, animated: true)
+        present(paymentRequestController, animated: true)
     }
 
     func messagesFloatingView(_: MessagesFloatingView, didPressPayButton _: UIButton) {
         let paymentSendController = PaymentSendController()
         paymentSendController.delegate = self
 
-        self.present(paymentSendController, animated: true)
+        present(paymentSendController, animated: true)
     }
 }
 
@@ -666,6 +695,6 @@ extension MessagesViewController: PaymentRequestControllerDelegate {
 
         let paymentRequest = SofaPaymentRequest(content: request)
 
-        self.sendMessage(sofaWrapper: paymentRequest)
+        sendMessage(sofaWrapper: paymentRequest)
     }
 }

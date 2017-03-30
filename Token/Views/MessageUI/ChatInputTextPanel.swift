@@ -1,326 +1,229 @@
 import NoChat
+import UIKit
 import HPGrowingTextView
+import SweetUIKit
 
 protocol ChatInputTextPanelDelegate: NOCChatInputPanelDelegate {
     func inputTextPanel(_ inputTextPanel: ChatInputTextPanel, requestSendText text: String)
+    func keyboardMoved(with offset: CGFloat)
 }
 
-private let TGRetinaPixel = CGFloat(0.5)
-private let TG_EPSILON = CGFloat(0.0001)
+class ChatInputTextPanel: NOCChatInputPanel {
 
-class ChatInputTextPanel: NOCChatInputPanel, HPGrowingTextViewDelegate {
+    static let defaultHeight: CGFloat = 51
+
+    fileprivate let inputContainerInsets = UIEdgeInsets(top: 8, left: 41, bottom: 7, right: 0)
+    fileprivate let maximumInputContainerHeight: CGFloat = 175
+
+    fileprivate var inputContainerHeight: CGFloat = ChatInputTextPanel.defaultHeight {
+        didSet {
+            if inputContainerHeight != oldValue {
+                invalidateLayout()
+            }
+        }
+    }
+
+    fileprivate func inputContainerHeight(for textViewHeight: CGFloat) -> CGFloat {
+        return min(self.maximumInputContainerHeight, max(ChatInputTextPanel.defaultHeight, textViewHeight + self.inputContainerInsets.top + self.inputContainerInsets.bottom))
+    }
+
+    var buttonsHeight: CGFloat = 0 {
+        didSet {
+            if buttonsHeight != oldValue {
+                negativeSpaceConstraint.constant = buttonsHeight
+                invalidateLayout()
+            }
+        }
+    }
+
+    lazy var negativeSpaceConstraint: NSLayoutConstraint = {
+        self.negativeSpace.heightAnchor.constraint(equalToConstant: 0)
+    }()
+
+    lazy var negativeSpace: UILayoutGuide = {
+        UILayoutGuide()
+    }()
+
+    lazy var inputContainer: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.backgroundColor = Theme.inputFieldBackgroundColor
+        view.layer.borderColor = Theme.borderColor.cgColor
+        view.layer.borderWidth = Theme.borderHeight
+
+        return view
+    }()
+
+    lazy var inputField: HPGrowingTextView = {
+        let view = HPGrowingTextView(withAutoLayout: true)
+        view.backgroundColor = .white
+        view.clipsToBounds = true
+        view.layer.cornerRadius = (ChatInputTextPanel.defaultHeight - (self.inputContainerInsets.top + self.inputContainerInsets.bottom)) / 2
+        view.layer.borderColor = Theme.borderColor.cgColor
+        view.layer.borderWidth = Theme.borderHeight
+        view.delegate = self
+        view.font = UIFont.systemFont(ofSize: 16)
+        view.internalTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
+        view.internalTextView.scrollIndicatorInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 5)
+
+        return view
+    }()
+
+    fileprivate lazy var attachButton: UIButton = {
+        let view = UIButton(withAutoLayout: true)
+        view.setImage(#imageLiteral(resourceName: "TGAttachButton").withRenderingMode(.alwaysTemplate), for: .normal)
+        view.tintColor = Theme.tintColor
+        view.contentMode = .center
+
+        return view
+    }()
+
+    fileprivate lazy var sendButton: ActionButton = {
+        let view = ActionButton(margin: 0)
+        view.title = "Send"
+        view.style = .plain
+        view.titleLabel.font = Theme.semibold(size: 16)
+        view.heightConstraint.constant = ChatInputTextPanel.defaultHeight
+        view.isEnabled = false
+        view.addTarget(self, action: #selector(send(_:)), for: .touchUpInside)
+
+        return view
+    }()
 
     public var text: String? {
         get {
-            return self.inputField.internalTextView.text
+            return inputField.text
+        } set {
+            self.inputField.text = newValue ?? ""
         }
-        set {
-            self.inputField.internalTextView.text = nil
-            self.inputField.internalTextView.insertText(newValue ?? "")
-        }
-    }
-
-    var stripeLayer: CALayer
-    var backgroundView: UIView
-
-    var inputField: HPGrowingTextView
-    var inputFieldClippingContainer: UIView
-    var fieldBackground: UIImageView
-
-    var sendButton: UIButton
-    var attachButton: UIButton
-
-    private var sendButtonWidth = CGFloat(0)
-
-    var currentSendButtonWidth: CGFloat {
-        return (self.sendButton.isHidden ? 8 : self.sendButtonWidth)
-    }
-
-    private let inputFiledInsets = UIEdgeInsets(top: 9, left: 41, bottom: 8, right: 0)
-    private let inputFiledInternalEdgeInsets = UIEdgeInsets(top: -2 - TGRetinaPixel, left: 6, bottom: 0, right: 6)
-    private let baseHeight = CGFloat(48)
-
-    private var parentSize = CGSize.zero
-
-    private var messageAreaSize = CGSize.zero
-    private var keyboardHeight = CGFloat(0)
-
-    override init(frame: CGRect) {
-        self.sendButtonWidth = min(150, "Send".size(attributes: [NSFontAttributeName: Theme.semibold(size: 16)]).width + 12)
-
-        self.backgroundView = UIView()
-        self.backgroundView.backgroundColor = Theme.inputFieldBackgroundColor
-
-        self.stripeLayer = CALayer()
-        self.stripeLayer.backgroundColor = Theme.borderColor.cgColor
-
-        let filedBackgroundImage = #imageLiteral(resourceName: "TGInputFieldBackground")
-        self.fieldBackground = UIImageView(image: filedBackgroundImage)
-        self.fieldBackground.frame = CGRect(x: 41, y: 9, width: frame.width - 41 - 1, height: 31)
-
-        let inputFiledClippingFrame = self.fieldBackground.frame
-        self.inputFieldClippingContainer = UIView(frame: inputFiledClippingFrame)
-        self.inputFieldClippingContainer.clipsToBounds = true
-
-        self.inputField = HPGrowingTextView(frame: CGRect(x: self.inputFiledInternalEdgeInsets.left, y: self.inputFiledInternalEdgeInsets.top, width: inputFiledClippingFrame.width - self.inputFiledInternalEdgeInsets.left, height: inputFiledClippingFrame.height))
-        self.inputField.placeholder = "Message"
-        self.inputField.animateHeightChange = false
-        self.inputField.animationDuration = 0
-        self.inputField.font = .systemFont(ofSize: 16)
-        self.inputField.backgroundColor = .clear
-        self.inputField.isOpaque = false
-        self.inputField.clipsToBounds = true
-        self.inputField.internalTextView.backgroundColor = UIColor.clear
-        self.inputField.internalTextView.isOpaque = false
-        self.inputField.internalTextView.contentMode = .left
-        self.inputField.internalTextView.scrollIndicatorInsets = UIEdgeInsets(top: -self.inputFiledInternalEdgeInsets.top, left: 0, bottom: 5 - TGRetinaPixel, right: 0)
-
-        self.sendButton = UIButton(type: .system)
-        self.sendButton.isExclusiveTouch = true
-        self.sendButton.setAttributedTitle(NSAttributedString(string: "Send", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.semibold(size: 16)]), for: .normal)
-        self.sendButton.setAttributedTitle(NSAttributedString(string: "Send", attributes: [NSForegroundColorAttributeName: Theme.greyTextColor, NSFontAttributeName: Theme.semibold(size: 16)]), for: .disabled)
-        self.sendButton.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        self.sendButton.isEnabled = false
-        self.sendButton.isHidden = true
-
-        self.attachButton = UIButton(type: .system)
-        self.attachButton.isExclusiveTouch = true
-        self.attachButton.setImage(#imageLiteral(resourceName: "TGAttachButton"), for: .normal)
-
-        super.init(frame: frame)
-
-        self.addSubview(self.backgroundView)
-        self.layer.addSublayer(self.stripeLayer)
-        self.addSubview(self.fieldBackground)
-        self.addSubview(self.inputFieldClippingContainer)
-
-        self.inputField.maxNumberOfLines = self.maxNumberOfLines(forSize: self.parentSize)
-        self.inputField.delegate = self
-        self.inputFieldClippingContainer.addSubview(self.inputField)
-
-        self.sendButton.addTarget(self, action: #selector(didTapSendButton(_:)), for: .touchUpInside)
-
-        self.addSubview(self.sendButton)
-        self.addSubview(self.attachButton)
     }
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func becomeFirstResponder() -> Bool {
-        return self.inputField.internalTextView.becomeFirstResponder()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        addLayoutGuide(negativeSpace)
+        addSubview(inputContainer)
+        addSubview(attachButton)
+        addSubview(inputField)
+        addSubview(sendButton)
+
+        NSLayoutConstraint.activate([
+            negativeSpace.topAnchor.constraint(equalTo: topAnchor),
+            negativeSpace.leftAnchor.constraint(equalTo: leftAnchor),
+            negativeSpace.rightAnchor.constraint(equalTo: rightAnchor),
+            negativeSpaceConstraint,
+
+            attachButton.leftAnchor.constraint(equalTo: leftAnchor),
+            attachButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            attachButton.rightAnchor.constraint(equalTo: inputField.leftAnchor),
+            attachButton.widthAnchor.constraint(equalToConstant: 51),
+            attachButton.heightAnchor.constraint(equalToConstant: 51),
+
+            inputContainer.topAnchor.constraint(equalTo: negativeSpace.bottomAnchor),
+            inputContainer.leftAnchor.constraint(equalTo: leftAnchor, constant: -1),
+            inputContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
+            inputContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: 1),
+
+            inputField.topAnchor.constraint(equalTo: negativeSpace.bottomAnchor, constant: inputContainerInsets.top),
+            inputField.leftAnchor.constraint(equalTo: attachButton.rightAnchor),
+            inputField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inputContainerInsets.bottom),
+
+            sendButton.leftAnchor.constraint(equalTo: inputField.rightAnchor),
+            sendButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            sendButton.rightAnchor.constraint(equalTo: rightAnchor),
+            sendButton.widthAnchor.constraint(equalToConstant: 70),
+        ])
     }
 
-    override func resignFirstResponder() -> Bool {
-        return self.inputField.internalTextView.resignFirstResponder()
-    }
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
+        if self.point(inside: point, with: event) {
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+            for subview in subviews.reversed() {
+                let point = subview.convert(point, from: self)
 
-        self.backgroundView.frame = self.bounds
-
-        self.stripeLayer.frame = CGRect(x: 0, y: -TGRetinaPixel, width: self.bounds.width, height: TGRetinaPixel)
-
-        self.fieldBackground.frame = CGRect(x: self.inputFiledInsets.left, y: self.inputFiledInsets.top, width: self.bounds.width - self.inputFiledInsets.left - self.inputFiledInsets.right - self.currentSendButtonWidth - 1, height: self.bounds.height - self.inputFiledInsets.top - self.inputFiledInsets.bottom)
-
-        self.inputFieldClippingContainer.frame = fieldBackground.frame
-
-        self.sendButton.frame = CGRect(x: self.bounds.width - self.sendButtonWidth, y: self.bounds.height - self.baseHeight, width: self.sendButtonWidth, height: self.baseHeight)
-
-        self.attachButton.frame = CGRect(x: 0, y: self.bounds.height - self.baseHeight, width: 40, height: self.baseHeight)
-    }
-
-    override func endInputting(_: Bool) {
-        if self.inputField.internalTextView.isFirstResponder {
-            self.inputField.internalTextView.resignFirstResponder()
-        }
-    }
-
-    override func adjust(for size: CGSize, keyboardHeight: CGFloat, duration: TimeInterval, animationCurve: Int32) {
-        let previousSize = self.parentSize
-        self.parentSize = size
-
-        if abs(size.width - previousSize.width) > TG_EPSILON {
-            change(to: size, keyboardHeight: keyboardHeight, duration: 0)
-        }
-
-        adjust(for: size, keyboardHeight: keyboardHeight, inputFiledHeight: self.inputField.frame.height, duration: duration, animationCurve: animationCurve)
-    }
-
-    override func change(to size: CGSize, keyboardHeight: CGFloat, duration: TimeInterval) {
-        self.parentSize = size
-
-        let messageAreaSize = size
-
-        self.messageAreaSize = messageAreaSize
-        self.keyboardHeight = keyboardHeight
-
-        var inputFieldSnapshotView: UIView?
-        if duration > DBL_EPSILON {
-            inputFieldSnapshotView = self.inputField.internalTextView.snapshotView(afterScreenUpdates: false)
-            if let v = inputFieldSnapshotView {
-                v.frame = self.inputField.frame.offsetBy(dx: self.inputFieldClippingContainer.frame.origin.x, dy: self.inputFieldClippingContainer.frame.origin.y)
-
-                self.addSubview(v)
-            }
-        }
-
-        UIView.performWithoutAnimation {
-            self.updateInputFiledLayout()
-        }
-
-        let inputContainerHeight = self.heightForInputFieldHeight(self.inputField.frame.size.height)
-        let newInputContainerFrame = CGRect(x: 0, y: messageAreaSize.height - keyboardHeight - inputContainerHeight, width: messageAreaSize.width, height: inputContainerHeight)
-
-        if duration > DBL_EPSILON {
-            if inputFieldSnapshotView != nil {
-                self.inputField.alpha = 0
-            }
-
-            UIView.animate(withDuration: duration, animations: {
-                self.frame = newInputContainerFrame
-                self.layoutSubviews()
-
-                if let v = inputFieldSnapshotView {
-                    self.inputField.alpha = 1
-                    v.frame = self.inputField.frame.offsetBy(dx: self.inputFieldClippingContainer.frame.origin.x, dy: self.inputFieldClippingContainer.frame.origin.y)
-                    v.alpha = 0
+                if let hitTestView = subview.hitTest(point, with: event) {
+                    return hitTestView
                 }
-            }, completion: { _ in
-                inputFieldSnapshotView?.removeFromSuperview()
-            })
-        } else {
-            self.frame = newInputContainerFrame
-        }
-    }
-
-    func toggleSendButtonEnabled() {
-        let hasText = self.inputField.internalTextView.hasText
-        let wasHidden = self.sendButton.isHidden
-
-        // We check if button state changed as well as if we have text to
-        // set the new alpha. This makes it so that it only hides if it will re-appear
-        self.sendButton.alpha = (hasText == wasHidden && hasText) ? 0 : 1
-        self.sendButton.isHidden = !hasText
-        self.sendButton.isEnabled = hasText
-
-        if hasText == wasHidden {
-            UIView.animate(withDuration: 0.15, animations: {
-                self.layoutSubviews()
-            }, completion: { _ in
-                UIView.animate(withDuration: 0.15) {
-                    self.sendButton.alpha = hasText ? 1 : 0
-                }
-            })
-        }
-    }
-
-    func clearInputField() {
-        self.inputField.internalTextView.text = nil
-        self.inputField.refreshHeight()
-
-        self.toggleSendButtonEnabled()
-    }
-
-    func growingTextView(_: HPGrowingTextView!, willChangeHeight height: Float) {
-        let inputContainerHeight = self.heightForInputFieldHeight(CGFloat(height))
-
-        let y = self.messageAreaSize == .zero ? self.frame.origin.y - (inputContainerHeight - self.frame.height) : self.messageAreaSize.height - self.keyboardHeight - inputContainerHeight
-        let width = self.messageAreaSize == .zero ? self.frame.width : self.messageAreaSize.width
-
-        let newInputContainerFrame = CGRect(x: 0, y: y, width: width, height: inputContainerHeight)
-
-        UIView.animate(withDuration: 0.3) {
-            self.frame = newInputContainerFrame
-            self.layoutSubviews()
-        }
-
-        self.delegate?.inputPanel(self, willChangeHeight: inputContainerHeight, duration: 0.3, animationCurve: 0)
-    }
-
-    func growingTextViewDidChange(_: HPGrowingTextView!) {
-        self.toggleSendButtonEnabled()
-    }
-
-    func didTapSendButton(_: UIButton) {
-        // Resign and become first responder to accept auto-correct suggestions
-        self.inputField.internalTextView.resignFirstResponder()
-        self.inputField.internalTextView.becomeFirstResponder()
-
-        guard let text = self.inputField.internalTextView.text else {
-            return
-        }
-
-        let str = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        if str.characters.count > 0 {
-            if let d = self.delegate as? ChatInputTextPanelDelegate {
-                d.inputTextPanel(self, requestSendText: str)
             }
 
-            self.clearInputField()
+            return nil
+        }
+
+        return nil
+    }
+
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: bounds.width, height: inputContainerHeight + buttonsHeight)
+    }
+
+    func textViewDidChange(_: UITextView) {
+        invalidateLayout()
+    }
+
+    func invalidateLayout() {
+        if frame.isEmpty { return }
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
+    }
+
+    func send(_: ActionButton) {
+        guard let text = inputField.text, text.characters.count > 0 else { return }
+
+        let string = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        if string.characters.count > 0 {
+            if let delegate = delegate as? ChatInputTextPanelDelegate {
+                delegate.inputTextPanel(self, requestSendText: string)
+            }
+        }
+
+        self.text = nil
+        sendButton.isEnabled = false
+        invalidateLayout()
+    }
+
+    override func willMove(toSuperview newSuperview: UIView?) {
+        superview?.removeObserver(self, forKeyPath: #keyPath(center))
+        newSuperview?.addObserver(self, forKeyPath: #keyPath(center), options: [], context: nil)
+        super.willMove(toSuperview: newSuperview)
+
+        invalidateLayout()
+    }
+
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        invalidateLayout()
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of _: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
+
+        if let superview = superview, keyPath == #keyPath(center) {
+            offset = UIScreen.main.bounds.height - superview.center.y + (superview.bounds.height / 2)
         }
     }
 
-    private func adjust(for size: CGSize, keyboardHeight: CGFloat, inputFiledHeight: CGFloat, duration: TimeInterval, animationCurve: Int32) {
-        let block = {
-            let messageAreaSize = size
-
-            self.messageAreaSize = messageAreaSize
-            self.keyboardHeight = keyboardHeight
-
-            let inputContainerHeight = self.heightForInputFieldHeight(inputFiledHeight)
-            self.frame = CGRect(x: 0, y: messageAreaSize.height - keyboardHeight - inputContainerHeight, width: self.messageAreaSize.width, height: inputContainerHeight)
-            self.layoutSubviews()
-        }
-
-        if duration > DBL_EPSILON {
-            UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions(rawValue: UInt(animationCurve << 16)), animations: block, completion: nil)
-        } else {
-            block()
+    private var offset: CGFloat = 0 {
+        didSet {
+            if offset != oldValue, let delegate = delegate as? ChatInputTextPanelDelegate {
+                delegate.keyboardMoved(with: offset)
+            }
         }
     }
+}
 
-    private func heightForInputFieldHeight(_ inputFiledHeight: CGFloat) -> CGFloat {
-        return max(self.baseHeight, inputFiledHeight - 10 + self.inputFiledInsets.top + self.inputFiledInsets.bottom)
+extension ChatInputTextPanel: HPGrowingTextViewDelegate {
+
+    func growingTextView(_ textView: HPGrowingTextView!, willChangeHeight _: Float) {
+        inputContainerHeight = inputContainerHeight(for: textView.frame.height)
     }
 
-    private func updateInputFiledLayout() {
-        let range = self.inputField.internalTextView.selectedRange
-
-        self.inputField.delegate = nil
-
-        let inputFiledInsets = self.inputFiledInsets
-        let inputFiledInternalEdgeInsets = self.inputFiledInternalEdgeInsets
-
-        let inputFiledClippingFrame = CGRect(x: inputFiledInsets.left, y: inputFiledInsets.top, width: self.parentSize.width - inputFiledInsets.left - inputFiledInsets.right - self.currentSendButtonWidth - 1, height: 0)
-
-        let inputFieldFrame = CGRect(x: inputFiledInternalEdgeInsets.left, y: inputFiledInternalEdgeInsets.top, width: inputFiledClippingFrame.width - inputFiledInternalEdgeInsets.left, height: 0)
-
-        self.inputField.frame = inputFieldFrame
-        self.inputField.internalTextView.frame = CGRect(x: 0, y: 0, width: inputFieldFrame.width, height: inputFieldFrame.height)
-        self.fieldBackground.frame = CGRect(x: 41, y: 9, width: self.frame.width - 41 - self.currentSendButtonWidth - 1, height: 31)
-
-        self.inputField.maxNumberOfLines = self.maxNumberOfLines(forSize: parentSize)
-        self.inputField.refreshHeight()
-
-        self.inputField.internalTextView.selectedRange = range
-
-        self.inputField.delegate = self
-    }
-
-    private func maxNumberOfLines(forSize size: CGSize) -> Int32 {
-        if size.height <= 320 {
-            return 3
-        } else if size.height <= 480 {
-            return 5
-        } else {
-            return 7
-        }
+    func growingTextViewDidChange(_ textView: HPGrowingTextView!) {
+        sendButton.isEnabled = inputField.internalTextView.hasText
+        inputContainerHeight = inputContainerHeight(for: textView.frame.height)
     }
 }
