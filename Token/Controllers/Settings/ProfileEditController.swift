@@ -183,11 +183,24 @@ extension ProfileEditController: UIImagePickerControllerDelegate, UINavigationCo
         guard let user = User.current else { return }
         guard let croppedImage = info[UIImagePickerControllerEditedImage] as? UIImage else { return }
 
-        self.avatarImageView.image = croppedImage
+        let scaledWidth: CGFloat = 320.0
+        let scale = scaledWidth / croppedImage.size.width
+        let scaledHeight = croppedImage.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: scaledWidth, height: scaledHeight))
+        croppedImage.draw(in: CGRect(x: 0, y: 0, width: scaledWidth, height: scaledHeight))
 
-        self.idAPIClient.updateAvatar(croppedImage) { _ in
-            self.dismiss(animated: true)
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        if scaledImage != nil {
+            self.avatarImageView.image = scaledImage
+
+            self.idAPIClient.updateAvatar(scaledImage!) { _ in
+
+            }
         }
+
+        self.dismiss(animated: true)
     }
 }
 

@@ -5,6 +5,7 @@ import NoChat
 class MessagesViewController: MessagesCollectionViewController {
 
     let etherAPIClient = EthereumAPIClient.shared
+    let idAPIClient = IDAPIClient.shared
 
     var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
 
@@ -666,26 +667,33 @@ extension MessagesViewController: PaymentSendControllerDelegate {
 
         // TODO: prevent concurrent calls
         // Also, extract this.
-        guard let contact = self.contactsManager.tokenContact(forAddress: self.thread.contactIdentifier()) else {
+        guard let tokenId = self.thread.contactIdentifier() else {
             return
         }
 
-        self.etherAPIClient.createUnsignedTransaction(to: contact.paymentAddress, value: value) { transaction, error in
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
+        self.idAPIClient.retrieveUser(username: tokenId) { user in
+            if let user = user {
+                self.etherAPIClient.createUnsignedTransaction(to: user.paymentAddress, value: value) { transaction, error in
+                    let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
-            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
-                if error != nil {
-                    guard let json = json?.dictionary else { fatalError("!") }
+                    self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
+                        if error != nil {
+                            guard let json = json?.dictionary else { fatalError("!") }
 
-                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
-                    self.present(alert, animated: true)
-                } else if let json = json?.dictionary {
-                    guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
-                    let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
-                    self.sendMessage(sofaWrapper: payment)
+                            let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                            self.present(alert, animated: true)
+                        } else if let json = json?.dictionary {
+                            guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                            let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
+                            self.sendMessage(sofaWrapper: payment)
+                        }
+                    }
                 }
             }
         }
+
+
+
     }
 }
 
