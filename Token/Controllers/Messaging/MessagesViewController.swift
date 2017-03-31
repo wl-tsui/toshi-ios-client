@@ -62,7 +62,7 @@ class MessagesViewController: MessagesCollectionViewController {
     var contactsManager: ContactsManager
 
     var contactsUpdater: ContactsUpdater
-
+    
     var storageManager: TSStorageManager
 
     lazy var ethereumPromptView: MessagesFloatingView = {
@@ -105,12 +105,6 @@ class MessagesViewController: MessagesCollectionViewController {
         title = thread.name()
 
         registerNotifications()
-
-        let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
-        center.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
     }
 
     required init?(coder _: NSCoder) {
@@ -162,14 +156,27 @@ class MessagesViewController: MessagesCollectionViewController {
         super.viewWillAppear(true)
         self.reloadDraft()
         view.layoutIfNeeded()
+        
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        center.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
     }
 
     override var canBecomeFirstResponder: Bool {
-        return true
+        /* When this controller is presenting a viewcontroller it should not be able to become the first responder.  */
+        return self.presentedViewController == nil
     }
 
     override var inputAccessoryView: UIView? {
-        return self.chatInputTextPanel
+        if self.navigationController != nil {
+            return self.chatInputTextPanel
+        }
+        
+        self.view.removeFromSuperview()
+        
+        return nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -185,6 +192,12 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
+        
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+        center.removeObserver(self, name: .UIKeyboardDidShow, object: nil)
+        center.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        center.removeObserver(self, name: .UIKeyboardDidHide, object: nil)
     }
 
     func fetchAndUpdateBalance() {
@@ -224,7 +237,7 @@ class MessagesViewController: MessagesCollectionViewController {
             placeholder = thread.currentDraft(with: transaction)
         }, completionBlock: {
             DispatchQueue.main.async {
-                self.chatInputTextPanel.text = "" // placeholder
+                self.chatInputTextPanel.text = placeholder
             }
         })
     }

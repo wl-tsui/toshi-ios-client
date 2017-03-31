@@ -1,7 +1,7 @@
 import NoChat
 import YYText
 
-protocol ActionableCellDelegate {
+protocol ActionableCellDelegate: class {
     func didTapApproveButton(_ messageCell: ActionableMessageCell)
 
     func didTapRejectButton(_ messageCell: ActionableMessageCell)
@@ -9,7 +9,7 @@ protocol ActionableCellDelegate {
 
 class ActionableMessageCell: MessageCell {
 
-    var actionsDelegate: ActionableCellDelegate?
+    weak var actionsDelegate: ActionableCellDelegate?
 
     lazy var titleLabel: UILabel = {
         let view = UILabel()

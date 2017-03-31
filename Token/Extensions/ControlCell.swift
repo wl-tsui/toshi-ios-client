@@ -1,6 +1,6 @@
 import UIKit
 
-protocol ControlCellDelegate {
+protocol ControlCellDelegate: class {
     func didTapButton(for cell: ControlCell)
 }
 
@@ -45,7 +45,7 @@ class SubcontrolCell: ControlCell {
 }
 
 class ControlCell: UICollectionViewCell {
-    var delegate: ControlCellDelegate?
+    weak var delegate: ControlCellDelegate?
 
     var buttonInsets: UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)

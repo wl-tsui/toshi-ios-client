@@ -13,7 +13,7 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
 
     var subcontrolsCollectionView: UICollectionView?
 
-    var actionDelegate: ControlViewActionDelegate?
+    weak var actionDelegate: ControlViewActionDelegate?
 
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return self.items.count

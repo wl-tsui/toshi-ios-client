@@ -78,6 +78,12 @@ class PaymentController: UIViewController {
 
         self.shadowTextField.becomeFirstResponder()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.shadowTextField.resignFirstResponder()
+    }
 
     func setupSubviewsAndConstraints() {
         self.view.addSubview(self.shadowTextField)
