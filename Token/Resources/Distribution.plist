@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>0.1</string>
 	<key>CFBundleVersion</key>
-	<string>33</string>
+	<string>35</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -37,6 +37,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Required to scan codes for adding contacts and payments.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Required to upload pictures.</string>
 	<key>TokenChatServiceBaseURL</key>
 	<string>https://token-chat-service.herokuapp.com</string>
 	<key>UIAppFonts</key>
@@ -80,8 +82,6 @@
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Required to upload pictures.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
