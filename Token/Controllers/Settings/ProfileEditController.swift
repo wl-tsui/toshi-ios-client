@@ -1,5 +1,6 @@
 import UIKit
 import SweetUIKit
+import SweetFoundation
 import Formulaic
 
 /// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
@@ -180,24 +181,11 @@ extension ProfileEditController: UIImagePickerControllerDelegate, UINavigationCo
     }
 
     public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        guard let user = User.current else { return }
         guard let croppedImage = info[UIImagePickerControllerEditedImage] as? UIImage else { return }
 
-        let scaledWidth: CGFloat = 320.0
-        let scale = scaledWidth / croppedImage.size.width
-        let scaledHeight = croppedImage.size.height * scale
-        UIGraphicsBeginImageContext(CGSize(width: scaledWidth, height: scaledHeight))
-        croppedImage.draw(in: CGRect(x: 0, y: 0, width: scaledWidth, height: scaledHeight))
-
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        if scaledImage != nil {
-            self.avatarImageView.image = scaledImage
-
-            self.idAPIClient.updateAvatar(scaledImage!) { _ in
-
-            }
+        let scaledImage = croppedImage.resized(toHeight: 320)
+        self.avatarImageView.image = scaledImage
+        self.idAPIClient.updateAvatar(scaledImage) { _ in
         }
 
         self.dismiss(animated: true)

@@ -691,9 +691,6 @@ extension MessagesViewController: PaymentSendControllerDelegate {
                 }
             }
         }
-
-
-
     }
 }
 

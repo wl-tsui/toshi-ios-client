@@ -73,7 +73,7 @@
     if (User.current == nil) {
         [[IDAPIClient shared] registerUserIfNeeded:^{
             [[ChatAPIClient shared] registerUser];
-            [self onUserCreated];
+            [self didCreateUser];
         }];
     } else {
         [[IDAPIClient shared] retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
@@ -81,16 +81,16 @@
             if (user == nil) {
                 [[IDAPIClient shared] registerUserIfNeeded:^{
                     [[ChatAPIClient shared] registerUser];
-                    [self onUserCreated];
+                    [self didCreateUser];
                 }];
             } else {
-                [self onUserCreated];
+                [self didCreateUser];
             }
         }];
     }
 }
 
-- (void)onUserCreated {
+- (void)didCreateUser {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"RequiresSignIn"];
     [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }

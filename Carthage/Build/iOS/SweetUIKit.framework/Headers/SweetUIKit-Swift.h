@@ -280,7 +280,21 @@ SWIFT_CLASS("_TtC10SweetUIKit20SweetTableController")
 ///
 /// returns:
 /// The resized image.
-- (UIImage * _Nonnull)resizeBy:(CGFloat)rate quality:(CGInterpolationQuality)quality SWIFT_WARN_UNUSED_RESULT;
+- (UIImage * _Nonnull)resizedBy:(CGFloat)rate quality:(CGInterpolationQuality)quality SWIFT_WARN_UNUSED_RESULT;
+/// Returns a new version of the image to a given max width preserving aspect ratio
+/// \param width The new scaled width
+///
+///
+/// returns:
+/// A scaled image
+- (UIImage * _Nonnull)resizedToWidth:(CGFloat)width quality:(CGInterpolationQuality)quality SWIFT_WARN_UNUSED_RESULT;
+/// Returns a new version of the image to a given max height preserving aspect ratio
+/// \param height The new scaled height
+///
+///
+/// returns:
+/// A scaled image
+- (UIImage * _Nonnull)resizedToHeight:(CGFloat)height quality:(CGInterpolationQuality)quality SWIFT_WARN_UNUSED_RESULT;
 /// Normalizes image orientation by rotating an image so that it’s orientation is UIImageOrientation.up
 ///
 /// returns:
