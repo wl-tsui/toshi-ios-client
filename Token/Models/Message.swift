@@ -6,10 +6,25 @@ public class Message: NSObject, NOCChatItem {
     public var messageId: String = UUID().uuidString
     public var messageType: String = "Text"
 
-    public var signalMessage: TSMessage
+    public let signalMessage: TSMessage
 
     public var attributedTitle: NSAttributedString?
     public var attributedSubtitle: NSAttributedString?
+
+    public var images: [UIImage] {
+        if self.signalMessage.hasAttachments() {
+            if let attachmentId = (signalMessage.attachmentIds as? [String])?.first {
+                let attachment = TSAttachment.fetch(withUniqueID: attachmentId)!
+                if attachment is TSAttachmentPointer {
+                    return [#imageLiteral(resourceName: "placeholder")]
+                } else if let stream = attachment as? TSAttachmentStream, let image = stream.image() {
+                    return [image]
+                }
+            }
+        }
+
+        return []
+    }
 
     public var title: String? {
         set {
@@ -50,7 +65,11 @@ public class Message: NSObject, NOCChatItem {
     public var sofaWrapper: SofaWrapper?
 
     public var isDisplayable: Bool {
+        // we are displayable even if there's no sofa content but we have attachments
+        if self.images.count > 0 { return true }
+        // we don't display them if sofa wrapper is nil
         guard let sofaWrapper = self.sofaWrapper else { return false }
+        // or not one of the types below
         return [.message, .paymentRequest, .payment, .command].contains(sofaWrapper.type)
     }
 

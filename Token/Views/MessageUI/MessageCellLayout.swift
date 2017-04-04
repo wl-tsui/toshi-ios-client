@@ -60,7 +60,7 @@ class MessageCellLayout: TGBaseMessageCellLayout {
         self.highlightBubbleImage = self.isOutgoing ? Style.highlightOutgoingBubbleImage : Style.highlightIncomingBubbleImage
     }
 
-    override func calculate() {
+    public override func calculate() {
         self.height = 0
         self.bubbleViewFrame = CGRect.zero
         self.bubbleImageViewFrame = CGRect.zero
@@ -77,7 +77,7 @@ class MessageCellLayout: TGBaseMessageCellLayout {
         let dynamicFont = Style.textFont
         text.yy_setAttribute(NSFontAttributeName, value: dynamicFont)
 
-        let preferredMaxBubbleWidth = ceil(width * 0.75)
+        let preferredMaxBubbleWidth = ceil(self.width * 0.85)
         var bubbleViewWidth = preferredMaxBubbleWidth
 
         // prelayout
@@ -183,7 +183,7 @@ class MessageCellLayout: TGBaseMessageCellLayout {
             self.deliveryStatusViewFrame = CGRect(x: x, y: y, width: deliveryStatusWidth, height: deliveryStatusHeight)
         }
 
-        self.height = bubbleViewHeight + self.bubbleViewMargin.top + self.bubbleViewMargin.bottom
+        self.height = self.bubbleImageViewFrame.height + self.bubbleViewMargin.top + self.bubbleViewMargin.bottom
     }
 
     struct Style {

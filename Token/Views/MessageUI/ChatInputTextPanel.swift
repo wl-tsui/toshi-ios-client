@@ -5,6 +5,7 @@ import SweetUIKit
 
 protocol ChatInputTextPanelDelegate: NOCChatInputPanelDelegate {
     func inputTextPanel(_ inputTextPanel: ChatInputTextPanel, requestSendText text: String)
+    func inputTextPanelrequestSendAttachment(_ inputTextPanel: ChatInputTextPanel)
     func keyboardMoved(with offset: CGFloat)
 }
 
@@ -73,6 +74,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
         view.setImage(#imageLiteral(resourceName: "TGAttachButton").withRenderingMode(.alwaysTemplate), for: .normal)
         view.tintColor = Theme.tintColor
         view.contentMode = .center
+        view.addTarget(self, action: #selector(attach(_:)), for: .touchUpInside)
 
         return view
     }()
@@ -104,39 +106,39 @@ class ChatInputTextPanel: NOCChatInputPanel {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        addLayoutGuide(negativeSpace)
-        addSubview(inputContainer)
-        addSubview(attachButton)
-        addSubview(inputField)
-        addSubview(sendButton)
+        self.addLayoutGuide(self.negativeSpace)
+        self.addSubview(self.inputContainer)
+        self.addSubview(self.attachButton)
+        self.addSubview(self.inputField)
+        self.addSubview(self.sendButton)
 
         NSLayoutConstraint.activate([
-            negativeSpace.topAnchor.constraint(equalTo: topAnchor),
-            negativeSpace.leftAnchor.constraint(equalTo: leftAnchor),
-            negativeSpace.rightAnchor.constraint(equalTo: rightAnchor),
-            negativeSpaceConstraint,
+            self.negativeSpace.topAnchor.constraint(equalTo: self.topAnchor),
+            self.negativeSpace.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.negativeSpace.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.negativeSpaceConstraint,
 
-            attachButton.leftAnchor.constraint(equalTo: leftAnchor),
-            attachButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-            attachButton.rightAnchor.constraint(equalTo: inputField.leftAnchor),
-            attachButton.widthAnchor.constraint(equalToConstant: 51),
-            attachButton.heightAnchor.constraint(equalToConstant: 51),
+            self.attachButton.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.attachButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.attachButton.rightAnchor.constraint(equalTo: self.inputField.leftAnchor),
+            self.attachButton.widthAnchor.constraint(equalToConstant: 51),
+            self.attachButton.heightAnchor.constraint(equalToConstant: 51),
 
-            inputContainer.topAnchor.constraint(equalTo: negativeSpace.bottomAnchor),
-            inputContainer.leftAnchor.constraint(equalTo: leftAnchor, constant: -1),
-            inputContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
-            inputContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: 1),
+            self.inputContainer.topAnchor.constraint(equalTo: self.negativeSpace.bottomAnchor),
+            self.inputContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: -1),
+            self.inputContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.inputContainer.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 1),
 
-            inputField.topAnchor.constraint(equalTo: negativeSpace.bottomAnchor, constant: inputContainerInsets.top),
-            inputField.leftAnchor.constraint(equalTo: attachButton.rightAnchor),
-            inputField.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inputContainerInsets.bottom),
+            self.inputField.topAnchor.constraint(equalTo: self.negativeSpace.bottomAnchor, constant: self.inputContainerInsets.top),
+            self.inputField.leftAnchor.constraint(equalTo: self.attachButton.rightAnchor),
+            self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.inputContainerInsets.bottom),
 
-            sendButton.leftAnchor.constraint(equalTo: inputField.rightAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-            sendButton.rightAnchor.constraint(equalTo: rightAnchor),
-            sendButton.widthAnchor.constraint(equalToConstant: 70),
+            self.sendButton.leftAnchor.constraint(equalTo: self.inputField.rightAnchor),
+            self.sendButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.sendButton.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.sendButton.widthAnchor.constraint(equalToConstant: 70),
         ])
     }
 
@@ -144,7 +146,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
         if self.point(inside: point, with: event) {
 
-            for subview in subviews.reversed() {
+            for subview in self.subviews.reversed() {
                 let point = subview.convert(point, from: self)
 
                 if let hitTestView = subview.hitTest(point, with: event) {
@@ -172,19 +174,25 @@ class ChatInputTextPanel: NOCChatInputPanel {
         layoutIfNeeded()
     }
 
-    func send(_: ActionButton) {
-        guard let text = inputField.text, text.characters.count > 0 else { return }
+    func attach(_: ActionButton) {
+        if let delegate = self.delegate as? ChatInputTextPanelDelegate {
+            delegate.inputTextPanelrequestSendAttachment(self)
+        }
+    }
 
-        let string = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    func send(_: ActionButton) {
+        guard let text = self.inputField.text, text.characters.count > 0 else { return }
+
+        let string = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if string.characters.count > 0 {
-            if let delegate = delegate as? ChatInputTextPanelDelegate {
+            if let delegate = self.delegate as? ChatInputTextPanelDelegate {
                 delegate.inputTextPanel(self, requestSendText: string)
             }
         }
 
         self.text = nil
-        sendButton.isEnabled = false
-        invalidateLayout()
+        self.sendButton.isEnabled = false
+        self.invalidateLayout()
     }
 
     override func willMove(toSuperview newSuperview: UIView?) {

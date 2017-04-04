@@ -30,6 +30,9 @@
 #import <SignalServiceKit/OWSFingerprintBuilder.h>
 #import <SignalServiceKit/OWSFingerprint.h>
 
+#import <SignalServiceKit/TSAttachment.h>
+#import <SignalServiceKit/TSAttachmentStream.h>
+#import <SignalServiceKit/TSAttachmentPointer.h>
 #import <SignalServiceKit/TSInteraction.h>
 #import <SignalServiceKit/TSOutgoingMessage.h>
 #import <SignalServiceKit/TSIncomingMessage.h>

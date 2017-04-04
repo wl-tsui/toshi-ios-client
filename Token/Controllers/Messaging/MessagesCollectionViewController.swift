@@ -148,6 +148,10 @@ class MessagesCollectionViewController: NOCChatViewController {
 
     var currentButton: SofaMessage.Button?
 
+    override static func inputPanelClass() -> AnyClass? {
+        return nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

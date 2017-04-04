@@ -32,10 +32,10 @@ class TGBaseMessageCellLayout: NSObject, NOCChatItemCellLayout {
     var height: CGFloat = 0
 
     var message: Message {
-        return chatItem as! Message
+        return self.chatItem as! Message
     }
     var isOutgoing: Bool {
-        return message.isOutgoing
+        return self.message.isOutgoing
     }
 
     let bubbleViewMargin = UIEdgeInsets(top: 4, left: 2, bottom: 4, right: 2)

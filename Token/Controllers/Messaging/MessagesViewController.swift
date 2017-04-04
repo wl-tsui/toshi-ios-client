@@ -1,6 +1,7 @@
 import UIKit
 import SweetUIKit
 import NoChat
+import MobileCoreServices
 
 class MessagesViewController: MessagesCollectionViewController {
 
@@ -14,6 +15,14 @@ class MessagesViewController: MessagesCollectionViewController {
             let current = Set(self.messages)
             let previous = Set(oldValue)
             let new = current.subtracting(previous).sorted { (message1, message2) -> Bool in
+                // so far the only case where this is true to the milisecond is when
+                // signal splits a media message into two, with the same dates. That means that one of them has attachments
+                // but the other one doesn't. We want the one with attachments on top.
+                if message1.date.compare(message2.date) == .orderedSame {
+                    return message1.signalMessage.hasAttachments()
+                }
+
+                // otherwise, resume regular date comparison
                 return message1.date.compare(message2.date) == .orderedAscending
             }
 
@@ -63,7 +72,7 @@ class MessagesViewController: MessagesCollectionViewController {
     var contactsManager: ContactsManager
 
     var contactsUpdater: ContactsUpdater
-    
+
     var storageManager: TSStorageManager
 
     lazy var ethereumPromptView: MessagesFloatingView = {
@@ -80,6 +89,8 @@ class MessagesViewController: MessagesCollectionViewController {
             return MessageCellLayout.self
         } else if type == "Actionable" {
             return ActionableMessageCellLayout.self
+        } else if type == "Image" {
+            return ImageMessageCellLayout.self
         } else {
             return nil
         }
@@ -105,7 +116,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
         title = thread.name()
 
-        registerNotifications()
+        self.registerNotifications()
     }
 
     required init?(coder _: NSCoder) {
@@ -114,21 +125,21 @@ class MessagesViewController: MessagesCollectionViewController {
 
     fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
         let info = KeyboardInfo(notification.userInfo)
-        heightOfKeyboard = info.endFrame.height
+        self.heightOfKeyboard = info.endFrame.height
     }
 
     fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
         let info = KeyboardInfo(notification.userInfo)
-        heightOfKeyboard = info.endFrame.height
+        self.heightOfKeyboard = info.endFrame.height
     }
 
     fileprivate dynamic func keyboardWillHide(_: Notification) {
-        heightOfKeyboard = 0
+        self.heightOfKeyboard = 0
     }
 
     fileprivate dynamic func keyboardDidHide(_: Notification) {
-        heightOfKeyboard = 0
-        becomeFirstResponder()
+        self.heightOfKeyboard = 0
+        self.becomeFirstResponder()
     }
 
     // MARK: View life-cycle
@@ -136,19 +147,19 @@ class MessagesViewController: MessagesCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Theme.messageViewBackgroundColor
-        containerView?.backgroundColor = nil
+        self.view.backgroundColor = Theme.messageViewBackgroundColor
+        self.containerView?.backgroundColor = nil
 
-        view.addSubview(self.ethereumPromptView)
+        self.view.addSubview(self.ethereumPromptView)
         self.ethereumPromptView.heightAnchor.constraint(equalToConstant: MessagesFloatingView.height).isActive = true
-        self.ethereumPromptView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        self.ethereumPromptView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        self.ethereumPromptView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        self.ethereumPromptView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
+        self.ethereumPromptView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.ethereumPromptView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
         self.collectionView.keyboardDismissMode = .interactive
         self.collectionView.backgroundColor = nil
 
-        becomeFirstResponder()
+        self.becomeFirstResponder()
         self.fetchAndUpdateBalance()
         self.loadMessages()
     }
@@ -156,13 +167,13 @@ class MessagesViewController: MessagesCollectionViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
         self.reloadDraft()
-        view.layoutIfNeeded()
-        
+        self.view.layoutIfNeeded()
+
         let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
-        center.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        center.addObserver(self, selector: #selector(keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
+        center.addObserver(self, selector: #selector(self.keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(self.keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
+        center.addObserver(self, selector: #selector(self.keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        center.addObserver(self, selector: #selector(self.keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
     }
 
     override var canBecomeFirstResponder: Bool {
@@ -174,9 +185,9 @@ class MessagesViewController: MessagesCollectionViewController {
         if self.navigationController != nil {
             return self.chatInputTextPanel
         }
-        
+
         self.view.removeFromSuperview()
-        
+
         return nil
     }
 
@@ -185,6 +196,10 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
+
+        if !self.chatInputTextPanel.inputField.isFirstResponder() {
+            self.becomeFirstResponder()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -193,12 +208,6 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
-        
-        let center = NotificationCenter.default
-        center.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        center.removeObserver(self, name: .UIKeyboardDidShow, object: nil)
-        center.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
-        center.removeObserver(self, name: .UIKeyboardDidHide, object: nil)
     }
 
     func fetchAndUpdateBalance() {
@@ -246,6 +255,7 @@ class MessagesViewController: MessagesCollectionViewController {
     override func registerChatItemCells() {
         self.collectionView.register(MessageCell.self, forCellWithReuseIdentifier: MessageCell.reuseIdentifier())
         self.collectionView.register(ActionableMessageCell.self, forCellWithReuseIdentifier: ActionableMessageCell.reuseIdentifier())
+        self.collectionView.register(ImageMessageCell.self, forCellWithReuseIdentifier: ImageMessageCell.reuseIdentifier())
     }
 
     // MARK: Load initial messages
@@ -356,7 +366,9 @@ class MessagesViewController: MessagesCollectionViewController {
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body!)
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.date(), isOutgoing: true)
 
-            if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
+            if interaction.hasAttachments() {
+                message.messageType = "Image"
+            } else if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
                 message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
@@ -367,8 +379,10 @@ class MessagesViewController: MessagesCollectionViewController {
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body!)
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.date(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
 
-            if let message = sofaWrapper as? SofaMessage {
-                buttons = message.buttons
+            if interaction.hasAttachments() {
+                message.messageType = "Image"
+            } else if let sofaMessage = sofaWrapper as? SofaMessage {
+                buttons = sofaMessage.buttons
             } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
@@ -397,9 +411,10 @@ class MessagesViewController: MessagesCollectionViewController {
                 let layout = self.createLayout(with: message)!
                 layouts.append(layout)
             }
-
             DispatchQueue.main.async {
-                self.insertLayouts(layouts.reversed(), at: indexes, animated: animated)
+                if layouts.count > 0 {
+                    self.insertLayouts(layouts.reversed(), at: indexes, animated: animated)
+                }
                 if scrollToBottom {
                     self.scrollToBottom(animated: animated)
                 }
@@ -410,11 +425,11 @@ class MessagesViewController: MessagesCollectionViewController {
     // MARK: - Helper methods
 
     func visibleMessage(at indexPath: IndexPath) -> Message {
-        return visibleMessages[indexPath.row]
+        return self.visibleMessages[indexPath.row]
     }
 
     func message(at indexPath: IndexPath) -> Message {
-        return messages[indexPath.row]
+        return self.messages[indexPath.row]
     }
 
     func registerNotifications() {
@@ -490,11 +505,8 @@ class MessagesViewController: MessagesCollectionViewController {
                         }
                     }
                 case .update:
-                    guard let interaction = dbExtension.object(at: change.indexPath, with: self.mappings) as? TSMessage else { continue }
-
                     let indexPath = change.indexPath
                     let message = self.message(at: indexPath)
-                    message.signalMessage = interaction
                     DispatchQueue.main.async {
                         guard self.visibleMessages.count == self.layouts.count else {
                             print("Called before colection view had a chance to insert message.")
@@ -502,9 +514,13 @@ class MessagesViewController: MessagesCollectionViewController {
                             return
                         }
 
-                        if let visibleIndex = self.visibleMessages.index(of: message), let layout = self.layouts[visibleIndex] as? MessageCellLayout {
+                        if let visibleIndex = self.visibleMessages.index(of: message) {
+                            let reversedIndex = ((self.visibleMessages.count - 1) - visibleIndex)
+                            guard let layout = self.layouts[reversedIndex] as? ImageMessageCellLayout else { return }
+
                             layout.chatItem = message
-                            self.updateLayout(at: UInt(visibleIndex), to: layout, animated: false)
+                            layout.calculate()
+                            self.updateLayout(at: UInt(reversedIndex), to: layout, animated: false)
                         }
                     }
                 default:
@@ -543,15 +559,15 @@ class MessagesViewController: MessagesCollectionViewController {
 
     override func didTapControlButton(_ button: SofaMessage.Button) {
         guard button.value != nil else {
-            print("Implement handling actions. action: \(button.action)")
+            print("Implement handling actions. action: \(button.action ?? "nil")")
 
             return
         }
 
         // clear the buttons
-        buttons = []
+        self.buttons = []
         let command = SofaCommand(button: button)
-        controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
+        self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
         self.sendMessage(sofaWrapper: command)
     }
 }
@@ -565,7 +581,7 @@ extension MessagesViewController: ActionableCellDelegate {
         let message = visibleMessage(at: visibleMessageIndexPath)
         message.isActionable = false
 
-        let layout = layouts[indexPath.item] as? MessageCellLayout
+        let layout = self.layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
 
@@ -581,7 +597,7 @@ extension MessagesViewController: ActionableCellDelegate {
         let message = visibleMessage(at: visibleMessageIndexPath)
         message.isActionable = false
 
-        let layout = layouts[indexPath.item] as? MessageCellLayout
+        let layout = self.layouts[indexPath.item] as? MessageCellLayout
         layout?.chatItem = message
         layout?.calculate()
 
@@ -631,8 +647,38 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
         sendMessage(sofaWrapper: wrapper)
     }
 
+    func inputTextPanelrequestSendAttachment(_ inputTextPanel: ChatInputTextPanel) {
+        let picker = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+
+        self.present(picker, animated: true)
+    }
+
     func keyboardMoved(with offset: CGFloat) {
         controlsViewBottomConstraint.constant = -offset + buttonMargin + buttonsHeight
+    }
+}
+
+extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerControllerDidCancel(_: UIImagePickerController) {
+        self.dismiss(animated: true)
+    }
+
+    public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        guard let imageData = UIImageJPEGRepresentation(image, 0.6) else { return }
+
+        let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
+
+        self.dismiss(animated: true) {
+            self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg" as String, in: outgoingMessage, success: {
+                print("Success")
+            }, failure: { error in
+                print("Failure: \(error)")
+            })
+        }
     }
 }
 

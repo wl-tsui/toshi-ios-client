@@ -141,7 +141,7 @@ class ActionButton: UIControl {
             self.titleLabel.text = title
         }
     }
-    
+
     convenience init(margin: CGFloat) {
         self.init(frame: .zero)
 
