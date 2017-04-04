@@ -504,8 +504,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
                         if let visibleIndex = self.visibleMessages.index(of: message), let layout = self.layouts[visibleIndex] as? MessageCellLayout {
                             layout.chatItem = message
-                            let visibleIndexPath = self.reversedIndexPath(IndexPath(item: visibleIndex, section: 0))
-                            self.collectionView.reloadItems(at: [visibleIndexPath])
+                            self.updateLayout(at: UInt(visibleIndex), to: layout, animated: false)
                         }
                     }
                 default:
