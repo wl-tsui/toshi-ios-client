@@ -57,7 +57,7 @@ public struct BaseConverter {
 
         var ary: [Int] = []
 
-        if digits.count > 0 {
+        if !digits.isEmpty {
             for i in (0 ... (digits.count - 1)).reversed() {
                 let n = self.stringToInt(digits[i])
 
@@ -87,13 +87,13 @@ public struct BaseConverter {
             power = toBaseConverter.multiplyByNumber(fromBase, x: power)
         }
 
-        if outArray.count == 0 {
+        if outArray.isEmpty {
             return "0"
         }
 
         var out: String = ""
 
-        if outArray.count > 0 {
+        if !outArray.isEmpty {
             for i in (0 ... (outArray.count - 1)).reversed() {
                 out += toBaseConverter.intToString(outArray[i])
             }

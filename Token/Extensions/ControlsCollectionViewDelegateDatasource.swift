@@ -20,7 +20,7 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
     }
 
     func numberOfSections(in _: UICollectionView) -> Int {
-        return self.items.count == 0 ? 0 : 1
+        return self.items.isEmpty ? 0 : 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,7 +72,7 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
     }
 
     func numberOfSections(in _: UICollectionView) -> Int {
-        return self.items.count == 0 ? 0 : 1
+        return self.items.isEmpty ? 0 : 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

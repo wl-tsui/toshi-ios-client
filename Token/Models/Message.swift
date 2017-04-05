@@ -66,7 +66,7 @@ public class Message: NSObject, NOCChatItem {
 
     public var isDisplayable: Bool {
         // we are displayable even if there's no sofa content but we have attachments
-        if self.images.count > 0 { return true }
+        guard self.images.isEmpty else { return true }
         // we don't display them if sofa wrapper is nil
         guard let sofaWrapper = self.sofaWrapper else { return false }
         // or not one of the types below

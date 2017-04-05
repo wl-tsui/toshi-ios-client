@@ -413,7 +413,7 @@ class MessagesViewController: MessagesCollectionViewController {
                 layouts.append(layout)
             }
             DispatchQueue.main.async {
-                if layouts.count > 0 {
+                if !layouts.isEmpty {
                     self.insertLayouts(layouts.reversed(), at: indexes, animated: animated)
                 }
                 if scrollToBottom {
