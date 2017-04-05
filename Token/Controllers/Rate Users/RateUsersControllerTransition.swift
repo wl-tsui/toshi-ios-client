@@ -27,7 +27,7 @@ class RateUsersControllerTransition: NSObject, UIViewControllerAnimatedTransitio
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        switch operation {
+        switch self.operation {
         case .present: self.present(with: transitionContext)
         case .dismiss: self.dismiss(with: transitionContext)
         }

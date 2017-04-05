@@ -71,7 +71,17 @@ open class SettingsController: SweetTableController {
     }
 
     func handleSignOut() {
-        let alert = self.alertController(verificationStatus: self.verificationStatus, balance: User.current!.balance)
+        guard let currentUser = User.current else {
+            let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+                fatalError()
+            }))
+            self.present(alert, animated: true)
+
+            return
+        }
+
+        let alert = self.alertController(verificationStatus: self.verificationStatus, balance: currentUser.balance)
         // We dispatch it back to the main thread here, even tho we are already inside the main thread
         // to avoid some weird issue where the alert controller will take seconds to present, instead of being instant.
         DispatchQueue.main.async {

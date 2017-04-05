@@ -69,7 +69,11 @@ class AppsAPIClient {
         self.teapot.get("/v1/search/apps/?query=\(searchTerm)") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary else { fatalError("No apps json!") }
+                guard let json = json?.dictionary else {
+                    completion([], nil)
+                    
+                    return
+                }
 
                 guard let appsJSON = json["apps"] as? [[String: Any]] else {
                     completion([TokenContact](), nil)

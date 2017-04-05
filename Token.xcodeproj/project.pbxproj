@@ -1407,6 +1407,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ImagePicker.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (

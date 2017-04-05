@@ -180,8 +180,8 @@ class RateUsersController: UIViewController {
 
         self.username = username
 
-        modalPresentationStyle = .custom
-        transitioningDelegate = self
+        self.modalPresentationStyle = .custom
+        self.transitioningDelegate = self
 
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
@@ -206,8 +206,8 @@ class RateUsersController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(self.background)
-        view.addSubview(self.contentView)
+        self.view.addSubview(self.background)
+        self.view.addSubview(self.contentView)
 
         self.contentView.addSubview(self.reviewContainer)
         self.reviewContainer.addSubview(self.titleLabel)
