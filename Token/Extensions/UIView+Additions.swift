@@ -2,6 +2,10 @@ import UIKit
 
 extension UIViewAnimationOptions {
 
+    static var easeIn: UIViewAnimationOptions {
+        return [.curveEaseIn, .beginFromCurrentState, .allowUserInteraction]
+    }
+
     static var easeOut: UIViewAnimationOptions {
         return [.curveEaseOut, .beginFromCurrentState, .allowUserInteraction]
     }

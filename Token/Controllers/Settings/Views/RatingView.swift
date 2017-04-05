@@ -3,9 +3,9 @@ import SweetUIKit
 
 open class RatingView: UIView {
 
-    static let starSize: CGFloat = 12
+    private var starSize: CGFloat = 12
     private var rating: Float = 0
-    private var numberOfStars: Int = 0
+    private(set) var numberOfStars: Int = 0
 
     private lazy var backgroundStars: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -27,9 +27,14 @@ open class RatingView: UIView {
         self.ratingStars.widthAnchor.constraint(equalToConstant: 0)
     }()
 
-    convenience init(numberOfStars: Int) {
+    convenience init(numberOfStars: Int, customStarSize: CGFloat? = nil) {
         self.init(frame: .zero)
         self.numberOfStars = numberOfStars
+
+        if let customStarSize = customStarSize {
+            self.starSize = customStarSize
+            self.backgroundStars.backgroundColor = Theme.greyTextColor
+        }
 
         self.addSubview(self.backgroundStars)
 
@@ -38,8 +43,8 @@ open class RatingView: UIView {
             self.backgroundStars.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.backgroundStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.backgroundStars.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.backgroundStars.widthAnchor.constraint(equalToConstant: RatingView.starSize * CGFloat(numberOfStars)).priority(.high),
-            self.backgroundStars.heightAnchor.constraint(equalToConstant: RatingView.starSize).priority(.high),
+            self.backgroundStars.widthAnchor.constraint(equalToConstant: starSize * CGFloat(numberOfStars)).priority(.high),
+            self.backgroundStars.heightAnchor.constraint(equalToConstant: starSize).priority(.high),
         ])
 
         self.addSubview(self.ratingStars)
@@ -55,22 +60,22 @@ open class RatingView: UIView {
 
     func set(rating: Float, animated: Bool = false) {
         self.rating = min(Float(self.numberOfStars), max(0, rating))
-        self.ratingConstraint.constant = RatingView.starSize * CGFloat(rating)
+        self.ratingConstraint.constant = self.starSize * CGFloat(rating)
 
         if animated {
-            UIViewPropertyAnimator(duration: 1, dampingRatio: 0.9) {
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .easeOut, animations: {
                 self.layoutIfNeeded()
-            }.startAnimation()
+            }, completion: nil)
         } else {
             self.layoutIfNeeded()
         }
     }
 
     var starsMask: CALayer {
-        let starRadius = RatingView.starSize / 2
+        let starRadius = self.starSize / 2
 
         let mask = CAShapeLayer()
-        mask.frame = CGRect(x: 0, y: 0, width: RatingView.starSize, height: RatingView.starSize)
+        mask.frame = CGRect(x: 0, y: 0, width: self.starSize, height: self.starSize)
         mask.position = CGPoint(x: starRadius, y: starRadius)
 
         var mutablePath: CGMutablePath?
@@ -78,7 +83,7 @@ open class RatingView: UIView {
         for i in 0 ..< self.numberOfStars {
 
             if let mutablePath = mutablePath {
-                mutablePath.addPath(self.starPath(with: starRadius, offset: CGFloat(i) * RatingView.starSize))
+                mutablePath.addPath(self.starPath(with: starRadius, offset: CGFloat(i) * self.starSize))
             } else {
                 mutablePath = self.starPath(with: starRadius).mutableCopy()
             }
@@ -91,7 +96,7 @@ open class RatingView: UIView {
 
     func starPath(with radius: CGFloat, offset: CGFloat = 0) -> CGPath {
         let center = CGPoint(x: radius, y: radius)
-        let theta = CGFloat(M_PI * 2) * (2 / 5)
+        let theta = CGFloat(Double.pi * 2) * (2 / 5)
         let flipVertical: CGFloat = -1
 
         let path = UIBezierPath()
