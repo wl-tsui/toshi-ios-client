@@ -287,6 +287,12 @@
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
+		A98A29CF1E9237A6003BBE8E /* RateUsersPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */; };
+		A98A29D11E9237F1003BBE8E /* RateUsersControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */; };
+		A98A29D31E92382E003BBE8E /* RateUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D21E92382E003BBE8E /* RateUsersController.swift */; };
+		A98A29D41E92384A003BBE8E /* RateUsersPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */; };
+		A98A29D51E92384C003BBE8E /* RateUsersControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */; };
+		A98A29D61E923850003BBE8E /* RateUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D21E92382E003BBE8E /* RateUsersController.swift */; };
 		A9AC74081E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC74091E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
@@ -499,6 +505,9 @@
 		A91F7FA51E71B25E00A076A6 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
+		A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersPresentationController.swift; sourceTree = "<group>"; };
+		A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersControllerTransition.swift; sourceTree = "<group>"; };
+		A98A29D21E92382E003BBE8E /* RateUsersController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersController.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -813,6 +822,7 @@
 				147513621E49CA4500E44A62 /* Home */,
 				9FCDBAEF1E29063500A70E07 /* Messaging */,
 				9FCF132B1E531B380078FF7F /* Payments */,
+				A98A29CD1E923784003BBE8E /* Rate Users */,
 				9FE18B291E2D1FC700940DC8 /* Settings */,
 				A9ED6CC61E8282B700160637 /* Sign In */,
 				9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */,
@@ -1019,6 +1029,16 @@
 				9F04A7221E38D1400043534A /* QRCodeController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		A98A29CD1E923784003BBE8E /* Rate Users */ = {
+			isa = PBXGroup;
+			children = (
+				A98A29D21E92382E003BBE8E /* RateUsersController.swift */,
+				A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */,
+				A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */,
+			);
+			path = "Rate Users";
 			sourceTree = "<group>";
 		};
 		A9BF33AB1E76DE36009A51AA /* Backup Phrase */ = {
@@ -1485,6 +1505,7 @@
 				149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */,
 				149F9A691E72E29A00FB74AA /* SettingsCell.swift in Sources */,
 				149F9A6A1E72E29A00FB74AA /* Message.swift in Sources */,
+				A98A29D51E92384C003BBE8E /* RateUsersControllerTransition.swift in Sources */,
 				149F9A6B1E72E29A00FB74AA /* AppsController.swift in Sources */,
 				149F9A6C1E72E29A00FB74AA /* TGBaseMessageCellLayout.swift in Sources */,
 				149F9A6D1E72E29A00FB74AA /* HomeNavigationController.swift in Sources */,
@@ -1546,6 +1567,7 @@
 				149F9A931E72E29A00FB74AA /* Cereal.swift in Sources */,
 				149F9A941E72E29A00FB74AA /* EthereumAPIClient.swift in Sources */,
 				149F9A951E72E29A00FB74AA /* ContactCell.swift in Sources */,
+				A98A29D41E92384A003BBE8E /* RateUsersPresentationController.swift in Sources */,
 				9FDCE4831E8D5923003A996F /* KeyboardInfo.swift in Sources */,
 				149F9A961E72E29A00FB74AA /* MessagesViewController.swift in Sources */,
 				149F9A971E72E29A00FB74AA /* MessagesCollectionViewController.swift in Sources */,
@@ -1571,6 +1593,7 @@
 				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA61E72E29A00FB74AA /* SecurityCell.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
+				A98A29D61E923850003BBE8E /* RateUsersController.swift in Sources */,
 				149F9AA81E72E29A00FB74AA /* TGBaseMessageCell.swift in Sources */,
 				A9AC74121E78064500365029 /* TextLabel.swift in Sources */,
 				149F9AA91E72E29A00FB74AA /* AppCell.swift in Sources */,
@@ -1598,6 +1621,7 @@
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				A91F7FA61E71B25E00A076A6 /* SettingsCell.swift in Sources */,
+				A98A29D11E9237F1003BBE8E /* RateUsersControllerTransition.swift in Sources */,
 				9F7E5DA21E4C982300543296 /* Message.swift in Sources */,
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* AppsController.swift in Sources */,
@@ -1659,6 +1683,7 @@
 				A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
 				9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */,
+				A98A29CF1E9237A6003BBE8E /* RateUsersPresentationController.swift in Sources */,
 				A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */,
 				9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */,
 				9F40F3C81E59FE97007A7DE7 /* TGClockProgressView.swift in Sources */,
@@ -1684,6 +1709,7 @@
 				E1A95D5C1E6F10FC002762DA /* SecurityCell.swift in Sources */,
 				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
+				A98A29D31E92382E003BBE8E /* RateUsersController.swift in Sources */,
 				9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,
 				1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */,

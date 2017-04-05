@@ -95,7 +95,7 @@ class ActionButton: UIControl {
         }
     }
 
-    private lazy var background: UIView = {
+    lazy var background: UIView = {
         let view = UIView(withAutoLayout: true)
         view.layer.cornerRadius = 4
         view.clipsToBounds = true
