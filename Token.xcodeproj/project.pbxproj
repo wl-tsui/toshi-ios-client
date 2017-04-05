@@ -147,6 +147,9 @@
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		79C8B9332AAF618B6185BC82 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A763C19118469E7169C9F72 /* libPods-CocoaPods-Development.a */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
+		9F1852AD1E93D7A3001C5C13 /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1852AC1E93D7A3001C5C13 /* ImagePicker.framework */; };
+		9F1852AE1E93D7A3001C5C13 /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1852AC1E93D7A3001C5C13 /* ImagePicker.framework */; };
+		9F1852AF1E93D7A7001C5C13 /* ImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F1852AC1E93D7A3001C5C13 /* ImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F21624C1E5EE08800292B14 /* ActionableMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */; };
 		9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
@@ -341,6 +344,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */,
+				9F1852AF1E93D7A7001C5C13 /* ImagePicker.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,6 +380,7 @@
 		6A763C19118469E7169C9F72 /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87A15E33AB8011E1BD67093C /* libPods-CocoaPods-Token.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Token.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
+		9F1852AC1E93D7A3001C5C13 /* ImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImagePicker.framework; path = Carthage/Build/iOS/ImagePicker.framework; sourceTree = "<group>"; };
 		9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionableMessageCellLayout.swift; sourceTree = "<group>"; };
 		9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumNotificationHandler.swift; sourceTree = "<group>"; };
 		9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundNotificationHandler.swift; sourceTree = "<group>"; };
@@ -550,6 +555,7 @@
 				149F9AB31E72E29A00FB74AA /* AVFoundation.framework in Frameworks */,
 				149F9AB41E72E29A00FB74AA /* EtherealCereal.framework in Frameworks */,
 				149F9AB51E72E29A00FB74AA /* YYText.framework in Frameworks */,
+				9F1852AE1E93D7A3001C5C13 /* ImagePicker.framework in Frameworks */,
 				149F9AB61E72E29A00FB74AA /* PromiseKit.framework in Frameworks */,
 				149F9AB71E72E29A00FB74AA /* HPGrowingTextView.framework in Frameworks */,
 				9FE14B311E93A2A900ADFA1F /* NoChat.framework in Frameworks */,
@@ -574,6 +580,7 @@
 				9FA12BE81E65A116003705F6 /* RevealServer.framework in Frameworks */,
 				9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */,
 				9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */,
+				9F1852AD1E93D7A3001C5C13 /* ImagePicker.framework in Frameworks */,
 				9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */,
 				9F6758601E3BA1850009ABCD /* PromiseKit.framework in Frameworks */,
 				9FE14B301E93A2A900ADFA1F /* NoChat.framework in Frameworks */,
@@ -662,6 +669,7 @@
 		27842ECF00E36BC79A5918DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9F1852AC1E93D7A3001C5C13 /* ImagePicker.framework */,
 				9FE14B2F1E93A2A900ADFA1F /* NoChat.framework */,
 				9FA12BE71E65A116003705F6 /* RevealServer.framework */,
 				9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */,

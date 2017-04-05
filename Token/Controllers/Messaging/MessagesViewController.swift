@@ -2,6 +2,7 @@ import UIKit
 import SweetUIKit
 import NoChat
 import MobileCoreServices
+import ImagePicker
 
 class MessagesViewController: MessagesCollectionViewController {
 
@@ -648,37 +649,41 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
     }
 
     func inputTextPanelrequestSendAttachment(_ inputTextPanel: ChatInputTextPanel) {
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
+        let picker = ImagePickerController()
         picker.delegate = self
 
         self.present(picker, animated: true)
     }
 
     func keyboardMoved(with offset: CGFloat) {
-        controlsViewBottomConstraint.constant = -offset + buttonMargin + buttonsHeight
+        self.controlsViewBottomConstraint.constant = -offset + buttonMargin + buttonsHeight
     }
 }
 
-extension MessagesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerControllerDidCancel(_: UIImagePickerController) {
-        self.dismiss(animated: true)
+extension MessagesViewController: ImagePickerDelegate {
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        print("ok")
     }
 
-    public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
-        guard let imageData = UIImageJPEGRepresentation(image, 0.6) else { return }
-
-        let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
-
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         self.dismiss(animated: true) {
-            self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg" as String, in: outgoingMessage, success: {
-                print("Success")
-            }, failure: { error in
-                print("Failure: \(error)")
-            })
+            for image in images {
+                guard let imageData = UIImageJPEGRepresentation(image, 0.6) else { return }
+
+                let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+                let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
+
+                self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg" as String, in: outgoingMessage, success: {
+                    print("Success")
+                }, failure: { error in
+                    print("Failure: \(error)")
+                })
+            }
         }
+    }
+
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        self.dismiss(animated: true)
     }
 }
 
