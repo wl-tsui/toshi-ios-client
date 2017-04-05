@@ -52,17 +52,6 @@ open class ChatsController: SweetTableController {
         self.tableView.register(ChatCell.self)
     }
 
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(rateUsers(_:)))
-        self.navigationItem.rightBarButtonItem = button
-    }
-
-    func rateUsers(_: Any) {
-        self.navigationController?.present(RateUsersController(username: "TestingBot"), animated: true, completion: nil)
-    }
-
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
