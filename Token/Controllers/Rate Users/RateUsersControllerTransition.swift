@@ -6,7 +6,7 @@ enum ControllerTransitionOperation: Int {
     case dismiss
 }
 
-class RateUsersControllerTransition: NSObject, UIViewControllerAnimatedTransitioning {
+class RateUserControllerTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     let operation: ControllerTransitionOperation
 
@@ -34,7 +34,7 @@ class RateUsersControllerTransition: NSObject, UIViewControllerAnimatedTransitio
     }
 
     func present(with context: UIViewControllerContextTransitioning) {
-        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.to) as? RateUsersController else { return }
+        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.to) as? RateUserController else { return }
         controller.contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         controller.contentView.alpha = 0.5
 
@@ -50,7 +50,7 @@ class RateUsersControllerTransition: NSObject, UIViewControllerAnimatedTransitio
     }
 
     func dismiss(with context: UIViewControllerContextTransitioning) {
-        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.from) as? RateUsersController else { return }
+        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.from) as? RateUserController else { return }
 
         UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeIn, animations: {
             controller.contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)

@@ -6,10 +6,10 @@ class ContactCell: UITableViewCell {
         didSet {
             if let contact = self.contact {
                 if contact.displayName.length > 0 {
-                    self.usernameLabel.text = "@\(contact.username)"
+                    self.usernameLabel.text = contact.username
                     self.nameLabel.text = contact.displayName
                 } else {
-                    self.nameLabel.text = "@\(contact.username)"
+                    self.nameLabel.text = contact.username
                     self.usernameLabel.text = nil
                 }
 

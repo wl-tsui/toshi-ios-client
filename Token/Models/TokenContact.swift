@@ -20,7 +20,11 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public var paymentAddress: String
 
-    public var username: String
+    public var username: String {
+        return "@\(self.name)"
+    }
+
+    public var name: String
 
     public var displayName: String = ""
 
@@ -50,7 +54,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
             "token_id": self.address,
             "custom": custom,
             "is_app": self.isApp,
-            "username": self.username,
+            "username": self.name,
             "payment_address": self.paymentAddress,
         ]
 
@@ -60,7 +64,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
     init(json: [String: Any]) {
         self.address = json["token_id"] as! String
         self.paymentAddress = (json["payment_address"] as? String) ?? json["token_id"] as! String
-        self.username = json["username"] as! String
+        self.name = json["username"] as! String
         self.isApp = json["is_app"] as! Bool
 
         if let json = json["custom"] as? [String: Any] {
@@ -107,17 +111,17 @@ public class TokenContact: NSObject, JSONDataSerialization {
         guard let tokenContact = notification.object as? TokenContact else { return }
         guard tokenContact.address == self.address else { return }
 
-        if self.username == tokenContact.username && self.displayName == tokenContact.displayName && self.location == tokenContact.location && self.about == tokenContact.about {
+        if self.name == tokenContact.name && self.displayName == tokenContact.displayName && self.location == tokenContact.location && self.about == tokenContact.about {
             return
         }
 
-        self.username = tokenContact.username
+        self.name = tokenContact.name
         self.displayName = tokenContact.displayName
         self.location = tokenContact.location
         self.about = tokenContact.about
     }
 
     public override var description: String {
-        return "<TokenContact: address: \(self.address), name: \(self.displayName), username: \(self.username)>"
+        return "<TokenContact: address: \(self.address), name: \(self.displayName), username: \(self.name)>"
     }
 }

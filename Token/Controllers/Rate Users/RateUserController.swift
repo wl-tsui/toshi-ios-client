@@ -2,12 +2,20 @@ import UIKit
 import SweetUIKit
 import HPGrowingTextView
 
-class RateUsersController: UIViewController {
+protocol RateUserControllerDelegate: class {
+    func didRate(_ user: TokenContact, rating: Int, review: String)
+}
+
+class RateUserController: UIViewController {
 
     static let contentWidth: CGFloat = 270
     static let defaultInputHeight: CGFloat = 35
 
-    var username: String = ""
+    weak var delegate: RateUserControllerDelegate?
+
+    fileprivate var user: TokenContact
+
+    fileprivate var review: String = ""
 
     lazy var background: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -33,7 +41,7 @@ class RateUsersController: UIViewController {
     }()
 
     lazy var titleLabel: TitleLabel = {
-        let view = TitleLabel("Rate \(self.username)")
+        let view = TitleLabel("Rate \(self.user.username)")
 
         return view
     }()
@@ -124,22 +132,22 @@ class RateUsersController: UIViewController {
     func press(_ gestureRecognizer: UITapGestureRecognizer) {
 
         let locationInView = gestureRecognizer.location(in: gestureRecognizer.view)
-        let margin = (RateUsersController.contentWidth - self.ratingView.frame.width) / 2
+        let margin = (RateUserController.contentWidth - self.ratingView.frame.width) / 2
 
         if locationInView.x < margin {
             self.rating = 0
-        } else if locationInView.x > RateUsersController.contentWidth - margin {
-            self.rating = Float(self.ratingView.numberOfStars)
+        } else if locationInView.x > RateUserController.contentWidth - margin {
+            self.rating = self.ratingView.numberOfStars
         } else {
             let oneStarWidth = self.ratingView.frame.width / CGFloat(self.ratingView.numberOfStars)
-            self.rating = Float(Int(round((locationInView.x - margin) / oneStarWidth)))
+            self.rating = Int(round((locationInView.x - margin) / oneStarWidth))
         }
     }
 
-    var rating: Float = 0 {
+    var rating: Int = 0 {
         didSet {
             if self.rating != oldValue {
-                self.ratingView.set(rating: max(1, rating), animated: true)
+                self.ratingView.set(rating: max(1, self.rating), animated: true)
                 self.submitButton.isEnabled = true
                 self.feedbackGenerator.impactOccurred()
             }
@@ -147,7 +155,7 @@ class RateUsersController: UIViewController {
     }
 
     fileprivate lazy var inputFieldHeight: NSLayoutConstraint = {
-        self.inputField.heightAnchor.constraint(equalToConstant: RateUsersController.defaultInputHeight)
+        self.inputField.heightAnchor.constraint(equalToConstant: RateUserController.defaultInputHeight)
     }()
 
     fileprivate lazy var contentViewVerticalCenter: NSLayoutConstraint = {
@@ -175,10 +183,10 @@ class RateUsersController: UIViewController {
         }
     }
 
-    convenience init(username: String) {
-        self.init()
+    init(user: TokenContact) {
+        self.user = user
 
-        self.username = username
+        super.init(nibName: nil, bundle: nil)
 
         self.modalPresentationStyle = .custom
         self.transitioningDelegate = self
@@ -188,10 +196,8 @@ class RateUsersController: UIViewController {
         center.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
     }
 
-    deinit {
-        let center = NotificationCenter.default
-        center.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        center.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
     }
 
     func cancel(_: ActionButton) {
@@ -200,7 +206,7 @@ class RateUsersController: UIViewController {
     }
 
     func submit(_: ActionButton) {
-        print("Submit!")
+        self.delegate?.didRate(self.user, rating: Int(self.rating), review: self.review)
     }
 
     override func viewDidLoad() {
@@ -230,7 +236,7 @@ class RateUsersController: UIViewController {
             self.background.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
             self.contentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.contentView.widthAnchor.constraint(equalToConstant: RateUsersController.contentWidth),
+            self.contentView.widthAnchor.constraint(equalToConstant: RateUserController.contentWidth),
             self.contentViewVerticalCenter,
 
             self.reviewContainer.topAnchor.constraint(equalTo: self.contentView.topAnchor),
@@ -288,22 +294,22 @@ class RateUsersController: UIViewController {
     }
 }
 
-extension RateUsersController: UIViewControllerTransitioningDelegate {
+extension RateUserController: UIViewControllerTransitioningDelegate {
 
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source _: UIViewController) -> UIPresentationController? {
-        return presented == self ? RateUsersPresentationController(presentedViewController: presented, presenting: presenting) : nil
+        return presented == self ? RateUserPresentationController(presentedViewController: presented, presenting: presenting) : nil
     }
 
     func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return presented == self ? RateUsersControllerTransition(operation: .present) : nil
+        return presented == self ? RateUserControllerTransition(operation: .present) : nil
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return dismissed == self ? RateUsersControllerTransition(operation: .dismiss) : nil
+        return dismissed == self ? RateUserControllerTransition(operation: .dismiss) : nil
     }
 }
 
-extension RateUsersController: HPGrowingTextViewDelegate {
+extension RateUserController: HPGrowingTextViewDelegate {
 
     func growingTextView(_ textView: HPGrowingTextView!, willChangeHeight _: Float) {
         self.inputHeight = textView.frame.height
@@ -311,5 +317,6 @@ extension RateUsersController: HPGrowingTextViewDelegate {
 
     func growingTextViewDidChange(_ textView: HPGrowingTextView!) {
         self.inputHeight = textView.frame.height
+        self.review = textView.text
     }
 }

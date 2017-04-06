@@ -11,6 +11,13 @@ class MessagesViewController: MessagesCollectionViewController {
 
     var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
 
+    lazy var rateButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(title: "Rate", style: .plain, target: self, action: #selector(didTapRateUser))
+        view.tintColor = Theme.darkTextColor
+
+        return view
+    }()
+
     var messages = [Message]() {
         didSet {
             let current = Set(self.messages)
@@ -113,9 +120,8 @@ class MessagesViewController: MessagesCollectionViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        hidesBottomBarWhenPushed = true
-
-        title = thread.name()
+        self.hidesBottomBarWhenPushed = true
+        self.title = thread.name()
 
         self.registerNotifications()
     }
@@ -159,6 +165,8 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.collectionView.keyboardDismissMode = .interactive
         self.collectionView.backgroundColor = nil
+
+        self.navigationItem.rightBarButtonItem = self.rateButton
 
         self.becomeFirstResponder()
         self.fetchAndUpdateBalance()
@@ -257,6 +265,28 @@ class MessagesViewController: MessagesCollectionViewController {
         self.collectionView.register(MessageCell.self, forCellWithReuseIdentifier: MessageCell.reuseIdentifier())
         self.collectionView.register(ActionableMessageCell.self, forCellWithReuseIdentifier: ActionableMessageCell.reuseIdentifier())
         self.collectionView.register(ImageMessageCell.self, forCellWithReuseIdentifier: ImageMessageCell.reuseIdentifier())
+    }
+
+    // MARK: Rate users
+    func didTapRateUser() {
+        let contactId = self.thread.contactIdentifier()!
+        let contact = self.contactsManager.tokenContact(forAddress: contactId)
+
+        if let contact = contact {
+            self.presentUserRatingPrompt(contact: contact)
+        } else {
+            self.idAPIClient.findContact(name: contactId) { contact in
+                guard let contact = contact else { return }
+                self.presentUserRatingPrompt(contact: contact)
+            }
+        }
+    }
+
+    func presentUserRatingPrompt(contact: TokenContact) {
+        let rateUserController = RateUserController(user: contact)
+        rateUserController.delegate = self
+
+        self.present(rateUserController, animated: true)
     }
 
     // MARK: Load initial messages
@@ -657,6 +687,15 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
 
     func keyboardMoved(with offset: CGFloat) {
         self.controlsViewBottomConstraint.constant = -offset + buttonMargin + buttonsHeight
+    }
+}
+
+extension MessagesViewController: RateUserControllerDelegate {
+    func didRate(_ user: TokenContact, rating: Int, review: String) {
+        self.dismiss(animated: true) {
+            let ratingsClient = RatingsClient.shared
+            ratingsClient.submit(userId: user.address, rating: rating, review: review)
+        }
     }
 }
 

@@ -65,7 +65,7 @@ class AppController: UIViewController {
         return view
     }()
 
-    lazy var reputationView: UIView = {
+    lazy var reputationView: ReputationView = {
         let view = ReputationView(withAutoLayout: true)
 
         return view
@@ -123,6 +123,8 @@ class AppController: UIViewController {
         self.addSubviewsAndConstraints()
 
         self.title = self.app.displayName
+
+        self.updateReputation()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -234,6 +236,12 @@ class AppController: UIViewController {
         let title = isContactAdded ? "✓ Added" : "Add app"
 
         self.addContactButton.setAttributedTitle(NSAttributedString(string: title, attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: fontColor]), for: .normal)
+    }
+
+    func updateReputation() {
+        RatingsClient.shared.scores(for: self.app.address) { ratingScore in
+            self.reputationView.setScore(ratingScore)
+        }
     }
 
     func didTapMessageContactButton() {

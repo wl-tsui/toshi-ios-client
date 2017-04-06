@@ -4,9 +4,14 @@ import SweetUIKit
 class ReputationView: UIView {
     static let height: CGFloat = 105
 
+    var reviewCount: Int = 0 {
+        didSet {
+            self.ratingsCountLabel.text = String(describing: self.reviewCount)
+        }
+    }
+
     private lazy var ratingLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
-        label.text = "4.5"
         label.font = Theme.light(size: 49)
         label.textColor = Theme.ratingTint
         label.textAlignment = .center
@@ -15,7 +20,7 @@ class ReputationView: UIView {
     }()
 
     private lazy var ratingView: RatingView = {
-        let view = RatingView(numberOfStars: 5)
+        let view = RatingView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
@@ -23,7 +28,6 @@ class ReputationView: UIView {
 
     private lazy var ratingsCountLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
-        label.text = "522 ratings"
         label.textColor = Theme.lightGreyTextColor
         label.font = Theme.regular(size: 14)
 
@@ -32,47 +36,44 @@ class ReputationView: UIView {
 
     private lazy var fiveStarsBarView: ReputationBarView = {
         let view = ReputationBarView(withAutoLayout: true)
-        view.numberOfStars = 5
-        view.percentage = 0.5
 
         return view
     }()
 
     private lazy var fourStarsBarView: ReputationBarView = {
         let view = ReputationBarView(withAutoLayout: true)
-        view.numberOfStars = 4
-        view.percentage = 1
 
         return view
     }()
 
     private lazy var threeStarsBarView: ReputationBarView = {
         let view = ReputationBarView(withAutoLayout: true)
-        view.numberOfStars = 3
-        view.percentage = 0.2
 
         return view
     }()
 
     private lazy var twoStarsBarView: ReputationBarView = {
         let view = ReputationBarView(withAutoLayout: true)
-        view.numberOfStars = 2
-        view.percentage = 0.1
 
         return view
     }()
 
     private lazy var oneStarsBarView: ReputationBarView = {
         let view = ReputationBarView(withAutoLayout: true)
-        view.numberOfStars = 1
-        view.percentage = 0
 
         return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.addSubviewsAndConstraints()
+    }
 
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func addSubviewsAndConstraints() {
         self.addSubview(self.ratingLabel)
         self.addSubview(self.ratingView)
         self.addSubview(self.ratingsCountLabel)
@@ -123,14 +124,26 @@ class ReputationView: UIView {
         ])
     }
 
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    public func setScore(_ ratingScore: RatingScore) {
+        self.reviewCount = ratingScore.count
+        self.ratingLabel.text = "\(ratingScore.score)"
 
-    var reviewCount: Int = 0 {
-        didSet {
-            self.ratingsCountLabel.text = String(describing: self.reviewCount)
-        }
+        let count = ratingScore.count == 0 ? 1 : ratingScore.count
+
+        self.fiveStarsBarView.numberOfStars = ratingScore.stars.five
+        self.fiveStarsBarView.percentage = CGFloat(ratingScore.stars.five / count)
+
+        self.fourStarsBarView.numberOfStars = ratingScore.stars.four
+        self.fourStarsBarView.percentage = CGFloat(ratingScore.stars.four / count)
+
+        self.threeStarsBarView.numberOfStars = ratingScore.stars.three
+        self.threeStarsBarView.percentage = CGFloat(ratingScore.stars.three / count)
+
+        self.twoStarsBarView.numberOfStars = ratingScore.stars.two
+        self.twoStarsBarView.percentage = CGFloat(ratingScore.stars.two / count)
+
+        self.oneStarsBarView.numberOfStars = ratingScore.stars.one
+        self.oneStarsBarView.percentage = CGFloat(ratingScore.stars.one / count)
     }
 }
 
@@ -158,6 +171,19 @@ class ReputationBarView: UIView {
 
         return view
     }()
+
+    var numberOfStars: Int = 0 {
+        didSet {
+            self.numberLabel.text = String(describing: self.numberOfStars)
+        }
+    }
+
+    var percentage: CGFloat = 0 {
+        didSet {
+            self.barWidthAnchor.constant = (self.percentage * self.totalWidth)
+            self.layoutIfNeeded()
+        }
+    }
 
     lazy var barWidthAnchor: NSLayoutConstraint = {
         self.barView.widthAnchor.constraint(equalToConstant: self.totalWidth)
@@ -191,18 +217,5 @@ class ReputationBarView: UIView {
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    var numberOfStars: Int = 0 {
-        didSet {
-            self.numberLabel.text = String(describing: self.numberOfStars)
-        }
-    }
-
-    var percentage: CGFloat = 0 {
-        didSet {
-            self.barWidthAnchor.constant = (self.percentage * self.totalWidth)
-            self.layoutIfNeeded()
-        }
     }
 }

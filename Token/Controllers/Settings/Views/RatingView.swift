@@ -4,8 +4,8 @@ import SweetUIKit
 open class RatingView: UIView {
 
     private var starSize: CGFloat = 12
-    private var rating: Float = 0
-    private(set) var numberOfStars: Int = 0
+    private var rating: Int = 0
+    private(set) var numberOfStars: Int
 
     private lazy var backgroundStars: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -27,9 +27,10 @@ open class RatingView: UIView {
         self.ratingStars.widthAnchor.constraint(equalToConstant: 0)
     }()
 
-    convenience init(numberOfStars: Int, customStarSize: CGFloat? = nil) {
-        self.init(frame: .zero)
+    init(numberOfStars: Int = 5, customStarSize: CGFloat? = nil) {
         self.numberOfStars = numberOfStars
+
+        super.init(frame: .zero)
 
         if let customStarSize = customStarSize {
             self.starSize = customStarSize
@@ -43,8 +44,8 @@ open class RatingView: UIView {
             self.backgroundStars.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.backgroundStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.backgroundStars.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.backgroundStars.widthAnchor.constraint(equalToConstant: starSize * CGFloat(numberOfStars)).priority(.high),
-            self.backgroundStars.heightAnchor.constraint(equalToConstant: starSize).priority(.high),
+            self.backgroundStars.widthAnchor.constraint(equalToConstant: self.starSize * CGFloat(numberOfStars)).priority(.high),
+            self.backgroundStars.heightAnchor.constraint(equalToConstant: self.starSize).priority(.high),
         ])
 
         self.addSubview(self.ratingStars)
@@ -58,8 +59,12 @@ open class RatingView: UIView {
         self.ratingConstraint.isActive = true
     }
 
-    func set(rating: Float, animated: Bool = false) {
-        self.rating = min(Float(self.numberOfStars), max(0, rating))
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+
+    func set(rating: Int, animated: Bool = false) {
+        self.rating = min(self.numberOfStars, max(0, rating))
         self.ratingConstraint.constant = self.starSize * CGFloat(rating)
 
         if animated {

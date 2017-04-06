@@ -138,10 +138,10 @@ open class ProfileController: UIViewController {
 
         if let displayName = User.current?.name, displayName.length > 0, let username = User.current?.username {
             self.nameLabel.text = displayName
-            self.usernameLabel.text = "@\(username)"
+            self.usernameLabel.text = username
         } else if let username = User.current?.username {
             self.usernameLabel.text = nil
-            self.nameLabel.text = "@\(username)"
+            self.nameLabel.text = username
         }
 
         self.aboutContentLabel.text = User.current?.about

@@ -22,8 +22,7 @@ class ProfileCell: BaseCell {
     }()
 
     lazy var ratingView: RatingView = {
-        let view = RatingView(numberOfStars: 5)
-        view.set(rating: 3.5)
+        let view = RatingView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
@@ -51,10 +50,10 @@ class ProfileCell: BaseCell {
         didSet {
             if let displayName = self.user?.name, displayName.length > 0, let username = self.user?.username {
                 self.nameLabel.text = displayName
-                self.usernameLabel.text = "@\(username)"
+                self.usernameLabel.text = username
             } else if let username = self.user?.username {
                 self.usernameLabel.text = nil
-                self.nameLabel.text = "@\(username)"
+                self.nameLabel.text = username
             }
 
             if let image = self.user?.avatar {

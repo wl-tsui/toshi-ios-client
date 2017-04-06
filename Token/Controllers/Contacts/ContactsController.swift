@@ -106,8 +106,13 @@ open class ContactsController: SweetTableController {
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(withAddress: address) else { return }
 
-                let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
-                self.navigationController?.pushViewController(contactController, animated: false)
+                if contact.isApp {
+                    let appController = AppController(app: contact)
+                    self.navigationController?.pushViewController(appController, animated: false)
+                } else {
+                    let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+                    self.navigationController?.pushViewController(contactController, animated: false)
+                }
             }
         }
     }

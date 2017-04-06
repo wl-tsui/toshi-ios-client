@@ -166,6 +166,10 @@
 		9F40F3CC1E59FE97007A7DE7 /* MessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */; };
 		9F40F3D71E5A061C007A7DE7 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; };
 		9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; };
+		9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A71F1E951F0600FEB67B /* RateUserController.swift */; };
+		9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A71F1E951F0600FEB67B /* RateUserController.swift */; };
+		9F54A7231E951F1500FEB67B /* RatingsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A7221E951F1500FEB67B /* RatingsClient.swift */; };
+		9F54A7241E951F1500FEB67B /* RatingsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A7221E951F1500FEB67B /* RatingsClient.swift */; };
 		9F5D639D1E9231BE00FED490 /* ActionableMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5D639C1E9231BE00FED490 /* ActionableMessageCell.swift */; };
 		9F5D639E1E9231BE00FED490 /* ActionableMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5D639C1E9231BE00FED490 /* ActionableMessageCell.swift */; };
 		9F5D63A11E9231E100FED490 /* ImageMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5D63A01E9231E100FED490 /* ImageMessageCell.swift */; };
@@ -292,10 +296,8 @@
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
 		A98A29CF1E9237A6003BBE8E /* RateUsersPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */; };
 		A98A29D11E9237F1003BBE8E /* RateUsersControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */; };
-		A98A29D31E92382E003BBE8E /* RateUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D21E92382E003BBE8E /* RateUsersController.swift */; };
 		A98A29D41E92384A003BBE8E /* RateUsersPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */; };
 		A98A29D51E92384C003BBE8E /* RateUsersControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */; };
-		A98A29D61E923850003BBE8E /* RateUsersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D21E92382E003BBE8E /* RateUsersController.swift */; };
 		A9AC74081E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC74091E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
@@ -397,6 +399,8 @@
 		9F40F3BF1E59FE97007A7DE7 /* MessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCellLayout.swift; sourceTree = "<group>"; };
 		9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HPGrowingTextView.framework; path = Carthage/Build/iOS/HPGrowingTextView.framework; sourceTree = "<group>"; };
 		9F40F3D61E5A061C007A7DE7 /* YYText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YYText.framework; path = Carthage/Build/iOS/YYText.framework; sourceTree = "<group>"; };
+		9F54A71F1E951F0600FEB67B /* RateUserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUserController.swift; sourceTree = "<group>"; };
+		9F54A7221E951F1500FEB67B /* RatingsClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingsClient.swift; sourceTree = "<group>"; };
 		9F5D639C1E9231BE00FED490 /* ActionableMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionableMessageCell.swift; sourceTree = "<group>"; };
 		9F5D63A01E9231E100FED490 /* ImageMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMessageCell.swift; sourceTree = "<group>"; };
 		9F5D63A41E92331800FED490 /* ImageMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMessageCellLayout.swift; sourceTree = "<group>"; };
@@ -512,7 +516,6 @@
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
 		A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersPresentationController.swift; sourceTree = "<group>"; };
 		A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersControllerTransition.swift; sourceTree = "<group>"; };
-		A98A29D21E92382E003BBE8E /* RateUsersController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersController.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -954,6 +957,7 @@
 		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
 			isa = PBXGroup;
 			children = (
+				9F54A7221E951F1500FEB67B /* RatingsClient.swift */,
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
 				9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */,
 				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
@@ -1042,7 +1046,7 @@
 		A98A29CD1E923784003BBE8E /* Rate Users */ = {
 			isa = PBXGroup;
 			children = (
-				A98A29D21E92382E003BBE8E /* RateUsersController.swift */,
+				9F54A71F1E951F0600FEB67B /* RateUserController.swift */,
 				A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */,
 				A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */,
 			);
@@ -1523,6 +1527,7 @@
 				149F9A701E72E29A00FB74AA /* ContactController.swift in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
 				149F9A721E72E29A00FB74AA /* PaymentRequestController.swift in Sources */,
+				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
 				149F9A741E72E29A00FB74AA /* ControlsCollectionView.swift in Sources */,
 				A9ED6CD21E84014500160637 /* SignInController.swift in Sources */,
@@ -1537,6 +1542,7 @@
 				149F9A7B1E72E29A00FB74AA /* ChatsController.swift in Sources */,
 				149F9A7C1E72E29A00FB74AA /* HomeController.swift in Sources */,
 				1437EC141E72F2CD00CE7A1F /* SettingsSectionHeader.swift in Sources */,
+				9F54A7241E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */,
 				149F9A7D1E72E29A00FB74AA /* SettingsController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
@@ -1602,7 +1608,6 @@
 				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA61E72E29A00FB74AA /* SecurityCell.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
-				A98A29D61E923850003BBE8E /* RateUsersController.swift in Sources */,
 				149F9AA81E72E29A00FB74AA /* TGBaseMessageCell.swift in Sources */,
 				A9AC74121E78064500365029 /* TextLabel.swift in Sources */,
 				149F9AA91E72E29A00FB74AA /* AppCell.swift in Sources */,
@@ -1639,6 +1644,7 @@
 				A9AC74111E78064500365029 /* TextLabel.swift in Sources */,
 				1400418A1E71588A00C1FD87 /* ReputationView.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
+				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */,
@@ -1653,6 +1659,7 @@
 				9FCDBAE31E28E71900A70E07 /* ContactsController.swift in Sources */,
 				9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */,
 				A9BF33B11E76DF67009A51AA /* BackupPhraseVerifyController.swift in Sources */,
+				9F54A7231E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				147513661E49CA5B00E44A62 /* HomeController.swift in Sources */,
 				A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */,
 				E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */,
@@ -1718,7 +1725,6 @@
 				E1A95D5C1E6F10FC002762DA /* SecurityCell.swift in Sources */,
 				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
-				A98A29D31E92382E003BBE8E /* RateUsersController.swift in Sources */,
 				9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,
 				1475136C1E49F3A700E44A62 /* HomeHeaderView.swift in Sources */,

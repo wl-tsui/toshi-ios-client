@@ -153,10 +153,10 @@ public class ContactController: UIViewController {
 
         if self.contact.displayName.length > 0 {
             self.nameLabel.text = self.contact.displayName
-            self.usernameLabel.text = "@\(self.contact.username)"
+            self.usernameLabel.text = self.contact.username
         } else {
             self.usernameLabel.text = nil
-            self.nameLabel.text = "@\(self.contact.username)"
+            self.nameLabel.text = self.contact.username
         }
 
         self.aboutContentLabel.text = self.contact.about
