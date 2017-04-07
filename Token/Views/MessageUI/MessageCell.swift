@@ -33,11 +33,8 @@ class MessageCell: TGBaseMessageCell {
             if range.location >= text.length { return }
             let highlight = text.yy_attribute(YYTextHighlightAttributeName, at: UInt(range.location)) as! YYTextHighlight
             guard let info = highlight.userInfo, info.count > 0 else { return }
-
-            guard let strongSelf = self else { return }
-            if let d = strongSelf.delegate as? TGTextMessageCellDelegate {
-                d.didTapLink(cell: strongSelf, linkInfo: info)
-            }
+            guard let url = info["url"] as? URL else { return }
+            UIApplication.shared.open(url)
         }
 
         self.deliveryStatusView.clipsToBounds = true

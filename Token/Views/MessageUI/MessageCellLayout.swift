@@ -30,19 +30,24 @@ class MessageCellLayout: TGBaseMessageCellLayout {
         let text = self.message.text
         let attributedText = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Style.textFont, NSForegroundColorAttributeName: self.isOutgoing ? Theme.outgoingMessageTextColor : Theme.incomingMessageTextColor])
 
-        if text == "/start" {
-            attributedText.yy_setColor(Style.linkColor, range: attributedText.yy_rangeOfAll())
+        let types: NSTextCheckingResult.CheckingType = .link
+        let detector = try? NSDataDetector(types: types.rawValue)
+        if let detect = detector {
+            let matches = detect.matches(in: text, options: .reportCompletion, range: NSMakeRange(0, text.characters.count))
+            for match in matches {
+                let highlightBorder = YYTextBorder()
+                highlightBorder.insets = UIEdgeInsets(top: -2, left: 0, bottom: -2, right: 0)
+                highlightBorder.cornerRadius = 2
+                highlightBorder.fillColor = Style.linkBackgroundColor
 
-            let highlightBorder = YYTextBorder()
-            highlightBorder.insets = UIEdgeInsets(top: -2, left: 0, bottom: -2, right: 0)
-            highlightBorder.cornerRadius = 2
-            highlightBorder.fillColor = Style.linkBackgroundColor
+                let highlight = YYTextHighlight(backgroundColor: nil)
+                highlight.setColor(Style.linkColor)
+                highlight.setBackgroundBorder(highlightBorder)
+                highlight.userInfo = ["url": match.url!]
 
-            let highlight = YYTextHighlight()
-            highlight.setBackgroundBorder(highlightBorder)
-            highlight.userInfo = ["command": text]
-
-            attributedText.yy_setTextHighlight(highlight, range: attributedText.yy_rangeOfAll())
+                attributedText.yy_setColor(Style.linkColor, range: match.range)
+                attributedText.yy_setTextHighlight(highlight, range: match.range)
+            }
         }
 
         self.attributedText = attributedText
