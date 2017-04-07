@@ -547,7 +547,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
                         if let visibleIndex = self.visibleMessages.index(of: message) {
                             let reversedIndex = ((self.visibleMessages.count - 1) - visibleIndex)
-                            guard let layout = self.layouts[reversedIndex] as? ImageMessageCellLayout else { return }
+                            guard let layout = self.layouts[reversedIndex] as? MessageCellLayout else { return }
 
                             layout.chatItem = message
                             layout.calculate()
