@@ -29,11 +29,12 @@ class MessageCell: TGBaseMessageCell {
         self.textLabel.fadeOnAsynchronouslyDisplay = false
         self.textLabel.fadeOnHighlight = false
 
-        self.textLabel.highlightTapAction = { [weak self](_, text, range, _) -> Void in
-            if range.location >= text.length { return }
-            let highlight = text.yy_attribute(YYTextHighlightAttributeName, at: UInt(range.location)) as! YYTextHighlight
+        self.textLabel.highlightTapAction = { (_, text, range, _) -> Void in
+            guard range.location < text.length else { return }
+            guard let highlight = text.yy_attribute(YYTextHighlightAttributeName, at: UInt(range.location)) as? YYTextHighlight else { return }
             guard let info = highlight.userInfo, info.count > 0 else { return }
             guard let url = info["url"] as? URL else { return }
+
             UIApplication.shared.open(url)
         }
 

@@ -537,26 +537,33 @@ class MessagesViewController: MessagesCollectionViewController {
                     }
                 case .update:
                     let indexPath = change.indexPath
+                    guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSMessage else { return }
+                    
                     let message = self.message(at: indexPath)
-                    DispatchQueue.main.async {
-                        guard self.visibleMessages.count == self.layouts.count else {
-                            print("Called before colection view had a chance to insert message.")
-
-                            return
-                        }
-
-                        if let visibleIndex = self.visibleMessages.index(of: message) {
-                            let reversedIndex = ((self.visibleMessages.count - 1) - visibleIndex)
-                            guard let layout = self.layouts[reversedIndex] as? MessageCellLayout else { return }
-
-                            layout.chatItem = message
-                            layout.calculate()
-                            self.updateLayout(at: UInt(reversedIndex), to: layout, animated: false)
-                        }
-                    }
+                    self.updateLayout(for: message, signalMessage: interaction)
                 default:
                     break
                 }
+            }
+        }
+    }
+
+    func updateLayout(for message: Token.Message, signalMessage: TSMessage) {
+        DispatchQueue.main.async {
+            guard self.visibleMessages.count == self.layouts.count else {
+                print("Called before colection view had a chance to insert message.")
+
+                return
+            }
+
+            if let visibleIndex = self.visibleMessages.index(of: message) {
+                let reversedIndex = ((self.visibleMessages.count - 1) - visibleIndex)
+                guard let layout = self.layouts[reversedIndex] as? MessageCellLayout else { return }
+
+                let outgoing = (signalMessage as? TSOutgoingMessage) != nil
+                layout.chatItem = Message(sofaWrapper: nil, signalMessage: signalMessage, date: signalMessage.date(), isOutgoing: outgoing)
+                layout.calculate()
+                self.updateLayout(at: UInt(reversedIndex), to: layout, animated: false)
             }
         }
     }
