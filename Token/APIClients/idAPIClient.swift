@@ -1,4 +1,5 @@
 import UIKit
+import AwesomeCache
 import SweetFoundation
 import Teapot
 
@@ -13,7 +14,7 @@ public class IDAPIClient: NSObject {
 
     public var teapot: Teapot
 
-    private var imageCache = NSCache<NSString, UIImage>()
+    private var imageCache = try! Cache<UIImage>(name: "imageCache")
 
     let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
 
@@ -195,22 +196,20 @@ public class IDAPIClient: NSObject {
     }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-        //        if let image = self.imageCache.object(forKey: path as NSString) {
-        //            completion(image)
-        //
-        //            return
-        //        }
-
-        self.teapot.get(path) { (result: NetworkImageResult) in
-            switch result {
-            case .success(let image, _):
-                self.imageCache.setObject(image, forKey: path as NSString)
-                completion(image)
-            case .failure(let response, let error):
-                print(response)
-                print(error)
-                completion(nil)
+        self.imageCache.setObject(forKey: path, cacheBlock: { (success, failure) in
+            let teapot = Teapot(baseURL: URL(string: path)!)
+            teapot.get { (result: NetworkImageResult) in
+                switch result {
+                case .success(let image, _):
+                    success(image, .seconds(600))
+                case .failure(let response, let error):
+                    print(response)
+                    print(error)
+                    failure(error as NSError)
+                }
             }
+        }) { (image, isCached, error) in
+            completion(image)
         }
     }
 

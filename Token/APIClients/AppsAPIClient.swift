@@ -1,4 +1,5 @@
 import Foundation
+import AwesomeCache
 import Teapot
 import UIKit
 
@@ -7,7 +8,7 @@ class AppsAPIClient {
 
     private var teapot: Teapot
 
-    private var imageCache = NSCache<NSString, UIImage>()
+    private var imageCache = try! Cache<UIImage>(name: "appImageCache")
 
     init() {
         self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
@@ -39,24 +40,20 @@ class AppsAPIClient {
 
     func downloadImage(for app: TokenContact, completion: @escaping (_ image: UIImage?) -> Void) {
         guard let pathURL = URL(string: app.avatarPath) else { return }
-
-        if let image = self.imageCache.object(forKey: app.avatarPath as NSString) {
-            completion(image)
-
-            return
-        }
-
-        Teapot(baseURL: pathURL).get() { (result: NetworkImageResult) in
-            switch result {
-            case .success(let image, let response):
-                print(response)
-                self.imageCache.setObject(image, forKey: app.avatarPath as NSString)
-                completion(image)
-            case .failure(let response, let error):
-                print(response)
-                print(error)
-                completion(nil)
+        self.imageCache.setObject(forKey: app.avatarPath, cacheBlock: { (success, failure) in
+            Teapot(baseURL: pathURL).get { (result: NetworkImageResult) in
+                switch result {
+                case .success(let image, let response):
+                    print(response)
+                    success(image, .seconds(600))
+                case .failure(let response, let error):
+                    print(response)
+                    print(error)
+                    failure(error as NSError)
+                }
             }
+        }) { (image, isLoadedFromCache, error) in
+            completion(image)
         }
     }
 

@@ -75,6 +75,8 @@ class AppsController: UIViewController {
         self.appsAPIClient = appsAPIClient
 
         super.init(nibName: nil, bundle: nil)
+
+        let _ = self.view // force load view to preload images
     }
 
     required init?(coder _: NSCoder) {

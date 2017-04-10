@@ -22,6 +22,8 @@
 
 @property (nonatomic) OWSMessageFetcherJob *messageFetcherJob;
 
+@property (nonatomic) UIWindow *screenProtectionWindow;
+
 @property (nonatomic) NSString *token;
 @property (nonatomic) NSString *voipToken;
 
@@ -160,6 +162,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if ([TSAccountManager isRegistered]) {
             dispatch_sync(dispatch_get_main_queue(), ^{
+                [self activateScreenProtection];
                 [TSSocketManager resignActivity];
             });
         }
@@ -184,10 +187,31 @@
         // signing.
         [TSSocketManager becomeActiveFromForeground];
     }];
+
+    [self deactivateScreenProtection];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)activateScreenProtection {
+    if (self.screenProtectionWindow == nil) {
+        UIWindow *window = [[UIWindow alloc] init];
+        window.hidden = YES;
+        window.opaque = YES;
+        window.userInteractionEnabled = NO;
+        window.windowLevel = CGFLOAT_MAX;
+        [window setBackgroundColor:[UIColor whiteColor]];
+
+        self.screenProtectionWindow = window;
+    }
+
+    self.screenProtectionWindow.hidden = NO;
+}
+
+- (void)deactivateScreenProtection {
+    self.screenProtectionWindow.hidden = YES;
 }
 
 #pragma mark - Accessors 

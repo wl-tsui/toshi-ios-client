@@ -37,6 +37,8 @@ open class ChatsController: SweetTableController {
         }
 
         self.registerNotifications()
+
+        let _ = self.view // force load view to preload images
     }
 
     public required init?(coder _: NSCoder) {

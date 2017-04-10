@@ -39,6 +39,8 @@ class HomeController: UIViewController {
         self.fetchAndUpdateBalance()
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
+
+        let _ = self.view // force-load view
     }
 
     required init?(coder _: NSCoder) {
