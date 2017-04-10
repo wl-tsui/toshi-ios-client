@@ -63,6 +63,18 @@
     [self.window makeKeyAndVisible];
 }
 
+- (void)showMoneyAlertIfNeeded {
+    // To drive this point really home we could show this for every launch instead.
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"DidShowMoneyAlert"]) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Be aware!" message:@"This is a beta version of Token. It can be unstable, and it's possible that you lose money." preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:nil]];
+
+        [self.window.rootViewController presentViewController:alert animated:YES completion:^{
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DidShowMoneyAlert"];
+        }];
+    }
+}
+
 - (void)userDidSignOut {
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [[TSStorageManager sharedManager] wipeSignalStorage];
@@ -87,6 +99,7 @@
                 }];
             } else {
                 [self didCreateUser];
+                [self showMoneyAlertIfNeeded];
             }
         }];
     }
@@ -94,7 +107,6 @@
 
 - (void)didCreateUser {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"RequiresSignIn"];
-    [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)presentSignIn {
