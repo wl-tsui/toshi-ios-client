@@ -73,7 +73,7 @@ open class SettingsController: SweetTableController {
     func handleSignOut() {
         guard let currentUser = User.current else {
             let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                 fatalError()
             }))
             self.present(alert, animated: true)

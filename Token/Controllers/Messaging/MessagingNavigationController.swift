@@ -39,7 +39,7 @@ public class MessagingNavigationController: UINavigationController {
     }
 
     public func openThread(withAddress address: String) {
-        self.popToRootViewController(animated: false)
+        _ = self.popToRootViewController(animated: false)
         guard let chatsController = self.viewControllers.first as? ChatsController else { fatalError() }
 
         let thread = chatsController.thread(withAddress: address)
@@ -49,7 +49,7 @@ public class MessagingNavigationController: UINavigationController {
     }
 
     public func openThread(withThreadIdentifier identifier: String, animated: Bool) {
-        self.popToRootViewController(animated: animated)
+        _ = self.popToRootViewController(animated: animated)
         guard let chatsController = self.topViewController as? ChatsController else { fatalError() }
         guard let thread = chatsController.thread(withIdentifier: identifier) else { return }
 
@@ -62,8 +62,21 @@ public class MessagingNavigationController: UINavigationController {
 
         if let viewController = viewController as? MessagesViewController {
             UserDefaults.standard.setValue(viewController.thread.contactIdentifier(), forKey: self.selectedThreadAddressKey)
-        } else {
-            UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
         }
+    }
+
+    public override func popViewController(animated: Bool) -> UIViewController? {
+        UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+        return super.popViewController(animated: animated)
+    }
+
+    public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+        UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+        return super.popToRootViewController(animated: animated)
+    }
+
+    public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+        UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+        return super.popToViewController(viewController, animated: animated)
     }
 }

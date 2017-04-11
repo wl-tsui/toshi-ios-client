@@ -38,7 +38,7 @@ open class ChatsController: SweetTableController {
 
         self.registerNotifications()
 
-        let _ = self.view // force load view to preload images
+        _ = self.view // force load view to preload images
     }
 
     public required init?(coder _: NSCoder) {
@@ -52,6 +52,7 @@ open class ChatsController: SweetTableController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(ChatCell.self)
+        NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
     }
 
     open override func viewDidAppear(_ animated: Bool) {

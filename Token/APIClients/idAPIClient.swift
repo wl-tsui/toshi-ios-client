@@ -3,7 +3,7 @@ import AwesomeCache
 import SweetFoundation
 import Teapot
 
-public class IDAPIClient: NSObject {
+public class IDAPIClient: NSObject, CacheExpiryDefault {
     public static let shared: IDAPIClient = IDAPIClient()
 
     public static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
@@ -15,6 +15,8 @@ public class IDAPIClient: NSObject {
     public var teapot: Teapot
 
     private var imageCache = try! Cache<UIImage>(name: "imageCache")
+
+    private var contactCache = try! Cache<TokenContact>(name: "tokenContactCache")
 
     let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
 
@@ -196,47 +198,52 @@ public class IDAPIClient: NSObject {
     }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-        self.imageCache.setObject(forKey: path, cacheBlock: { (success, failure) in
+        self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
             let teapot = Teapot(baseURL: URL(string: path)!)
             teapot.get { (result: NetworkImageResult) in
                 switch result {
                 case .success(let image, _):
-                    success(image, .seconds(600))
+                    success(image, self.cacheExpiry)
                 case .failure(let response, let error):
                     print(response)
                     print(error)
                     failure(error as NSError)
                 }
             }
-        }) { (image, isCached, error) in
+        }) { image, _, _ in
             completion(image)
         }
     }
 
     public func findContact(name: String, completion: @escaping ((TokenContact?) -> Void)) {
-        self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
-            switch result {
-            case .success(let json, let response):
-                print(response)
-                guard let json = json?.dictionary else { completion(nil); return }
+        self.contactCache.setObject(forKey: name, cacheBlock: { success, failure in
+            self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, let response):
+                    print(response)
+                    guard let json = json?.dictionary else { completion(nil); return }
 
-                let contact = TokenContact(json: json)
-                NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
+                    let contact = TokenContact(json: json)
+                    NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
 
-                completion(contact)
-            case .failure(_, let response, let error):
-                if response.statusCode == 404 {
-                    // contact was deleted from the server. If we don't have it locally, delete the signal thread.
-                    if !Yap.sharedInstance.containsObject(for: name, in: TokenContact.collectionKey) {
-                        TSStorageManager.shared().dbConnection.readWrite { transaction in
-                            let thread = TSContactThread.getOrCreateThread(withContactId: name, transaction: transaction)
-                            thread.archiveThread(with: transaction)
+                    success(contact, self.cacheExpiry)
+                case .failure(_, let response, let error):
+                    if response.statusCode == 404 {
+                        // contact was deleted from the server. If we don't have it locally, delete the signal thread.
+                        if !Yap.sharedInstance.containsObject(for: name, in: TokenContact.collectionKey) {
+                            TSStorageManager.shared().dbConnection.readWrite { transaction in
+                                let thread = TSContactThread.getOrCreateThread(withContactId: name, transaction: transaction)
+                                thread.archiveThread(with: transaction)
+                            }
                         }
                     }
+                    print(error.localizedDescription)
+
+                    failure(error as NSError)
                 }
-                print(error.localizedDescription)
-                completion(nil)
             }
+        }) { contact, _, _ in
+            completion(contact)
         }
     }
 

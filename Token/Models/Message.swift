@@ -79,12 +79,7 @@ public class Message: NSObject, NOCChatItem {
         case .message:
             return (sofaWrapper as! SofaMessage).body
         case .paymentRequest:
-            let body = (sofaWrapper as! SofaPaymentRequest).body
-            if body.length > 0 {
-                return body
-            }
-
-            return "Payment requested without message."
+            return (sofaWrapper as! SofaPaymentRequest).body
         case .payment:
             return ""
         case .command:

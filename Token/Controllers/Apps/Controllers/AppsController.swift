@@ -76,7 +76,7 @@ class AppsController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        let _ = self.view // force load view to preload images
+        _ = self.view // force load view to preload images
     }
 
     required init?(coder _: NSCoder) {

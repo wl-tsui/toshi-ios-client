@@ -4,7 +4,17 @@ import UIKit
 /// We use this for our UI and contact management with the ID server.
 /// Contact is used by Signal for messaging. They correlate by their address.
 /// Contact's phone numbers are actually ethereum addresses for this app.
-public class TokenContact: NSObject, JSONDataSerialization {
+public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let jsonData = aDecoder.decodeObject(forKey: "jsonData") as? Data else { return nil }
+        guard let deserialised = try? JSONSerialization.jsonObject(with: jsonData, options: []), let json = deserialised as? [String: Any] else { return nil }
+
+        self.init(json: json)
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.JSONData, forKey: "jsonData")
+    }
 
     public static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
 
@@ -14,7 +24,7 @@ public class TokenContact: NSObject, JSONDataSerialization {
 
     public var isApp: Bool = false
 
-    public var category = "Unknown"
+    public var category = ""
 
     public var address: String
 

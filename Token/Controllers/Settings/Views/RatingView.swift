@@ -59,7 +59,7 @@ open class RatingView: UIView {
         self.ratingConstraint.isActive = true
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    public required init?(coder _: NSCoder) {
         fatalError()
     }
 

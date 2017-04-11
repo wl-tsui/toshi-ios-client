@@ -538,7 +538,7 @@ class MessagesViewController: MessagesCollectionViewController {
                 case .update:
                     let indexPath = change.indexPath
                     guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSMessage else { return }
-                    
+
                     let message = self.message(at: indexPath)
                     self.updateLayout(for: message, signalMessage: interaction)
                 default:
@@ -685,7 +685,7 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
         sendMessage(sofaWrapper: wrapper)
     }
 
-    func inputTextPanelrequestSendAttachment(_ inputTextPanel: ChatInputTextPanel) {
+    func inputTextPanelrequestSendAttachment(_: ChatInputTextPanel) {
         let picker = ImagePickerController()
         picker.delegate = self
 
@@ -707,11 +707,11 @@ extension MessagesViewController: RateUserControllerDelegate {
 }
 
 extension MessagesViewController: ImagePickerDelegate {
-    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+    func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
         print("ok")
     }
 
-    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+    func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
         self.dismiss(animated: true) {
             for image in images {
                 guard let imageData = UIImageJPEGRepresentation(image, 0.6) else { return }
@@ -728,7 +728,7 @@ extension MessagesViewController: ImagePickerDelegate {
         }
     }
 
-    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+    func cancelButtonDidPress(_: ImagePickerController) {
         self.dismiss(animated: true)
     }
 }

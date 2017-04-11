@@ -59,7 +59,7 @@ struct RatingScore {
 }
 
 class RatingsClient: NSObject {
-    static public let shared: RatingsClient = RatingsClient()
+    public static let shared: RatingsClient = RatingsClient()
 
     public var teapot: Teapot
 
@@ -95,7 +95,7 @@ class RatingsClient: NSObject {
             let payload: [String: Any] = [
                 "rating": rating,
                 "reviewee": userId,
-                "review": review
+                "review": review,
             ]
 
             let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
@@ -108,13 +108,13 @@ class RatingsClient: NSObject {
 
             self.teapot.post(path, parameters: json, headerFields: fields) { result in
                 switch result {
-                case .success(_, _):
+                case .success:
                     let alert = UIAlertController(title: "Success", message: "User succesfully reviewed.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
 
                     UIApplication.shared.delegate!.window!?.rootViewController!.present(alert, animated: true)
                 case .failure(let json, _, _):
-                    guard let json = json?.dictionary, let errors = json["errors"] as? [Any], let error = errors.first as? [String: Any], let message = error["message"] as? String  else { return }
+                    guard let json = json?.dictionary, let errors = json["errors"] as? [Any], let error = errors.first as? [String: Any], let message = error["message"] as? String else { return }
 
                     let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -133,7 +133,7 @@ class RatingsClient: NSObject {
                 guard let ratingScore = RatingScore(json: json) else { return }
 
                 completion(ratingScore)
-            case .failure(_, _, _):
+            case .failure:
                 completion(RatingScore.zero)
             }
         }

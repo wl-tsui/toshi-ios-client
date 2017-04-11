@@ -160,7 +160,7 @@ open class SignInController: UIViewController {
     }
 
     func signInWithPasshphrase() {
-        guard let passphrase = self.passwordField.textField.text else {
+        guard let passphrase = self.passwordField.textField.text?.lowercased() else {
             return
         }
 

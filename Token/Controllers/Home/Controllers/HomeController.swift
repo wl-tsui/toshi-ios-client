@@ -40,7 +40,7 @@ class HomeController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
 
-        let _ = self.view // force-load view
+        _ = self.view // force-load view
     }
 
     required init?(coder _: NSCoder) {
@@ -63,7 +63,7 @@ class HomeController: UIViewController {
         self.containerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
         // TODO: adjust insets for full content
-        self.collectionView.contentInset = UIEdgeInsetsMake(12, 12, 0, 0)
+        self.collectionView.contentInset = UIEdgeInsets(top: 12, left: 12, bottom: 0, right: 0)
         self.collectionView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor, constant: 12).isActive = true
         self.collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
