@@ -67,6 +67,7 @@ class ReputationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubviewsAndConstraints()
+        self.setScore(.zero)
     }
 
     required init?(coder _: NSCoder) {
