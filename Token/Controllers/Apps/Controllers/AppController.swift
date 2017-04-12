@@ -202,7 +202,6 @@ class AppController: UIViewController {
         self.reputationTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.reputationTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.reputationView.set(height: ReputationView.height)
         self.reputationView.topAnchor.constraint(equalTo: self.reputationTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
         self.reputationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.reputationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true

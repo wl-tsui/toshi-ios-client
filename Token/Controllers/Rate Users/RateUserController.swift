@@ -147,7 +147,7 @@ class RateUserController: UIViewController {
     var rating: Int = 0 {
         didSet {
             if self.rating != oldValue {
-                self.ratingView.set(rating: max(1, self.rating), animated: true)
+                self.ratingView.set(rating: max(1, Float(self.rating)), animated: true)
                 self.submitButton.isEnabled = true
                 self.feedbackGenerator.impactOccurred()
             }

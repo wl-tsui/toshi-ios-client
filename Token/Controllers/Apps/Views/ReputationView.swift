@@ -2,11 +2,10 @@ import UIKit
 import SweetUIKit
 
 class ReputationView: UIView {
-    static let height: CGFloat = 105
 
     var reviewCount: Int = 0 {
         didSet {
-            self.ratingsCountLabel.text = String(describing: self.reviewCount)
+            self.ratingsCountLabel.text = "\(String(describing: self.reviewCount)) ratings"
         }
     }
 
@@ -64,87 +63,115 @@ class ReputationView: UIView {
         return view
     }()
 
+    private lazy var guides: [UILayoutGuide] = {
+        [UILayoutGuide(), UILayoutGuide()]
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubviewsAndConstraints()
-        self.setScore(.zero)
     }
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        self.layoutIfNeeded()
+        self.setScore(.zero)
+    }
+
     func addSubviewsAndConstraints() {
+
+        for guide in guides {
+            self.addLayoutGuide(guide)
+        }
+
         self.addSubview(self.ratingLabel)
         self.addSubview(self.ratingView)
         self.addSubview(self.ratingsCountLabel)
+
         self.addSubview(self.fiveStarsBarView)
         self.addSubview(self.fourStarsBarView)
         self.addSubview(self.threeStarsBarView)
         self.addSubview(self.twoStarsBarView)
         self.addSubview(self.oneStarsBarView)
 
-        let horizontalMargin: CGFloat = 31
-        let height: CGFloat = 16
-        let bottomSpacing: CGFloat = 2
+        let horizontalMargin: CGFloat = 16
+        let barHeight: CGFloat = 18
+        let barSpacing: CGFloat = 2
 
         NSLayoutConstraint.activate([
-            self.ratingLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            self.ratingLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.guides[0].topAnchor.constraint(equalTo: self.topAnchor),
+            self.guides[0].leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.guides[0].bottomAnchor.constraint(equalTo: self.bottomAnchor),
 
-            self.ratingView.topAnchor.constraint(equalTo: self.ratingLabel.bottomAnchor, constant: 5),
-            self.ratingView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5),
+            self.guides[1].topAnchor.constraint(equalTo: self.topAnchor),
+            self.guides[1].leftAnchor.constraint(equalTo: self.guides[0].rightAnchor),
+            self.guides[1].bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.guides[1].rightAnchor.constraint(equalTo: self.rightAnchor),
+
+            self.ratingLabel.topAnchor.constraint(equalTo: self.guides[0].topAnchor, constant: -5),
+            self.ratingLabel.leftAnchor.constraint(equalTo: self.guides[0].leftAnchor, constant: horizontalMargin),
+            self.ratingLabel.rightAnchor.constraint(equalTo: self.guides[0].rightAnchor, constant: -horizontalMargin),
+
+            self.ratingView.topAnchor.constraint(equalTo: self.ratingLabel.bottomAnchor, constant: 0),
+            self.ratingView.centerXAnchor.constraint(equalTo: self.guides[0].centerXAnchor),
 
             self.ratingsCountLabel.topAnchor.constraint(equalTo: self.ratingView.bottomAnchor, constant: 10),
-            self.ratingsCountLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5),
+            self.ratingsCountLabel.centerXAnchor.constraint(equalTo: self.guides[0].centerXAnchor),
 
-            self.fiveStarsBarView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
-            self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
-            self.fiveStarsBarView.heightAnchor.constraint(equalToConstant: height),
+            self.fiveStarsBarView.topAnchor.constraint(equalTo: self.guides[1].topAnchor, constant: barSpacing),
+            self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
+            self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.fiveStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
-            self.fourStarsBarView.topAnchor.constraint(equalTo: self.fiveStarsBarView.bottomAnchor, constant: bottomSpacing),
-            self.fourStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.fourStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
-            self.fourStarsBarView.heightAnchor.constraint(equalToConstant: height),
+            self.fourStarsBarView.topAnchor.constraint(equalTo: self.fiveStarsBarView.bottomAnchor, constant: barSpacing),
+            self.fourStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
+            self.fourStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.fourStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
-            self.threeStarsBarView.topAnchor.constraint(equalTo: self.fourStarsBarView.bottomAnchor, constant: bottomSpacing),
-            self.threeStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.threeStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
-            self.threeStarsBarView.heightAnchor.constraint(equalToConstant: height),
+            self.threeStarsBarView.topAnchor.constraint(equalTo: self.fourStarsBarView.bottomAnchor, constant: barSpacing),
+            self.threeStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
+            self.threeStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.threeStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
-            self.twoStarsBarView.topAnchor.constraint(equalTo: self.threeStarsBarView.bottomAnchor, constant: bottomSpacing),
-            self.twoStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.twoStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
-            self.twoStarsBarView.heightAnchor.constraint(equalToConstant: height),
+            self.twoStarsBarView.topAnchor.constraint(equalTo: self.threeStarsBarView.bottomAnchor, constant: barSpacing),
+            self.twoStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
+            self.twoStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.twoStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
-            self.oneStarsBarView.topAnchor.constraint(equalTo: self.twoStarsBarView.bottomAnchor, constant: bottomSpacing),
-            self.oneStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.oneStarsBarView.leftAnchor.constraint(equalTo: self.ratingsCountLabel.rightAnchor, constant: horizontalMargin),
-            self.oneStarsBarView.heightAnchor.constraint(equalToConstant: height),
+            self.oneStarsBarView.topAnchor.constraint(equalTo: self.twoStarsBarView.bottomAnchor, constant: barSpacing),
+            self.oneStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
+            self.oneStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.oneStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
+            self.oneStarsBarView.bottomAnchor.constraint(equalTo: self.guides[1].bottomAnchor, constant: -barSpacing),
         ])
     }
 
     public func setScore(_ ratingScore: RatingScore) {
         self.reviewCount = ratingScore.count
         self.ratingLabel.text = "\(ratingScore.score)"
+        self.ratingView.set(rating: Float(ratingScore.score))
 
         let count = ratingScore.count == 0 ? 1 : ratingScore.count
 
-        self.fiveStarsBarView.numberOfStars = ratingScore.stars.five
-        self.fiveStarsBarView.percentage = CGFloat(ratingScore.stars.five / count)
+        self.fiveStarsBarView.numberOfStars = 5
+        self.fiveStarsBarView.percentage = CGFloat(ratingScore.stars.five) / CGFloat(count)
 
-        self.fourStarsBarView.numberOfStars = ratingScore.stars.four
-        self.fourStarsBarView.percentage = CGFloat(ratingScore.stars.four / count)
+        self.fourStarsBarView.numberOfStars = 4
+        self.fourStarsBarView.percentage = CGFloat(ratingScore.stars.four) / CGFloat(count)
 
-        self.threeStarsBarView.numberOfStars = ratingScore.stars.three
-        self.threeStarsBarView.percentage = CGFloat(ratingScore.stars.three / count)
+        self.threeStarsBarView.numberOfStars = 3
+        self.threeStarsBarView.percentage = CGFloat(ratingScore.stars.three) / CGFloat(count)
 
-        self.twoStarsBarView.numberOfStars = ratingScore.stars.two
-        self.twoStarsBarView.percentage = CGFloat(ratingScore.stars.two / count)
+        self.twoStarsBarView.numberOfStars = 2
+        self.twoStarsBarView.percentage = CGFloat(ratingScore.stars.two) / CGFloat(count)
 
-        self.oneStarsBarView.numberOfStars = ratingScore.stars.one
-        self.oneStarsBarView.percentage = CGFloat(ratingScore.stars.one / count)
+        self.oneStarsBarView.numberOfStars = 1
+        self.oneStarsBarView.percentage = CGFloat(ratingScore.stars.one) / CGFloat(count)
     }
 }
 
@@ -153,7 +180,6 @@ class ReputationBarView: UIView {
         let label = UILabel(withAutoLayout: true)
         label.textColor = Theme.greyTextColor
         label.font = Theme.medium(size: 13)
-        label.text = "5"
 
         return label
     }()
@@ -182,7 +208,6 @@ class ReputationBarView: UIView {
     var percentage: CGFloat = 0 {
         didSet {
             self.barWidthAnchor.constant = (self.percentage * self.totalWidth)
-            self.layoutIfNeeded()
         }
     }
 
@@ -201,19 +226,19 @@ class ReputationBarView: UIView {
 
         NSLayoutConstraint.activate([
             self.numberLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            self.numberLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.numberLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
+            self.numberLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.numberLabel.widthAnchor.constraint(equalToConstant: 8),
 
-            self.starImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
+            self.starImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             self.starImageView.leftAnchor.constraint(equalTo: self.numberLabel.rightAnchor, constant: 5),
 
             self.barView.topAnchor.constraint(equalTo: self.topAnchor),
-            self.barView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.barView.leftAnchor.constraint(equalTo: self.starImageView.rightAnchor, constant: 8),
-        ])
+            self.barView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 
-        self.barWidthAnchor.isActive = true
+            self.barWidthAnchor,
+        ])
     }
 
     required init?(coder _: NSCoder) {

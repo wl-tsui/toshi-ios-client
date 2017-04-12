@@ -63,9 +63,12 @@ open class RatingView: UIView {
         fatalError()
     }
 
-    func set(rating: Int, animated: Bool = false) {
-        self.rating = min(self.numberOfStars, max(0, rating))
-        self.ratingConstraint.constant = self.starSize * CGFloat(rating)
+    func set(rating: Float, animated: Bool = false) {
+        let denominator: Float = 2
+        let roundedRating = round(rating * denominator) / denominator
+
+        self.rating = Int(min(Float(self.numberOfStars), max(0, roundedRating)))
+        self.ratingConstraint.constant = self.starSize * CGFloat(roundedRating)
 
         if animated {
             UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .easeOut, animations: {

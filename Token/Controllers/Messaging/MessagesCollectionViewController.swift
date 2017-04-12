@@ -254,11 +254,11 @@ class MessagesCollectionViewController: NOCChatViewController {
 }
 
 extension MessagesCollectionViewController: KeyboardAwareAccessoryViewDelegate {
-    
+
     func inputView(_: KeyboardAwareInputAccessoryView, shouldUpdatePosition keyboardOriginYDistance: CGFloat) {
         self.heightOfKeyboard = keyboardOriginYDistance
     }
-    
+
     override var inputAccessoryView: UIView? {
         self.keyboardAwareInputView.isUserInteractionEnabled = false
         return self.keyboardAwareInputView
