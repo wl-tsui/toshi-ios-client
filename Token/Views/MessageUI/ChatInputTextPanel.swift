@@ -6,7 +6,7 @@ import SweetUIKit
 protocol ChatInputTextPanelDelegate: NOCChatInputPanelDelegate {
     func inputTextPanel(_ inputTextPanel: ChatInputTextPanel, requestSendText text: String)
     func inputTextPanelrequestSendAttachment(_ inputTextPanel: ChatInputTextPanel)
-    func keyboardMoved(with offset: CGFloat)
+    func inputTextPanelDidChangeHeight(_ height: CGFloat)
 }
 
 class ChatInputTextPanel: NOCChatInputPanel {
@@ -15,11 +15,12 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
     fileprivate let inputContainerInsets = UIEdgeInsets(top: 8, left: 41, bottom: 7, right: 0)
     fileprivate let maximumInputContainerHeight: CGFloat = 175
-
     fileprivate var inputContainerHeight: CGFloat = ChatInputTextPanel.defaultHeight {
         didSet {
-            if inputContainerHeight != oldValue {
-                invalidateLayout()
+            if self.inputContainerHeight != oldValue {
+                if let delegate = self.delegate as? ChatInputTextPanelDelegate {
+                    delegate.inputTextPanelDidChangeHeight(self.inputContainerHeight)
+                }
             }
         }
     }
@@ -27,23 +28,6 @@ class ChatInputTextPanel: NOCChatInputPanel {
     fileprivate func inputContainerHeight(for textViewHeight: CGFloat) -> CGFloat {
         return min(self.maximumInputContainerHeight, max(ChatInputTextPanel.defaultHeight, textViewHeight + self.inputContainerInsets.top + self.inputContainerInsets.bottom))
     }
-
-    var buttonsHeight: CGFloat = 0 {
-        didSet {
-            if buttonsHeight != oldValue {
-                negativeSpaceConstraint.constant = buttonsHeight
-                invalidateLayout()
-            }
-        }
-    }
-
-    lazy var negativeSpaceConstraint: NSLayoutConstraint = {
-        self.negativeSpace.heightAnchor.constraint(equalToConstant: 0)
-    }()
-
-    lazy var negativeSpace: UILayoutGuide = {
-        UILayoutGuide()
-    }()
 
     lazy var inputContainer: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -108,30 +92,24 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
         self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        self.addLayoutGuide(self.negativeSpace)
         self.addSubview(self.inputContainer)
         self.addSubview(self.attachButton)
         self.addSubview(self.inputField)
         self.addSubview(self.sendButton)
 
         NSLayoutConstraint.activate([
-            self.negativeSpace.topAnchor.constraint(equalTo: self.topAnchor),
-            self.negativeSpace.leftAnchor.constraint(equalTo: self.leftAnchor),
-            self.negativeSpace.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.negativeSpaceConstraint,
-
             self.attachButton.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.attachButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.attachButton.rightAnchor.constraint(equalTo: self.inputField.leftAnchor),
-            self.attachButton.widthAnchor.constraint(equalToConstant: 51),
-            self.attachButton.heightAnchor.constraint(equalToConstant: 51),
+            self.attachButton.widthAnchor.constraint(equalToConstant: ChatInputTextPanel.defaultHeight),
+            self.attachButton.heightAnchor.constraint(equalToConstant: ChatInputTextPanel.defaultHeight),
 
-            self.inputContainer.topAnchor.constraint(equalTo: self.negativeSpace.bottomAnchor),
+            self.inputContainer.topAnchor.constraint(equalTo: self.topAnchor),
             self.inputContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: -1),
             self.inputContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.inputContainer.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 1),
 
-            self.inputField.topAnchor.constraint(equalTo: self.negativeSpace.bottomAnchor, constant: self.inputContainerInsets.top),
+            self.inputField.topAnchor.constraint(equalTo: self.topAnchor, constant: self.inputContainerInsets.top),
             self.inputField.leftAnchor.constraint(equalTo: self.attachButton.rightAnchor),
             self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.inputContainerInsets.bottom),
 
@@ -160,20 +138,6 @@ class ChatInputTextPanel: NOCChatInputPanel {
         return nil
     }
 
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: bounds.width, height: inputContainerHeight + buttonsHeight)
-    }
-
-    func textViewDidChange(_: UITextView) {
-        invalidateLayout()
-    }
-
-    func invalidateLayout() {
-        if frame.isEmpty { return }
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
-    }
-
     func attach(_: ActionButton) {
         if let delegate = self.delegate as? ChatInputTextPanelDelegate {
             delegate.inputTextPanelrequestSendAttachment(self)
@@ -192,35 +156,6 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
         self.text = nil
         self.sendButton.isEnabled = false
-        self.invalidateLayout()
-    }
-
-    override func willMove(toSuperview newSuperview: UIView?) {
-        superview?.removeObserver(self, forKeyPath: #keyPath(center))
-        newSuperview?.addObserver(self, forKeyPath: #keyPath(center), options: [], context: nil)
-        super.willMove(toSuperview: newSuperview)
-
-        invalidateLayout()
-    }
-
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        invalidateLayout()
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of _: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
-
-        if let superview = superview, keyPath == #keyPath(center) {
-            offset = UIScreen.main.bounds.height - superview.center.y + (superview.bounds.height / 2)
-        }
-    }
-
-    private var offset: CGFloat = 0 {
-        didSet {
-            if offset != oldValue, let delegate = delegate as? ChatInputTextPanelDelegate {
-                delegate.keyboardMoved(with: offset)
-            }
-        }
     }
 }
 

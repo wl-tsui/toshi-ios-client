@@ -1,4 +1,5 @@
 import UIKit
+import SweetUIKit
 import NoChat
 
 class MessagesCollectionViewController: NOCChatViewController {
@@ -10,33 +11,73 @@ class MessagesCollectionViewController: NOCChatViewController {
         case doNothing
     }
 
-    lazy var chatInputTextPanel: ChatInputTextPanel = {
-        let view = ChatInputTextPanel()
+    lazy var textInputViewBottom: NSLayoutConstraint = {
+        self.textInputView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+    }()
+
+    lazy var textInputView: ChatInputTextPanel = {
+        let view = ChatInputTextPanel(withAutoLayout: true)
         view.delegate = self
 
         return view
     }()
 
+    lazy var textInputViewHeight: NSLayoutConstraint = {
+        self.textInputView.heightAnchor.constraint(equalToConstant: ChatInputTextPanel.defaultHeight)
+    }()
+
+    var textInputHeight: CGFloat = ChatInputTextPanel.defaultHeight {
+        didSet {
+            if self.isVisible {
+                self.updateConstraints()
+            }
+        }
+    }
+
     let buttonMargin: CGFloat = 10
 
     var buttonsHeight: CGFloat = 0 {
         didSet {
-            self.chatInputTextPanel.buttonsHeight = self.buttonsHeight > 0 ? self.buttonsHeight + (2 * self.buttonMargin) : 0
-            updateConstraints()
+            if self.isVisible {
+                self.updateConstraints()
+            }
         }
     }
 
     var heightOfKeyboard: CGFloat = 0 {
         didSet {
-            updateConstraints()
+            if self.isVisible {
+                self.updateConstraints()
+            }
         }
     }
 
     func updateConstraints() {
+        self.controlsViewBottomConstraint.constant = min(-self.textInputHeight - self.buttonMargin, self.heightOfKeyboard + self.buttonsHeight - self.buttonMargin)
+        self.textInputViewBottom.constant = self.heightOfKeyboard < -self.textInputHeight ? self.heightOfKeyboard + self.textInputHeight + self.buttonsHeight : 0
+
+        self.textInputViewHeight.constant = self.textInputHeight
+
         self.controlsViewHeightConstraint.constant = self.buttonsHeight
-        self.controlsViewBottomConstraint.constant = self.heightOfKeyboard > 0 ? -self.heightOfKeyboard + self.buttonMargin + self.buttonsHeight : -self.buttonMargin - ChatInputTextPanel.defaultHeight
-        view.layoutIfNeeded()
+        self.keyboardAwareInputView.height = self.buttonsHeight + self.textInputHeight
+
+        self.keyboardAwareInputView.invalidateIntrinsicContentSize()
+        self.view.layoutIfNeeded()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isVisible = true
+        self.view.layoutIfNeeded()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.isVisible = false
+        self.heightOfKeyboard = 0
+    }
+
+    private var isVisible: Bool = false
 
     var buttons: [SofaMessage.Button] = [] {
         didSet {
@@ -45,7 +86,6 @@ class MessagesCollectionViewController: NOCChatViewController {
                 self.controlsView.isHidden = true
                 self.updateSubcontrols(with: nil)
                 self.controlsViewHeightConstraint.constant = 500
-                self.controlsViewBottomConstraint.constant = -100
                 self.controlsViewDelegateDatasource.items = self.buttons
                 self.controlsView.reloadData()
                 self.view.layoutIfNeeded()
@@ -66,7 +106,7 @@ class MessagesCollectionViewController: NOCChatViewController {
                         height = max(height, controlCell.frame.maxY)
                     }
 
-                    self.buttonsHeight = height
+                    self.buttonsHeight = height > 0 ? height + (2 * self.buttonMargin) : 0
 
                     self.controlsView.isHidden = false
                     self.controlsView.deselectButtons()
@@ -162,7 +202,7 @@ class MessagesCollectionViewController: NOCChatViewController {
         self.subcontrolsViewHeightConstraint.isActive = true
         self.subcontrolsViewWidthConstraint.isActive = true
         self.subcontrolsView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-        self.subcontrolsView.bottomAnchor.constraint(equalTo: self.controlsView.topAnchor, constant: -16).isActive = true
+        self.subcontrolsView.bottomAnchor.constraint(equalTo: self.controlsView.topAnchor, constant: self.buttonMargin).isActive = true
 
         self.subcontrolsViewDelegateDatasource.subcontrolsCollectionView = self.subcontrolsView
 
@@ -176,6 +216,16 @@ class MessagesCollectionViewController: NOCChatViewController {
         self.controlsViewDelegateDatasource.controlsCollectionView = self.controlsView
 
         self.hideSubcontrolsMenu()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
+    }
+
+    func keyboardDidHide() {
+        self.becomeFirstResponder()
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        return self.presentedViewController == nil
     }
 
     func didTapControlButton(_: SofaMessage.Button) {
@@ -200,6 +250,18 @@ class MessagesCollectionViewController: NOCChatViewController {
         } else { //  if button != nil && self.currentButton == nil
             return .show
         }
+    }
+}
+
+extension MessagesCollectionViewController: KeyboardAwareAccessoryViewDelegate {
+    
+    func inputView(_: KeyboardAwareInputAccessoryView, shouldUpdatePosition keyboardOriginYDistance: CGFloat) {
+        self.heightOfKeyboard = keyboardOriginYDistance
+    }
+    
+    override var inputAccessoryView: UIView? {
+        self.keyboardAwareInputView.isUserInteractionEnabled = false
+        return self.keyboardAwareInputView
     }
 }
 

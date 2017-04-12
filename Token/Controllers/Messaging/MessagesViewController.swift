@@ -124,29 +124,12 @@ class MessagesViewController: MessagesCollectionViewController {
         self.title = thread.name()
 
         self.registerNotifications()
+
+        self.additionalContentInsets.top = 48
     }
 
     required init?(coder _: NSCoder) {
         fatalError()
-    }
-
-    fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
-        let info = KeyboardInfo(notification.userInfo)
-        self.heightOfKeyboard = info.endFrame.height
-    }
-
-    fileprivate dynamic func keyboardDidShow(_ notification: Notification) {
-        let info = KeyboardInfo(notification.userInfo)
-        self.heightOfKeyboard = info.endFrame.height
-    }
-
-    fileprivate dynamic func keyboardWillHide(_: Notification) {
-        self.heightOfKeyboard = 0
-    }
-
-    fileprivate dynamic func keyboardDidHide(_: Notification) {
-        self.heightOfKeyboard = 0
-        self.becomeFirstResponder()
     }
 
     // MARK: View life-cycle
@@ -168,36 +151,23 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.navigationItem.rightBarButtonItem = self.rateButton
 
-        self.becomeFirstResponder()
         self.fetchAndUpdateBalance()
         self.loadMessages()
+
+        self.view.addSubview(self.textInputView)
+
+        NSLayoutConstraint.activate([
+            self.textInputView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            textInputViewBottom,
+            textInputViewHeight,
+        ])
     }
 
-    override func viewWillAppear(_: Bool) {
-        super.viewWillAppear(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.reloadDraft()
         self.view.layoutIfNeeded()
-
-        let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(self.keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        center.addObserver(self, selector: #selector(self.keyboardDidShow), name: .UIKeyboardDidShow, object: nil)
-        center.addObserver(self, selector: #selector(self.keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        center.addObserver(self, selector: #selector(self.keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
-    }
-
-    override var canBecomeFirstResponder: Bool {
-        /* When this controller is presenting a viewcontroller it should not be able to become the first responder.  */
-        return self.presentedViewController == nil
-    }
-
-    override var inputAccessoryView: UIView? {
-        if self.navigationController != nil {
-            return self.chatInputTextPanel
-        }
-
-        self.view.removeFromSuperview()
-
-        return nil
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -205,14 +175,10 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
-
-        if !self.chatInputTextPanel.inputField.isFirstResponder() {
-            self.becomeFirstResponder()
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewWillDisappear(animated)
         self.saveDraft()
 
         self.thread.markAllAsRead()
@@ -241,7 +207,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
     func saveDraft() {
         let thread = self.thread
-        guard let text = self.chatInputTextPanel.text else { return }
+        guard let text = self.textInputView.text else { return }
 
         self.editingDatabaseConnection.asyncReadWrite { transaction in
             thread.setDraft(text, transaction: transaction)
@@ -256,7 +222,7 @@ class MessagesViewController: MessagesCollectionViewController {
             placeholder = thread.currentDraft(with: transaction)
         }, completionBlock: {
             DispatchQueue.main.async {
-                self.chatInputTextPanel.text = placeholder
+                self.textInputView.text = placeholder
             }
         })
     }
@@ -692,8 +658,8 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
         self.present(picker, animated: true)
     }
 
-    func keyboardMoved(with offset: CGFloat) {
-        self.controlsViewBottomConstraint.constant = -offset + buttonMargin + buttonsHeight
+    func inputTextPanelDidChangeHeight(_ height: CGFloat) {
+        self.textInputHeight = height
     }
 }
 

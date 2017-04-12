@@ -1,10 +1,10 @@
 {
   "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "d9b1970839190ae6dd7b5be634fa99d9cd2d6c5e",
+  "commitish" : "956c06d01c6578bad451e58832bb0b056e3e0d01",
   "iOS" : [
     {
-      "hash" : "dcd834edf14273b8f6d09179487824e5c7c07ac3e86a3884f1375c342d972ad4",
-      "name" : "SweetUIKit"
+      "name" : "SweetUIKit",
+      "md5" : "08cda9185649440a3f03d919d50bb35f"
     }
   ]
 }
