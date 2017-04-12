@@ -13,7 +13,6 @@ class MessagesViewController: MessagesCollectionViewController {
 
     lazy var rateButton: UIBarButtonItem = {
         let view = UIBarButtonItem(title: "Rate", style: .plain, target: self, action: #selector(didTapRateUser))
-        view.tintColor = Theme.darkTextColor
 
         return view
     }()
@@ -528,8 +527,18 @@ class MessagesViewController: MessagesCollectionViewController {
 
                 let outgoing = (signalMessage as? TSOutgoingMessage) != nil
                 layout.chatItem = Message(sofaWrapper: nil, signalMessage: signalMessage, date: signalMessage.date(), isOutgoing: outgoing)
-                layout.calculate()
-                self.updateLayout(at: UInt(reversedIndex), to: layout, animated: false)
+
+                // TODO: remove this once we rework cells with autolayout.
+                // we use 0.1 because that was the smallest number I got that still worked.
+                DispatchQueue.main.asyncAfter(seconds: 0.1) {
+                    layout.calculate()
+
+                    self.updateLayout(at: UInt(reversedIndex), to: layout, animated: false)
+
+                    DispatchQueue.main.asyncAfter(seconds: 0.1) {
+                        self.collectionView.reloadData()
+                    }
+                }
             }
         }
     }
