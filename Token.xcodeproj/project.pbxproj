@@ -117,7 +117,6 @@
 		149F9AC61E72E29A00FB74AA /* SF-UI-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCD91E31120600FB871D /* SF-UI-Display-Black.otf */; };
 		149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEA1E31120600FB871D /* SF-UI-Text-MediumItalic.otf */; };
 		149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCF01E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf */; };
-		149F9ACA1E72E29A00FB74AA /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
 		149F9ACB1E72E29A00FB74AA /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDE1E31120600FB871D /* SF-UI-Display-Regular.otf */; };
 		149F9ACC1E72E29A00FB74AA /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCDC1E31120600FB871D /* SF-UI-Display-Light.otf */; };
 		149F9ACD1E72E29A00FB74AA /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCE11E31120600FB871D /* SF-UI-Display-Ultralight.otf */; };
@@ -199,6 +198,8 @@
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
+		9F8A803B1E9D07FC0017ED9C /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9F8A80391E9D07F70017ED9C /* token.cer */; };
+		9F8A803C1E9D07FF0017ED9C /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9F8A803A1E9D07F70017ED9C /* token.cer */; };
 		9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
 		9F8C340F1E715C7A005178F9 /* menuButton.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340E1E715C7A005178F9 /* menuButton.m4a */; };
 		9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */; };
@@ -259,7 +260,6 @@
 		9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
 		9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
 		9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
-		9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9FCDBAC61E27B37F00A70E07 /* token.cer */; };
 		9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
 		9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
 		9FCDBADD1E28E57100A70E07 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADC1E28E57100A70E07 /* User.swift */; };
@@ -428,6 +428,8 @@
 		9F844BD41E30D880001C5498 /* ChatsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		9F844BD91E30DF48001C5498 /* ContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactController.swift; sourceTree = "<group>"; };
+		9F8A80391E9D07F70017ED9C /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = token.cer; path = "Certificate(dev)/token.cer"; sourceTree = "<group>"; };
+		9F8A803A1E9D07F70017ED9C /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = token.cer; path = "Certificate(dist)/token.cer"; sourceTree = "<group>"; };
 		9F8C340C1E71530A005178F9 /* paymentSend.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = paymentSend.m4a; sourceTree = "<group>"; };
 		9F8C340E1E715C7A005178F9 /* menuButton.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = menuButton.m4a; sourceTree = "<group>"; };
 		9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -485,7 +487,6 @@
 		9FC72A421E252CFA00EF1141 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
 		9FC72A431E252CFA00EF1141 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
 		9FC848301E5DB1B600568F1B /* Token.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Token.entitlements; sourceTree = "<group>"; };
-		9FCDBAC61E27B37F00A70E07 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
 		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
 		9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = idAPIClient.swift; sourceTree = "<group>"; };
 		9FCDBADC1E28E57100A70E07 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -821,7 +822,6 @@
 				9FA12BEA1E65CF59003705F6 /* Sounds */,
 				9FAACCD81E31120600FB871D /* SF-UI-Display */,
 				9FAACCE21E31120600FB871D /* SF-UI-Text */,
-				9FCDBAC61E27B37F00A70E07 /* token.cer */,
 				9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */,
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
@@ -830,6 +830,8 @@
 				9FAACCB41E30F24100FB871D /* Localizable.strings */,
 				14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */,
 				14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */,
+				9F8A80391E9D07F70017ED9C /* token.cer */,
+				9F8A803A1E9D07F70017ED9C /* token.cer */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1265,7 +1267,6 @@
 				149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */,
 				149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */,
-				149F9ACA1E72E29A00FB74AA /* token.cer in Resources */,
 				149F9ACB1E72E29A00FB74AA /* SF-UI-Display-Regular.otf in Resources */,
 				149F9ACC1E72E29A00FB74AA /* SF-UI-Display-Light.otf in Resources */,
 				149F9ACD1E72E29A00FB74AA /* SF-UI-Display-Ultralight.otf in Resources */,
@@ -1295,6 +1296,7 @@
 				9FB36EAD1E7C27A300DB6F86 /* messageReceived.m4a in Resources */,
 				149F9AE21E72E29A00FB74AA /* SF-UI-Display-Semibold.otf in Resources */,
 				149F9AE51E72E29A00FB74AA /* SF-UI-Text-Ultrathin.otf in Resources */,
+				9F8A803C1E9D07FF0017ED9C /* token.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1307,7 +1309,6 @@
 				9FAACD011E31120600FB871D /* SF-UI-Text-MediumItalic.otf in Resources */,
 				9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */,
 				9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */,
-				9FCDBAC71E27B3AE00A70E07 /* token.cer in Resources */,
 				9FAACCF61E31120600FB871D /* SF-UI-Display-Regular.otf in Resources */,
 				9FAACCF41E31120600FB871D /* SF-UI-Display-Light.otf in Resources */,
 				9FAACCF91E31120600FB871D /* SF-UI-Display-Ultralight.otf in Resources */,
@@ -1337,6 +1338,7 @@
 				9FA12BF01E65D043003705F6 /* messageSent.m4a in Resources */,
 				9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */,
 				9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */,
+				9F8A803B1E9D07FC0017ED9C /* token.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
