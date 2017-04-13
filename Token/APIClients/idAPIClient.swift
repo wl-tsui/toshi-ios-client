@@ -166,11 +166,31 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     let user = User(json: json)
                     User.current = user
                     completion(true, nil)
-                case .failure(let json, let response, let error):
+                case .failure(let json, _, _):
                     let errors = json?.dictionary?["errors"] as? [[String: Any]]
                     let message = errors?.first?["message"] as? String
                     completion(false, message)
                 }
+            }
+        }
+    }
+
+    public func retrieveContact(username: String, completion: @escaping ((TokenContact?) -> Void)) {
+        self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
+            switch result {
+            case .success(let json, let response):
+                print(response)
+                // we know it's a dictionary for this API
+                guard let json = json?.dictionary else { completion(nil); return }
+                let contact = TokenContact(json: json)
+
+                completion(contact)
+            case .failure(let json, let response, let error):
+                print(error.localizedDescription)
+                print(response)
+                print(json?.dictionary ?? "")
+
+                completion(nil)
             }
         }
     }

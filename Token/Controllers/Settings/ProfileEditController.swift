@@ -155,11 +155,11 @@ open class ProfileEditController: UIViewController {
                     return
                 }
             } else if item.fieldName == "name" {
-                user.name = item.value as? String
+                user.name = item.value as? String ?? ""
             } else if item.fieldName == "about" {
-                user.about = item.value as? String
+                user.about = item.value as? String ?? ""
             } else if item.fieldName == "location" {
-                user.location = item.value as? String
+                user.location = item.value as? String ?? ""
             }
         }
 

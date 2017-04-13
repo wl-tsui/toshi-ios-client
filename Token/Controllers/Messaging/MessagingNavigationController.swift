@@ -50,7 +50,7 @@ public class MessagingNavigationController: UINavigationController {
 
     public func openThread(withThreadIdentifier identifier: String, animated: Bool) {
         _ = self.popToRootViewController(animated: animated)
-        guard let chatsController = self.topViewController as? ChatsController else { fatalError() }
+        guard let chatsController = self.viewControllers.first as? ChatsController else { fatalError() }
         guard let thread = chatsController.thread(withIdentifier: identifier) else { return }
 
         let messagesController = MessagesViewController(thread: thread, chatAPIClient: chatsController.chatAPIClient)

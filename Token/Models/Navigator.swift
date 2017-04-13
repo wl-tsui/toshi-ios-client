@@ -12,7 +12,7 @@ public class Navigator: NSObject {
             guard let tabController = UIApplication.shared.delegate?.window??.rootViewController as? TabBarController else { return }
 
             tabController.switch(to: .messaging)
-            tabController.messagingController.popToRootViewController(animated: animated)
+            _ = tabController.messagingController.popToRootViewController(animated: animated)
             tabController.messagingController.openThread(withThreadIdentifier: threadIdentifier, animated: animated)
         }
     }

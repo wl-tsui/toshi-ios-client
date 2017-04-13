@@ -38,8 +38,8 @@ class MessagesViewController: MessagesCollectionViewController {
             }
 
             // Only animate if we're adding one message, for bulk-insert we want them instant.
-            let isAnimated = displayables.count == 1
-            self.addMessages(displayables, scrollToBottom: true, animated: isAnimated)
+            // let isAnimated = displayables.count == 1
+            self.addMessages(displayables, scrollToBottom: true)
         }
     }
 
@@ -397,7 +397,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
     // MARK: Add displayable messages
 
-    private func addMessages(_ messages: [Message], scrollToBottom: Bool, animated: Bool) {
+    private func addMessages(_ messages: [Message], scrollToBottom: Bool) {
         self.textLayoutQueue.async {
             let indexes = IndexSet(integersIn: 0 ..< messages.count)
 
@@ -409,10 +409,10 @@ class MessagesViewController: MessagesCollectionViewController {
             }
             DispatchQueue.main.async {
                 if !layouts.isEmpty {
-                    self.insertLayouts(layouts.reversed(), at: indexes, animated: animated)
+                    self.insertLayouts(layouts.reversed(), at: indexes, animated: true)
                 }
                 if scrollToBottom {
-                    self.scrollToBottom(animated: animated)
+                    self.scrollToBottom(animated: true)
                 }
             }
         }
@@ -504,40 +504,28 @@ class MessagesViewController: MessagesCollectionViewController {
                     let indexPath = change.indexPath
                     guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSMessage else { return }
 
-                    let message = self.message(at: indexPath)
-                    self.updateLayout(for: message, signalMessage: interaction)
+                    DispatchQueue.main.async {
+                        guard self.visibleMessages.count == self.layouts.count else {
+                            print("Called before colection view had a chance to insert message.")
+
+                            return
+                        }
+
+                        let message = self.message(at: indexPath)
+                        guard let visibleIndex = self.visibleMessages.index(of: message) else { return }
+                        let reversedIndex = self.reversedIndexPath(IndexPath(row: visibleIndex, section: 0)).row
+                        guard let layout = self.layouts[reversedIndex] as? MessageCellLayout else { return }
+
+                        if let signalMessage = layout.message.signalMessage as? TSOutgoingMessage, let newSignalMessage = interaction as? TSOutgoingMessage {
+                            signalMessage.messageState = newSignalMessage.messageState
+                        }
+
+                        layout.calculate()
+
+                        self.updateLayout(at: UInt(reversedIndex), to: layout, animated: true)
+                    }
                 default:
                     break
-                }
-            }
-        }
-    }
-
-    func updateLayout(for message: Token.Message, signalMessage: TSMessage) {
-        DispatchQueue.main.async {
-            guard self.visibleMessages.count == self.layouts.count else {
-                print("Called before colection view had a chance to insert message.")
-
-                return
-            }
-
-            if let visibleIndex = self.visibleMessages.index(of: message) {
-                let reversedIndex = ((self.visibleMessages.count - 1) - visibleIndex)
-                guard let layout = self.layouts[reversedIndex] as? MessageCellLayout else { return }
-
-                let outgoing = (signalMessage as? TSOutgoingMessage) != nil
-                layout.chatItem = Message(sofaWrapper: nil, signalMessage: signalMessage, date: signalMessage.date(), isOutgoing: outgoing)
-
-                // TODO: remove this once we rework cells with autolayout.
-                // we use 0.1 because that was the smallest number I got that still worked.
-                DispatchQueue.main.asyncAfter(seconds: 0.1) {
-                    layout.calculate()
-
-                    self.updateLayout(at: UInt(reversedIndex), to: layout, animated: false)
-
-                    DispatchQueue.main.asyncAfter(seconds: 0.1) {
-                        self.collectionView.reloadData()
-                    }
                 }
             }
         }
@@ -742,7 +730,7 @@ extension MessagesViewController: PaymentSendControllerDelegate {
             return
         }
 
-        self.idAPIClient.retrieveUser(username: tokenId) { user in
+        self.idAPIClient.retrieveContact(username: tokenId) { user in
             if let user = user {
                 self.etherAPIClient.createUnsignedTransaction(to: user.paymentAddress, value: value) { transaction, error in
                     let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"

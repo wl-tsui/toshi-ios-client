@@ -63,16 +63,16 @@
     [self.window makeKeyAndVisible];
 }
 
-- (void)showMoneyAlertIfNeeded {
+- (void)handleFirstLaunch {
     // To drive this point really home we could show this for every launch instead.
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"DidShowMoneyAlert"]) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Be aware!" message:@"This is a beta version of Token. It can be unstable, and it's possible that you lose money." preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:nil]];
-
-        [self.window.rootViewController presentViewController:alert animated:YES completion:^{
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DidShowMoneyAlert"];
-        }];
-    }
+//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"DidShowMoneyAlert"]) {
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Be aware!" message:@"This is a beta version of Token. It can be unstable, and it's possible that you lose money." preferredStyle:UIAlertControllerStyleAlert];
+//        [alert addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:nil]];
+//
+//        [self.window.rootViewController presentViewController:alert animated:YES completion:^{
+//            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DidShowMoneyAlert"];
+//        }];
+//    }
 }
 
 - (void)userDidSignOut {
@@ -99,7 +99,7 @@
                 }];
             } else {
                 [self didCreateUser];
-                [self showMoneyAlertIfNeeded];
+                [self handleFirstLaunch];
             }
         }];
     }

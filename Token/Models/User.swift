@@ -17,14 +17,14 @@ public class User: NSObject, JSONDataSerialization {
 
     public static var current: User? {
         get {
-            if let userData = (Yap.sharedInstance.retrieveObject(for: User.storedUserKey) as? Data), _current == nil,
+            if let userData = (Yap.sharedInstance.retrieveObject(for: User.storedUserKey) as? Data), self._current == nil,
                 let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
                 let json = deserialised as? [String: Any] {
 
-                _current = User(json: json)
+                self._current = User(json: json)
             }
 
-            return _current
+            return self._current
         }
         set {
             newValue?.update()
@@ -32,9 +32,11 @@ public class User: NSObject, JSONDataSerialization {
             if let user = newValue {
                 let keychain = KeychainSwift()
                 keychain.set(user.paymentAddress, forKey: "CurrentUserPaymentAddress")
+
+                Yap.sharedInstance.insert(object: user.JSONData, for: User.storedUserKey)
             }
 
-            _current = newValue
+            self._current = newValue
         }
     }
 
@@ -44,25 +46,25 @@ public class User: NSObject, JSONDataSerialization {
         }
     }
 
-    public var name: String? {
+    public var name: String {
         didSet {
             self.update()
         }
     }
 
-    public var about: String? {
+    public var about: String {
         didSet {
             self.update()
         }
     }
 
-    public var location: String? {
+    public var location: String {
         didSet {
             self.update()
         }
     }
 
-    public var avatarPath: String? {
+    public var avatarPath: String {
         didSet {
             self.update()
         }
@@ -78,7 +80,7 @@ public class User: NSObject, JSONDataSerialization {
         return try! JSONSerialization.data(withJSONObject: self.asDict, options: [])
     }
 
-    public var asDict: [String: Any?] {
+    public var asDict: [String: Any] {
         return [
             "token_id": self.address,
             "payment_address": self.paymentAddress,
@@ -94,10 +96,10 @@ public class User: NSObject, JSONDataSerialization {
         self.address = json["token_id"] as! String
         self.paymentAddress = (json["payment_address"] as? String) ?? (json["token_id"] as! String)
         self.username = json["username"] as! String
-        self.name = json["name"] as? String
-        self.location = json["location"] as? String
-        self.about = json["about"] as? String
-        self.avatarPath = json["avatar"] as? String
+        self.name = json["name"] as? String ?? ""
+        self.location = json["location"] as? String ?? ""
+        self.about = json["about"] as? String ?? ""
+        self.avatarPath = json["avatar"] as? String ?? ""
 
         super.init()
 
@@ -105,15 +107,15 @@ public class User: NSObject, JSONDataSerialization {
     }
 
     public func update() {
-        guard let avatarPath = self.avatarPath else {
+        guard self.avatar == nil else {
             let json = self.JSONData
             Yap.sharedInstance.insert(object: json, for: User.storedUserKey)
 
             return
         }
 
-        if avatarPath.length > 0 {
-            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
+        if self.avatarPath.length > 0 {
+            IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
                 self.avatar = image
                 let json = self.JSONData
                 Yap.sharedInstance.insert(object: json, for: User.storedUserKey)
@@ -122,6 +124,6 @@ public class User: NSObject, JSONDataSerialization {
     }
 
     public override var description: String {
-        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name ?? ""), username: \(self.username)>"
+        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(self.username)>"
     }
 }
