@@ -15,13 +15,13 @@ open class SettingsController: SweetTableController {
     public var idAPIClient: IDAPIClient
 
     let numberOfSections = 3
-    let numberOfRows = [1, 2, 4]
+    let numberOfRows = [1, 1, 1]
     let cellTypes: [BaseCell.Type] = [ProfileCell.self, SecurityCell.self, SettingsCell.self]
     let sectionTitles = ["Your profile", "Security", "Settings"]
     let sectionErrors = [nil, "Your account is at risk", nil]
 
-    let securityTitles = ["Store backup phrase", "Choose trusted friends"]
-    let settingsTitles = ["Local currency", "About", "Sign in on another device", "Sign out"]
+    let securityTitles = ["Store backup phrase" /* , "Choose trusted friends" */ ]
+    let settingsTitles = [ /* "Local currency", "About", "Sign in on another device", */ "Sign out"]
 
     public required init?(coder _: NSCoder) {
         fatalError("")
@@ -179,13 +179,13 @@ extension SettingsController: UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
+        if indexPath.section == 0, indexPath.row == 0 {
             self.navigationController?.pushViewController(ProfileController(idAPIClient: self.idAPIClient), animated: true)
         } else if indexPath.section == 1, indexPath.row == 0 {
             self.navigationController?.pushViewController(BackupPhraseEnableController(idAPIClient: self.idAPIClient), animated: true)
         } else if let cell = tableView.cellForRow(at: indexPath) as? SecurityCell {
             cell.checkbox.checked = !cell.checkbox.checked
-        } else if indexPath.section == 2, indexPath.row == 3 {
+        } else if indexPath.section == 2, indexPath.row == 0 {
             self.handleSignOut()
         }
     }

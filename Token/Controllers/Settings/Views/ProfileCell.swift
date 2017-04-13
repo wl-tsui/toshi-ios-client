@@ -24,6 +24,7 @@ class ProfileCell: BaseCell {
     lazy var ratingView: RatingView = {
         let view = RatingView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
 
         return view
     }()
@@ -36,6 +37,7 @@ class ProfileCell: BaseCell {
         view.font = Theme.regular(size: 14)
         view.textAlignment = .right
         view.numberOfLines = 0
+        view.isHidden = true
 
         return view
     }()

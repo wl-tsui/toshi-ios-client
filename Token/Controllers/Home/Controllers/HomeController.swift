@@ -55,7 +55,7 @@ class HomeController: UIViewController {
         self.view.addSubview(self.containerView)
         self.view.addSubview(self.collectionView)
 
-        self.containerView.set(height: 230)
+        self.containerView.set(height: 115)
         self.containerView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
         self.containerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.containerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true

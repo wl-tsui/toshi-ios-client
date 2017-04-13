@@ -84,16 +84,16 @@ class HomeContainerView: UIView {
 
         self.backgroundColor = Theme.viewBackgroundColor
 
-        let separator = UIView(withAutoLayout: true)
-        separator.backgroundColor = Theme.borderColor
-        separator.set(height: Theme.borderHeight)
-
-        self.addSubview(separator)
+        //        let separator = UIView(withAutoLayout: true)
+        //        separator.backgroundColor = Theme.borderColor
+        //        separator.set(height: Theme.borderHeight)
+        //
+        //        self.addSubview(separator)
         self.addSubview(self.balanceTitleLabel)
         self.addSubview(self.balanceFiatLabel)
         self.addSubview(self.balanceEtherLabel)
 
-        self.addSubview(self.actionStackView)
+        //        self.addSubview(self.actionStackView)
 
         let verticalMargin: CGFloat = 20
         let horizontalMargin: CGFloat = 20
@@ -106,21 +106,21 @@ class HomeContainerView: UIView {
         self.balanceFiatLabel.widthAnchor.constraint(equalTo: self.balanceEtherLabel.widthAnchor).isActive = true
         self.balanceFiatLabel.topAnchor.constraint(equalTo: self.balanceTitleLabel.topAnchor, constant: verticalMargin).isActive = true
         self.balanceFiatLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: horizontalMargin).isActive = true
-        self.balanceFiatLabel.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -verticalMargin).isActive = true
+        self.balanceFiatLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -verticalMargin).isActive = true
 
         self.balanceEtherLabel.topAnchor.constraint(equalTo: self.balanceTitleLabel.topAnchor, constant: verticalMargin).isActive = true
         self.balanceEtherLabel.leftAnchor.constraint(equalTo: self.balanceFiatLabel.rightAnchor).isActive = true
         self.balanceEtherLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalMargin).isActive = true
-        self.balanceEtherLabel.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -verticalMargin).isActive = true
+        self.balanceEtherLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -verticalMargin).isActive = true
 
-        separator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        separator.leftAnchor.constraint(equalTo: self.leftAnchor, constant: horizontalMargin).isActive = true
-        separator.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalMargin).isActive = true
+        //        separator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        //        separator.leftAnchor.constraint(equalTo: self.leftAnchor, constant: horizontalMargin).isActive = true
+        //        separator.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalMargin).isActive = true
 
-        self.actionStackView.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: verticalMargin).isActive = true
-        self.actionStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: horizontalMargin).isActive = true
-        self.actionStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalMargin).isActive = true
-        self.actionStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -verticalMargin).isActive = true
+        //        self.actionStackView.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: verticalMargin).isActive = true
+        //        self.actionStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: horizontalMargin).isActive = true
+        //        self.actionStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalMargin).isActive = true
+        //        self.actionStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -verticalMargin).isActive = true
     }
 
     required init?(coder _: NSCoder) {

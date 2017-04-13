@@ -30,37 +30,12 @@ class AppCell: UICollectionViewCell {
         return label
     }()
 
-    lazy var rankingImageView: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.image = #imageLiteral(resourceName: "two-star")
+    lazy var ratingView: RatingView = {
+        let view = RatingView(numberOfStars: 5)
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        self.contentView.addSubview(self.avatarImageView)
-        self.contentView.addSubview(self.displayNameLabel)
-        self.contentView.addSubview(self.categoryLabel)
-        self.contentView.addSubview(self.rankingImageView)
-
-        self.avatarImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.avatarImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
-        self.avatarImageView.heightAnchor.constraint(equalToConstant: AppCell.avatarSize).isActive = true
-        self.avatarImageView.widthAnchor.constraint(equalToConstant: AppCell.avatarSize).isActive = true
-
-        self.displayNameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 5).isActive = true
-        self.displayNameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.displayNameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
-
-        self.categoryLabel.topAnchor.constraint(equalTo: self.displayNameLabel.bottomAnchor, constant: 5).isActive = true
-        self.categoryLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.categoryLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
-
-        self.rankingImageView.topAnchor.constraint(equalTo: self.categoryLabel.bottomAnchor, constant: 5).isActive = true
-        self.rankingImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
-    }
 
     var app: TokenContact? {
         didSet {
@@ -80,7 +55,36 @@ class AppCell: UICollectionViewCell {
                     self.avatarImageView.image = image
                 }
             }
+
+            RatingsClient.shared.scores(for: app.address) { ratingScore in
+                self.ratingView.set(rating: Float(ratingScore.score))
+            }
         }
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        self.contentView.addSubview(self.avatarImageView)
+        self.contentView.addSubview(self.displayNameLabel)
+        self.contentView.addSubview(self.categoryLabel)
+        self.contentView.addSubview(self.ratingView)
+
+        self.avatarImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+        self.avatarImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
+        self.avatarImageView.heightAnchor.constraint(equalToConstant: AppCell.avatarSize).isActive = true
+        self.avatarImageView.widthAnchor.constraint(equalToConstant: AppCell.avatarSize).isActive = true
+
+        self.displayNameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 5).isActive = true
+        self.displayNameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.displayNameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+
+        self.categoryLabel.topAnchor.constraint(equalTo: self.displayNameLabel.bottomAnchor, constant: 5).isActive = true
+        self.categoryLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.categoryLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+
+        self.ratingView.topAnchor.constraint(equalTo: self.categoryLabel.bottomAnchor, constant: 5).isActive = true
+        self.ratingView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
     }
 
     required init?(coder _: NSCoder) {
