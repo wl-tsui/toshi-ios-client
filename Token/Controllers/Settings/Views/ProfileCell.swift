@@ -58,11 +58,6 @@ class ProfileCell: BaseCell {
 
             if let image = self.user?.avatar {
                 self.avatarImageView.image = image
-            } else if let avatarPath = self.user?.avatarPath {
-                IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
-                    self.user?.avatar = image
-                    self.avatarImageView.image = image
-                }
             }
         }
     }

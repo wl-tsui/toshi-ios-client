@@ -148,12 +148,8 @@ open class ProfileController: UIViewController {
         self.locationContentLabel.text = User.current?.location
         if let image = User.current?.avatar {
             self.avatarImageView.image = image
-        } else if let avatarPath = User.current?.avatarPath {
-            IDAPIClient.shared.downloadAvatar(path: avatarPath) { image in
-                User.current?.avatar = image
-                self.avatarImageView.image = image
-            }
         }
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
     }
 

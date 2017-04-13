@@ -13,7 +13,7 @@ public class User: NSObject, JSONDataSerialization {
 
     var balance = NSDecimalNumber.zero
 
-    static var _current: User?
+    static private var _current: User?
 
     public static var current: User? {
         get {
@@ -40,37 +40,27 @@ public class User: NSObject, JSONDataSerialization {
         }
     }
 
-    public var username: String {
-        didSet {
-            self.update()
+    private var _avatar: UIImage?
+
+    public private(set) var username: String
+
+    public private(set) var name: String
+
+    public private(set) var about: String
+
+    public private(set) var location: String
+
+    public private(set) var avatarPath: String
+
+    public var avatar: UIImage? {
+        get {
+            IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: false) { image in
+                self._avatar = image
+            }
+
+            return self._avatar
         }
     }
-
-    public var name: String {
-        didSet {
-            self.update()
-        }
-    }
-
-    public var about: String {
-        didSet {
-            self.update()
-        }
-    }
-
-    public var location: String {
-        didSet {
-            self.update()
-        }
-    }
-
-    public var avatarPath: String {
-        didSet {
-            self.update()
-        }
-    }
-
-    public var avatar: UIImage?
 
     public let address: String
 
@@ -106,21 +96,22 @@ public class User: NSObject, JSONDataSerialization {
         self.update()
     }
 
-    public func update() {
-        guard self.avatar == nil else {
-            let json = self.JSONData
-            Yap.sharedInstance.insert(object: json, for: User.storedUserKey)
+    public func update(avatar: UIImage, avatarPath: String) {
+        self.avatarPath = avatarPath
+        self._avatar = avatar
+        self.save()
+    }
 
-            return
-        }
+    public func update(username: String? = nil, name: String? = nil, about: String? = nil, location: String? = nil) {
+        self.username = username ?? self.username
+        self.name = username ?? self.name
+        self.about = username ?? self.about
+        self.location = username ?? self.location
+        self.save()
+    }
 
-        if self.avatarPath.length > 0 {
-            IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
-                self.avatar = image
-                let json = self.JSONData
-                Yap.sharedInstance.insert(object: json, for: User.storedUserKey)
-            }
-        }
+    public func save() {
+        Yap.sharedInstance.insert(object: self.JSONData, for: User.storedUserKey)
     }
 
     public override var description: String {

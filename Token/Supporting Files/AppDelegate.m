@@ -107,6 +107,7 @@
 
 - (void)didCreateUser {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"RequiresSignIn"];
+    [self.window.rootViewController dismissViewControllerAnimated:YES completion: NULL];
 }
 
 - (void)presentSignIn {

@@ -2,6 +2,7 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 import Formulaic
+import ImagePicker
 
 /// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
 open class ProfileEditController: UIViewController {
@@ -122,15 +123,11 @@ open class ProfileEditController: UIViewController {
     }
 
     func updateAvatar() {
-        let camera = UIImagePickerController()
-        camera.allowsEditing = true
-        camera.sourceType = .camera
-        camera.cameraCaptureMode = .photo
-        camera.cameraFlashMode = .off
-        camera.delegate = self
-        camera.showsCameraControls = true
+        let picker = ImagePickerController()
+        picker.delegate = self
+        picker.configuration.allowMultiplePhotoSelection = false
 
-        self.present(camera, animated: true)
+        self.present(picker, animated: true)
     }
 
     func cancelAndDismiss() {
@@ -138,34 +135,35 @@ open class ProfileEditController: UIViewController {
     }
 
     func saveAndDismiss() {
-        // TODO: Because we are updating the local User and then passing that user as a parameter to IDAPICLIENT,
-        // if the API call fails, our local copy is not rolled back. For now I'm manually rolling back username
-        // as it is the only one that could fail server-side validation, but this should be applied to all
-        // failures and fields.
         guard let user = User.current else { return }
-        let oldUsername = user.username
+
+        var username: String?
+        var name: String?
+        var about: String?
+        var location: String?
 
         for item in self.dataSource.items {
             if item.fieldName == "username" {
                 if item.validate() {
-                    user.username = item.value as? String ?? User.current!.username
+                    username = item.value as? String ?? User.current!.username
                 } else {
                     let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
                     self.present(alert, animated: true)
                     return
                 }
             } else if item.fieldName == "name" {
-                user.name = item.value as? String ?? ""
+                name = item.value as? String ?? ""
             } else if item.fieldName == "about" {
-                user.about = item.value as? String ?? ""
+                about = item.value as? String ?? ""
             } else if item.fieldName == "location" {
-                user.location = item.value as? String ?? ""
+                location = item.value as? String ?? ""
             }
         }
 
+        user.update(username: username, name: name, about: about, location: location)
+
         self.idAPIClient.updateUser(user) { success, message in
             if !success {
-                user.username = oldUsername
                 let alert = UIAlertController.dismissableAlert(title: "Error", message: message)
                 self.present(alert, animated: true)
             } else {
@@ -175,19 +173,23 @@ open class ProfileEditController: UIViewController {
     }
 }
 
-extension ProfileEditController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerControllerDidCancel(_: UIImagePickerController) {
+extension ProfileEditController: ImagePickerDelegate {
+
+    public func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
+        print("ok")
+    }
+
+    public func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
+        guard let image = images.first else { return }
+        
+        let scaledImage = image.resized(toHeight: 320)
+        self.avatarImageView.image = scaledImage
+
+        self.idAPIClient.updateAvatar(scaledImage) { _ in }
         self.dismiss(animated: true)
     }
 
-    public func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        guard let croppedImage = info[UIImagePickerControllerEditedImage] as? UIImage else { return }
-
-        let scaledImage = croppedImage.resized(toHeight: 320)
-        self.avatarImageView.image = scaledImage
-        self.idAPIClient.updateAvatar(scaledImage) { _ in
-        }
-
+    public func cancelButtonDidPress(_: ImagePickerController) {
         self.dismiss(animated: true)
     }
 }

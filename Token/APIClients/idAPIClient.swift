@@ -132,7 +132,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 case .success(let json, _):
                     guard let userDict = json?.dictionary else { completion(false); return }
 
-                    User.current = User(json: userDict)
+                    User.current?.update(avatar: avatar, avatarPath: userDict["avatar"] as! String)
 
                     completion(true)
                 case .failure(_, _, let error):
@@ -165,6 +165,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                     let user = User(json: json)
                     User.current = user
+                    
                     completion(true, nil)
                 case .failure(let json, _, _):
                     let errors = json?.dictionary?["errors"] as? [[String: Any]]
@@ -217,21 +218,35 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-        self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
+    func downloadAvatar(path: String, fromCache: Bool = true, completion: @escaping (_ image: UIImage?) -> Void) {
+        if fromCache {
+            self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
+                let teapot = Teapot(baseURL: URL(string: path)!)
+                teapot.get { (result: NetworkImageResult) in
+                    switch result {
+                    case .success(let image, _):
+                        success(image, self.cacheExpiry)
+                    case .failure(let response, let error):
+                        print(response)
+                        print(error)
+                        failure(error as NSError)
+                    }
+                }
+            }) { image, _, _ in
+                completion(image)
+            }
+        } else {
             let teapot = Teapot(baseURL: URL(string: path)!)
             teapot.get { (result: NetworkImageResult) in
                 switch result {
                 case .success(let image, _):
-                    success(image, self.cacheExpiry)
+                    completion(image)
                 case .failure(let response, let error):
                     print(response)
                     print(error)
-                    failure(error as NSError)
+                    completion(nil)
                 }
             }
-        }) { image, _, _ in
-            completion(image)
         }
     }
 
