@@ -21,7 +21,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 print(response)
                 guard let json = json?.dictionary else { fatalError("No apps json!") }
 
-                let appsJSON = json["apps"] as! [[String: Any]]
+                let appsJSON = json["results"] as! [[String: Any]]
                 let apps = appsJSON.map { json -> TokenContact in
                     let app = TokenContact(json: json)
                     app.isApp = true
@@ -72,7 +72,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                     return
                 }
 
-                guard let appsJSON = json["apps"] as? [[String: Any]] else {
+                guard let appsJSON = json["results"] as? [[String: Any]] else {
                     completion([TokenContact](), nil)
                     return
                 }
