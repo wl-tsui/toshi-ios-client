@@ -165,7 +165,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                     let user = User(json: json)
                     User.current = user
-                    
+
                     completion(true, nil)
                 case .failure(let json, _, _):
                     let errors = json?.dictionary?["errors"] as? [[String: Any]]

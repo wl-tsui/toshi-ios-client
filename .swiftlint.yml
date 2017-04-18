@@ -1,0 +1,7 @@
+disabled_rules: # rule identifiers to exclude from running
+opt_in_rules: # some rules are only opt-in
+  - empty_count
+  - header_comment
+  - missing_docs
+  # Find all the available rules by running:
+  # swiftlint rules

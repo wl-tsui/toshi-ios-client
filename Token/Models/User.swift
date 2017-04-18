@@ -13,7 +13,7 @@ public class User: NSObject, JSONDataSerialization {
 
     var balance = NSDecimalNumber.zero
 
-    static private var _current: User?
+    private static var _current: User?
 
     public static var current: User? {
         get {
@@ -42,24 +42,22 @@ public class User: NSObject, JSONDataSerialization {
 
     private var _avatar: UIImage?
 
-    public private(set) var username: String
+    private(set) public var username: String
 
-    public private(set) var name: String
+    private(set) public var name: String
 
-    public private(set) var about: String
+    private(set) public var about: String
 
-    public private(set) var location: String
+    private(set) public var location: String
 
-    public private(set) var avatarPath: String
+    private(set) public var avatarPath: String
 
     public var avatar: UIImage? {
-        get {
-            IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: false) { image in
-                self._avatar = image
-            }
-
-            return self._avatar
+        IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: false) { image in
+            self._avatar = image
         }
+
+        return self._avatar
     }
 
     public let address: String
@@ -102,7 +100,7 @@ public class User: NSObject, JSONDataSerialization {
         self.save()
     }
 
-    public func update(username: String? = nil, name: String? = nil, about: String? = nil, location: String? = nil) {
+    public func update(username: String? = nil, name _: String? = nil, about _: String? = nil, location _: String? = nil) {
         self.username = username ?? self.username
         self.name = username ?? self.name
         self.about = username ?? self.about
