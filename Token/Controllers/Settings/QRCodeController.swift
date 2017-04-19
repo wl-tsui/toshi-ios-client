@@ -19,6 +19,8 @@ import CoreImage
 
 class QRCodeController: UIViewController {
 
+    static let addUsernameBasePath = "https://app.tokenbrowser.com/add/"
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -46,10 +48,10 @@ class QRCodeController: UIViewController {
         return view
     }()
 
-    convenience init(string: String) {
+    convenience init(add username: String) {
         self.init(nibName: nil, bundle: nil)
 
-        self.qrCodeImageView.image = UIImage.imageQRCode(for: string, resizeRate: 20.0)
+        self.qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
     }
 
     override func viewDidLoad() {

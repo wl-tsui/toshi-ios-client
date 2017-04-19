@@ -151,10 +151,10 @@ open class ProfileController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let displayName = User.current?.name, displayName.length > 0, let username = User.current?.username {
-            self.nameLabel.text = displayName
+        if let name = User.current?.name, name.length > 0, let username = User.current?.displayUsername {
+            self.nameLabel.text = name
             self.usernameLabel.text = username
-        } else if let username = User.current?.username {
+        } else if let username = User.current?.displayUsername {
             self.usernameLabel.text = nil
             self.nameLabel.text = username
         }
@@ -251,7 +251,7 @@ open class ProfileController: UIViewController {
     }
 
     func displayQRCode() {
-        let controller = QRCodeController(string: User.current!.address)
+        let controller = QRCodeController(add: User.current!.displayUsername)
         self.present(controller, animated: true)
     }
 

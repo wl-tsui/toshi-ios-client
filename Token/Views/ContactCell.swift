@@ -20,11 +20,11 @@ class ContactCell: UITableViewCell {
     var contact: TokenContact? {
         didSet {
             if let contact = self.contact {
-                if contact.displayName.length > 0 {
-                    self.usernameLabel.text = contact.username
-                    self.nameLabel.text = contact.displayName
+                if contact.name.length > 0 {
+                    self.usernameLabel.text = contact.displayUsername
+                    self.nameLabel.text = contact.name
                 } else {
-                    self.nameLabel.text = contact.username
+                    self.nameLabel.text = contact.displayUsername
                     self.usernameLabel.text = nil
                 }
 

@@ -57,6 +57,10 @@ public class User: NSObject, JSONDataSerialization {
 
     private var _avatar: UIImage?
 
+    public var displayUsername: String {
+        return "@\(self.username)"
+    }
+
     private(set) public var username: String
 
     private(set) public var name: String
@@ -115,11 +119,11 @@ public class User: NSObject, JSONDataSerialization {
         self.save()
     }
 
-    public func update(username: String? = nil, name _: String? = nil, about _: String? = nil, location _: String? = nil) {
+    public func update(username: String? = nil, name: String? = nil, about: String? = nil, location: String? = nil) {
         self.username = username ?? self.username
-        self.name = username ?? self.name
-        self.about = username ?? self.about
-        self.location = username ?? self.location
+        self.name = name ?? self.name
+        self.about = about ?? self.about
+        self.location = location ?? self.location
         self.save()
     }
 

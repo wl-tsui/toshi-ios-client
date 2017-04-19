@@ -20,7 +20,7 @@ class SearchResultCell: UITableViewCell {
         didSet {
             if let app = self.app {
                 self.usernameLabel.text = app.category
-                self.nameLabel.text = app.displayName
+                self.nameLabel.text = app.name
 
                 if let image = app.avatar {
                     self.avatarImageView.image = image

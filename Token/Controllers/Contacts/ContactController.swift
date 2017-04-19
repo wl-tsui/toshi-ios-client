@@ -166,12 +166,12 @@ public class ContactController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if self.contact.displayName.length > 0 {
-            self.nameLabel.text = self.contact.displayName
-            self.usernameLabel.text = self.contact.username
+        if self.contact.name.length > 0 {
+            self.nameLabel.text = self.contact.name
+            self.usernameLabel.text = self.contact.displayUsername
         } else {
             self.usernameLabel.text = nil
-            self.nameLabel.text = self.contact.username
+            self.nameLabel.text = self.contact.displayUsername
         }
 
         self.aboutContentLabel.text = self.contact.about
@@ -273,7 +273,7 @@ public class ContactController: UIViewController {
     }
 
     func displayQRCode() {
-        let controller = QRCodeController(string: self.contact.address)
+        let controller = QRCodeController(add: self.contact.displayUsername)
         self.present(controller, animated: true)
     }
 

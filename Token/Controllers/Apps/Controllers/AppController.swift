@@ -137,7 +137,7 @@ class AppController: UIViewController {
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.addSubviewsAndConstraints()
 
-        self.title = self.app.displayName
+        self.title = self.app.displayUsername
 
         self.updateReputation()
     }
@@ -145,7 +145,7 @@ class AppController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.nameLabel.text = self.app.displayName
+        self.nameLabel.text = self.app.name
         self.categoryContentLabel.text = self.app.category
 
         if let image = self.app.avatar {
@@ -240,7 +240,7 @@ class AppController: UIViewController {
     }
 
     func displayQRCode() {
-        let controller = QRCodeController(string: User.current!.address)
+        let controller = QRCodeController(add: User.current!.displayUsername)
         self.present(controller, animated: true)
     }
 

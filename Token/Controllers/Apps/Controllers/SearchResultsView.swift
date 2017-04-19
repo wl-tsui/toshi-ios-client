@@ -42,6 +42,10 @@ class SearchResultsView: UITableView {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
 }
 
 extension SearchResultsView: UITableViewDataSource {
@@ -70,8 +74,10 @@ extension SearchResultsView: UITableViewDelegate {
     }
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let app = self.results[indexPath.row]
+        self.becomeFirstResponder()
+        self.resignFirstResponder()
 
+        let app = self.results[indexPath.row]
         self.selectionDelegate?.searchResultsView(self, didTapApp: app)
     }
 }

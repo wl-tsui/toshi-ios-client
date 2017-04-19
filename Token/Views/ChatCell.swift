@@ -171,7 +171,7 @@ class ChatCell: UITableViewCell {
     }
 
     func updateContact(_ contact: TokenContact) {
-        self.usernameLabel.text = contact.displayName.length > 0 ? contact.displayName : contact.username
+        self.usernameLabel.text = contact.name.length > 0 ? contact.name : contact.displayUsername
         self.avatarImageView.image = contact.avatar
 
         if contact.avatar == nil {

@@ -416,13 +416,14 @@ class MessagesViewController: MessagesCollectionViewController {
         self.textLayoutQueue.async {
             let indexes = IndexSet(integersIn: 0 ..< messages.count)
 
-            var layouts = [NOCChatItemCellLayout]()
-
-            for message in messages {
-                let layout = self.createLayout(with: message)!
-                layouts.append(layout)
-            }
             DispatchQueue.main.async {
+                var layouts = [NOCChatItemCellLayout]()
+
+                for message in messages {
+                    let layout = self.createLayout(with: message)!
+                    layouts.append(layout)
+                }
+
                 if !layouts.isEmpty {
                     self.insertLayouts(layouts.reversed(), at: indexes, animated: true)
                 }

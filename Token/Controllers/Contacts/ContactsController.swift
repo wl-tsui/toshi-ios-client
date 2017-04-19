@@ -51,7 +51,7 @@ open class ContactsController: SweetTableController {
     var searchContacts = [TokenContact]()
 
     lazy var scannerController: ScannerViewController = {
-        let controller = ScannerViewController(instructions: "Scan a profile code or QR code", types: [.qrCode])
+        let controller = ScannerViewController(instructions: "Scan a user profile QR code", types: [.qrCode])
 
         controller.delegate = self
 
@@ -358,9 +358,15 @@ extension ContactsController: ScannerViewControllerDelegate {
         self.dismiss(animated: true)
     }
 
-    public func scannerViewController(_: ScannerViewController, didScanResult result: String) {
-        self.idAPIClient.findContact(name: result) { contact in
-            guard let contact = contact else { return }
+    public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+        let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
+        let contactName = TokenContact.name(from: username)
+        self.idAPIClient.findContact(name: contactName) { contact in
+            guard let contact = contact else {
+                controller.startScanning()
+
+                return
+            }
 
             SoundPlayer.playSound(type: .scanned)
 

@@ -65,12 +65,12 @@ class ProfileCell: BaseCell {
 
     var user: User? {
         didSet {
-            if let displayName = self.user?.name, displayName.length > 0, let username = self.user?.username {
-                self.nameLabel.text = displayName
-                self.usernameLabel.text = username
-            } else if let username = self.user?.username {
+            if let name = self.user?.name, name.length > 0, let displayUsername = self.user?.displayUsername {
+                self.nameLabel.text = name
+                self.usernameLabel.text = displayUsername
+            } else if let displayUsername = self.user?.displayUsername {
                 self.usernameLabel.text = nil
-                self.nameLabel.text = username
+                self.nameLabel.text = displayUsername
             }
 
             if let image = self.user?.avatar {

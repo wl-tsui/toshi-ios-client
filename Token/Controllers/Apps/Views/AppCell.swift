@@ -25,7 +25,7 @@ class AppCell: UICollectionViewCell {
         return view
     }()
 
-    lazy var displayNameLabel: UILabel = {
+    lazy var nameLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.medium(size: 15)
         label.textColor = Theme.darkTextColor
@@ -55,12 +55,12 @@ class AppCell: UICollectionViewCell {
     var app: TokenContact? {
         didSet {
             guard let app = self.app else {
-                self.displayNameLabel.text = nil
+                self.nameLabel.text = nil
                 self.avatarImageView.image = nil
                 return
             }
 
-            self.displayNameLabel.text = app.displayName
+            self.nameLabel.text = app.name
             self.categoryLabel.text = app.category
 
             if let image = app.avatar {
@@ -81,7 +81,7 @@ class AppCell: UICollectionViewCell {
         super.init(frame: frame)
 
         self.contentView.addSubview(self.avatarImageView)
-        self.contentView.addSubview(self.displayNameLabel)
+        self.contentView.addSubview(self.nameLabel)
         self.contentView.addSubview(self.categoryLabel)
         self.contentView.addSubview(self.ratingView)
 
@@ -90,11 +90,11 @@ class AppCell: UICollectionViewCell {
         self.avatarImageView.heightAnchor.constraint(equalToConstant: AppCell.avatarSize).isActive = true
         self.avatarImageView.widthAnchor.constraint(equalToConstant: AppCell.avatarSize).isActive = true
 
-        self.displayNameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 5).isActive = true
-        self.displayNameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.displayNameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 5).isActive = true
+        self.nameLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
+        self.nameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
 
-        self.categoryLabel.topAnchor.constraint(equalTo: self.displayNameLabel.bottomAnchor, constant: 5).isActive = true
+        self.categoryLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 5).isActive = true
         self.categoryLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
         self.categoryLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
 

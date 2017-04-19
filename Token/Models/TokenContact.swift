@@ -20,17 +20,6 @@ import UIKit
 /// Contact is used by Signal for messaging. They correlate by their address.
 /// Contact's phone numbers are actually ethereum addresses for this app.
 public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
-    public required convenience init?(coder aDecoder: NSCoder) {
-        guard let jsonData = aDecoder.decodeObject(forKey: "jsonData") as? Data else { return nil }
-        guard let deserialised = try? JSONSerialization.jsonObject(with: jsonData, options: []), let json = deserialised as? [String: Any] else { return nil }
-
-        self.init(json: json)
-    }
-
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.JSONData, forKey: "jsonData")
-    }
-
     public static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
 
     public static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
@@ -45,13 +34,13 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
 
     public var paymentAddress: String
 
-    public var username: String {
-        return "@\(self.name)"
+    public var displayUsername: String {
+        return "@\(self.username)"
     }
 
-    public var name: String
+    public var username: String
 
-    public var displayName: String = ""
+    public var name: String = ""
 
     public var about: String = ""
 
@@ -68,7 +57,7 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
         }
 
         let custom: [String: Any] = [
-            "name": self.displayName,
+            "name": self.name,
             "location": self.location,
             "about": self.about,
             "avatar": self.avatarPath,
@@ -79,7 +68,7 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
             "token_id": self.address,
             "custom": custom,
             "is_app": self.isApp,
-            "username": self.name,
+            "username": self.username,
             "payment_address": self.paymentAddress,
         ]
 
@@ -89,11 +78,11 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
     init(json: [String: Any]) {
         self.address = json["token_id"] as! String
         self.paymentAddress = (json["payment_address"] as? String) ?? json["token_id"] as! String
-        self.name = json["username"] as! String
+        self.username = json["username"] as! String
         self.isApp = json["is_app"] as! Bool
 
         if let json = json["custom"] as? [String: Any] {
-            self.displayName = (json["name"] as? String) ?? ""
+            self.name = (json["name"] as? String) ?? ""
             self.location = (json["location"] as? String) ?? ""
             self.about = (json["about"] as? String) ?? ""
             self.avatarPath = (json["avatar"] as? String) ?? ""
@@ -128,6 +117,21 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
         return TokenContact(json: json)
     }
 
+    static func name(from username: String) -> String {
+        return username.hasPrefix("@") ? username.substring(from: username.index(after: username.startIndex)) : username
+    }
+
+    public required convenience init?(coder aDecoder: NSCoder) {
+        guard let jsonData = aDecoder.decodeObject(forKey: "jsonData") as? Data else { return nil }
+        guard let deserialised = try? JSONSerialization.jsonObject(with: jsonData, options: []), let json = deserialised as? [String: Any] else { return nil }
+
+        self.init(json: json)
+    }
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.JSONData, forKey: "jsonData")
+    }
+
     func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
     }
@@ -136,17 +140,17 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
         guard let tokenContact = notification.object as? TokenContact else { return }
         guard tokenContact.address == self.address else { return }
 
-        if self.name == tokenContact.name && self.displayName == tokenContact.displayName && self.location == tokenContact.location && self.about == tokenContact.about {
+        if self.name == tokenContact.name && self.username == tokenContact.username && self.location == tokenContact.location && self.about == tokenContact.about {
             return
         }
 
         self.name = tokenContact.name
-        self.displayName = tokenContact.displayName
+        self.username = tokenContact.username
         self.location = tokenContact.location
         self.about = tokenContact.about
     }
 
     public override var description: String {
-        return "<TokenContact: address: \(self.address), name: \(self.displayName), username: \(self.name)>"
+        return "<TokenContact: address: \(self.address), name: \(self.username), username: \(self.name)>"
     }
 }

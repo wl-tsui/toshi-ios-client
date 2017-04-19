@@ -26,9 +26,13 @@ public class Navigator: NSObject {
             // get tab controller
             guard let tabController = UIApplication.shared.delegate?.window??.rootViewController as? TabBarController else { return }
 
-            tabController.switch(to: .messaging)
+            if tabController.presentedViewController != nil {
+                tabController.dismiss(animated: animated)
+            }
+
             _ = tabController.messagingController.popToRootViewController(animated: animated)
             tabController.messagingController.openThread(withThreadIdentifier: threadIdentifier, animated: animated)
+            tabController.switch(to: .messaging)
         }
     }
 }

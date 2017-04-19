@@ -314,7 +314,6 @@
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-
     NSString *identifier = response.notification.request.content.threadIdentifier;
     [Navigator navigateTo:identifier animated:YES];
 
