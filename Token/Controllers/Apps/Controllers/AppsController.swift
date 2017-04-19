@@ -67,6 +67,7 @@ class AppsController: UIViewController {
         searchController.delegate = self
 
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.tintColor = Theme.tintColor
         searchController.searchBar.delegate = self
 
         return searchController

@@ -26,7 +26,7 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
 
     public static let collectionKey: String = "TokenContacts"
 
-    public var isApp: Bool = false
+    private(set) public var isApp: Bool = false
 
     public var category = ""
 

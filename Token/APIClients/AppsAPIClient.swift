@@ -39,7 +39,6 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 let appsJSON = json["results"] as! [[String: Any]]
                 let apps = appsJSON.map { json -> TokenContact in
                     let app = TokenContact(json: json)
-                    app.isApp = true
 
                     return app
                 }
@@ -93,10 +92,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 }
 
                 let apps = appsJSON.map { json -> TokenContact in
-                    let app = TokenContact(json: json)
-                    app.isApp = true
-
-                    return app
+                    return TokenContact(json: json)
                 }
 
                 completion(apps, nil)

@@ -76,11 +76,16 @@
 }
 
 - (void)userDidSignOut {
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-    [[TSStorageManager sharedManager] wipeSignalStorage];
-    [[Yap sharedInstance] wipeStorage];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];
-    exit(0);
+    [TSAccountManager unregisterTextSecureWithSuccess:^{
+        [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+        [[TSStorageManager sharedManager] wipeSignalStorage];
+        [[Yap sharedInstance] wipeStorage];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];
+        exit(0);
+    } failure:^(NSError * _Nonnull error) {
+        // alert user
+        NSLog(@"Error attempting to unregister text secure.");
+    }];
 }
 
 - (void)createNewUser {
