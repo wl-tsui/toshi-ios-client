@@ -159,6 +159,8 @@ open class ProfileController: UIViewController {
             self.nameLabel.text = username
         }
 
+        NotificationCenter.default.addObserver(self, selector: #selector(avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
+
         self.aboutContentLabel.text = User.current?.about
         self.locationContentLabel.text = User.current?.location
         if let image = User.current?.avatar {
@@ -249,6 +251,11 @@ open class ProfileController: UIViewController {
 
         self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
     }
+
+    func avatarDidUpdate() {
+        self.avatarImageView.image = User.current?.avatar
+    }
+
 
     func displayQRCode() {
         let controller = QRCodeController(add: User.current!.displayUsername)

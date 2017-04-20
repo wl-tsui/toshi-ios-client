@@ -21,6 +21,10 @@ public protocol JSONDataSerialization {
     var JSONData: Data { get }
 }
 
+extension Notification.Name {
+    public static let CurrentUserDidUpdateAvatarNotification = Notification.Name(rawValue: "CurrentUserDidUpdateAvatarNotification")
+}
+
 /// Current User. Responsible for current session management.
 public class User: NSObject, JSONDataSerialization {
 
@@ -74,6 +78,7 @@ public class User: NSObject, JSONDataSerialization {
     public var avatar: UIImage? {
         IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: false) { image in
             self._avatar = image
+            NotificationCenter.default.post(name: .CurrentUserDidUpdateAvatarNotification, object: self)
         }
 
         return self._avatar

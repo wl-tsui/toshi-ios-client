@@ -59,19 +59,21 @@ class HomeItemCell: UICollectionViewCell {
                 return
             }
 
+            NotificationCenter.default.addObserver(self, selector: #selector(avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: app)
+
             self.nameLabel.text = app.name
 
             if let image = self.app?.avatar {
                 self.avatarImageView.image = image
-            } else if let app = self.app {
-                AppsAPIClient.shared.downloadImage(for: app) { image in
-                    self.avatarImageView.image = image
-                }
             }
         }
     }
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func avatarDidUpdate() {
+        self.avatarImageView.image = self.app?.avatar
     }
 }

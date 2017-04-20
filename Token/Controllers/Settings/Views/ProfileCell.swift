@@ -65,6 +65,8 @@ class ProfileCell: BaseCell {
 
     var user: User? {
         didSet {
+            NotificationCenter.default.addObserver(self, selector: #selector(avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
+
             if let name = self.user?.name, name.length > 0, let displayUsername = self.user?.displayUsername {
                 self.nameLabel.text = name
                 self.usernameLabel.text = displayUsername
@@ -155,4 +157,9 @@ class ProfileCell: BaseCell {
             self.ratingLabel.bottomAnchor.constraint(lessThanOrEqualTo: ratingContainer.bottomAnchor),
         ])
     }
+
+    func avatarDidUpdate() {
+        self.avatarImageView.image = User.current?.avatar
+    }
+
 }

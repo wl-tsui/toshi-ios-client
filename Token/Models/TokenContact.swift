@@ -15,6 +15,10 @@
 
 import UIKit
 
+extension Notification.Name {
+    public static let TokenContactDidUpdateAvatarNotification = Notification.Name(rawValue: "TokenContactDidUpdateAvatarNotification")
+}
+
 /// A Token contact. Not to be confused with a (signal) Contact.
 /// We use this for our UI and contact management with the ID server.
 /// Contact is used by Signal for messaging. They correlate by their address.
@@ -98,10 +102,12 @@ public class TokenContact: NSObject, JSONDataSerialization, NSCoding {
             if self.isApp {
                 AppsAPIClient.shared.downloadImage(for: self) { image in
                     self.avatar = image
+                    NotificationCenter.default.post(name: .TokenContactDidUpdateAvatarNotification, object: self)
                 }
             } else {
                 IDAPIClient.shared.downloadAvatar(path: self.avatarPath) { image in
                     self.avatar = image
+                    NotificationCenter.default.post(name: .TokenContactDidUpdateAvatarNotification, object: self)
                 }
             }
         }

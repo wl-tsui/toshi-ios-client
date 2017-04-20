@@ -118,6 +118,8 @@ class AppController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.edgesForExtendedLayout = .bottom
+
+        NotificationCenter.default.addObserver(self, selector: #selector(avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: self.app)
     }
 
     public required init?(coder _: NSCoder) {
@@ -150,10 +152,6 @@ class AppController: UIViewController {
 
         if let image = self.app.avatar {
             self.avatarImageView.image = image
-        } else {
-            AppsAPIClient.shared.downloadImage(for: self.app) { image in
-                self.avatarImageView.image = image
-            }
         }
 
         self.updateButton()
@@ -237,6 +235,10 @@ class AppController: UIViewController {
         self.categoryContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         self.categoryContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
+    }
+
+    func avatarDidUpdate() {
+        self.avatarImageView.image = self.app.avatar
     }
 
     func displayQRCode() {
