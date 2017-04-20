@@ -1,6 +1,9 @@
 #import "TSThread+Additions.h"
+#import <objc/runtime.h>
 
 @implementation TSThread (Additions)
+@dynamic cachedContactIdentifier;
+static char _internalPropertyKey;
 
 - (NSArray<TSIncomingMessage *> *)visibleIncomingInteractions {
     NSMutableArray *visible = [NSMutableArray array];
@@ -17,6 +20,19 @@
     }
 
     return visible;
+}
+
+- (void)setCachedContactIdentifier:(NSString *)value {
+    objc_setAssociatedObject(self, &_internalPropertyKey, value, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (NSString *)cachedContactIdentifier {
+    NSString *identifier = (NSString* )objc_getAssociatedObject(self, &_internalPropertyKey);
+    if (identifier == nil) {
+        return [self name];
+    }
+
+    return identifier;
 }
 
 @end

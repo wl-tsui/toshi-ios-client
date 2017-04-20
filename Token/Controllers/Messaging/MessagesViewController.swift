@@ -135,7 +135,7 @@ class MessagesViewController: MessagesCollectionViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.hidesBottomBarWhenPushed = true
-        self.title = thread.name()
+        self.title = thread.cachedContactIdentifier
 
         self.registerNotifications()
 
@@ -189,6 +189,7 @@ class MessagesViewController: MessagesCollectionViewController {
 
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
+        self.title = self.thread.cachedContactIdentifier
     }
 
     override func viewWillDisappear(_ animated: Bool) {

@@ -27,8 +27,6 @@
         }
     }
 
-    NSLog(@"Error matching address to contact");
-
     return @"";
 }
 
