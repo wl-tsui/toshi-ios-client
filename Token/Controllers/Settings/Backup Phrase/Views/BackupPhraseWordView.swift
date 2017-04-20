@@ -61,7 +61,7 @@ class BackupPhraseWordView: UIControl {
         self.init(withAutoLayout: true)
         self.word = word
 
-        self.wordLabel.text = word
+        self.wordLabel.text = word.text
 
         self.addSubview(self.background)
         self.background.addSubview(self.backgroundOverlay)

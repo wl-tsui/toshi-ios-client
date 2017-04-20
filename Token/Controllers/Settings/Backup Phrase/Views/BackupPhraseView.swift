@@ -16,7 +16,16 @@
 import UIKit
 import SweetUIKit
 
-typealias Word = String
+struct Word {
+    let index: Int
+    let text: String
+    
+    init(_ index: Int, _ text: String) {
+        self.index = index
+        self.text = text
+    }
+}
+
 typealias Phrase = [Word]
 typealias Layout = [NSLayoutConstraint]
 
@@ -75,13 +84,13 @@ class BackupPhraseView: UIView {
     var wordViews: [BackupPhraseWordView] = []
     var containers: [UILayoutGuide] = []
 
-    convenience init(with originalPhrase: Phrase, for type: BackupPhraseType) {
+    convenience init(with originalPhrase: [String], for type: BackupPhraseType) {
         self.init(withAutoLayout: true)
         self.type = type
-
+        
         assert(originalPhrase.count <= 12, "Too large")
 
-        self.originalPhrase = originalPhrase
+        self.originalPhrase = originalPhrase.enumerated().map { (index, text) in Word(index, text) }
         self.wordViews = self.wordViews(for: self.originalPhrase)
 
         for wordView in self.wordViews {
@@ -113,10 +122,14 @@ class BackupPhraseView: UIView {
         self.animateLayout()
 
         self.wordViews.filter { wordView in
-            self.currentPhrase.contains(wordView.word!)
+            if let index = wordView.word?.index {
+                return self.currentPhrase.map { word in word.index }.contains(index)
+            } else {
+                return false
+            }
         }.forEach { wordView in
-
-            if word == wordView.word {
+            
+            if word.index == wordView.word?.index {
                 self.sendSubview(toBack: wordView)
                 wordView.alpha = 0
             }
@@ -131,7 +144,7 @@ class BackupPhraseView: UIView {
 
     func remove(_ word: Word) {
         self.currentPhrase = self.currentPhrase.filter { currentWord in
-            currentWord != word
+            currentWord.index != word.index
         }
 
         self.deactivateLayout()
@@ -139,7 +152,13 @@ class BackupPhraseView: UIView {
         self.animateLayout()
 
         self.wordViews.filter { wordView in
-            !self.currentPhrase.contains(wordView.word!)
+            
+            if let index = wordView.word?.index {
+                return !self.currentPhrase.map { word in word.index }.contains(index)
+            } else {
+                return false
+            }
+            
         }.forEach { wordView in
             wordView.alpha = 0
         }
@@ -148,7 +167,7 @@ class BackupPhraseView: UIView {
     func reset(_ word: Word) {
 
         self.wordViews.filter { wordView in
-            wordView.word == word
+            wordView.word?.index == word.index
         }.forEach { wordView in
             wordView.isAddedForVerification = false
             wordView.isEnabled = true
@@ -199,7 +218,7 @@ class BackupPhraseView: UIView {
 
         for currentWord in self.currentPhrase {
             for wordView in self.wordViews {
-                if let word = wordView.word, word == currentWord {
+                if let word = wordView.word, word.index == currentWord.index {
                     views.append(wordView)
 
                     if case .verification = self.type {
@@ -258,7 +277,13 @@ class BackupPhraseView: UIView {
         guard let lastContainer = containers.last else { return }
 
         self.wordViews.filter { wordView in
-            !self.currentPhrase.contains(wordView.word!)
+            
+            if let index = wordView.word?.index {
+                return !self.currentPhrase.map { word in word.index }.contains(index)
+            } else {
+                return false
+            }
+            
         }.forEach { wordView in
             wordView.alpha = 0
 
