@@ -161,5 +161,4 @@ class ProfileCell: BaseCell {
     func avatarDidUpdate() {
         self.avatarImageView.image = User.current?.avatar
     }
-
 }
