@@ -1,9 +1,26 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "7.0.1",
   "iOS" : [
     {
-      "hash" : "165ba291088f2f09c3df4ed2f89d36e8b9e03f19ffb5a80743db116d7fc5935b",
+      "hash" : "e19bac45022143b08cdc91f225abf8d2fa2aa6a0c60a731f722bd7c247f7e03b",
+      "name" : "KeychainSwift"
+    }
+  ],
+  "commitish" : "7.0.1",
+  "watchOS" : [
+    {
+      "hash" : "624a91f99a8362b4ae2a34093852748092de95c12fad10bebd1431c1c0318e22",
+      "name" : "KeychainSwift"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "01a5139557ee71ba17e312d108736a4d590c787d0a144c31d7e1f6f9e84d57d1",
+      "name" : "KeychainSwift"
+    }
+  ],
+  "Mac" : [
+    {
+      "hash" : "4c07c650400d21053f08db74926a5aefeec7e86b43741fc163ceb145eb9ddbe3",
       "name" : "KeychainSwift"
     }
   ]

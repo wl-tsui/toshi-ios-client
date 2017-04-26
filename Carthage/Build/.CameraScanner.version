@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "0.0.1",
   "iOS" : [
     {
-      "hash" : "2b3e855cef1837c418d30c3c8925f42f1969b3aac6973b31769d0a581e8a335c",
+      "hash" : "559bf264d6459b4e73570f6d2e1948119952be14c912b93bf92b369fc33895e7",
       "name" : "CameraScanner"
     }
+  ],
+  "commitish" : "0.0.1",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }

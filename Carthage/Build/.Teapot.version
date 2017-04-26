@@ -1,10 +1,21 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "0.0.2",
   "iOS" : [
     {
-      "hash" : "cc6d795c9131924faf5cb8ddeaf50e8c8f43586b6e62f5d8965acb6902247565",
+      "hash" : "5b1a1024462262621ab3ff0219dbdefce600a74d33f98f30bd0c653a5d3f76cf",
       "name" : "Teapot"
+    }
+  ],
+  "commitish" : "0.0.2",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+    {
+      "hash" : "16694045da181686a23a87a4c4a400fc3bfcd5212588800af59efa29830f93c1",
+      "name" : "TeapotMac"
     }
   ]
 }

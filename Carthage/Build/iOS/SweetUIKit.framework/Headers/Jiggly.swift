@@ -1,7 +1,5 @@
 import UIKit
 
-#if os(iOS) || os(tvOS)
-
 public protocol Jiggly: class {
     func startBouncing()
     func stopBouncing()
@@ -30,6 +28,8 @@ public extension Jiggly {
         let options = UIViewAnimationOptions(arrayLiteral: .allowUserInteraction, .repeat, .autoreverse)
         UIView.animate(withDuration: 0.15, delay: 0.0, options: options, animations: {
             self.transform = rightWobble
+        }, completion: { _ in
+
         })
     }
 
@@ -38,5 +38,3 @@ public extension Jiggly {
         self.transform = .identity
     }
 }
-
-#endif

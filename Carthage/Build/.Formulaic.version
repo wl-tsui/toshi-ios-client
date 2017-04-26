@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "0.0.2",
   "iOS" : [
     {
-      "hash" : "bf83bbe1007eecbc96c62d4324a41aa5d766bdcc67def1c78df3da454b322961",
+      "hash" : "332c541034c574ae7243703d32fbb01e8b71284d01ad917c0a3a4dbf03b2d7d2",
       "name" : "Formulaic"
     }
+  ],
+  "commitish" : "0.0.2",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }

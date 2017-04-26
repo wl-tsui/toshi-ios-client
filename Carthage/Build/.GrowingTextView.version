@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "1.1.1",
   "iOS" : [
     {
-      "hash" : "b65ef525d19283938e8f4d67df91deef92c3e3afa9f4902792d5e0ad3cb49e0f",
+      "hash" : "1cbe5af1041a8a0225357b7a5223dae4781f9287f4fec35a5d694cded4501eaf",
       "name" : "HPGrowingTextView"
     }
+  ],
+  "commitish" : "1.1.1",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }

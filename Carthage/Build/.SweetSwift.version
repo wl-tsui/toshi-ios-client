@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "1.2.0",
   "iOS" : [
     {
-      "hash" : "1ae8b409d90862483d307ef603e9bce0d7b31aa4d8b0d2fe3e52c350013bf42b",
+      "hash" : "ebe620e7c7cbe9fb23bff4701363444f795e9d03d926dd6f92e6c4f4eaee57d4",
       "name" : "SweetSwift"
     }
+  ],
+  "commitish" : "1.2.0",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }

@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "0.0.3",
   "iOS" : [
     {
-      "hash" : "8b2ba21203515db69e360c64a4c6e5fae2663d243bea5b4c743ff8683877364c",
+      "hash" : "beddc5c93a854e18735eec259847c05d89ed41bdcac95a51bb2b5de2c23323ee",
       "name" : "EtherealCereal"
     }
+  ],
+  "commitish" : "0.0.3",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }

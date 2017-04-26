@@ -1,10 +1,24 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "3178252704d169844ab8203ade6ca7b7f2e9503b",
   "iOS" : [
     {
-      "hash" : "b0a8aa82825d3d2b5e2ce6e2246df9d570536df10569c9d3af7787b51a126ceb",
+      "hash" : "5c8bc986bda1227394c39efbb87ee321baace96bf3d8def29c99f59aee3719b9",
       "name" : "AwesomeCache"
     }
+  ],
+  "commitish" : "3178252704d169844ab8203ade6ca7b7f2e9503b",
+  "watchOS" : [
+    {
+      "hash" : "a511a7ae9d6f992274c8a689e3ee951b50926a36b0e04029f8b0e706c1f1b496",
+      "name" : "AwesomeCache"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "857df8f3330ee46b957d4a7f4d06e5b03236367392007de37ea776678d28b5f3",
+      "name" : "AwesomeCache"
+    }
+  ],
+  "Mac" : [
+
   ]
 }

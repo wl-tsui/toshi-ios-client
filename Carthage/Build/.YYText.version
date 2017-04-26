@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "02eba9ffd392892a2fca5ed98f6628d29003ef78",
   "iOS" : [
     {
-      "hash" : "f0ae365061a6e02d01d2acaf3291d07da8eb9771761b11717bb179cdcf90e46b",
+      "hash" : "c22dc1ecabe8bda8f17b4165a33ae10e44523080ad94ad66b9e6b0a28d64df0c",
       "name" : "YYText"
     }
+  ],
+  "commitish" : "02eba9ffd392892a2fca5ed98f6628d29003ef78",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }

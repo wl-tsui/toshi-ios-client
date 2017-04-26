@@ -1,10 +1,18 @@
 {
-  "xcodeVersion" : "Xcode 8.3\nBuild version 8E162",
-  "commitish" : "2.1.1",
   "iOS" : [
     {
-      "hash" : "8317c83b68b06915a0c0d78bebb3e66fbfb95f29f7674960b409b24a51805f32",
+      "hash" : "95d351e3ebff98449b20053152392339515c1bf53e8e42ee95f5bf8feec13ee8",
       "name" : "ImagePicker"
     }
+  ],
+  "commitish" : "2.1.1",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }
