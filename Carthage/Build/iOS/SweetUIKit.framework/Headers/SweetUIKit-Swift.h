@@ -192,7 +192,6 @@ SWIFT_CLASS("_TtC10SweetUIKit30SearchableCollectionController")
 /// The installed UISearchController. Override the delegate methods (call super) if necessary.
 @property (nonatomic, strong) UISearchController * _Nonnull searchController;
 - (void)viewDidLoad;
-- (void)viewWillAppear:(BOOL)animated;
 - (nonnull instancetype)initWithCollectionViewLayout:(UICollectionViewLayout * _Nonnull)layout OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)argument OBJC_DESIGNATED_INITIALIZER;
 @end

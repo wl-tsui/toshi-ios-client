@@ -1,18 +1,9 @@
 {
+  "commitish" : "9946019e5e342d7f365cf93d87a4ad3e037bbc2d",
   "iOS" : [
     {
-      "hash" : "559bf264d6459b4e73570f6d2e1948119952be14c912b93bf92b369fc33895e7",
+      "hash" : "dde41064d18590e9a94cd6fead7a3b56a4e7827e232754e5939ee7c06e617985",
       "name" : "CameraScanner"
     }
-  ],
-  "commitish" : "0.0.1",
-  "watchOS" : [
-
-  ],
-  "tvOS" : [
-
-  ],
-  "Mac" : [
-
   ]
 }

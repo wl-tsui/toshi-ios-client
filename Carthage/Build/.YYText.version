@@ -1,18 +1,9 @@
 {
+  "commitish" : "02eba9ffd392892a2fca5ed98f6628d29003ef78",
   "iOS" : [
     {
-      "hash" : "c22dc1ecabe8bda8f17b4165a33ae10e44523080ad94ad66b9e6b0a28d64df0c",
+      "hash" : "cbe17815b46a7d24b6288c642975f914637b901ba1a3c6b2aa33e4a02304b64c",
       "name" : "YYText"
     }
-  ],
-  "commitish" : "02eba9ffd392892a2fca5ed98f6628d29003ef78",
-  "watchOS" : [
-
-  ],
-  "tvOS" : [
-
-  ],
-  "Mac" : [
-
   ]
 }
