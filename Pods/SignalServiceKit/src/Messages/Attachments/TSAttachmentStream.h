@@ -1,5 +1,6 @@
-//  Created by Frederic Jacobs on 17/12/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 #import "TSAttachment.h"
 #if TARGET_OS_IPHONE
@@ -13,10 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TSAttachmentStream : TSAttachment
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithContentType:(NSString *)contentType NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithContentType:(NSString *)contentType filename:(NSString *)filename NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithPointer:(TSAttachmentPointer *)pointer NS_DESIGNATED_INITIALIZER;
 
-@property (atomic, readwrite) BOOL isDownloaded;
+// Though now required, `digest` may be null for pre-existing records or from
+// messages received from other clients
+@property (nullable, nonatomic) NSData *digest;
+
+// This only applies for attachments being uploaded.
+@property (atomic) BOOL isUploaded;
+
+@property (nonatomic, readonly, nullable) NSString *filename;
 
 #if TARGET_OS_IPHONE
 - (nullable UIImage *)image;
@@ -25,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isAnimated;
 - (BOOL)isImage;
 - (BOOL)isVideo;
+- (BOOL)isAudio;
 - (nullable NSString *)filePath;
 - (nullable NSURL *)mediaURL;
 - (nullable NSData *)readDataFromFileWithError:(NSError **)error;

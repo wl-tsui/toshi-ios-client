@@ -533,8 +533,9 @@ class MessagesViewController: MessagesCollectionViewController {
                         let reversedIndex = self.reversedIndexPath(IndexPath(row: visibleIndex, section: 0)).row
                         guard let layout = self.layouts[reversedIndex] as? MessageCellLayout else { return }
 
+                        // commented out until we can prevent it from triggering an update
                         if let signalMessage = layout.message.signalMessage as? TSOutgoingMessage, let newSignalMessage = interaction as? TSOutgoingMessage {
-                            signalMessage.messageState = newSignalMessage.messageState
+                            signalMessage.setState(newSignalMessage.messageState)
                         }
 
                         layout.calculate()
@@ -668,6 +669,7 @@ extension MessagesViewController: ChatInputTextPanelDelegate {
     func inputTextPanelrequestSendAttachment(_: ChatInputTextPanel) {
         let picker = ImagePickerController()
         picker.delegate = self
+        picker.configuration.allowVideoSelection = true
 
         self.present(picker, animated: true)
     }
@@ -688,7 +690,7 @@ extension MessagesViewController: RateUserControllerDelegate {
 
 extension MessagesViewController: ImagePickerDelegate {
     func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
-        print("ok")
+        
     }
 
     func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
@@ -699,7 +701,7 @@ extension MessagesViewController: ImagePickerDelegate {
                 let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                 let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
 
-                self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg" as String, in: outgoingMessage, success: {
+                self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg", filename: "image.jpeg", in: outgoingMessage, success: {
                     print("Success")
                 }, failure: { error in
                     print("Failure: \(error)")

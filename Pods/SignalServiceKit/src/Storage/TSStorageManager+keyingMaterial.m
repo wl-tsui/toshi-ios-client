@@ -26,7 +26,7 @@
         __block BOOL isPresent;
         [self.newDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
             isPresent = [transaction objectForKey:TSStorageRegisteredNumberKey
-                                      inCollection:TSStorageUserAccountCollection] != nil;
+                                     inCollection:TSStorageUserAccountCollection] != nil;
         }];
 
         if (isPresent == runIfPresent) {
@@ -67,10 +67,10 @@
     YapDatabaseConnection *dbConn = [[self sharedManager] dbConnection];
 
     [dbConn readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-      [transaction setObject:authToken forKey:TSStorageServerAuthToken inCollection:TSStorageUserAccountCollection];
-      [transaction setObject:signalingKey
-                      forKey:TSStorageServerSignalingKey
-                inCollection:TSStorageUserAccountCollection];
+        [transaction setObject:authToken forKey:TSStorageServerAuthToken inCollection:TSStorageUserAccountCollection];
+        [transaction setObject:signalingKey
+                        forKey:TSStorageServerSignalingKey
+                  inCollection:TSStorageUserAccountCollection];
 
     }];
 }

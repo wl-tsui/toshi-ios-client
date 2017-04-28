@@ -159,6 +159,8 @@
 		9F246C4C1E9BB4C200C9E5AB /* AwesomeCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F246C4A1E9BB4C200C9E5AB /* AwesomeCache.framework */; };
 		9F246C4D1E9BB53000C9E5AB /* AwesomeCache.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F246C4A1E9BB4C200C9E5AB /* AwesomeCache.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
+		9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */; };
+		9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */; };
 		9F40F3C01E59FE97007A7DE7 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */; };
 		9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */; };
 		9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F40F3BB1E59FE97007A7DE7 /* TGBaseMessageCell.swift */; };
@@ -182,6 +184,22 @@
 		9F5D63A61E92331800FED490 /* ImageMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5D63A41E92331800FED490 /* ImageMessageCellLayout.swift */; };
 		9F5F297A1E26774100C652A3 /* MessagingNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */; };
 		9F5F297E1E2677F200C652A3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */; };
+		9F65E0221EB226C100B12819 /* WebRTC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F65E0211EB226C100B12819 /* WebRTC.framework */; };
+		9F65E0231EB226C100B12819 /* WebRTC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F65E0211EB226C100B12819 /* WebRTC.framework */; };
+		9F65E0241EB226ED00B12819 /* WebRTC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F65E0211EB226C100B12819 /* WebRTC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0251EB226ED00B12819 /* NoChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE14B2F1E93A2A900ADFA1F /* NoChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0261EB226ED00B12819 /* HPGrowingTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D51E5A061C007A7DE7 /* HPGrowingTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0271EB226ED00B12819 /* YYText.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F40F3D61E5A061C007A7DE7 /* YYText.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0281EB226ED00B12819 /* HDWallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FC0D3E01E55A1E300A46760 /* HDWallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0291EB226ED00B12819 /* Teapot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FE4267B1E3F566B007ED2A4 /* Teapot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E02A1EB226ED00B12819 /* CameraScanner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E02B1EB226ED00B12819 /* EtherealCereal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758511E3BA1850009ABCD /* EtherealCereal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E02C1EB226ED00B12819 /* Formulaic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758521E3BA1850009ABCD /* Formulaic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E02D1EB226ED00B12819 /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758531E3BA1850009ABCD /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E02E1EB226ED00B12819 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758551E3BA1850009ABCD /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E02F1EB226ED00B12819 /* SweetFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758561E3BA1850009ABCD /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0301EB226ED00B12819 /* SweetSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758571E3BA1850009ABCD /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9F65E0311EB226ED00B12819 /* SweetUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758581E3BA1850009ABCD /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F66BBB91E7FCE2C00C4148A /* HomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */; };
 		9F66BBBA1E7FCE2C00C4148A /* HomeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */; };
 		9F67585B1E3BA1850009ABCD /* CameraScanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F6758501E3BA1850009ABCD /* CameraScanner.framework */; };
@@ -290,6 +308,8 @@
 		9FEFEF641E66CE0000948277 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
 		9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF651E66CF6E00948277 /* addContactApp.m4a */; };
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
+		9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
+		9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
 		9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
 		9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
 		9FF6AF9F1E83DE04001B5907 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
@@ -350,9 +370,23 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */,
-				9F1852AF1E93D7A7001C5C13 /* ImagePicker.framework in Embed Frameworks */,
+				9F65E0241EB226ED00B12819 /* WebRTC.framework in Embed Frameworks */,
 				9F246C4D1E9BB53000C9E5AB /* AwesomeCache.framework in Embed Frameworks */,
+				9F1852AF1E93D7A7001C5C13 /* ImagePicker.framework in Embed Frameworks */,
+				9F65E0251EB226ED00B12819 /* NoChat.framework in Embed Frameworks */,
+				9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */,
+				9F65E0261EB226ED00B12819 /* HPGrowingTextView.framework in Embed Frameworks */,
+				9F65E0271EB226ED00B12819 /* YYText.framework in Embed Frameworks */,
+				9F65E0281EB226ED00B12819 /* HDWallet.framework in Embed Frameworks */,
+				9F65E0291EB226ED00B12819 /* Teapot.framework in Embed Frameworks */,
+				9F65E02A1EB226ED00B12819 /* CameraScanner.framework in Embed Frameworks */,
+				9F65E02B1EB226ED00B12819 /* EtherealCereal.framework in Embed Frameworks */,
+				9F65E02C1EB226ED00B12819 /* Formulaic.framework in Embed Frameworks */,
+				9F65E02D1EB226ED00B12819 /* KeychainSwift.framework in Embed Frameworks */,
+				9F65E02E1EB226ED00B12819 /* PromiseKit.framework in Embed Frameworks */,
+				9F65E02F1EB226ED00B12819 /* SweetFoundation.framework in Embed Frameworks */,
+				9F65E0301EB226ED00B12819 /* SweetSwift.framework in Embed Frameworks */,
+				9F65E0311EB226ED00B12819 /* SweetUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,6 +430,8 @@
 		9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalNotificationHandler.swift; sourceTree = "<group>"; };
 		9F246C4A1E9BB4C200C9E5AB /* AwesomeCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AwesomeCache.framework; path = Carthage/Build/iOS/AwesomeCache.framework; sourceTree = "<group>"; };
 		9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumConverter.swift; sourceTree = "<group>"; };
+		9F3FF7FE1EB36122002D0293 /* TSOutgoingMessage+Addtions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSOutgoingMessage+Addtions.h"; sourceTree = "<group>"; };
+		9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSOutgoingMessage+Addtions.m"; sourceTree = "<group>"; };
 		9F40F3B91E59FE97007A7DE7 /* ChatInputTextPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputTextPanel.swift; sourceTree = "<group>"; };
 		9F40F3BA1E59FE97007A7DE7 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		9F40F3BB1E59FE97007A7DE7 /* TGBaseMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGBaseMessageCell.swift; sourceTree = "<group>"; };
@@ -413,6 +449,7 @@
 		9F5D63A41E92331800FED490 /* ImageMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMessageCellLayout.swift; sourceTree = "<group>"; };
 		9F5F29781E26774100C652A3 /* MessagingNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = MessagingNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		9F5F297D1E2677F200C652A3 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		9F65E0211EB226C100B12819 /* WebRTC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebRTC.framework; path = Carthage/Build/iOS/WebRTC.framework; sourceTree = "<group>"; };
 		9F66BBB81E7FCE2C00C4148A /* HomeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeButton.swift; sourceTree = "<group>"; };
 		9F6758501E3BA1850009ABCD /* CameraScanner.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CameraScanner.framework; path = Carthage/Build/iOS/CameraScanner.framework; sourceTree = SOURCE_ROOT; };
 		9F6758511E3BA1850009ABCD /* EtherealCereal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EtherealCereal.framework; path = Carthage/Build/iOS/EtherealCereal.framework; sourceTree = SOURCE_ROOT; };
@@ -516,6 +553,8 @@
 		9FEFEF631E66CE0000948277 /* scan.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = scan.m4a; sourceTree = "<group>"; };
 		9FEFEF651E66CF6E00948277 /* addContactApp.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = addContactApp.m4a; sourceTree = "<group>"; };
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
+		9FF00E351EB20F3500A854A8 /* EmptyCallHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyCallHandler.h; sourceTree = "<group>"; };
+		9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyCallHandler.m; sourceTree = "<group>"; };
 		9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewRightAlignedLayout.h; sourceTree = "<group>"; };
 		9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewRightAlignedLayout.m; sourceTree = "<group>"; };
 		9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
@@ -565,6 +604,7 @@
 				149F9AB11E72E29A00FB74AA /* Formulaic.framework in Frameworks */,
 				149F9AB31E72E29A00FB74AA /* AVFoundation.framework in Frameworks */,
 				149F9AB41E72E29A00FB74AA /* EtherealCereal.framework in Frameworks */,
+				9F65E0231EB226C100B12819 /* WebRTC.framework in Frameworks */,
 				149F9AB51E72E29A00FB74AA /* YYText.framework in Frameworks */,
 				9F1852AE1E93D7A3001C5C13 /* ImagePicker.framework in Frameworks */,
 				149F9AB61E72E29A00FB74AA /* PromiseKit.framework in Frameworks */,
@@ -591,6 +631,7 @@
 				9F67585D1E3BA1850009ABCD /* Formulaic.framework in Frameworks */,
 				9FA12BE81E65A116003705F6 /* RevealServer.framework in Frameworks */,
 				9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */,
+				9F65E0221EB226C100B12819 /* WebRTC.framework in Frameworks */,
 				9F67585C1E3BA1850009ABCD /* EtherealCereal.framework in Frameworks */,
 				9F1852AD1E93D7A3001C5C13 /* ImagePicker.framework in Frameworks */,
 				9F40F3D91E5A061C007A7DE7 /* YYText.framework in Frameworks */,
@@ -682,6 +723,7 @@
 		27842ECF00E36BC79A5918DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9F65E0211EB226C100B12819 /* WebRTC.framework */,
 				9F246C4A1E9BB4C200C9E5AB /* AwesomeCache.framework */,
 				9F1852AC1E93D7A3001C5C13 /* ImagePicker.framework */,
 				9FE14B2F1E93A2A900ADFA1F /* NoChat.framework */,
@@ -811,6 +853,8 @@
 			children = (
 				9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */,
 				9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */,
+				9FF00E351EB20F3500A854A8 /* EmptyCallHandler.h */,
+				9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */,
 				9F9238B51E24F1D2004BEEE0 /* main.m */,
 			);
 			path = "Supporting Files";
@@ -956,8 +1000,10 @@
 				9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */,
 				9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */,
 				A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */,
-				9F7B896C1E51C6DA009C192E /* TSInteraction+Additions.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
+				9F7B896C1E51C6DA009C192E /* TSInteraction+Additions.swift */,
+				9F3FF7FE1EB36122002D0293 /* TSOutgoingMessage+Addtions.h */,
+				9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */,
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
 				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
@@ -1180,7 +1226,6 @@
 				1462543C1E4326DA00A3B822 /* Embed Frameworks */,
 				D38AD1AE7AB4822DF479228C /* [CP] Embed Pods Frameworks */,
 				1E02A34C028A01DBA24DE4C0 /* [CP] Copy Pods Resources */,
-				9FB017271E658ECC00BD5B81 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1357,7 +1402,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		149F9AC31E72E29A00FB74AA /* Bump build number */ = {
@@ -1425,6 +1470,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ImagePicker.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AwesomeCache.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/WebRTC.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1460,35 +1506,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
-		};
-		9FB017271E658ECC00BD5B81 /* Copy Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/HPGrowingTextView.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/YYText.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/HDWallet.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/CameraScanner.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/EtherealCereal.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Formulaic.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KeychainSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SweetFoundation.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SweetSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SweetUIKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/NoChat.framework",
-			);
-			name = "Copy Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks ";
 		};
 		D38AD1AE7AB4822DF479228C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1542,6 +1561,7 @@
 				149F9A721E72E29A00FB74AA /* PaymentRequestController.swift in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				9F48C1581E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
+				9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
 				149F9A741E72E29A00FB74AA /* ControlsCollectionView.swift in Sources */,
 				A9ED6CD21E84014500160637 /* SignInController.swift in Sources */,
@@ -1610,6 +1630,7 @@
 				149F9A9E1E72E29A00FB74AA /* User.swift in Sources */,
 				9FB36EA51E7C272400DB6F86 /* NSLayoutConstraint+Additions.swift in Sources */,
 				149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */,
+				9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
 				149F9AA01E72E29A00FB74AA /* SofaWrapper.swift in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,
 				149F9AA11E72E29A00FB74AA /* MessageCell.swift in Sources */,
@@ -1660,6 +1681,7 @@
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
 				9F48C1571E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
+				9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */,
@@ -1728,6 +1750,7 @@
 				9FCDBADD1E28E57100A70E07 /* User.swift in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */,
+				9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
 				A9ED6CCA1E82865600160637 /* SignInNavigationController.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */,

@@ -2,7 +2,7 @@
   "commitish" : "0.0.2",
   "iOS" : [
     {
-      "hash" : "2ff5197f4e0ff75bd254fa97b5d2f6e6ac0f586dd6252734a14260f219d287e2",
+      "hash" : "818b584a3ec23b729e4682193220df061a58319cfb64389976028033dc39e513",
       "name" : "Teapot"
     }
   ]

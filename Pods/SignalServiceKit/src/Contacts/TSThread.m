@@ -1,22 +1,27 @@
-//  Created by Frederic Jacobs on 16/11/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 #import "TSThread.h"
+#import "OWSReadTracking.h"
 #import "TSDatabaseView.h"
 #import "TSIncomingMessage.h"
 #import "TSInteraction.h"
 #import "TSInvalidIdentityKeyReceivingErrorMessage.h"
 #import "TSOutgoingMessage.h"
 #import "TSStorageManager.h"
+#import <YapDatabase/YapDatabase.h>
+#import <YapDatabase/YapDatabaseTransaction.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TSThread ()
 
-@property (nonatomic, retain) NSDate *creationDate;
+@property (nonatomic) NSDate *creationDate;
 @property (nonatomic, copy) NSDate *archivalDate;
-@property (nonatomic, retain) NSDate *lastMessageDate;
+@property (nonatomic) NSDate *lastMessageDate;
 @property (nonatomic, copy) NSString *messageDraft;
+@property (atomic, nullable) NSDate *mutedUntilDate;
 
 - (TSInteraction *)lastInteraction;
 
@@ -178,26 +183,26 @@ NS_ASSUME_NONNULL_BEGIN
     return hasUnread;
 }
 
-- (NSArray<TSIncomingMessage *> *)unreadMessagesWithTransaction:(YapDatabaseReadTransaction *)transaction
+- (NSArray<id<OWSReadTracking> > *)unreadMessagesWithTransaction:(YapDatabaseReadTransaction *)transaction
 {
-    NSMutableArray<TSIncomingMessage *> *messages = [NSMutableArray new];
+    NSMutableArray<id<OWSReadTracking> > *messages = [NSMutableArray new];
     [[transaction ext:TSUnreadDatabaseViewExtensionName]
         enumerateRowsInGroup:self.uniqueId
                   usingBlock:^(
                       NSString *collection, NSString *key, id object, id metadata, NSUInteger index, BOOL *stop) {
 
-                      if (![object isKindOfClass:[TSIncomingMessage class]]) {
+                      if (![object conformsToProtocol:@protocol(OWSReadTracking)]) {
                           DDLogError(@"%@ Unexpected object in unread messages: %@", self.tag, object);
                       }
-                      [messages addObject:(TSIncomingMessage *)object];
+                      [messages addObject:(id<OWSReadTracking>)object];
                   }];
 
     return [messages copy];
 }
 
-- (NSArray<TSIncomingMessage *> *)unreadMessages
+- (NSArray<id<OWSReadTracking> > *)unreadMessages
 {
-    __block NSArray<TSIncomingMessage *> *messages;
+    __block NSArray<id<OWSReadTracking> > *messages;
     [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
         messages = [self unreadMessagesWithTransaction:transaction];
     }];
@@ -207,14 +212,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)markAllAsReadWithTransaction:(YapDatabaseReadWriteTransaction *)transaction
 {
-    for (TSIncomingMessage *message in [self unreadMessagesWithTransaction:transaction]) {
+    for (id<OWSReadTracking> message in [self unreadMessagesWithTransaction:transaction]) {
         [message markAsReadLocallyWithTransaction:transaction];
     }
 }
 
 - (void)markAllAsRead
 {
-    for (TSIncomingMessage *message in [self unreadMessages]) {
+    for (id<OWSReadTracking> message in [self unreadMessages]) {
         [message markAsReadLocally];
     }
 }
@@ -244,12 +249,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateWithLastMessage:(TSInteraction *)lastMessage transaction:(YapDatabaseReadWriteTransaction *)transaction {
-    NSDate *lastMessageDate = lastMessage.date;
-
-    if ([lastMessage isKindOfClass:[TSIncomingMessage class]]) {
-        TSIncomingMessage *message = (TSIncomingMessage *)lastMessage;
-        lastMessageDate            = message.receivedAt;
-    }
+    NSDate *lastMessageDate = [lastMessage receiptDateForSorting];
 
     if (!_lastMessageDate || [lastMessageDate timeIntervalSinceDate:self.lastMessageDate] > 0) {
         _lastMessageDate = lastMessageDate;
@@ -296,6 +296,46 @@ NS_ASSUME_NONNULL_BEGIN
     TSThread *thread    = [TSThread fetchObjectWithUniqueID:self.uniqueId transaction:transaction];
     thread.messageDraft = draftString;
     [thread saveWithTransaction:transaction];
+}
+
+#pragma mark - Muted
+
+- (BOOL)isMuted
+{
+    NSDate *mutedUntilDate = self.mutedUntilDate;
+    NSDate *now = [NSDate date];
+    return (mutedUntilDate != nil &&
+            [mutedUntilDate timeIntervalSinceDate:now] > 0);
+}
+
+// This method does the work for the "updateWith..." methods.  Please see
+// the header for a discussion of those methods.
+- (void)applyChangeToSelfAndLatestThread:(YapDatabaseReadWriteTransaction *)transaction
+                             changeBlock:(void (^)(TSThread *))changeBlock
+{
+    OWSAssert(transaction);
+    
+    changeBlock(self);
+    
+    NSString *collection = [[self class] collection];
+    TSThread *latestInstance = [transaction objectForKey:self.uniqueId inCollection:collection];
+    if (latestInstance) {
+        changeBlock(latestInstance);
+        [latestInstance saveWithTransaction:transaction];
+    } else {
+        // This message has not yet been saved.
+        [self saveWithTransaction:transaction];
+    }
+}
+
+- (void)updateWithMutedUntilDate:(NSDate *)mutedUntilDate
+{
+    [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+        [self applyChangeToSelfAndLatestThread:transaction
+                                            changeBlock:^(TSThread *thread) {
+                                                [thread setMutedUntilDate:mutedUntilDate];
+                                            }];
+    }];
 }
 
 #pragma mark - Logging

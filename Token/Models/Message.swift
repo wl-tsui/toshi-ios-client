@@ -27,18 +27,26 @@ public class Message: NSObject, NOCChatItem {
     public var attributedSubtitle: NSAttributedString?
 
     public var images: [UIImage] {
+        var images = [UIImage]()
+
         if self.signalMessage.hasAttachments() {
             if let attachmentId = (signalMessage.attachmentIds as? [String])?.first {
                 let attachment = TSAttachment.fetch(withUniqueID: attachmentId)!
                 if attachment is TSAttachmentPointer {
-                    return [#imageLiteral(resourceName: "placeholder")]
-                } else if let stream = attachment as? TSAttachmentStream, let image = stream.image() {
-                    return [image]
+                    images = [#imageLiteral(resourceName: "placeholder")]
+                } else if let stream = attachment as? TSAttachmentStream {
+                    if stream.isVideo(), let thumbnail = stream.image() {
+                        images = [thumbnail]
+                    } else if stream.isImage(), let image = stream.image() {
+                        images = [image]
+                    } else if let _ = stream.mediaURL() {
+                        images = [#imageLiteral(resourceName: "placeholder")]
+                    }
                 }
             }
         }
 
-        return []
+        return images
     }
 
     public var title: String? {

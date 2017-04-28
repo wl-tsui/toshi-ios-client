@@ -1,9 +1,5 @@
 //
-//  TSAccountManagement.h
-//  TextSecureKit
-//
-//  Created by Frederic Jacobs on 27/10/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,18 +7,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const TSRegistrationErrorDomain             = @"TSRegistrationErrorDomain";
-static NSString *const TSRegistrationErrorUserInfoHTTPStatus = @"TSHTTPStatus";
+extern NSString *const TSRegistrationErrorDomain;
+extern NSString *const TSRegistrationErrorUserInfoHTTPStatus;
+extern NSString *const kNSNotificationName_RegistrationStateDidChange;
 
 @class TSNetworkManager;
 @class TSStorageManager;
 
 @interface TSAccountManager : NSObject
 
+#pragma mark - Initializers
+
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithNetworkManager:(TSNetworkManager *)networkManager
                         storageManager:(TSStorageManager *)storageManager;
 
 + (instancetype)sharedInstance;
+
+@property (nonatomic, strong, readonly) TSNetworkManager *networkManager;
 
 /**
  *  Returns if a user is registered or not
@@ -75,9 +78,6 @@ static NSString *const TSRegistrationErrorUserInfoHTTPStatus = @"TSHTTPStatus";
                                           success:(void (^)())successHandler
                                           failure:(void (^)(NSError *error))failureHandler
     NS_SWIFT_NAME(registerForPushNotifications(pushToken:voipToken:success:failure:));
-
-- (void)obtainRPRegistrationTokenWithSuccess:(void (^)(NSString *rpRegistrationToken))success
-                                     failure:(void (^)(NSError *error))failureBlock;
 
 #endif
 

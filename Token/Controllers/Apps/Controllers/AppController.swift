@@ -266,7 +266,7 @@ class AppController: UIViewController {
             var recipient = SignalRecipient(textSecureIdentifier: self.app.address, with: transaction)
 
             if recipient == nil {
-                recipient = SignalRecipient(textSecureIdentifier: self.app.address, relay: nil, supportsVoice: false)
+                recipient = SignalRecipient(textSecureIdentifier: self.app.address, relay: nil)
             }
 
             recipient?.save(with: transaction)

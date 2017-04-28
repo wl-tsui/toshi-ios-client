@@ -1,9 +1,5 @@
 //
-//  TSAccountManagement.m
-//  TextSecureKit
-//
-//  Created by Frederic Jacobs on 27/10/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
 #import "TSAccountManager.h"
@@ -14,19 +10,23 @@
 #import "SecurityUtils.h"
 #import "TSNetworkManager.h"
 #import "TSPreKeyManager.h"
-#import "TSRedPhoneTokenRequest.h"
 #import "TSSocketManager.h"
 #import "TSStorageManager+keyingMaterial.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *const TSRegistrationErrorDomain = @"TSRegistrationErrorDomain";
+NSString *const TSRegistrationErrorUserInfoHTTPStatus = @"TSHTTPStatus";
+NSString *const kNSNotificationName_RegistrationStateDidChange = @"kNSNotificationName_RegistrationStateDidChange";
+
 @interface TSAccountManager ()
 
 @property (nullable, nonatomic, retain) NSString *phoneNumberAwaitingVerification;
-@property (nonatomic, strong, readonly) TSNetworkManager *networkManager;
 @property (nonatomic, strong, readonly) TSStorageManager *storageManager;
 
 @end
+
+#pragma mark -
 
 @implementation TSAccountManager
 
@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     _networkManager = networkManager;
     _storageManager = storageManager;
+
+    OWSSingletonAssert();
 
     return self;
 }
@@ -75,6 +77,10 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     [self.storageManager storePhoneNumber:phoneNumber];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNSNotificationName_RegistrationStateDidChange
+                                                        object:nil
+                                                      userInfo:nil];
 }
 
 + (nullable NSString *)localNumber
@@ -208,8 +214,10 @@ NS_ASSUME_NONNULL_BEGIN
                 case 204: {
                     [TSStorageManager storeServerToken:authToken signalingKey:signalingKey];
                     [self didRegister];
-                    [TSSocketManager becomeActiveFromForeground];
-                    [TSPreKeyManager registerPreKeysWithSuccess:successBlock failure:failureBlock];
+                    [TSSocketManager requestSocketOpen];
+                    [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
+                                                     success:successBlock
+                                                     failure:failureBlock];
                     break;
                 }
                 default: {
@@ -256,26 +264,22 @@ NS_ASSUME_NONNULL_BEGIN
     return signalingKeyTokenPrint;
 }
 
-- (void)obtainRPRegistrationTokenWithSuccess:(void (^)(NSString *rpRegistrationToken))success
-                                     failure:(void (^)(NSError *error))failureBlock
-{
-    [self.networkManager makeRequest:[[TSRedPhoneTokenRequest alloc] init]
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogInfo(@"%@ Successfully obtained Redphone token", self.tag);
-            success([responseObject objectForKey:@"token"]);
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogError(@"%@ Failed to obtain Redphone token with error: %@", self.tag, error);
-            failureBlock(error);
-        }];
-}
-
 + (void)unregisterTextSecureWithSuccess:(void (^)())success failure:(void (^)(NSError *error))failureBlock
 {
     [[TSNetworkManager sharedManager] makeRequest:[[TSUnregisterAccountRequest alloc] init]
         success:^(NSURLSessionDataTask *task, id responseObject) {
             DDLogInfo(@"%@ Successfully unregistered", self.tag);
             success();
+
+            // This is called from `[SettingsTableViewController proceedToUnregistration]` whose
+            // success handler calls `[Environment resetAppData]`.
+            // This method, after calling that success handler, fires
+            // `kNSNotificationName_RegistrationStateDidChange` which is only safe to fire after
+            // the data store is reset.
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNSNotificationName_RegistrationStateDidChange
+                                                                object:nil
+                                                              userInfo:nil];
         }
         failure:^(NSURLSessionDataTask *task, NSError *error) {
             DDLogError(@"%@ Failed to unregister with error: %@", self.tag, error);

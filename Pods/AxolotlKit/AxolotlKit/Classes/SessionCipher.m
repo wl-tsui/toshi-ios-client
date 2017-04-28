@@ -1,9 +1,5 @@
 //
-//  TSAxolotlRatchet.m
-//  AxolotlKit
-//
-//  Created by Frederic Jacobs on 1/12/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
 #import "SessionCipher.h"
@@ -28,6 +24,11 @@
 #import "PreKeyStore.h"
 
 #import <HKDFKit/HKDFKit.h>
+
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(major, minor) \
+    ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){.majorVersion = major, .minorVersion = minor, .patchVersion = 0}])
+
+static dispatch_queue_t _sessionCipherDispatchQueue;
 
 @interface SessionCipher ()
 
@@ -77,8 +78,33 @@
     return self;
 }
 
+#pragma mark - dispatch queue 
+
++ (dispatch_queue_t)getSessionCipherDispatchQueue;
+{
+    if (_sessionCipherDispatchQueue) {
+        return _sessionCipherDispatchQueue;
+    } else {
+        return dispatch_get_main_queue();
+    }
+}
+
++ (void)setSessionCipherDispatchQueue:(dispatch_queue_t)dispatchQueue
+{
+    _sessionCipherDispatchQueue = dispatchQueue;
+}
+
+- (void)assertOnSessionCipherDispatchQueue
+{
+#ifdef DEBUG
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(10, 0)) {
+        dispatch_assert_queue([[self class] getSessionCipherDispatchQueue]);
+    } // else, skip assert as it's a development convenience.
+#endif
+}
+
 - (id<CipherMessage>)encryptMessage:(NSData*)paddedMessage{
-    
+    [self assertOnSessionCipherDispatchQueue];
     SessionRecord *sessionRecord = [self.sessionStore loadSession:self.recipientId deviceId:self.deviceId];
     SessionState  *session       = sessionRecord.sessionState;
     ChainKey *chainKey           = session.senderChainKey;
@@ -118,6 +144,7 @@
 }
 
 - (NSData*)decrypt:(id<CipherMessage>)whisperMessage{
+    [self assertOnSessionCipherDispatchQueue];
     if ([whisperMessage isKindOfClass:[PreKeyWhisperMessage class]]) {
         return [self decryptPreKeyWhisperMessage:(PreKeyWhisperMessage*)whisperMessage];
     } else{
@@ -126,12 +153,14 @@
 }
 
 - (NSData*)decryptPreKeyWhisperMessage:(PreKeyWhisperMessage*)preKeyWhisperMessage{
+    [self assertOnSessionCipherDispatchQueue];
     SessionRecord *sessionRecord = [self.sessionStore loadSession:self.recipientId deviceId:self.deviceId];
     int unsignedPreKeyId         = [self.sessionBuilder processPrekeyWhisperMessage:preKeyWhisperMessage withSession:sessionRecord];
     NSData *plaintext            = [self decryptWithSessionRecord:sessionRecord whisperMessage:preKeyWhisperMessage.message];
 
     [self.sessionStore storeSession:self.recipientId deviceId:self.deviceId session:sessionRecord];
-    
+
+    // If there was an unsigned PreKey
     if (unsignedPreKeyId >= 0) {
         [self.prekeyStore removePreKey:unsignedPreKeyId];
     }
@@ -140,6 +169,7 @@
 }
 
 - (NSData*)decryptWhisperMessage:(WhisperMessage*)message{
+    [self assertOnSessionCipherDispatchQueue];
     if (![self.sessionStore containsSession:self.recipientId deviceId:self.deviceId]) {
         @throw [NSException exceptionWithName:NoSessionException reason:[NSString stringWithFormat:@"No session for: %@, %d", self.recipientId, self.deviceId] userInfo:nil];
     }
@@ -154,12 +184,14 @@
 
 
 -(NSData*)decryptWithSessionRecord:(SessionRecord*)sessionRecord whisperMessage:(WhisperMessage*)message{
+    [self assertOnSessionCipherDispatchQueue];
     SessionState   *sessionState   = [sessionRecord sessionState];
-    NSArray        *previousStates = [sessionRecord previousSessionStates];
     NSMutableArray *exceptions     = [NSMutableArray array];
     
     @try {
-        return [self decryptWithSessionState:sessionState whisperMessage:message];
+        NSData *decrypteData = [self decryptWithSessionState:sessionState whisperMessage:message];
+        DDLogDebug(@"%@ successfully decrypted with current session state: %@", self.tag, sessionState);
+        return decrypteData;
     }
     @catch (NSException *exception) {
         if ([exception.name isEqualToString:InvalidMessageException]) {
@@ -168,20 +200,39 @@
             @throw exception;
         }
     }
-    
-    for (SessionState *previousState in previousStates) {
-        @try {
-            return [self decryptWithSessionState:previousState whisperMessage:message];
-        }
-        @catch (NSException *exception) {
-            [exceptions addObject:exception];
-        }
+
+    // If we can decrypt the message with an "old" session state, that means the sender is using an "old" session.
+    // In which case, we promote that session to "active" so as to converge on a single session for sending/receiving.
+    __block NSUInteger stateToPromoteIdx;
+    __block NSData *decryptedData;
+    [[sessionRecord previousSessionStates]
+        enumerateObjectsUsingBlock:^(SessionState *_Nonnull previousState, NSUInteger idx, BOOL *_Nonnull stop) {
+            @try {
+                decryptedData = [self decryptWithSessionState:previousState whisperMessage:message];
+                DDLogInfo(@"%@ successfully decrypted with PREVIOUS session state: %@", self.tag, previousState);
+                NSAssert(decryptedData != nil, @"Expected exception or non-nil data");
+                stateToPromoteIdx = idx;
+                *stop = YES;
+            } @catch (NSException *exception) {
+                [exceptions addObject:exception];
+            }
+        }];
+
+    if (decryptedData) {
+        SessionState *sessionStateToPromote = [sessionRecord previousSessionStates][stateToPromoteIdx];
+        NSAssert(sessionStateToPromote != nil, @"the session state we just used is now missing");
+        DDLogInfo(@"%@ promoting session: %@", self.tag, sessionStateToPromote);
+        [[sessionRecord previousSessionStates] removeObjectAtIndex:stateToPromoteIdx];
+        [sessionRecord promoteState:sessionStateToPromote];
+
+        return decryptedData;
     }
     
     @throw [NSException exceptionWithName:InvalidMessageException reason:@"No valid sessions" userInfo:@{@"Exceptions":exceptions}];
 }
 
 -(NSData*)decryptWithSessionState:(SessionState*)sessionState whisperMessage:(WhisperMessage*)message{
+    [self assertOnSessionCipherDispatchQueue];
     if (![sessionState hasSenderChain]) {
         @throw [NSException exceptionWithName:InvalidMessageException reason:@"Uninitialized session!" userInfo:nil];
     }
@@ -206,6 +257,7 @@
 }
 
 - (ChainKey*)getOrCreateChainKeys:(SessionState*)sessionState theirEphemeral:(NSData*)theirEphemeral{
+    [self assertOnSessionCipherDispatchQueue];
     @try {
         if ([sessionState hasReceiverChain:theirEphemeral]) {
             return [sessionState receiverChainKey:theirEphemeral];
@@ -230,7 +282,7 @@
 }
 
 - (MessageKeys*)getOrCreateMessageKeysForSession:(SessionState*)sessionState theirEphemeral:(NSData*)theirEphemeral chainKey:(ChainKey*)chainKey counter:(int)counter{
-    
+    [self assertOnSessionCipherDispatchQueue];
     if (chainKey.index > counter) {
         if ([sessionState hasMessageKeys:theirEphemeral counter:counter]) {
             return [sessionState removeMessageKeys:theirEphemeral counter:counter];
@@ -268,6 +320,7 @@
 
 
 - (int)remoteRegistrationId{
+    [self assertOnSessionCipherDispatchQueue];
     SessionRecord *record = [self.sessionStore loadSession:self.recipientId deviceId:_deviceId];
     
     if (!record) {
@@ -278,6 +331,7 @@
 }
 
 - (int)sessionVersion{
+    [self assertOnSessionCipherDispatchQueue];
     SessionRecord *record = [self.sessionStore loadSession:self.recipientId deviceId:_deviceId];
     
     if (!record) {
@@ -285,6 +339,18 @@
     }
     
     return record.sessionState.version;
+}
+
+#pragma mark - Logging
+
++ (NSString *)tag
+{
+    return [NSString stringWithFormat:@"[%@]", self.class];
+}
+
+- (NSString *)tag
+{
+    return self.class.tag;
 }
 
 @end

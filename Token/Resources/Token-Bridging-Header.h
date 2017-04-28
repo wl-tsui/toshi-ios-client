@@ -16,6 +16,7 @@
 #import "Cryptotools.h"
 
 #import "TSThread+Additions.h"
+#import "TSOutgoingMessage+Addtions.h"
 #import "UICollectionViewRightAlignedLayout.h"
 
 #import "AppDelegate.h"

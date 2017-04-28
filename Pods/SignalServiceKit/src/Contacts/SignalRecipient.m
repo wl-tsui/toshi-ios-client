@@ -1,5 +1,6 @@
-//  Created by Frederic Jacobs on 17/11/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 #import "SignalRecipient.h"
 #import "TSStorageHeaders.h"
@@ -15,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTextSecureIdentifier:(NSString *)textSecureIdentifier
                                        relay:(nullable NSString *)relay
-                               supportsVoice:(BOOL)voiceCapable
 {
     self = [super initWithUniqueId:textSecureIdentifier];
     if (!self) {
@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     _devices = [NSMutableOrderedSet orderedSetWithObject:[NSNumber numberWithInt:1]];
     _relay = [relay isEqualToString:@""] ? nil : relay;
-    _supportsVoice = voiceCapable;
 
     return self;
 }
@@ -41,7 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
         recipient = [self recipientWithTextSecureIdentifier:textSecureIdentifier withTransaction:transaction];
     }];
-    
     return recipient;
 }
 
@@ -49,7 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 {
     SignalRecipient *myself = [self recipientWithTextSecureIdentifier:[TSStorageManager localNumber]];
     if (!myself) {
-        myself = [[self alloc] initWithTextSecureIdentifier:[TSStorageManager localNumber] relay:nil supportsVoice:YES];
+        myself = [[self alloc] initWithTextSecureIdentifier:[TSStorageManager localNumber]
+                                                      relay:nil];
     }
     return myself;
 }
@@ -72,6 +71,16 @@ NS_ASSUME_NONNULL_BEGIN
     if (_devices == nil || ![_devices isKindOfClass:[NSMutableOrderedSet class]]) {
         _devices = [NSMutableOrderedSet orderedSetWithObject:[NSNumber numberWithInt:1]];
     }
+}
+
+- (BOOL)supportsVoice
+{
+    return YES;
+}
+
+- (BOOL)supportsWebRTC
+{
+    return YES;
 }
 
 @end

@@ -198,6 +198,7 @@ SWIFT_CLASS("_TtC11ImagePicker21ImagePickerController")
 @property (nonatomic) NSInteger imageLimit;
 @property (nonatomic) BOOL startOnFrontCamera;
 @property (nonatomic, copy) NSString * _Nullable doneButtonTitle;
+- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
@@ -208,7 +209,6 @@ SWIFT_CLASS("_TtC11ImagePicker21ImagePickerController")
 - (void)collapseGalleryView:(void (^ _Nullable)(void))completion;
 - (void)showGalleryView;
 - (void)expandGalleryView;
-- (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
 

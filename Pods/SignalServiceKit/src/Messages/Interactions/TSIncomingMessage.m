@@ -1,5 +1,6 @@
-//  Created by Frederic Jacobs on 15/11/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 #import "TSIncomingMessage.h"
 #import "TSContactThread.h"
@@ -21,28 +22,22 @@ NSString *const TSIncomingMessageWasReadOnThisDeviceNotification = @"TSIncomingM
 - (instancetype)initWithTimestamp:(uint64_t)timestamp
                          inThread:(TSThread *)thread
                          authorId:(NSString *)authorId
+                   sourceDeviceId:(uint32_t)sourceDeviceId
                       messageBody:(nullable NSString *)body
-{
-    return [self initWithTimestamp:timestamp inThread:thread authorId:authorId messageBody:body attachmentIds:@[]];
-}
-
-- (instancetype)initWithTimestamp:(uint64_t)timestamp
-                         inThread:(TSThread *)thread
-                         authorId:(NSString *)authorId
-                      messageBody:(nullable NSString *)body
-                    attachmentIds:(NSArray<NSString *> *)attachmentIds
 {
     return [self initWithTimestamp:timestamp
                           inThread:thread
                           authorId:authorId
+                    sourceDeviceId:sourceDeviceId
                        messageBody:body
-                     attachmentIds:attachmentIds
+                     attachmentIds:@[]
                   expiresInSeconds:0];
 }
 
 - (instancetype)initWithTimestamp:(uint64_t)timestamp
                          inThread:(TSThread *)thread
                          authorId:(NSString *)authorId
+                   sourceDeviceId:(uint32_t)sourceDeviceId
                       messageBody:(nullable NSString *)body
                     attachmentIds:(NSArray<NSString *> *)attachmentIds
                  expiresInSeconds:(uint32_t)expiresInSeconds
@@ -59,8 +54,10 @@ NSString *const TSIncomingMessageWasReadOnThisDeviceNotification = @"TSIncomingM
     }
 
     _authorId = authorId;
+    _sourceDeviceId = sourceDeviceId;
     _read = NO;
-    _receivedAt = [NSDate date];
+
+    OWSAssert(self.receivedAtDate);
 
     return self;
 }
@@ -127,9 +124,22 @@ NSString *const TSIncomingMessageWasReadOnThisDeviceNotification = @"TSIncomingM
 
 - (void)markAsReadWithoutNotificationWithTransaction:(YapDatabaseReadWriteTransaction *)transaction
 {
+    DDLogInfo(@"%@ marking as read uniqueId: %@ which has timestamp: %llu", self.tag, self.uniqueId, self.timestamp);
     _read = YES;
     [self saveWithTransaction:transaction];
-    [transaction touchObjectForKey:self.uniqueThreadId inCollection:[TSThread collection]];
+    [self touchThreadWithTransaction:transaction];
+}
+
+#pragma mark - Logging
+
++ (NSString *)tag
+{
+    return [NSString stringWithFormat:@"[%@]", self.class];
+}
+
+- (NSString *)tag
+{
+    return self.class.tag;
 }
 
 @end

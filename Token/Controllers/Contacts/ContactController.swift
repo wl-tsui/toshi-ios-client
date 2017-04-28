@@ -291,7 +291,7 @@ public class ContactController: UIViewController {
             var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
             if recipient == nil {
-                recipient = SignalRecipient(textSecureIdentifier: self.contact.address, relay: nil, supportsVoice: false)
+                recipient = SignalRecipient(textSecureIdentifier: self.contact.address, relay: nil)
             }
 
             recipient?.save(with: transaction)

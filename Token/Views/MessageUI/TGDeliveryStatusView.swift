@@ -61,16 +61,16 @@ class TGDeliveryStatusView: UIView {
             self.clockView.startAnimating()
             self.checkmark1ImageView.isHidden = true
             self.checkmark2ImageView.isHidden = true
-        case .sent:
+        case .sentToService:
             self.clockView.stopAnimating()
             self.clockView.isHidden = true
             self.checkmark1ImageView.isHidden = false
             self.checkmark2ImageView.isHidden = true
-        case .delivered:
-            self.clockView.stopAnimating()
-            self.clockView.isHidden = true
-            self.checkmark1ImageView.isHidden = false
-            self.checkmark2ImageView.isHidden = false
+//        case .delivered:
+//            self.clockView.stopAnimating()
+//            self.clockView.isHidden = true
+//            self.checkmark1ImageView.isHidden = false
+//            self.checkmark2ImageView.isHidden = false
         default:
             self.clockView.stopAnimating()
             self.clockView.isHidden = true

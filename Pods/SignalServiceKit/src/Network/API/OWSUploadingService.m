@@ -1,16 +1,25 @@
-//  Created by Michael Kirk on 10/18/16.
-//  Copyright © 2016 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 #import "OWSUploadingService.h"
 #import "Cryptography.h"
 #import "MIMETypeUtil.h"
-#import "OWSDispatch.h"
 #import "OWSError.h"
+#import "OWSMessageSender.h"
 #import "TSAttachmentStream.h"
 #import "TSNetworkManager.h"
 #import "TSOutgoingMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+NSString *const kAttachmentUploadProgressNotification = @"kAttachmentUploadProgressNotification";
+NSString *const kAttachmentUploadProgressKey = @"kAttachmentUploadProgressKey";
+NSString *const kAttachmentUploadAttachmentIDKey = @"kAttachmentUploadAttachmentIDKey";
+
+// Use a slightly non-zero value to ensure that the progress
+// indicator shows up as quickly as possible.
+static const CGFloat kAttachmentUploadProgressTheta = 0.001f;
 
 @interface OWSUploadingService ()
 
@@ -35,16 +44,27 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)uploadAttachmentStream:(TSAttachmentStream *)attachmentStream
                        message:(TSOutgoingMessage *)outgoingMessage
                        success:(void (^)())successHandler
-                       failure:(void (^)(NSError *_Nonnull))failureHandler
+                       failure:(RetryableFailureHandler)failureHandler
 {
-    outgoingMessage.messageState = TSOutgoingMessageStateAttemptingOut;
-    [outgoingMessage save];
+    void (^successHandlerWrapper)() = ^{
+        [self fireProgressNotification:1 attachmentId:attachmentStream.uniqueId];
+
+        successHandler();
+    };
+
+    RetryableFailureHandler failureHandlerWrapper = ^(NSError *_Nonnull error) {
+        [self fireProgressNotification:0 attachmentId:attachmentStream.uniqueId];
+
+        failureHandler(error);
+    };
 
     if (attachmentStream.serverId) {
         DDLogDebug(@"%@ Attachment previously uploaded.", self.tag);
-        successHandler(outgoingMessage);
+        successHandlerWrapper(outgoingMessage);
         return;
     }
+
+    [self fireProgressNotification:kAttachmentUploadProgressTheta attachmentId:attachmentStream.uniqueId];
 
     TSRequest *allocateAttachment = [[TSAllocAttachmentRequest alloc] init];
     [self.networkManager makeRequest:allocateAttachment
@@ -53,7 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
                 if (![responseObject isKindOfClass:[NSDictionary class]]) {
                     DDLogError(@"%@ unexpected response from server: %@", self.tag, responseObject);
                     NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
-                    return failureHandler(error);
+                    [error setIsRetryable:YES];
+                    return failureHandlerWrapper(error);
                 }
 
                 NSDictionary *responseDict = (NSDictionary *)responseObject;
@@ -64,33 +85,39 @@ NS_ASSUME_NONNULL_BEGIN
                 NSData *attachmentData = [attachmentStream readDataFromFileWithError:&error];
                 if (error) {
                     DDLogError(@"%@ Failed to read attachment data with error:%@", self.tag, error);
-                    return failureHandler(error);
+                    [error setIsRetryable:YES];
+                    return failureHandlerWrapper(error);
                 }
 
                 NSData *encryptionKey;
+                NSData *digest;
                 NSData *encryptedAttachmentData =
-                    [Cryptography encryptAttachmentData:attachmentData outKey:&encryptionKey];
+                    [Cryptography encryptAttachmentData:attachmentData outKey:&encryptionKey outDigest:&digest];
 
                 attachmentStream.encryptionKey = encryptionKey;
+                attachmentStream.digest = digest;
 
                 [self uploadDataWithProgress:encryptedAttachmentData
                                     location:location
                                 attachmentId:attachmentStream.uniqueId
                                      success:^{
-                                         DDLogInfo(@"%@ Uploaded attachment.", self.tag);
+                                         OWSAssert([NSThread isMainThread]);
+
+                                         DDLogInfo(@"%@ Uploaded attachment: %p.", self.tag, attachmentStream);
                                          attachmentStream.serverId = serverId;
-                                         attachmentStream.isDownloaded = YES;
+                                         attachmentStream.isUploaded = YES;
                                          [attachmentStream save];
 
-                                         successHandler();
+                                         successHandlerWrapper();
                                      }
-                                     failure:failureHandler];
+                                     failure:failureHandlerWrapper];
 
             });
         }
         failure:^(NSURLSessionDataTask *task, NSError *error) {
             DDLogError(@"%@ Failed to allocate attachment with error: %@", self.tag, error);
-            failureHandler(error);
+            [error setIsRetryable:YES];
+            failureHandlerWrapper(error);
         }];
 }
 
@@ -99,7 +126,7 @@ NS_ASSUME_NONNULL_BEGIN
                       location:(NSString *)location
                   attachmentId:(NSString *)attachmentId
                        success:(void (^)())successHandler
-                       failure:(void (^)(NSError *error))failureHandler
+                       failure:(RetryableFailureHandler)failureHandler
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:location]];
     request.HTTPMethod = @"PUT";
@@ -113,16 +140,13 @@ NS_ASSUME_NONNULL_BEGIN
     uploadTask = [manager uploadTaskWithRequest:request
         fromData:cipherText
         progress:^(NSProgress *_Nonnull uploadProgress) {
-            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-            [notificationCenter postNotificationName:@"attachmentUploadProgress"
-                                              object:nil
-                                            userInfo:@{
-                                                @"progress" : @(uploadProgress.fractionCompleted),
-                                                @"attachmentId" : attachmentId
-                                            }];
+            [self fireProgressNotification:MAX(kAttachmentUploadProgressTheta, uploadProgress.fractionCompleted)
+                              attachmentId:attachmentId];
         }
         completionHandler:^(NSURLResponse *_Nonnull response, id _Nullable responseObject, NSError *_Nullable error) {
+            OWSAssert([NSThread isMainThread]);
             if (error) {
+                [error setIsRetryable:YES];
                 return failureHandler(error);
             }
 
@@ -131,6 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
             if (!isValidResponse) {
                 DDLogError(@"%@ Unexpected server response: %d", self.tag, (int)statusCode);
                 NSError *invalidResponseError = OWSErrorMakeUnableToProcessServerResponseError();
+                [invalidResponseError setIsRetryable:YES];
                 return failureHandler(invalidResponseError);
             }
 
@@ -138,6 +163,19 @@ NS_ASSUME_NONNULL_BEGIN
         }];
 
     [uploadTask resume];
+}
+
+- (void)fireProgressNotification:(CGFloat)progress attachmentId:(NSString *)attachmentId
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter postNotificationName:kAttachmentUploadProgressNotification
+                                          object:nil
+                                        userInfo:@{
+                                            kAttachmentUploadProgressKey : @(progress),
+                                            kAttachmentUploadAttachmentIDKey : attachmentId
+                                        }];
+    });
 }
 
 #pragma mark - Logging

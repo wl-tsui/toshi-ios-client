@@ -1,9 +1,5 @@
 //
-//  SessionRecord.h
-//  AxolotlKit
-//
-//  Created by Frederic Jacobs on 25/07/14.
-//  Copyright (c) 2014 Frederic Jacobs. All rights reserved.
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -16,9 +12,10 @@
 
 - (BOOL)hasSessionState:(int)version baseKey:(NSData*)aliceBaseKey;
 - (SessionState*)sessionState;
-- (NSMutableArray*)previousSessionStates;
+- (NSMutableArray<SessionState *> *)previousSessionStates;
 
 - (BOOL)isFresh;
+- (void)markAsUnFresh;
 - (void)archiveCurrentState;
 - (void)promoteState:(SessionState*)promotedState;
 - (void)setState:(SessionState*)sessionState;

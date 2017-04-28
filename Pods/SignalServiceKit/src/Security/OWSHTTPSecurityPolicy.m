@@ -24,7 +24,6 @@
     if (self) {
         self.pinnedCertificates = [NSSet setWithArray:@[
             [self certificateDataForService:@"token"],
-//             [self certificateDataForService:@"redphone"]
         ]];
     }
 
@@ -32,7 +31,7 @@
 }
 
 - (NSArray *)certs {
-    return @[ (__bridge id)[self certificateForService:@"textsecure"] ];
+    return @[ (__bridge id)[self certificateForService:@"token"] ];
 }
 
 - (NSData *)certificateDataForService:(NSString *)service {

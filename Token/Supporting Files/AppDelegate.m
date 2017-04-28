@@ -3,6 +3,7 @@
 #import "Token-Swift.h"
 
 #import "NSData+ows_StripToken.h"
+#import "EmptyCallHandler.h"
 
 #import <EtherealCereal/EtherealCereal.h>
 
@@ -15,6 +16,11 @@
 #import <SignalServiceKit/TextSecureKitEnv.h>
 #import <SignalServiceKit/OWSIncomingMessageReadObserver.h>
 #import <SignalServiceKit/TSSocketManager.h>
+#import <SignalServiceKit/OWSDispatch.h>
+
+#import <AxolotlKit/SessionCipher.h>
+
+@import WebRTC;
 
 @interface AppDelegate ()
 
@@ -36,6 +42,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
     [OWSSignalService setBaseURL:tokenChatServiceBaseURL];
+
+    // Set the seed the generator for rand().
+    //
+    // We should always use arc4random() instead of rand(), but we
+    // still want to ensure that any third-party code that uses rand()
+    // gets random values.
+    srand((unsigned int)time(NULL));
+
+    [self verifyDBKeysAvailableBeforeBackgroundLaunch];
 
     [self setupBasicAppearance];
     [self setupTSKitEnv];
@@ -78,7 +93,7 @@
 - (void)userDidSignOut {
     [TSAccountManager unregisterTextSecureWithSuccess:^{
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-        [[TSStorageManager sharedManager] wipeSignalStorage];
+        [[TSStorageManager sharedManager] resetSignalStorage];
         [[Yap sharedInstance] wipeStorage];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];
         exit(0);
@@ -134,20 +149,14 @@
 }
 
 - (void)setupSignalService {
-    [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
-    UIApplicationState launchState = [UIApplication sharedApplication].applicationState;
-    [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
-        if (launchState == UIApplicationStateInactive) {
-            NSLog(@"The app was launched from inactive");
-            [TSSocketManager becomeActiveFromForeground];
-        } else if (launchState == UIApplicationStateBackground) {
-            NSLog(@"The app was launched from being backgrounded");
-            [TSSocketManager becomeActiveFromBackgroundExpectMessage:NO];
-        } else {
-            NSLog(@"The app was launched in an unknown way");
-        }
+    // Encryption/Descryption mutates session state and must be synchronized on a serial queue.
+    [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch sessionStoreQueue]];
 
-        [TSPreKeyManager refreshPreKeys];
+    [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
+    [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
+
+        [TSSocketManager requestSocketOpen];
+        RTCInitializeSSL();
 
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self registerForRemoteNotifications];
@@ -156,16 +165,17 @@
 }
 
 - (void)setupTSKitEnv {
-    [TextSecureKitEnv sharedEnv].contactsManager = [[ContactsManager alloc] init];
-    [TextSecureKitEnv sharedEnv].notificationsManager = [[SignalNotificationManager alloc] init];
-    TSStorageManager *storageManager = [TSStorageManager sharedManager];
-    [storageManager setupDatabase];
-
     self.networkManager = [TSNetworkManager sharedManager];
     self.contactsManager = [[ContactsManager alloc] init];
     self.contactsUpdater = [[ContactsUpdater alloc] init];
 
+    TSStorageManager *storageManager = [TSStorageManager sharedManager];
+    [storageManager setupDatabase];
+
     self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
+
+    TextSecureKitEnv *sharedEnv = [[TextSecureKitEnv alloc] initWithCallMessageHandler:[[EmptyCallHandler alloc] init] contactsManager:self.contactsManager messageSender:self.messageSender notificationsManager:[[SignalNotificationManager alloc] init]];
+    [TextSecureKitEnv setSharedEnv:sharedEnv];
 
     self.incomingMessageReadObserver = [[OWSIncomingMessageReadObserver alloc] initWithStorageManager:storageManager messageSender:self.messageSender];
     [self.incomingMessageReadObserver startObserving];
@@ -181,7 +191,7 @@
         if ([TSAccountManager isRegistered]) {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self activateScreenProtection];
-                [TSSocketManager resignActivity];
+                // [TSSocketManager resignActivity];
             });
         }
 
@@ -203,10 +213,11 @@
         // We're double checking that the app is active, to be sure since we
         // can't verify in production env due to code
         // signing.
-        [TSSocketManager becomeActiveFromForeground];
+        [TSSocketManager requestSocketOpen];
     }];
 
     [self deactivateScreenProtection];
+    [TSPreKeyManager checkPreKeysIfNecessary];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -230,6 +241,16 @@
 
 - (void)deactivateScreenProtection {
     self.screenProtectionWindow.hidden = YES;
+}
+
+- (void)verifyDBKeysAvailableBeforeBackgroundLaunch {
+    if (UIApplication.sharedApplication.applicationState != UIApplicationStateBackground) {
+        return;
+    }
+
+    if (![TSStorageManager isDatabasePasswordAccessible]) {
+        exit(0);
+    }
 }
 
 #pragma mark - Accessors 
@@ -345,7 +366,7 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"!");
+    NSLog(@"Failed to register for remote notifications. %@", error);
 }
 
 @end

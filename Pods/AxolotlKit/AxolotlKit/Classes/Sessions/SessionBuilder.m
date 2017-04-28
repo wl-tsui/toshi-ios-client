@@ -1,9 +1,5 @@
 //
-//  SessionBuilder.m
-//  AxolotlKit
-//
-//  Created by Frederic Jacobs on 23/07/14.
-//  Copyright (c) 2014 Frederic Jacobs. All rights reserved.
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
 #import "AxolotlExceptions.h"
@@ -26,6 +22,8 @@
 
 #define CURRENT_VERSION 3
 #define MINUMUM_VERSION 3
+
+const int kPreKeyOfLastResortId = 0xFFFFFF;
 
 @interface SessionBuilder ()
 
@@ -107,9 +105,10 @@
     [sessionRecord.sessionState setLocalRegistrationId:self.identityStore.localRegistrationId];
     [sessionRecord.sessionState setRemoteRegistrationId:preKeyBundle.registrationId];
     [sessionRecord.sessionState setAliceBaseKey:ourBaseKey.publicKey];
-    
-    [self.sessionStore  storeSession:self.recipientId deviceId:self.deviceId session:sessionRecord];
+
+    // Saving invalidates any existing sessions, so be sure to save *before* storing the new session.
     [self.identityStore saveRemoteIdentity:theirIdentityKey recipientId:self.recipientId];
+    [self.sessionStore storeSession:self.recipientId deviceId:self.deviceId session:sessionRecord];
 }
 
 - (int)processPrekeyWhisperMessage:(PreKeyWhisperMessage*)message withSession:(SessionRecord*)sessionRecord{
@@ -145,12 +144,19 @@
     }
     
     ECKeyPair *ourSignedPrekey = [self.signedPreKeyStore loadSignedPrekey:message.signedPrekeyId].keyPair;
-    
+
+    ECKeyPair *_Nullable ourOneTimePreKey;
+    if (message.prekeyID >= 0) {
+        ourOneTimePreKey = [self.prekeyStore loadPreKey:message.prekeyID].keyPair;
+    } else {
+        DDLogWarn(@"%@ Processing PreKey message which had no one-time prekey.", self.tag);
+    }
+
     BobAxolotlParameters *params = [[BobAxolotlParameters alloc] initWithMyIdentityKeyPair:self.identityStore.identityKeyPair
                                                                           theirIdentityKey:message.identityKey.removeKeyType
                                                                            ourSignedPrekey:ourSignedPrekey
                                                                              ourRatchetKey:ourSignedPrekey
-                                                                          ourOneTimePrekey:[self.prekeyStore loadPreKey:message.prekeyID].keyPair
+                                                                          ourOneTimePrekey:ourOneTimePreKey
                                                                               theirBaseKey:baseKey];
     
     if (!sessionRecord.isFresh) {
@@ -162,12 +168,25 @@
     [sessionRecord.sessionState setLocalRegistrationId:self.identityStore.localRegistrationId];
     [sessionRecord.sessionState setRemoteRegistrationId:message.registrationId];
     [sessionRecord.sessionState setAliceBaseKey:baseKey];
-    
-    if (message.prekeyID >= 0 && message.prekeyID != 0xFFFFFF) {
+
+    // If we used a prekey and it wasn't the prekey of last resort
+    if (message.prekeyID >= 0 && message.prekeyID != kPreKeyOfLastResortId) {
         return message.prekeyID;
-    } else{
+    } else {
         return -1;
     }
+}
+
+#pragma mark - Logging
+
++ (NSString *)tag
+{
+    return [NSString stringWithFormat:@"[%@]", self.class];
+}
+
+- (NSString *)tag
+{
+    return self.class.tag;
 }
 
 @end

@@ -1,4 +1,6 @@
-//  Copyright © 2016 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,13 +16,23 @@ typedef NS_ENUM(NSInteger, OWSErrorCode) {
     OWSErrorCodeUntrustedIdentityKey = 25,
     OWSErrorCodeFailedToSendOutgoingMessage = 30,
     OWSErrorCodeFailedToDecryptMessage = 100,
+    OWSErrorCodeFailedToEncryptMessage = 110,
     OWSErrorCodeSignalServiceFailure = 1001,
+    OWSErrorCodeSignalServiceRateLimited = 1010,
     OWSErrorCodeUserError = 2001,
+    OWSErrorCodeNoSuchSignalRecipient = 777404,
+    OWSErrorCodeMessageSendDisabledDueToPreKeyUpdateFailures = 777405,
+    OWSErrorCodeMessageSendFailedToBlockList = 777406,
+    OWSErrorCodeMessageSendNoValidRecipients = 777407,
+    OWSErrorCodeContactsUpdaterRateLimit = 777407,
 };
 
 extern NSError *OWSErrorWithCodeDescription(OWSErrorCode code, NSString *description);
 extern NSError *OWSErrorMakeUnableToProcessServerResponseError();
 extern NSError *OWSErrorMakeFailedToSendOutgoingMessageError();
 extern NSError *OWSErrorMakeNoSuchSignalRecipientError();
+extern NSError *OWSErrorMakeAssertionError();
+extern NSError *OWSErrorMakeMessageSendDisabledDueToPreKeyUpdateFailuresError();
+extern NSError *OWSErrorMakeMessageSendFailedToBlockListError();
 
 NS_ASSUME_NONNULL_END
