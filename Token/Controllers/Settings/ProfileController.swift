@@ -256,7 +256,9 @@ open class ProfileController: UIViewController {
     }
 
     func displayQRCode() {
-        let controller = QRCodeController(add: TokenUser.current!.displayUsername)
+        guard let current = TokenUser.current else { return }
+        
+        let controller = QRCodeController(add: current.displayUsername)
         self.present(controller, animated: true)
     }
 
