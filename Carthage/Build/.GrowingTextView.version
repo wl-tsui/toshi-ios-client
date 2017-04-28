@@ -1,8 +1,8 @@
 {
-  "commitish" : "1.1.1",
+  "commitish" : "9f2b44246bba060f7e3ca1e10c2d59dd6d3fbae5",
   "iOS" : [
     {
-      "hash" : "e84cabdab2189fed1e8c0a41ae2e19e606403203fca81d764d9c720b6d62dcbc",
+      "hash" : "2488205a322f37bb74d606a0b33ec7d7f1803cf90917ed45df96c338f758d198",
       "name" : "HPGrowingTextView"
     }
   ]

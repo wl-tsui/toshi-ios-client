@@ -104,13 +104,13 @@
 }
 
 - (void)createNewUser {
-    if (User.current == nil) {
+    if (TokenUser.current == nil) {
         [[IDAPIClient shared] registerUserIfNeeded:^{
             [[ChatAPIClient shared] registerUser];
             [self didCreateUser];
         }];
     } else {
-        [[IDAPIClient shared] retrieveUserWithUsername:[User.current username] completion:^(User * _Nullable user) {
+        [[IDAPIClient shared] retrieveUserWithUsername:[TokenUser.current username] completion:^(TokenUser * _Nullable user) {
             NSLog(@"%@", user);
             if (user == nil) {
                 [[IDAPIClient shared] registerUserIfNeeded:^{
@@ -140,10 +140,10 @@
 
     UINavigationBar *navBarAppearance = [UINavigationBar appearance];
     [navBarAppearance setTitleTextAttributes:attributtes];
-    [navBarAppearance setTintColor:[Theme navigationTitleTextColor]];
-    [navBarAppearance setBarTintColor:[Theme tintColor]];
+    [navBarAppearance setTintColor:[Theme tintColor]];
+    [navBarAppearance setBarTintColor:[Theme navigationBarColor]];
 
-    attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme regularWithSize:17]};
+    attributtes = @{NSForegroundColorAttributeName: [Theme tintColor], NSFontAttributeName: [Theme regularWithSize:17]};
     UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
     [barButtonAppearance setTitleTextAttributes:attributtes forState:UIControlStateNormal];
 }
@@ -228,10 +228,20 @@
     if (self.screenProtectionWindow == nil) {
         UIWindow *window = [[UIWindow alloc] init];
         window.hidden = YES;
-        window.opaque = YES;
+        window.backgroundColor = [UIColor clearColor];
         window.userInteractionEnabled = NO;
         window.windowLevel = CGFLOAT_MAX;
-        [window setBackgroundColor:[UIColor whiteColor]];
+
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        effectView.alpha = 0.9;
+
+        [window addSubview:effectView];
+
+        [effectView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [[effectView.topAnchor constraintEqualToAnchor:window.topAnchor] setActive:YES];
+        [[effectView.leftAnchor constraintEqualToAnchor:window.leftAnchor] setActive:YES];
+        [[effectView.bottomAnchor constraintEqualToAnchor:window.bottomAnchor] setActive:YES];
+        [[effectView.rightAnchor constraintEqualToAnchor:window.rightAnchor] setActive:YES];
 
         self.screenProtectionWindow = window;
     }

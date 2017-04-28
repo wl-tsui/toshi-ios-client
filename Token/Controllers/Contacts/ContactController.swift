@@ -20,7 +20,7 @@ import CoreImage
 public class ContactController: UIViewController {
     var idAPIClient: IDAPIClient
 
-    public var contact: TokenContact
+    public var contact: TokenUser
 
     lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withAutoLayout: true)
@@ -135,7 +135,7 @@ public class ContactController: UIViewController {
         fatalError()
     }
 
-    public init(contact: TokenContact, idAPIClient: IDAPIClient) {
+    public init(contact: TokenUser, idAPIClient: IDAPIClient) {
         self.contact = contact
         self.idAPIClient = idAPIClient
 
@@ -211,7 +211,6 @@ public class ContactController: UIViewController {
         self.avatarImageView.set(width: avatarSize)
         self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 26).isActive = true
         self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.avatarImageView.cornerRadius = avatarSize / 2
 
         self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
@@ -278,7 +277,7 @@ public class ContactController: UIViewController {
     }
 
     func updateButton() {
-        let isContactAdded = Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenContact.collectionKey)
+        let isContactAdded = Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenUser.collectionKey)
         let fontColor = isContactAdded ? Theme.tintColor : Theme.darkTextColor
         let title = isContactAdded ? "✓ Added" : "Add contact"
 
@@ -307,8 +306,8 @@ public class ContactController: UIViewController {
     }
 
     func didTapAddContactButton() {
-        if Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenContact.collectionKey) {
-            Yap.sharedInstance.removeObject(for: self.contact.address, in: TokenContact.collectionKey)
+        if Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenUser.collectionKey) {
+            Yap.sharedInstance.removeObject(for: self.contact.address, in: TokenUser.collectionKey)
 
             TSStorageManager.shared().dbConnection.readWrite { transaction in
                 let thread = TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
@@ -317,7 +316,7 @@ public class ContactController: UIViewController {
 
             self.updateButton()
         } else {
-            Yap.sharedInstance.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenContact.collectionKey)
+            Yap.sharedInstance.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenUser.collectionKey)
             SoundPlayer.playSound(type: .addedContact)
             self.updateButton()
         }

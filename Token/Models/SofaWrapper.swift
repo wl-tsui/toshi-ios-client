@@ -15,6 +15,16 @@
 
 import Foundation
 
+@objc public class SofaTypes: NSObject {
+    static let none = SofaType.none.rawValue
+    static let message = SofaType.message.rawValue
+    static let command = SofaType.command.rawValue
+    static let metadataRequest = SofaType.metadataRequest.rawValue
+    static let metadataResponse = SofaType.metadataResponse.rawValue
+    static let paymentRequest = SofaType.paymentRequest.rawValue
+    static let payment = SofaType.payment.rawValue
+}
+
 public enum SofaType: String {
     case none = ""
     case message = "SOFA::Message:"
@@ -261,7 +271,7 @@ open class SofaMetadataResponse: SofaWrapper {
         var response = [String: Any]()
         for value in metadataRequest.values {
             if value == "paymentAddress" {
-                response[value] = User.current?.paymentAddress ?? ""
+                response[value] = TokenUser.current?.paymentAddress ?? ""
             } else if value == "language" {
                 let locale = Locale.current
                 response[value] = locale.identifier

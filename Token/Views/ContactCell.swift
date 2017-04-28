@@ -17,7 +17,7 @@ import UIKit
 
 /// Displays user's contacts.
 class ContactCell: UITableViewCell {
-    var contact: TokenContact? {
+    var contact: TokenUser? {
         didSet {
             if let contact = self.contact {
                 if contact.name.length > 0 {
@@ -30,11 +30,6 @@ class ContactCell: UITableViewCell {
 
                 if let avatar = contact.avatar {
                     self.avatarImageView.image = avatar
-                } else {
-                    IDAPIClient.shared.downloadAvatar(path: contact.avatarPath) { image in
-                        contact.avatar = image
-                        self.avatarImageView.image = image
-                    }
                 }
             } else {
                 self.usernameLabel.text = nil
@@ -88,9 +83,6 @@ class ContactCell: UITableViewCell {
         let interLabelMargin: CGFloat = 6.0
         let imageSize: CGFloat = 44.0
         let height: CGFloat = 24.0
-
-        self.avatarImageView.clipsToBounds = true
-        self.avatarImageView.cornerRadius = imageSize / 2
 
         self.avatarImageView.set(height: imageSize)
         self.avatarImageView.set(width: imageSize)

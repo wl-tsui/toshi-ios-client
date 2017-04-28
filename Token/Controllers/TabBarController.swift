@@ -15,17 +15,18 @@
 
 import UIKit
 import UserNotifications
+import CameraScanner
 
 let TabBarItemTitleOffset: CGFloat = -3.0
 
 open class TabBarController: UITabBarController {
 
     public enum Tab {
-        case home
+        case browsing
         case messaging
-        case apps
-        case contacts
-        case settings
+        case scanner
+        case favorites
+        case me
     }
 
     let tabBarSelectedIndexKey = "TabBarSelectedIndex"
@@ -38,10 +39,23 @@ open class TabBarController: UITabBarController {
         return IDAPIClient.shared
     }
 
-    internal var homeController: HomeNavigationController!
-    internal var messagingController: MessagingNavigationController!
-    internal var appsController: AppsNavigationController!
-    internal var contactsController: ContactsNavigationController!
+    internal lazy var scannerController: ScannerViewController = {
+        let controller = ScannerViewController(instructions: "Scan a user profile QR code", types: [.qrCode])
+        controller.delegate = self
+
+        return controller
+    }()
+
+    internal lazy var placeholderScannerController: UIViewController = {
+        let controller = UIViewController()
+        controller.tabBarItem = UITabBarItem(title: "Scan", image: #imageLiteral(resourceName: "scan"), tag: 0)
+
+        return controller
+    }()
+
+    internal var browseController: BrowseNavigationController!
+    internal var messagingController: ChatsNavigationController!
+    internal var favoritesController: FavoritesNavigationController!
     internal var settingsController: SettingsNavigationController!
 
     public init() {
@@ -58,17 +72,17 @@ open class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         // TODO: Refactor all this navigation controllers subclasses into one, they have similar code
-        self.homeController = HomeNavigationController(rootViewController: HomeController())
-        self.messagingController = MessagingNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
-        self.appsController = AppsNavigationController(rootViewController: AppsController())
-        self.contactsController = ContactsNavigationController(rootViewController: ContactsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
+        self.browseController = BrowseNavigationController(rootViewController: BrowseController())
+        self.messagingController = ChatsNavigationController(rootViewController: ChatsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
+
+        self.favoritesController = FavoritesNavigationController(rootViewController: FavoritesController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
         self.settingsController = SettingsNavigationController(rootViewController: SettingsController(idAPIClient: self.idAPIClient, chatAPIClient: self.chatAPIClient))
 
         self.viewControllers = [
-            self.homeController,
+            self.browseController,
             self.messagingController,
-            self.appsController,
-            self.contactsController,
+            self.placeholderScannerController,
+            self.favoritesController,
             self.settingsController,
         ]
 
@@ -76,6 +90,7 @@ open class TabBarController: UITabBarController {
 
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.tabBar.barTintColor = Theme.viewBackgroundColor
+        self.tabBar.unselectedItemTintColor = Theme.unselectedItemTintColor
 
         let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
         self.selectedIndex = index
@@ -89,21 +104,32 @@ open class TabBarController: UITabBarController {
 
     public func `switch`(to tab: Tab) {
         switch tab {
-        case .home:
+        case .browsing:
             self.selectedIndex = 0
         case .messaging:
             self.selectedIndex = 1
-        case .apps:
+        case .scanner:
             self.selectedIndex = 2
-        case .contacts:
+        case .favorites:
             self.selectedIndex = 3
-        case .settings:
+        case .me:
             self.selectedIndex = 4
         }
     }
 }
 
 extension TabBarController: UITabBarControllerDelegate {
+
+    public func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController == self.placeholderScannerController {
+            SoundPlayer.playSound(type: .menuButton)
+            self.present(self.scannerController, animated: true)
+
+            return false
+        }
+
+        return true
+    }
 
     public func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
         SoundPlayer.playSound(type: .menuButton)
@@ -112,6 +138,34 @@ extension TabBarController: UITabBarControllerDelegate {
 
         if let index = self.viewControllers?.index(of: viewController) {
             UserDefaults.standard.set(index, forKey: self.tabBarSelectedIndexKey)
+        }
+    }
+}
+
+extension TabBarController: ScannerViewControllerDelegate {
+
+    public func scannerViewControllerDidCancel(_: ScannerViewController) {
+        self.dismiss(animated: true)
+    }
+
+    public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+        let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
+        let contactName = TokenUser.name(from: username)
+
+        self.idAPIClient.findContact(name: contactName) { contact in
+            guard let contact = contact else {
+                controller.startScanning()
+
+                return
+            }
+
+            SoundPlayer.playSound(type: .scanned)
+
+            self.dismiss(animated: true) {
+                self.switch(to: .favorites)
+                let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+                self.favoritesController.pushViewController(contactController, animated: true)
+            }
         }
     }
 }

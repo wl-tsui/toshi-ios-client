@@ -66,7 +66,6 @@ public class EthereumAPIClient: NSObject {
     }
 
     func getRate(_ completion: @escaping ((_ rate: Decimal) -> Void)) {
-        //
         self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
@@ -149,13 +148,14 @@ public class EthereumAPIClient: NSObject {
         self.teapot.get("/v1/balance/\(address)") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
-                guard response.statusCode == 200 else { fatalError() }
-                guard let json = json?.dictionary else { fatalError() }
+                let error = NSError(domain: "", code: -1, userInfo: [NSLocalizedFailureReasonErrorKey: "Could not fetch balance."])
+                guard response.statusCode == 200 else { completion(0, error); return }
+                guard let json = json?.dictionary else { completion(0, error); return }
 
                 let unconfirmedBalanceString = json["unconfirmed_balance"] as? String ?? "0"
                 let unconfirmedBalance = NSDecimalNumber(hexadecimalString: unconfirmedBalanceString)
 
-                User.current?.balance = unconfirmedBalance
+                TokenUser.current?.balance = unconfirmedBalance
 
                 completion(unconfirmedBalance, nil)
             case .failure(let json, let response, let error):
@@ -202,7 +202,7 @@ public class EthereumAPIClient: NSObject {
     public func registerForNotifications(_ completion: @escaping ((_ success: Bool) -> Void)) {
         self.timestamp { timestamp in
             let cereal = Cereal.shared
-            let address = User.current!.paymentAddress
+            let address = TokenUser.current!.paymentAddress
             let path = "/v1/register"
             let params = [
                 "addresses": [

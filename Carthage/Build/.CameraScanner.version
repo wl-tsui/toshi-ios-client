@@ -2,7 +2,7 @@
   "commitish" : "9946019e5e342d7f365cf93d87a4ad3e037bbc2d",
   "iOS" : [
     {
-      "hash" : "e02f36204fe408220c8b31d065f62cfb645f44446aaae2c42ef69edcf68a9161",
+      "hash" : "6081d7bcedbd323c15700f143e22ce317ef4f54d196a2eed3cac854a1565e06f",
       "name" : "CameraScanner"
     }
   ]

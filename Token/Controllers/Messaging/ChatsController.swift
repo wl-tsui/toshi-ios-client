@@ -45,7 +45,7 @@ open class ChatsController: SweetTableController {
 
         super.init()
 
-        self.title = "Messages"
+        self.title = "Chats"
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
@@ -81,7 +81,7 @@ open class ChatsController: SweetTableController {
     func registerNotifications() {
         let notificationController = NotificationCenter.default
         notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
-        notificationController.addObserver(self, selector: #selector(ChatsController.contactsDidUpdate), name: TokenContact.didUpdateContactInfoNotification, object: nil)
+        notificationController.addObserver(self, selector: #selector(ChatsController.contactsDidUpdate), name: TokenUser.didUpdateContactInfoNotification, object: nil)
     }
 
     func yapDatabaseDidChange(notification _: NSNotification) {
@@ -198,8 +198,8 @@ extension ChatsController: UITableViewDelegate {
 
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let thread = self.thread(at: indexPath)
-        let messagesController = MessagesViewController(thread: thread, chatAPIClient: self.chatAPIClient)
-        self.navigationController?.pushViewController(messagesController, animated: true)
+        let chatController = ChatController(thread: thread, chatAPIClient: self.chatAPIClient)
+        self.navigationController?.pushViewController(chatController, animated: true)
     }
 }
 

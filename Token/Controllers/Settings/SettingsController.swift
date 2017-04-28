@@ -42,13 +42,19 @@ open class SettingsController: SweetTableController {
     public var idAPIClient: IDAPIClient
 
     let numberOfSections = 3
-    let numberOfRows = [1, 1, 1]
+    let numberOfRows = [1, 1, 2]
     let cellTypes: [BaseCell.Type] = [ProfileCell.self, SecurityCell.self, SettingsCell.self]
     let sectionTitles = ["Your profile", "Security", "Settings"]
     let sectionErrors = [nil, "Your account is at risk", nil]
 
-    let securityTitles = ["Store backup phrase" /* , "Choose trusted friends" */ ]
-    let settingsTitles = [ /* "Local currency", "About", "Sign in on another device", */ "Sign out"]
+    let securityTitles = ["Store backup phrase"]
+
+    lazy var settingsTitles: [String] = {
+        let info = Bundle.main.infoDictionary!
+        let version = info["CFBundleShortVersionString"] as! String
+
+        return ["Sign out", "Version \(version)"]
+    }()
 
     public required init?(coder _: NSCoder) {
         fatalError("")
@@ -59,7 +65,7 @@ open class SettingsController: SweetTableController {
         self.chatAPIClient = chatAPIClient
 
         super.init(style: .grouped)
-        self.title = "Settings"
+        self.title = "Me"
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
     }
@@ -97,14 +103,10 @@ open class SettingsController: SweetTableController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.reloadData()
-
-        let backItem = UIBarButtonItem()
-        backItem.title = "Back"
-        self.navigationItem.backBarButtonItem = backItem
     }
 
     func handleSignOut() {
-        guard let currentUser = User.current else {
+        guard let currentUser = TokenUser.current else {
             let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                 fatalError()
@@ -159,7 +161,7 @@ extension SettingsController: UITableViewDataSource {
     }
 
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeue(cellTypes[indexPath.section], for: indexPath)
+        return tableView.dequeue(self.cellTypes[indexPath.section], for: indexPath)
     }
 
     open func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -184,7 +186,7 @@ extension SettingsController: UITableViewDelegate {
         }
 
         if let cell = cell as? ProfileCell {
-            cell.user = User.current
+            cell.user = TokenUser.current
         } else if let cell = cell as? SecurityCell {
             cell.title = securityTitles[indexPath.row]
 

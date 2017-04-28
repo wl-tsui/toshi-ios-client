@@ -16,7 +16,7 @@
 import UIKit
 
 class SearchResultCell: UITableViewCell {
-    var app: TokenContact? {
+    var app: TokenUser? {
         didSet {
             if let app = self.app {
                 NotificationCenter.default.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: app)
@@ -78,9 +78,6 @@ class SearchResultCell: UITableViewCell {
         let interLabelMargin: CGFloat = 6.0
         let imageSize: CGFloat = 44.0
         let height: CGFloat = 24.0
-
-        self.avatarImageView.clipsToBounds = true
-        self.avatarImageView.cornerRadius = imageSize / 2
 
         self.avatarImageView.set(height: imageSize)
         self.avatarImageView.set(width: imageSize)

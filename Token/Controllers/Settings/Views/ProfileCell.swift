@@ -63,7 +63,7 @@ class ProfileCell: BaseCell {
         return view
     }()
 
-    var user: User? {
+    var user: TokenUser? {
         didSet {
             NotificationCenter.default.addObserver(self, selector: #selector(avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
 
@@ -93,9 +93,6 @@ class ProfileCell: BaseCell {
         let imageSize: CGFloat = 44
 
         self.contentView.addSubview(self.avatarImageView)
-
-        self.avatarImageView.clipsToBounds = true
-        self.avatarImageView.cornerRadius = imageSize / 2
 
         self.avatarImageView.set(height: imageSize)
         self.avatarImageView.set(width: imageSize)
@@ -159,6 +156,6 @@ class ProfileCell: BaseCell {
     }
 
     func avatarDidUpdate() {
-        self.avatarImageView.image = User.current?.avatar
+        self.avatarImageView.image = TokenUser.current?.avatar
     }
 }

@@ -15,6 +15,7 @@
 
 import UIKit
 import SweetUIKit
+import SweetSwift
 import SweetFoundation
 
 /// ChatsTableController cells.
@@ -22,7 +23,7 @@ class ChatCell: UITableViewCell {
     var thread: TSThread? {
         didSet {
             // last visible message
-            if let message = self.thread?.visibleIncomingInteractions.last, let messageBody = message.body {
+            if let message = self.thread?.messages.last, let messageBody = message.body {
                 switch SofaType(sofa: messageBody) {
                 case .message:
                     self.lastMessageLabel.text = SofaMessage(content: messageBody).body
@@ -133,7 +134,6 @@ class ChatCell: UITableViewCell {
 
         self.avatarImageView.set(height: 44)
         self.avatarImageView.set(width: 44)
-        self.avatarImageView.cornerRadius = 22
 
         self.avatarImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         self.avatarImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin).isActive = true
@@ -170,12 +170,12 @@ class ChatCell: UITableViewCell {
         fatalError()
     }
 
-    func updateContact(_ contact: TokenContact) {
+    func updateContact(_ contact: TokenUser) {
         self.usernameLabel.text = contact.name.length > 0 ? contact.name : contact.displayUsername
         self.thread?.cachedContactIdentifier = self.usernameLabel.text
         self.avatarImageView.image = contact.avatar
 
-        if contact.avatar == nil {
+        if contact.avatarPath.length > 0 {
             IDAPIClient.shared.downloadAvatar(path: contact.avatarPath) { image in
                 self.avatarImageView.image = image
             }

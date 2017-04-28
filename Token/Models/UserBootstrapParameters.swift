@@ -16,15 +16,27 @@
 import Foundation
 import SweetFoundation
 
-let DeviceSpecificPassword = "1231231"
-
 /// Prepares user keys and data, signs and formats it properly as JSON to bootstrap a chat user.
 public class UserBootstrapParameter {
+
+    // This change might require re-creating Signal users
+    public lazy var password: String = {
+        let deviceSpecificPasswordKey = "DeviceSpecificPassword"
+        let uuid: String
+
+        if let storedUUID = Yap.sharedInstance.retrieveObject(for: deviceSpecificPasswordKey) as? String {
+            uuid = storedUUID
+        } else {
+            uuid = UUID().uuidString
+            Yap.sharedInstance.insert(object: uuid, for: deviceSpecificPasswordKey)
+        }
+
+        return uuid
+    }()
+
     public let identityKey: String
 
     public let lastResortPreKey: PreKeyRecord
-
-    public let password: String
 
     public let prekeys: [PreKeyRecord]
 
@@ -75,7 +87,6 @@ public class UserBootstrapParameter {
 
         self.identityKey = ((storageManager.identityKeyPair().publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
         self.lastResortPreKey = storageManager.getOrGenerateLastResortKey()
-        self.password = DeviceSpecificPassword
         self.prekeys = storageManager.generatePreKeyRecords() as! [PreKeyRecord]
 
         self.registrationId = TSAccountManager.getOrGenerateRegistrationId()
