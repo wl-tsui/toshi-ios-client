@@ -60,7 +60,8 @@ class BrowseController: SearchableCollectionController {
 
         self.collectionView.register(AppCell.self)
 
-        self.title = "Explore"
+        self.title = "Browse"
+
         self.appsAPIClient.getFeaturedApps { apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
