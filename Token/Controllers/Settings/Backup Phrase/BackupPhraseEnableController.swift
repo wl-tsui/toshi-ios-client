@@ -94,10 +94,6 @@ class BackupPhraseEnableController: UIViewController {
         ])
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     func checked(_ checkboxControl: CheckboxControl) {
         checkboxControl.checkbox.checked = !checkboxControl.checkbox.checked
         self.actionButton.isEnabled = checkboxControl.checkbox.checked

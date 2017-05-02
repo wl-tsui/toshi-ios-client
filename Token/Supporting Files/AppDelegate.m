@@ -97,7 +97,7 @@
         [[Yap sharedInstance] wipeStorage];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];
         exit(0);
-    } failure:^(NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         // alert user
         NSLog(@"Error attempting to unregister text secure.");
     }];
@@ -326,7 +326,7 @@
             }
         }];
 
-    } failure:^(NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);
     }];
 }

@@ -690,7 +690,6 @@ extension ChatController: RateUserControllerDelegate {
 
 extension ChatController: ImagePickerDelegate {
     func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
-        
     }
 
     func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {

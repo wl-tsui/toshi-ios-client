@@ -16,11 +16,11 @@
     return [Yap sharedInstance];
 }
 
-+ (BOOL)name:(NSString * _Nonnull)nameString matchesQuery:(NSString * _Nonnull)queryString {
++ (BOOL)name:(nonnull NSString *)nameString matchesQuery:(nonnull NSString *)queryString {
     return YES;
 }
 
-- (NSString * _Nonnull)displayNameForPhoneIdentifier:(NSString * _Nullable)phoneNumber {
+- (nonnull NSString *)displayNameForPhoneIdentifier:(nullable NSString *)phoneNumber {
     for (Contact *contact in self.signalContacts) {
         if ([contact.userTextPhoneNumbers.firstObject isEqualToString:phoneNumber]) {
             return contact.firstName;
@@ -43,7 +43,7 @@
     return contacts.copy;
 }
 
-- (TokenUser * _Nullable)tokenContactForAddress:(NSString * _Nullable)address {
+- (nullable TokenUser *)tokenContactForAddress:(nullable NSString *)address {
     if (!address) { return nil; }
 
     for (TokenUser *contact in self.tokenContacts) {
@@ -55,7 +55,7 @@
     return nil;
 }
 
-- (NSArray<Contact *> * _Nonnull)signalContacts {
+- (nonnull NSArray<Contact *> *)signalContacts {
     NSMutableArray <Contact *> *contacts = [NSMutableArray array];
 
     for (TokenUser *tokenContact in self.tokenContacts) {
@@ -66,7 +66,7 @@
     return contacts.copy;
 }
 
-- (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber {
+- (nullable UIImage *)imageForPhoneIdentifier:(nullable NSString *)phoneNumber {
     TokenUser *contact = [self tokenContactForAddress:phoneNumber];
 
     return contact.avatar;

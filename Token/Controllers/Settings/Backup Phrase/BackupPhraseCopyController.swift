@@ -103,10 +103,6 @@ class BackupPhraseCopyController: UIViewController {
         ])
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
     func proceed(_: ActionButton) {
         let controller = BackupPhraseVerifyController(idAPIClient: self.idAPIClient)
         self.navigationController?.pushViewController(controller, animated: true)

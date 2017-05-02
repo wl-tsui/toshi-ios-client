@@ -18,10 +18,12 @@
 #import <SignalServiceKit/TSThread.h>
 #import <SignalServiceKit/TSIncomingMessage.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface TSThread (Additions)
 
 @property (nonatomic, readonly) NSArray<TSMessage *> *messages;
-@property (nonatomic, copy) NSString *cachedContactIdentifier;
+@property (nullable, nonatomic, copy) NSString *cachedContactIdentifier;
 
 @end
 
@@ -30,3 +32,5 @@
 - (NSArray<TSInteraction *> *)allInteractions;
 
 @end
+
+NS_ASSUME_NONNULL_END

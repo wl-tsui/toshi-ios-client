@@ -190,7 +190,6 @@ open class ProfileEditController: UIViewController {
 extension ProfileEditController: ImagePickerDelegate {
 
     public func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
-        
     }
 
     public func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {

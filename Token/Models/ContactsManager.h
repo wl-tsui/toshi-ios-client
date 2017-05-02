@@ -28,16 +28,16 @@
 
 @interface ContactsManager : NSObject <ContactsManagerProtocol>
 
-+ (BOOL)name:(NSString * _Nonnull)nameString matchesQuery:(NSString * _Nonnull)queryString;
++ (BOOL)name:(nonnull NSString *)nameString matchesQuery:(nonnull NSString *)queryString;
 
-- (NSString * _Nonnull)displayNameForPhoneIdentifier:(NSString * _Nullable)phoneNumber;
+- (nonnull NSString *)displayNameForPhoneIdentifier:(nullable NSString *)phoneNumber;
 
-- (NSArray<Contact *> * _Nonnull)signalContacts;
+- (nonnull NSArray<Contact *> *)signalContacts;
 
-- (NSArray<TokenUser *> * _Nonnull)tokenContacts;
+- (nonnull NSArray<TokenUser *> *)tokenContacts;
 
-- (TokenUser * _Nullable)tokenContactForAddress:(NSString * _Nullable)address;
+- (nullable TokenUser *)tokenContactForAddress:(nullable NSString *)address;
 
-- (UIImage * _Nullable)imageForPhoneIdentifier:(NSString * _Nullable)phoneNumber;
+- (nullable UIImage *)imageForPhoneIdentifier:(nullable NSString *)phoneNumber;
 
 @end
