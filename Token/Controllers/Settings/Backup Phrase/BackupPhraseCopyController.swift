@@ -69,7 +69,6 @@ class BackupPhraseCopyController: UIViewController {
         fatalError("")
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = Theme.settingsBackgroundColor

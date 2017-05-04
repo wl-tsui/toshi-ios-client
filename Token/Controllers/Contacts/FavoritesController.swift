@@ -107,7 +107,7 @@ open class FavoritesController: SweetTableController {
         self.definesPresentationContext = true
 
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
-        appearance.setTitleColor(Theme.lightTextColor, for: .normal)
+        appearance.setTitleColor(Theme.greyTextColor, for: .normal)
 
         self.displayContacts()
 
@@ -263,7 +263,7 @@ open class FavoritesController: SweetTableController {
 
             guard let data = dbExtension.object(at: indexPath, with: self.mappings) as? Data else { fatalError() }
 
-            contact = TokenUser.user(with: data)
+            contact = TokenUser.user(with: data, shouldUpdate: false)
         }
 
         return contact!

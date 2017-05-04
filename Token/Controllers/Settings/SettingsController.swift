@@ -23,6 +23,14 @@ public extension NSNotification.Name {
 
 open class SettingsController: UITableViewController {
 
+    fileprivate var chatAPIClient: ChatAPIClient {
+        return ChatAPIClient.shared
+    }
+
+    fileprivate var idAPIClient: IDAPIClient {
+        return IDAPIClient.shared
+    }
+
     public static let verificationStatusChanged = Notification.Name(rawValue: "VerificationStatusChanged")
 
     private let backupPhraseVerified = "BackupPhraseVerified"
@@ -65,7 +73,7 @@ open class SettingsController: UITableViewController {
     @IBOutlet weak var balanceLabel: UILabel! {
         didSet {
             self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
-            EthereumAPIClient.shared.getBalance(address: TokenUser.current?.address ?? "") { (balance, error) in
+            EthereumAPIClient.shared.getBalance(address: TokenUser.current?.address ?? "") { balance, _ in
                 self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
             }
         }
@@ -78,14 +86,6 @@ open class SettingsController: UITableViewController {
 
             self.versionLabel.text = "Version \(version)"
         }
-    }
-
-    fileprivate var chatAPIClient: ChatAPIClient {
-        return ChatAPIClient.shared
-    }
-
-    fileprivate var idAPIClient: IDAPIClient {
-        return IDAPIClient.shared
     }
 
     var didVerifyBackupPhrase: Bool {
@@ -223,7 +223,7 @@ open class SettingsController: UITableViewController {
         }
     }
 
-    open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    open override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performAction(for: indexPath)
     }
 

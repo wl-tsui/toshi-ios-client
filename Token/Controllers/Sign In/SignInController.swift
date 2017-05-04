@@ -83,7 +83,7 @@ open class SignInController: UIViewController {
 
     public init() {
         super.init(nibName: nil, bundle: nil)
-        
+
         self.title = "Sign in"
     }
 

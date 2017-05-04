@@ -157,7 +157,7 @@ public class ContactController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(displayActions))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.displayActions))
 
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.addSubviewsAndConstraints()
@@ -177,8 +177,6 @@ public class ContactController: UIViewController {
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
         self.avatarImageView.image = self.contact.avatar
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: self.qrCode, style: .plain, target: self, action: #selector(ProfileController.displayQRCode))
 
         self.updateButton()
     }
@@ -324,18 +322,27 @@ public class ContactController: UIViewController {
 
     func displayActions() {
         let actions = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let blockingManager = OWSBlockingManager.shared()
+        let address = self.contact.address
 
-        actions.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { action in
-            // block
+        if self.contact.isBlocked {
+            actions.addAction(UIAlertAction(title: "Unblock", style: .destructive, handler: { _ in
+                blockingManager.removeBlockedPhoneNumber(address)
+            }))
+        } else {
+            actions.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { _ in
+                blockingManager.addBlockedPhoneNumber(address)
+            }))
+        }
+
+        actions.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { _ in
+            self.idAPIClient.reportUser(address: address) { success, errorMessage in
+                print(success)
+                print(errorMessage)
+            }
         }))
 
-        actions.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { action in
-            // block
-        }))
-
-        actions.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            // block
-        }))
+        actions.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
         self.present(actions, animated: true)
     }
