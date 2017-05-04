@@ -43,9 +43,13 @@ open class FavoritesController: SweetTableController {
         return dbConnection
     }()
 
-    public var chatAPIClient: ChatAPIClient
+    fileprivate var chatAPIClient: ChatAPIClient {
+        return ChatAPIClient.shared
+    }
 
-    public var idAPIClient: IDAPIClient
+    fileprivate var idAPIClient: IDAPIClient {
+        return IDAPIClient.shared
+    }
 
     var searchContacts = [TokenUser]()
 
@@ -69,10 +73,7 @@ open class FavoritesController: SweetTableController {
         return controller
     }()
 
-    public init(idAPIClient: IDAPIClient, chatAPIClient: ChatAPIClient) {
-        self.idAPIClient = idAPIClient
-        self.chatAPIClient = chatAPIClient
-
+    public init() {
         super.init(style: .plain)
 
         self.registerTokenContactsDatabaseView()
@@ -119,7 +120,7 @@ open class FavoritesController: SweetTableController {
                     let appController = AppController(app: contact)
                     self.navigationController?.pushViewController(appController, animated: false)
                 } else {
-                    let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+                    let contactController = ContactController(contact: contact)
                     self.navigationController?.pushViewController(contactController, animated: false)
                 }
             }
@@ -331,7 +332,7 @@ extension FavoritesController: UITableViewDelegate {
             let appController = AppController(app: contact)
             self.navigationController?.pushViewController(appController, animated: true)
         } else {
-            let contactController = ContactController(contact: contact, idAPIClient: self.idAPIClient)
+            let contactController = ContactController(contact: contact)
             self.navigationController?.pushViewController(contactController, animated: true)
         }
 

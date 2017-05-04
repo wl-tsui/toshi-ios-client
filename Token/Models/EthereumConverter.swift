@@ -61,11 +61,25 @@ struct EthereumConverter {
         return "\(self.fiatValueString(forWei: balance)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
     }
 
+    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, width: CGFloat) -> NSAttributedString {
+        let attributedString: NSMutableAttributedString = self.balanceAttributedString(forWei: balance).mutableCopy() as! NSMutableAttributedString
+        let range = NSRange(location: 0, length: attributedString.length)
+
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .left
+        let nextTabStop = NSTextTab(textAlignment: .right, location: width, options: [:])
+        paragraph.tabStops = [nextTabStop]
+
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: range)
+
+        return attributedString
+    }
+
     public static func balanceAttributedString(forWei balance: NSDecimalNumber) -> NSAttributedString {
         let fiatText = self.fiatValueStringWithCode(forWei: balance)
         let etherText = self.ethereumValueString(forWei: balance)
 
-        let fiatTextFull = fiatText + " · "
+        let fiatTextFull = fiatText + "\t"
         let text = fiatTextFull + etherText
         let etherRange = (text as NSString).range(of: etherText)
         let fiatRange = (text as NSString).range(of: fiatTextFull)

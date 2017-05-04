@@ -18,7 +18,10 @@ import SweetUIKit
 import CoreImage
 
 public class ContactController: UIViewController {
-    var idAPIClient: IDAPIClient
+
+    fileprivate var idAPIClient: IDAPIClient {
+        return IDAPIClient.shared
+    }
 
     public var contact: TokenUser
 
@@ -131,13 +134,8 @@ public class ContactController: UIViewController {
         return view
     }()
 
-    private init() {
-        fatalError()
-    }
-
-    public init(contact: TokenUser, idAPIClient: IDAPIClient) {
+    public init(contact: TokenUser) {
         self.contact = contact
-        self.idAPIClient = idAPIClient
 
         super.init(nibName: nil, bundle: nil)
 
@@ -158,6 +156,8 @@ public class ContactController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(displayActions))
 
         self.view.backgroundColor = Theme.viewBackgroundColor
         self.addSubviewsAndConstraints()
@@ -320,5 +320,23 @@ public class ContactController: UIViewController {
             SoundPlayer.playSound(type: .addedContact)
             self.updateButton()
         }
+    }
+
+    func displayActions() {
+        let actions = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        actions.addAction(UIAlertAction(title: "Block", style: .destructive, handler: { action in
+            // block
+        }))
+
+        actions.addAction(UIAlertAction(title: "Report", style: .destructive, handler: { action in
+            // block
+        }))
+
+        actions.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            // block
+        }))
+
+        self.present(actions, animated: true)
     }
 }
