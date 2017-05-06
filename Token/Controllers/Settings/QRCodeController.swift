@@ -33,23 +33,11 @@ class QRCodeController: UIViewController {
         return view
     }()
 
-    lazy var toolbar: UIToolbar = {
-        let view = UIToolbar(withAutoLayout: true)
-        view.delegate = self
 
-        view.barStyle = .black
-        view.barTintColor = .black
-        view.tintColor = .white
-
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(QRCodeController.didCancel))
-        view.items = [space, cancel]
-
-        return view
-    }()
-
-    convenience init(add username: String) {
+    convenience init(for username: String) {
         self.init(nibName: nil, bundle: nil)
+
+        self.title = "My QR Code"
 
         self.qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
     }
@@ -57,20 +45,13 @@ class QRCodeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = Theme.viewBackgroundColor
         self.view.addSubview(self.qrCodeImageView)
-        self.view.addSubview(self.toolbar)
-
-        self.toolbar.attachToTop(viewController: self)
 
         self.qrCodeImageView.set(height: 300)
         self.qrCodeImageView.set(width: 300)
         self.qrCodeImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.qrCodeImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-    }
-
-    func didCancel() {
-        self.dismiss(animated: true)
     }
 }
 

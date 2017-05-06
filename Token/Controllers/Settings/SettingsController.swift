@@ -73,7 +73,7 @@ open class SettingsController: UITableViewController {
     @IBOutlet weak var balanceLabel: UILabel! {
         didSet {
             self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
-            EthereumAPIClient.shared.getBalance(address: TokenUser.current?.address ?? "") { balance, _ in
+            EthereumAPIClient.shared.getBalance(address: TokenUser.current?.paymentAddress ?? "") { balance, _ in
                 self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
             }
         }
@@ -116,16 +116,14 @@ open class SettingsController: UITableViewController {
         super.init(coder: aDecoder)
     }
 
-    @objc private func updateVerificationStatus(_ notification: Notification) {
-        if let verificationStatus = notification.object as? VerificationStatus {
-            self.verificationStatus = verificationStatus
-        }
-    }
-
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
+        let notificationCenter = NotificationCenter.default
+
+        notificationCenter.addObserver(self, selector: #selector(self.updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
 
     @objc private func handleBalanceUpdate(notification: Notification) {
@@ -137,6 +135,12 @@ open class SettingsController: UITableViewController {
         }
     }
 
+    @objc private func updateVerificationStatus(_ notification: Notification) {
+        if let verificationStatus = notification.object as? VerificationStatus {
+            self.verificationStatus = verificationStatus
+        }
+    }
+    
     private func handleSignOut() {
         guard let currentUser = TokenUser.current else {
             let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
@@ -154,6 +158,11 @@ open class SettingsController: UITableViewController {
         DispatchQueue.main.async {
             self.present(alert, animated: true)
         }
+    }
+
+    func avatarDidUpdate() {
+        let avatar = TokenUser.current?.avatar
+        self.userAvatarImageVIew.image = avatar
     }
 
     func alertController(balance: NSDecimalNumber) -> UIAlertController {
@@ -195,7 +204,10 @@ open class SettingsController: UITableViewController {
                 // go to user profile
                 self.navigationController?.pushViewController(ProfileController(), animated: true)
             case 1:
-                break // go to qr code
+                guard let current = TokenUser.current else { return }
+                let qrCodecontroller = QRCodeController(for: current.displayUsername)
+
+                self.navigationController?.pushViewController(qrCodecontroller, animated: true)
             default:
                 break
             }
