@@ -126,6 +126,14 @@ open class SettingsController: UITableViewController {
         notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
 
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.nameLabel.text = TokenUser.current?.name
+        self.usernameLabel.text = TokenUser.current?.displayUsername
+        self.userAvatarImageVIew.image = TokenUser.current?.avatar
+    }
+
     @objc private func handleBalanceUpdate(notification: Notification) {
         guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
 

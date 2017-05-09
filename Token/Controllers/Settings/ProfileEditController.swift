@@ -192,8 +192,9 @@ extension ProfileEditController: ImagePickerDelegate {
         self.avatarImageView.image = scaledImage
 
         self.idAPIClient.updateAvatar(scaledImage) { _ in
-            self.dismiss(animated: true)
         }
+
+        self.dismiss(animated: true)
     }
 
     public func cancelButtonDidPress(_: ImagePickerController) {
