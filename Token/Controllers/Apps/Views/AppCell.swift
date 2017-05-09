@@ -61,7 +61,7 @@ class AppCell: UICollectionViewCell {
                 return
             }
 
-            NotificationCenter.default.addObserver(self, selector: #selector(avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: app)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: app)
 
             self.nameLabel.text = app.name
             self.categoryLabel.text = app.category

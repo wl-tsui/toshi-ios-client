@@ -164,6 +164,17 @@ SWIFT_CLASS("_TtC10SweetUIKit20OpenInSafariActivity")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class UIColor;
+@class UISearchBar;
+
+SWIFT_CLASS("_TtC10SweetUIKit22SearchBarContainerView")
+@interface SearchBarContainerView : UIView
+@property (nonatomic, strong) UIColor * _Nullable backgroundColor;
+- (nonnull instancetype)initWithSearchBar:(UISearchBar * _Nonnull)searchBar OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+@end
+
 @class UICollectionView;
 @class UICollectionViewLayout;
 @class NSBundle;
@@ -177,7 +188,6 @@ SWIFT_CLASS("_TtC10SweetUIKit25SweetCollectionController")
 - (nonnull instancetype)initWithNibName:(NSString * _Nullable)nibNameOrNil bundle:(NSBundle * _Nullable)nibBundleOrNil SWIFT_UNAVAILABLE;
 @end
 
-@class UISearchBar;
 @class UISearchController;
 
 /// SearchableCollectionController is a subclass of SweetCollectionController

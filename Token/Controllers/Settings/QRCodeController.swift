@@ -33,7 +33,6 @@ class QRCodeController: UIViewController {
         return view
     }()
 
-
     convenience init(for username: String) {
         self.init(nibName: nil, bundle: nil)
 

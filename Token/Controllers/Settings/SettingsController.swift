@@ -140,7 +140,7 @@ open class SettingsController: UITableViewController {
             self.verificationStatus = verificationStatus
         }
     }
-    
+
     private func handleSignOut() {
         guard let currentUser = TokenUser.current else {
             let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
@@ -234,7 +234,7 @@ open class SettingsController: UITableViewController {
             switch indexPath.row {
             case 0:
                 break // change currency
-            case 2:
+            case 1:
                 // go sign out
                 self.handleSignOut()
             default:

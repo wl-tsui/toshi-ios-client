@@ -40,29 +40,25 @@ open class ProfileEditController: UIViewController {
         return IDAPIClient.shared
     }
 
-    lazy var toolbar: UIToolbar = {
-        let view = UIToolbar(withAutoLayout: true)
-        view.barTintColor = Theme.tintColor
-        view.tintColor = Theme.lightTextColor
-        view.delegate = self
+    private lazy var navbar: UINavigationBar = {
+        let view = UINavigationBar(withAutoLayout: true)
 
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let title = UIBarButtonItem(title: "Edit profile", style: .plain, target: nil, action: nil)
-        let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAndDismiss))
-        let done = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(saveAndDismiss))
+        let item = UINavigationItem(title: "Edit profile")
+        item.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
+        item.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
 
-        view.items = [cancel, space, title, space, done]
+        view.items = [item]
 
         return view
     }()
 
-    lazy var avatarImageView: AvatarImageView = {
+    fileprivate lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
 
-    lazy var changeAvatarButton: UIButton = {
+    fileprivate lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
         let title = NSAttributedString(string: "Change picture", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 16)])
@@ -72,7 +68,7 @@ open class ProfileEditController: UIViewController {
         return view
     }()
 
-    lazy var tableView: UITableView = {
+    fileprivate lazy var tableView: UITableView = {
         let view = UITableView(withAutoLayout: true)
         view.delegate = self
         view.dataSource = self
@@ -80,48 +76,51 @@ open class ProfileEditController: UIViewController {
         view.register(ProfileItemCell.self)
         view.layer.borderWidth = Theme.borderHeight
         view.layer.borderColor = Theme.borderColor.cgColor
-        view.alwaysBounceVertical = false
+        view.alwaysBounceVertical = true
 
         return view
     }()
 
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+    open override var canBecomeFirstResponder: Bool {
+        return true
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = Theme.viewBackgroundColor
+        self.view.backgroundColor = Theme.navigationBarColor
         self.addSubviewsAndConstraints()
 
         guard let user = TokenUser.current else { return }
         self.avatarImageView.image = user.avatar
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapView))
+        self.view.addGestureRecognizer(tapGesture)
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.toolbar)
+        self.view.addSubview(self.navbar)
         self.view.addSubview(self.avatarImageView)
         self.view.addSubview(self.changeAvatarButton)
         self.view.addSubview(self.tableView)
 
-        self.toolbar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
-        self.toolbar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.toolbar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.navbar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
+        self.navbar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.navbar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
         self.avatarImageView.set(height: 80)
         self.avatarImageView.set(width: 80)
-        self.avatarImageView.topAnchor.constraint(equalTo: self.toolbar.bottomAnchor, constant: 24).isActive = true
+        self.avatarImageView.topAnchor.constraint(equalTo: self.navbar.bottomAnchor, constant: 24).isActive = true
         self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
         self.changeAvatarButton.set(height: 38)
         self.changeAvatarButton.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 12).isActive = true
         self.changeAvatarButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
-        self.tableView.set(height: CGFloat(44 * self.dataSource.count))
         self.tableView.topAnchor.constraint(equalTo: self.changeAvatarButton.bottomAnchor, constant: 24).isActive = true
         self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
 
     func updateAvatar() {
@@ -173,6 +172,12 @@ open class ProfileEditController: UIViewController {
             }
         }
     }
+
+    @objc private func didTapView(sender: UITapGestureRecognizer) {
+        if sender.state == .recognized {
+            self.becomeFirstResponder()
+        }
+    }
 }
 
 extension ProfileEditController: ImagePickerDelegate {
@@ -186,7 +191,7 @@ extension ProfileEditController: ImagePickerDelegate {
         let scaledImage = image.resized(toHeight: 320)
         self.avatarImageView.image = scaledImage
 
-        self.idAPIClient.updateAvatar(scaledImage) { success in
+        self.idAPIClient.updateAvatar(scaledImage) { _ in
             self.dismiss(animated: true)
         }
     }
@@ -220,12 +225,5 @@ extension ProfileEditController: UITableViewDataSource {
         cell.formItem = formItem
 
         return cell
-    }
-}
-
-extension ProfileEditController: UIToolbarDelegate {
-
-    public func position(for _: UIBarPositioning) -> UIBarPosition {
-        return .topAttached
     }
 }

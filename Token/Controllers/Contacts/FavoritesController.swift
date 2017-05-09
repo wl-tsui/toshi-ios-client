@@ -63,6 +63,7 @@ open class FavoritesController: SweetTableController {
         controller.searchBar.barTintColor = Theme.viewBackgroundColor
         controller.searchBar.tintColor = Theme.tintColor
         controller.searchBar.searchBarStyle = .minimal
+        controller.searchBar.backgroundColor = Theme.viewBackgroundColor
 
         controller.searchBar.layer.borderWidth = 1.0 / UIScreen.main.scale
         controller.searchBar.layer.borderColor = Theme.borderColor.cgColor

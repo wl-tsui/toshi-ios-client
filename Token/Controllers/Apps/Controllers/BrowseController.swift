@@ -50,10 +50,6 @@ class BrowseController: SearchableCollectionController {
         self.searchBar.delegate = self
         self.searchBar.barTintColor = Theme.viewBackgroundColor
         self.searchBar.tintColor = Theme.tintColor
-        self.searchBar.searchBarStyle = .minimal
-
-        self.searchBar.layer.borderWidth = 1.0 / UIScreen.main.scale
-        self.searchBar.layer.borderColor = Theme.borderColor.cgColor
 
         let searchField = self.searchBar.value(forKey: "searchField") as? UITextField
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor
