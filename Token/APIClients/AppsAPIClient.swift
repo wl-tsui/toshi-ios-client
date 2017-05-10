@@ -96,8 +96,12 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 }
 
                 completion(apps, nil)
-            case .failure(_, _, let error):
-                completion([TokenUser](), error)
+            case let .failure(json, response, error):
+                if response.statusCode == 404 {
+                    completion([TokenUser](), nil)
+                } else {
+                    completion([TokenUser](), error)
+                }
             }
         }
     }

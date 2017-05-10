@@ -20,7 +20,13 @@ class BrowseController: SearchableCollectionController {
     static let cellHeight = CGFloat(220)
     static let cellWidth = CGFloat(90)
 
-    var recommendedApps = [TokenUser]() {
+    var featuredApps = [TokenUser]() {
+        didSet {
+            self.collectionView.reloadData()
+        }
+    }
+
+    var searchResult = [TokenUser]() {
         didSet {
             self.collectionView.reloadData()
         }
@@ -47,6 +53,8 @@ class BrowseController: SearchableCollectionController {
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.backgroundColor = Theme.viewBackgroundColor
 
+        self.searchController.delegate = self
+
         self.searchBar.delegate = self
         self.searchBar.barTintColor = Theme.viewBackgroundColor
         self.searchBar.tintColor = Theme.tintColor
@@ -64,7 +72,7 @@ class BrowseController: SearchableCollectionController {
                 self.present(alertController, animated: true, completion: nil)
             }
 
-            self.recommendedApps = apps
+            self.featuredApps = apps
         }
     }
 
@@ -75,7 +83,7 @@ class BrowseController: SearchableCollectionController {
                 self.present(alertController, animated: true, completion: nil)
             }
 
-            self.recommendedApps = apps
+            self.searchResult = apps
         }
     }
 }
@@ -83,22 +91,37 @@ class BrowseController: SearchableCollectionController {
 extension BrowseController {
 
     override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return self.recommendedApps.count
+        if self.searchController.isActive {
+            return self.searchResult.count
+        }
+
+        return self.featuredApps.count
     }
 
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(AppCell.self, for: indexPath)
 
-        let app = self.recommendedApps[indexPath.row]
-        cell.app = app
+        if self.searchController.isActive {
+            let app = self.searchResult[indexPath.row]
+            cell.app = app
+        } else {
+            let app = self.featuredApps[indexPath.row]
+            cell.app = app
+        }
 
         return cell
     }
 
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let app = self.recommendedApps[indexPath.row]
-        let appController = AppController(app: app)
-        self.navigationController?.pushViewController(appController, animated: true)
+        if self.searchController.isActive {
+            let app = self.searchResult[indexPath.row]
+            let appController = AppController(app: app)
+            self.navigationController?.pushViewController(appController, animated: true)
+        } else {
+            let app = self.featuredApps[indexPath.row]
+            let appController = AppController(app: app)
+            self.navigationController?.pushViewController(appController, animated: true)
+        }
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
@@ -122,12 +145,26 @@ extension BrowseController: UISearchBarDelegate {
     func searchBar(_: UISearchBar, textDidChange searchText: String) {
 
         if searchText.length == 0 {
-            self.recommendedApps = [TokenUser]()
+            self.searchResult = [TokenUser]()
         }
 
         // Throttles search to delay performing a search while the user is typing.
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload(searchText:)), object: searchText)
         self.perform(#selector(reload(searchText:)), with: searchText, afterDelay: 0.5)
+    }
+}
+
+extension BrowseController {
+    override func didDismissSearchController(_ searchController: UISearchController) {
+        super.didDismissSearchController(searchController)
+
+        self.collectionView.reloadData()
+    }
+
+    override func willPresentSearchController(_ searchController: UISearchController) {
+        super.willPresentSearchController(searchController)
+
+        self.collectionView.reloadData()
     }
 }
 

@@ -226,9 +226,13 @@ SWIFT_CLASS("_TtC10SweetUIKit30SearchableCollectionController")
 
 
 @interface SearchableCollectionController (SWIFT_EXTENSION(SweetUIKit)) <UISearchControllerDelegate>
+/// Call super to keep the same animation behaviours
 - (void)willPresentSearchController:(UISearchController * _Nonnull)_;
+/// Call super to keep the same animation behaviours
 - (void)didPresentSearchController:(UISearchController * _Nonnull)_;
+/// Call super to keep the same animation behaviours
 - (void)willDismissSearchController:(UISearchController * _Nonnull)_;
+/// Call super to keep the same animation behaviours
 - (void)didDismissSearchController:(UISearchController * _Nonnull)_;
 @end
 
