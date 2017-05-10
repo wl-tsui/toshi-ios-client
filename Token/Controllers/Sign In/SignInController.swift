@@ -194,11 +194,11 @@ open class SignInController: UIViewController {
         let idClient = IDAPIClient.shared
         idClient.retrieveUser(username: cereal.address) { user in
             if let user = user {
-                TokenUser.current = user
                 ChatAPIClient.shared.registerUser()
                 Cereal.shared = cereal
                 UserDefaults.standard.set(false, forKey: "RequiresSignIn")
-
+                TokenUser.current = user
+                
                 NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: VerificationStatus.correct)
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
                 delegate.setupSignalService()
