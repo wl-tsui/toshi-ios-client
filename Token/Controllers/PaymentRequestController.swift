@@ -39,7 +39,7 @@ class PaymentRequestController: PaymentController {
 
         let spacing = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let title = UIBarButtonItem(title: "Request Payment", style: .plain, target: nil, action: nil)
-        title.setTitleTextAttributes([NSFontAttributeName: Theme.semibold(size: 17)], for: .normal)
+        title.setTitleTextAttributes([NSFontAttributeName: Theme.semibold(size: 17), NSForegroundColorAttributeName: Theme.darkTextColor], for: .normal)
 
         self.toolbar.items = [self.cancelBarButton, spacing, title, spacing, self.continueBarButton]
     }

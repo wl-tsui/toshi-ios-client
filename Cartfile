@@ -1,7 +1,7 @@
 github "Anakros/WebRTC" 
 github "UseSweet/SweetFoundation" ~> 1.2.0
 github "UseSweet/SweetSwift" "master"
-github "UseSweet/SweetUIKit" "feature/search-delegate"
+github "UseSweet/SweetUIKit" ~> 1.13
 github "bakkenbaeck/CameraScanner" "9946019e5e342d7f365cf93d87a4ad3e037bbc2d"
 github "bakkenbaeck/EtherealCereal" ~> 0.0.3
 github "bakkenbaeck/Formulaic" "12d290e608d6da68d4956c265740621ce7d44f56"

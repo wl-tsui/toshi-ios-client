@@ -70,8 +70,8 @@ class PaymentController: UIViewController {
     lazy var toolbar: UIToolbar = {
         let view = UIToolbar(withAutoLayout: true)
         view.delegate = self
-        view.barTintColor = Theme.tintColor
-        view.tintColor = Theme.lightTextColor
+        view.barTintColor = Theme.navigationBarColor
+        view.tintColor = Theme.tintColor
 
         return view
     }()
@@ -148,8 +148,8 @@ extension PaymentController: UITextFieldDelegate {
 
         /// For NSNumber's stringValue, the decimal separator is always a `.`.
         // stringValue just calls description(withLocale:) passing nil, so it defaults to `en_US`.
-        let components = number.stringValue.components(separatedBy: ".")
-        if components.count == 2, let decimalPlaces = components.last?.length, decimalPlaces > 2 {
+        let components = newValue.components(separatedBy: ".")
+        if components.count == 2, let decimalPlaces = components.last?.length, decimalPlaces >= 2 {
             return false
         }
 
