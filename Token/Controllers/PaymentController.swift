@@ -77,7 +77,7 @@ class PaymentController: UIViewController {
     }()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return .default
     }
 
     override func viewDidLoad() {
@@ -146,10 +146,12 @@ extension PaymentController: UITextFieldDelegate {
             return true
         }
 
+        print(newValue)
+
         /// For NSNumber's stringValue, the decimal separator is always a `.`.
         // stringValue just calls description(withLocale:) passing nil, so it defaults to `en_US`.
         let components = newValue.components(separatedBy: ".")
-        if components.count == 2, let decimalPlaces = components.last?.length, decimalPlaces >= 2 {
+        if components.count == 2, let decimalPlaces = components.last?.length, decimalPlaces > 2 {
             return false
         }
 

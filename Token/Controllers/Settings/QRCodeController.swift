@@ -22,7 +22,7 @@ class QRCodeController: UIViewController {
     static let addUsernameBasePath = "https://app.tokenbrowser.com/add/"
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return .default
     }
 
     lazy var qrCodeImageView: UIImageView = {
