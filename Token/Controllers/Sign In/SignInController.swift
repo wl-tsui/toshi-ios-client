@@ -15,6 +15,7 @@
 
 import UIKit
 import SweetUIKit
+import KeychainSwift
 
 extension NSNotification.Name {
     public static let CreateNewUser = NSNotification.Name(rawValue: "CreateNewUser")
@@ -198,6 +199,7 @@ open class SignInController: UIViewController {
                 Cereal.shared = cereal
                 UserDefaults.standard.set(false, forKey: "RequiresSignIn")
                 TokenUser.current = user
+                KeychainSwift().set(true, forKey: SettingsController.backupPhraseVerified)
                 
                 NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: VerificationStatus.correct)
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
@@ -205,7 +207,7 @@ open class SignInController: UIViewController {
 
                 self.dismiss(animated: true)
             } else {
-                print("OOPS! No such user")
+                fatalError("No such user")
             }
         }
     }

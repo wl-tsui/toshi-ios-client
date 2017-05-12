@@ -33,15 +33,15 @@ open class SettingsController: UITableViewController {
 
     public static let verificationStatusChanged = Notification.Name(rawValue: "VerificationStatusChanged")
 
-    private let backupPhraseVerified = "BackupPhraseVerified"
+    static let backupPhraseVerified = "BackupPhraseVerified"
 
     private var verificationStatus: VerificationStatus = .unverified {
         didSet {
             switch verificationStatus {
             case .correct:
-                KeychainSwift().set(true, forKey: self.backupPhraseVerified)
+                KeychainSwift().set(true, forKey: SettingsController.backupPhraseVerified)
             case .unverified, .tooShort, .incorrect:
-                KeychainSwift().set(false, forKey: self.backupPhraseVerified)
+                KeychainSwift().set(false, forKey: SettingsController.backupPhraseVerified)
             }
         }
     }
@@ -89,7 +89,7 @@ open class SettingsController: UITableViewController {
     }
 
     var didVerifyBackupPhrase: Bool {
-        if let backupPhraseVerified = KeychainSwift().getBool(self.backupPhraseVerified) {
+        if let backupPhraseVerified = KeychainSwift().getBool(SettingsController.backupPhraseVerified) {
             self.verificationStatus = backupPhraseVerified ? .correct : .incorrect
         } else {
             self.verificationStatus = .unverified

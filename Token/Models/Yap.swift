@@ -62,7 +62,9 @@ public final class Yap: NSObject, Singleton {
     }
 
     public func wipeStorage() {
-        KeychainSwift().delete("DBPWD")
+        let keychain = KeychainSwift()
+        keychain.delete(SettingsController.backupPhraseVerified)
+        keychain.delete("DBPWD")
         try! FileManager.default.removeItem(atPath: self.path)
     }
 
