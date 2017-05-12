@@ -320,11 +320,7 @@
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:self.voipToken success:^{
         NSLog(@"TOKEN: chat PN register - SUCCESS: token: %@, voip: %@", self.token, self.voipToken);
 
-        [[EthereumAPIClient shared] registerForNotifications: ^(BOOL success){
-            if (success) {
-                [[EthereumAPIClient shared] registerForPushNotificationsWithDeviceToken:self.token];
-            }
-        }];
+        [[EthereumAPIClient shared] registerForPushNotificationsWithDeviceToken:self.token];
 
     } failure:^(NSError *error) {
         NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);

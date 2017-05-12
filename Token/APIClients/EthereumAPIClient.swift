@@ -171,9 +171,10 @@ public class EthereumAPIClient: NSObject {
         self.timestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/apn/register"
-            let address = cereal.paymentAddress
+            let address = cereal.address
+            let paymentAddress = cereal.paymentAddress
 
-            let params = ["registration_id": deviceToken]
+            let params = ["registration_id": deviceToken, "address": paymentAddress]
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
             let hashedPayload = cereal.sha3WithWallet(string: payloadString)
             let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
@@ -199,56 +200,14 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func registerForNotifications(_ completion: @escaping ((_ success: Bool) -> Void)) {
-        self.timestamp { timestamp in
-            let cereal = Cereal.shared
-            let address = TokenUser.current!.paymentAddress
-            let path = "/v1/register"
-            let params = [
-                "addresses": [
-                    address,
-                ],
-            ]
-
-            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = cereal.sha3WithWallet(string: payloadString)
-            let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-
-            let headerFields: [String: String] = [
-                "Token-ID-Address": address,
-                "Token-Signature": signature,
-                "Token-Timestamp": timestamp,
-            ]
-
-            let json = RequestParameter(params)
-
-            self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
-                switch result {
-                case .success(let json, let response):
-                    print(json ?? "")
-                    print(response)
-                    completion(true)
-                case .failure(let json, let response, let error):
-                    print(json ?? "")
-                    print(response)
-                    print(error)
-                    completion(false)
-                }
-            }
-        }
-    }
-
-    public func deregisterForNotifications() {
+    public func deregisterForNotifications(deviceToken: String) {
         self.timestamp { timestamp in
             let cereal = Cereal.shared
             let address = cereal.paymentAddress
-            let path = "/v1/deregister"
+            let paymentAddress = TokenUser.current!.paymentAddress
+            let path = "/v1/apn/deregister"
 
-            let params = [
-                "addresses": [
-                    address,
-                ],
-            ]
+            let params = ["registration_id": deviceToken, "address": paymentAddress]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
             let hashedPayload = cereal.sha3WithWallet(string: payloadString)
