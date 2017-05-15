@@ -143,7 +143,7 @@ extension PaymentController: UITextFieldDelegate {
         guard let number = self.inputNumberFormatter.number(from: newValue) else {
             self.currencyAmountLabel.text = self.currencyNumberFormatter.string(from: 0)
 
-            return true
+            return false
         }
 
         print(newValue)
