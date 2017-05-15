@@ -93,6 +93,7 @@
 - (void)userDidSignOut {
     [TSAccountManager unregisterTextSecureWithSuccess:^{
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+        [[EthereumAPIClient shared] deregisterForNotificationsWithDeviceToken:self.token];
         [[TSStorageManager sharedManager] resetSignalStorage];
         [[Yap sharedInstance] wipeStorage];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];

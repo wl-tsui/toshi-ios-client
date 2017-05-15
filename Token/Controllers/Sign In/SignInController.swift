@@ -198,10 +198,10 @@ open class SignInController: UIViewController {
                 ChatAPIClient.shared.registerUser()
                 Cereal.shared = cereal
                 UserDefaults.standard.set(false, forKey: "RequiresSignIn")
+
+                user.verified = true
                 TokenUser.current = user
-                KeychainSwift().set(true, forKey: SettingsController.backupPhraseVerified)
                 
-                NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: VerificationStatus.correct)
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
                 delegate.setupSignalService()
 

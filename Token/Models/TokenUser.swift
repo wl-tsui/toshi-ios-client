@@ -17,16 +17,12 @@ import Foundation
 import SweetSwift
 import KeychainSwift
 
-public protocol JSONDataSerialization {
-    var JSONData: Data { get }
-}
-
 extension Notification.Name {
     public static let CurrentUserDidUpdateAvatarNotification = Notification.Name(rawValue: "CurrentUserDidUpdateAvatarNotification")
     public static let TokenContactDidUpdateAvatarNotification = Notification.Name(rawValue: "TokenContactDidUpdateAvatarNotification")
 }
 
-public class TokenUser: NSObject, JSONDataSerialization, NSCoding {
+public class TokenUser: NSObject, NSCoding {
 
     struct Constants {
         static let name = "name"
@@ -38,6 +34,7 @@ public class TokenUser: NSObject, JSONDataSerialization, NSCoding {
         static let avatar = "avatar"
         static let avatarDataHex = "avatarDataHex"
         static let isApp = "is_app"
+        static let verified = "verified"
     }
 
     static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
@@ -51,6 +48,12 @@ public class TokenUser: NSObject, JSONDataSerialization, NSCoding {
     var category = ""
 
     var balance = NSDecimalNumber.zero
+
+    var verified: Bool = false {
+        didSet {
+            self.saveIfNeeded()
+        }
+    }
 
     private(set) var name = ""
 
@@ -130,6 +133,7 @@ public class TokenUser: NSObject, JSONDataSerialization, NSCoding {
             Constants.avatar: self.avatarPath,
             Constants.avatarDataHex: imageDataString,
             Constants.isApp: self.isApp,
+            Constants.verified: self.verified,
         ]
     }
 
@@ -207,6 +211,8 @@ public class TokenUser: NSObject, JSONDataSerialization, NSCoding {
         self.location = json[Constants.location] as? String ?? self.location
         self.about = json[Constants.about] as? String ?? self.about
         self.avatarPath = json[Constants.avatar] as? String ?? self.avatarPath
+
+        self.verified = json[Constants.verified] as? Bool ?? self.verified
 
         if updateAvatar {
             if let avatarDataHex = (json[Constants.avatarDataHex] as? String), avatarDataHex.length > 0, let hexData = avatarDataHex.hexadecimalData {

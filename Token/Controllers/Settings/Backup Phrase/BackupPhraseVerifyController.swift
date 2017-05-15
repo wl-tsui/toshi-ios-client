@@ -73,8 +73,6 @@ class BackupPhraseVerifyController: UIViewController {
         self.view.backgroundColor = Theme.settingsBackgroundColor
 
         self.addSubviewsAndConstraints()
-
-        NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: self.verifyPhraseView.verificationStatus)
     }
 
     func addSubviewsAndConstraints() {

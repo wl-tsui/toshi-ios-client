@@ -176,8 +176,8 @@ public class EthereumAPIClient: NSObject {
 
             let params = ["registration_id": deviceToken, "address": paymentAddress]
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = cereal.sha3WithWallet(string: payloadString)
-            let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+            let hashedPayload = cereal.sha3WithID(string: payloadString)
+            let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headerFields: [String: String] = [
                 "Token-ID-Address": address,

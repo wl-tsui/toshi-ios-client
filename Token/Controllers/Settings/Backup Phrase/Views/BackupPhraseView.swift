@@ -60,12 +60,12 @@ class BackupPhraseView: UIView {
 
     var verificationStatus: VerificationStatus = .unverified {
         didSet {
-            NotificationCenter.default.post(name: SettingsController.verificationStatusChanged, object: self.verificationStatus)
-
             if self.verificationStatus == .incorrect {
                 DispatchQueue.main.asyncAfter(seconds: 0.5) {
                     self.shake()
                 }
+            } else {
+                TokenUser.current!.verified = self.verificationStatus == .correct
             }
         }
     }

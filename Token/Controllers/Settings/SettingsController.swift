@@ -31,19 +31,8 @@ open class SettingsController: UITableViewController {
         return IDAPIClient.shared
     }
 
-    public static let verificationStatusChanged = Notification.Name(rawValue: "VerificationStatusChanged")
-
-    static let backupPhraseVerified = "BackupPhraseVerified"
-
-    private var verificationStatus: VerificationStatus = .unverified {
-        didSet {
-            switch verificationStatus {
-            case .correct:
-                KeychainSwift().set(true, forKey: SettingsController.backupPhraseVerified)
-            case .unverified, .tooShort, .incorrect:
-                KeychainSwift().set(false, forKey: SettingsController.backupPhraseVerified)
-            }
-        }
+    private var isAccountSecured: Bool {
+        return TokenUser.current?.verified ?? false
     }
 
     @IBOutlet weak var ratingsView: UIView! {
@@ -73,9 +62,6 @@ open class SettingsController: UITableViewController {
     @IBOutlet weak var balanceLabel: UILabel! {
         didSet {
             self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
-            EthereumAPIClient.shared.getBalance(address: TokenUser.current?.paymentAddress ?? "") { balance, _ in
-                self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
-            }
         }
     }
 
@@ -86,16 +72,6 @@ open class SettingsController: UITableViewController {
 
             self.versionLabel.text = "Version \(version)"
         }
-    }
-
-    var didVerifyBackupPhrase: Bool {
-        if let backupPhraseVerified = KeychainSwift().getBool(SettingsController.backupPhraseVerified) {
-            self.verificationStatus = backupPhraseVerified ? .correct : .incorrect
-        } else {
-            self.verificationStatus = .unverified
-        }
-
-        return self.verificationStatus == .correct
     }
 
     static func instantiateFromNib() -> SettingsController {
@@ -121,7 +97,6 @@ open class SettingsController: UITableViewController {
 
         let notificationCenter = NotificationCenter.default
 
-        notificationCenter.addObserver(self, selector: #selector(self.updateVerificationStatus(_:)), name: SettingsController.verificationStatusChanged, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
@@ -129,6 +104,7 @@ open class SettingsController: UITableViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        self.tableView.reloadData()
         self.nameLabel.text = TokenUser.current?.name
         self.usernameLabel.text = TokenUser.current?.displayUsername
         self.userAvatarImageVIew.image = TokenUser.current?.avatar
@@ -138,15 +114,6 @@ open class SettingsController: UITableViewController {
         guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
 
         self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
-        EthereumAPIClient.shared.getBalance(address: TokenUser.current?.address ?? "") { balance, _ in
-            self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
-        }
-    }
-
-    @objc private func updateVerificationStatus(_ notification: Notification) {
-        if let verificationStatus = notification.object as? VerificationStatus {
-            self.verificationStatus = verificationStatus
-        }
     }
 
     private func handleSignOut() {
@@ -176,7 +143,7 @@ open class SettingsController: UITableViewController {
     func alertController(balance: NSDecimalNumber) -> UIAlertController {
         var alert: UIAlertController
 
-        if self.didVerifyBackupPhrase {
+        if self.isAccountSecured {
             alert = UIAlertController(title: "Have you secured your backup phrase?", message: "Without this you will not be able to recover your account or sign back in.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
@@ -230,7 +197,8 @@ open class SettingsController: UITableViewController {
         case 2:
             switch indexPath.row {
             case 0:
-                // passphrase backup
+                // passphrase backup, but only if we didn't yet.
+                if self.isAccountSecured { return }
                 self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
             case 1:
                 break // trusted frieds
@@ -261,7 +229,7 @@ open class SettingsController: UITableViewController {
     open override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 2 {
             let view = SettingsSectionHeader(title: "Security", error: "Your account is at risk")
-            view.setErrorHidden(self.didVerifyBackupPhrase, animated: false)
+            view.setErrorHidden(self.isAccountSecured, animated: false)
 
             return view
         }
