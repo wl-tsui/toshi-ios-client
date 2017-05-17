@@ -18,13 +18,21 @@ import YYText
 
 class MessageCell: TGBaseMessageCell {
 
-    var bubbleImageView = UIImageView()
+    private(set) lazy var bubbleImageView: UIView = {
+        let view = UIView()
 
-    var textLabel = YYLabel()
+        view.layer.borderColor = Theme.borderColor.cgColor
+        view.layer.borderWidth = 1.0 / UIScreen.main.scale
+        view.layer.cornerRadius = 8
 
-    var timeLabel = UILabel()
+        return view
+    }()
 
-    var deliveryStatusView = TGDeliveryStatusView()
+    private(set) var textLabel = YYLabel()
+
+    private(set) var timeLabel = UILabel()
+
+    private(set) var deliveryStatusView = TGDeliveryStatusView()
 
     override class func reuseIdentifier() -> String {
         return "TGTextMessageCell"
@@ -68,8 +76,7 @@ class MessageCell: TGBaseMessageCell {
 
             self.bubbleView.frame = cellLayout.bubbleViewFrame
             self.bubbleImageView.frame = cellLayout.bubbleImageViewFrame
-            self.bubbleImageView.image = self.isHighlight ? cellLayout.highlightBubbleImage : cellLayout.bubbleImage
-            self.bubbleImageView.tintColor = cellLayout.isOutgoing ? Theme.outgoingMessageBackgroundColor : Theme.incomingMessageBackgroundColor
+            self.bubbleImageView.backgroundColor = cellLayout.backgroundColor
 
             self.textLabel.frame = cellLayout.textLabelFrame
             self.textLabel.textLayout = cellLayout.textLayout

@@ -24,7 +24,6 @@ class ImageMessageCellLayout: MessageCellLayout {
         self.reuseIdentifier = "TGImageMessageCell"
 
         self.setupAttributedTime()
-        self.setupBubbleImage()
         self.calculate()
     }
 
@@ -32,12 +31,6 @@ class ImageMessageCellLayout: MessageCellLayout {
         let timeString = Style.timeFormatter.string(from: message.date)
         let timeColor = self.isOutgoing ? Style.outgoingTimeColor : Style.incomingTimeColor
         self.attributedTime = NSAttributedString(string: timeString, attributes: [NSFontAttributeName: Style.timeFont, NSForegroundColorAttributeName: timeColor])
-    }
-
-    private func setupBubbleImage() {
-        self.bubbleImage = self.isOutgoing ? Style.outgoingBubbleImage : Style.incomingBubbleImage
-
-        self.highlightBubbleImage = self.isOutgoing ? Style.highlightOutgoingBubbleImage : Style.highlightIncomingBubbleImage
     }
 
     public override func calculate() {

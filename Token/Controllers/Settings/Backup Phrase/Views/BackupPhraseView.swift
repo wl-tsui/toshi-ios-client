@@ -107,7 +107,7 @@ class BackupPhraseView: UIView {
             self.currentPhrase.append(contentsOf: self.originalPhrase)
             self.activateNewLayout()
         case .verification:
-            self.backgroundColor = Theme.backupPhraseBackgroundColor
+            self.backgroundColor = Theme.settingsBackgroundColor
             self.layer.cornerRadius = 4
             self.clipsToBounds = true
             self.activateNewLayout()

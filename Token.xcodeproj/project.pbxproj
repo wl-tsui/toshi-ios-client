@@ -700,6 +700,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9F232A971EC9E3A300270761 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				9FCDBAE21E28E71900A70E07 /* ProfileController.swift */,
+				9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		9F40F3B81E59FE97007A7DE7 /* MessageUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1041,13 +1050,12 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9F232A971EC9E3A300270761 /* Profile */,
 				A9BF33AB1E76DE36009A51AA /* Backup Phrase */,
 				E1A95D581E6F031F002762DA /* Views */,
 				9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */,
 				E1A95D541E6EF092002762DA /* SettingsController.swift */,
 				9F27525D1EB9CA7A00050C08 /* Settings.storyboard */,
-				9FCDBAE21E28E71900A70E07 /* ProfileController.swift */,
-				9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */,
 				9F04A7221E38D1400043534A /* QRCodeController.swift */,
 			);
 			path = Settings;

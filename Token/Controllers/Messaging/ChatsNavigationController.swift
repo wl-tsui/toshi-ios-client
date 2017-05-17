@@ -17,7 +17,7 @@ import UIKit
 
 public class ChatsNavigationController: UINavigationController {
 
-    let selectedThreadAddressKey = "SelectedThread"
+    let selectedThreadAddressKey = "Restoration::SelectedThread"
 
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
@@ -30,7 +30,7 @@ public class ChatsNavigationController: UINavigationController {
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        self.tabBarItem = UITabBarItem(title: "Recents", image: #imageLiteral(resourceName: "chats"), tag: 0)
+        self.tabBarItem = UITabBarItem(title: "Recent", image: #imageLiteral(resourceName: "chats"), tag: 0)
         self.tabBarItem.selectedImage = #imageLiteral(resourceName: "chats-selected")
         self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }

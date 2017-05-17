@@ -45,7 +45,7 @@ extension Theme {
     }
 
     public static var lightGreyTextColor: UIColor {
-        return UIColor(hex: "9E9E9E")
+        return UIColor(hex: "7D7C7C")
     }
 
     public static var lighterGreyTextColor: UIColor {
@@ -69,15 +69,11 @@ extension Theme {
     }
 
     public static var messageViewBackgroundColor: UIColor {
-        return UIColor(hex: "F3F3F3")
-    }
-
-    public static var backupPhraseBackgroundColor: UIColor {
-        return UIColor(hex: "F6F6F6")
+        return UIColor(hex: "FAFAFA")
     }
 
     public static var settingsBackgroundColor: UIColor {
-        return UIColor(hex: "FCFCFC")
+        return UIColor(hex: "F3F4F5")
     }
 
     public static var inputFieldBackgroundColor: UIColor {
@@ -100,14 +96,6 @@ extension Theme {
         return UIColor(hex: "0BBEE3")
     }
 
-    public static var outgoingMessageBackgroundColor: UIColor {
-        return UIColor(hex: "00C1E7")
-    }
-
-    public static var incomingMessageBackgroundColor: UIColor {
-        return .white
-    }
-
     public static var ratingBackground: UIColor {
         return UIColor(hex: "D1D1D1")
     }
@@ -116,12 +104,22 @@ extension Theme {
         return UIColor(hex: "EB6E00")
     }
 
+    // MARK: - Message colours
+
+    public static var outgoingMessageBackgroundColor: UIColor {
+        return  UIColor(hex: "01C236")
+    }
+
+    public static var incomingMessageBackgroundColor: UIColor {
+        return UIColor(hex: "EAEAEA")
+    }
+
     public static var outgoingMessageTextColor: UIColor {
-        return self.lightTextColor
+        return .white
     }
 
     public static var incomingMessageTextColor: UIColor {
-        return UIColor(hex: "4A4A57")
+        return .black
     }
 
     public static var errorColor: UIColor {
@@ -136,22 +134,22 @@ extension Theme {
     }
 
     static func light(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIDisplay-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
+        return UIFont(name: "SFUIText-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
     }
 
     static func regular(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIDisplay-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
+        return UIFont(name: "SFUIText-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
     }
 
     static func semibold(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIDisplay-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
+        return UIFont(name: "SFUIText-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
     }
 
     static func bold(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIDisplay-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
+        return UIFont(name: "SFUIText-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
     }
 
     static func medium(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIDisplay-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
+        return UIFont(name: "SFUIText-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightMedium)
     }
 }

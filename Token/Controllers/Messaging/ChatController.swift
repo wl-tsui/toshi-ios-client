@@ -37,15 +37,16 @@ class ChatController: MessagesCollectionViewController {
         return EthereumAPIClient.shared
     }
 
-    var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
+    fileprivate var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
 
-    lazy var rateButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(title: "Rate", style: .plain, target: self, action: #selector(didTapRateUser))
+    fileprivate lazy var avatarImageView: AvatarImageView = {
+        let avatar = AvatarImageView(image: UIImage())
+        avatar.bounds.size = CGSize(width: 34, height: 34)
 
-        return view
+        return avatar
     }()
 
-    var messages = [Message]() {
+    fileprivate var messages = [Message]() {
         didSet {
             let current = Set(self.messages)
             let previous = Set(oldValue)
@@ -71,20 +72,20 @@ class ChatController: MessagesCollectionViewController {
         }
     }
 
-    var visibleMessages: [Message] {
+    fileprivate var visibleMessages: [Message] {
         return self.messages.filter { (message) -> Bool in
             message.isDisplayable
         }
     }
 
-    lazy var mappings: YapDatabaseViewMappings = {
+    fileprivate lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
         mappings.setIsReversed(true, forGroup: TSInboxGroup)
 
         return mappings
     }()
 
-    lazy var uiDatabaseConnection: YapDatabaseConnection = {
+    fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = TSStorageManager.shared().database()!
         let dbConnection = database.newConnection()
         dbConnection.beginLongLivedReadTransaction()
@@ -92,21 +93,21 @@ class ChatController: MessagesCollectionViewController {
         return dbConnection
     }()
 
-    lazy var editingDatabaseConnection: YapDatabaseConnection = {
+    fileprivate lazy var editingDatabaseConnection: YapDatabaseConnection = {
         self.storageManager.newDatabaseConnection()
     }()
 
     var thread: TSThread
 
-    var messageSender: MessageSender
+    fileprivate var messageSender: MessageSender
 
-    var contactsManager: ContactsManager
+    fileprivate var contactsManager: ContactsManager
 
-    var contactsUpdater: ContactsUpdater
+    fileprivate var contactsUpdater: ContactsUpdater
 
-    var storageManager: TSStorageManager
+    fileprivate var storageManager: TSStorageManager
 
-    lazy var ethereumPromptView: ChatsFloatingHeaderView = {
+    fileprivate lazy var ethereumPromptView: ChatsFloatingHeaderView = {
         let view = ChatsFloatingHeaderView(withAutoLayout: true)
         view.delegate = self
 
@@ -170,8 +171,6 @@ class ChatController: MessagesCollectionViewController {
         self.collectionView.keyboardDismissMode = .interactive
         self.collectionView.backgroundColor = nil
 
-        self.navigationItem.rightBarButtonItem = self.rateButton
-
         self.fetchAndUpdateBalance()
         self.loadMessages()
 
@@ -180,9 +179,12 @@ class ChatController: MessagesCollectionViewController {
         NSLayoutConstraint.activate([
             self.textInputView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            textInputViewBottom,
-            textInputViewHeight,
+            self.textInputViewBottom,
+            self.textInputViewHeight,
         ])
+
+        self.avatarImageView.image = self.thread.image()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.avatarImageView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -207,7 +209,7 @@ class ChatController: MessagesCollectionViewController {
         SignalNotificationManager.updateApplicationBadgeNumber()
     }
 
-    func fetchAndUpdateBalance() {
+    fileprivate func fetchAndUpdateBalance() {
         self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
@@ -218,16 +220,17 @@ class ChatController: MessagesCollectionViewController {
         }
     }
 
-    func handleBalanceUpdate(notification: Notification) {
+    @objc
+    fileprivate func handleBalanceUpdate(notification: Notification) {
         guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
         self.set(balance: balance)
     }
 
-    func set(balance: NSDecimalNumber) {
+    fileprivate func set(balance: NSDecimalNumber) {
         self.ethereumPromptView.balance = balance
     }
 
-    func saveDraft() {
+    fileprivate func saveDraft() {
         let thread = self.thread
         guard let text = self.textInputView.text else { return }
 
@@ -236,7 +239,7 @@ class ChatController: MessagesCollectionViewController {
         }
     }
 
-    func reloadDraft() {
+    fileprivate func reloadDraft() {
         let thread = self.thread
         var placeholder: String?
 
@@ -256,7 +259,7 @@ class ChatController: MessagesCollectionViewController {
     }
 
     // MARK: Rate users
-    func didTapRateUser() {
+    fileprivate func didTapRateUser() {
         let contactId = self.thread.contactIdentifier()!
         let contact = self.contactsManager.tokenContact(forAddress: contactId)
 
@@ -270,7 +273,7 @@ class ChatController: MessagesCollectionViewController {
         }
     }
 
-    func presentUserRatingPrompt(contact: TokenUser) {
+    fileprivate func presentUserRatingPrompt(contact: TokenUser) {
         let rateUserController = RateUserController(user: contact)
         rateUserController.delegate = self
 
@@ -279,7 +282,7 @@ class ChatController: MessagesCollectionViewController {
 
     // MARK: Load initial messages
 
-    func loadMessages() {
+    fileprivate func loadMessages() {
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
 
@@ -312,7 +315,7 @@ class ChatController: MessagesCollectionViewController {
 
     // Mark: Handle new messages
 
-    func showFingerprint(with _: Data, signalId _: String) {
+    fileprivate func showFingerprint(with _: Data, signalId _: String) {
         // Postpone this for now
         print("Should display fingerprint comparison UI.")
         //        let builder = OWSFingerprintBuilder(storageManager: self.storageManager, contactsManager: self.contactsManager)
@@ -322,7 +325,7 @@ class ChatController: MessagesCollectionViewController {
         //        self.present(fingerprintController, animated: true)
     }
 
-    func handleInvalidKeyError(_ errorMessage: TSInvalidIdentityKeyErrorMessage) {
+    fileprivate func handleInvalidKeyError(_ errorMessage: TSInvalidIdentityKeyErrorMessage) {
         let keyOwner = self.contactsManager.displayName(forPhoneIdentifier: errorMessage.theirSignalId())
         let titleText = "Your safety number with \(keyOwner) has changed. You may wish to verify it."
 
@@ -359,7 +362,7 @@ class ChatController: MessagesCollectionViewController {
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
     ///
-    func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message {
+    fileprivate func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message {
         if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
             DispatchQueue.main.async {
                 self.handleInvalidKeyError(interaction)
@@ -444,28 +447,28 @@ class ChatController: MessagesCollectionViewController {
 
     // MARK: - Helper methods
 
-    func visibleMessage(at indexPath: IndexPath) -> Message {
+    fileprivate func visibleMessage(at indexPath: IndexPath) -> Message {
         return self.visibleMessages[indexPath.row]
     }
 
-    func message(at indexPath: IndexPath) -> Message {
+    fileprivate func message(at indexPath: IndexPath) -> Message {
         return self.messages[indexPath.row]
     }
 
-    func registerNotifications() {
+    fileprivate func registerNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
 
-    func reversedIndexPath(_ indexPath: IndexPath) -> IndexPath {
+    fileprivate func reversedIndexPath(_ indexPath: IndexPath) -> IndexPath {
         let row = (self.visibleMessages.count - 1) - indexPath.item
         return IndexPath(row: row, section: indexPath.section)
     }
 
     // MARK: Handle database changes
-
-    func yapDatabaseDidChange(notification _: NSNotification) {
+    @objc
+    fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -558,7 +561,7 @@ class ChatController: MessagesCollectionViewController {
 
     // MARK: Send messages
 
-    func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date()) {
+    fileprivate func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date()) {
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
 

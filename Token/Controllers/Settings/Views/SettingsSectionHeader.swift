@@ -29,7 +29,7 @@ class SettingsSectionHeader: UIView {
     lazy var errorLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.errorColor
-        view.font = Theme.regular(size: 12)
+        view.font = Theme.regular(size: 13)
         view.textAlignment = .right
 
         return view

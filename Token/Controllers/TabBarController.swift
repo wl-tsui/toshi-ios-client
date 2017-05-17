@@ -109,12 +109,17 @@ open class TabBarController: UITabBarController {
         case .messaging:
             self.selectedIndex = 1
         case .scanner:
-            self.selectedIndex = 2
+            self.presentScanner()
         case .favorites:
             self.selectedIndex = 3
         case .me:
             self.selectedIndex = 4
         }
+    }
+
+    fileprivate func presentScanner() {
+        SoundPlayer.playSound(type: .menuButton)
+        self.present(self.scannerController, animated: true)
     }
 }
 
@@ -122,8 +127,7 @@ extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController == self.placeholderScannerController {
-            SoundPlayer.playSound(type: .menuButton)
-            self.present(self.scannerController, animated: true)
+            self.presentScanner()
 
             return false
         }

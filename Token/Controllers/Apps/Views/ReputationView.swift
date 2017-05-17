@@ -128,7 +128,7 @@ class ReputationView: UIView {
             self.guides[1].bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.guides[1].rightAnchor.constraint(equalTo: self.rightAnchor),
 
-            self.ratingLabel.topAnchor.constraint(equalTo: self.guides[0].topAnchor, constant: -5),
+            self.ratingLabel.topAnchor.constraint(equalTo: self.guides[0].topAnchor, constant: 5),
             self.ratingLabel.leftAnchor.constraint(equalTo: self.guides[0].leftAnchor, constant: horizontalMargin),
             self.ratingLabel.rightAnchor.constraint(equalTo: self.guides[0].rightAnchor, constant: -horizontalMargin),
 
@@ -137,6 +137,7 @@ class ReputationView: UIView {
 
             self.ratingsCountLabel.topAnchor.constraint(equalTo: self.ratingView.bottomAnchor, constant: 10),
             self.ratingsCountLabel.centerXAnchor.constraint(equalTo: self.guides[0].centerXAnchor),
+            self.ratingsCountLabel.bottomAnchor.constraint(equalTo: self.guides[0].bottomAnchor, constant: -barSpacing),
 
             self.fiveStarsBarView.topAnchor.constraint(equalTo: self.guides[1].topAnchor, constant: barSpacing),
             self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),

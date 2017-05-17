@@ -55,8 +55,7 @@ class ImageMessageCell: MessageCell {
 
             self.bubbleView.frame = cellLayout.bubbleViewFrame
             self.bubbleImageView.frame = cellLayout.bubbleImageViewFrame
-            self.bubbleImageView.image = self.isHighlight ? cellLayout.highlightBubbleImage : cellLayout.bubbleImage
-            self.bubbleImageView.tintColor = cellLayout.isOutgoing ? Theme.outgoingMessageBackgroundColor : Theme.incomingMessageBackgroundColor
+            self.bubbleImageView.backgroundColor = cellLayout.backgroundColor
 
             self.attachedImageView.image = nil
             self.attachedImageView.frame = .zero

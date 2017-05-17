@@ -66,7 +66,7 @@ class TGClockProgressView: UIView {
     }
 
     private func commonInit() {
-        backgroundColor = UIColor.clear
+        self.backgroundColor = .clear
 
         self.frameView.image = Constant.progressFrameImage
         addSubview(self.frameView)

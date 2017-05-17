@@ -95,6 +95,8 @@ open class SettingsController: UITableViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableView.backgroundColor = Theme.settingsBackgroundColor
+
         let notificationCenter = NotificationCenter.default
 
         notificationCenter.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)

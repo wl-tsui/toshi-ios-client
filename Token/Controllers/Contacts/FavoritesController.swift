@@ -26,16 +26,14 @@ public extension Array {
 
 open class FavoritesController: SweetTableController {
 
-    let selectedContactKey = "SelectedContact"
-
-    lazy var mappings: YapDatabaseViewMappings = {
+    fileprivate lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TokenUser.collectionKey], view: TokenUser.viewExtensionName)
         mappings.setIsReversed(true, forGroup: TokenUser.collectionKey)
 
         return mappings
     }()
 
-    lazy var uiDatabaseConnection: YapDatabaseConnection = {
+    fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = Yap.sharedInstance.database
         let dbConnection = database.newConnection()
         dbConnection.beginLongLivedReadTransaction()
@@ -51,9 +49,15 @@ open class FavoritesController: SweetTableController {
         return IDAPIClient.shared
     }
 
-    var searchContacts = [TokenUser]()
+    fileprivate var searchContacts = [TokenUser]()
 
-    lazy var searchController: UISearchController = {
+    fileprivate lazy var addButton: UIBarButtonItem = {
+        let view = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.didTapAddButton))
+
+        return view
+    }()
+
+    fileprivate lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchResultsUpdater = self
         controller.dimsBackgroundDuringPresentation = false
@@ -105,6 +109,8 @@ open class FavoritesController: SweetTableController {
         self.tableView.separatorStyle = .none
         self.tableView.tableHeaderView = self.searchController.searchBar
 
+        self.navigationItem.rightBarButtonItem = self.addButton
+
         self.definesPresentationContext = true
 
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
@@ -112,7 +118,7 @@ open class FavoritesController: SweetTableController {
 
         self.displayContacts()
 
-        if let address = UserDefaults.standard.string(forKey: self.selectedContactKey) {
+        if let address = UserDefaults.standard.string(forKey: FavoritesNavigationController.selectedContactKey) {
             // This doesn't restore a contact if they are not our contact, but a search result
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(with: address) else { return }
@@ -138,11 +144,9 @@ open class FavoritesController: SweetTableController {
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
-        self.navigationItem.rightBarButtonItem = nil
     }
 
-    func contactSorting() -> YapDatabaseViewSorting {
+    fileprivate func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
             guard let data1 = object1 as? Data else { fatalError() }
             guard let data2 = object2 as? Data else { fatalError() }
@@ -157,7 +161,7 @@ open class FavoritesController: SweetTableController {
     }
 
     @discardableResult
-    func registerTokenContactsDatabaseView() -> Bool {
+    fileprivate func registerTokenContactsDatabaseView() -> Bool {
         // Check if it's already registered.
         guard Yap.sharedInstance.database.registeredExtension(TokenUser.viewExtensionName) == nil else { return true }
 
@@ -180,17 +184,18 @@ open class FavoritesController: SweetTableController {
         return Yap.sharedInstance.database.register(databaseView, withName: TokenUser.viewExtensionName)
     }
 
-    func displayContacts() {
+    fileprivate func displayContacts() {
         self.searchController.isActive = false
         self.tableView.reloadData()
     }
 
-    func registerNotifications() {
+    fileprivate func registerNotifications() {
         let notificationController = NotificationCenter.default
         notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
-    func yapDatabaseDidChange(notification _: NSNotification) {
+    @objc
+    fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -239,7 +244,7 @@ open class FavoritesController: SweetTableController {
         self.tableView.endUpdates()
     }
 
-    func updateContactIfNeeded(at indexPath: IndexPath) {
+    fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {
         let contact = self.contact(at: indexPath)
         let address = contact.address
 
@@ -256,7 +261,7 @@ open class FavoritesController: SweetTableController {
         }
     }
 
-    func contact(at indexPath: IndexPath) -> TokenUser {
+    fileprivate func contact(at indexPath: IndexPath) -> TokenUser {
         var contact: TokenUser?
 
         self.uiDatabaseConnection.read { transaction in
@@ -270,7 +275,7 @@ open class FavoritesController: SweetTableController {
         return contact!
     }
 
-    func contact(with address: String) -> TokenUser? {
+    fileprivate func contact(with address: String) -> TokenUser? {
         var contact: TokenUser?
 
         self.uiDatabaseConnection.read { transaction in
@@ -280,6 +285,34 @@ open class FavoritesController: SweetTableController {
         }
 
         return contact
+    }
+
+    @objc
+    fileprivate func didTapAddButton() {
+        let addContactSheet = UIAlertController(title: "Add to favorites on Token", message: nil, preferredStyle: .actionSheet)
+
+        addContactSheet.addAction(UIAlertAction(title: "Add by username", style: .default, handler: { action in
+            self.searchController.searchBar.becomeFirstResponder()
+        }))
+
+        addContactSheet.addAction(UIAlertAction(title: "Invite friends", style: .default, handler: { action in
+            let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
+
+            self.present(shareController, animated: true, completion: {})
+        }))
+
+        addContactSheet.addAction(UIAlertAction(title: "Scan code", style: .default, handler: { action in
+            guard let tabBarController = self.tabBarController as? TabBarController else { return }
+            tabBarController.switch(to: .scanner)
+        }))
+
+        addContactSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        addContactSheet.view.tintColor = Theme.tintColor
+        self.present(addContactSheet, animated: true, completion: {
+            // Due to a UIKit "bug", tint colour need be reset here.
+            addContactSheet.view.tintColor = Theme.tintColor
+        })
     }
 }
 
@@ -337,7 +370,7 @@ extension FavoritesController: UITableViewDelegate {
             self.navigationController?.pushViewController(contactController, animated: true)
         }
 
-        UserDefaults.standard.setValue(contact.address, forKey: self.selectedContactKey)
+        UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
     }
 }
 

@@ -84,7 +84,7 @@ struct EthereumConverter {
         let etherRange = (text as NSString).range(of: etherText)
         let fiatRange = (text as NSString).range(of: fiatTextFull)
 
-        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Theme.regular(size: 15)])
+        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Theme.medium(size: 15)])
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: etherRange)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.darkTextColor, range: fiatRange)
 

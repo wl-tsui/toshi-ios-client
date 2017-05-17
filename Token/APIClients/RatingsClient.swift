@@ -17,9 +17,9 @@ import UIKit
 import Teapot
 import SweetFoundation
 
-struct RatingScore {
-    struct StarsCount {
-        static var zero: StarsCount {
+public struct RatingScore {
+    public struct StarsCount {
+        public static var zero: StarsCount {
             return StarsCount(one: 0, two: 0, three: 0, four: 0, five: 0)
         }
 

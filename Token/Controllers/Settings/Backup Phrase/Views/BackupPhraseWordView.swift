@@ -43,7 +43,7 @@ class BackupPhraseWordView: UIControl {
 
     private lazy var wordLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.regular(size: 18)
         view.textColor = Theme.darkTextColor
         view.textAlignment = .center
         view.isUserInteractionEnabled = false

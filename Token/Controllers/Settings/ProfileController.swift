@@ -23,85 +23,109 @@ open class ProfileController: UIViewController {
         return IDAPIClient.shared
     }
 
-    lazy var avatarImageView: AvatarImageView = {
+    fileprivate lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
 
-    lazy var nameLabel: UILabel = {
+    fileprivate lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.textAlignment = .center
         view.font = Theme.bold(size: 20)
 
         return view
     }()
 
-    lazy var usernameLabel: UILabel = {
+    fileprivate lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.textAlignment = .center
         view.font = Theme.bold(size: 14)
         view.textColor = Theme.greyTextColor
 
         return view
     }()
 
-    lazy var editProfileButton: UIButton = {
+    fileprivate lazy var editProfileButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: Theme.darkTextColor]), for: .normal)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.semibold(size: 13), NSForegroundColorAttributeName: Theme.tintColor]), for: .highlighted)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.regular(size: 17), NSForegroundColorAttributeName: Theme.tintColor]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.regular(size: 17), NSForegroundColorAttributeName: Theme.lightGreyTextColor]), for: .highlighted)
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
 
-        view.layer.cornerRadius = 4.0
+        return view
+    }()
+
+    fileprivate lazy var editSeparatorView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.backgroundColor = Theme.borderColor
+        view.set(height: 1.0 / UIScreen.main.scale)
+
+        return view
+    }()
+
+    fileprivate lazy var aboutContentLabel: UILabel = {
+        let view = UILabel(withAutoLayout: true)
+        view.font = Theme.regular(size: 17)
+        view.numberOfLines = 0
+
+        return view
+    }()
+
+    fileprivate lazy var locationContentLabel: UILabel = {
+        let view = UILabel(withAutoLayout: true)
+        view.font = Theme.regular(size: 16)
+        view.textColor = Theme.lightGreyTextColor
+        view.numberOfLines = 0
+
+        return view
+    }()
+
+    fileprivate lazy var contentBackgroundView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.backgroundColor = Theme.viewBackgroundColor
+
+        return view
+    }()
+
+    fileprivate lazy var topSeparatorView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.backgroundColor = Theme.settingsBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = Theme.borderHeight
+        view.layer.borderWidth = 1.0 / UIScreen.main.scale
+        view.set(height: 1.0 / UIScreen.main.scale)
 
         return view
     }()
 
-    lazy var aboutSeparatorView: UIView = {
+    fileprivate lazy var reputationSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.borderColor
+        view.backgroundColor = Theme.settingsBackgroundColor
+        view.layer.borderColor = Theme.borderColor.cgColor
+        view.layer.borderWidth = 1.0 / UIScreen.main.scale
+        view.set(height: 1.0 / UIScreen.main.scale)
 
         return view
     }()
 
-    lazy var aboutTitleLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-        view.text = "About"
-        view.textColor = .lightGray
-        view.font = .systemFont(ofSize: 15)
-
-        return view
-    }()
-
-    lazy var aboutContentLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-
-        return view
-    }()
-
-    lazy var locationSeparatorView: UIView = {
+    fileprivate lazy var bottomSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.borderColor
+        view.backgroundColor = Theme.settingsBackgroundColor
+        view.layer.borderColor = Theme.borderColor.cgColor
+        view.layer.borderWidth = 1.0 / UIScreen.main.scale
+        view.set(height: 1.0 / UIScreen.main.scale)
 
         return view
     }()
 
-    lazy var locationTitleLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-        view.text = "Location"
-        view.textColor = Theme.darkTextColor
-        view.textColor = .lightGray
-        view.font = .systemFont(ofSize: 15)
+    fileprivate lazy var reputationView: ReputationView = {
+        let view = ReputationView(withAutoLayout: true)
 
         return view
     }()
 
-    lazy var locationContentLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
+    fileprivate lazy var reputationBackgroundView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.backgroundColor = Theme.viewBackgroundColor
 
         return view
     }()
@@ -127,11 +151,14 @@ open class ProfileController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = Theme.viewBackgroundColor
+        self.view.backgroundColor = Theme.settingsBackgroundColor
 
         self.addSubviewsAndConstraints()
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
+
+        self.reputationView.setScore(.zero)
+        self.updateReputation()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -154,89 +181,116 @@ open class ProfileController: UIViewController {
         super.viewDidAppear(animated)
     }
 
-    func addSubviewsAndConstraints() {
+    fileprivate func addSubviewsAndConstraints() {
+        self.view.addSubview(self.reputationBackgroundView)
+        self.view.addSubview(self.contentBackgroundView)
+
         self.view.addSubview(self.avatarImageView)
         self.view.addSubview(self.nameLabel)
         self.view.addSubview(self.usernameLabel)
-        self.view.addSubview(self.editProfileButton)
-
-        self.view.addSubview(self.aboutSeparatorView)
-        self.view.addSubview(self.aboutTitleLabel)
         self.view.addSubview(self.aboutContentLabel)
-
-        self.view.addSubview(self.locationSeparatorView)
-        self.view.addSubview(self.locationTitleLabel)
         self.view.addSubview(self.locationContentLabel)
 
-        let height: CGFloat = 38.0
-        let marginHorizontal: CGFloat = 20.0
-        let marginVertical: CGFloat = 16.0
-        let avatarSize: CGFloat = 166
+        self.view.addSubview(self.editSeparatorView)
+        self.view.addSubview(self.editProfileButton)
+
+        self.view.addSubview(self.topSeparatorView)
+
+        self.view.addSubview(self.reputationSeparatorView)
+        self.view.addSubview(self.reputationView)
+        self.view.addSubview(self.bottomSeparatorView)
+
+        let height: CGFloat = 26.0
+        let marginHorizontal: CGFloat = 16.0
+        let marginVertical: CGFloat = 14.0
+        let itemSpacing: CGFloat = 8.0
+        let avatarSize: CGFloat = 60.0
 
         self.avatarImageView.set(height: avatarSize)
         self.avatarImageView.set(width: avatarSize)
-        self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 26).isActive = true
-        self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 28).isActive = true
+        self.avatarImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
 
         self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: marginVertical).isActive = true
-        self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22).isActive = true
+        self.nameLabel.topAnchor.constraint(equalTo: self.avatarImageView.topAnchor).isActive = true
+        self.nameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: marginHorizontal).isActive = true
         self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
         self.usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16).isActive = true
-        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.usernameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: itemSpacing).isActive = true
+        self.usernameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: marginHorizontal).isActive = true
         self.usernameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.editProfileButton.set(height: height)
-        self.editProfileButton.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor, constant: marginHorizontal).isActive = true
+        self.aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        self.aboutContentLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: marginVertical).isActive = true
+        self.aboutContentLabel.leftAnchor.constraint(equalTo: self.avatarImageView.leftAnchor).isActive = true
+        self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+
+        self.locationContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        self.locationContentLabel.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: itemSpacing).isActive = true
+        self.locationContentLabel.leftAnchor.constraint(equalTo: self.avatarImageView.leftAnchor).isActive = true
+        self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
+
+        self.editSeparatorView.topAnchor.constraint(equalTo: self.locationContentLabel.bottomAnchor, constant: marginVertical).isActive = true
+        self.editSeparatorView.leftAnchor.constraint(equalTo: self.avatarImageView.leftAnchor).isActive = true
+        self.editSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.editSeparatorView.bottomAnchor.constraint(equalTo: self.editProfileButton.topAnchor, constant: -marginVertical).isActive = true
+
+        self.editProfileButton.set(height: 22)
         self.editProfileButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
         self.editProfileButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+
+        self.contentBackgroundView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.contentBackgroundView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
+        self.contentBackgroundView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.contentBackgroundView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.contentBackgroundView.bottomAnchor.constraint(equalTo: self.topSeparatorView.topAnchor).isActive = true
 
         // We set the view and separator width cosntraints to be the same, to force the scrollview content size to conform to the window
         // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest
         // possible width that satisfy all other constraints.
-        self.aboutSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.aboutSeparatorView.set(height: Theme.borderHeight)
-        self.aboutSeparatorView.topAnchor.constraint(equalTo: self.editProfileButton.bottomAnchor, constant: marginHorizontal).isActive = true
-        self.aboutSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.aboutSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.topSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.topSeparatorView.topAnchor.constraint(equalTo: self.editProfileButton.bottomAnchor, constant: marginVertical).isActive = true
+        self.topSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.topSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
-        self.aboutTitleLabel.set(height: 32)
-        self.aboutTitleLabel.topAnchor.constraint(equalTo: self.aboutSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
-        self.aboutTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.aboutTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        self.reputationSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.reputationSeparatorView.topAnchor.constraint(equalTo: self.topSeparatorView.bottomAnchor, constant: 66.0).isActive = true
+        self.reputationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.reputationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
-        self.aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.aboutContentLabel.topAnchor.constraint(equalTo: self.aboutTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.aboutContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        self.reputationView.topAnchor.constraint(equalTo: self.reputationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+        self.reputationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        self.reputationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.locationSeparatorView.set(height: Theme.borderHeight)
-        self.locationSeparatorView.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.locationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.locationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.bottomSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.bottomSeparatorView.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: marginVertical).isActive = true
+        self.bottomSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.bottomSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
 
-        self.locationTitleLabel.set(height: 32)
-        self.locationTitleLabel.topAnchor.constraint(equalTo: self.locationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
-        self.locationTitleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.locationTitleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-
-        self.locationContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.locationContentLabel.topAnchor.constraint(equalTo: self.locationTitleLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.locationContentLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
-
-        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
+        self.reputationBackgroundView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.reputationBackgroundView.topAnchor.constraint(equalTo: self.reputationSeparatorView.bottomAnchor).isActive = true
+        self.reputationBackgroundView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.reputationBackgroundView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.reputationBackgroundView.bottomAnchor.constraint(equalTo: self.bottomSeparatorView.topAnchor).isActive = true
     }
 
-    func avatarDidUpdate() {
+    fileprivate func updateReputation() {
+        RatingsClient.shared.scores(for: TokenUser.current!.address) { ratingScore in
+            self.reputationView.setScore(ratingScore)
+        }
+    }
+
+    @objc
+    fileprivate func avatarDidUpdate() {
         let avatar = TokenUser.current?.avatar
         self.avatarImageView.image = avatar
     }
 
-    func didTapEditProfileButton() {
+    @objc
+    fileprivate func didTapEditProfileButton() {
         let editController = ProfileEditController()
         self.present(editController, animated: true)
     }

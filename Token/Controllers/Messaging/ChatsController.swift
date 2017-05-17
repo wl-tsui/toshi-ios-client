@@ -46,7 +46,7 @@ open class ChatsController: SweetTableController {
     public init() {
         super.init()
 
-        self.title = "Recents"
+        self.title = "Recent"
 
         self.uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)

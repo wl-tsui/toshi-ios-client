@@ -279,6 +279,9 @@ class AppController: UIViewController {
 
         DispatchQueue.main.async {
             (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.app.address)
+            if let navigationController = self.navigationController as? BrowseNavigationController {
+                _ = navigationController.popToRootViewController(animated: false)
+            }
         }
     }
 

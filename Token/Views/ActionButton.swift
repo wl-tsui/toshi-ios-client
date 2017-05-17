@@ -131,7 +131,7 @@ class ActionButton: UIControl {
 
     lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.medium(size: 16)
         view.textAlignment = .center
         view.isUserInteractionEnabled = false
 

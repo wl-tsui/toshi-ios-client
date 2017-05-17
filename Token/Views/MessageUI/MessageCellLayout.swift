@@ -19,8 +19,6 @@ import YYText
 class MessageCellLayout: TGBaseMessageCellLayout {
 
     var attributedTime: NSAttributedString?
-    var bubbleImage: UIImage?
-    var highlightBubbleImage: UIImage?
 
     var bubbleImageViewFrame = CGRect.zero
     var textLabelFrame = CGRect.zero
@@ -30,6 +28,10 @@ class MessageCellLayout: TGBaseMessageCellLayout {
 
     var attributedText: NSMutableAttributedString?
 
+    var backgroundColor: UIColor {
+        return self.isOutgoing ? Theme.outgoingMessageBackgroundColor : Theme.incomingMessageBackgroundColor
+    }
+
     required init(chatItem: NOCChatItem, cellWidth width: CGFloat) {
         super.init(chatItem: chatItem, cellWidth: width)
 
@@ -37,7 +39,6 @@ class MessageCellLayout: TGBaseMessageCellLayout {
 
         self.setupAttributedText()
         self.setupAttributedTime()
-        self.setupBubbleImage()
         self.calculate()
     }
 
@@ -72,12 +73,6 @@ class MessageCellLayout: TGBaseMessageCellLayout {
         let timeString = Style.timeFormatter.string(from: message.date)
         let timeColor = self.isOutgoing ? Style.outgoingTimeColor : Style.incomingTimeColor
         self.attributedTime = NSAttributedString(string: timeString, attributes: [NSFontAttributeName: Style.timeFont, NSForegroundColorAttributeName: timeColor])
-    }
-
-    private func setupBubbleImage() {
-        self.bubbleImage = self.isOutgoing ? Style.outgoingBubbleImage : Style.incomingBubbleImage
-
-        self.highlightBubbleImage = self.isOutgoing ? Style.highlightOutgoingBubbleImage : Style.highlightIncomingBubbleImage
     }
 
     public override func calculate() {
@@ -207,22 +202,16 @@ class MessageCellLayout: TGBaseMessageCellLayout {
     }
 
     struct Style {
-        static let outgoingBubbleImage = #imageLiteral(resourceName: "TGBubbleOutgoing").withRenderingMode(.alwaysTemplate)
-        static let highlightOutgoingBubbleImage = #imageLiteral(resourceName: "TGBubbleOutgoingHL").withRenderingMode(.alwaysTemplate)
-
-        static let incomingBubbleImage = #imageLiteral(resourceName: "TGBubbleIncoming").withRenderingMode(.alwaysTemplate)
-        static let highlightIncomingBubbleImage = #imageLiteral(resourceName: "TGBubbleIncomingHL").withRenderingMode(.alwaysTemplate)
-
         static var textFont: UIFont {
-            return Theme.medium(size: UIFont.preferredFont(forTextStyle: .body).pointSize)
+            return Theme.regular(size: UIFont.preferredFont(forTextStyle: .body).pointSize)
         }
 
         static let linkColor = UIColor(colorLiteralRed: 0 / 255.0, green: 75 / 255.0, blue: 173 / 255.0, alpha: 1)
         static let linkBackgroundColor = UIColor(colorLiteralRed: 191 / 255.0, green: 223 / 255.0, blue: 254 / 255.0, alpha: 1)
 
         static let timeFont = UIFont.systemFont(ofSize: 12)
-        static let outgoingTimeColor = Theme.lighterGreyTextColor
-        static let incomingTimeColor = Theme.greyTextColor
+        static let outgoingTimeColor = Theme.outgoingMessageTextColor
+        static let incomingTimeColor = Theme.incomingMessageTextColor
 
         static let timeFormatter: DateFormatter = {
             let df = DateFormatter()

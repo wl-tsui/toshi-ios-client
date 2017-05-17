@@ -26,7 +26,7 @@ class ChatsFloatingHeaderView: UIView {
 
     static let height = CGFloat(48)
 
-    lazy var balanceLabel: UILabel = {
+    private(set) lazy var balanceLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.textColor = Theme.darkTextColor
         label.font = Theme.regular(size: 16)
@@ -42,17 +42,19 @@ class ChatsFloatingHeaderView: UIView {
         return button
     }
 
-    lazy var requestButton: UIButton = {
+    fileprivate var buttonAttributes: [String: Any] = [NSFontAttributeName: Theme.medium(size: 15), NSForegroundColorAttributeName: Theme.tintColor]
+
+    private(set) lazy var requestButton: UIButton = {
         let button = ChatsFloatingHeaderView.button()
-        button.setTitle("Request", for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: "Request", attributes: self.buttonAttributes), for: .normal)
         button.addTarget(self, action: #selector(request(button:)), for: .touchUpInside)
 
         return button
     }()
 
-    lazy var payButton: UIButton = {
+    private(set) lazy var payButton: UIButton = {
         let button = ChatsFloatingHeaderView.button()
-        button.setTitle("Pay", for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: "Pay", attributes: self.buttonAttributes), for: .normal)
         button.addTarget(self, action: #selector(pay(button:)), for: .touchUpInside)
 
         return button
@@ -68,7 +70,7 @@ class ChatsFloatingHeaderView: UIView {
         }
     }
 
-    lazy var separatorView: UIView = {
+    private(set) lazy var separatorView: UIView = {
         let view = UIView(withAutoLayout: true)
         view.backgroundColor = Theme.borderColor
 

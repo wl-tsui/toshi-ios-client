@@ -17,6 +17,8 @@ import UIKit
 
 public class BrowseNavigationController: UINavigationController {
 
+    static let selectedAppKey = "Restoration::SelectedApp"
+
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
@@ -39,5 +41,42 @@ public class BrowseNavigationController: UINavigationController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        // TODO: move restoration to the tabbar controller, so we only restore the currently selected.
+        if let appData = UserDefaults.standard.data(forKey: BrowseNavigationController.selectedAppKey) {
+            // we delay by one cycle and it's enough for UIKit to set the children viewcontrollers
+            // for the navigation controller. Otherwise `viewcontrollers` will be nil and it wont restore.
+            // Downside: it blinks the previous view for no.
+            // TODO: move all of this the the navigator so we can restore the hiararchy straight from the app delegate.
+            DispatchQueue.main.asyncAfter(seconds: 0.0) {
+                guard let json = try? JSONSerialization.jsonObject(with: appData, options: []), let appJson = json as? [String: Any] else { return }
+                let appController = AppController(app: TokenUser(json: appJson))
+
+                self.pushViewController(appController, animated: false)
+            }
+        }
+    }
+
+    public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        super.pushViewController(viewController, animated: animated)
+
+        if let viewController = viewController as? AppController {
+            UserDefaults.standard.setValue(viewController.app.JSONData, forKey: BrowseNavigationController.selectedAppKey)
+        }
+    }
+
+    public override func popViewController(animated: Bool) -> UIViewController? {
+        UserDefaults.standard.removeObject(forKey: BrowseNavigationController.selectedAppKey)
+        return super.popViewController(animated: animated)
+    }
+
+    public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+        UserDefaults.standard.removeObject(forKey: BrowseNavigationController.selectedAppKey)
+        return super.popToRootViewController(animated: animated)
+    }
+
+    public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+        UserDefaults.standard.removeObject(forKey: BrowseNavigationController.selectedAppKey)
+        return super.popToViewController(viewController, animated: animated)
     }
 }
