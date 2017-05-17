@@ -201,7 +201,7 @@ open class SignInController: UIViewController {
 
                 user.verified = true
                 TokenUser.current = user
-                
+
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
                 delegate.setupSignalService()
 

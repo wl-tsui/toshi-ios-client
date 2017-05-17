@@ -149,22 +149,29 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
-        let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
-        let contactName = TokenUser.name(from: username)
-
-        self.idAPIClient.findContact(name: contactName) { contact in
-            guard let contact = contact else {
-                controller.startScanning()
-
-                return
+        if result.hasPrefix("web-signin:") {
+            let login_token = result.substring(from: result.index(result.startIndex, offsetBy: 11))
+            self.idAPIClient.login(login_token: login_token) { _, _ in
+                self.dismiss(animated: true)
             }
+        } else {
+            let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
+            let contactName = TokenUser.name(from: username)
 
-            SoundPlayer.playSound(type: .scanned)
+            self.idAPIClient.findContact(name: contactName) { contact in
+                guard let contact = contact else {
+                    controller.startScanning()
 
-            self.dismiss(animated: true) {
-                self.switch(to: .favorites)
-                let contactController = ContactController(contact: contact)
-                self.favoritesController.pushViewController(contactController, animated: true)
+                    return
+                }
+
+                SoundPlayer.playSound(type: .scanned)
+
+                self.dismiss(animated: true) {
+                    self.switch(to: .favorites)
+                    let contactController = ContactController(contact: contact)
+                    self.favoritesController.pushViewController(contactController, animated: true)
+                }
             }
         }
     }

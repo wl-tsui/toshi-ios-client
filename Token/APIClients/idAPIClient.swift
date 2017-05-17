@@ -349,4 +349,29 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
+
+    public func login(login_token: String, completion: ((_ success: Bool, _ message: String) -> Void)? = nil) {
+        self.fetchTimestamp { timestamp in
+            let cereal = Cereal.shared
+            let path = "/v1/login/\(login_token)"
+
+            let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
+
+            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+
+            self.teapot.get(path, headerFields: fields) { result in
+                switch result {
+                case .success(_, let response):
+                    guard response.statusCode == 204 else { fatalError() }
+
+                    completion?(true, "")
+                case .failure(let json, _, _):
+                    let errors = json?.dictionary?["errors"] as? [[String: Any]]
+                    let message = errors?.first?["message"] as? String
+
+                    completion?(false, message ?? "")
+                }
+            }
+        }
+    }
 }
