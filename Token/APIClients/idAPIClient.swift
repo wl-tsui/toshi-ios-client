@@ -50,7 +50,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     /// once all the contacts have been processed.
     func updateContacts() {
         self.contactUpdateQueue.async {
-            guard let contactsData = Yap.sharedInstance.retrieveObjects(in: TokenUser.collectionKey) as? [Data] else { fatalError() }
+            guard let contactsData = Yap.sharedInstance.retrieveObjects(in: TokenUser.favoritesCollectionKey) as? [Data] else { fatalError() }
             let semaphore = DispatchSemaphore(value: 0)
 
             for contactData in contactsData {
@@ -278,7 +278,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 case .failure(_, let response, let error):
                     if response.statusCode == 404 {
                         // contact was deleted from the server. If we don't have it locally, delete the signal thread.
-                        if !Yap.sharedInstance.containsObject(for: name, in: TokenUser.collectionKey) {
+                        if !Yap.sharedInstance.containsObject(for: name, in: TokenUser.favoritesCollectionKey) {
                             TSStorageManager.shared().dbConnection.readWrite { transaction in
                                 let thread = TSContactThread.getOrCreateThread(withContactId: name, transaction: transaction)
                                 thread.archiveThread(with: transaction)

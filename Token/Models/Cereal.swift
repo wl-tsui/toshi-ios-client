@@ -30,7 +30,7 @@ public class Cereal: NSObject {
 
     var mnemonic: BTCMnemonic
 
-    private static let collectionKey = "cerealPrivateKey"
+    static let privateKeyStorageKey = "cerealPrivateKey"
 
     public var address: String {
         return self.idCereal.address
@@ -45,7 +45,7 @@ public class Cereal: NSObject {
         guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
         self.mnemonic = mnemonic
 
-        Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.collectionKey)
+        Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
 
         // ID path 0H/1/0
         let idKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
@@ -60,7 +60,7 @@ public class Cereal: NSObject {
 
     // restore from local user or create new
     public override init() {
-        if let words = Yap.sharedInstance.retrieveObject(for: Cereal.collectionKey) as? String {
+        if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
             self.mnemonic = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english)!
         } else {
             var entropy = Data(count: self.entropyByteCount)
@@ -73,7 +73,7 @@ public class Cereal: NSObject {
 
             self.mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english)!
 
-            Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.collectionKey)
+            Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
         }
 
         // ID path 0H/1/0

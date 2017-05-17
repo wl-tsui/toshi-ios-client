@@ -15,7 +15,6 @@
 
 import UIKit
 import SweetUIKit
-import KeychainSwift
 
 public extension NSNotification.Name {
     public static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")

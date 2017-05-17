@@ -15,7 +15,6 @@
 
 import UIKit
 import SweetUIKit
-import KeychainSwift
 
 extension NSNotification.Name {
     public static let CreateNewUser = NSNotification.Name(rawValue: "CreateNewUser")

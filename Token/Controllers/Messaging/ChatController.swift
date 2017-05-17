@@ -42,6 +42,10 @@ class ChatController: MessagesCollectionViewController {
     fileprivate lazy var avatarImageView: AvatarImageView = {
         let avatar = AvatarImageView(image: UIImage())
         avatar.bounds.size = CGSize(width: 34, height: 34)
+        avatar.isUserInteractionEnabled = true
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showContactProfile))
+        avatar.addGestureRecognizer(tap)
 
         return avatar
     }()
@@ -181,9 +185,10 @@ class ChatController: MessagesCollectionViewController {
             self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.textInputViewBottom,
             self.textInputViewHeight,
-        ])
+            ])
 
         self.avatarImageView.image = self.thread.image()
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.avatarImageView)
     }
 
@@ -256,28 +261,6 @@ class ChatController: MessagesCollectionViewController {
         self.collectionView.register(MessageCell.self, forCellWithReuseIdentifier: MessageCell.reuseIdentifier())
         self.collectionView.register(ActionableMessageCell.self, forCellWithReuseIdentifier: ActionableMessageCell.reuseIdentifier())
         self.collectionView.register(ImageMessageCell.self, forCellWithReuseIdentifier: ImageMessageCell.reuseIdentifier())
-    }
-
-    // MARK: Rate users
-    fileprivate func didTapRateUser() {
-        let contactId = self.thread.contactIdentifier()!
-        let contact = self.contactsManager.tokenContact(forAddress: contactId)
-
-        if let contact = contact {
-            self.presentUserRatingPrompt(contact: contact)
-        } else {
-            self.idAPIClient.findContact(name: contactId) { contact in
-                guard let contact = contact else { return }
-                self.presentUserRatingPrompt(contact: contact)
-            }
-        }
-    }
-
-    fileprivate func presentUserRatingPrompt(contact: TokenUser) {
-        let rateUserController = RateUserController(user: contact)
-        rateUserController.delegate = self
-
-        self.present(rateUserController, animated: true)
     }
 
     // MARK: Load initial messages
@@ -353,7 +336,7 @@ class ChatController: MessagesCollectionViewController {
         }
         actionSheetController.addAction(acceptSafetyNumberAction)
 
-        present(actionSheetController, animated: true, completion: nil)
+        self.present(actionSheetController, animated: true, completion: nil)
     }
 
     /// Handle incoming interactions or previous messages when restoring a conversation.
@@ -599,6 +582,16 @@ class ChatController: MessagesCollectionViewController {
         self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
         self.sendMessage(sofaWrapper: command)
     }
+
+    @objc
+    fileprivate func showContactProfile(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            guard let contact = self.contactsManager.tokenContact(forAddress: self.thread.contactIdentifier()) else { return }
+
+            let contactController = ContactController(contact: contact)
+            self.navigationController?.pushViewController(contactController, animated: true)
+        }
+    }
 }
 
 extension ChatController: ActionableCellDelegate {
@@ -689,15 +682,6 @@ extension ChatController: ChatInputTextPanelDelegate {
     }
 }
 
-extension ChatController: RateUserControllerDelegate {
-    func didRate(_ user: TokenUser, rating: Int, review: String) {
-        self.dismiss(animated: true) {
-            let ratingsClient = RatingsClient.shared
-            ratingsClient.submit(userId: user.address, rating: rating, review: review)
-        }
-    }
-}
-
 extension ChatController: ImagePickerDelegate {
     func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
     }
@@ -730,14 +714,14 @@ extension ChatController: ChatsFloatingHeaderViewDelegate {
         let paymentRequestController = PaymentRequestController()
         paymentRequestController.delegate = self
 
-        present(paymentRequestController, animated: true)
+        self.present(paymentRequestController, animated: true)
     }
 
     func messagesFloatingView(_: ChatsFloatingHeaderView, didPressPayButton _: UIButton) {
         let paymentSendController = PaymentSendController()
         paymentSendController.delegate = self
 
-        present(paymentSendController, animated: true)
+        self.present(paymentSendController, animated: true)
     }
 }
 
@@ -759,21 +743,21 @@ extension ChatController: PaymentSendControllerDelegate {
         }
 
         self.idAPIClient.retrieveContact(username: tokenId) { user in
-            if let user = user {
-                self.etherAPIClient.createUnsignedTransaction(to: user.paymentAddress, value: value) { transaction, error in
-                    let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
+            guard let user = user else { return }
 
-                    self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
-                        if error != nil {
-                            guard let json = json?.dictionary else { fatalError("!") }
+            self.etherAPIClient.createUnsignedTransaction(to: user.paymentAddress, value: value) { transaction, error in
+                let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
-                            let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
-                            self.present(alert, animated: true)
-                        } else if let json = json?.dictionary {
-                            guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
-                            let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
-                            self.sendMessage(sofaWrapper: payment)
-                        }
+                self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
+                    if error != nil {
+                        guard let json = json?.dictionary else { fatalError("!") }
+
+                        let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                        self.present(alert, animated: true)
+                    } else if let json = json?.dictionary {
+                        guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                        let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
+                        self.sendMessage(sofaWrapper: payment)
                     }
                 }
             }
@@ -782,24 +766,24 @@ extension ChatController: PaymentSendControllerDelegate {
 }
 
 extension ChatController: PaymentRequestControllerDelegate {
-
+    
     func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
         defer {
             self.dismiss(animated: true)
         }
-
+        
         guard let valueInWei = valueInWei else {
             return
         }
-
+        
         let request: [String: Any] = [
             "body": "Payment request: \(EthereumConverter.balanceAttributedString(forWei: valueInWei).string).",
             "value": valueInWei.toHexString,
             "destinationAddress": Cereal.shared.paymentAddress,
-        ]
-
+            ]
+        
         let paymentRequest = SofaPaymentRequest(content: request)
-
-        sendMessage(sofaWrapper: paymentRequest)
+        
+        self.sendMessage(sofaWrapper: paymentRequest)
     }
 }

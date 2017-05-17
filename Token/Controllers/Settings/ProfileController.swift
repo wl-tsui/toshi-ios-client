@@ -32,7 +32,7 @@ open class ProfileController: UIViewController {
     fileprivate lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.font = Theme.bold(size: 20)
+        view.font = Theme.regular(size: 24)
 
         return view
     }()
@@ -40,7 +40,7 @@ open class ProfileController: UIViewController {
     fileprivate lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.font = Theme.bold(size: 14)
+        view.font = Theme.regular(size: 16)
         view.textColor = Theme.greyTextColor
 
         return view
@@ -164,7 +164,7 @@ open class ProfileController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if let name = TokenUser.current?.name, name.length > 0, let username = TokenUser.current?.displayUsername {
+        if let name = TokenUser.current?.name, !name.isEmpty, let username = TokenUser.current?.displayUsername {
             self.nameLabel.text = name
             self.usernameLabel.text = username
         } else if let username = TokenUser.current?.displayUsername {

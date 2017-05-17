@@ -72,7 +72,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     }
 
     func search(_ searchTerm: String, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
-        guard searchTerm.length > 0 else {
+        guard !searchTerm.isEmpty else {
             completion([TokenUser](), nil)
             return
         }

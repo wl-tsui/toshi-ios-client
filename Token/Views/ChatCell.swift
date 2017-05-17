@@ -61,7 +61,7 @@ class ChatCell: UITableViewCell {
             if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
                 self.updateContact(contact)
             } else {
-                IDAPIClient.shared.findContact(name: self.thread?.contactIdentifier() ?? "") { contact in
+                IDAPIClient.shared.retrieveContact(username: self.thread?.contactIdentifier() ?? "") { contact in
                     guard let contact = contact else { return }
                     self.updateContact(contact)
                 }
@@ -171,7 +171,7 @@ class ChatCell: UITableViewCell {
     }
 
     func updateContact(_ contact: TokenUser) {
-        self.usernameLabel.text = contact.name.length > 0 ? contact.name : contact.displayUsername
+        self.usernameLabel.text = !contact.name.isEmpty ? contact.name : contact.displayUsername
         self.thread?.cachedContactIdentifier = self.usernameLabel.text
         self.avatarImageView.image = contact.avatar
 

@@ -15,7 +15,6 @@
 
 import Foundation
 import SweetSwift
-import KeychainSwift
 
 extension Notification.Name {
     public static let CurrentUserDidUpdateAvatarNotification = Notification.Name(rawValue: "CurrentUserDidUpdateAvatarNotification")
@@ -39,11 +38,11 @@ public class TokenUser: NSObject, NSCoding {
 
     static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
     static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
-    static let collectionKey: String = "TokenContacts"
+    static let favoritesCollectionKey: String = "TokenContacts"
 
     private static let storedUserKey = "StoredUser"
 
-    private static let storedContactKey = "storedContactKey"
+    public static let storedContactKey = "storedContactKey"
 
     var category = ""
 
@@ -94,8 +93,6 @@ public class TokenUser: NSObject, NSCoding {
             newValue?.update()
 
             if let user = newValue {
-                let keychain = KeychainSwift()
-                keychain.set(user.paymentAddress, forKey: "CurrentUserPaymentAddress")
                 user.saveIfNeeded()
             }
 
@@ -191,7 +188,7 @@ public class TokenUser: NSObject, NSCoding {
         if self.isCurrentUser {
             Yap.sharedInstance.insert(object: self.JSONData, for: TokenUser.storedUserKey)
         } else {
-            Yap.sharedInstance.insert(object: self.JSONData, for: TokenUser.storedContactKey)
+            Yap.sharedInstance.insert(object: self.JSONData, for: self.address, in: TokenUser.storedContactKey)
         }
     }
 
@@ -215,18 +212,18 @@ public class TokenUser: NSObject, NSCoding {
         self.verified = json[Constants.verified] as? Bool ?? self.verified
 
         if updateAvatar {
-            if let avatarDataHex = (json[Constants.avatarDataHex] as? String), avatarDataHex.length > 0, let hexData = avatarDataHex.hexadecimalData {
+            if let avatarDataHex = (json[Constants.avatarDataHex] as? String), !avatarDataHex.isEmpty, let hexData = avatarDataHex.hexadecimalData {
                 let image = UIImage(data: hexData)
                 self.avatar = image
             }
 
-            if self.avatarPath.length > 0 {
+            if !self.avatarPath.isEmpty {
                 if self.isApp {
                     AppsAPIClient.shared.downloadImage(for: self) { image in
                         self.avatar = image
                     }
                 } else {
-                    IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: false) { image in
+                    IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: !self.isCurrentUser) { image in
                         self.avatar = image
                     }
                 }

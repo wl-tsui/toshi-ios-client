@@ -33,7 +33,7 @@
 - (NSArray<TokenUser *> *)tokenContacts {
     NSMutableArray <TokenUser *> *contacts = [NSMutableArray array];
 
-    for (NSData *contactData in [Yap.sharedInstance retrieveObjectsIn:TokenUser.collectionKey]) {
+    for (NSData *contactData in [Yap.sharedInstance retrieveObjectsIn:TokenUser.storedContactKey]) {
         NSDictionary<NSString *, id> *json = [NSJSONSerialization JSONObjectWithData:contactData options:0 error:0];
         TokenUser *tokenContact = [[TokenUser alloc] initWithJson:json shouldSave:NO];
 

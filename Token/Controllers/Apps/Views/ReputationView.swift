@@ -114,6 +114,8 @@ class ReputationView: UIView {
         self.addSubview(self.twoStarsBarView)
         self.addSubview(self.oneStarsBarView)
 
+        self.ratingsCountLabel.set(height: 16)
+
         let horizontalMargin: CGFloat = 16
         let barHeight: CGFloat = 18
         let barSpacing: CGFloat = 2

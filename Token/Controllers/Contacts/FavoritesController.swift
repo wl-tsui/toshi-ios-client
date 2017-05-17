@@ -27,8 +27,8 @@ public extension Array {
 open class FavoritesController: SweetTableController {
 
     fileprivate lazy var mappings: YapDatabaseViewMappings = {
-        let mappings = YapDatabaseViewMappings(groups: [TokenUser.collectionKey], view: TokenUser.viewExtensionName)
-        mappings.setIsReversed(true, forGroup: TokenUser.collectionKey)
+        let mappings = YapDatabaseViewMappings(groups: [TokenUser.favoritesCollectionKey], view: TokenUser.viewExtensionName)
+        mappings.setIsReversed(true, forGroup: TokenUser.favoritesCollectionKey)
 
         return mappings
     }()
@@ -123,13 +123,8 @@ open class FavoritesController: SweetTableController {
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(with: address) else { return }
 
-                if contact.isApp {
-                    let appController = AppController(app: contact)
-                    self.navigationController?.pushViewController(appController, animated: false)
-                } else {
-                    let contactController = ContactController(contact: contact)
-                    self.navigationController?.pushViewController(contactController, animated: false)
-                }
+                let appController = ContactController(contact: contact)
+                self.navigationController?.pushViewController(appController, animated: false)
             }
         }
     }
@@ -167,7 +162,7 @@ open class FavoritesController: SweetTableController {
 
         let viewGrouping = YapDatabaseViewGrouping.withObjectBlock { (_, _, _, object) -> String? in
             if let _ = object as? Data {
-                return TokenUser.collectionKey
+                return TokenUser.favoritesCollectionKey
             }
 
             return nil
@@ -177,7 +172,7 @@ open class FavoritesController: SweetTableController {
 
         let options = YapDatabaseViewOptions()
         options.isPersistent = false
-        options.allowedCollections = YapWhitelistBlacklist(whitelist: Set([TokenUser.collectionKey]))
+        options.allowedCollections = YapWhitelistBlacklist(whitelist: Set([TokenUser.favoritesCollectionKey]))
 
         let databaseView = YapDatabaseView(grouping: viewGrouping, sorting: viewSorting, versionTag: "1", options: options)
 
@@ -279,7 +274,7 @@ open class FavoritesController: SweetTableController {
         var contact: TokenUser?
 
         self.uiDatabaseConnection.read { transaction in
-            if let data = transaction.object(forKey: address, inCollection: TokenUser.collectionKey) as? Data {
+            if let data = transaction.object(forKey: address, inCollection: TokenUser.favoritesCollectionKey) as? Data {
                 contact = TokenUser.user(with: data)
             }
         }
@@ -361,14 +356,8 @@ extension FavoritesController: UITableViewDelegate {
         self.searchController.searchBar.resignFirstResponder()
 
         let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath)
-
-        if contact.isApp {
-            let appController = AppController(app: contact)
-            self.navigationController?.pushViewController(appController, animated: true)
-        } else {
-            let contactController = ContactController(contact: contact)
-            self.navigationController?.pushViewController(contactController, animated: true)
-        }
+        let contactController = ContactController(contact: contact)
+        self.navigationController?.pushViewController(contactController, animated: true)
 
         UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
     }
@@ -387,7 +376,7 @@ extension FavoritesController: UISearchResultsUpdating {
     public func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
 
-        if text.length == 0 {
+        if text.isEmpty {
             self.searchContacts = []
             self.tableView.reloadData()
         } else {

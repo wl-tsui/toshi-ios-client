@@ -115,11 +115,11 @@ extension BrowseController {
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if self.searchController.isActive {
             let app = self.searchResult[indexPath.row]
-            let appController = AppController(app: app)
+            let appController = ContactController(contact: app)
             self.navigationController?.pushViewController(appController, animated: true)
         } else {
             let app = self.featuredApps[indexPath.row]
-            let appController = AppController(app: app)
+            let appController = ContactController(contact: app)
             self.navigationController?.pushViewController(appController, animated: true)
         }
     }
@@ -133,7 +133,7 @@ extension BrowseController {
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 120)
+        return CGSize(width: 120, height: 140)
     }
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
@@ -144,7 +144,7 @@ extension BrowseController {
 extension BrowseController: UISearchBarDelegate {
     func searchBar(_: UISearchBar, textDidChange searchText: String) {
 
-        if searchText.length == 0 {
+        if searchText.isEmpty {
             self.searchResult = [TokenUser]()
         }
 
@@ -171,7 +171,7 @@ extension BrowseController {
 extension BrowseController: SearchResultsViewDelegate {
 
     func searchResultsView(_: SearchResultsView, didTapApp app: TokenUser) {
-        let appController = AppController(app: app)
+        let appController = ContactController(contact: app)
         self.navigationController?.pushViewController(appController, animated: true)
     }
 }

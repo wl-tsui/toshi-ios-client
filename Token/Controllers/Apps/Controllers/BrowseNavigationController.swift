@@ -50,7 +50,7 @@ public class BrowseNavigationController: UINavigationController {
             // TODO: move all of this the the navigator so we can restore the hiararchy straight from the app delegate.
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let json = try? JSONSerialization.jsonObject(with: appData, options: []), let appJson = json as? [String: Any] else { return }
-                let appController = AppController(app: TokenUser(json: appJson))
+                let appController = ContactController(contact: TokenUser(json: appJson))
 
                 self.pushViewController(appController, animated: false)
             }
@@ -60,8 +60,8 @@ public class BrowseNavigationController: UINavigationController {
     public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
 
-        if let viewController = viewController as? AppController {
-            UserDefaults.standard.setValue(viewController.app.JSONData, forKey: BrowseNavigationController.selectedAppKey)
+        if let viewController = viewController as? ContactController {
+            UserDefaults.standard.setValue(viewController.contact.JSONData, forKey: BrowseNavigationController.selectedAppKey)
         }
     }
 
