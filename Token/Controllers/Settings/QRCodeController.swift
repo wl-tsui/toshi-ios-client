@@ -44,12 +44,12 @@ class QRCodeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = Theme.viewBackgroundColor
+        self.view.backgroundColor = Theme.settingsBackgroundColor
         self.view.addSubview(self.qrCodeImageView)
 
         self.qrCodeImageView.set(height: 300)
         self.qrCodeImageView.set(width: 300)
-        self.qrCodeImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.qrCodeImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -self.topLayoutGuide.length).isActive = true
         self.qrCodeImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
     }
 }

@@ -104,6 +104,10 @@ extension Theme {
         return UIColor(hex: "EB6E00")
     }
 
+    public static var passphraseVerificationContainerColor: UIColor {
+        return UIColor(hex: "EAEBEC")
+    }
+
     // MARK: - Message colours
 
     public static var outgoingMessageBackgroundColor: UIColor {

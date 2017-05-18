@@ -40,7 +40,7 @@ open class TabBarController: UITabBarController {
     }
 
     internal lazy var scannerController: ScannerViewController = {
-        let controller = ScannerViewController(instructions: "Scan a user profile QR code", types: [.qrCode])
+        let controller = ScannerController(instructions: "Scan QR code", types: [.qrCode])
         controller.delegate = self
 
         return controller

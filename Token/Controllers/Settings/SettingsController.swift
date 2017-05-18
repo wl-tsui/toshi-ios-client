@@ -163,6 +163,8 @@ open class SettingsController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
         }
 
+        alert.view.tintColor = Theme.tintColor
+
         return alert
     }
 

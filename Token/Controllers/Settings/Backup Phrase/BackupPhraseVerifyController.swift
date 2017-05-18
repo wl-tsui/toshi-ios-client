@@ -49,6 +49,7 @@ class BackupPhraseVerifyController: UIViewController {
         let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .verification)
         view.removeDelegate = self
         view.verificationDelegate = self
+        view.backgroundColor = Theme.passphraseVerificationContainerColor
 
         return view
     }()

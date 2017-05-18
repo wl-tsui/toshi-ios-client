@@ -68,6 +68,7 @@ open class FavoritesController: SweetTableController {
         controller.searchBar.tintColor = Theme.tintColor
         controller.searchBar.searchBarStyle = .minimal
         controller.searchBar.backgroundColor = Theme.viewBackgroundColor
+        controller.searchBar.placeholder = "Search by username"
 
         controller.searchBar.layer.borderWidth = 1.0 / UIScreen.main.scale
         controller.searchBar.layer.borderColor = Theme.borderColor.cgColor
