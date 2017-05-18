@@ -187,8 +187,6 @@ class ChatController: MessagesCollectionViewController {
             self.textInputViewHeight,
             ])
 
-        self.avatarImageView.image = self.thread.image()
-
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.avatarImageView)
     }
 
@@ -196,6 +194,8 @@ class ChatController: MessagesCollectionViewController {
         super.viewWillAppear(animated)
         self.reloadDraft()
         self.view.layoutIfNeeded()
+
+        self.avatarImageView.image = self.thread.image()
     }
 
     override func viewDidAppear(_ animated: Bool) {
