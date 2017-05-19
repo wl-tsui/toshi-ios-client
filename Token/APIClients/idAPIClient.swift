@@ -276,17 +276,8 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                     success(contact, self.cacheExpiry)
                 case .failure(_, let response, let error):
-                    if response.statusCode == 404 {
-                        // contact was deleted from the server. If we don't have it locally, delete the signal thread.
-                        if !Yap.sharedInstance.containsObject(for: name, in: TokenUser.favoritesCollectionKey) {
-                            TSStorageManager.shared().dbConnection.readWrite { transaction in
-                                let thread = TSContactThread.getOrCreateThread(withContactId: name, transaction: transaction)
-                                thread.archiveThread(with: transaction)
-                            }
-                        }
-                    }
                     print(error.localizedDescription)
-
+                    
                     failure(error as NSError)
                 }
             }

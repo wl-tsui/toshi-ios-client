@@ -82,6 +82,10 @@ class ChatController: MessagesCollectionViewController {
         }
     }
 
+    fileprivate var contact: TokenUser {
+        return self.contactsManager.tokenContact(forAddress: self.thread.contactIdentifier())!
+    }
+
     fileprivate lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
         mappings.setIsReversed(true, forGroup: TSInboxGroup)
@@ -204,6 +208,13 @@ class ChatController: MessagesCollectionViewController {
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
         self.title = self.thread.cachedContactIdentifier
+
+        if self.contact.isApp && self.messages.isEmpty {
+            // If contact is an app, and there are no messages between current user and contact
+            // we send the app an empty regular sofa message. This ensures that Signal won't display it,
+            // but at the same time, most bots will reply with a greeting.
+            self.sendMessage(sofaWrapper: SofaMessage(body: ""))
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -586,9 +597,7 @@ class ChatController: MessagesCollectionViewController {
     @objc
     fileprivate func showContactProfile(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
-            guard let contact = self.contactsManager.tokenContact(forAddress: self.thread.contactIdentifier()) else { return }
-
-            let contactController = ContactController(contact: contact)
+            let contactController = ContactController(contact: self.contact)
             self.navigationController?.pushViewController(contactController, animated: true)
         }
     }

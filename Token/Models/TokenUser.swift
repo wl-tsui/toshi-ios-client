@@ -208,6 +208,7 @@ public class TokenUser: NSObject, NSCoding {
         self.location = json[Constants.location] as? String ?? self.location
         self.about = json[Constants.about] as? String ?? self.about
         self.avatarPath = json[Constants.avatar] as? String ?? self.avatarPath
+        self.isApp = json[Constants.isApp] as? Bool ?? self.isApp
 
         self.verified = json[Constants.verified] as? Bool ?? self.verified
 
