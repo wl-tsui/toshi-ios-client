@@ -292,6 +292,6 @@ open class ProfileController: UIViewController {
     @objc
     fileprivate func didTapEditProfileButton() {
         let editController = ProfileEditController()
-        self.present(editController, animated: true)
+        self.navigationController?.pushViewController(editController, animated: true)
     }
 }
