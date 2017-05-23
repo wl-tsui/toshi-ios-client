@@ -47,7 +47,7 @@ class ActionBarButton: UIControl {
         self.imageContainerView.bottomAnchor.constraint(equalTo: self.titleLabel.topAnchor).isActive = true
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 
@@ -63,7 +63,7 @@ class ActionBarButton: UIControl {
         self.imageView.image = image
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_: Set<UITouch>, with _: UIEvent?) {
         self.isHighlighted = true
 
         self.previousImageTintColor = self.imageView.tintColor
@@ -74,14 +74,14 @@ class ActionBarButton: UIControl {
         self.sendActions(for: .touchDown)
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesCancelled(_: Set<UITouch>, with _: UIEvent?) {
         self.isHighlighted = false
 
         self.imageView.tintColor = self.previousImageTintColor
         self.titleLabel.textColor = self.previousLabelTintColor
     }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_: Set<UITouch>, with _: UIEvent?) {
         self.isHighlighted = false
 
         self.imageView.tintColor = self.previousImageTintColor

@@ -142,6 +142,15 @@ open class FavoritesController: SweetTableController {
         super.viewDidDisappear(animated)
     }
 
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        for view in self.searchController.searchBar.subviews {
+            view.clipsToBounds = false
+        }
+        self.searchController.searchBar.superview?.clipsToBounds = false
+    }
+
     fileprivate func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
             guard let data1 = object1 as? Data else { fatalError() }
@@ -287,17 +296,17 @@ open class FavoritesController: SweetTableController {
     fileprivate func didTapAddButton() {
         let addContactSheet = UIAlertController(title: "Add to favorites on Token", message: nil, preferredStyle: .actionSheet)
 
-        addContactSheet.addAction(UIAlertAction(title: "Add by username", style: .default, handler: { action in
+        addContactSheet.addAction(UIAlertAction(title: "Add by username", style: .default, handler: { _ in
             self.searchController.searchBar.becomeFirstResponder()
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Invite friends", style: .default, handler: { action in
+        addContactSheet.addAction(UIAlertAction(title: "Invite friends", style: .default, handler: { _ in
             let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
 
-            self.present(shareController, animated: true, completion: {})
+            self.present(shareController, animated: true) {}
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Scan code", style: .default, handler: { action in
+        addContactSheet.addAction(UIAlertAction(title: "Scan code", style: .default, handler: { _ in
             guard let tabBarController = self.tabBarController as? TabBarController else { return }
             tabBarController.switch(to: .scanner)
         }))
@@ -305,10 +314,10 @@ open class FavoritesController: SweetTableController {
         addContactSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
         addContactSheet.view.tintColor = Theme.tintColor
-        self.present(addContactSheet, animated: true, completion: {
+        self.present(addContactSheet, animated: true) {
             // Due to a UIKit "bug", tint colour need be reset here.
             addContactSheet.view.tintColor = Theme.tintColor
-        })
+        }
     }
 }
 

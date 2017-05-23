@@ -49,6 +49,7 @@ open class TabBarController: UITabBarController {
     internal lazy var placeholderScannerController: UIViewController = {
         let controller = UIViewController()
         controller.tabBarItem = UITabBarItem(title: "Scan", image: #imageLiteral(resourceName: "scan"), tag: 0)
+        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
 
         return controller
     }()
@@ -155,16 +156,16 @@ extension TabBarController: ScannerViewControllerDelegate {
     public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
         if result.hasPrefix("web-signin:") {
             let login_token = result.substring(from: result.index(result.startIndex, offsetBy: 11))
-            self.idAPIClient.login(login_token: login_token) { success, error in
+            self.idAPIClient.login(login_token: login_token) { _, _ in
                 self.dismiss(animated: true)
             }
         } else {
             let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
             let contactName = TokenUser.name(from: username)
 
-        self.idAPIClient.retrieveContact(username: contactName) { contact in
-            guard let contact = contact else {
-                controller.startScanning()
+            self.idAPIClient.retrieveContact(username: contactName) { contact in
+                guard let contact = contact else {
+                    controller.startScanning()
 
                     return
                 }

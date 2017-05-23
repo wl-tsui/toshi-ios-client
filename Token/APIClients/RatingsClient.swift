@@ -102,7 +102,7 @@ class RatingsClient: NSObject {
         }
     }
 
-    public func submit(userId: String, rating: Int, review: String, completion: ((Void) -> Void)? = nil) {
+    public func submit(userId: String, rating: Int, review: String, completion: (() -> Void)? = nil) {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/review/submit"

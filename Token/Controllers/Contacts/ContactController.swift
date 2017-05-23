@@ -391,7 +391,6 @@ public class ContactController: UIViewController {
         self.present(rateUserController, animated: true)
     }
 
-
     @objc private func displayActions() {
         let actions = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let blockingManager = OWSBlockingManager.shared()
@@ -477,7 +476,7 @@ extension ContactController: PaymentSendControllerDelegate {
     }
 
     private func fetchThread(for address: String) -> TSThread {
-        var thread: TSThread? = nil
+        var thread: TSThread?
 
         TSStorageManager.shared().dbConnection.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: address, with: transaction)

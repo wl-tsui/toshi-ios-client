@@ -277,7 +277,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     success(contact, self.cacheExpiry)
                 case .failure(_, let response, let error):
                     print(error.localizedDescription)
-                    
+
                     failure(error as NSError)
                 }
             }

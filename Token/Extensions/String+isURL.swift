@@ -13,11 +13,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import UIKit
-import CameraScanner
+import Foundation
 
-class ScannerController: ScannerViewController {
-    override func setupToolbarItems() {
-        self.toolbar.setItems([self.cancelItem], animated: true)
+extension String {
+    public var isURL: Bool {
+        let fullRange = NSRange(location: 0, length: self.length)
+        let detector = try! NSDataDetector(types: NSTextCheckingAllSystemTypes)
+        for match in detector.matches(in: self, options: [], range: fullRange) {
+            if match.resultType == .link && match.range.location == fullRange.location && match.range.length == fullRange.length {
+                return true
+            }
+        }
+
+        return false
     }
 }

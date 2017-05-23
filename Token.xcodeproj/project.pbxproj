@@ -117,6 +117,9 @@
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		79C8B9332AAF618B6185BC82 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A763C19118469E7169C9F72 /* libPods-CocoaPods-Development.a */; };
+		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
+		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
+		84C195301ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
 		9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		9F21624C1E5EE08800292B14 /* ActionableMessageCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */; };
@@ -127,6 +130,7 @@
 		9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
 		9F27525E1EB9CA7A00050C08 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F27525D1EB9CA7A00050C08 /* Settings.storyboard */; };
 		9F27525F1EB9CA7A00050C08 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F27525D1EB9CA7A00050C08 /* Settings.storyboard */; };
+		9F30A81E1ED2EDA9003E56A2 /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
 		9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */; };
 		9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */; };
@@ -283,6 +287,8 @@
 		9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
 		9FCF132D1E531B4F0078FF7F /* PaymentRequestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */; };
+		9FD247831ED3037F00A38C40 /* String+isURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD247821ED3037F00A38C40 /* String+isURL.swift */; };
+		9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD247821ED3037F00A38C40 /* String+isURL.swift */; };
 		9FD25D3C1E813C3F0011F164 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
 		9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
 		9FDB3B171E6D640900EE5FD7 /* ControlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */; };
@@ -403,6 +409,8 @@
 		3792EEE42F397342AA67CF7D /* Pods-CocoaPods-Development.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.debug.xcconfig"; sourceTree = "<group>"; };
 		626847A05B6B231F02E4B0A9 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
 		6A763C19118469E7169C9F72 /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C1952B1ECF057E00B9512F /* SOFAWebController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SOFAWebController.swift; sourceTree = "<group>"; };
+		84C1952E1ECF05C100B9512F /* sofa-web3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "sofa-web3.js"; sourceTree = "<group>"; };
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
 		9F21624B1E5EE08800292B14 /* ActionableMessageCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionableMessageCellLayout.swift; sourceTree = "<group>"; };
 		9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumNotificationHandler.swift; sourceTree = "<group>"; };
@@ -522,6 +530,7 @@
 		9FCF13261E52FB160078FF7F /* TSThread+Additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TSThread+Additions.h"; sourceTree = "<group>"; };
 		9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSThread+Additions.m"; sourceTree = "<group>"; };
 		9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestController.swift; sourceTree = "<group>"; };
+		9FD247821ED3037F00A38C40 /* String+isURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+isURL.swift"; sourceTree = "<group>"; };
 		9FD25D3B1E813C3F0011F164 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 		9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlCell.swift; sourceTree = "<group>"; };
 		9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlsCollectionView.swift; sourceTree = "<group>"; };
@@ -702,6 +711,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		84C1952A1ECF056800B9512F /* SOFAWebview */ = {
+			isa = PBXGroup;
+			children = (
+				84C1952E1ECF05C100B9512F /* sofa-web3.js */,
+				84C1952B1ECF057E00B9512F /* SOFAWebController.swift */,
+			);
+			path = SOFAWebview;
+			sourceTree = "<group>";
+		};
 		9F232A971EC9E3A300270761 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +818,7 @@
 		9F9238B31E24F1D2004BEEE0 /* Token */ = {
 			isa = PBXGroup;
 			children = (
+				84C1952A1ECF056800B9512F /* SOFAWebview */,
 				9FAE4A6C1E4CBFCA00126217 /* Extensions */,
 				9FCDBAE81E28FD5600A70E07 /* Theme */,
 				9FC72A3B1E251ABE00EF1141 /* APIClients */,
@@ -962,6 +981,7 @@
 				9FDB3B151E6D63D900EE5FD7 /* Messages */,
 				9FEB8C891E6832120088D5A6 /* NSData+ows_StripToken.h */,
 				9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */,
+				9FD247821ED3037F00A38C40 /* String+isURL.swift */,
 				9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */,
 				A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
@@ -1267,6 +1287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C195301ECF05C100B9512F /* sofa-web3.js in Resources */,
 				149F9AC51E72E29A00FB74AA /* SF-UI-Text-Semibold.otf in Resources */,
 				149F9AC61E72E29A00FB74AA /* SF-UI-Display-Black.otf in Resources */,
 				149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */,
@@ -1310,6 +1331,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */,
 				9FAACD041E31120600FB871D /* SF-UI-Text-Semibold.otf in Resources */,
 				9FAACCF11E31120600FB871D /* SF-UI-Display-Black.otf in Resources */,
 				9FAACD011E31120600FB871D /* SF-UI-Text-MediumItalic.otf in Resources */,
@@ -1503,6 +1525,7 @@
 			files = (
 				149F9A611E72E29A00FB74AA /* PaymentSendController.swift in Sources */,
 				149F9A621E72E29A00FB74AA /* ProfileEditController.swift in Sources */,
+				9F30A81E1ED2EDA9003E56A2 /* SOFAWebController.swift in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
 				9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */,
@@ -1555,6 +1578,7 @@
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F66BBBA1E7FCE2C00C4148A /* HomeButton.swift in Sources */,
 				A9ED6CD31E84014800160637 /* SignInNavigationController.swift in Sources */,
+				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
 				9F5D63A61E92331800FED490 /* ImageMessageCellLayout.swift in Sources */,
 				9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,
 				149F9A8B1E72E29A00FB74AA /* SearchResultsView.swift in Sources */,
@@ -1615,6 +1639,7 @@
 			files = (
 				9F21E0661E546C4E000E90C6 /* PaymentSendController.swift in Sources */,
 				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
+				84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */,
 				9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */,
 				9FAC46ED1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */,
@@ -1667,6 +1692,7 @@
 				9FDB3B1B1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F66BBB91E7FCE2C00C4148A /* HomeButton.swift in Sources */,
 				143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
+				9FD247831ED3037F00A38C40 /* String+isURL.swift in Sources */,
 				9F5D63A51E92331800FED490 /* ImageMessageCellLayout.swift in Sources */,
 				A9AC74141E78231A00365029 /* BackupPhraseView.swift in Sources */,
 				A9AC74081E77E37500365029 /* ActionButton.swift in Sources */,

@@ -16,6 +16,46 @@
 import UIKit
 import SweetUIKit
 
+class LaunchAppButton: UIControl {
+    fileprivate lazy var titleLabel: UILabel = {
+        return UILabel(withAutoLayout: true)
+    }()
+
+    fileprivate lazy var chevron: UIImageView = {
+        let view = UIImageView(withAutoLayout: true)
+        view.image = #imageLiteral(resourceName: "chevron")
+
+        return view
+    }()
+
+    required init?(coder _: NSCoder) {
+        fatalError()
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        self.addSubview(self.titleLabel)
+        self.addSubview(self.chevron)
+
+        let margin: CGFloat = 12.0
+
+        self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: margin).isActive = true
+        self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin).isActive = true
+        self.titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin).isActive = true
+        self.titleLabel.rightAnchor.constraint(equalTo: self.chevron.leftAnchor, constant: margin).isActive = true
+
+        self.chevron.set(height: 14)
+        self.chevron.set(width: 14)
+        self.chevron.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        self.chevron.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin).isActive = true
+    }
+
+    func setAttributedTitle(_ attributedText: NSAttributedString?) {
+        self.titleLabel.attributedText = attributedText
+    }
+}
+
 class BrowseController: SearchableCollectionController {
     static let cellHeight = CGFloat(220)
     static let cellWidth = CGFloat(90)
@@ -31,6 +71,23 @@ class BrowseController: SearchableCollectionController {
             self.collectionView.reloadData()
         }
     }
+
+    fileprivate lazy var openURLButton: LaunchAppButton = {
+        let view = LaunchAppButton(withAutoLayout: true)
+        view.addTarget(self, action: #selector(self.didTapOpenURLButton), for: .touchUpInside)
+        view.isHidden = true
+
+        return view
+    }()
+
+    fileprivate lazy var openButtonAttributes: [String: Any] = {
+        let paragraph = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        paragraph.alignment = .left
+
+        return [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 14)]
+    }()
+
+    fileprivate var openURLButtonTopAnchor: NSLayoutConstraint!
 
     var appsAPIClient: AppsAPIClient
 
@@ -64,6 +121,14 @@ class BrowseController: SearchableCollectionController {
 
         self.collectionView.register(AppCell.self)
 
+        self.collectionView.addSubview(self.openURLButton)
+        self.openURLButton.set(height: 44)
+        self.openURLButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.openURLButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.openURLButtonTopAnchor = self.openURLButton.topAnchor.constraint(equalTo: self.collectionView.topAnchor)
+        self.openURLButtonTopAnchor.constant = -self.searchBar.frame.maxY
+        self.openURLButtonTopAnchor.isActive = true
+
         self.title = "Browse"
 
         self.appsAPIClient.getFeaturedApps { apps, error in
@@ -76,15 +141,52 @@ class BrowseController: SearchableCollectionController {
         }
     }
 
-    func reload(searchText: String) {
-        self.appsAPIClient.search(searchText) { apps, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                self.present(alertController, animated: true, completion: nil)
-            }
+    @objc
+    fileprivate func reload(searchText: String) {
+        if searchText.isURL {
+            let title = NSAttributedString(string: searchText, attributes: self.openButtonAttributes)
+            self.openURLButton.setAttributedTitle(title)
+            self.showOpenURLButton()
 
-            self.searchResult = apps
+        } else {
+            self.appsAPIClient.search(searchText) { apps, error in
+                if let error = error {
+                    let alertController = UIAlertController.errorAlert(error as NSError)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+
+                self.searchResult = apps
+            }
         }
+    }
+
+    fileprivate func showOpenURLButton() {
+        self.openURLButton.isHidden = false
+        self.openURLButtonTopAnchor.constant = self.searchBar.frame.minY - 20 // 20pt statusbar
+        UIView.animate(withDuration: 0.25) {
+            self.collectionView.layoutIfNeeded()
+        }
+    }
+
+    fileprivate func hideOpenURLButtonIfNeeded() {
+        guard self.openURLButtonTopAnchor.constant == 0 else { return }
+
+        self.openURLButton.isHidden = true
+        self.openURLButtonTopAnchor.constant = -self.searchBar.frame.maxY
+        UIView.animate(withDuration: 0.25) {
+            self.collectionView.layoutIfNeeded()
+            self.openURLButton.setAttributedTitle(nil)
+        }
+    }
+
+    @objc
+    fileprivate func didTapOpenURLButton() {
+        guard let string = self.searchController.searchBar.text, let url = URL(string: string) else { return }
+
+        let sofaController = SOFAWebController()
+
+        sofaController.load(url: url)
+        self.navigationController?.pushViewController(sofaController, animated: true)
     }
 }
 
@@ -146,11 +248,17 @@ extension BrowseController: UISearchBarDelegate {
 
         if searchText.isEmpty {
             self.searchResult = [TokenUser]()
+            self.hideOpenURLButtonIfNeeded()
         }
 
         // Throttles search to delay performing a search while the user is typing.
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload(searchText:)), object: searchText)
-        self.perform(#selector(reload(searchText:)), with: searchText, afterDelay: 0.5)
+        self.perform(#selector(self.reload(searchText:)), with: searchText, afterDelay: 0.5)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        self.hideOpenURLButtonIfNeeded()
     }
 }
 
