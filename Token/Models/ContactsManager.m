@@ -62,16 +62,13 @@
     NSMutableDictionary<NSString *, NSArray<SignalRecipient *> *> *contactIdToSignalRecipientsMap = [NSMutableDictionary dictionary];
     NSMutableArray<Contact *> *contacts = [NSMutableArray array];
 
-    [[TSStorageManager sharedManager].dbConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        for (TokenUser *tokenContact in self.tokenContacts) {
-            Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
+    for (TokenUser *tokenContact in self.tokenContacts) {
+        Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
 
-            [contacts addObject:contact];
+        [contacts addObject:contact];
 
-            NSArray<SignalRecipient *> *recipients = [contact signalRecipientsWithTransaction:transaction];
-            contactIdToSignalRecipientsMap[contact.uniqueId] = recipients;
-        }
-    }];
+        contactIdToSignalRecipientsMap[contact.uniqueId] = @[[[SignalRecipient alloc] initWithTextSecureIdentifier:tokenContact.address relay:nil]];
+    }
 
     for (Contact *contact in contacts) {
         NSArray<SignalRecipient *> *signalRecipients = contactIdToSignalRecipientsMap[contact.uniqueId];
