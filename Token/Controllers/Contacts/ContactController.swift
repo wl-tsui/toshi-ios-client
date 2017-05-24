@@ -333,7 +333,7 @@ public class ContactController: UIViewController {
 
     @objc private func didTapMessageContactButton() {
         // create thread if needed
-        TSStorageManager.shared().dbConnection.readWrite { transaction in
+        TSStorageManager.shared().dbConnection?.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
 
             if recipient == nil {
@@ -360,7 +360,7 @@ public class ContactController: UIViewController {
         if Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey) {
             Yap.sharedInstance.removeObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey)
 
-            TSStorageManager.shared().dbConnection.readWrite { transaction in
+            TSStorageManager.shared().dbConnection?.readWrite { transaction in
                 let thread = TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
                 thread.archiveThread(with: transaction)
             }
@@ -478,7 +478,7 @@ extension ContactController: PaymentSendControllerDelegate {
     private func fetchThread(for address: String) -> TSThread {
         var thread: TSThread?
 
-        TSStorageManager.shared().dbConnection.readWrite { transaction in
+        TSStorageManager.shared().dbConnection?.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: address, with: transaction)
 
             if recipient == nil {

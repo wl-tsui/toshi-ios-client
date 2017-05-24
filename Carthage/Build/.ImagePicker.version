@@ -2,7 +2,7 @@
   "commitish" : "8cb970f88b3d4d5c3e8ecfabbdbcc89bd4f5d5ff",
   "iOS" : [
     {
-      "hash" : "6d2f5dc4e0ff574638c828a754da2d5e1b60d242cbb29138e52be53af6b0ab9f",
+      "hash" : "89127feab53510696f4b5b8d8c942aa91c11ff4c243f4674e3a25c6afe30baf2",
       "name" : "ImagePicker"
     }
   ]

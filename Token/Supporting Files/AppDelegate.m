@@ -155,6 +155,11 @@
     // Encryption/Descryption mutates session state and must be synchronized on a serial queue.
     [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch sessionStoreQueue]];
 
+    // ensure this is called from main queue for the first time
+    // otherwise app crashes, because of some code path differences between
+    // us and Signal app.
+    [OWSSignalService sharedInstance];
+
     [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
     [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
 

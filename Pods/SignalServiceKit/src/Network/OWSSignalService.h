@@ -1,7 +1,10 @@
-// Created by Michael Kirk on 12/20/16.
-// Copyright © 2016 Open Whisper Systems. All rights reserved.
+//
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
+//
 
 NS_ASSUME_NONNULL_BEGIN
+
+extern NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange;
 
 @class TSStorageManager;
 @class TSAccountManager;
@@ -9,12 +12,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OWSSignalService : NSObject
 
-@property (nonatomic, readonly) BOOL isCensored;
 @property (nonatomic, readonly) AFHTTPSessionManager *HTTPSessionManager;
 
-+ (void)setBaseURL:(NSString *)baseURL;
+@property (atomic, readonly) BOOL isCensorshipCircumventionActive;
 
+@property (nonatomic, readonly) BOOL hasCensoredPhoneNumber;
+
++ (instancetype)sharedInstance;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (BOOL)isCensorshipCircumventionManuallyActivated;
+- (void)setIsCensorshipCircumventionManuallyActivated:(BOOL)value;
+
+#pragma mark - Base URL
+
++ (void)setBaseURL:(NSString *)baseURL;
 + (NSString *)baseURL;
+;
+#pragma mark - Censorship Circumvention Domain
+
+- (NSString *)manualCensorshipCircumventionDomain;
+- (void)setManualCensorshipCircumventionDomain:(NSString *)value;
+
+- (NSString *)manualCensorshipCircumventionCountryCode;
+- (void)setManualCensorshipCircumventionCountryCode:(NSString *)value;
 
 @end
 

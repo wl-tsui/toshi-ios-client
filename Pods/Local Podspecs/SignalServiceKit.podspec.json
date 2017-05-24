@@ -43,7 +43,7 @@
 
     ],
     "YapDatabase/SQLCipher": [
-
+      "~> 2.9.3"
     ],
     "SocketRocket": [
 

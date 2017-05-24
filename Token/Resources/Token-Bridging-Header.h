@@ -59,6 +59,7 @@
 #import <SignalServiceKit/TSInvalidIdentityKeySendingErrorMessage.h>
 #import <SignalServiceKit/NSDate+millisecondTimeStamp.h>
 
+#import <SignalServiceKit/SignalAccount.h>
 #import <SignalServiceKit/TSStorageManager.h>
 #import <SignalServiceKit/TSStorageManager+IdentityKeyStore.h>
 #import <SignalServiceKit/TSStorageManager+SessionStore.h>

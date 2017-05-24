@@ -238,6 +238,7 @@ SWIFT_CLASS("_TtC13CameraScanner21ScannerViewController")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
+- (void)viewDidAppear:(BOOL)animated;
 - (void)viewWillDisappear:(BOOL)animated;
 - (void)viewDidLayoutSubviews;
 - (void)setupToolbarItems;

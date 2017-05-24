@@ -34,7 +34,7 @@ public final class Yap: NSObject, Singleton {
 
     private override init() {
         let options = YapDatabaseOptions()
-        options.corruptAction = .fail
+        options.corruptAction = .rename
 
         let keychain = KeychainSwift()
         var databasePassword: Data
@@ -57,6 +57,10 @@ public final class Yap: NSObject, Singleton {
         self.databasePassword = databasePassword
 
         self.database = YapDatabase(path: self.path, options: options)
+
+        let url = NSURL(fileURLWithPath: self.path)
+        try! url.setResourceValue(false, forKey: .isUbiquitousItemKey)
+        try! url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
 
         self.mainConnection = self.database.newConnection()
     }

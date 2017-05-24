@@ -26,7 +26,8 @@ typedef NS_ENUM(NSInteger, TSGroupMetaMessage) {
     TSGroupMessageNew,
     TSGroupMessageUpdate,
     TSGroupMessageDeliver,
-    TSGroupMessageQuit
+    TSGroupMessageQuit,
+    TSGroupMessageRequestInfo,
 };
 
 @class OWSSignalServiceProtosAttachmentPointer;
@@ -59,6 +60,11 @@ typedef NS_ENUM(NSInteger, TSGroupMetaMessage) {
 
 - (instancetype)initWithTimestamp:(uint64_t)timestamp
                          inThread:(nullable TSThread *)thread
+                   isVoiceMessage:(BOOL)isVoiceMessage
+                 expiresInSeconds:(uint32_t)expiresInSeconds;
+
+- (instancetype)initWithTimestamp:(uint64_t)timestamp
+                         inThread:(nullable TSThread *)thread
                       messageBody:(nullable NSString *)body
                     attachmentIds:(NSMutableArray<NSString *> *)attachmentIds
                  expiresInSeconds:(uint32_t)expiresInSeconds
@@ -83,10 +89,13 @@ typedef NS_ENUM(NSInteger, TSGroupMetaMessage) {
 @property (atomic, readonly) BOOL hasSyncedTranscript;
 @property (atomic, readonly) NSString *customMessage;
 @property (atomic, readonly) NSString *mostRecentFailureText;
-// A map of attachment id-to-filename.
+// A map of attachment id-to-"source" filename.
 @property (nonatomic, readonly) NSMutableDictionary<NSString *, NSString *> *attachmentFilenameMap;
 
 @property (atomic, readonly) TSGroupMetaMessage groupMetaMessage;
+
+// If set, this group message should only be sent to a single recipient.
+@property (atomic, readonly) NSString *singleGroupRecipient;
 
 /**
  * Whether the message should be serialized as a modern aka Content, or the old style legacy message.
@@ -94,6 +103,8 @@ typedef NS_ENUM(NSInteger, TSGroupMetaMessage) {
  * sent as legacy message until we're confident no significant number of legacy clients exist in the wild.
  */
 @property (nonatomic, readonly) BOOL isLegacyMessage;
+
+@property (nonatomic, readonly) BOOL isVoiceMessage;
 
 /**
  * Signal Identifier (e.g. e164 number) or nil if in a group thread.
@@ -160,6 +171,8 @@ typedef NS_ENUM(NSInteger, TSGroupMetaMessage) {
 - (void)updateWithWasDeliveredWithTransaction:(YapDatabaseReadWriteTransaction *)transaction;
 - (void)updateWithWasDelivered;
 - (void)updateWithWasSentAndDelivered;
+- (void)updateWithSingleGroupRecipient:(NSString *)singleGroupRecipient
+                           transaction:(YapDatabaseReadWriteTransaction *)transaction;
 
 #pragma mark - Sent Recipients
 

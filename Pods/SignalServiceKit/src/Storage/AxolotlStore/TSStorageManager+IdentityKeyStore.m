@@ -6,6 +6,7 @@
 #import "TSAccountManager.h"
 #import "TSContactThread.h"
 #import "TSErrorMessage.h"
+#import "TSGroupThread.h"
 #import "TSPrivacyPreferences.h"
 #import "TSStorageManager+IdentityKeyStore.h"
 #import "TSStorageManager+SessionStore.h"
@@ -84,9 +85,11 @@
 - (void)createIdentityChangeInfoMessageForRecipientId:(NSString *)recipientId
 {
     TSContactThread *contactThread = [TSContactThread getOrCreateThreadWithContactId:recipientId];
-    [[[TSErrorMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp]
-                                      inThread:contactThread
-                             failedMessageType:TSErrorMessageNonBlockingIdentityChange] save];
+    [[TSErrorMessage nonblockingIdentityChangeInThread:contactThread recipientId:recipientId] save];
+
+    for (TSGroupThread *groupThread in [TSGroupThread groupThreadsWithRecipientId:recipientId]) {
+        [[TSErrorMessage nonblockingIdentityChangeInThread:groupThread recipientId:recipientId] save];
+    }
 }
 
 @end

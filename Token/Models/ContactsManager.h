@@ -32,7 +32,7 @@
 
 - (nonnull NSString *)displayNameForPhoneIdentifier:(nullable NSString *)phoneNumber;
 
-- (nonnull NSArray<Contact *> *)signalContacts;
+- (NSArray<SignalAccount *> *)signalAccounts;
 
 - (nonnull NSArray<TokenUser *> *)tokenContacts;
 

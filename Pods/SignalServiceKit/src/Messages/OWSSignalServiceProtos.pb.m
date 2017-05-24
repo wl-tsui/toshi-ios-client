@@ -3839,6 +3839,7 @@ static OWSSignalServiceProtosSyncMessageSent* defaultOWSSignalServiceProtosSyncM
 
 @interface OWSSignalServiceProtosSyncMessageContacts ()
 @property (strong) OWSSignalServiceProtosAttachmentPointer* blob;
+@property BOOL isComplete;
 @end
 
 @implementation OWSSignalServiceProtosSyncMessageContacts
@@ -3850,9 +3851,22 @@ static OWSSignalServiceProtosSyncMessageSent* defaultOWSSignalServiceProtosSyncM
   hasBlob_ = !!_value_;
 }
 @synthesize blob;
+- (BOOL) hasIsComplete {
+  return !!hasIsComplete_;
+}
+- (void) setHasIsComplete:(BOOL) _value_ {
+  hasIsComplete_ = !!_value_;
+}
+- (BOOL) isComplete {
+  return !!isComplete_;
+}
+- (void) setIsComplete:(BOOL) _value_ {
+  isComplete_ = !!_value_;
+}
 - (instancetype) init {
   if ((self = [super init])) {
     self.blob = [OWSSignalServiceProtosAttachmentPointer defaultInstance];
+    self.isComplete = NO;
   }
   return self;
 }
@@ -3875,6 +3889,9 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
   if (self.hasBlob) {
     [output writeMessage:1 value:self.blob];
   }
+  if (self.hasIsComplete) {
+    [output writeBool:2 value:self.isComplete];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -3886,6 +3903,9 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
   size_ = 0;
   if (self.hasBlob) {
     size_ += computeMessageSize(1, self.blob);
+  }
+  if (self.hasIsComplete) {
+    size_ += computeBoolSize(2, self.isComplete);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -3928,6 +3948,9 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
                          withIndent:[NSString stringWithFormat:@"%@  ", indent]];
     [output appendFormat:@"%@}\n", indent];
   }
+  if (self.hasIsComplete) {
+    [output appendFormat:@"%@%@: %@\n", indent, @"isComplete", [NSNumber numberWithBool:self.isComplete]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (void) storeInDictionary:(NSMutableDictionary *)dictionary {
@@ -3935,6 +3958,9 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
    NSMutableDictionary *messageDictionary = [NSMutableDictionary dictionary]; 
    [self.blob storeInDictionary:messageDictionary];
    [dictionary setObject:[NSDictionary dictionaryWithDictionary:messageDictionary] forKey:@"blob"];
+  }
+  if (self.hasIsComplete) {
+    [dictionary setObject: [NSNumber numberWithBool:self.isComplete] forKey: @"isComplete"];
   }
   [self.unknownFields storeInDictionary:dictionary];
 }
@@ -3949,12 +3975,17 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
   return
       self.hasBlob == otherMessage.hasBlob &&
       (!self.hasBlob || [self.blob isEqual:otherMessage.blob]) &&
+      self.hasIsComplete == otherMessage.hasIsComplete &&
+      (!self.hasIsComplete || self.isComplete == otherMessage.isComplete) &&
       (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
   if (self.hasBlob) {
     hashCode = hashCode * 31 + [self.blob hash];
+  }
+  if (self.hasIsComplete) {
+    hashCode = hashCode * 31 + [[NSNumber numberWithBool:self.isComplete] hash];
   }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
@@ -4002,6 +4033,9 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
   if (other.hasBlob) {
     [self mergeBlob:other.blob];
   }
+  if (other.hasIsComplete) {
+    [self setIsComplete:other.isComplete];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -4030,6 +4064,10 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
         }
         [input readMessage:subBuilder extensionRegistry:extensionRegistry];
         [self setBlob:[subBuilder buildPartial]];
+        break;
+      }
+      case 16: {
+        [self setIsComplete:[input readBool]];
         break;
       }
     }
@@ -4063,6 +4101,22 @@ static OWSSignalServiceProtosSyncMessageContacts* defaultOWSSignalServiceProtosS
 - (OWSSignalServiceProtosSyncMessageContactsBuilder*) clearBlob {
   resultContacts.hasBlob = NO;
   resultContacts.blob = [OWSSignalServiceProtosAttachmentPointer defaultInstance];
+  return self;
+}
+- (BOOL) hasIsComplete {
+  return resultContacts.hasIsComplete;
+}
+- (BOOL) isComplete {
+  return resultContacts.isComplete;
+}
+- (OWSSignalServiceProtosSyncMessageContactsBuilder*) setIsComplete:(BOOL) value {
+  resultContacts.hasIsComplete = YES;
+  resultContacts.isComplete = value;
+  return self;
+}
+- (OWSSignalServiceProtosSyncMessageContactsBuilder*) clearIsComplete {
+  resultContacts.hasIsComplete = NO;
+  resultContacts.isComplete = NO;
   return self;
 }
 @end
@@ -5323,6 +5377,7 @@ static OWSSignalServiceProtosSyncMessageRead* defaultOWSSignalServiceProtosSyncM
 @property (strong) NSData* thumbnail;
 @property (strong) NSData* digest;
 @property (strong) NSString* fileName;
+@property UInt32 flags;
 @end
 
 @implementation OWSSignalServiceProtosAttachmentPointer
@@ -5376,6 +5431,15 @@ static OWSSignalServiceProtosSyncMessageRead* defaultOWSSignalServiceProtosSyncM
   hasFileName_ = !!_value_;
 }
 @synthesize fileName;
+- (BOOL)hasFlags
+{
+    return !!hasFlags_;
+}
+- (void)setHasFlags:(BOOL)_value_
+{
+    hasFlags_ = !!_value_;
+}
+@synthesize flags;
 - (instancetype) init {
   if ((self = [super init])) {
     self.id = 0L;
@@ -5385,6 +5449,7 @@ static OWSSignalServiceProtosSyncMessageRead* defaultOWSSignalServiceProtosSyncM
     self.thumbnail = [NSData data];
     self.digest = [NSData data];
     self.fileName = @"";
+    self.flags = 0;
   }
   return self;
 }
@@ -5425,6 +5490,9 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   if (self.hasFileName) {
     [output writeString:7 value:self.fileName];
   }
+  if (self.hasFlags) {
+      [output writeUInt32:8 value:self.flags];
+  }
   [self.unknownFields writeToCodedOutputStream:output];
 }
 - (SInt32) serializedSize {
@@ -5454,6 +5522,9 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   }
   if (self.hasFileName) {
     size_ += computeStringSize(7, self.fileName);
+  }
+  if (self.hasFlags) {
+      size_ += computeUInt32Size(8, self.flags);
   }
   size_ += self.unknownFields.serializedSize;
   memoizedSerializedSize = size_;
@@ -5511,6 +5582,9 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   if (self.hasFileName) {
     [output appendFormat:@"%@%@: %@\n", indent, @"fileName", self.fileName];
   }
+  if (self.hasFlags) {
+      [output appendFormat:@"%@%@: %@\n", indent, @"flags", [NSNumber numberWithInteger:self.flags]];
+  }
   [self.unknownFields writeDescriptionTo:output withIndent:indent];
 }
 - (void) storeInDictionary:(NSMutableDictionary *)dictionary {
@@ -5535,6 +5609,9 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   if (self.hasFileName) {
     [dictionary setObject: self.fileName forKey: @"fileName"];
   }
+  if (self.hasFlags) {
+      [dictionary setObject:[NSNumber numberWithInteger:self.flags] forKey:@"flags"];
+  }
   [self.unknownFields storeInDictionary:dictionary];
 }
 - (BOOL) isEqual:(id)other {
@@ -5545,22 +5622,19 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
     return NO;
   }
   OWSSignalServiceProtosAttachmentPointer *otherMessage = other;
-  return
-      self.hasId == otherMessage.hasId &&
-      (!self.hasId || self.id == otherMessage.id) &&
-      self.hasContentType == otherMessage.hasContentType &&
-      (!self.hasContentType || [self.contentType isEqual:otherMessage.contentType]) &&
-      self.hasKey == otherMessage.hasKey &&
-      (!self.hasKey || [self.key isEqual:otherMessage.key]) &&
-      self.hasSize == otherMessage.hasSize &&
-      (!self.hasSize || self.size == otherMessage.size) &&
-      self.hasThumbnail == otherMessage.hasThumbnail &&
-      (!self.hasThumbnail || [self.thumbnail isEqual:otherMessage.thumbnail]) &&
-      self.hasDigest == otherMessage.hasDigest &&
-      (!self.hasDigest || [self.digest isEqual:otherMessage.digest]) &&
-      self.hasFileName == otherMessage.hasFileName &&
-      (!self.hasFileName || [self.fileName isEqual:otherMessage.fileName]) &&
-      (self.unknownFields == otherMessage.unknownFields || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
+  return self.hasId == otherMessage.hasId && (!self.hasId || self.id == otherMessage.id)
+      && self.hasContentType == otherMessage.hasContentType
+      && (!self.hasContentType || [self.contentType isEqual:otherMessage.contentType])
+      && self.hasKey == otherMessage.hasKey && (!self.hasKey || [self.key isEqual:otherMessage.key])
+      && self.hasSize == otherMessage.hasSize && (!self.hasSize || self.size == otherMessage.size)
+      && self.hasThumbnail == otherMessage.hasThumbnail
+      && (!self.hasThumbnail || [self.thumbnail isEqual:otherMessage.thumbnail])
+      && self.hasDigest == otherMessage.hasDigest && (!self.hasDigest || [self.digest isEqual:otherMessage.digest])
+      && self.hasFileName == otherMessage.hasFileName
+      && (!self.hasFileName || [self.fileName isEqual:otherMessage.fileName]) && self.hasFlags == otherMessage.hasFlags
+      && (!self.hasFlags || self.flags == otherMessage.flags)
+      && (self.unknownFields == otherMessage.unknownFields
+             || (self.unknownFields != nil && [self.unknownFields isEqual:otherMessage.unknownFields]));
 }
 - (NSUInteger) hash {
   __block NSUInteger hashCode = 7;
@@ -5585,10 +5659,32 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   if (self.hasFileName) {
     hashCode = hashCode * 31 + [self.fileName hash];
   }
+  if (self.hasFlags) {
+      hashCode = hashCode * 31 + [[NSNumber numberWithInteger:self.flags] hash];
+  }
   hashCode = hashCode * 31 + [self.unknownFields hash];
   return hashCode;
 }
 @end
+
+BOOL OWSSignalServiceProtosAttachmentPointerFlagsIsValidValue(OWSSignalServiceProtosAttachmentPointerFlags value)
+{
+    switch (value) {
+        case OWSSignalServiceProtosAttachmentPointerFlagsVoiceMessage:
+            return YES;
+        default:
+            return NO;
+    }
+}
+NSString *NSStringFromOWSSignalServiceProtosAttachmentPointerFlags(OWSSignalServiceProtosAttachmentPointerFlags value)
+{
+    switch (value) {
+        case OWSSignalServiceProtosAttachmentPointerFlagsVoiceMessage:
+            return @"OWSSignalServiceProtosAttachmentPointerFlagsVoiceMessage";
+        default:
+            return nil;
+    }
+}
 
 @interface OWSSignalServiceProtosAttachmentPointerBuilder()
 @property (strong) OWSSignalServiceProtosAttachmentPointer* resultAttachmentPointer;
@@ -5649,6 +5745,9 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   if (other.hasFileName) {
     [self setFileName:other.fileName];
   }
+  if (other.hasFlags) {
+      [self setFlags:other.flags];
+  }
   [self mergeUnknownFields:other.unknownFields];
   return self;
 }
@@ -5697,6 +5796,10 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
       case 58: {
         [self setFileName:[input readString]];
         break;
+      }
+      case 64: {
+          [self setFlags:[input readUInt32]];
+          break;
       }
     }
   }
@@ -5812,6 +5915,26 @@ static OWSSignalServiceProtosAttachmentPointer* defaultOWSSignalServiceProtosAtt
   resultAttachmentPointer.hasFileName = NO;
   resultAttachmentPointer.fileName = @"";
   return self;
+}
+- (BOOL)hasFlags
+{
+    return resultAttachmentPointer.hasFlags;
+}
+- (UInt32)flags
+{
+    return resultAttachmentPointer.flags;
+}
+- (OWSSignalServiceProtosAttachmentPointerBuilder *)setFlags:(UInt32)value
+{
+    resultAttachmentPointer.hasFlags = YES;
+    resultAttachmentPointer.flags = value;
+    return self;
+}
+- (OWSSignalServiceProtosAttachmentPointerBuilder *)clearFlags
+{
+    resultAttachmentPointer.hasFlags = NO;
+    resultAttachmentPointer.flags = 0;
+    return self;
 }
 @end
 

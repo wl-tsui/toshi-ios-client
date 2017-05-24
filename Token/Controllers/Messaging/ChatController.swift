@@ -102,7 +102,7 @@ class ChatController: MessagesCollectionViewController {
     }()
 
     fileprivate lazy var editingDatabaseConnection: YapDatabaseConnection = {
-        self.storageManager.newDatabaseConnection()
+        self.storageManager.newDatabaseConnection()!
     }()
 
     var thread: TSThread
@@ -703,7 +703,7 @@ extension ChatController: ImagePickerDelegate {
                 let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                 let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
 
-                self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg", filename: "image.jpeg", in: outgoingMessage, success: {
+                self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
                     print("Success")
                 }, failure: { error in
                     print("Failure: \(error)")

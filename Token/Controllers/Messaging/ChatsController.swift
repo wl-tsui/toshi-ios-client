@@ -207,7 +207,7 @@ extension ChatsController: UITableViewDelegate {
         let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
             let thread = self.thread(at: indexPath)
 
-            TSStorageManager.shared().dbConnection.asyncReadWrite { transaction in
+            TSStorageManager.shared().dbConnection?.asyncReadWrite { transaction in
                 thread.archiveThread(with: transaction)
             }
         }

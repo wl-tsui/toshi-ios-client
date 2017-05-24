@@ -125,6 +125,13 @@ typedef NS_ENUM(SInt32, OWSSignalServiceProtosSyncMessageRequestType) {
 BOOL OWSSignalServiceProtosSyncMessageRequestTypeIsValidValue(OWSSignalServiceProtosSyncMessageRequestType value);
 NSString *NSStringFromOWSSignalServiceProtosSyncMessageRequestType(OWSSignalServiceProtosSyncMessageRequestType value);
 
+typedef NS_ENUM(SInt32, OWSSignalServiceProtosAttachmentPointerFlags) {
+    OWSSignalServiceProtosAttachmentPointerFlagsVoiceMessage = 1,
+};
+
+BOOL OWSSignalServiceProtosAttachmentPointerFlagsIsValidValue(OWSSignalServiceProtosAttachmentPointerFlags value);
+NSString *NSStringFromOWSSignalServiceProtosAttachmentPointerFlags(OWSSignalServiceProtosAttachmentPointerFlags value);
+
 typedef NS_ENUM(SInt32, OWSSignalServiceProtosGroupContextType) {
   OWSSignalServiceProtosGroupContextTypeUnknown = 0,
   OWSSignalServiceProtosGroupContextTypeUpdate = 1,
@@ -953,13 +960,18 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
 @end
 
 #define Contacts_blob @"blob"
+#define Contacts_isComplete @"isComplete"
 @interface OWSSignalServiceProtosSyncMessageContacts : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
+  BOOL hasIsComplete_:1;
   BOOL hasBlob_:1;
+  BOOL isComplete_:1;
   OWSSignalServiceProtosAttachmentPointer* blob;
 }
 - (BOOL) hasBlob;
+- (BOOL) hasIsComplete;
 @property (readonly, strong) OWSSignalServiceProtosAttachmentPointer* blob;
+- (BOOL) isComplete;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -1002,6 +1014,11 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
 - (OWSSignalServiceProtosSyncMessageContactsBuilder*) setBlobBuilder:(OWSSignalServiceProtosAttachmentPointerBuilder*) builderForValue;
 - (OWSSignalServiceProtosSyncMessageContactsBuilder*) mergeBlob:(OWSSignalServiceProtosAttachmentPointer*) value;
 - (OWSSignalServiceProtosSyncMessageContactsBuilder*) clearBlob;
+
+- (BOOL) hasIsComplete;
+- (BOOL) isComplete;
+- (OWSSignalServiceProtosSyncMessageContactsBuilder*) setIsComplete:(BOOL) value;
+- (OWSSignalServiceProtosSyncMessageContactsBuilder*) clearIsComplete;
 @end
 
 #define Groups_blob @"blob"
@@ -1282,6 +1299,7 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
 #define AttachmentPointer_thumbnail @"thumbnail"
 #define AttachmentPointer_digest @"digest"
 #define AttachmentPointer_fileName @"fileName"
+#define AttachmentPointer_flags @"flags"
 @interface OWSSignalServiceProtosAttachmentPointer : PBGeneratedMessage<GeneratedMessageProtocol> {
 @private
   BOOL hasId_:1;
@@ -1291,6 +1309,7 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
   BOOL hasThumbnail_:1;
   BOOL hasDigest_:1;
   BOOL hasSize_:1;
+  BOOL hasFlags_ : 1;
   UInt64 id;
   NSString* contentType;
   NSString* fileName;
@@ -1298,6 +1317,7 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
   NSData* thumbnail;
   NSData* digest;
   UInt32 size;
+  UInt32 flags;
 }
 - (BOOL) hasId;
 - (BOOL) hasContentType;
@@ -1306,6 +1326,7 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
 - (BOOL) hasThumbnail;
 - (BOOL) hasDigest;
 - (BOOL) hasFileName;
+- (BOOL)hasFlags;
 @property (readonly) UInt64 id;
 @property (readonly, strong) NSString* contentType;
 @property (readonly, strong) NSData* key;
@@ -1313,6 +1334,7 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
 @property (readonly, strong) NSData* thumbnail;
 @property (readonly, strong) NSData* digest;
 @property (readonly, strong) NSString* fileName;
+@property (readonly) UInt32 flags;
 
 + (instancetype) defaultInstance;
 - (instancetype) defaultInstance;
@@ -1383,6 +1405,11 @@ NSString *NSStringFromOWSSignalServiceProtosGroupContextType(OWSSignalServicePro
 - (NSString*) fileName;
 - (OWSSignalServiceProtosAttachmentPointerBuilder*) setFileName:(NSString*) value;
 - (OWSSignalServiceProtosAttachmentPointerBuilder*) clearFileName;
+
+- (BOOL)hasFlags;
+- (UInt32)flags;
+- (OWSSignalServiceProtosAttachmentPointerBuilder *)setFlags:(UInt32)value;
+- (OWSSignalServiceProtosAttachmentPointerBuilder *)clearFlags;
 @end
 
 #define GroupContext_id @"id"

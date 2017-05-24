@@ -22,6 +22,8 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
 @property (atomic) NSString *customMessage;
 @property (atomic) NSString *mostRecentFailureText;
 @property (atomic) BOOL wasDelivered;
+@property (atomic) NSString *singleGroupRecipient;
+
 // For outgoing, non-legacy group messages sent from this client, this
 // contains the list of recipients to whom the message has been sent.
 //
@@ -108,6 +110,24 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
                      attachmentIds:attachmentIds
                   expiresInSeconds:expiresInSeconds
                    expireStartedAt:0];
+}
+
+- (instancetype)initWithTimestamp:(uint64_t)timestamp
+                         inThread:(nullable TSThread *)thread
+                   isVoiceMessage:(BOOL)isVoiceMessage
+                 expiresInSeconds:(uint32_t)expiresInSeconds
+{
+    self = [self initWithTimestamp:timestamp
+                          inThread:thread
+                       messageBody:nil
+                     attachmentIds:[NSMutableArray new]
+                  expiresInSeconds:expiresInSeconds
+                   expireStartedAt:0];
+    if (self) {
+        _isVoiceMessage = isVoiceMessage;
+    }
+
+    return self;
 }
 
 - (instancetype)initWithTimestamp:(uint64_t)timestamp
@@ -302,6 +322,18 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
     }];
 }
 
+- (void)updateWithSingleGroupRecipient:(NSString *)singleGroupRecipient
+                           transaction:(YapDatabaseReadWriteTransaction *)transaction
+{
+    OWSAssert(transaction);
+    OWSAssert(singleGroupRecipient.length > 0);
+
+    [self applyChangeToSelfAndLatestOutgoingMessage:transaction
+                                        changeBlock:^(TSOutgoingMessage *message) {
+                                            [message setSingleGroupRecipient:singleGroupRecipient];
+                                        }];
+}
+
 #pragma mark - Sent Recipients
 
 - (NSArray<NSString *> *)sentRecipients
@@ -403,8 +435,8 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
     if (!attachmentWasGroupAvatar) {
         NSMutableArray *attachments = [NSMutableArray new];
         for (NSString *attachmentId in self.attachmentIds) {
-            NSString *filename = self.attachmentFilenameMap[attachmentId];
-            [attachments addObject:[self buildAttachmentProtoForAttachmentId:attachmentId filename:filename]];
+            NSString *sourceFilename = self.attachmentFilenameMap[attachmentId];
+            [attachments addObject:[self buildAttachmentProtoForAttachmentId:attachmentId filename:sourceFilename]];
         }
         [builder setAttachmentsArray:attachments];
     }
@@ -452,7 +484,7 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
     [builder setFileName:filename];
     [builder setKey:attachmentStream.encryptionKey];
     [builder setDigest:attachmentStream.digest];
-
+    [builder setFlags:(self.isVoiceMessage ? OWSSignalServiceProtosAttachmentPointerFlagsVoiceMessage : 0)];
     return [builder build];
 }
 

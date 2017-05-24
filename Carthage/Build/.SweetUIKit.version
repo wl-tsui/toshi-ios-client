@@ -1,24 +1,9 @@
 {
+  "commitish" : "cc5fad73d0a3115a5fbc501ecc3ac673ea9abe43",
   "iOS" : [
     {
-      "hash" : "89ffe22725f9aed1b6a70ba2533c291262df70455884319ed9faabb458fac335",
+      "hash" : "c442c65f46e9d5f2200cad7d8228aefa4e6dcd03fff5f6e1f5d00159d0cbdde4",
       "name" : "SweetUIKit"
     }
-  ],
-  "commitish" : "1.12.1",
-  "watchOS" : [
-    {
-      "hash" : "b5193dd39b09131e4872dbfb677e333cf1d21a150f541206444fcb39b32b5e3a",
-      "name" : "SweetUIKit"
-    }
-  ],
-  "tvOS" : [
-    {
-      "hash" : "cc8a3debe758d94e76c970d359a0cd932f094c35f3f23e656d200bbb322288b1",
-      "name" : "SweetUIKit"
-    }
-  ],
-  "Mac" : [
-
   ]
 }
