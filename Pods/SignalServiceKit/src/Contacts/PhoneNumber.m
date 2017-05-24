@@ -120,7 +120,6 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
 }
 
 + (NSArray<PhoneNumber *> *)tryParsePhoneNumbersFromsUserSpecifiedText:(NSString *)text
-                                                     clientPhoneNumber:(NSString *)clientPhoneNumber
 {
     OWSAssert(text != nil);
 
@@ -154,37 +153,37 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
 
     // Try just adding "+" and parsing it.
     tryParsingWithCountryCode([NSString stringWithFormat:@"+%@", sanitizedString], [self defaultRegionCode]);
-
-    // Order matters; better results should appear first so prefer
-    // matches with the same country code as this client's phone number.
-    OWSAssert(clientPhoneNumber.length > 0);
-    if (clientPhoneNumber.length > 0) {
-        // Note that NBPhoneNumber uses "country code" to refer to what we call a
-        // "calling code" (i.e. 44 in +44123123).  Within SSK we use "country code"
-        // (and sometimes "region code") to refer to a country's ISO 2-letter code
-        // (ISO 3166-1 alpha-2).
-        NSNumber *callingCodeForLocalNumber = [[PhoneNumber phoneNumberFromE164:clientPhoneNumber] getCountryCode];
-        if (callingCodeForLocalNumber != nil) {
-            NSString *callingCodePrefix = [NSString stringWithFormat:@"+%@", callingCodeForLocalNumber];
-
-            tryParsingWithCountryCode(
-                [callingCodePrefix stringByAppendingString:sanitizedString], [self defaultRegionCode]);
-
-            // Try to determine what the country code is for the local phone number
-            // and also try parsing the phone number using that country code if it
-            // differs from the device's region code.
-            //
-            // For example, a French person living in Italy might have an
-            // Italian phone number but use French region/language for their
-            // phone. They're likely to have both Italian and French contacts.
-            NSString *localCountryCode =
-                [PhoneNumberUtil.sharedUtil probableCountryCodeForCallingCode:callingCodePrefix];
-            if (localCountryCode && ![localCountryCode isEqualToString:[self defaultRegionCode]]) {
-                tryParsingWithCountryCode(
-                    [callingCodePrefix stringByAppendingString:sanitizedString], localCountryCode);
-            }
-        }
-    }
+//
+//    // Order matters; better results should appear first so prefer
+//    // matches with the same country code as this client's phone number.
+//    OWSAssert(clientPhoneNumber.length > 0);
+//    if (clientPhoneNumber.length > 0) {
+//        // Note that NBPhoneNumber uses "country code" to refer to what we call a
+//        // "calling code" (i.e. 44 in +44123123).  Within SSK we use "country code"
+//        // (and sometimes "region code") to refer to a country's ISO 2-letter code
+//        // (ISO 3166-1 alpha-2).
+//        NSNumber *callingCodeForLocalNumber = [[PhoneNumber phoneNumberFromE164:clientPhoneNumber] getCountryCode];
+//        if (callingCodeForLocalNumber != nil) {
+//            NSString *callingCodePrefix = [NSString stringWithFormat:@"+%@", callingCodeForLocalNumber];
+//
+//            tryParsingWithCountryCode(
+//                [callingCodePrefix stringByAppendingString:sanitizedString], [self defaultRegionCode]);
+//
+//            // Try to determine what the country code is for the local phone number
+//            // and also try parsing the phone number using that country code if it
+//            // differs from the device's region code.
+//            //
+//            // For example, a French person living in Italy might have an
+//            // Italian phone number but use French region/language for their
+//            // phone. They're likely to have both Italian and French contacts.
+//            NSString *localCountryCode =
+//                [PhoneNumberUtil.sharedUtil probableCountryCodeForCallingCode:callingCodePrefix];
+//            if (localCountryCode && ![localCountryCode isEqualToString:[self defaultRegionCode]]) {
+//                tryParsingWithCountryCode(
+//                    [callingCodePrefix stringByAppendingString:sanitizedString], localCountryCode);
+//            }
+//        }
+//    }
     
     return result;
 }

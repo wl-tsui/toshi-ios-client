@@ -156,8 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableArray<PhoneNumber *> *parsedPhoneNumbers = [NSMutableArray new];
     for (NSString *phoneNumberString in userTextPhoneNumbers) {
         for (PhoneNumber *phoneNumber in
-            [PhoneNumber tryParsePhoneNumbersFromsUserSpecifiedText:phoneNumberString
-                                                  clientPhoneNumber:[TSAccountManager localNumber]]) {
+            [PhoneNumber tryParsePhoneNumbersFromsUserSpecifiedText:phoneNumberString]) {
             [parsedPhoneNumbers addObject:phoneNumber];
             parsedPhoneNumberMap[phoneNumber.toE164] = phoneNumber;
             NSString *phoneNumberName = phoneNumberNameMap[phoneNumberString];
