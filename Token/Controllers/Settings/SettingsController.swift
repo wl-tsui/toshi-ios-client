@@ -183,7 +183,7 @@ open class SettingsController: UITableViewController {
                 self.navigationController?.pushViewController(ProfileController(), animated: true)
             case 1:
                 guard let current = TokenUser.current else { return }
-                let qrCodecontroller = QRCodeController(for: current.displayUsername)
+                let qrCodecontroller = QRCodeController(for: current.displayUsername, name: current.name)
 
                 self.navigationController?.pushViewController(qrCodecontroller, animated: true)
             default:

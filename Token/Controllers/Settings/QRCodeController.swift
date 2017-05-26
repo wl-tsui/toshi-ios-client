@@ -25,7 +25,7 @@ class QRCodeController: UIViewController {
         return .default
     }
 
-    lazy var qrCodeImageView: UIImageView = {
+    private lazy var qrCodeImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.set(height: 300)
         view.set(width: 300)
@@ -33,12 +33,34 @@ class QRCodeController: UIViewController {
         return view
     }()
 
-    convenience init(for username: String) {
+    private lazy var nameLabel: UILabel = {
+        let view = UILabel(withAutoLayout: true)
+        view.font = Theme.light(size: 35)
+        view.textAlignment = .center
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.3
+
+        return view
+    }()
+
+    private lazy var usernameLabel: UILabel = {
+        let view = UILabel(withAutoLayout: true)
+        view.font = Theme.regular(size: 16)
+        view.textAlignment = .center
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.6
+
+        return view
+    }()
+
+    convenience init(for username: String, name: String) {
         self.init(nibName: nil, bundle: nil)
 
         self.title = "My QR Code"
 
         self.qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
+        self.usernameLabel.text = username
+        self.nameLabel.text = name
     }
 
     override func viewDidLoad() {
@@ -46,11 +68,25 @@ class QRCodeController: UIViewController {
 
         self.view.backgroundColor = Theme.settingsBackgroundColor
         self.view.addSubview(self.qrCodeImageView)
+        self.view.addSubview(self.nameLabel)
+        self.view.addSubview(self.usernameLabel)
+
+        let top: CGFloat = self.navigationController?.navigationBar.frame.height ?? 0.0
 
         self.qrCodeImageView.set(height: 300)
         self.qrCodeImageView.set(width: 300)
-        self.qrCodeImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -self.topLayoutGuide.length).isActive = true
-        self.qrCodeImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.qrCodeImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.qrCodeImageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -top).isActive = true
+
+        self.nameLabel.set(height: 42)
+        self.nameLabel.topAnchor.constraint(equalTo: self.qrCodeImageView.bottomAnchor, constant: 16).isActive = true
+        self.nameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+        self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+
+        self.usernameLabel.set(height: 24)
+        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: 6).isActive = true
+        self.usernameLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+        self.usernameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
     }
 }
 
