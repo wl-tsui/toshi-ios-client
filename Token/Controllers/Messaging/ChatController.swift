@@ -581,17 +581,23 @@ class ChatController: MessagesCollectionViewController {
     // MARK: - Control handling
 
     override func didTapControlButton(_ button: SofaMessage.Button) {
-        guard button.value != nil else {
-            print("Implement handling actions. action: \(button.action ?? "nil")")
+        if let action = button.action as? String {
+            let prefix = "Webview::"
+            guard action.hasPrefix(prefix) else { return }
+            guard let actionPath = action.components(separatedBy: prefix).last,
+                let url = URL(string: actionPath) else { return }
 
-            return
+            let sofaWebController = SOFAWebController()
+            sofaWebController.load(url: url)
+
+            self.navigationController?.pushViewController(sofaWebController, animated: true)
+        } else if button.value != nil {
+            // clear the buttons
+            self.buttons = []
+            let command = SofaCommand(button: button)
+            self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
+            self.sendMessage(sofaWrapper: command)
         }
-
-        // clear the buttons
-        self.buttons = []
-        let command = SofaCommand(button: button)
-        self.controlsViewDelegateDatasource.controlsCollectionView?.isUserInteractionEnabled = false
-        self.sendMessage(sofaWrapper: command)
     }
 
     @objc
