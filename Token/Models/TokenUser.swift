@@ -116,7 +116,7 @@ public class TokenUser: NSObject, NSCoding {
 
     var asDict: [String: Any] {
         var imageDataString = ""
-        if let image = self.avatar, let data = (UIImagePNGRepresentation(image) ?? UIImageJPEGRepresentation(image, 1.0)) {
+        if let image = self.avatar, let data = UIImageJPEGRepresentation(image, 1.0) {
             imageDataString = data.hexadecimalString
         }
 
