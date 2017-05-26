@@ -20,18 +20,29 @@ struct EthereumConverter {
 
     static let forcedLocale = "en_US"
 
-    public static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
+    /// The conversion rate between wei and eth. Each eth is made up of 1 x 10^18 wei.
+    private static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
 
+    /// Each eth is made up of 1 x 10^18 wei.
     public static var weisToEtherPowerOf10Constant: Int16 {
-        return Int16(self.weisToEtherConstant.stringValue.length - 1)
+        return Int16(18)
     }
 
+    /// Converts local currency to ethereum. Currently only supports USD.
+    ///
+    /// - Parameter balance: the value in USD to be converted to eth.
+    /// - Returns: the eth value.
     public static func localFiatToEther(forFiat balance: NSNumber) -> NSDecimalNumber {
         let etherValue = balance.decimalValue / EthereumAPIClient.shared.exchangeRate
 
         return NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
     }
 
+    /// Returns the string representation of an eth value.
+    /// Example: "9.2 ETH"
+    ///
+    /// - Parameter balance: the value in eth
+    /// - Returns: the string representation
     public static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -41,10 +52,20 @@ struct EthereumConverter {
         return "\(numberFormatter.string(from: balance)!) ETH"
     }
 
+    /// String representation in eht for a given wei value.
+    /// Example: 
+    ///     ethereumValueString(forWei: halfEthInWei) -> "0.5 ETH"
+    ///
+    /// - Parameter balance: the wei value to be converted
+    /// - Returns: the eth value in a string: "0.5 EHT"
     public static func ethereumValueString(forWei balance: NSDecimalNumber) -> String {
         return self.ethereumValueString(forEther: balance.dividing(by: self.weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
     }
 
+    /// The fiat currency string representation for a given wei value
+    ///
+    /// - Parameter balance: value in wei
+    /// - Returns: fiat string represetation: "$10.50"
     public static func fiatValueString(forWei balance: NSDecimalNumber) -> String {
         let ether = balance.dividing(by: self.weisToEtherConstant)
         let currentFiatConversion = NSDecimalNumber(decimal: EthereumAPIClient.shared.exchangeRate)
@@ -57,10 +78,22 @@ struct EthereumConverter {
         return numberFormatter.string(from: fiat)!
     }
 
+    /// Fiat currency value string with redundant 3 letter code. "$4.99 USD"
+    ///
+    /// - Parameter balance: the value in wei
+    /// - Returns: the fiat currency value with redundant 3 letter code for clarity.
     public static func fiatValueStringWithCode(forWei balance: NSDecimalNumber) -> String {
         return "\(self.fiatValueString(forWei: balance)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
     }
 
+    /// Complete formatted string value for a given wei, with fiat aligned left and eth aligned right.
+    ///    "$4.99 USD                        0.0050 ETH"
+    ///    Fiat is black, and eth value is light grey.
+    ////
+    /// - Parameters:
+    ///   - balance: the value in wei
+    ///   - width: the width of the label, to adjust alignment.
+    /// - Returns: the attributed string to be displayed.
     public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, width: CGFloat) -> NSAttributedString {
         let attributedString: NSMutableAttributedString = self.balanceAttributedString(forWei: balance).mutableCopy() as! NSMutableAttributedString
         let range = NSRange(location: 0, length: attributedString.length)
@@ -75,6 +108,13 @@ struct EthereumConverter {
         return attributedString
     }
 
+    /// Complete formatted string value for a given wei, fully left aligned.
+    ///    "$4.99 USD    0.0050 ETH"
+    ///    Fiat is black, and eth value is light grey.
+    ////
+    /// - Parameters:
+    ///   - balance: the value in wei
+    /// - Returns: the attributed string to be displayed.
     public static func balanceAttributedString(forWei balance: NSDecimalNumber) -> NSAttributedString {
         let fiatText = self.fiatValueStringWithCode(forWei: balance)
         let etherText = self.ethereumValueString(forWei: balance)
