@@ -52,8 +52,8 @@ public class Cereal: NSObject {
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
         self.idCereal = EtherealCereal(privateKey: idPrivateKey)
 
-        // wallet path: 0H/0/0
-        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        // wallet path: 44H/60H/0H/0
+        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
         self.walletCereal = EtherealCereal(privateKey: walletPrivateKey)
     }
@@ -81,8 +81,9 @@ public class Cereal: NSObject {
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
         self.idCereal = EtherealCereal(privateKey: idPrivateKey)
 
-        // wallet path: 0H/0/0
-        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        // wallet path: 44H/60H/0H/0 and then 0 again. Metamask root path, first key.
+        // Metamask allows multiple addresses, by incrementing the last path. So second key would be: 44H/60H/0H/0/1 and so on.
+        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
         self.walletCereal = EtherealCereal(privateKey: walletPrivateKey)
     }

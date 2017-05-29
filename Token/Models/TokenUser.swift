@@ -78,7 +78,13 @@ public class TokenUser: NSObject, NSCoding {
         get {
             if let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data), self._current == nil,
                 let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
-                let json = deserialised as? [String: Any] {
+                var json = deserialised as? [String: Any] {
+
+                // Because of payment address migration, we have to override the stored payment address.
+                // Otherwise users will be sending payments to the wrong address.
+                if json[Constants.paymentAddress] as? String != Cereal.shared.paymentAddress {
+                    json[Constants.paymentAddress] = Cereal.shared.paymentAddress
+                }
 
                 self._current = TokenUser(json: json)
             }
