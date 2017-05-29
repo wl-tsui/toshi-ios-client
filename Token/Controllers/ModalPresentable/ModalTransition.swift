@@ -21,7 +21,7 @@ enum ControllerTransitionOperation: Int {
     case dismiss
 }
 
-class RateUserControllerTransition: NSObject, UIViewControllerAnimatedTransitioning {
+final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     let operation: ControllerTransitionOperation
 
@@ -49,7 +49,7 @@ class RateUserControllerTransition: NSObject, UIViewControllerAnimatedTransition
     }
 
     func present(with context: UIViewControllerContextTransitioning) {
-        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.to) as? RateUserController else { return }
+        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.to) as? ModalPresentable else { return }
         controller.contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         controller.contentView.alpha = 0.5
 
@@ -65,7 +65,7 @@ class RateUserControllerTransition: NSObject, UIViewControllerAnimatedTransition
     }
 
     func dismiss(with context: UIViewControllerContextTransitioning) {
-        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.from) as? RateUserController else { return }
+        guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.from) as? ModalPresentable else { return }
 
         UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeIn, animations: {
             controller.contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)

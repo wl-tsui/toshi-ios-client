@@ -116,6 +116,13 @@
 		14ED3ABF1E4A347400DF8079 /* BrowseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* BrowseNavigationController.swift */; };
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
+		2BAB4A491ED615C4005981D3 /* PaymentConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */; };
+		2BD20DDF1ED8273A00107129 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */; };
+		2BD20DE11ED82C3500107129 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */; };
+		2BD8824B1ED71D41003B1BDC /* ModalPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */; };
+		2BD8824E1ED71DCD003B1BDC /* ModalTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824C1ED71DCD003B1BDC /* ModalTransition.swift */; };
+		2BD8824F1ED71DCD003B1BDC /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824D1ED71DCD003B1BDC /* ModalPresentationController.swift */; };
+		2BD882521ED730EC003B1BDC /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD882511ED730EC003B1BDC /* AlertController.swift */; };
 		79C8B9332AAF618B6185BC82 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A763C19118469E7169C9F72 /* libPods-CocoaPods-Development.a */; };
 		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
@@ -316,10 +323,6 @@
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
-		A98A29CF1E9237A6003BBE8E /* RateUsersPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */; };
-		A98A29D11E9237F1003BBE8E /* RateUsersControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */; };
-		A98A29D41E92384A003BBE8E /* RateUsersPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */; };
-		A98A29D51E92384C003BBE8E /* RateUsersControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */; };
 		A9AC74081E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC74091E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
@@ -405,6 +408,13 @@
 		14ED3ABE1E4A347400DF8079 /* BrowseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BrowseNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		21C18022E25A13D670BB406A /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
+		2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentConfirmationController.swift; path = Payments/PaymentConfirmationController.swift; sourceTree = "<group>"; };
+		2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentRequestInfoView.xib; sourceTree = "<group>"; };
+		2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestInfoView.swift; sourceTree = "<group>"; };
+		2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalPresentable.swift; path = ModalPresentable/ModalPresentable.swift; sourceTree = "<group>"; };
+		2BD8824C1ED71DCD003B1BDC /* ModalTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalTransition.swift; path = ModalPresentable/ModalTransition.swift; sourceTree = "<group>"; };
+		2BD8824D1ED71DCD003B1BDC /* ModalPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalPresentationController.swift; path = ModalPresentable/ModalPresentationController.swift; sourceTree = "<group>"; };
+		2BD882511ED730EC003B1BDC /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2D5CDC5628EC8E3A581DB43C /* libPods-CocoaPods-Distribution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Distribution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3792EEE42F397342AA67CF7D /* Pods-CocoaPods-Development.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.debug.xcconfig"; sourceTree = "<group>"; };
 		626847A05B6B231F02E4B0A9 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
@@ -554,8 +564,6 @@
 		9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
-		A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersPresentationController.swift; sourceTree = "<group>"; };
-		A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateUsersControllerTransition.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -709,6 +717,24 @@
 				2D5CDC5628EC8E3A581DB43C /* libPods-CocoaPods-Distribution.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2BD882491ED71BEE003B1BDC /* ModalPresentable */ = {
+			isa = PBXGroup;
+			children = (
+				2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */,
+				2BD8824C1ED71DCD003B1BDC /* ModalTransition.swift */,
+				2BD8824D1ED71DCD003B1BDC /* ModalPresentationController.swift */,
+			);
+			name = ModalPresentable;
+			sourceTree = "<group>";
+		};
+		2BD882501ED730D6003B1BDC /* AlertController */ = {
+			isa = PBXGroup;
+			children = (
+				2BD882511ED730EC003B1BDC /* AlertController.swift */,
+			);
+			name = AlertController;
 			sourceTree = "<group>";
 		};
 		84C1952A1ECF056800B9512F /* SOFAWebview */ = {
@@ -867,6 +893,8 @@
 		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2BD882501ED730D6003B1BDC /* AlertController */,
+				2BD882491ED71BEE003B1BDC /* ModalPresentable */,
 				14ED3AB91E4A2A8D00DF8079 /* Browse */,
 				9F844BD81E30DF3F001C5498 /* Favorites */,
 				9FCDBAEF1E29063500A70E07 /* Messaging */,
@@ -897,6 +925,8 @@
 				A9AC740D1E78051F00365029 /* TitleLabel.swift */,
 				9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */,
 				9F9B25541ECB1BC0007B435A /* ContactActionView.swift */,
+				2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */,
+				2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1046,6 +1076,7 @@
 				9FCF132C1E531B4E0078FF7F /* PaymentRequestController.swift */,
 				9F21E0651E546C4E000E90C6 /* PaymentSendController.swift */,
 				9F21E0621E546A03000E90C6 /* PaymentController.swift */,
+				2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */,
 			);
 			name = Payments;
 			sourceTree = "<group>";
@@ -1089,8 +1120,6 @@
 			isa = PBXGroup;
 			children = (
 				9F54A71F1E951F0600FEB67B /* RateUserController.swift */,
-				A98A29D01E9237F1003BBE8E /* RateUsersControllerTransition.swift */,
-				A98A29CE1E9237A6003BBE8E /* RateUsersPresentationController.swift */,
 			);
 			path = "Rate Users";
 			sourceTree = "<group>";
@@ -1356,6 +1385,7 @@
 				9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */,
 				9FAACD051E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				9FAACCF31E31120600FB871D /* SF-UI-Display-Heavy.otf in Resources */,
+				2BD20DDF1ED8273A00107129 /* PaymentRequestInfoView.xib in Resources */,
 				9F9238C11E24F1D2004BEEE0 /* Assets.xcassets in Resources */,
 				9FAACCFD1E31120600FB871D /* SF-UI-Text-HeavyItalic.otf in Resources */,
 				9FAACCFB1E31120600FB871D /* SF-UI-Text-BoldItalic.otf in Resources */,
@@ -1534,7 +1564,6 @@
 				149F9A671E72E29A00FB74AA /* SettingsNavigationController.swift in Sources */,
 				149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */,
 				149F9A6A1E72E29A00FB74AA /* Message.swift in Sources */,
-				A98A29D51E92384C003BBE8E /* RateUsersControllerTransition.swift in Sources */,
 				149F9A6B1E72E29A00FB74AA /* BrowseController.swift in Sources */,
 				149F9A6C1E72E29A00FB74AA /* TGBaseMessageCellLayout.swift in Sources */,
 				149F9A6E1E72E29A00FB74AA /* ReputationView.swift in Sources */,
@@ -1597,7 +1626,6 @@
 				149F9A931E72E29A00FB74AA /* Cereal.swift in Sources */,
 				149F9A941E72E29A00FB74AA /* EthereumAPIClient.swift in Sources */,
 				149F9A951E72E29A00FB74AA /* ContactCell.swift in Sources */,
-				A98A29D41E92384A003BBE8E /* RateUsersPresentationController.swift in Sources */,
 				9FDCE4831E8D5923003A996F /* KeyboardInfo.swift in Sources */,
 				149F9A961E72E29A00FB74AA /* ChatController.swift in Sources */,
 				149F9A971E72E29A00FB74AA /* MessagesCollectionViewController.swift in Sources */,
@@ -1648,7 +1676,6 @@
 				9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
-				A98A29D11E9237F1003BBE8E /* RateUsersControllerTransition.swift in Sources */,
 				9F7E5DA21E4C982300543296 /* Message.swift in Sources */,
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* BrowseController.swift in Sources */,
@@ -1657,6 +1684,7 @@
 				1400418A1E71588A00C1FD87 /* ReputationView.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
+				2BD8824F1ED71DCD003B1BDC /* ModalPresentationController.swift in Sources */,
 				9F48C1571E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
 				9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */,
@@ -1666,10 +1694,12 @@
 				9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */,
 				9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */,
 				9F5F297A1E26774100C652A3 /* ChatsNavigationController.swift in Sources */,
+				2BD8824B1ED71D41003B1BDC /* ModalPresentable.swift in Sources */,
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */,
 				9FCDBAE31E28E71900A70E07 /* FavoritesController.swift in Sources */,
 				9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */,
+				2BAB4A491ED615C4005981D3 /* PaymentConfirmationController.swift in Sources */,
 				A9BF33B11E76DF67009A51AA /* BackupPhraseVerifyController.swift in Sources */,
 				9F54A7231E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */,
@@ -1690,6 +1720,7 @@
 				A9BF33AD1E76DF0B009A51AA /* BackupPhraseEnableController.swift in Sources */,
 				9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */,
 				9FDB3B1B1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
+				2BD20DE11ED82C3500107129 /* PaymentRequestInfoView.swift in Sources */,
 				9F66BBB91E7FCE2C00C4148A /* HomeButton.swift in Sources */,
 				143587001E5C4CB4007A268A /* SearchResultsView.swift in Sources */,
 				9FD247831ED3037F00A38C40 /* String+isURL.swift in Sources */,
@@ -1712,7 +1743,6 @@
 				A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
 				9F5F297E1E2677F200C652A3 /* ChatController.swift in Sources */,
-				A98A29CF1E9237A6003BBE8E /* RateUsersPresentationController.swift in Sources */,
 				A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */,
 				9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */,
 				9F40F3C81E59FE97007A7DE7 /* TGClockProgressView.swift in Sources */,
@@ -1732,10 +1762,12 @@
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				9F5D63A11E9231E100FED490 /* ImageMessageCell.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
+				2BD882521ED730EC003B1BDC /* AlertController.swift in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
+				2BD8824E1ED71DCD003B1BDC /* ModalTransition.swift in Sources */,
 				9F40F3C41E59FE97007A7DE7 /* TGBaseMessageCell.swift in Sources */,
 				146D564C1E4A77F200FE7944 /* AppCell.swift in Sources */,
 				143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */,

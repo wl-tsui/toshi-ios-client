@@ -18,7 +18,7 @@ import SweetUIKit
 
 class LaunchAppButton: UIControl {
     fileprivate lazy var titleLabel: UILabel = {
-        return UILabel(withAutoLayout: true)
+        UILabel(withAutoLayout: true)
     }()
 
     fileprivate lazy var chevron: UIImageView = {

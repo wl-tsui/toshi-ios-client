@@ -82,13 +82,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func createUnsignedTransaction(to address: String, value: NSDecimalNumber, completion: @escaping ((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
-        let parameters: [String: Any] = [
-            "from": Cereal.shared.paymentAddress,
-            "to": address,
-            "value": value.toHexString,
-        ]
-
+    public func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
         let json = RequestParameter(parameters)
 
         self.teapot.post("/v1/tx/skel", parameters: json) { result in

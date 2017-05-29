@@ -16,6 +16,8 @@
 import Foundation
 import SweetSwift
 
+public typealias UserInfo = (address: String, avatar: UIImage?, name: String?, username: String?, isLocal: Bool)
+
 extension Notification.Name {
     public static let CurrentUserDidUpdateAvatarNotification = Notification.Name(rawValue: "CurrentUserDidUpdateAvatarNotification")
     public static let TokenContactDidUpdateAvatarNotification = Notification.Name(rawValue: "TokenContactDidUpdateAvatarNotification")
@@ -118,6 +120,10 @@ public class TokenUser: NSObject, NSCoding {
 
     public var JSONData: Data {
         return try! JSONSerialization.data(withJSONObject: self.asDict, options: [])
+    }
+
+    public var userInfo: UserInfo {
+        return UserInfo(address: self.address, avatar: self.avatar, name: self.name, username: self.username, isLocal: true)
     }
 
     var asDict: [String: Any] {

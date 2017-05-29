@@ -21,7 +21,7 @@ protocol RateUserControllerDelegate: class {
     func didRate(_ user: TokenUser, rating: Int, review: String)
 }
 
-class RateUserController: UIViewController {
+class RateUserController: ModalPresentable {
 
     static let contentWidth: CGFloat = 270
     static let defaultInputHeight: CGFloat = 35
@@ -31,23 +31,6 @@ class RateUserController: UIViewController {
     fileprivate var user: TokenUser
 
     fileprivate var review: String = ""
-
-    lazy var background: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
-        return view
-    }()
-
-    lazy var contentView: UIVisualEffectView = {
-        let view = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.7)
-        view.layer.cornerRadius = 15
-        view.clipsToBounds = true
-
-        return view
-    }()
 
     lazy var reviewContainer: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -241,6 +224,8 @@ class RateUserController: UIViewController {
         self.contentView.addSubview(self.dividers[1])
         self.contentView.addSubview(self.submitButton)
 
+        self.contentView.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.7)
+
         self.dividers[0].backgroundColor = Theme.greyTextColor
         self.dividers[1].backgroundColor = Theme.greyTextColor
 
@@ -306,21 +291,6 @@ class RateUserController: UIViewController {
 
     fileprivate dynamic func keyboardWillHide(_: Notification) {
         self.keyboardHeight = 0
-    }
-}
-
-extension RateUserController: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source _: UIViewController) -> UIPresentationController? {
-        return presented == self ? RateUserPresentationController(presentedViewController: presented, presenting: presenting) : nil
-    }
-
-    func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return presented == self ? RateUserControllerTransition(operation: .present) : nil
-    }
-
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return dismissed == self ? RateUserControllerTransition(operation: .dismiss) : nil
     }
 }
 

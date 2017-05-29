@@ -52,6 +52,10 @@ open class RatingView: UIView {
             self.backgroundStars.backgroundColor = Theme.greyTextColor
         }
 
+        self.commonInit()
+    }
+
+    private func commonInit() {
         self.addSubview(self.backgroundStars)
 
         NSLayoutConstraint.activate([
@@ -74,8 +78,11 @@ open class RatingView: UIView {
         self.ratingConstraint.isActive = true
     }
 
-    public required init?(coder _: NSCoder) {
-        fatalError()
+    public required init?(coder aDecoder: NSCoder) {
+        self.numberOfStars = 5
+        super.init(coder: aDecoder)
+
+        self.commonInit()
     }
 
     func set(rating: Float, animated: Bool = false) {

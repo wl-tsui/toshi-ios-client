@@ -447,7 +447,13 @@ extension ContactController: PaymentSendControllerDelegate {
 
         let etherAPIClient = EthereumAPIClient.shared
 
-        etherAPIClient.createUnsignedTransaction(to: self.contact.paymentAddress, value: value) { transaction, error in
+        let parameters: [String: Any] = [
+            "from": Cereal.shared.paymentAddress,
+            "to": self.contact.paymentAddress,
+            "value": value.toHexString,
+        ]
+
+        etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
             etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in

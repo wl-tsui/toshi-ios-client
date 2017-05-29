@@ -16,10 +16,10 @@
 import UIKit
 import SweetUIKit
 
-class RateUserPresentationController: UIPresentationController {
+class ModalPresentationController: UIPresentationController {
 
     override func presentationTransitionWillBegin() {
-        guard let rateUserController = self.presentedViewController as? RateUserController else { return }
+        guard let rateUserController = self.presentedViewController as? ModalPresentable else { return }
         guard let containerView = self.containerView, let presentedView = self.presentedView else { return }
 
         containerView.addSubview(presentedView)
@@ -31,7 +31,7 @@ class RateUserPresentationController: UIPresentationController {
     }
 
     override func dismissalTransitionWillBegin() {
-        guard let rateUserController = self.presentedViewController as? RateUserController else { return }
+        guard let rateUserController = self.presentedViewController as? ModalPresentable else { return }
 
         self.presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
             rateUserController.background.alpha = 0

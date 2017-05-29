@@ -649,7 +649,13 @@ extension ChatController: ActionableCellDelegate {
 
         // TODO: prevent concurrent calls
         // Also, extract this.
-        self.etherAPIClient.createUnsignedTransaction(to: destination, value: value) { transaction, error in
+        let parameters: [String: Any] = [
+            "from": Cereal.shared.paymentAddress,
+            "to": destination,
+            "value": value.toHexString,
+        ]
+
+        self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
@@ -760,7 +766,14 @@ extension ChatController: PaymentSendControllerDelegate {
         self.idAPIClient.retrieveContact(username: tokenId) { user in
             guard let user = user else { return }
 
-            self.etherAPIClient.createUnsignedTransaction(to: user.paymentAddress, value: value) { transaction, error in
+            let parameters: [String: Any] = [
+                "from": Cereal.shared.paymentAddress,
+                "to": user.paymentAddress,
+                "value": value.toHexString,
+            ]
+
+            self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
+
                 let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
                 self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
