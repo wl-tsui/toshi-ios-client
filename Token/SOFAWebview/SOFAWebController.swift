@@ -134,6 +134,8 @@ class SOFAWebController: UIViewController {
 
         let declineIcon = UIImage(named: "cross")
         let declineAction = Action(title: "Decline", titleColor: UIColor(white: 0.5, alpha: 1.0), icon: declineIcon) { _ in
+            let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
+            self.jsCallback(callbackId: callbackId, payload: payload)
             paymentConfirmationController.dismiss(animated: true, completion: nil)
         }
 
@@ -142,7 +144,7 @@ class SOFAWebController: UIViewController {
             self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, _ in
                 let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
 
-                let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + signedTransaction + "\\\"]}"
+                let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\""+transaction!+"\\\", \\\"" + signedTransaction + "\\\"]}"
                 self.jsCallback(callbackId: callbackId, payload: payload)
 
                 paymentConfirmationController.dismiss(animated: true, completion: nil)
@@ -208,7 +210,7 @@ extension SOFAWebController: WKScriptMessageHandler {
 
         switch method {
         case .getAccounts:
-            let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.address + "\\\"]}"
+            let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
             self.jsCallback(callbackId: callbackId, payload: payload)
 
             break
@@ -230,22 +232,20 @@ extension SOFAWebController: WKScriptMessageHandler {
                 return
             }
 
-            guard let data = tx["data"] as? String,
-                let gas = tx["gas"] as? String,
-                let gasPrice = tx["gasPrice"] as? String else { return }
-
             IDAPIClient.shared.retrieveUser(username: to) { user in
-                let value = tx["value"] as? String ?? "0.0"
+                let value = tx["value"] as? String ?? "0x0"
 
-                let parameters: [String: Any] = [
+                
+                var parameters: [String: Any] = [
                     "from": from,
                     "to": to,
-                    "value": value,
-                    "gas": gas,
-                    "gasPrice": gasPrice,
-                    "data": data,
+                    "value": value
                 ]
-
+                
+                parameters["data"] = tx["data"]
+                parameters["gas"] = tx["gas"]
+                parameters["gasPrice"] = tx["gasPrice"]
+                
                 var userInfo = UserInfo(address: to, avatar: nil, name: nil, username: to, isLocal: false)
 
                 if let user = user as TokenUser? {
