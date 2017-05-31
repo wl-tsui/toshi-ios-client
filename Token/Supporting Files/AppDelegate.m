@@ -64,7 +64,7 @@
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RequiresSignIn"]) {
         [self presentSignIn];
     } else {
-        [self createNewUser];
+        [self createOrRestoreNewUser];
     }
 
     return YES;
@@ -106,7 +106,7 @@
     }];
 }
 
-- (void)createNewUser {
+- (void)createOrRestoreNewUser {
     if (TokenUser.current == nil) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -117,13 +117,13 @@
         }];
     } else {
         [[IDAPIClient shared] retrieveUserWithUsername:[TokenUser.current username] completion:^(TokenUser * _Nullable user) {
-            NSLog(@"%@", user);
             if (user == nil) {
                 [[IDAPIClient shared] registerUserIfNeeded:^{
                     [[ChatAPIClient shared] registerUser];
                     [self didCreateUser];
                 }];
             } else {
+                [[IDAPIClient shared] updateUserIfNeeded:user];
                 [self didCreateUser];
                 [self handleFirstLaunch];
             }

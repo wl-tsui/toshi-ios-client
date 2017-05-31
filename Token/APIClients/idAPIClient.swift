@@ -76,7 +76,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
         self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
-            case .success(let json, let response):
+            case .success(let json, _):
                 guard let json = json?.dictionary else { fatalError() }
                 guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
 
@@ -86,6 +86,14 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 fatalError()
             }
         }
+    }
+
+    public func updateUserIfNeeded(_ user: TokenUser) {
+        guard let migratedUser = TokenUser.current, user.paymentAddress != migratedUser.paymentAddress else {
+            return
+        }
+
+        self.updateUser(migratedUser) { (success, errorMessage) in }
     }
 
     public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {
