@@ -55,7 +55,6 @@ class AlertController: ModalPresentable {
 
     lazy var reviewContainer: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = UIColor.brown
 
         return view
     }()

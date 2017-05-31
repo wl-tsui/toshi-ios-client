@@ -115,6 +115,7 @@ class BrowseController: SearchableCollectionController {
         self.searchBar.delegate = self
         self.searchBar.barTintColor = Theme.viewBackgroundColor
         self.searchBar.tintColor = Theme.tintColor
+        self.searchBar.placeholder = "Search or type the url"
 
         let searchField = self.searchBar.value(forKey: "searchField") as? UITextField
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor

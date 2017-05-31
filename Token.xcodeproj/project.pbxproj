@@ -117,6 +117,7 @@
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		2BAB4A491ED615C4005981D3 /* PaymentConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */; };
+		2BB8427B1EDDA0FB0044BDAB /* AddressChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */; };
 		2BD20DDF1ED8273A00107129 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */; };
 		2BD20DE11ED82C3500107129 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */; };
 		2BD8824B1ED71D41003B1BDC /* ModalPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */; };
@@ -124,6 +125,13 @@
 		2BD8824F1ED71DCD003B1BDC /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824D1ED71DCD003B1BDC /* ModalPresentationController.swift */; };
 		2BD882521ED730EC003B1BDC /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD882511ED730EC003B1BDC /* AlertController.swift */; };
 		79C8B9332AAF618B6185BC82 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A763C19118469E7169C9F72 /* libPods-CocoaPods-Development.a */; };
+		8410E1491EDDBF2A00990227 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD882511ED730EC003B1BDC /* AlertController.swift */; };
+		8410E14A1EDDBF3200990227 /* PaymentConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */; };
+		8410E14B1EDDBF4400990227 /* ModalPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */; };
+		8410E14C1EDDBF5200990227 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824D1ED71DCD003B1BDC /* ModalPresentationController.swift */; };
+		8410E14D1EDDBF5B00990227 /* ModalTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824C1ED71DCD003B1BDC /* ModalTransition.swift */; };
+		8410E14E1EDDBF8B00990227 /* AddressChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */; };
+		8410E14F1EDDBF9300990227 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */; };
 		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
 		84C195301ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
@@ -409,6 +417,7 @@
 		21C18022E25A13D670BB406A /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentConfirmationController.swift; path = Payments/PaymentConfirmationController.swift; sourceTree = "<group>"; };
+		2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressChangeAlertController.swift; sourceTree = "<group>"; };
 		2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentRequestInfoView.xib; sourceTree = "<group>"; };
 		2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestInfoView.swift; sourceTree = "<group>"; };
 		2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalPresentable.swift; path = ModalPresentable/ModalPresentable.swift; sourceTree = "<group>"; };
@@ -1150,6 +1159,7 @@
 				A9ED6CCB1E82B56D00160637 /* Views */,
 				A9ED6CC71E8282D000160637 /* SignInController.swift */,
 				A9ED6CC91E82865600160637 /* SignInNavigationController.swift */,
+				2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -1559,11 +1569,13 @@
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
 				9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */,
+				8410E14E1EDDBF8B00990227 /* AddressChangeAlertController.swift in Sources */,
 				9F54AB0E1ECC8D390008489F /* ScannerController.swift in Sources */,
 				149F9A661E72E29A00FB74AA /* MessageFetcherJob.swift in Sources */,
 				149F9A671E72E29A00FB74AA /* SettingsNavigationController.swift in Sources */,
 				149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */,
 				149F9A6A1E72E29A00FB74AA /* Message.swift in Sources */,
+				8410E14B1EDDBF4400990227 /* ModalPresentable.swift in Sources */,
 				149F9A6B1E72E29A00FB74AA /* BrowseController.swift in Sources */,
 				149F9A6C1E72E29A00FB74AA /* TGBaseMessageCellLayout.swift in Sources */,
 				149F9A6E1E72E29A00FB74AA /* ReputationView.swift in Sources */,
@@ -1588,11 +1600,13 @@
 				9F54A7241E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */,
 				149F9A7D1E72E29A00FB74AA /* SettingsController.swift in Sources */,
+				8410E14F1EDDBF9300990227 /* PaymentRequestInfoView.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
 				A9AC74091E77E37500365029 /* ActionButton.swift in Sources */,
 				149F9A7F1E72E29A00FB74AA /* ProfileController.swift in Sources */,
 				A9BF33B41E76F8D0009A51AA /* BackupPhraseCopyController.swift in Sources */,
 				149F9A801E72E29A00FB74AA /* ProfileItemCell.swift in Sources */,
+				8410E14C1EDDBF5200990227 /* ModalPresentationController.swift in Sources */,
 				149F9A811E72E29A00FB74AA /* FingerprintViewController.swift in Sources */,
 				149F9A821E72E29A00FB74AA /* ChatInputTextPanel.swift in Sources */,
 				A9AC740F1E78051F00365029 /* TitleLabel.swift in Sources */,
@@ -1609,6 +1623,7 @@
 				A9ED6CD31E84014800160637 /* SignInNavigationController.swift in Sources */,
 				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
 				9F5D63A61E92331800FED490 /* ImageMessageCellLayout.swift in Sources */,
+				8410E14D1EDDBF5B00990227 /* ModalTransition.swift in Sources */,
 				9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,
 				149F9A8B1E72E29A00FB74AA /* SearchResultsView.swift in Sources */,
 				149F9A8C1E72E29A00FB74AA /* FavoritesNavigationController.swift in Sources */,
@@ -1641,12 +1656,14 @@
 				149F9AA01E72E29A00FB74AA /* SofaWrapper.swift in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,
 				149F9AA11E72E29A00FB74AA /* MessageCell.swift in Sources */,
+				8410E1491EDDBF2A00990227 /* AlertController.swift in Sources */,
 				A9AC740C1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */,
 				9F5D63A21E9231E100FED490 /* ImageMessageCell.swift in Sources */,
 				149F9AA31E72E29A00FB74AA /* main.m in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
 				149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */,
+				8410E14A1EDDBF3200990227 /* PaymentConfirmationController.swift in Sources */,
 				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
 				149F9AA81E72E29A00FB74AA /* TGBaseMessageCell.swift in Sources */,
@@ -1674,6 +1691,7 @@
 				9F54AB0D1ECC8D390008489F /* ScannerController.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
 				9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */,
+				2BB8427B1EDDA0FB0044BDAB /* AddressChangeAlertController.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				9F7E5DA21E4C982300543296 /* Message.swift in Sources */,

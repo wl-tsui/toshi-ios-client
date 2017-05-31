@@ -22,6 +22,10 @@ public extension NSNotification.Name {
 
 open class SettingsController: UITableViewController {
 
+    fileprivate var ethereumAPIClient: EthereumAPIClient {
+        return EthereumAPIClient.shared
+    }
+
     fileprivate var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
     }
@@ -97,9 +101,10 @@ open class SettingsController: UITableViewController {
         self.tableView.backgroundColor = Theme.settingsBackgroundColor
 
         let notificationCenter = NotificationCenter.default
-
         notificationCenter.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
+
+        self.fetchAndUpdateBalance()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -113,7 +118,21 @@ open class SettingsController: UITableViewController {
 
     @objc private func handleBalanceUpdate(notification: Notification) {
         guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
+        self.set(balance: balance)
+    }
 
+    fileprivate func fetchAndUpdateBalance() {
+        self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                self.set(balance: balance)
+            }
+        }
+    }
+
+    fileprivate func set(balance: NSDecimalNumber) {
         self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
     }
 

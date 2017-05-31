@@ -140,17 +140,22 @@ extension PaymentController: UITextFieldDelegate {
             return true
         }
 
+        guard newValue.length > 0 else {
+            self.currencyAmountLabel.text = self.currencyNumberFormatter.string(from: 0)
+
+            return true
+        }
+
         guard let number = self.inputNumberFormatter.number(from: newValue) else {
             self.currencyAmountLabel.text = self.currencyNumberFormatter.string(from: 0)
 
             return false
         }
 
-        print(newValue)
 
         /// For NSNumber's stringValue, the decimal separator is always a `.`.
         // stringValue just calls description(withLocale:) passing nil, so it defaults to `en_US`.
-        let components = newValue.components(separatedBy: ".")
+        let components = number.stringValue.components(separatedBy: ".")
         if components.count == 2, let decimalPlaces = components.last?.length, decimalPlaces > 2 {
             return false
         }

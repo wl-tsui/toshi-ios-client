@@ -108,6 +108,9 @@
 
 - (void)createNewUser {
     if (TokenUser.current == nil) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
         [[IDAPIClient shared] registerUserIfNeeded:^{
             [[ChatAPIClient shared] registerUser];
             [self didCreateUser];

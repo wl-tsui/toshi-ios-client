@@ -49,7 +49,7 @@ open class TabBarController: UITabBarController {
     internal lazy var placeholderScannerController: UIViewController = {
         let controller = UIViewController()
         controller.tabBarItem = UITabBarItem(title: "Scan", image: #imageLiteral(resourceName: "scan"), tag: 0)
-        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
+        controller.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
 
         return controller
     }()
@@ -95,6 +95,27 @@ open class TabBarController: UITabBarController {
 
         let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
         self.selectedIndex = index
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.presentAddressChangeAlertIfNeeded()
+    }
+    
+    private func presentAddressChangeAlertIfNeeded() {
+        guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            let alertController = AddressChangeAlertController()
+            alertController.modalPresentationStyle = .custom
+            alertController.transitioningDelegate = alertController
+
+            self.selectedViewController?.present(alertController, animated: true, completion: nil)
+
+            UserDefaults.standard.set(true, forKey: AddressChangeAlertShown)
+            UserDefaults.standard.synchronize()
+        }
     }
 
     public func displayMessage(forAddress address: String) {
