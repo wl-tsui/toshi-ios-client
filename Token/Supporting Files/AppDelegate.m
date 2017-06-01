@@ -125,8 +125,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
                     [self didCreateUser];
                 }];
             } else {
-                [[IDAPIClient shared] updateUserIfNeeded:user];
-                [self didCreateUser];
+
                 [self handleFirstLaunch];
             }
         }];
