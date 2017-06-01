@@ -208,13 +208,6 @@ class ChatController: MessagesCollectionViewController {
         self.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
         self.title = self.thread.cachedContactIdentifier
-
-        if self.contact.isApp && self.messages.isEmpty {
-            // If contact is an app, and there are no messages between current user and contact
-            // we send the app an empty regular sofa message. This ensures that Signal won't display it,
-            // but at the same time, most bots will reply with a greeting.
-            self.sendMessage(sofaWrapper: SofaMessage(body: ""))
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -302,6 +295,13 @@ class ChatController: MessagesCollectionViewController {
                     self.messages = messages
                     self.collectionView.reloadData()
                     self.scrollToBottom(animated: false)
+
+                    if self.contact.isApp && self.messages.isEmpty {
+                        // If contact is an app, and there are no messages between current user and contact
+                        // we send the app an empty regular sofa message. This ensures that Signal won't display it,
+                        // but at the same time, most bots will reply with a greeting.
+                        self.sendMessage(sofaWrapper: SofaMessage(body: ""))
+                    }
                 }
             }
         }

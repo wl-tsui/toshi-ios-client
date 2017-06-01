@@ -39,10 +39,12 @@ class PaymentConfirmationController: AlertController {
         return view
     }()
 
-    init(userInfo: UserInfo, value _: NSDecimalNumber) {
+    init(userInfo: UserInfo, value: NSDecimalNumber) {
         self.userInfo = userInfo
 
         super.init(nibName: nil, bundle: nil)
+
+        self.value = value
 
         self.modalPresentationStyle = .custom
         self.transitioningDelegate = self
