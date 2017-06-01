@@ -59,7 +59,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [self setupSignalService];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSignOut) name:@"UserDidSignOut" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createNewUser) name:@"CreateNewUser" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrRestoreNewUser) name:@"CreateNewUser" object:nil];
 
     [self configureAndPresentWindow];
 
@@ -125,7 +125,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
                     [self didCreateUser];
                 }];
             } else {
-
+                [[IDAPIClient shared] updateUserIfNeeded:user];
                 [self handleFirstLaunch];
             }
         }];

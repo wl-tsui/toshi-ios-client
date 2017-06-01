@@ -33,7 +33,7 @@ extern NSString * _Nonnull const RequiresSignIn;
 @property (nonnull, nonatomic) ContactsUpdater *contactsUpdater;
 @property (nonnull, nonatomic) OWSMessageSender *messageSender;
 
-- (void)createNewUser;
+- (void)createOrRestoreNewUser;
 - (void)setupSignalService;
 
 @end
