@@ -117,6 +117,7 @@
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		2BAB4A491ED615C4005981D3 /* PaymentConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */; };
+		2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB842781EDD91F70044BDAB /* SplashViewController.swift */; };
 		2BB8427B1EDDA0FB0044BDAB /* AddressChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */; };
 		2BD20DDF1ED8273A00107129 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */; };
 		2BD20DE11ED82C3500107129 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */; };
@@ -353,13 +354,13 @@
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
 		A9ED6CC81E8282D000160637 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC71E8282D000160637 /* SignInController.swift */; };
-		A9ED6CCA1E82865600160637 /* SignInNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC91E82865600160637 /* SignInNavigationController.swift */; };
+		A9ED6CCA1E82865600160637 /* SplashInNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC91E82865600160637 /* SplashInNavigationController.swift */; };
 		A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9ED6CD21E84014500160637 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC71E8282D000160637 /* SignInController.swift */; };
-		A9ED6CD31E84014800160637 /* SignInNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC91E82865600160637 /* SignInNavigationController.swift */; };
+		A9ED6CD31E84014800160637 /* SplashInNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC91E82865600160637 /* SplashInNavigationController.swift */; };
 		A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CD51E85291600160637 /* KeyboardInfo.swift */; };
 		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
@@ -417,6 +418,7 @@
 		21C18022E25A13D670BB406A /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentConfirmationController.swift; path = Payments/PaymentConfirmationController.swift; sourceTree = "<group>"; };
+		2BB842781EDD91F70044BDAB /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressChangeAlertController.swift; sourceTree = "<group>"; };
 		2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentRequestInfoView.xib; sourceTree = "<group>"; };
 		2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestInfoView.swift; sourceTree = "<group>"; };
@@ -585,7 +587,7 @@
 		A9BF33B61E76F918009A51AA /* CheckboxControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxControl.swift; sourceTree = "<group>"; };
 		A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Additions.swift"; sourceTree = "<group>"; };
 		A9ED6CC71E8282D000160637 /* SignInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
-		A9ED6CC91E82865600160637 /* SignInNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInNavigationController.swift; sourceTree = "<group>"; };
+		A9ED6CC91E82865600160637 /* SplashInNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashInNavigationController.swift; sourceTree = "<group>"; };
 		A9ED6CCC1E82B57E00160637 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		A9ED6CCF1E83CD8400160637 /* Footnote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Footnote.swift; sourceTree = "<group>"; };
 		A9ED6CD51E85291600160637 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
@@ -1158,7 +1160,8 @@
 			children = (
 				A9ED6CCB1E82B56D00160637 /* Views */,
 				A9ED6CC71E8282D000160637 /* SignInController.swift */,
-				A9ED6CC91E82865600160637 /* SignInNavigationController.swift */,
+				A9ED6CC91E82865600160637 /* SplashInNavigationController.swift */,
+				2BB842781EDD91F70044BDAB /* SplashViewController.swift */,
 				2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */,
 			);
 			path = "Sign In";
@@ -1620,7 +1623,7 @@
 				149F9A891E72E29A00FB74AA /* SoundPlayer.swift in Sources */,
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F66BBBA1E7FCE2C00C4148A /* HomeButton.swift in Sources */,
-				A9ED6CD31E84014800160637 /* SignInNavigationController.swift in Sources */,
+				A9ED6CD31E84014800160637 /* SplashInNavigationController.swift in Sources */,
 				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
 				9F5D63A61E92331800FED490 /* ImageMessageCellLayout.swift in Sources */,
 				8410E14D1EDDBF5B00990227 /* ModalTransition.swift in Sources */,
@@ -1730,6 +1733,7 @@
 				9FF6AF9F1E83DE04001B5907 /* AvatarImageView.swift in Sources */,
 				145666041E30D24C00E52027 /* ChatsFloatingHeaderView.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
+				2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */,
 				A9BF33AF1E76DF54009A51AA /* BackupPhraseCopyController.swift in Sources */,
 				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
@@ -1773,7 +1777,7 @@
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */,
 				9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
-				A9ED6CCA1E82865600160637 /* SignInNavigationController.swift in Sources */,
+				A9ED6CCA1E82865600160637 /* SplashInNavigationController.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				9F40F3C21E59FE97007A7DE7 /* MessageCell.swift in Sources */,
 				9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,

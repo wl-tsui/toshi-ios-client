@@ -19,6 +19,8 @@
 #import <SignalServiceKit/ContactsUpdater.h>
 #import "ContactsManager.h"
 
+extern NSString * _Nonnull const RequiresSignIn;
+
 @import PushKit;
 @import UserNotifications;
 
@@ -31,6 +33,7 @@
 @property (nonnull, nonatomic) ContactsUpdater *contactsUpdater;
 @property (nonnull, nonatomic) OWSMessageSender *messageSender;
 
+- (void)createNewUser;
 - (void)setupSignalService;
 
 @end

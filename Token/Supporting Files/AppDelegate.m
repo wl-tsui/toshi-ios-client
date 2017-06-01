@@ -20,6 +20,8 @@
 
 #import <AxolotlKit/SessionCipher.h>
 
+NSString *const RequiresSignIn = @"RequiresSignIn";
+
 @import WebRTC;
 
 @interface AppDelegate ()
@@ -96,7 +98,7 @@
         [[EthereumAPIClient shared] deregisterForNotificationsWithDeviceToken:self.token];
         [[TSStorageManager sharedManager] resetSignalStorage];
         [[Yap sharedInstance] wipeStorage];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RequiresSignIn"];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         exit(0);
@@ -132,13 +134,13 @@
 }
 
 - (void)didCreateUser {
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"RequiresSignIn"];
-    [self.window.rootViewController dismissViewControllerAnimated:YES completion: NULL];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)presentSignIn {
-    SignInNavigationController *signInNavigationController = [[SignInNavigationController alloc] init];
-    [self.window.rootViewController presentViewController:signInNavigationController animated:NO completion:nil];
+    SplashInNavigationController *splashNavigationController = [[SplashInNavigationController alloc] init];
+    [self.window.rootViewController presentViewController:splashNavigationController animated:NO completion:nil];
 }
 
 - (void)setupBasicAppearance {

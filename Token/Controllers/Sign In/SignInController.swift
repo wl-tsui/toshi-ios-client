@@ -68,15 +68,6 @@ open class SignInController: UIViewController {
         return view
     }()
 
-    private lazy var createAccountButton: ActionButton = {
-        let view = ActionButton(margin: 30)
-        view.title = "Create a new account"
-        view.style = .plain
-        view.addTarget(self, action: #selector(createNewUser), for: .touchUpInside)
-
-        return view
-    }()
-
     public required init?(coder _: NSCoder) {
         fatalError("")
     }
@@ -105,10 +96,14 @@ open class SignInController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
-
-    func close(_: Any) {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     private func addSubviewsAndConstraints() {
@@ -122,7 +117,6 @@ open class SignInController: UIViewController {
         self.contentView.addSubview(self.footnote)
         self.contentView.addSubview(self.signInButton)
         self.contentView.addSubview(self.scanQRButton)
-        self.view.addSubview(self.createAccountButton)
 
         NSLayoutConstraint.activate([
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -160,15 +154,7 @@ open class SignInController: UIViewController {
             self.scanQRButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin),
             self.scanQRButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin),
             self.scanQRButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-
-            self.createAccountButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: margin),
-            self.createAccountButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -margin),
-            self.createAccountButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -margin),
         ])
-    }
-
-    func createNewUser() {
-        NotificationCenter.default.post(name: .CreateNewUser, object: nil)
     }
 
     func signInWithPasshphrase() {
@@ -196,7 +182,7 @@ open class SignInController: UIViewController {
             if let user = user {
                 ChatAPIClient.shared.registerUser()
                 Cereal.shared = cereal
-                UserDefaults.standard.set(false, forKey: "RequiresSignIn")
+                UserDefaults.standard.set(false, forKey: RequiresSignIn)
 
                 user.verified = true
                 TokenUser.current = user
@@ -204,7 +190,7 @@ open class SignInController: UIViewController {
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
                 delegate.setupSignalService()
 
-                self.dismiss(animated: true)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             } else {
                 fatalError("No such user")
             }
