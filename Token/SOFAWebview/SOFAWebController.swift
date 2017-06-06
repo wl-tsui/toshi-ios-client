@@ -225,12 +225,26 @@ extension SOFAWebController: WKScriptMessageHandler {
             }
 
             var parameters: [String: Any] = [:]
-            parameters["from"] = tx["from"]
-            parameters["to"] = tx["to"]
-            parameters["value"] = tx["value"] as? String ?? "0x0"
-            parameters["data"] = tx["data"]
-            parameters["gas"] = tx["gas"]
-            parameters["gasPrice"] = tx["gasPrice"]
+            if let from = tx["from"] {
+                parameters["from"] = from
+            }
+            if let to = tx["to"] {
+                parameters["to"] = to
+            }
+            if let value = tx["value"] {
+                parameters["value"] = value
+            } else {
+                parameters["value"] = "0x0"
+            }
+            if let data = tx["data"] {
+                parameters["data"] = data
+            }
+            if let gas = tx["gas"] {
+                parameters["gas"] = gas
+            }
+            if let gasPrice = tx["gasPrice"] {
+                parameters["gasPrice"] = gasPrice
+            }
 
             if let to = tx["to"] as? String {
                 IDAPIClient.shared.retrieveUser(username: to) { user in
