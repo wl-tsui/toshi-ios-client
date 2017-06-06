@@ -142,11 +142,16 @@ class SOFAWebController: UIViewController {
         let approveIcon = UIImage(named: "check")
         let approveAction = Action(title: "Approve", titleColor: Theme.tintColor, icon: approveIcon) { _ in
             self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, _ in
-                let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
+                var payload: String
 
-                let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\""+transaction!+"\\\", \\\"" + signedTransaction + "\\\"]}"
+                if let tx = transaction {
+                    let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: tx))"
+                    payload = "{\\\"error\\\": null, \\\"result\\\": [\\\""+tx+"\\\", \\\"" + signedTransaction + "\\\"]}"
+                } else {
+                    payload = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
+                }
+
                 self.jsCallback(callbackId: callbackId, payload: payload)
-
                 paymentConfirmationController.dismiss(animated: true, completion: nil)
             }
         }
@@ -219,43 +224,30 @@ extension SOFAWebController: WKScriptMessageHandler {
                 return
             }
 
-            guard let from = tx["from"] as? String else {
-                let payload = "{\\\"error\\\": \\\"Property From couldn't be read\\\"}"
-                self.jsCallback(callbackId: callbackId, payload: payload)
+            var parameters: [String: Any] = [:]
+            parameters["from"] = tx["from"]
+            parameters["to"] = tx["to"]
+            parameters["value"] = tx["value"] as? String ?? "0x0"
+            parameters["data"] = tx["data"]
+            parameters["gas"] = tx["gas"]
+            parameters["gasPrice"] = tx["gasPrice"]
 
-                return
-            }
-            guard let to = tx["to"] as? String else {
-                let payload = "{\\\"error\\\": \\\"Property To couldn't be read\\\"}"
-                self.jsCallback(callbackId: callbackId, payload: payload)
+            if let to = tx["to"] as? String {
+                IDAPIClient.shared.retrieveUser(username: to) { user in
+                    var userInfo = UserInfo(address: to, avatar: nil, name: nil, username: to, isLocal: false)
 
-                return
-            }
+                    if let user = user as TokenUser? {
+                        let avatar = user.avatar != nil ? user.avatar : UIImage(color: UIColor.lightGray)
+                        userInfo.avatar = avatar
+                        userInfo.username = user.username
+                        userInfo.name = user.name
+                        userInfo.isLocal = true
+                    }
 
-            IDAPIClient.shared.retrieveUser(username: to) { user in
-                let value = tx["value"] as? String ?? "0x0"
-
-                
-                var parameters: [String: Any] = [
-                    "from": from,
-                    "to": to,
-                    "value": value
-                ]
-                
-                parameters["data"] = tx["data"]
-                parameters["gas"] = tx["gas"]
-                parameters["gasPrice"] = tx["gasPrice"]
-                
-                var userInfo = UserInfo(address: to, avatar: nil, name: nil, username: to, isLocal: false)
-
-                if let user = user as TokenUser? {
-                    let avatar = user.avatar != nil ? user.avatar : UIImage(color: UIColor.lightGray)
-                    userInfo.avatar = avatar
-                    userInfo.username = user.username
-                    userInfo.name = user.name
-                    userInfo.isLocal = true
+                    self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters, callbackId: callbackId)
                 }
-
+            } else {
+                let userInfo = UserInfo(address: "", avatar: nil, name: "New Contract", username: "", isLocal: false)
                 self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters, callbackId: callbackId)
             }
 
