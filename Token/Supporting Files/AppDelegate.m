@@ -228,7 +228,14 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [TSSocketManager requestSocketOpen];
     }];
 
-    [self deactivateScreenProtection];
+    // Send screen protection deactivation to the same queue as when resigning
+    // to avoid some weird UIKit issue where app is going inactive during the launch process
+    // and back to active again. Due to the queue difference, some racing conditions may apply
+    // leaving the app with a protection screen when it shouldn't have any.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self deactivateScreenProtection];
+    });
+
     [TSPreKeyManager checkPreKeysIfNecessary];
 }
 

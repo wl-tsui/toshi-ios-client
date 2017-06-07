@@ -214,6 +214,13 @@ public class ContactController: UIViewController {
         super.viewDidAppear(animated)
     }
 
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard let scrollView = self.view as? UIScrollView else { return }
+        scrollView.contentSize.height = self.bottomSeparatorView.frame.maxY
+    }
+
     func addSubviewsAndConstraints() {
         self.view.addSubview(self.reputationBackgroundView)
         self.view.addSubview(self.contentBackgroundView)
@@ -310,16 +317,16 @@ public class ContactController: UIViewController {
         self.rateThisUserButton.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: 30).isActive = true
         self.rateThisUserButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
-        self.bottomSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.bottomSeparatorView.topAnchor.constraint(equalTo: self.rateThisUserButton.bottomAnchor, constant: 20).isActive = true
-        self.bottomSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.bottomSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-
         self.reputationBackgroundView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         self.reputationBackgroundView.topAnchor.constraint(equalTo: self.reputationSeparatorView.bottomAnchor).isActive = true
         self.reputationBackgroundView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.reputationBackgroundView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.reputationBackgroundView.bottomAnchor.constraint(equalTo: self.bottomSeparatorView.topAnchor).isActive = true
+
+        self.bottomSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.bottomSeparatorView.topAnchor.constraint(equalTo: self.rateThisUserButton.bottomAnchor, constant: 20).isActive = true
+        self.bottomSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.bottomSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     }
 
     func updateButton() {
