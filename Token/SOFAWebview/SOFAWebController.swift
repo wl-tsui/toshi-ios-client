@@ -121,9 +121,7 @@ class SOFAWebController: UIViewController {
 
         self.toolbar.set(height: 44)
         self.hidesBottomBarWhenPushed = true
-        self.webView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
         self.webView.fillSuperview()
-        self.webView.bottomAnchor.constraint(equalTo: self.toolbar.topAnchor).isActive = true
     }
 
     fileprivate func displayPaymentConfirmation(userInfo: UserInfo, parameters: [String: Any], callbackId: String) {
