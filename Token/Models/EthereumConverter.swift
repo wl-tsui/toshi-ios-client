@@ -53,7 +53,7 @@ struct EthereumConverter {
     }
 
     /// String representation in eht for a given wei value.
-    /// Example: 
+    /// Example:
     ///     ethereumValueString(forWei: halfEthInWei) -> "0.5 ETH"
     ///
     /// - Parameter balance: the wei value to be converted

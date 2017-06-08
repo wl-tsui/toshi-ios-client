@@ -29,18 +29,18 @@ final class SplashViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         imageView.image = UIImage(named: "splash")
-        
+
         return imageView
     }()
-    
+
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView(withAutoLayout: true)
         imageView.contentMode = .center
         imageView.image = UIImage(named: "logo")
-        
+
         return imageView
     }()
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 43.0)
@@ -48,28 +48,28 @@ final class SplashViewController: UIViewController {
         label.textColor = Theme.viewBackgroundColor
         label.numberOfLines = 0
         label.text = "Welcome to\nToken"
-        
+
         return label
     }()
-    
+
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.regular(size: 17.0)
         label.textColor = Theme.viewBackgroundColor.withAlphaComponent(0.6)
         label.numberOfLines = 0
-        
+
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
         paragraphStyle.alignment = .center
-        
+
         let attrString = NSMutableAttributedString(string: "A browser for the Ethereum network\nthat provides universal access to\nfinancial services")
-        attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+        attrString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
 
         label.attributedText = attrString
-        
+
         return label
     }()
-    
+
     private lazy var signinButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
         button.isUserInteractionEnabled = true
@@ -77,63 +77,63 @@ final class SplashViewController: UIViewController {
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
         button.addTarget(self, action: #selector(signinPressed(_:)), for: .touchUpInside)
         button.titleLabel?.font = Theme.regular(size: 16.0)
-        
+
         return button
     }()
-    
+
     private lazy var newAccountButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
         button.setTitle("Create a new account", for: .normal)
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
         button.addTarget(self, action: #selector(newAccountPressed(_:)), for: .touchUpInside)
         button.titleLabel?.font = Theme.regular(size: 20.0)
-        
+
         return button
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.decorateView()
     }
-    
+
     private func decorateView() {
         self.view.addSubview(self.backgroundImageView)
         self.backgroundImageView.fillSuperview()
-        
+
         self.backgroundImageView.addSubview(self.logoImageView)
         self.logoImageView.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor, constant: logoTopSpace).isActive = true
         self.logoImageView.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
         self.logoImageView.set(height: logoSize)
         self.logoImageView.set(width: logoSize)
-        
+
         self.backgroundImageView.addSubview(self.titleLabel)
         self.titleLabel.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 24.0).isActive = true
         self.titleLabel.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
-        
+
         self.backgroundImageView.addSubview(self.subtitleLabel)
         self.subtitleLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 20.0).isActive = true
         self.subtitleLabel.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
-        
+
         self.backgroundImageView.addSubview(self.signinButton)
         self.signinButton.set(width: 70.0)
         self.signinButton.set(height: 44.0)
         self.signinButton.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
         self.signinButton.bottomAnchor.constraint(equalTo: self.backgroundImageView.bottomAnchor, constant: -40.0).isActive = true
-        
+
         self.backgroundImageView.addSubview(self.newAccountButton)
         self.newAccountButton.set(height: 44.0)
         self.newAccountButton.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
         self.newAccountButton.bottomAnchor.constraint(equalTo: self.signinButton.topAnchor, constant: -20.0).isActive = true
     }
-    
-    @objc private func signinPressed(_ sender: UIButton) {
+
+    @objc private func signinPressed(_: UIButton) {
         let controller = SignInController()
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
-    @objc private func newAccountPressed(_ sender: UIButton) {
-        self.dismiss(animated: true) { 
+
+    @objc private func newAccountPressed(_: UIButton) {
+        self.dismiss(animated: true) {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             appDelegate.createOrRestoreNewUser()
         }

@@ -93,7 +93,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             return
         }
 
-        self.updateUser(migratedUser) { (success, errorMessage) in }
+        self.updateUser(migratedUser) { _, _ in }
     }
 
     public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {

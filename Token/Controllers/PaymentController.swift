@@ -158,7 +158,6 @@ extension PaymentController: UITextFieldDelegate {
             return false
         }
 
-
         /// For NSNumber's stringValue, the decimal separator is always a `.`.
         // stringValue just calls description(withLocale:) passing nil, so it defaults to `en_US`.
         let components = number.stringValue.components(separatedBy: ".")

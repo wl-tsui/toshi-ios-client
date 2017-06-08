@@ -96,13 +96,13 @@ open class TabBarController: UITabBarController {
         let index = UserDefaults.standard.integer(forKey: self.tabBarSelectedIndexKey)
         self.selectedIndex = index
     }
-    
-    override open func viewDidAppear(_ animated: Bool) {
+
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         self.presentAddressChangeAlertIfNeeded()
     }
-    
+
     private func presentAddressChangeAlertIfNeeded() {
         guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
 

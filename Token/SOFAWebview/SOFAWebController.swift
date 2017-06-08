@@ -146,7 +146,7 @@ class SOFAWebController: UIViewController {
 
                 if let tx = transaction {
                     let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: tx))"
-                    payload = "{\\\"error\\\": null, \\\"result\\\": [\\\""+tx+"\\\", \\\"" + signedTransaction + "\\\"]}"
+                    payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + tx + "\\\", \\\"" + signedTransaction + "\\\"]}"
                 } else {
                     payload = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
                 }

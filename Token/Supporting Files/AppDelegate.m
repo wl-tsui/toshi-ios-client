@@ -195,21 +195,13 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     [SignalNotificationManager updateApplicationBadgeNumber];
-
-    UIBackgroundTaskIdentifier __block bgTask = UIBackgroundTaskInvalid;
-    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{ }];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if ([TSAccountManager isRegistered]) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self activateScreenProtection];
-                // [TSSocketManager resignActivity];
-            });
-        }
-
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
+    
+    if ([TSAccountManager isRegistered]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self activateScreenProtection];
+            // [TSSocketManager resignActivity];
+        });
+    }
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -232,7 +224,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     // to avoid some weird UIKit issue where app is going inactive during the launch process
     // and back to active again. Due to the queue difference, some racing conditions may apply
     // leaving the app with a protection screen when it shouldn't have any.
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
         [self deactivateScreenProtection];
     });
 
