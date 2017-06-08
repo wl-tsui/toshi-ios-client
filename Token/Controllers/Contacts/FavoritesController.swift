@@ -48,8 +48,12 @@ open class FavoritesController: SweetTableController {
     fileprivate var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
-
-    fileprivate var searchContacts = [TokenUser]()
+    
+    fileprivate var searchContacts = [TokenUser]() {
+        didSet {
+            self.showOrHideEmptyState()
+        }
+    }
 
     fileprivate lazy var addButton: UIBarButtonItem = {
         let view = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.didTapAddButton))
@@ -78,6 +82,13 @@ open class FavoritesController: SweetTableController {
 
         return controller
     }()
+    
+    fileprivate lazy var emptyStateContainerView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
 
     public init() {
         super.init(style: .plain)
@@ -99,7 +110,12 @@ open class FavoritesController: SweetTableController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.addSubviewsAndConstraints()
+        
+        self.view.layoutIfNeeded()
+        self.adjustEmptyView()
+        
         self.tableView.register(ContactCell.self)
         self.tableView.register(ChatCell.self)
 
@@ -150,6 +166,29 @@ open class FavoritesController: SweetTableController {
         }
         self.searchController.searchBar.superview?.clipsToBounds = false
     }
+    
+    fileprivate func addSubviewsAndConstraints() {
+        self.view.addSubview(self.emptyStateContainerView)
+        let topSpace: CGFloat = (self.navigationController?.navigationBar.frame.height ?? 0.0) + self.searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
+        self.emptyStateContainerView.set(height: self.view.frame.height - topSpace)
+        self.emptyStateContainerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.emptyStateContainerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.emptyStateContainerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
+    
+    fileprivate func showOrHideEmptyState() {
+        var shouldHideEmptyState = false
+        
+        let hasFavourites = self.mappings.numberOfItems(inSection: 0) > 0
+        
+        if self.searchController.isActive {
+            shouldHideEmptyState = self.searchContacts.count > 0 || hasFavourites
+        } else {
+            shouldHideEmptyState = hasFavourites
+        }
+        
+        self.makeEmptyView(hidden: shouldHideEmptyState)
+    }
 
     fileprivate func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
@@ -192,6 +231,7 @@ open class FavoritesController: SweetTableController {
     fileprivate func displayContacts() {
         self.searchController.isActive = false
         self.tableView.reloadData()
+        self.showOrHideEmptyState()
     }
 
     fileprivate func registerNotifications() {
@@ -213,7 +253,8 @@ open class FavoritesController: SweetTableController {
 
             // unlike most yap-connected views, this one is always in the hierarchy, so we reload data if we don't need to live-update
             self.tableView.reloadData()
-
+            self.showOrHideEmptyState()
+            
             return
         }
 
@@ -318,6 +359,46 @@ open class FavoritesController: SweetTableController {
             // Due to a UIKit "bug", tint colour need be reset here.
             addContactSheet.view.tintColor = Theme.tintColor
         }
+    }
+}
+
+extension FavoritesController: Emptiable {
+    var buttonPressed: Selector {
+        get {
+            return #selector(buttonPressed(sender:))
+        }
+    }
+    
+    func contentCenterVerticalOffset() -> CGFloat {
+        let topSpace: CGFloat = self.navigationController?.navigationBar.frame.height ?? 0.0
+        return -topSpace
+    }
+    
+    func emptyStateTitle() -> String {
+        return "No favorites yet"
+    }
+    
+    func emptyStateDescription() -> String {
+        return "Your favorites will be listed here. You\ncan invite friends to join Token."
+    }
+    
+    
+    func emptyStateButtonTitle() -> String {
+        return "Invite friends"
+    }
+    
+    func sourceView() -> UIView {
+        return self.emptyStateContainerView
+    }
+    
+    func isScrollable() -> Bool {
+        return true
+    }
+    
+    func buttonPressed(sender: AnyObject) {
+        let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
+        
+        self.present(shareController, animated: true) {}
     }
 }
 

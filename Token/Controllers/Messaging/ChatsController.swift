@@ -19,7 +19,7 @@ import SweetUIKit
 
 /// Displays current conversations.
 open class ChatsController: SweetTableController {
-
+   
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
         mappings.setIsReversed(true, forGroup: TSInboxGroup)
@@ -54,6 +54,8 @@ open class ChatsController: SweetTableController {
 
         self.registerNotifications()
         self.loadViewIfNeeded()
+        
+        self.showEmptyStateIfNeeded()
     }
 
     public required init?(coder _: NSCoder) {
@@ -62,21 +64,45 @@ open class ChatsController: SweetTableController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.addSubviewsAndConstraints()
+        
         self.tableView.separatorStyle = .none
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.register(ChatCell.self)
         NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
+        
+        self.adjustEmptyView()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
+    }
+    
+    fileprivate lazy var emptyStateContainerView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    fileprivate func addSubviewsAndConstraints() {
+        self.view.addSubview(self.emptyStateContainerView)
+        let topSpace: CGFloat = (self.navigationController?.navigationBar.frame.height ?? 0.0)
+        self.emptyStateContainerView.set(height: self.view.frame.height - topSpace)
+        self.emptyStateContainerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.emptyStateContainerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.emptyStateContainerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+       
+        self.view.layoutIfNeeded()
     }
 
     func contactsDidUpdate() {
         self.tableView.reloadData()
+        self.showEmptyStateIfNeeded()
     }
 
     func registerNotifications() {
@@ -126,6 +152,13 @@ open class ChatsController: SweetTableController {
         }
 
         self.tableView.endUpdates()
+        self.showEmptyStateIfNeeded()
+    }
+    
+    private func showEmptyStateIfNeeded() {
+        let shouldHideEmptyState = self.mappings.numberOfItems(inSection: 0) > 0
+        
+        self.makeEmptyView(hidden: shouldHideEmptyState)
     }
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
@@ -184,6 +217,42 @@ open class ChatsController: SweetTableController {
         }
 
         return thread
+    }
+}
+
+extension ChatsController: Emptiable {
+    
+    var buttonPressed: Selector {
+        get {
+            return #selector(buttonPressed(sender:))
+        }
+    }
+
+    func emptyStateTitle() -> String {
+        return "No chats yet"
+    }
+    
+    func emptyStateDescription() -> String {
+        return "Once you start a new conversation,\nyou'll see it here."
+    }
+    
+    
+    func emptyStateButtonTitle() -> String {
+        return "Invite friends"
+    }
+    
+    func sourceView() -> UIView {
+        return self.emptyStateContainerView
+    }
+    
+    func isScrollable() -> Bool {
+        return true
+    }
+    
+    func buttonPressed(sender: AnyObject) {
+        let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
+        
+        self.present(shareController, animated: true) {}
     }
 }
 

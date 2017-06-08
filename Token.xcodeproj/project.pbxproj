@@ -119,6 +119,8 @@
 		2BAB4A491ED615C4005981D3 /* PaymentConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */; };
 		2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB842781EDD91F70044BDAB /* SplashViewController.swift */; };
 		2BB8427B1EDDA0FB0044BDAB /* AddressChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */; };
+		2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
+		2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
 		2BD20DDF1ED8273A00107129 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */; };
 		2BD20DE11ED82C3500107129 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */; };
 		2BD8824B1ED71D41003B1BDC /* ModalPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */; };
@@ -422,6 +424,7 @@
 		2BAB4A481ED615C4005981D3 /* PaymentConfirmationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentConfirmationController.swift; path = Payments/PaymentConfirmationController.swift; sourceTree = "<group>"; };
 		2BB842781EDD91F70044BDAB /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2BB8427A1EDDA0FB0044BDAB /* AddressChangeAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressChangeAlertController.swift; sourceTree = "<group>"; };
+		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BD20DDE1ED8273A00107129 /* PaymentRequestInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentRequestInfoView.xib; sourceTree = "<group>"; };
 		2BD20DE01ED82C3500107129 /* PaymentRequestInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestInfoView.swift; sourceTree = "<group>"; };
 		2BD8824A1ED71D41003B1BDC /* ModalPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalPresentable.swift; path = ModalPresentable/ModalPresentable.swift; sourceTree = "<group>"; };
@@ -732,6 +735,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2B3EE2AB1EDEC6E40056E6A4 /* EmptyState */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = EmptyState;
+			sourceTree = "<group>";
+		};
 		2BD882491ED71BEE003B1BDC /* ModalPresentable */ = {
 			isa = PBXGroup;
 			children = (
@@ -906,6 +916,7 @@
 		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2B3EE2AB1EDEC6E40056E6A4 /* EmptyState */,
 				2BD882501ED730D6003B1BDC /* AlertController */,
 				2BD882491ED71BEE003B1BDC /* ModalPresentable */,
 				14ED3AB91E4A2A8D00DF8079 /* Browse */,
@@ -1097,6 +1108,7 @@
 		9FD0ED201E2F8378000507B0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1670,6 +1682,7 @@
 				149F9AA31E72E29A00FB74AA /* main.m in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
 				149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */,
+				2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */,
 				8410E14A1EDDBF3200990227 /* PaymentConfirmationController.swift in Sources */,
 				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
@@ -1790,6 +1803,7 @@
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				2BD882521ED730EC003B1BDC /* AlertController.swift in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
+				2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
