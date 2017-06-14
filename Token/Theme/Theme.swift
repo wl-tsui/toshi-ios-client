@@ -36,6 +36,10 @@ extension Theme {
         return .white
     }
 
+    public static var mediumTextColor: UIColor {
+        return UIColor(hex: "9A9B9B")
+    }
+
     public static var darkTextColor: UIColor {
         return UIColor(hex: "161621")
     }
@@ -106,6 +110,10 @@ extension Theme {
 
     public static var passphraseVerificationContainerColor: UIColor {
         return UIColor(hex: "EAEBEC")
+    }
+
+    public static var cellSelectionColor: UIColor {
+        return UIColor(white: 0.95, alpha: 1)
     }
 
     // MARK: - Message colours

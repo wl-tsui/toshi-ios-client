@@ -75,7 +75,7 @@ struct EthereumConverter {
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = Locale(identifier: self.forcedLocale)
 
-        return numberFormatter.string(from: fiat)!
+        return "\(numberFormatter.string(from: fiat)!)"
     }
 
     /// Fiat currency value string with redundant 3 letter code. "$4.99 USD"

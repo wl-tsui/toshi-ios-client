@@ -17,6 +17,10 @@ import UIKit
 
 public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
+    public func notifyUser(for incomingMessage: TSIncomingMessage!, in thread: TSThread!, contactsManager: ContactsManagerProtocol!) {
+        print("Incoming message: \(incomingMessage)")
+    }
+
     static var tabbarController: TabBarController {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not find application delegate.") }
         guard let window = delegate.window else { fatalError("Could not find application window.") }

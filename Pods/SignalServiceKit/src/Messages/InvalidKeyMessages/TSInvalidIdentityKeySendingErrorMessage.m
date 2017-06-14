@@ -4,12 +4,12 @@
 
 #import "TSInvalidIdentityKeySendingErrorMessage.h"
 #import "OWSFingerprint.h"
+#import "OWSIdentityManager.h"
 #import "PreKeyBundle+jsonDict.h"
 #import "SignalRecipient.h"
 #import "TSContactThread.h"
 #import "TSErrorMessage_privateConstructor.h"
 #import "TSOutgoingMessage.h"
-#import "TSStorageManager+IdentityKeyStore.h"
 #import <AxolotlKit/NSData+keyVersionByte.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,23 +43,15 @@ NSString *TSInvalidRecipientKey = @"TSInvalidRecipientKey";
     return self;
 }
 
-+ (instancetype)untrustedKeyWithOutgoingMessage:(TSOutgoingMessage *)outgoingMessage
-                                       inThread:(TSThread *)thread
-                                   forRecipient:(NSString *)recipientId
-                                   preKeyBundle:(PreKeyBundle *)preKeyBundle
-{
-    TSInvalidIdentityKeySendingErrorMessage *message = [[self alloc] initWithOutgoingMessage:outgoingMessage
-                                                                                    inThread:thread
-                                                                                forRecipient:recipientId
-                                                                                preKeyBundle:preKeyBundle];
-    return message;
-}
-
 - (void)acceptNewIdentityKey
 {
+    // Shouldn't really get here, since we're no longer creating blocking SN changes.
+    // But there may still be some old unaccepted SN errors in the wild that need to be accepted.
+    OWSFail(@"accepting new identity key is deprecated.");
+
     // Saving a new identity mutates the session store so it must happen on the sessionStoreQueue
     dispatch_async([OWSDispatch sessionStoreQueue], ^{
-        [[TSStorageManager sharedManager] saveRemoteIdentity:self.newIdentityKey recipientId:self.recipientId];
+        [[OWSIdentityManager sharedManager] saveRemoteIdentity:self.newIdentityKey recipientId:self.recipientId];
     });
 }
 

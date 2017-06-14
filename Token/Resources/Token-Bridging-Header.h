@@ -8,7 +8,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// GNU General Pubflic License for more details.
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
@@ -48,6 +48,7 @@
 
 #import <SignalServiceKit/OWSBlockingManager.h>
 
+#import <SignalServiceKit/Asserts.h>
 #import <SignalServiceKit/TSAttachment.h>
 #import <SignalServiceKit/TSAttachmentStream.h>
 #import <SignalServiceKit/TSAttachmentPointer.h>
@@ -61,7 +62,7 @@
 
 #import <SignalServiceKit/SignalAccount.h>
 #import <SignalServiceKit/TSStorageManager.h>
-#import <SignalServiceKit/TSStorageManager+IdentityKeyStore.h>
+#import <SignalServiceKit/OWSIdentityManager.h>
 #import <SignalServiceKit/TSStorageManager+SessionStore.h>
 #import <SignalServiceKit/TSStorageManager+keyingMaterial.h>
 #import <SignalServiceKit/TSStorageManager+PreKeyStore.h>
@@ -80,3 +81,26 @@
 
 #import <Curve25519.h>
 #import <Ed25519.h>
+
+#import "MenuSheetController.h"
+#import "AttachmentCarouselItemView.h"
+#import "Camera.h"
+#import "SuggestionContext.h"
+#import "AttachmentCameraView.h"
+#import "MenuSheetButtonItemView.h"
+#import "ViewController.h"
+#import "AccessChecker.h"
+#import "MediaAssetsLibrary.h"
+#import "MediaAssetsController.h"
+#import "OverlayControllerWindow.h"
+#import "VideoMediaAttachment.h"
+#import "Common.h"
+#import "CameraController.h"
+#import "ImageUtils.h"
+#import "CameraPreviewView.h"
+#import "OverlayController.h"
+#import "VideoEditAdjustments.h"
+#import "PhotoEditorController.h"
+#import "MediaEditingContext.h"
+#import "DocumentAttributeFilename.h"
+#import "TGMediaAvatarMenuMixin.h"

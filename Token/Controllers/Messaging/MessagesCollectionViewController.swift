@@ -17,7 +17,7 @@ import UIKit
 import SweetUIKit
 import NoChat
 
-class MessagesCollectionViewController: NOCChatViewController {
+class MessagesCollectionViewController: MessagesViewController {
 
     enum DisplayState {
         case hide
@@ -32,7 +32,6 @@ class MessagesCollectionViewController: NOCChatViewController {
 
     lazy var textInputView: ChatInputTextPanel = {
         let view = ChatInputTextPanel(withAutoLayout: true)
-        view.delegate = self
 
         return view
     }()
@@ -61,14 +60,24 @@ class MessagesCollectionViewController: NOCChatViewController {
 
     var heightOfKeyboard: CGFloat = 0 {
         didSet {
-            if self.isVisible {
+            if self.isVisible, heightOfKeyboard != oldValue {
+
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+                    self.additionalInsets.bottom = max(50, abs(self.heightOfKeyboard))
+                }, completion: nil)
+
                 self.updateConstraints()
+
+                // isDragging returned incorrect results so we check the number of touches instead
+                if self.collectionView.panGestureRecognizer.numberOfTouches == 0 {
+                    self.scrollToBottom()
+                }
             }
         }
     }
 
     func updateConstraints() {
-        self.controlsViewBottomConstraint.constant = min(-self.textInputHeight - self.buttonMargin, self.heightOfKeyboard + self.buttonsHeight - self.buttonMargin)
+        self.controlsViewBottomConstraint.constant = min(-self.textInputHeight, self.heightOfKeyboard + self.buttonsHeight)
         self.textInputViewBottom.constant = self.heightOfKeyboard < -self.textInputHeight ? self.heightOfKeyboard + self.textInputHeight + self.buttonsHeight : 0
 
         self.textInputViewHeight.constant = self.textInputHeight
@@ -82,12 +91,14 @@ class MessagesCollectionViewController: NOCChatViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         self.isVisible = true
         self.view.layoutIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
         self.isVisible = false
         self.heightOfKeyboard = 0
     }
@@ -100,7 +111,7 @@ class MessagesCollectionViewController: NOCChatViewController {
             DispatchQueue.main.async {
                 self.controlsView.isHidden = true
                 self.updateSubcontrols(with: nil)
-                self.controlsViewHeightConstraint.constant = 500
+                self.controlsViewHeightConstraint.constant = 250
                 self.controlsViewDelegateDatasource.items = self.buttons
                 self.controlsView.reloadData()
                 self.view.layoutIfNeeded()
@@ -110,14 +121,13 @@ class MessagesCollectionViewController: NOCChatViewController {
                 DispatchQueue.main.asyncAfter(seconds: 0.5) {
                     var height: CGFloat = 0
 
-                    self.controlsViewHeightConstraint.constant = 500
+                    self.controlsViewHeightConstraint.constant = 250
                     self.controlsView.reloadData()
                     self.view.layoutIfNeeded()
 
                     let controlCells = self.controlsView.visibleCells.flatMap { cell in cell as? ControlCell }
 
                     for controlCell in controlCells {
-                        controlCell.transform = CGAffineTransform(scaleX: -1, y: -1)
                         height = max(height, controlCell.frame.maxY)
                     }
 
@@ -128,7 +138,7 @@ class MessagesCollectionViewController: NOCChatViewController {
 
                     self.view.layoutIfNeeded()
 
-                    self.scrollToBottom(animated: true)
+                    self.scrollToBottom()
                 }
             }
         }
@@ -168,9 +178,6 @@ class MessagesCollectionViewController: NOCChatViewController {
         let view = ControlsCollectionView()
 
         view.clipsToBounds = true
-
-        // Upside down collection views!
-        view.transform = CGAffineTransform(scaleX: -1, y: -1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
 
@@ -188,9 +195,6 @@ class MessagesCollectionViewController: NOCChatViewController {
         view.layer.cornerRadius = 8
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = Theme.borderHeight
-
-        // Upside down collection views!
-        view.transform = CGAffineTransform(scaleX: 1, y: -1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
 
@@ -202,10 +206,6 @@ class MessagesCollectionViewController: NOCChatViewController {
     }()
 
     var currentButton: SofaMessage.Button?
-
-    override static func inputPanelClass() -> AnyClass? {
-        return nil
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -338,8 +338,7 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
             maxWidth = max(maxWidth, controlCell.button.titleLabel!.textRect(forBounds: bounds, limitedToNumberOfLines: 1).width + controlCell.buttonInsets.left + controlCell.buttonInsets.right)
         }
 
-        // reverse the order of the buttons because the collection view is upside-down
-        self.subcontrolsViewDelegateDatasource.items = button.subcontrols.reversed()
+        self.subcontrolsViewDelegateDatasource.items = button.subcontrols
         // adds some margins
         self.subcontrolsViewWidthConstraint.constant = maxWidth
 
@@ -355,7 +354,6 @@ extension MessagesCollectionViewController: ControlViewActionDelegate {
             // calculates the new menu height
             for cell in self.subcontrolsView.visibleCells {
                 height += cell.frame.height
-                cell.transform = CGAffineTransform(scaleX: 1, y: -1)
             }
 
             self.subcontrolsViewHeightConstraint.constant = height

@@ -13,13 +13,15 @@ NSUInteger TSCallCurrentSchemaVersion = 1;
 
 @interface TSCall ()
 
+@property (nonatomic, getter=wasRead) BOOL read;
+
 @property (nonatomic, readonly) NSUInteger callSchemaVersion;
 
 @end
 
-@implementation TSCall
+#pragma mark -
 
-@synthesize read = _read;
+@implementation TSCall
 
 - (instancetype)initWithTimestamp:(uint64_t)timestamp
                    withCallNumber:(NSString *)contactNumber
@@ -34,7 +36,7 @@ NSUInteger TSCallCurrentSchemaVersion = 1;
 
     _callSchemaVersion = TSCallCurrentSchemaVersion;
     _callType = callType;
-    if (_callType == RPRecentCallTypeMissed) {
+    if (_callType == RPRecentCallTypeMissed || _callType == RPRecentCallTypeMissedBecauseOfChangedIdentity) {
         _read = NO;
     } else {
         _read = YES;
@@ -72,10 +74,17 @@ NSUInteger TSCallCurrentSchemaVersion = 1;
             return NSLocalizedString(@"OUTGOING_INCOMPLETE_CALL", @"");
         case RPRecentCallTypeIncomingIncomplete:
             return NSLocalizedString(@"INCOMING_INCOMPLETE_CALL", @"");
+        case RPRecentCallTypeMissedBecauseOfChangedIdentity:
+            return NSLocalizedString(@"INFO_MESSAGE_MISSED_CALL_DUE_TO_CHANGED_IDENITY", @"info message text shown in conversation view");
     }
 }
 
 #pragma mark - OWSReadTracking
+
+- (BOOL)shouldAffectUnreadCounts
+{
+    return YES;
+}
 
 - (void)markAsReadLocallyWithTransaction:(YapDatabaseReadWriteTransaction *)transaction
 {

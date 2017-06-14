@@ -1,9 +1,5 @@
 //
-//  TSDatabaseView.h
-//  TextSecureKit
-//
-//  Created by Frederic Jacobs on 17/11/14.
-//  Copyright (c) 2014 Open Whisper Systems. All rights reserved.
+//  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -18,12 +14,31 @@ extern NSString *TSSecondaryDevicesGroup;
 
 extern NSString *TSThreadDatabaseViewExtensionName;
 extern NSString *TSMessageDatabaseViewExtensionName;
+extern NSString *TSThreadIncomingMessageDatabaseViewExtensionName;
+extern NSString *TSThreadOutgoingMessageDatabaseViewExtensionName;
 extern NSString *TSUnreadDatabaseViewExtensionName;
+extern NSString *TSUnseenDatabaseViewExtensionName;
+extern NSString *TSDynamicMessagesDatabaseViewExtensionName;
+extern NSString *TSSafetyNumberChangeDatabaseViewExtensionName;
 extern NSString *TSSecondaryDevicesDatabaseViewExtensionName;
 
 + (BOOL)registerThreadDatabaseView;
-+ (BOOL)registerBuddyConversationDatabaseView;
++ (BOOL)registerThreadInteractionsDatabaseView;
++ (BOOL)registerThreadIncomingMessagesDatabaseView;
++ (BOOL)registerThreadOutgoingMessagesDatabaseView;
+
+// Instances of OWSReadTracking for wasRead is NO and shouldAffectUnreadCounts is YES.
+//
+// Should be used for "unread message counts".
 + (BOOL)registerUnreadDatabaseView;
+
+// Should be used for "unread indicator".
+//
+// Instances of OWSReadTracking for wasRead is NO.
++ (BOOL)registerUnseenDatabaseView;
+
++ (BOOL)registerDynamicMessagesDatabaseView;
++ (BOOL)registerSafetyNumberChangeDatabaseView;
 + (void)asyncRegisterSecondaryDevicesDatabaseView;
 
 @end

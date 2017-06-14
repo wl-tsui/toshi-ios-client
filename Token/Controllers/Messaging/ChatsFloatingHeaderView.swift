@@ -77,14 +77,29 @@ class ChatsFloatingHeaderView: UIView {
         return view
     }()
 
+    lazy var backgroundBlur: UIVisualEffectView = {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let dimming = UIView()
+        dimming.backgroundColor = Theme.messageViewBackgroundColor.withAlphaComponent(0.6)
+        view.addSubview(dimming)
+
+        dimming.edges(to: view)
+
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = Theme.viewBackgroundColor
+        self.addSubview(self.backgroundBlur)
         self.addSubview(self.balanceLabel)
         self.addSubview(self.requestButton)
         self.addSubview(self.payButton)
         self.addSubview(self.separatorView)
+
+        self.backgroundBlur.edges(to: self)
 
         let margin = CGFloat(10)
         self.balanceLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true

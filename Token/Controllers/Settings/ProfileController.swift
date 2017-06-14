@@ -278,7 +278,9 @@ open class ProfileController: UIViewController {
     }
 
     fileprivate func updateReputation() {
-        RatingsClient.shared.scores(for: TokenUser.current!.address) { ratingScore in
+        guard let currentUser = TokenUser.current as TokenUser? else { return }
+        
+        RatingsClient.shared.scores(for: currentUser.address) { ratingScore in
             self.reputationView.setScore(ratingScore)
         }
     }

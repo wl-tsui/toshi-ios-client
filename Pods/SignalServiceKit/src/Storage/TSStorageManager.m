@@ -15,15 +15,12 @@
 #import "TSDatabaseSecondaryIndexes.h"
 #import "TSDatabaseView.h"
 #import "TSInteraction.h"
-#import "TSPrivacyPreferences.h"
 #import "TSThread.h"
 #import <25519/Randomness.h>
 #import <SAMKeychain/SAMKeychain.h>
 #import <YapDatabase/YapDatabaseRelationship.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-NSString *const TSUIDatabaseConnectionDidUpdateNotification = @"TSUIDatabaseConnectionDidUpdateNotification";
 
 NSString *const TSStorageManagerExceptionNameDatabasePasswordInaccessible = @"TSStorageManagerExceptionNameDatabasePasswordInaccessible";
 NSString *const TSStorageManagerExceptionNameDatabasePasswordInaccessibleWhileBackgrounded =
@@ -198,8 +195,13 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 {
     // Register extensions which are essential for rendering threads synchronously
     [TSDatabaseView registerThreadDatabaseView];
-    [TSDatabaseView registerBuddyConversationDatabaseView];
+    [TSDatabaseView registerThreadInteractionsDatabaseView];
+    [TSDatabaseView registerThreadIncomingMessagesDatabaseView];
+    [TSDatabaseView registerThreadOutgoingMessagesDatabaseView];
     [TSDatabaseView registerUnreadDatabaseView];
+    [TSDatabaseView registerUnseenDatabaseView];
+    [TSDatabaseView registerDynamicMessagesDatabaseView];
+    [TSDatabaseView registerSafetyNumberChangeDatabaseView];
     [self.database registerExtension:[TSDatabaseSecondaryIndexes registerTimeStampIndex] withName:@"idx"];
 
     // Register extensions which aren't essential for rendering threads async
@@ -245,11 +247,6 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 - (nullable YapDatabaseConnection *)newDatabaseConnection
 {
     return self.database.newConnection;
-}
-
-- (TSPrivacyPreferences *)privacyPreferences
-{
-    return [TSPrivacyPreferences sharedInstance];
 }
 
 - (BOOL)userSetPassword {

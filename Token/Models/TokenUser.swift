@@ -38,7 +38,6 @@ public class TokenUser: NSObject, NSCoding {
         static let verified = "verified"
     }
 
-    static let didUpdateContactInfoNotification = Notification.Name(rawValue: "DidUpdateContactInfo")
     static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
     static let favoritesCollectionKey: String = "TokenContacts"
 
@@ -78,19 +77,10 @@ public class TokenUser: NSObject, NSCoding {
     private static var _current: TokenUser?
     static var current: TokenUser? {
         get {
-            if let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data), self._current == nil,
-                let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
-                var json = deserialised as? [String: Any] {
-
-                // Because of payment address migration, we have to override the stored payment address.
-                // Otherwise users will be sending payments to the wrong address.
-                if json[Constants.paymentAddress] as? String != Cereal.shared.paymentAddress {
-                    json[Constants.paymentAddress] = Cereal.shared.paymentAddress
-                }
-
-                self._current = TokenUser(json: json)
+            if self._current == nil {
+                self.retrieveCurrentUser()
             }
-
+            
             return self._current
         }
         set {
@@ -122,10 +112,6 @@ public class TokenUser: NSObject, NSCoding {
         return try! JSONSerialization.data(withJSONObject: self.asDict, options: [])
     }
 
-    public var userInfo: UserInfo {
-        return UserInfo(address: self.address, avatar: self.avatar, name: self.name, username: self.username, isLocal: true)
-    }
-
     var asDict: [String: Any] {
         var imageDataString = ""
         if let image = self.avatar, let data = UIImageJPEGRepresentation(image, 1.0) {
@@ -146,6 +132,21 @@ public class TokenUser: NSObject, NSCoding {
         ]
     }
 
+    public static func retrieveCurrentUser() {
+        if let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data), self._current == nil,
+            let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
+            var json = deserialised as? [String: Any] {
+            
+            // Because of payment address migration, we have to override the stored payment address.
+            // Otherwise users will be sending payments to the wrong address.
+            if json[Constants.paymentAddress] as? String != Cereal.shared.paymentAddress {
+                json[Constants.paymentAddress] = Cereal.shared.paymentAddress
+            }
+            
+            self._current = TokenUser(json: json)
+        }
+    }
+    
     public override var description: String {
         return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(username)>"
     }

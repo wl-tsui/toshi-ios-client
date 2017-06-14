@@ -35,6 +35,21 @@ public class ChatsNavigationController: UINavigationController {
         self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
+    lazy var backgroundBlur: UIVisualEffectView = {
+        let view = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isUserInteractionEnabled = false
+
+        let dimming = UIView()
+        dimming.backgroundColor = Theme.messageViewBackgroundColor.withAlphaComponent(0.6)
+        dimming.isUserInteractionEnabled = false
+        view.addSubview(dimming)
+
+        dimming.edges(to: view)
+
+        return view
+    }()
+
     public required init?(coder _: NSCoder) {
         fatalError("")
     }
@@ -42,16 +57,17 @@ public class ChatsNavigationController: UINavigationController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        // TODO: move restoration to the tabbar controller, so we only restore the currently selected.
-        if let address = UserDefaults.standard.string(forKey: self.selectedThreadAddressKey) {
-            // we delay by one cycle and it's enough for UIKit to set the children viewcontrollers
-            // for the navigation controller. Otherwise `viewcontrollers` will be nil and it wont restore.
-            // Downside: it blinks the previous view for no.
-            // TODO: move all of this the the navigator so we can restore the hiararchy straight from the app delegate.
-            DispatchQueue.main.asyncAfter(seconds: 0.0) {
-                self.openThread(withAddress: address)
-            }
-        }
+        navigationBar.barStyle = .default
+        navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+
+        self.navigationBar.insertSubview(self.backgroundBlur, at: 0)
+        self.backgroundBlur.edges(to: self.navigationBar, insets: UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0))
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        self.navigationBar.sendSubview(toBack: self.backgroundBlur)
     }
 
     public func openThread(withAddress address: String) {
@@ -83,16 +99,19 @@ public class ChatsNavigationController: UINavigationController {
 
     public override func popViewController(animated: Bool) -> UIViewController? {
         UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+
         return super.popViewController(animated: animated)
     }
 
     public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+
         return super.popToRootViewController(animated: animated)
     }
 
     public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+
         return super.popToViewController(viewController, animated: animated)
     }
 }

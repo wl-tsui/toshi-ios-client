@@ -74,9 +74,18 @@ open class TabBarController: UITabBarController {
 
         // TODO: Refactor all this navigation controllers subclasses into one, they have similar code
         self.browseController = BrowseNavigationController(rootViewController: BrowseController())
-        self.messagingController = ChatsNavigationController(rootViewController: ChatsController())
-
         self.favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
+
+        self.messagingController = ChatsNavigationController(nibName: nil, bundle: nil)
+        let chatsController = ChatsController()
+
+        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey) {
+            let thread = chatsController.thread(withAddress: address)
+            self.messagingController.viewControllers = [chatsController, ChatController(thread: thread)]
+        } else {
+            self.messagingController.viewControllers = [chatsController]
+        }
+
         self.settingsController = SettingsNavigationController(rootViewController: SettingsController.instantiateFromNib())
 
         self.viewControllers = [

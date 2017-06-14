@@ -32,12 +32,13 @@ static dispatch_queue_t _sessionCipherDispatchQueue;
 
 @interface SessionCipher ()
 
-@property NSString* recipientId;
-@property int deviceId;
+@property (nonatomic, readonly) NSString *recipientId;
+@property (nonatomic, readonly) int deviceId;
 
-@property (nonatomic, retain) id<SessionStore> sessionStore;
-@property (nonatomic, retain) SessionBuilder   *sessionBuilder;
-@property (nonatomic, retain) id<PreKeyStore>  prekeyStore;
+@property (nonatomic, readonly) id<IdentityKeyStore> identityKeyStore;
+@property (nonatomic, readonly) id<SessionStore> sessionStore;
+@property (nonatomic, readonly) SessionBuilder *sessionBuilder;
+@property (nonatomic, readonly) id<PreKeyStore> prekeyStore;
 
 @end
 
@@ -63,16 +64,16 @@ static dispatch_queue_t _sessionCipherDispatchQueue;
     self = [super init];
 
     if (self){
-        self.recipientId       = recipientId;
-        self.deviceId          = deviceId;
-        self.sessionStore      = sessionStore;
-        self.sessionBuilder    = [[SessionBuilder alloc] initWithSessionStore:sessionStore
-                                                              preKeyStore:preKeyStore
-                                                        signedPreKeyStore:signedPreKeyStore
-                                                         identityKeyStore:identityKeyStore
-                                                              recipientId:recipientId
-                                                                 deviceId:deviceId];
-        
+        _recipientId = recipientId;
+        _deviceId = deviceId;
+        _sessionStore = sessionStore;
+        _identityKeyStore = identityKeyStore;
+        _sessionBuilder = [[SessionBuilder alloc] initWithSessionStore:sessionStore
+                                                           preKeyStore:preKeyStore
+                                                     signedPreKeyStore:signedPreKeyStore
+                                                      identityKeyStore:identityKeyStore
+                                                           recipientId:recipientId
+                                                              deviceId:deviceId];
     }
     
     return self;
@@ -106,38 +107,55 @@ static dispatch_queue_t _sessionCipherDispatchQueue;
 - (id<CipherMessage>)encryptMessage:(NSData*)paddedMessage{
     [self assertOnSessionCipherDispatchQueue];
     SessionRecord *sessionRecord = [self.sessionStore loadSession:self.recipientId deviceId:self.deviceId];
-    SessionState  *session       = sessionRecord.sessionState;
-    ChainKey *chainKey           = session.senderChainKey;
+    SessionState *sessionState = sessionRecord.sessionState;
+    ChainKey *chainKey = sessionState.senderChainKey;
     MessageKeys *messageKeys     = chainKey.messageKeys;
-    NSData *senderRatchetKey     = session.senderRatchetKey;
-    int previousCounter          = session.previousCounter;
-    int sessionVersion           = session.version;
-    
+    NSData *senderRatchetKey = sessionState.senderRatchetKey;
+    int previousCounter = sessionState.previousCounter;
+    int sessionVersion = sessionState.version;
+
+    if (![self.identityKeyStore isTrustedIdentityKey:sessionState.remoteIdentityKey
+                                         recipientId:self.recipientId
+                                           direction:TSMessageDirectionOutgoing]) {
+        DDLogWarn(
+            @"%@ Previously known identity key for while encrypting for recipient: %@", self.tag, self.recipientId);
+        @throw [NSException exceptionWithName:UntrustedIdentityKeyException
+                                       reason:@"There is a previously known identity key."
+                                     userInfo:@{}];
+    }
+
+    if ([self.identityKeyStore saveRemoteIdentity:sessionState.remoteIdentityKey recipientId:self.recipientId]) {
+        [sessionRecord removePreviousSessionStates];
+    }
 
     NSData *ciphertextBody = [AES_CBC encryptCBCMode:paddedMessage withKey:messageKeys.cipherKey withIV:messageKeys.iv];
 
-    id<CipherMessage> cipherMessage = [[WhisperMessage alloc] initWithVersion:sessionVersion
-                                                                       macKey:messageKeys.macKey
-                                                             senderRatchetKey:senderRatchetKey.prependKeyType
-                                                                      counter:chainKey.index
-                                                              previousCounter:previousCounter
-                                                                   cipherText:ciphertextBody
-                                                            senderIdentityKey:session.localIdentityKey.prependKeyType
-                                                          receiverIdentityKey:session.remoteIdentityKey.prependKeyType];
-    
-    if ([session hasUnacknowledgedPreKeyMessage]){
-        PendingPreKey *items = [session unacknowledgedPreKeyMessageItems];
-        int localRegistrationId = [session localRegistrationId];
-        
-        cipherMessage = [[PreKeyWhisperMessage alloc] initWithWhisperMessage:cipherMessage
-                                                              registrationId:localRegistrationId
-                                                                    prekeyId:items.preKeyId
-                                                              signedPrekeyId:items.signedPreKeyId
-                                                                     baseKey:items.baseKey.prependKeyType
-                                                                 identityKey:session.localIdentityKey.prependKeyType];
+    id<CipherMessage> cipherMessage =
+        [[WhisperMessage alloc] initWithVersion:sessionVersion
+                                         macKey:messageKeys.macKey
+                               senderRatchetKey:senderRatchetKey.prependKeyType
+                                        counter:chainKey.index
+                                previousCounter:previousCounter
+                                     cipherText:ciphertextBody
+                              senderIdentityKey:sessionState.localIdentityKey.prependKeyType
+                            receiverIdentityKey:sessionState.remoteIdentityKey.prependKeyType];
+
+    if ([sessionState hasUnacknowledgedPreKeyMessage]) {
+        PendingPreKey *items = [sessionState unacknowledgedPreKeyMessageItems];
+        int localRegistrationId = [sessionState localRegistrationId];
+
+        DDLogInfo(@"Building PreKeyWhisperMessage for: %@ with preKeyId: %d", self.recipientId, items.preKeyId);
+
+        cipherMessage =
+            [[PreKeyWhisperMessage alloc] initWithWhisperMessage:cipherMessage
+                                                  registrationId:localRegistrationId
+                                                        prekeyId:items.preKeyId
+                                                  signedPrekeyId:items.signedPreKeyId
+                                                         baseKey:items.baseKey.prependKeyType
+                                                     identityKey:sessionState.localIdentityKey.prependKeyType];
     }
-    
-    [session setSenderChainKey:[chainKey nextChainKey]];
+
+    [sessionState setSenderChainKey:[chainKey nextChainKey]];
     [self.sessionStore storeSession:self.recipientId deviceId:self.deviceId session:sessionRecord];
     
     return cipherMessage;
@@ -170,13 +188,25 @@ static dispatch_queue_t _sessionCipherDispatchQueue;
 
 - (NSData*)decryptWhisperMessage:(WhisperMessage*)message{
     [self assertOnSessionCipherDispatchQueue];
-    if (![self.sessionStore containsSession:self.recipientId deviceId:self.deviceId]) {
-        @throw [NSException exceptionWithName:NoSessionException reason:[NSString stringWithFormat:@"No session for: %@, %d", self.recipientId, self.deviceId] userInfo:nil];
-    }
-    
+
     SessionRecord  *sessionRecord  = [self.sessionStore loadSession:self.recipientId deviceId:self.deviceId];
     NSData         *plaintext      = [self decryptWithSessionRecord:sessionRecord whisperMessage:message];
-    
+
+    if (![self.identityKeyStore isTrustedIdentityKey:sessionRecord.sessionState.remoteIdentityKey
+                                         recipientId:self.recipientId
+                                           direction:TSMessageDirectionIncoming]) {
+        DDLogWarn(
+            @"%@ Previously known identity key for while decrypting from recipient: %@", self.tag, self.recipientId);
+        @throw [NSException exceptionWithName:UntrustedIdentityKeyException
+                                       reason:@"There is a previously known identity key."
+                                     userInfo:@{}];
+    }
+
+    if ([self.identityKeyStore saveRemoteIdentity:sessionRecord.sessionState.remoteIdentityKey
+                                      recipientId:self.recipientId]) {
+        [sessionRecord removePreviousSessionStates];
+    }
+
     [self.sessionStore storeSession:self.recipientId deviceId:self.deviceId session:sessionRecord];
     
     return plaintext;
@@ -189,9 +219,9 @@ static dispatch_queue_t _sessionCipherDispatchQueue;
     NSMutableArray *exceptions     = [NSMutableArray array];
     
     @try {
-        NSData *decrypteData = [self decryptWithSessionState:sessionState whisperMessage:message];
+        NSData *decryptedData = [self decryptWithSessionState:sessionState whisperMessage:message];
         DDLogDebug(@"%@ successfully decrypted with current session state: %@", self.tag, sessionState);
-        return decrypteData;
+        return decryptedData;
     }
     @catch (NSException *exception) {
         if ([exception.name isEqualToString:InvalidMessageException]) {
@@ -227,8 +257,26 @@ static dispatch_queue_t _sessionCipherDispatchQueue;
 
         return decryptedData;
     }
-    
-    @throw [NSException exceptionWithName:InvalidMessageException reason:@"No valid sessions" userInfo:@{@"Exceptions":exceptions}];
+
+    BOOL containsActiveSession = [self.sessionStore containsSession:self.recipientId deviceId:self.deviceId];
+    DDLogError(@"%@ No valid session for recipient: %@ containsActiveSession: %@, previousStates: %lu",
+        self.tag,
+        self.recipientId,
+        (containsActiveSession ? @"YES" : @"NO"),
+        (unsigned long)sessionRecord.previousSessionStates.count);
+
+    if (containsActiveSession) {
+        @throw [NSException exceptionWithName:InvalidMessageException
+                                       reason:@"No valid sessions"
+                                     userInfo:@{
+                                         @"Exceptions" : exceptions
+                                     }];
+    } else {
+        @throw [NSException
+            exceptionWithName:NoSessionException
+                       reason:[NSString stringWithFormat:@"No session for: %@, %d", self.recipientId, self.deviceId]
+                     userInfo:nil];
+    }
 }
 
 -(NSData*)decryptWithSessionState:(SessionState*)sessionState whisperMessage:(WhisperMessage*)message{

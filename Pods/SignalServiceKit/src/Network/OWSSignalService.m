@@ -13,12 +13,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com";
 NSString *const kTSStorageManager_OWSSignalService = @"kTSStorageManager_OWSSignalService";
 NSString *const kTSStorageManager_isCensorshipCircumventionManuallyActivated =
     @"kTSStorageManager_isCensorshipCircumventionManuallyActivated";
 NSString *const kTSStorageManager_ManualCensorshipCircumventionDomain =
     @"kTSStorageManager_ManualCensorshipCircumventionDomain";
+static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com";
 NSString *const kTSStorageManager_ManualCensorshipCircumventionCountryCode =
     @"kTSStorageManager_ManualCensorshipCircumventionCountryCode";
 
@@ -70,11 +70,11 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
     return self;
 }
 
-+ (void)setBaseURL:(NSString *)baseURL {
-    TextSecureServerURL = baseURL;
++ (void)setBaseURLPath:(NSString *)baseURLPath {
+    TextSecureServerURL = baseURLPath;
 }
 
-+ (NSString *)baseURL {
++ (NSString *)baseURLPath {
     return TextSecureServerURL;
 }
 
@@ -176,7 +176,7 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 
 - (AFHTTPSessionManager *)defaultHTTPSessionManager
 {
-    NSURL *baseURL = [[NSURL alloc] initWithString:[OWSSignalService baseURL]];
+    NSURL *baseURL = [[NSURL alloc] initWithString:OWSSignalService.baseURLPath];
     NSURLSessionConfiguration *sessionConf = NSURLSessionConfiguration.ephemeralSessionConfiguration;
     AFHTTPSessionManager *sessionManager =
         [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];

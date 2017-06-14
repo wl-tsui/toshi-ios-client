@@ -25,10 +25,6 @@ public class ChatAPIClient: NSObject {
 
     public var baseURL: URL
 
-    public lazy var storageManager: TSStorageManager = {
-        TSStorageManager.shared()
-    }()
-
     private override init() {
         let tokenChatServiceBaseURL = Bundle.main.object(forInfoDictionaryKey: "TokenChatServiceBaseURL") as! String
         self.baseURL = URL(string: tokenChatServiceBaseURL)!
@@ -57,7 +53,7 @@ public class ChatAPIClient: NSObject {
     public func registerUser() {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
-            let parameters = UserBootstrapParameter(storageManager: self.storageManager)
+            let parameters = UserBootstrapParameter()
             let path = "/v1/accounts/bootstrap"
             let payload = parameters.payload
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8)!

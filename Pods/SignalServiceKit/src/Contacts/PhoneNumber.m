@@ -153,7 +153,7 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
 
     // Try just adding "+" and parsing it.
     tryParsingWithCountryCode([NSString stringWithFormat:@"+%@", sanitizedString], [self defaultRegionCode]);
-//
+
 //    // Order matters; better results should appear first so prefer
 //    // matches with the same country code as this client's phone number.
 //    OWSAssert(clientPhoneNumber.length > 0);

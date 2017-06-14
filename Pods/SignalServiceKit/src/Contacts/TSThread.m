@@ -6,6 +6,7 @@
 #import "OWSReadTracking.h"
 #import "TSDatabaseView.h"
 #import "TSIncomingMessage.h"
+#import "TSInfoMessage.h"
 #import "TSInteraction.h"
 #import "TSInvalidIdentityKeyReceivingErrorMessage.h"
 #import "TSOutgoingMessage.h"
@@ -82,6 +83,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)name {
     NSAssert(FALSE, @"Should be implemented in subclasses");
     return nil;
+}
+
+- (NSArray<NSString *> *)recipientIdentifiers
+{
+    NSAssert(FALSE, @"Should be implemented in subclasses");
+    return @[];
 }
 
 - (nullable UIImage *)image
@@ -183,6 +190,24 @@ NS_ASSUME_NONNULL_BEGIN
     return hasUnread;
 }
 
+- (NSArray<id<OWSReadTracking>> *)unseenMessagesWithTransaction:(YapDatabaseReadTransaction *)transaction
+{
+    NSMutableArray<id<OWSReadTracking>> *messages = [NSMutableArray new];
+    [[transaction ext:TSUnseenDatabaseViewExtensionName]
+        enumerateRowsInGroup:self.uniqueId
+                  usingBlock:^(
+                      NSString *collection, NSString *key, id object, id metadata, NSUInteger index, BOOL *stop) {
+
+                      if (![object conformsToProtocol:@protocol(OWSReadTracking)]) {
+                          OWSFail(@"%@ Unexpected object in unseen messages: %@", self.tag, object);
+                          return;
+                      }
+                      [messages addObject:(id<OWSReadTracking>)object];
+                  }];
+
+    return [messages copy];
+}
+
 - (NSArray<id<OWSReadTracking> > *)unreadMessagesWithTransaction:(YapDatabaseReadTransaction *)transaction
 {
     NSMutableArray<id<OWSReadTracking> > *messages = [NSMutableArray new];
@@ -200,28 +225,21 @@ NS_ASSUME_NONNULL_BEGIN
     return [messages copy];
 }
 
-- (NSArray<id<OWSReadTracking> > *)unreadMessages
-{
-    __block NSArray<id<OWSReadTracking> > *messages;
-    [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
-        messages = [self unreadMessagesWithTransaction:transaction];
-    }];
-
-    return messages;
-}
-
 - (void)markAllAsReadWithTransaction:(YapDatabaseReadWriteTransaction *)transaction
 {
-    for (id<OWSReadTracking> message in [self unreadMessagesWithTransaction:transaction]) {
+    for (id<OWSReadTracking> message in [self unseenMessagesWithTransaction:transaction]) {
         [message markAsReadLocallyWithTransaction:transaction];
     }
+
+    // Just to be defensive, we'll also check for unread messages.
+    OWSAssert([self unseenMessagesWithTransaction:transaction].count < 1);
 }
 
 - (void)markAllAsRead
 {
-    for (id<OWSReadTracking> message in [self unreadMessages]) {
-        [message markAsReadLocally];
-    }
+    [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *_Nonnull transaction) {
+        [self markAllAsReadWithTransaction:transaction];
+    }];
 }
 
 - (TSInteraction *) lastInteraction {
@@ -249,17 +267,37 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)updateWithLastMessage:(TSInteraction *)lastMessage transaction:(YapDatabaseReadWriteTransaction *)transaction {
-    NSDate *lastMessageDate = [lastMessage receiptDateForSorting];
+    OWSAssert(lastMessage);
+    OWSAssert(transaction);
+
+    if (lastMessage.isDynamicInteraction) {
+        DDLogDebug(@"%@ not updating lastMessage for thread: %@ dynamic interaction: %@",
+            self.tag,
+            self,
+            lastMessage.debugDescription);
+        return;
+    }
+
+    NSDate *lastMessageDate = [lastMessage dateForSorting];
 
     if ([lastMessage isKindOfClass:[TSErrorMessage class]]) {
         TSErrorMessage *errorMessage = (TSErrorMessage *)lastMessage;
         if (errorMessage.errorType == TSErrorMessageNonBlockingIdentityChange) {
             // Otherwise all group threads with the recipient will percolate to the top of the inbox, even though
             // there was no meaningful interaction.
-            DDLogDebug(@"%@ not updating lastMessage for thread:%@ nonblocking identity change: %@",
+            DDLogDebug(@"%@ not updating lastMessage for thread: %@ nonblocking identity change: %@",
                 self.tag,
                 self,
                 errorMessage.debugDescription);
+            return;
+        }
+    } else if ([lastMessage isKindOfClass:[TSInfoMessage class]]) {
+        TSInfoMessage *infoMessage = (TSInfoMessage *)lastMessage;
+        if (infoMessage.messageType == TSInfoMessageVerificationStateChange) {
+            DDLogDebug(@"%@ not updating lastMessage for thread: %@ verification state change: %@",
+                self.tag,
+                self,
+                infoMessage.debugDescription);
             return;
         }
     }

@@ -89,8 +89,8 @@ class ControlCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.contentView.backgroundColor = Theme.incomingMessageBackgroundColor
-        self.contentView.layer.cornerRadius = 8.0
+        self.contentView.backgroundColor = Theme.viewBackgroundColor
+        self.contentView.layer.cornerRadius = 8
         self.contentView.layer.borderColor = Theme.borderColor.cgColor
         self.contentView.layer.borderWidth = Theme.borderHeight
 

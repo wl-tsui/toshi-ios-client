@@ -1,3 +1,4 @@
+
 // Copyright (c) 2017 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,7 +17,10 @@
 import Foundation
 import NoChat
 
-public class Message: NSObject, NOCChatItem {
+open class Message: NSObject, NOCChatItem {
+
+    public var fiatValueString: String?
+    public var ethereumValueString: String?
 
     public var messageId: String = UUID().uuidString
     public var messageType: String = "Text"
@@ -26,27 +30,25 @@ public class Message: NSObject, NOCChatItem {
     public var attributedTitle: NSAttributedString?
     public var attributedSubtitle: NSAttributedString?
 
-    public var images: [UIImage] {
-        var images = [UIImage]()
+    public var attachment: TSAttachment? {
+        if self.signalMessage.hasAttachments(), let attachmentId = (self.signalMessage.attachmentIds as? [String])?.first, let attachment = TSAttachment.fetch(uniqueId: attachmentId) {
 
-        if self.signalMessage.hasAttachments() {
-            if let attachmentId = (signalMessage.attachmentIds as? [String])?.first {
-                let attachment = TSAttachment.fetch(withUniqueID: attachmentId)!
-                if attachment is TSAttachmentPointer {
-                    images = [#imageLiteral(resourceName: "placeholder")]
-                } else if let stream = attachment as? TSAttachmentStream {
-                    if stream.isVideo(), let thumbnail = stream.image() {
-                        images = [thumbnail]
-                    } else if stream.isImage(), let image = stream.image() {
-                        images = [image]
-                    } else if let _ = stream.mediaURL() {
-                        images = [#imageLiteral(resourceName: "placeholder")]
-                    }
-                }
-            }
+            return attachment
         }
 
-        return images
+        return nil
+    }
+
+    public var image: UIImage? {
+        if self.attachment is TSAttachmentPointer {
+            return #imageLiteral(resourceName: "placeholder")
+        } else if let stream = attachment as? TSAttachmentStream {
+            guard let image = stream.image() else { return #imageLiteral(resourceName: "placeholder") }
+            // TODO: add play button if video
+            return image
+        }
+
+        return nil
     }
 
     public var title: String? {
@@ -89,9 +91,17 @@ public class Message: NSObject, NOCChatItem {
 
     public var isDisplayable: Bool {
         // we are displayable even if there's no sofa content but we have attachments
-        guard self.images.isEmpty else { return true }
+        guard self.attachment == nil else { return true }
+
         // we don't display them if sofa wrapper is nil
         guard let sofaWrapper = self.sofaWrapper else { return false }
+
+        // if we have no attachments and still have a wrapper, if it's a .message but empty
+        // it's a `wake up` message, so we don't display them either.
+        if let message = sofaWrapper as? SofaMessage {
+            guard !message.body.isEmpty else { return false }
+        }
+
         // or not one of the types below
         return [.message, .paymentRequest, .payment, .command].contains(sofaWrapper.type)
     }

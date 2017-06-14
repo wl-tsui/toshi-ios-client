@@ -80,12 +80,18 @@ public class UserBootstrapParameter {
         return payload
     }()
 
-    init(storageManager: TSStorageManager) {
-        if storageManager.identityKeyPair() == nil {
-            storageManager.generateNewIdentityKey()
+    init() {
+        let identityManager = OWSIdentityManager.shared()
+
+        if identityManager.identityKeyPair() == nil {
+            identityManager.generateNewIdentityKey()
         }
 
-        self.identityKey = ((storageManager.identityKeyPair().publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
+        guard let identityKeyPair = identityManager.identityKeyPair() else { fatalError("No ID key pair for current user!") }
+
+        let storageManager = TSStorageManager.shared()
+
+        self.identityKey = ((identityKeyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
         self.lastResortPreKey = storageManager.getOrGenerateLastResortKey()
         self.prekeys = storageManager.generatePreKeyRecords() as! [PreKeyRecord]
 
@@ -95,7 +101,7 @@ public class UserBootstrapParameter {
 
         let keyPair = Curve25519.generateKeyPair()!
         let keyToSign = (keyPair.publicKey() as NSData).prependKeyType()! as Data
-        let signature = Ed25519.sign(keyToSign, with: storageManager.identityKeyPair())! as Data
+        let signature = Ed25519.sign(keyToSign, with: identityManager.identityKeyPair())! as Data
 
         let signedPK = SignedPreKeyRecord(id: Int32(0), keyPair: keyPair, signature: signature, generatedAt: Date())!
 

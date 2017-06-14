@@ -24,16 +24,17 @@ class ChatCell: UITableViewCell {
         didSet {
             // last visible message
             if let message = self.thread?.messages.last, let messageBody = message.body {
+
                 switch SofaType(sofa: messageBody) {
                 case .message:
-                    self.lastMessageLabel.text = SofaMessage(content: messageBody).body
+                    self.lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaMessage(content: messageBody).body, attributes: self.messageAttributes)
                 case .paymentRequest:
-                    self.lastMessageLabel.text = SofaPaymentRequest(content: messageBody).body
+                    self.lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaPaymentRequest(content: messageBody).body, attributes: self.messageAttributes)
                 default:
-                    self.lastMessageLabel.text = nil
+                    self.lastMessageLabel.attributedText = nil
                 }
             } else {
-                self.lastMessageLabel.text = nil
+                self.lastMessageLabel.attributedText = nil
             }
 
             // date
@@ -50,10 +51,12 @@ class ChatCell: UITableViewCell {
                 let count = TSMessagesManager.shared().unreadMessages(in: thread)
                 if count > 0 {
                     self.unreadLabel.text = "\(count)"
-                    self.unreadLabel.isHidden = false
+                    self.unreadView.isHidden = false
+                    self.lastMessageDateLabel.textColor = Theme.tintColor
                 } else {
                     self.unreadLabel.text = nil
-                    self.unreadLabel.isHidden = true
+                    self.unreadView.isHidden = true
+                    self.lastMessageDateLabel.textColor = Theme.greyTextColor
                 }
             }
 
@@ -66,104 +69,169 @@ class ChatCell: UITableViewCell {
                     self.updateContact(contact)
                 }
             }
+
+            if let lastMessage = self.lastMessageLabel.text, !lastMessage.isEmpty {
+                self.textGuideHeight.constant = 5
+            } else {
+                self.textGuideHeight.constant = 0
+            }
         }
     }
 
-    lazy var unreadLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-        view.textAlignment = .center
-        view.font = Theme.medium(size: 12)
-        view.textColor = Theme.lightTextColor
-        view.backgroundColor = Theme.tintColor
+    lazy var messageAttributes: [String: Any] = {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 2.5
+        paragraphStyle.paragraphSpacing = -4
+        paragraphStyle.lineBreakMode = .byTruncatingTail
 
+        return [
+            NSFontAttributeName: Theme.regular(size: 15),
+            NSForegroundColorAttributeName: Theme.greyTextColor,
+            NSParagraphStyleAttributeName: paragraphStyle,
+        ]
+    }()
+
+    // Container that contains the unread label and
+    // provides a colored background with content insets.
+    lazy var unreadView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Theme.tintColor
         view.layer.cornerRadius = 12
-        view.layer.masksToBounds = true
+        view.clipsToBounds = true
+
+        self.unreadLabel.font = Theme.regular(size: 15)
+        self.unreadLabel.textColor = Theme.lightTextColor
+        self.unreadLabel.textAlignment = .center
+        view.addSubview(self.unreadLabel)
+
+        self.unreadLabel.edges(to: view, insets: UIEdgeInsetsMake(0, 5, 0, -5))
+
+        return view
+    }()
+
+    lazy var unreadLabel: UILabel = {
+        let view = UILabel()
+        view.font = Theme.semibold(size: 15)
+        view.textColor = Theme.lightTextColor
+        view.textAlignment = .center
 
         return view
     }()
 
     lazy var avatarImageView: AvatarImageView = {
-        let view = AvatarImageView(withAutoLayout: true)
+        let view = AvatarImageView()
 
         return view
     }()
 
     lazy var usernameLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-        view.font = Theme.semibold(size: 15)
+        let view = UILabel()
+        view.font = Theme.semibold(size: 16)
+        view.textColor = Theme.darkTextColor
 
         return view
     }()
 
     lazy var lastMessageLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 14)
-        view.textColor = Theme.greyTextColor
+        let view = UILabel()
+        view.numberOfLines = 2
 
         return view
     }()
 
     lazy var lastMessageDateLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 14)
+        let view = UILabel()
+        view.font = Theme.regular(size: 15)
         view.textAlignment = .right
-        view.textColor = Theme.greyTextColor
+        view.textColor = Theme.tintColor
 
         return view
     }()
 
     lazy var separatorView: UIView = {
-        let view = UIView(withAutoLayout: true)
+        let view = UIView()
         view.backgroundColor = Theme.borderColor
 
         return view
     }()
 
+    lazy var guides: [UILayoutGuide] = {
+        [UILayoutGuide(), UILayoutGuide(), UILayoutGuide()]
+    }()
+
+    lazy var textGuide: UILayoutGuide = {
+        UILayoutGuide()
+    }()
+
+    lazy var textGuideHeight: NSLayoutConstraint = {
+        self.textGuide.height(0)
+    }()
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.contentView.addSubview(self.unreadLabel)
+        self.accessoryType = .disclosureIndicator
+
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = Theme.cellSelectionColor
+        self.selectedBackgroundView = selectedBackgroundView
+
+        self.contentView.addSubview(self.unreadView)
         self.contentView.addSubview(self.avatarImageView)
         self.contentView.addSubview(self.usernameLabel)
         self.contentView.addSubview(self.lastMessageLabel)
         self.contentView.addSubview(self.lastMessageDateLabel)
         self.contentView.addSubview(self.separatorView)
 
-        let height: CGFloat = 24.0
-        let margin: CGFloat = 16.0
+        for guide in guides {
+            self.contentView.addLayoutGuide(guide)
+        }
 
-        self.avatarImageView.set(height: 44)
-        self.avatarImageView.set(width: 44)
+        self.contentView.addLayoutGuide(self.textGuide)
 
-        self.avatarImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        self.avatarImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin).isActive = true
+        let margin: CGFloat = 15.0
 
-        self.usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.usernameLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: margin).isActive = true
-        self.usernameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin).isActive = true
-        self.usernameLabel.rightAnchor.constraint(equalTo: self.self.lastMessageDateLabel.leftAnchor, constant: -margin).isActive = true
+        self.guides[0].left(to: contentView, offset: margin)
+        self.guides[0].centerY(to: contentView)
 
-        self.lastMessageDateLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.lastMessageDateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: margin).isActive = true
-        self.lastMessageDateLabel.rightAnchor.constraint(equalTo: self.self.contentView.rightAnchor, constant: -margin).isActive = true
+        self.guides[1].leftToRight(of: self.guides[0], offset: margin)
+        self.guides[1].centerY(to: contentView)
 
-        self.unreadLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        self.unreadLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.unreadLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.unreadLabel.topAnchor.constraint(equalTo: self.lastMessageDateLabel.bottomAnchor).isActive = true
-        self.unreadLabel.rightAnchor.constraint(equalTo: self.self.contentView.rightAnchor, constant: -margin).isActive = true
+        self.guides[2].top(to: self.guides[1])
+        self.guides[2].leftToRight(of: self.guides[1], offset: margin)
+        self.guides[2].right(to: contentView, offset: 0)
 
-        self.lastMessageLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.lastMessageLabel.topAnchor.constraint(equalTo: self.lastMessageDateLabel.bottomAnchor).isActive = true
-        self.lastMessageLabel.topAnchor.constraint(equalTo: self.usernameLabel.bottomAnchor).isActive = true
-        self.lastMessageLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin).isActive = true
-        self.lastMessageLabel.rightAnchor.constraint(equalTo: self.unreadLabel.leftAnchor, constant: -margin).isActive = true
-        self.lastMessageLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -margin).isActive = true
+        self.avatarImageView.size(CGSize(width: 44, height: 44))
+        self.avatarImageView.centerY(to: self.guides[0])
+        self.avatarImageView.left(to: self.guides[0])
+        self.avatarImageView.right(to: self.guides[0])
 
-        self.separatorView.set(height: Theme.borderHeight)
-        self.separatorView.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor).isActive = true
-        self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
-        self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        self.usernameLabel.top(to: self.guides[1])
+        self.usernameLabel.left(to: self.guides[1])
+        self.usernameLabel.right(to: self.guides[1])
+
+        self.textGuide.topToBottom(of: self.usernameLabel)
+        self.textGuide.left(to: self.guides[1])
+        self.textGuide.right(to: self.guides[1])
+
+        self.lastMessageLabel.topToBottom(of: self.textGuide)
+        self.lastMessageLabel.left(to: self.guides[1])
+        self.lastMessageLabel.right(to: self.guides[1])
+        self.lastMessageLabel.bottom(to: self.guides[1])
+
+        self.lastMessageDateLabel.top(to: self.contentView, offset: 10)
+        self.lastMessageDateLabel.left(to: self.guides[2])
+        self.lastMessageDateLabel.right(to: self.guides[2])
+
+        self.unreadView.topToBottom(of: self.lastMessageDateLabel, offset: 12)
+        self.unreadView.right(to: self.guides[2])
+        self.unreadView.height(24)
+        self.unreadView.width(24, relation: .equalOrGreater)
+
+        self.separatorView.left(to: self.guides[1])
+        self.separatorView.right(to: self)
+        self.separatorView.height(Theme.borderHeight)
+        self.separatorView.bottom(to: self.contentView)
     }
 
     required init?(coder _: NSCoder) {

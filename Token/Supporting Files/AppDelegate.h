@@ -19,10 +19,10 @@
 #import <SignalServiceKit/ContactsUpdater.h>
 #import "ContactsManager.h"
 
-extern NSString * _Nonnull const RequiresSignIn;
+#import <PushKit/PushKit.h>
+#import <UserNotifications/UserNotifications.h>
 
-@import PushKit;
-@import UserNotifications;
+extern NSString * _Nonnull const RequiresSignIn;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, PKPushRegistryDelegate, UNUserNotificationCenterDelegate>
 
@@ -35,6 +35,8 @@ extern NSString * _Nonnull const RequiresSignIn;
 
 - (void)createOrRestoreNewUser;
 - (void)setupSignalService;
+
++ (nonnull NSString *)documentsPath;
 
 @end
 

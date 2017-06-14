@@ -25,11 +25,9 @@ extern NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidCha
 - (BOOL)isCensorshipCircumventionManuallyActivated;
 - (void)setIsCensorshipCircumventionManuallyActivated:(BOOL)value;
 
-#pragma mark - Base URL
++ (void)setBaseURLPath:(NSString *)baseURLPath;
++ (NSString *)baseURLPath;
 
-+ (void)setBaseURL:(NSString *)baseURL;
-+ (NSString *)baseURL;
-;
 #pragma mark - Censorship Circumvention Domain
 
 - (NSString *)manualCensorshipCircumventionDomain;

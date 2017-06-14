@@ -6,6 +6,7 @@
 #import "NSData+Base64.h"
 #import "SignalRecipient.h"
 #import "TSAttachmentStream.h"
+#import <SignalServiceKit/TSAccountManager.h>
 #import <YapDatabase/YapDatabaseConnection.h>
 #import <YapDatabase/YapDatabaseTransaction.h>
 
@@ -17,6 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithGroupModel:(TSGroupModel *)groupModel
 {
+    OWSAssert(groupModel);
+    OWSAssert(groupModel.groupId.length > 0);
+    OWSAssert(groupModel.groupMemberIds.count > 0);
+    for (NSString *recipientId in groupModel.groupMemberIds) {
+        OWSAssert(recipientId.length > 0);
+    }
+
     NSString *uniqueIdentifier = [[self class] threadIdFromGroupId:groupModel.groupId];
     self = [super initWithUniqueId:uniqueIdentifier];
     if (!self) {
@@ -30,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithGroupIdData:(NSData *)groupId
 {
+    OWSAssert(groupId.length > 0);
+
     TSGroupModel *groupModel = [[TSGroupModel alloc] initWithTitle:nil memberIds:nil image:nil groupId:groupId];
 
     self = [self initWithGroupModel:groupModel];
@@ -42,11 +52,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)threadWithGroupModel:(TSGroupModel *)groupModel transaction:(YapDatabaseReadTransaction *)transaction
 {
+    OWSAssert(groupModel);
+    OWSAssert(groupModel.groupId.length > 0);
+
     return [self fetchObjectWithUniqueID:[self threadIdFromGroupId:groupModel.groupId] transaction:transaction];
 }
 
 + (instancetype)getOrCreateThreadWithGroupIdData:(NSData *)groupId
 {
+    OWSAssert(groupId.length > 0);
+
     TSGroupThread *thread = [self fetchObjectWithUniqueID:[self threadIdFromGroupId:groupId]];
     if (!thread) {
         thread = [[self alloc] initWithGroupIdData:groupId];
@@ -57,6 +72,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)getOrCreateThreadWithGroupModel:(TSGroupModel *)groupModel
                                     transaction:(YapDatabaseReadWriteTransaction *)transaction {
+    OWSAssert(groupModel);
+    OWSAssert(groupModel.groupId.length > 0);
+
     TSGroupThread *thread =
         [self fetchObjectWithUniqueID:[self threadIdFromGroupId:groupModel.groupId] transaction:transaction];
 
@@ -69,6 +87,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)getOrCreateThreadWithGroupModel:(TSGroupModel *)groupModel
 {
+    OWSAssert(groupModel);
+    OWSAssert(groupModel.groupId.length > 0);
+
     __block TSGroupThread *thread;
     [[self dbConnection] readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         thread = [self getOrCreateThreadWithGroupModel:groupModel transaction:transaction];
@@ -78,14 +99,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)threadIdFromGroupId:(NSData *)groupId
 {
+    OWSAssert(groupId.length > 0);
+
     return [TSGroupThreadPrefix stringByAppendingString:[groupId base64EncodedString]];
 }
 
 + (NSData *)groupIdFromThreadId:(NSString *)threadId
 {
+    OWSAssert(threadId.length > 0);
+
     return [NSData dataFromBase64String:[threadId substringWithRange:NSMakeRange(1, threadId.length - 1)]];
 }
 
+- (NSArray<NSString *> *)recipientIdentifiers
+{
+    NSMutableArray<NSString *> *groupMemberIds = [self.groupModel.groupMemberIds mutableCopy];
+    if (groupMemberIds == nil) {
+        return @[];
+    }
+
+    [groupMemberIds removeObject:[TSAccountManager localNumber]];
+
+    return [groupMemberIds copy];
+}
 
 // Group and Contact threads share a collection, this is a convenient way to enumerate *just* the group threads
 + (void)enumerateGroupThreadsUsingBlock:(void (^)(TSGroupThread *groupThread, BOOL *stop))block

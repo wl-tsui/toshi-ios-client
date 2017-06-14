@@ -2,20 +2,23 @@
 //  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
+#import "OWSReadTracking.h"
 #import "TSMessage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TSInfoMessage : TSMessage
+@interface TSInfoMessage : TSMessage <OWSReadTracking>
 
 typedef NS_ENUM(NSInteger, TSInfoMessageType) {
     TSInfoMessageTypeSessionDidEnd,
     TSInfoMessageUserNotRegistered,
+    // TSInfoMessageTypeUnsupportedMessage appears to be obsolete.
     TSInfoMessageTypeUnsupportedMessage,
     TSInfoMessageTypeGroupUpdate,
     TSInfoMessageTypeGroupQuit,
     TSInfoMessageTypeDisappearingMessagesUpdate,
     TSInfoMessageAddToContactsOffer,
+    TSInfoMessageVerificationStateChange,
 };
 
 + (instancetype)userNotRegisteredMessageInThread:(TSThread *)thread;
@@ -40,6 +43,8 @@ typedef NS_ENUM(NSInteger, TSInfoMessageType) {
                     attachmentIds:(NSArray<NSString *> *)attachmentIds
                  expiresInSeconds:(uint32_t)expiresInSeconds
                   expireStartedAt:(uint64_t)expireStartedAt NS_UNAVAILABLE;
+
+- (void)markAsReadLocallyWithTransaction:(YapDatabaseReadWriteTransaction *)transaction;
 
 @end
 

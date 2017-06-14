@@ -19,6 +19,7 @@
 #import <SignalServiceKit/OWSDispatch.h>
 
 #import <AxolotlKit/SessionCipher.h>
+#import "Common.h"
 
 NSString *const RequiresSignIn = @"RequiresSignIn";
 
@@ -43,7 +44,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
-    [OWSSignalService setBaseURL:tokenChatServiceBaseURL];
+    [OWSSignalService setBaseURLPath:tokenChatServiceBaseURL];
 
     // Set the seed the generator for rand().
     //
@@ -60,16 +61,46 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSignOut) name:@"UserDidSignOut" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrRestoreNewUser) name:@"CreateNewUser" object:nil];
-
+    
+    [TokenUser retrieveCurrentUser];
     [self configureAndPresentWindow];
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RequiresSignIn"]) {
+    
+    if (TokenUser.current == nil) {
         [self presentSignIn];
     } else {
         [self createOrRestoreNewUser];
     }
 
     return YES;
+}
+
++ (NSString *)documentsPath
+{
+    static NSString *path = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+                  {
+                      if (iosMajorVersion() >= 8)
+                      {
+                          NSString *groupName = [@"group." stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]];
+                          
+                          NSURL *groupURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:groupName];
+                          if (groupURL != nil)
+                          {
+                              NSString *documentsPath = [[groupURL path] stringByAppendingPathComponent:@"Documents"];
+                              
+                              [[NSFileManager defaultManager] createDirectoryAtPath:documentsPath withIntermediateDirectories:true attributes:nil error:NULL];
+                              
+                              path = documentsPath;
+                          }
+                          else
+                              path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0];
+                      }
+                      else
+                          path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0];
+                  });
+    
+    return path;
 }
 
 - (void)configureAndPresentWindow {
@@ -100,7 +131,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [[Yap sharedInstance] wipeStorage];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
+
         exit(0);
     } failure:^(NSError *error) {
         // alert user
@@ -186,7 +217,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
 
-    TextSecureKitEnv *sharedEnv = [[TextSecureKitEnv alloc] initWithCallMessageHandler:[[EmptyCallHandler alloc] init] contactsManager:self.contactsManager messageSender:self.messageSender notificationsManager:[[SignalNotificationManager alloc] init]];
+    TextSecureKitEnv *sharedEnv = [[TextSecureKitEnv alloc] initWithCallMessageHandler:[[EmptyCallHandler alloc] init] contactsManager:self.contactsManager messageSender:self.messageSender notificationsManager:[[SignalNotificationManager alloc] init] preferences:nil];
+
     [TextSecureKitEnv setSharedEnv:sharedEnv];
 
     self.incomingMessageReadObserver = [[OWSIncomingMessageReadObserver alloc] initWithStorageManager:storageManager messageSender:self.messageSender];
@@ -237,15 +269,16 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)activateScreenProtection {
+    
     if (self.screenProtectionWindow == nil) {
         UIWindow *window = [[UIWindow alloc] init];
         window.hidden = YES;
         window.backgroundColor = [UIColor clearColor];
         window.userInteractionEnabled = NO;
         window.windowLevel = CGFLOAT_MAX;
+        window.alpha = 0;
 
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
-
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
         [window addSubview:effectView];
 
         [effectView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -253,15 +286,24 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [[effectView.leftAnchor constraintEqualToAnchor:window.leftAnchor] setActive:YES];
         [[effectView.bottomAnchor constraintEqualToAnchor:window.bottomAnchor] setActive:YES];
         [[effectView.rightAnchor constraintEqualToAnchor:window.rightAnchor] setActive:YES];
-
+        
         self.screenProtectionWindow = window;
     }
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.screenProtectionWindow.alpha = 1;
+    }];
 
     self.screenProtectionWindow.hidden = NO;
 }
 
 - (void)deactivateScreenProtection {
-    self.screenProtectionWindow.hidden = YES;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.screenProtectionWindow.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.screenProtectionWindow.hidden = YES;
+    }];
 }
 
 - (void)verifyDBKeysAvailableBeforeBackgroundLaunch {
@@ -274,7 +316,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }
 }
 
-#pragma mark - Accessors 
+#pragma mark - Accessors
 
 - (NSString *)token {
     if (!_token) {

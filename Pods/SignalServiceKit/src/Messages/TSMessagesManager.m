@@ -202,7 +202,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)descriptionForSyncMessage:(OWSSignalServiceProtosSyncMessage *)syncMessage
 {
-    NSMutableString *description = [[NSMutableString alloc] initWithString:@"CallMessage: "];
+    NSMutableString *description = [NSMutableString new];
     if (syncMessage.hasSent) {
         [description appendString:@"SentTranscript"];
     } else if (syncMessage.hasRequest) {
@@ -263,7 +263,11 @@ NS_ASSUME_NONNULL_BEGIN
                                         DDLogDebug(@"%@ handled secure message.", self.tag);
                                         if (error) {
                                             DDLogError(
-                                                @"%@ handling secure message failed with error: %@", self.tag, error);
+                                                @"%@ handling secure message from address: %@.%d failed with error: %@",
+                                                self.tag,
+                                                envelope.source,
+                                                (unsigned int)envelope.sourceDevice,
+                                                error);
                                         }
                                         completion();
                                     }];
@@ -273,10 +277,14 @@ NS_ASSUME_NONNULL_BEGIN
             case OWSSignalServiceProtosEnvelopeTypePrekeyBundle: {
                 [self handlePreKeyBundleAsync:envelope
                                    completion:^(NSError *_Nullable error) {
-                                       DDLogDebug(@"%@ handled pre-key bundle", self.tag);
+                                       DDLogDebug(@"%@ handled pre-key whisper message", self.tag);
                                        if (error) {
-                                           DDLogError(
-                                               @"%@ handling pre-key bundle failed with error: %@", self.tag, error);
+                                           DDLogError(@"%@ handling pre-key whisper message from address: %@.%d failed "
+                                                      @"with error: %@",
+                                               self.tag,
+                                               envelope.source,
+                                               (unsigned int)envelope.sourceDevice,
+                                               error);
                                        }
                                        completion();
                                    }];
@@ -328,17 +336,6 @@ NS_ASSUME_NONNULL_BEGIN
         NSString *recipientId = messageEnvelope.source;
         int deviceId = messageEnvelope.sourceDevice;
         dispatch_async([OWSDispatch sessionStoreQueue], ^{
-            if (![storageManager containsSession:recipientId deviceId:deviceId]) {
-                [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                    TSErrorMessage *errorMessage =
-                        [TSErrorMessage missingSessionWithEnvelope:messageEnvelope withTransaction:transaction];
-                    [errorMessage saveWithTransaction:transaction];
-                }];
-                DDLogError(@"Skipping message envelope for unknown session.");
-                completion(nil);
-                return;
-            }
-
             // DEPRECATED - Remove after all clients have been upgraded.
             NSData *encryptedData
                 = messageEnvelope.hasContent ? messageEnvelope.content : messageEnvelope.legacyMessage;
@@ -363,7 +360,7 @@ NS_ASSUME_NONNULL_BEGIN
                 SessionCipher *cipher = [[SessionCipher alloc] initWithSessionStore:storageManager
                                                                         preKeyStore:storageManager
                                                                   signedPreKeyStore:storageManager
-                                                                   identityKeyStore:storageManager
+                                                                   identityKeyStore:[OWSIdentityManager sharedManager]
                                                                         recipientId:recipientId
                                                                            deviceId:deviceId];
 
@@ -415,7 +412,7 @@ NS_ASSUME_NONNULL_BEGIN
                 SessionCipher *cipher = [[SessionCipher alloc] initWithSessionStore:storageManager
                                                                         preKeyStore:storageManager
                                                                   signedPreKeyStore:storageManager
-                                                                   identityKeyStore:storageManager
+                                                                   identityKeyStore:[OWSIdentityManager sharedManager]
                                                                         recipientId:recipientId
                                                                            deviceId:deviceId];
 
@@ -658,6 +655,8 @@ NS_ASSUME_NONNULL_BEGIN
                                                         DDLogError(@"%@ Failed to send Contacts response syncMessage with error: %@", self.tag, error);
                                                     }];
             
+            // Also sync all verification state after syncing contacts.
+            [[OWSIdentityManager sharedManager] syncAllVerificationStates];
         } else if (syncMessage.request.type == OWSSignalServiceProtosSyncMessageRequestTypeGroups) {
             OWSSyncGroupsMessage *syncGroupsMessage = [[OWSSyncGroupsMessage alloc] init];
             
@@ -683,6 +682,10 @@ NS_ASSUME_NONNULL_BEGIN
             [[OWSReadReceiptsProcessor alloc] initWithReadReceiptProtos:syncMessage.read
                                                          storageManager:self.storageManager];
         [readReceiptsProcessor process];
+    } else if (syncMessage.verification.count > 0) {
+        DDLogInfo(@"%@ Received %ld verification state(s)", self.tag, (u_long)syncMessage.verification.count);
+
+        [[OWSIdentityManager sharedManager] processIncomingSyncMessage:syncMessage.verification];
     } else {
         DDLogWarn(@"%@ Ignoring unsupported sync message.", self.tag);
     }
@@ -954,11 +957,7 @@ NS_ASSUME_NONNULL_BEGIN
         // Update thread preview in inbox
         [thread touch];
 
-        // TODO Delay notification by 100ms?
-        // It's pretty annoying when you're phone keeps buzzing while you're having a conversation on Desktop.
-        NSString *name = [thread name];
         [[TextSecureKitEnv sharedEnv].notificationsManager notifyUserForIncomingMessage:incomingMessage
-                                                                                   from:name
                                                                                inThread:thread
                                                                         contactsManager:self.contactsManager];
     }
@@ -974,9 +973,9 @@ NS_ASSUME_NONNULL_BEGIN
         exception.description,
         exception.name,
         exception.reason);
-    [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-      TSErrorMessage *errorMessage;
 
+    __block TSErrorMessage *errorMessage;
+    [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
       if ([exception.name isEqualToString:NoSessionException]) {
           errorMessage = [TSErrorMessage missingSessionWithEnvelope:envelope withTransaction:transaction];
       } else if ([exception.name isEqualToString:InvalidKeyException]) {
@@ -989,14 +988,28 @@ NS_ASSUME_NONNULL_BEGIN
       } else if ([exception.name isEqualToString:InvalidVersionException]) {
           errorMessage = [TSErrorMessage invalidVersionWithEnvelope:envelope withTransaction:transaction];
       } else if ([exception.name isEqualToString:UntrustedIdentityKeyException]) {
-          errorMessage =
-              [TSInvalidIdentityKeyReceivingErrorMessage untrustedKeyWithEnvelope:envelope withTransaction:transaction];
+          // Should no longer get here, since we now record the new identity for incoming messages.
+          OWSFail(@"%@ Failed to trust identity on incoming message from: %@.%d",
+              self.tag,
+              envelope.source,
+              envelope.sourceDevice);
+          return;
       } else {
           errorMessage = [TSErrorMessage corruptedMessageWithEnvelope:envelope withTransaction:transaction];
       }
 
       [errorMessage saveWithTransaction:transaction];
     }];
+
+    if (errorMessage != nil) {
+        [self notififyForErrorMessage:errorMessage withEnvelope:envelope];
+    }
+}
+
+- (void)notififyForErrorMessage:(TSErrorMessage *)errorMessage withEnvelope:(OWSSignalServiceProtosEnvelope *)envelope
+{
+    TSThread *contactThread = [TSContactThread getOrCreateThreadWithContactId:envelope.source];
+    [[TextSecureKitEnv sharedEnv].notificationsManager notifyUserForErrorMessage:errorMessage inThread:contactThread];
 }
 
 #pragma mark - helpers

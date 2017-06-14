@@ -43,14 +43,20 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(IDAPIClient.updateContacts), name: IDAPIClient.updateContactsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateAllContacts), name: IDAPIClient.updateContactsNotification, object: nil)
     }
 
     /// We use a background queue and a semaphore to ensure we only update the UI
     /// once all the contacts have been processed.
-    func updateContacts() {
+    func updateAllContacts() {
+        self.updateContacts(for: TokenUser.storedContactKey)
+        self.updateContacts(for: TokenUser.favoritesCollectionKey)
+
+    }
+
+    private func updateContacts(for collectionKey: String) {
         self.contactUpdateQueue.async {
-            guard let contactsData = Yap.sharedInstance.retrieveObjects(in: TokenUser.favoritesCollectionKey) as? [Data] else { fatalError() }
+            guard let contactsData = Yap.sharedInstance.retrieveObjects(in: collectionKey) as? [Data] else { return }
             let semaphore = DispatchSemaphore(value: 0)
 
             for contactData in contactsData {
@@ -58,17 +64,19 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                 if let dictionary = dictionary as? [String: Any] {
                     let tokenContact = TokenUser(json: dictionary)
-                    self.findContact(name: tokenContact.address) { _ in
+                    self.findContact(name: tokenContact.address) { updatedContact in
+                        if let updatedContact = updatedContact {
+                            DispatchQueue.main.async {
+                                Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: collectionKey)
+                            }
+                        }
+
                         semaphore.signal()
                     }
                     // calls to `wait()` need to be balanced with calls to `signal()`
                     // remember to call it _after_ the code we need to run asynchronously.
                     _ = semaphore.wait(timeout: .distantFuture)
                 }
-            }
-
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: TokenUser.didUpdateContactInfoNotification, object: self)
             }
         }
     }
@@ -197,6 +205,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
+    /// Used to retrieve server-side contact data. For the current user, see retrieveUser(username: completion:)
+    ///
+    /// - Parameters:
+    ///   - username: username or id address
+    ///   - completion: called on completion
     public func retrieveContact(username: String, completion: @escaping ((TokenUser?) -> Void)) {
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             switch result {
@@ -217,6 +230,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
+    /// Used to retrieve the server-side data for the current user. For contacts use retrieveContact(username:completion:)
+    ///
+    /// - Parameters:
+    ///   - username: username of id address
+    ///   - completion: called on completion
     public func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             switch result {
@@ -283,7 +301,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
 
                     success(contact, self.cacheExpiry)
-                case .failure(_, let response, let error):
+                case .failure(_, _, let error):
                     print(error.localizedDescription)
 
                     failure(error as NSError)

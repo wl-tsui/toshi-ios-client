@@ -30,7 +30,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     }
 
     func getFeaturedApps(completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
-        self.teapot.get("/v1/apps/featured") { (result: NetworkResult) in
+        self.teapot.get("/v1/apps/featured?limit=32") { (result: NetworkResult) in
             switch result {
             case .success(let json, let response):
                 print(response)
@@ -96,7 +96,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 }
 
                 completion(apps, nil)
-            case .failure(let json, let response, let error):
+            case .failure(_, let response, let error):
                 if response.statusCode == 404 {
                     completion([TokenUser](), nil)
                 } else {

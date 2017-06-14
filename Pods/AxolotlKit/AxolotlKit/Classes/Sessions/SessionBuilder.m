@@ -73,7 +73,7 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
     NSData *theirIdentityKey  = preKeyBundle.identityKey.removeKeyType;
     NSData *theirSignedPreKey = preKeyBundle.signedPreKeyPublic.removeKeyType;
     
-    if (![self.identityStore isTrustedIdentityKey:theirIdentityKey recipientId:self.recipientId]) {
+    if (![self.identityStore isTrustedIdentityKey:theirIdentityKey recipientId:self.recipientId direction:TSMessageDirectionOutgoing]) {
         @throw [NSException exceptionWithName:UntrustedIdentityKeyException reason:@"Identity key is not valid" userInfo:@{}];
     }
 
@@ -100,14 +100,24 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
     }
     
     [RatchetingSession initializeSession:[sessionRecord sessionState] sessionVersion:CURRENT_VERSION AliceParameters:params];
-    
+
+    DDLogInfo(@"setUnacknowledgedPreKeyMessage for: %@ with preKeyId: %d", self.recipientId, theirOneTimePreKeyId);
+
     [sessionRecord.sessionState setUnacknowledgedPreKeyMessage:theirOneTimePreKeyId signedPreKey:theirSignedPreKeyId baseKey:ourBaseKey.publicKey];
     [sessionRecord.sessionState setLocalRegistrationId:self.identityStore.localRegistrationId];
     [sessionRecord.sessionState setRemoteRegistrationId:preKeyBundle.registrationId];
     [sessionRecord.sessionState setAliceBaseKey:ourBaseKey.publicKey];
 
     // Saving invalidates any existing sessions, so be sure to save *before* storing the new session.
-    [self.identityStore saveRemoteIdentity:theirIdentityKey recipientId:self.recipientId];
+    BOOL previousIdentityExisted =
+        [self.identityStore saveRemoteIdentity:theirIdentityKey recipientId:self.recipientId];
+    if (previousIdentityExisted) {
+        DDLogInfo(@"%@ PKBundle removing previous session states for changed identity for recipient:%@",
+            self.tag,
+            self.recipientId);
+        [sessionRecord removePreviousSessionStates];
+    }
+
     [self.sessionStore storeSession:self.recipientId deviceId:self.deviceId session:sessionRecord];
 }
 
@@ -116,7 +126,7 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
     int    messageVersion    = message.version;
     NSData *theirIdentityKey = message.identityKey.removeKeyType;
 
-    if (![self.identityStore isTrustedIdentityKey:theirIdentityKey recipientId:self.recipientId]) {
+    if (![self.identityStore isTrustedIdentityKey:theirIdentityKey recipientId:self.recipientId direction:TSMessageDirectionIncoming]) {
         @throw [NSException exceptionWithName:UntrustedIdentityKeyException reason:@"There is a previously known identity key." userInfo:@{}];
     }
     
@@ -130,8 +140,16 @@ const int kPreKeyOfLastResortId = 0xFFFFFF;
             @throw [NSException exceptionWithName:InvalidVersionException reason:@"Trying to initialize with unknown version" userInfo:@{}];
             break;
     }
-    
-    [self.identityStore saveRemoteIdentity:theirIdentityKey recipientId:self.recipientId];
+
+    BOOL previousIdentityExisted =
+        [self.identityStore saveRemoteIdentity:theirIdentityKey recipientId:self.recipientId];
+    if (previousIdentityExisted) {
+        DDLogInfo(@"%@ PKWM removing previous session states for changed identity for recipient:%@",
+            self.tag,
+            self.recipientId);
+        [sessionRecord removePreviousSessionStates];
+    }
+
     return unSignedPrekeyId;
 }
 
