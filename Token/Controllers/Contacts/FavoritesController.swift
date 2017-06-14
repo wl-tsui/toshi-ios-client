@@ -148,6 +148,9 @@ open class FavoritesController: SweetTableController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        self.tableView.reloadData()
+        self.showOrHideEmptyState()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -241,6 +244,10 @@ open class FavoritesController: SweetTableController {
 
     @objc
     fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
+        defer {
+            self.showOrHideEmptyState()
+        }
+
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -284,8 +291,6 @@ open class FavoritesController: SweetTableController {
         }
 
         self.tableView.endUpdates()
-
-        self.showOrHideEmptyState()
     }
 
     fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {

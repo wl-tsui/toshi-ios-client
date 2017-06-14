@@ -187,6 +187,7 @@ open class ProfileEditController: OverlayController {
             assetsController.avatarCompletionBlock = { image in
 
                 assetsController.dismiss(animated: true, completion: nil)
+
                 self.changeAvatar(to: image)
             }
 
@@ -211,8 +212,10 @@ open class ProfileEditController: OverlayController {
     }
 
     func changeAvatar(to avatar: UIImage?) {
-        if let avatar = avatar as UIImage? {
-            let scaledImage = avatar.resized(toHeight: 320)
+        if let avatar = avatar as UIImage?,
+            let data = UIImageJPEGRepresentation(avatar.resized(toHeight: 320), 0.7),
+            let scaledImage = UIImage(data: data)
+        {
             self.avatarImageView.image = scaledImage
         }
     }
@@ -350,8 +353,7 @@ extension ProfileEditController: ImagePickerDelegate {
     public func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
         guard let image = images.first else { return }
 
-        let scaledImage = image.resized(toHeight: 320)
-        self.changeAvatar(to: scaledImage)
+        self.changeAvatar(to: image)
     }
 
     public func cancelButtonDidPress(_: ImagePickerController) {

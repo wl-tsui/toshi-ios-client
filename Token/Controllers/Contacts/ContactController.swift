@@ -367,11 +367,6 @@ public class ContactController: UIViewController {
         if Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey) {
             Yap.sharedInstance.removeObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey)
 
-            TSStorageManager.shared().dbConnection?.readWrite { transaction in
-                let thread = TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
-                thread.archiveThread(with: transaction)
-            }
-
             self.updateButton()
         } else {
             Yap.sharedInstance.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenUser.favoritesCollectionKey)
