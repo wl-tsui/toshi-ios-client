@@ -123,7 +123,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         mask.addSubview(clippingContainer)
 
         guard let scalingImageView = fullsize.duplicate() else { return }
-        scalingImageView.contentMode = .scaleAspectFit
+        scalingImageView.contentMode = fullsize.contentMode
         scalingImageView.clipsToBounds = true
         scalingImageView.frame = self.isPresenting ? endFrame : beginFrame
         clippingContainer.addSubview(scalingImageView)

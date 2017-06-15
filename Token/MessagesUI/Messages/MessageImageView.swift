@@ -8,6 +8,10 @@ class MessageImageView: UIImageView {
 
     var imageTap: MessageImageViewImageTap?
 
+    var widthConstraint: NSLayoutConstraint?
+
+    let totalHorizontalMargin: CGFloat = 123
+
     lazy var tapGestureRecognizer: UITapGestureRecognizer = {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
         gestureRecognizer.delegate = self
@@ -23,13 +27,15 @@ class MessageImageView: UIImageView {
         super.init(frame: frame)
 
         self.isUserInteractionEnabled = true
-        self.contentMode = .scaleAspectFill
+        self.contentMode = .scaleAspectFit
         self.clipsToBounds = true
         self.backgroundColor = .white
 
         self.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
 
         self.addGestureRecognizer(self.tapGestureRecognizer)
+
+        self.widthConstraint = width(UIScreen.main.bounds.width - self.totalHorizontalMargin, priority: .high)
     }
 
     func tap(_: UITapGestureRecognizer) {

@@ -20,6 +20,8 @@ class MessageCell: UICollectionViewCell {
 
     var statusFont: UIFont = Theme.regular(size: 13)
 
+    let totalHorizontalMargin: CGFloat = 123
+
     var textFont: UIFont {
         guard let message = message, let text = message.text, text.hasEmojiOnly, text.characters.count < 4 else {
             if self.message?.type == .paymentRequest || self.message?.type == .payment {
@@ -38,6 +40,7 @@ class MessageCell: UICollectionViewCell {
         view.font = self.titleFont
 
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
         return view
     }()
@@ -48,6 +51,7 @@ class MessageCell: UICollectionViewCell {
         view.font = self.textFont
 
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
         return view
     }()
@@ -59,6 +63,7 @@ class MessageCell: UICollectionViewCell {
         view.textColor = Theme.tintColor
 
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
+        view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
         return view
     }()
@@ -266,6 +271,24 @@ class MessageCell: UICollectionViewCell {
                 setNeedsLayout()
                 layoutIfNeeded()
             }
+
+            if let image = message.image {
+                let maxWidth = UIScreen.main.bounds.width - totalHorizontalMargin
+                let maxHeight = min(200, image.size.height)
+
+                let imageWidth = imageSize(for: CGSize(width: maxWidth, height: maxHeight)).width
+                imageView.widthConstraint?.isActive = true
+                imageView.widthConstraint?.constant = imageWidth
+
+                if message.imageOnly {
+                    container.backgroundColor = nil
+                }
+            } else {
+                imageView.widthConstraint?.isActive = false
+            }
+
+            setNeedsLayout()
+            layoutIfNeeded()
         }
     }
 
@@ -392,15 +415,23 @@ class MessageCell: UICollectionViewCell {
         self.container.clipsToBounds = true
     }
 
+    func imageSize(for maxSize: CGSize) -> CGSize {
+        guard let message = message, let image = message.image else { return .zero }
+        let scale = min(maxSize.width / image.size.width, maxSize.height / image.size.height)
+
+        return CGSize(width: image.size.width * scale, height: image.size.height * scale)
+    }
+
     func size(for width: CGFloat) -> CGSize {
         guard let message = message else { return .zero }
 
-        let maxWidth: CGFloat = width - 123
+        let maxWidth: CGFloat = width - totalHorizontalMargin
         var totalHeight: CGFloat = 0
         var totalMargin: CGFloat = 0
 
-        if message.image != nil {
-            totalHeight += 200
+        if let image = message.image {
+            let maxHeight = min(200, image.size.height)
+            totalHeight += imageSize(for: CGSize(width: maxWidth, height: maxHeight)).height
         }
 
         if let title = message.title, !title.isEmpty {
