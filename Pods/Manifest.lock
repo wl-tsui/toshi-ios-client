@@ -28,6 +28,9 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.4.0):
     - CocoaLumberjack/Default
+  - Crashlytics (3.8.4):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.11)
   - HKDFKit (0.0.3)
   - libPhoneNumber-iOS (0.9.10)
   - Mantle (2.1.0):
@@ -106,6 +109,8 @@ PODS:
 
 DEPENDENCIES:
   - AxolotlKit (from `https://github.com/WhisperSystems/SignalProtocolKit.git`)
+  - Crashlytics
+  - Fabric
   - pop
   - SignalServiceKit (from `https://github.com/tokenbrowser/SignalServiceKit.git`, commit `d8c6931`)
   - SocketRocket (from `https://github.com/facebook/SocketRocket.git`)
@@ -136,6 +141,8 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AxolotlKit: a9530d6835baae0f204b1f6b9dd79b7901176f0d
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
+  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   HKDFKit: c058305d6f64b84f28c50bd7aa89574625bcb62a
   libPhoneNumber-iOS: f721ae4d5854bce60934f9fb9b0b28e8e68913cb
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
@@ -150,6 +157,6 @@ SPEC CHECKSUMS:
   UnionFind: c33be5adb12983981d6e827ea94fc7f9e370f52d
   YapDatabase: cd911121580ff16675f65ad742a9eb0ab4d9e266
 
-PODFILE CHECKSUM: b52b29daa1074326c9619926579fae317552d417
+PODFILE CHECKSUM: 88c512b7b34aec5946d4e393c1b53266ee012b3e
 
 COCOAPODS: 1.2.1

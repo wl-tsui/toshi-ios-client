@@ -8,9 +8,11 @@ abstract_target 'CocoaPods' do
   pod 'SocketRocket', git: 'https://github.com/facebook/SocketRocket.git'
   pod 'SSignalKit'
   pod 'pop'
-
+  pod 'Fabric'
+  pod 'Crashlytics'
+  
   target 'Development' do
-
+      
   end
 
   target 'Distribution' do

@@ -21,6 +21,9 @@
 #import <AxolotlKit/SessionCipher.h>
 #import "Common.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @import WebRTC;
@@ -53,6 +56,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     // gets random values.
     srand((unsigned int)time(NULL));
 
+    [Fabric with:@[[Crashlytics class]]];
+    
     [self verifyDBKeysAvailableBeforeBackgroundLaunch];
 
     [self setupBasicAppearance];
