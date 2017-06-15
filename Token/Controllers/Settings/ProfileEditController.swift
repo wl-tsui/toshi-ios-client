@@ -95,9 +95,16 @@ open class ProfileEditController: OverlayController {
         self.view.addSubview(self.avatarImageView)
         self.view.addSubview(self.changeAvatarButton)
         self.view.addSubview(self.tableView)
-        
+
         self.view.addSubview(self.activityIndicator)
-        
+
+        self.activityIndicator.set(height: 50.0)
+        self.activityIndicator.set(width: 50.0)
+        self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+
+        self.view.addSubview(self.activityIndicator)
+
         self.activityIndicator.set(height: 50.0)
         self.activityIndicator.set(width: 50.0)
         self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -185,9 +192,7 @@ open class ProfileEditController: OverlayController {
             assetsController.shouldShowFileTipIfNeeded = false
 
             assetsController.avatarCompletionBlock = { image in
-
                 assetsController.dismiss(animated: true, completion: nil)
-
                 self.changeAvatar(to: image)
             }
 
@@ -212,10 +217,8 @@ open class ProfileEditController: OverlayController {
     }
 
     func changeAvatar(to avatar: UIImage?) {
-        if let avatar = avatar as UIImage?,
-            let data = UIImageJPEGRepresentation(avatar.resized(toHeight: 320), 0.7),
-            let scaledImage = UIImage(data: data)
-        {
+        if let avatar = avatar as UIImage? {
+            let scaledImage = avatar.resized(toHeight: 320)
             self.avatarImageView.image = scaledImage
         }
     }
@@ -304,9 +307,9 @@ open class ProfileEditController: OverlayController {
 
         self.view.endEditing(true)
         self.activityIndicator.startAnimating()
-        
-        self.idAPIClient.updateUser(user) { userUpdated, message in
-            
+
+        self.idAPIClient.updateUser(user) { userUpdated, _ in
+
             if let image = self.avatarImageView.image as UIImage?, TokenUser.current?.avatar != image {
                 self.idAPIClient.updateAvatar(image) { avatarUpdated in
                     let success = userUpdated == true && avatarUpdated == true
@@ -317,10 +320,10 @@ open class ProfileEditController: OverlayController {
             }
         }
     }
-    
+
     fileprivate func completeEdit(success: Bool) {
         self.activityIndicator.stopAnimating()
-        
+
         if success == true {
             self.navigationController?.popViewController(animated: true)
         } else {
@@ -334,13 +337,13 @@ open class ProfileEditController: OverlayController {
             self.becomeFirstResponder()
         }
     }
-    
+
     fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
-        //need to initialize with large style which is available only white, thus need to set color later
+        // need to initialize with large style which is available only white, thus need to set color later
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.color = Theme.lightGreyTextColor
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return activityIndicator
     }()
 }

@@ -48,13 +48,13 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
         controller.contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         controller.contentView.alpha = 0.5
 
-        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .easeOut, animations: {
+        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             controller.contentView.alpha = 1
         }) { didComplete in
             context.completeTransition(didComplete)
         }
 
-        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 20, options: .easeOut, animations: {
+        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 20, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             controller.contentView.transform = .identity
         }, completion: nil)
     }
@@ -62,7 +62,7 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
     func dismiss(with context: UIViewControllerContextTransitioning) {
         guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.from) as? ModalPresentable else { return }
 
-        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeIn, animations: {
+        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeInFromCurrentStateWithUserInteraction, animations: {
             controller.contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             controller.contentView.alpha = 0
         }) { didComplete in

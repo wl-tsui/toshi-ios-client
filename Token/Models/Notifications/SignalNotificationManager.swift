@@ -17,7 +17,7 @@ import UIKit
 
 public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage!, in thread: TSThread!, contactsManager: ContactsManagerProtocol!) {
+    public func notifyUser(for incomingMessage: TSIncomingMessage!, in _: TSThread!, contactsManager _: ContactsManagerProtocol!) {
         print("Incoming message: \(incomingMessage)")
     }
 

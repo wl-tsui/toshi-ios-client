@@ -2106,7 +2106,6 @@
 		A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TinyConstraints.framework; path = Carthage/Build/iOS/TinyConstraints.framework; sourceTree = "<group>"; };
 		A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		A9202E4C1ED84F6A0036E9B7 /* ImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
-		A9202E4D1ED84F6A0036E9B7 /* ImagesViewControllerPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewControllerPresentationController.swift; sourceTree = "<group>"; };
 		A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewControllerTransition.swift; sourceTree = "<group>"; };
 		A9202E501ED84F6A0036E9B7 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A9202E511ED84F6A0036E9B7 /* MessageCellButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCellButton.swift; sourceTree = "<group>"; };
@@ -3543,7 +3542,6 @@
 			children = (
 				A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */,
 				A9202E4C1ED84F6A0036E9B7 /* ImagesViewController.swift */,
-				A9202E4D1ED84F6A0036E9B7 /* ImagesViewControllerPresentationController.swift */,
 				A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */,
 			);
 			path = Images;
@@ -4306,7 +4304,6 @@
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F4D804D1EEA8B4500FB5361 /* MediaAssetFetchResultChange.m in Sources */,
 				9F4D7F891EEA8B4500FB5361 /* CameraCaptureSession.m in Sources */,
-				A9202E6F1ED850240036E9B7 /* ImagesViewControllerPresentationController.swift in Sources */,
 				A9202E651ED84FF90036E9B7 /* MessageCell.swift in Sources */,
 				9F4D7FE91EEA8B4500FB5361 /* MemoryCache.m in Sources */,
 				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
@@ -4815,7 +4812,6 @@
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
 				9F4D80F21EEA8B4500FB5361 /* MenuSheetView.m in Sources */,
 				9F4D7FE41EEA8B4500FB5361 /* MediaStoreContext.m in Sources */,
-				A9202E5B1ED84F6A0036E9B7 /* ImagesViewControllerPresentationController.swift in Sources */,
 				9F4D80601EEA8B4500FB5361 /* MediaPickerGalleryModel.m in Sources */,
 				9F5F297E1E2677F200C652A3 /* ChatController.swift in Sources */,
 				9F4D7EB21EEA8B4500FB5361 /* CameraPhotoPreviewController.m in Sources */,

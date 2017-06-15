@@ -1,13 +1,22 @@
 import UIKit
 import TinyConstraints
 
-typealias ImagesViewControllerDismiss = (IndexPath) -> Void
+protocol ImagesViewControllerDismissDelegate {
+    func imagesAreDismissed(from indexPath: IndexPath)
+}
 
 class ImagesViewController: UIViewController {
 
     var messages: [MessageModel] = []
     var initialIndexPath: IndexPath!
-    var prepareBeforeDismiss: ImagesViewControllerDismiss?
+    var dismissDelegate: ImagesViewControllerDismissDelegate?
+    var isInitialScroll: Bool = true
+
+    var interactiveTransition: UIPercentDrivenInteractiveTransition?
+
+    fileprivate lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+        UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
+    }()
 
     lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -37,6 +46,13 @@ class ImagesViewController: UIViewController {
         return view
     }()
 
+    lazy var separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Theme.borderColor
+
+        return view
+    }()
+
     private lazy var doneButton: UIBarButtonItem = {
         let view = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done(_:)))
         view.tintColor = Theme.tintColor
@@ -44,13 +60,18 @@ class ImagesViewController: UIViewController {
         return view
     }()
 
+    var currentIndexPath: IndexPath {
+        let collectionViewCenter = CGPoint(x: self.collectionView.contentOffset.x + (self.collectionView.bounds.width / 2), y: self.collectionView.bounds.height / 2)
+        let indexPath = self.collectionView.indexPathForItem(at: collectionViewCenter)
+        return indexPath ?? self.initialIndexPath
+    }
+
     convenience init(messages: [MessageModel], initialIndexPath: IndexPath) {
         self.init()
         self.messages = messages
         self.initialIndexPath = initialIndexPath
 
         self.modalPresentationStyle = .custom
-        self.transitioningDelegate = self
     }
 
     override func viewDidLoad() {
@@ -62,14 +83,24 @@ class ImagesViewController: UIViewController {
         self.navigationBar.right(to: self.view)
         self.navigationBar.height(64)
 
+        self.navigationBar.addSubview(self.separatorView)
+        self.separatorView.bottom(to: self.navigationBar)
+        self.separatorView.left(to: self.navigationBar)
+        self.separatorView.right(to: self.navigationBar)
+        self.separatorView.height(Theme.borderHeight)
+
         self.view.addSubview(self.collectionView)
         self.collectionView.topToBottom(of: self.navigationBar)
         self.collectionView.left(to: self.view)
         self.collectionView.bottom(to: self.view)
         self.collectionView.right(to: self.view)
 
-        self.navigationBar.setItems([UINavigationItem(title: self.title!)], animated: false)
+        self.navigationBar.setItems([UINavigationItem(title: self.title ?? "")], animated: false)
         self.navigationBar.topItem?.leftBarButtonItem = self.doneButton
+
+        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
+        self.panGestureRecognizer.delegate = self
+        view.addGestureRecognizer(self.panGestureRecognizer)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,35 +111,69 @@ class ImagesViewController: UIViewController {
 
         guard let initialIndexPath = initialIndexPath else { return }
         self.collectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
+        self.isInitialScroll = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let currentIndexPath = self.currentIndexPath {
-            self.prepareBeforeDismiss?(currentIndexPath)
-        }
+        self.dismissDelegate?.imagesAreDismissed(from: self.currentIndexPath)
     }
 
     func done(_: UIBarButtonItem) {
-        if let currentIndexPath = self.currentIndexPath {
-            self.prepareBeforeDismiss?(currentIndexPath)
-        }
+        self.dismissDelegate?.imagesAreDismissed(from: self.currentIndexPath)
 
         self.dismiss(animated: true, completion: nil)
     }
 
-    var currentIndexPath: IndexPath? {
-        let indexPath = self.collectionView.indexPathForItem(at: CGPoint(x: self.collectionView.contentOffset.x + (self.collectionView.bounds.width / 2), y: self.collectionView.bounds.height / 2))
-        return indexPath
+    func pan(_ gestureRecognizer: UIPanGestureRecognizer) {
+
+        switch gestureRecognizer.state {
+        case .began:
+            self.interactiveTransition = UIPercentDrivenInteractiveTransition()
+            dismiss(animated: true, completion: nil)
+        case .changed:
+            let translation = gestureRecognizer.translation(in: view)
+            let progress = max(translation.y / view.bounds.height, 0)
+            self.interactiveTransition?.update(progress)
+        case .ended:
+            let translation = gestureRecognizer.translation(in: view)
+            let velocity = gestureRecognizer.velocity(in: view)
+            let shouldComplete = translation.y > 50 && velocity.y >= 0
+
+            if shouldComplete {
+                self.interactiveTransition?.finish()
+            } else {
+                self.interactiveTransition?.update(0)
+                self.interactiveTransition?.cancel()
+                self.interactiveTransition = nil
+            }
+        case .cancelled:
+            self.interactiveTransition?.cancel()
+            self.interactiveTransition = nil
+        default: break
+        }
+    }
+}
+
+extension ImagesViewController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+
+        if gestureRecognizer == panGestureRecognizer {
+            let translation = panGestureRecognizer.translation(in: panGestureRecognizer.view)
+            return translation.y > translation.x
+        }
+
+        return true
     }
 }
 
 extension ImagesViewController: UICollectionViewDataSource {
 
-    func collectionView(_: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt _: IndexPath) {
-        guard cell is ImageCell else { return }
-        // cell.imageUrl = messages[indexPath.row].imageUrl
+    func collectionView(_: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? ImageCell else { return }
+        cell.imageView.image = self.messages[indexPath.row].image
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -117,6 +182,12 @@ extension ImagesViewController: UICollectionViewDataSource {
 
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return self.messages.count
+    }
+
+    func scrollViewDidScroll(_: UIScrollView) {
+        if !self.isInitialScroll {
+            self.dismissDelegate?.imagesAreDismissed(from: self.currentIndexPath)
+        }
     }
 }
 
@@ -129,27 +200,5 @@ extension ImagesViewController: UICollectionViewDelegateFlowLayout {
         }
 
         return CGSize(width: 0, height: self.view.bounds.height - 64)
-    }
-}
-
-extension ImagesViewController: UICollectionViewDelegate {
-
-    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelectItemAt:\(indexPath)")
-    }
-}
-
-extension ImagesViewController: UIViewControllerTransitioningDelegate {
-
-    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source _: UIViewController) -> UIPresentationController? {
-        return presented == self ? ImagesViewControllerPresentationController(presentedViewController: presented, presenting: presenting) : nil
-    }
-
-    func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return presented == self ? ImagesViewControllerTransition(operation: .present) : nil
-    }
-
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return dismissed == self ? ImagesViewControllerTransition(operation: .dismiss) : nil
     }
 }

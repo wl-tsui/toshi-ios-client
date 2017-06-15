@@ -140,7 +140,7 @@ open class ChatsController: SweetTableController {
         // No need to animate the tableview if not being presented.
         // Avoids an issue where tableview will actually cause a crash on update
         // during a chat update.
-        if self.navigationController?.topViewController == self {
+        if self.navigationController?.topViewController == self && self.tabBarController?.selectedViewController == self.navigationController {
             self.tableView.beginUpdates()
 
             for rowChange in messageRowChanges as! [YapDatabaseViewRowChange] {

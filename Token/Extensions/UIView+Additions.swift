@@ -18,13 +18,13 @@ import UIKit
 public extension UIView {
 
     static func highlightAnimation(_ animations: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: animations, completion: nil)
+        UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: animations, completion: nil)
     }
 
     func bounce() {
         self.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
 
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 200, options: .easeOut, animations: {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 200, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.transform = .identity
         }, completion: nil)
     }
@@ -32,7 +32,7 @@ public extension UIView {
     func shake() {
         self.transform = CGAffineTransform(translationX: 10, y: 0)
 
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 50, options: .easeOut, animations: {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 50, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.transform = .identity
         }, completion: nil)
     }

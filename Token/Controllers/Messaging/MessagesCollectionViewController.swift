@@ -62,7 +62,7 @@ class MessagesCollectionViewController: MessagesViewController {
         didSet {
             if self.isVisible, heightOfKeyboard != oldValue {
 
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                     self.additionalInsets.bottom = max(50, abs(self.heightOfKeyboard))
                 }, completion: nil)
 

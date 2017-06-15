@@ -134,7 +134,7 @@ class BackupPhraseView: UIView {
                 wordView.alpha = 0
             }
 
-            UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+            UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                 wordView.alpha = 1
             }, completion: nil)
         }
@@ -176,7 +176,7 @@ class BackupPhraseView: UIView {
     }
 
     func animateLayout(completion: ((Bool) -> Void)? = nil) {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.superview?.layoutIfNeeded()
         }, completion: completion)
     }

@@ -33,10 +33,6 @@ class MessagesViewController: OverlayController {
         return layout
     }()
 
-    // We need to add this margin to our collection view layout to prevent seeing
-    // cells being reused bacause of the layout's misplacement.
-    let margin: CGFloat = 200
-
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
         view.register(MessageCell.self, forCellWithReuseIdentifier: MessageCell.reuseIdentifier)
@@ -63,7 +59,7 @@ class MessagesViewController: OverlayController {
         super.viewDidLoad()
 
         view.addSubview(self.collectionView)
-        self.collectionView.edges(to: view, insets: UIEdgeInsets(top: -self.margin, left: 0, bottom: self.margin, right: 0), priority: .high)
+        self.collectionView.edges(to: view, priority: .high)
 
         self.updateInsets()
     }
@@ -77,8 +73,8 @@ class MessagesViewController: OverlayController {
     func updateInsets() {
         let extraVerticalContentInset: CGFloat = 10
 
-        self.collectionView.contentInset = UIEdgeInsets(top: self.margin + extraVerticalContentInset + self.additionalInsets.top, left: 0, bottom: self.margin + extraVerticalContentInset + self.additionalInsets.bottom, right: 0)
-        self.collectionView.scrollIndicatorInsets = UIEdgeInsets(top: self.margin + self.additionalInsets.top, left: 0, bottom: self.margin + self.additionalInsets.bottom, right: 0)
+        self.collectionView.contentInset = UIEdgeInsets(top: extraVerticalContentInset + self.additionalInsets.top, left: 0, bottom: extraVerticalContentInset + self.additionalInsets.bottom, right: 0)
+        self.collectionView.scrollIndicatorInsets = UIEdgeInsets(top: self.additionalInsets.top, left: 0, bottom: self.additionalInsets.bottom, right: 0)
     }
 
     func calculateSize(for indexPath: IndexPath) -> CGSize {
@@ -137,12 +133,5 @@ extension MessagesViewController: UICollectionViewDelegateFlowLayout {
         }
 
         return self.calculatedSizeCache[indexPath]!
-    }
-}
-
-extension MessagesViewController: UICollectionViewDelegate {
-
-    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelectItemAt:\(indexPath)")
     }
 }

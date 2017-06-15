@@ -206,7 +206,7 @@ extension ChatInputTextPanel: HPGrowingTextViewDelegate {
 
         self.inputContainerHeight = self.inputContainerHeight(for: textView.frame.height)
 
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 5, options: .easeOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 5, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.layoutIfNeeded()
         }, completion: nil)
     }
@@ -220,7 +220,7 @@ extension ChatInputTextPanel: HPGrowingTextViewDelegate {
 
         self.inputContainerHeight = self.inputContainerHeight(for: textView.frame.height)
 
-        UIView.animate(withDuration: hasText ? 0.4 : 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 5, options: .easeOut, animations: {
+        UIView.animate(withDuration: hasText ? 0.4 : 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 5, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.layoutIfNeeded()
             self.sendButton.isEnabled = hasText
         }, completion: nil)

@@ -93,7 +93,7 @@ open class RatingView: UIView {
         self.ratingConstraint.constant = self.starSize * CGFloat(roundedRating)
 
         if animated {
-            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .easeOut, animations: {
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                 self.layoutIfNeeded()
             }, completion: nil)
         } else {

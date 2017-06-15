@@ -175,7 +175,7 @@ class RateUserController: ModalPresentable {
         didSet {
             self.inputFieldHeight.constant = self.inputHeight
 
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                 self.view.layoutIfNeeded()
             }, completion: nil)
         }

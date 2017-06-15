@@ -80,7 +80,7 @@ class SettingsSectionHeader: UIView {
 
     func setErrorHidden(_ hidden: Bool, animated: Bool) {
         if animated {
-            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOut, animations: {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                 self.errorLabel.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity
                 self.errorImage.transform = hidden ? CGAffineTransform(translationX: 0, y: 25) : .identity
             }, completion: nil)

@@ -51,7 +51,6 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     func updateAllContacts() {
         self.updateContacts(for: TokenUser.storedContactKey)
         self.updateContacts(for: TokenUser.favoritesCollectionKey)
-
     }
 
     private func updateContacts(for collectionKey: String) {

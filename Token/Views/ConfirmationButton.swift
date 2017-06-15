@@ -41,7 +41,7 @@ class ConfirmationButton: UIControl {
                 self.isEnabled = false
             }
 
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .easeOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                 self.layoutIfNeeded()
             }, completion: { _ in
                 self.isEnabled = self.contentState == .actionable

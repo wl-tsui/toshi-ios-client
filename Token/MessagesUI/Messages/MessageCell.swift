@@ -1,15 +1,12 @@
 import UIKit
 
-typealias MessageCellImageTap = (IndexPath) -> Void
-
 protocol MessageCellDelegate {
+    func didTapImage(in cell: MessageCell)
     func didTapRejectButton(_ cell: MessageCell)
     func didTapApproveButton(_ cell: MessageCell)
 }
 
 class MessageCell: UICollectionViewCell {
-
-    var imageTap: MessageCellImageTap?
 
     var delegate: MessageCellDelegate?
 
@@ -66,11 +63,11 @@ class MessageCell: UICollectionViewCell {
         return view
     }()
 
-    private lazy var imageView: MessageImageView = {
-        let view = MessageImageView()
+    lazy var imageView: MessageImageView = {
+        let view = MessageImageView(frame: .zero)
         view.imageTap = {
             guard let indexPath = self.indexPath else { return }
-            self.imageTap?(indexPath)
+            self.delegate?.didTapImage(in: self)
         }
 
         return view
@@ -167,9 +164,9 @@ class MessageCell: UICollectionViewCell {
             }
 
             if let image = message.image {
-                self.imageView.imageView.image = image
+                self.imageView.image = image
             } else {
-                self.imageView.imageView.image = nil
+                self.imageView.image = nil
             }
 
             self.titleLabel.text = message.title

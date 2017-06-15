@@ -71,11 +71,43 @@ extension UIView {
 
 extension UIViewAnimationOptions {
 
-    static var easeIn: UIViewAnimationOptions {
+    static var easeInFromCurrentStateWithUserInteraction: UIViewAnimationOptions {
         return [.curveEaseIn, .beginFromCurrentState, .allowUserInteraction]
     }
 
-    static var easeOut: UIViewAnimationOptions {
+    static var easeOutFromCurrentStateWithUserInteraction: UIViewAnimationOptions {
         return [.curveEaseOut, .beginFromCurrentState, .allowUserInteraction]
+    }
+
+    static var easeInOutFromCurrentStateWithUserInteraction: UIViewAnimationOptions {
+        return [.curveEaseInOut, .beginFromCurrentState, .allowUserInteraction]
+    }
+}
+
+extension UIImageView {
+
+    func duplicate() -> UIImageView? {
+        guard let image = image?.copy() as? UIImage else { return nil }
+
+        return UIImageView(image: image)
+    }
+
+    func contentModeAwareImageSize() -> CGSize? {
+        guard let image = image else { return nil }
+        let actualSize = image.size
+
+        switch contentMode {
+        case .scaleAspectFill:
+
+            let scale = max(self.frame.size.width / actualSize.width, self.frame.size.height / actualSize.height)
+            return CGSize(width: actualSize.width * scale, height: actualSize.height * scale)
+
+        case .scaleAspectFit:
+
+            let scale = min(frame.size.width / actualSize.width, frame.size.height / actualSize.height)
+            return CGSize(width: actualSize.width * scale, height: actualSize.height * scale)
+
+        default: return nil
+        }
     }
 }
