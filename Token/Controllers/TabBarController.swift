@@ -152,6 +152,19 @@ open class TabBarController: UITabBarController {
         SoundPlayer.playSound(type: .menuButton)
         self.present(self.scannerController, animated: true)
     }
+
+    public func openDeepLinkURL(_ url: URL) {
+        if url.user == "username" {
+            guard let username = url.host else { return }
+
+            self.idAPIClient.retrieveContact(username: username) { contact in
+                guard let contact = contact else { return }
+
+                let contactController = ContactController(contact: contact)
+                (self.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
+            }
+        }
+    }
 }
 
 extension TabBarController: UITabBarControllerDelegate {

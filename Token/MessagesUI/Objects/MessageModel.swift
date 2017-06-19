@@ -43,7 +43,7 @@ struct MessageModel {
     var title: String?
     var subtitle: String?
     let text: String?
-    let didSent: Bool
+    let isOutgoing: Bool
 
     var image: UIImage? {
         if self.message.image != nil {
@@ -65,7 +65,7 @@ struct MessageModel {
     init(message: Message) {
         self.message = message
 
-        self.didSent = message.isOutgoing
+        self.isOutgoing = message.isOutgoing
 
         if let title = message.title, !title.isEmpty {
             self.title = title

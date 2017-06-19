@@ -321,6 +321,17 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    if ([url.scheme isEqualToString:@"toshi"]) {
+        TabBarController *controller = (TabBarController *)self.window.rootViewController;
+        [controller openDeepLinkURL:url];
+
+        return YES;
+    }
+
+    return NO;
+}
+
 #pragma mark - Accessors
 
 - (NSString *)token {

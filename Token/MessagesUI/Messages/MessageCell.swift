@@ -12,6 +12,10 @@ class MessageCell: UICollectionViewCell {
 
     var indexPath: IndexPath?
 
+    private var linkTintColor: UIColor {
+        return (self.message?.isOutgoing == true ? Theme.outgoingMessageTextColor : Theme.tintColor)
+    }
+
     static var reuseIdentifier = "MessageCell"
 
     var titleFont: UIFont = Theme.regular(size: 18)
@@ -23,7 +27,7 @@ class MessageCell: UICollectionViewCell {
     let totalHorizontalMargin: CGFloat = 123
 
     var textFont: UIFont {
-        guard let message = message, let text = message.text, text.hasEmojiOnly, text.characters.count < 4 else {
+        guard let message = self.message, let text = message.text, text.hasEmojiOnly, text.characters.count < 4 else {
             if self.message?.type == .paymentRequest || self.message?.type == .payment {
                 return Theme.regular(size: 14)
             }
@@ -45,10 +49,16 @@ class MessageCell: UICollectionViewCell {
         return view
     }()
 
-    lazy var textLabel: UILabel = {
-        let view = UILabel()
-        view.numberOfLines = 0
+    lazy var textView: UITextView = {
+        let view = UITextView()
+
         view.font = self.textFont
+        view.dataDetectorTypes = [.link]
+        view.isUserInteractionEnabled = true
+        view.isScrollEnabled = false
+        view.isEditable = false
+        view.backgroundColor = .clear
+        view.contentInset = UIEdgeInsetsMake(7, 7, 0, 0)
 
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
@@ -78,15 +88,9 @@ class MessageCell: UICollectionViewCell {
         return view
     }()
 
-    private lazy var container: UIView = {
-        UIView()
-    }()
+    private let container = UIView()
 
-    private lazy var avatar: UIImageView = {
-        let view = UIImageView()
-
-        return view
-    }()
+    private let avatar = UIImageView()
 
     lazy var statusLabel: UILabel = {
         let view = UILabel()
@@ -99,6 +103,8 @@ class MessageCell: UICollectionViewCell {
 
         return view
     }()
+
+    private let usernameDetector = try! NSRegularExpression(pattern: " ?(@[a-zA-Z][a-zA-Z0-9_]{2,59}) ?", options: [.caseInsensitive, .useUnicodeWordBoundaries])
 
     private lazy var avatarLeft: NSLayoutConstraint = {
         self.avatar.centerX(to: self.leftSpacing, isActive: false)
@@ -127,11 +133,11 @@ class MessageCell: UICollectionViewCell {
     }()
 
     private lazy var textLeftConstraints: NSLayoutConstraint = {
-        self.textLabel.left(to: self.container, offset: self.horizontalMargin, isActive: false)
+        self.textView.left(to: self.container, offset: self.horizontalMargin, isActive: false)
     }()
 
     private lazy var textRightConstraints: NSLayoutConstraint = {
-        self.textLabel.right(to: self.container, offset: -self.horizontalMargin, isActive: false)
+        self.textView.right(to: self.container, offset: -self.horizontalMargin, isActive: false)
     }()
 
     private lazy var buttons: [MessageCellButton] = {
@@ -156,7 +162,7 @@ class MessageCell: UICollectionViewCell {
 
     var message: MessageModel? {
         didSet {
-            guard let message = message else { return }
+            guard let message = self.message else { return }
 
             self.isActionable = message.isActionable
 
@@ -175,17 +181,17 @@ class MessageCell: UICollectionViewCell {
             }
 
             self.titleLabel.text = message.title
-            self.textLabel.text = message.text
-            self.textLabel.font = textFont
+            self.textView.text = message.text
+            self.textView.font = textFont
             self.subtitleLabel.text = message.subtitle
 
             self.bottomConstraint.constant = 0
 
-            self.container.backgroundColor = message.didSent ? Theme.outgoingMessageBackgroundColor : Theme.incomingMessageBackgroundColor
-            self.titleLabel.textColor = message.didSent ? Theme.lightTextColor : Theme.darkTextColor
-            self.textLabel.textColor = message.didSent ? Theme.lightTextColor : Theme.darkTextColor
+            self.container.backgroundColor = message.isOutgoing ? Theme.outgoingMessageBackgroundColor : Theme.incomingMessageBackgroundColor
+            self.titleLabel.textColor = message.isOutgoing ? Theme.lightTextColor : Theme.darkTextColor
+            self.textView.textColor = message.isOutgoing ? Theme.lightTextColor : Theme.darkTextColor
 
-            if message.didSent {
+            if message.isOutgoing {
                 self.avatarLeft.isActive = false
                 self.avatarRight.isActive = true
 
@@ -219,7 +225,7 @@ class MessageCell: UICollectionViewCell {
 
                 self.titleLabel.textColor = Theme.tintColor
                 self.subtitleLabel.textColor = Theme.mediumTextColor
-                self.textLabel.textColor = Theme.darkTextColor
+                self.textView.textColor = Theme.darkTextColor
                 self.statusLabel.textColor = Theme.mediumTextColor
 
                 self.container.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
@@ -265,30 +271,33 @@ class MessageCell: UICollectionViewCell {
                 self.avatar.image = nil
             }
 
-            self.fixCorners()
+            self.applyCornersRadius()
 
-            if !frame.isEmpty {
-                setNeedsLayout()
-                layoutIfNeeded()
+            if !self.frame.isEmpty {
+                self.detectUsernameLinks()
+                self.setNeedsLayout()
+                self.layoutIfNeeded()
             }
 
             if let image = message.image {
-                let maxWidth = UIScreen.main.bounds.width - totalHorizontalMargin
+                let maxWidth = UIScreen.main.bounds.width - self.totalHorizontalMargin
                 let maxHeight = min(200, image.size.height)
 
                 let imageWidth = imageSize(for: CGSize(width: maxWidth, height: maxHeight)).width
-                imageView.widthConstraint?.isActive = true
-                imageView.widthConstraint?.constant = imageWidth
+                self.imageView.widthConstraint?.isActive = true
+                self.imageView.widthConstraint?.constant = imageWidth
 
                 if message.imageOnly {
-                    container.backgroundColor = nil
+                    self.container.backgroundColor = nil
                 }
             } else {
-                imageView.widthConstraint?.isActive = false
+                self.imageView.widthConstraint?.isActive = false
             }
 
-            setNeedsLayout()
-            layoutIfNeeded()
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+
+            self.textView.linkTextAttributes = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName: self.linkTintColor]
         }
     }
 
@@ -297,20 +306,24 @@ class MessageCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.isOpaque = false
+        self.contentView.isOpaque = false
 
-        contentView.addSubview(self.statusLabel)
-        self.statusLabel.left(to: contentView)
-        self.statusLabel.right(to: contentView)
+        self.addSubviewsAndConstraints()
+    }
 
-        contentView.addLayoutGuide(self.leftSpacing)
-        self.leftSpacing.top(to: contentView)
-        self.leftSpacing.left(to: contentView, offset: 10)
+    private func addSubviewsAndConstraints() {
+        self.contentView.addSubview(self.statusLabel)
+        self.statusLabel.left(to: self.contentView)
+        self.statusLabel.right(to: self.contentView)
+
+        self.contentView.addLayoutGuide(self.leftSpacing)
+        self.leftSpacing.top(to: self.contentView)
+        self.leftSpacing.left(to: self.contentView, offset: 10)
         self.leftSpacing.bottomToTop(of: self.statusLabel)
 
-        contentView.addLayoutGuide(self.rightSpacing)
-        self.rightSpacing.top(to: contentView)
-        self.rightSpacing.right(to: contentView, offset: -10)
+        self.contentView.addLayoutGuide(self.rightSpacing)
+        self.rightSpacing.top(to: self.contentView)
+        self.rightSpacing.right(to: self.contentView, offset: -10)
         self.rightSpacing.bottomToTop(of: self.statusLabel)
 
         self.leftWidthSmall.isActive = false
@@ -318,13 +331,13 @@ class MessageCell: UICollectionViewCell {
         self.leftWidthBig.isActive = true
         self.rightWidthSmall.isActive = true
 
-        contentView.addSubview(self.container)
-        self.container.top(to: contentView)
+        self.contentView.addSubview(self.container)
+        self.container.top(to: self.contentView)
         self.container.leftToRight(of: self.leftSpacing)
         self.container.bottomToTop(of: self.statusLabel)
         self.container.rightToLeft(of: self.rightSpacing)
 
-        contentView.addSubview(self.avatar)
+        self.contentView.addSubview(self.avatar)
         self.avatar.size(CGSize(width: 32, height: 32))
         self.avatar.bottomToTop(of: self.statusLabel)
         self.avatarLeft.isActive = true
@@ -338,7 +351,7 @@ class MessageCell: UICollectionViewCell {
         self.titleLabel.left(to: self.container, offset: self.horizontalMargin)
         self.titleLabel.right(to: self.container, offset: -self.horizontalMargin)
 
-        self.container.addSubview(self.textLabel)
+        self.container.addSubview(self.textView)
         self.textLeftConstraints.isActive = true
         self.textRightConstraints.isActive = true
 
@@ -346,17 +359,17 @@ class MessageCell: UICollectionViewCell {
         self.subtitleLabel.left(to: self.container, offset: self.horizontalMargin)
         self.subtitleLabel.right(to: self.container, offset: -self.horizontalMargin)
 
-        for button in buttons {
+        for button in self.buttons {
             button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
             self.container.addSubview(button)
-            button.left(to: container)
-            button.right(to: container)
+            button.left(to: self.container)
+            button.right(to: self.container)
         }
 
         for guide in self.verticalGuides {
             self.container.addLayoutGuide(guide)
-            guide.left(to: container)
-            guide.right(to: container)
+            guide.left(to: self.container)
+            guide.right(to: self.container)
         }
 
         self.buttons[0].topToBottom(of: self.verticalGuides[3])
@@ -368,14 +381,14 @@ class MessageCell: UICollectionViewCell {
         self.verticalGuides[1].topToBottom(of: self.titleLabel)
         self.verticalGuides[1].bottomToTop(of: self.subtitleLabel)
         self.verticalGuides[2].topToBottom(of: self.subtitleLabel)
-        self.verticalGuides[2].bottomToTop(of: self.textLabel)
-        self.verticalGuides[3].topToBottom(of: self.textLabel)
+        self.verticalGuides[2].bottomToTop(of: self.textView)
+        self.verticalGuides[3].topToBottom(of: self.textView)
 
-        contentView.addLayoutGuide(self.bottomGuide)
+        self.contentView.addLayoutGuide(self.bottomGuide)
         self.bottomGuide.topToBottom(of: self.statusLabel)
-        self.bottomGuide.left(to: contentView)
-        self.bottomGuide.bottom(to: contentView)
-        self.bottomGuide.right(to: contentView)
+        self.bottomGuide.left(to: self.contentView)
+        self.bottomGuide.bottom(to: self.contentView)
+        self.bottomGuide.right(to: self.contentView)
     }
 
     func buttonPressed(_ button: MessageCellButton) {
@@ -397,19 +410,41 @@ class MessageCell: UICollectionViewCell {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.fixCorners()
+        self.applyCornersRadius()
     }
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        setNeedsLayout()
-        layoutIfNeeded()
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
     }
 
-    func fixCorners() {
+    private func detectUsernameLinks() {
+        if let text = self.textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
+
+            let range = NSRange(location: 0, length: text.string.length)
+
+            self.usernameDetector.enumerateMatches(in: text.string, options: [], range: range) { result, _, _ in
+
+                if let result = result {
+                    let attrs: [String: Any] = [
+                        NSLinkAttributeName: "toshi://username:\((text.string as NSString).substring(with: result.rangeAt(1)))",
+                        NSForegroundColorAttributeName: self.linkTintColor,
+                        NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
+                    ]
+
+                    text.addAttributes(attrs, range: result.rangeAt(1))
+                }
+            }
+
+            self.textView.attributedText = text
+        }
+    }
+
+    private func applyCornersRadius() {
         guard let message = message else { return }
-        let corners: UIRectCorner = message.didSent ? [.bottomLeft, .topLeft, .topRight] : [.bottomRight, .topLeft, .topRight]
+        let corners: UIRectCorner = message.isOutgoing ? [.bottomLeft, .topLeft, .topRight] : [.bottomRight, .topLeft, .topRight]
 
         self.container.roundCorners(corners, radius: 16)
         self.container.clipsToBounds = true

@@ -19,7 +19,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     }
 
     var isPresenting: Bool {
-        return operation == .present
+        return self.operation == .present
     }
 
     init(operation: ControllerTransitionOperation) {
@@ -34,7 +34,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
-        if isPresenting {
+        if self.isPresenting {
             guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController else { return }
             guard let messagesViewController = tabBarController.messagingController.topViewController as? MessagesViewController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .to) as? ImagesViewController else { return }
