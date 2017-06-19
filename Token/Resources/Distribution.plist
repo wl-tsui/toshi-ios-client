@@ -28,7 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>70</string>
+	<string>73</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -56,6 +56,8 @@
 	<string>Required to scan codes for adding contacts and payments.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Required to record videos with sound.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Required to allow orientation switching in camera </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Required to upload pictures.</string>
 	<key>TokenChatServiceBaseURL</key>

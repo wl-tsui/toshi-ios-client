@@ -134,6 +134,7 @@
 		2BD135AB1EE18ACF00B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
+		84B2E4021EF3F6C3009927B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
 		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
 		84C195301ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
@@ -3794,6 +3795,7 @@
 				149F9AD71E72E29A00FB74AA /* SF-UI-Text-RegularItalic.otf in Resources */,
 				9F78D9DF1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
 				149F9AD81E72E29A00FB74AA /* SF-UI-Text-Regular.otf in Resources */,
+				84B2E4021EF3F6C3009927B2 /* LaunchScreen.storyboard in Resources */,
 				149F9ADA1E72E29A00FB74AA /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				149F9ADB1E72E29A00FB74AA /* SF-UI-Display-Heavy.otf in Resources */,
 				149F9ADC1E72E29A00FB74AA /* Assets.xcassets in Resources */,
