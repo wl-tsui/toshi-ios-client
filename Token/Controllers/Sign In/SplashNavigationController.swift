@@ -15,7 +15,7 @@
 
 import UIKit
 
-public class SplashInNavigationController: UINavigationController {
+public class SplashNavigationController: UINavigationController {
 
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default

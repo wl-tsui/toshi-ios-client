@@ -132,8 +132,8 @@
 		2BD135A61EE1896000B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2BD135A71EE1896000B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2BD135AB1EE18ACF00B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		2BD135AE1EE1A1E000B9F454 /* SplashInNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashInNavigationController.swift */; };
-		2BD135AF1EE1A1E000B9F454 /* SplashInNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashInNavigationController.swift */; };
+		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
+		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
 		84C195301ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
@@ -1219,7 +1219,7 @@
 		2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicating.swift; sourceTree = "<group>"; };
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BD135A11EE1890200B9F454 /* AddressChangeAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressChangeAlertController.swift; sourceTree = "<group>"; };
-		2BD135AD1EE1A1E000B9F454 /* SplashInNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashInNavigationController.swift; sourceTree = "<group>"; };
+		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		558646ED17EF64D6287EBF5F /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
 		8127F350AC2D5B8DBC172E34 /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3609,7 +3609,7 @@
 				A9ED6CC71E8282D000160637 /* SignInController.swift */,
 				2BB842781EDD91F70044BDAB /* SplashViewController.swift */,
 				2BD135A11EE1890200B9F454 /* AddressChangeAlertController.swift */,
-				2BD135AD1EE1A1E000B9F454 /* SplashInNavigationController.swift */,
+				2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -4318,7 +4318,7 @@
 				9F4D7F2F1EEA8B4500FB5361 /* PhotoEditor.m in Sources */,
 				9F4D80931EEA8B4500FB5361 /* CameraFlashActiveView.m in Sources */,
 				149F9A871E72E29A00FB74AA /* TSInteraction+Additions.swift in Sources */,
-				2BD135AF1EE1A1E000B9F454 /* SplashInNavigationController.swift in Sources */,
+				2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
 				149F9A881E72E29A00FB74AA /* SearchResultCell.swift in Sources */,
 				9F4D81011EEA8B4500FB5361 /* ModernClockProgressView.m in Sources */,
 				9F4D80411EEA8B4500FB5361 /* ImageDataSource.m in Sources */,
@@ -4749,7 +4749,7 @@
 				9F4D7FE21EEA8B4500FB5361 /* MediaSelectionContext.m in Sources */,
 				9F4D7F1E1EEA8B4500FB5361 /* PaintState.m in Sources */,
 				9F4D811C1EEA8B4600FB5361 /* ModernGalleryView.m in Sources */,
-				2BD135AE1EE1A1E000B9F454 /* SplashInNavigationController.swift in Sources */,
+				2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
 				2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */,
 				9F4D81581EEA8B4600FB5361 /* PhotoEditorToolButtonsView.m in Sources */,
 				9F4D7FD61EEA8B4500FB5361 /* MediaAssetModernImageSignals.m in Sources */,

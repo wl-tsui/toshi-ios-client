@@ -62,7 +62,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     [self setupBasicAppearance];
     [self setupTSKitEnv];
-    [self setupSignalService];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidSignOut) name:@"UserDidSignOut" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(createOrRestoreNewUser) name:@"CreateNewUser" object:nil];
@@ -71,7 +70,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [self configureAndPresentWindow];
     
     if (TokenUser.current == nil) {
-        [self presentSignIn];
+        [self presentSplash];
     } else {
         [self createOrRestoreNewUser];
     }
@@ -145,6 +144,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)createOrRestoreNewUser {
+    [self setupSignalService];
+    
     if (TokenUser.current == nil) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -173,8 +174,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)presentSignIn {
-    SplashInNavigationController *splashNavigationController = [[SplashInNavigationController alloc] init];
+- (void)presentSplash
+{
+    SplashNavigationController *splashNavigationController = [[SplashNavigationController alloc] init];
     [self.window.rootViewController presentViewController:splashNavigationController animated:NO completion:nil];
 }
 
