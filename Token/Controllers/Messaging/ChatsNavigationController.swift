@@ -70,7 +70,7 @@ public class ChatsNavigationController: UINavigationController {
         self.navigationBar.sendSubview(toBack: self.backgroundBlur)
     }
 
-    public func openThread(withAddress address: String) {
+    public func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
         _ = self.popToRootViewController(animated: false)
         guard let chatsController = self.viewControllers.first as? ChatsController else { fatalError() }
 
@@ -78,6 +78,8 @@ public class ChatsNavigationController: UINavigationController {
         let messagesController = ChatController(thread: thread)
 
         self.pushViewController(messagesController, animated: false)
+        
+        completion?(messagesController)
     }
 
     public func openThread(withThreadIdentifier identifier: String, animated: Bool) {

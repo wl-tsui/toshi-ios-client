@@ -123,6 +123,9 @@
 		2BAB90CA1EC120A8005D98C6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90C91EC120A8005D98C6 /* libc++.tbd */; };
 		2BAB90CB1EC120B0005D98C6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90B61EC119FC005D98C6 /* libz.tbd */; };
 		2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB842781EDD91F70044BDAB /* SplashViewController.swift */; };
+		2BC4084E1EF186000044C242 /* PaymentPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4084D1EF186000044C242 /* PaymentPresentable.swift */; };
+		2BC4084F1EF186000044C242 /* PaymentPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4084D1EF186000044C242 /* PaymentPresentable.swift */; };
+		2BC4C07F1EF3ED4700F99CE2 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
 		2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
 		2BD135A31EE1890200B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -1212,6 +1215,8 @@
 		2BAB90C71EC12098005D98C6 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		2BAB90C91EC120A8005D98C6 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		2BB842781EDD91F70044BDAB /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		2BC4084D1EF186000044C242 /* PaymentPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentPresentable.swift; sourceTree = "<group>"; };
+		2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicating.swift; sourceTree = "<group>"; };
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BD135A11EE1890200B9F454 /* AddressChangeAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressChangeAlertController.swift; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashInNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashInNavigationController.swift; sourceTree = "<group>"; };
@@ -3491,6 +3496,8 @@
 			isa = PBXGroup;
 			children = (
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
+				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
+				2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -4342,6 +4349,7 @@
 				9F4D81031EEA8B4500FB5361 /* ModernGalleryContainerView.m in Sources */,
 				9F4D80DB1EEA8B4500FB5361 /* MediaPickerGalleryVideoScrubberThumbnailView.m in Sources */,
 				149F9A8C1E72E29A00FB74AA /* FavoritesNavigationController.swift in Sources */,
+				2BC4084F1EF186000044C242 /* PaymentPresentable.swift in Sources */,
 				A9BF33B31E76F8D0009A51AA /* BackupPhraseEnableController.swift in Sources */,
 				9F4D7F391EEA8B4500FB5361 /* PhotoEditorValues.m in Sources */,
 				9F4D7EFB1EEA8B4500FB5361 /* GrainTool.m in Sources */,
@@ -4823,6 +4831,7 @@
 				145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */,
 				9F4D801C1EEA8B4500FB5361 /* TimerTarget.m in Sources */,
 				9F4D7FE01EEA8B4500FB5361 /* MediaPickerModernGalleryMixin.m in Sources */,
+				2BC4C07F1EF3ED4700F99CE2 /* ActivityIndicating.swift in Sources */,
 				9F4D7FDC1EEA8B4500FB5361 /* MediaPickerGalleryVideoScrubber.m in Sources */,
 				9F4D80EC1EEA8B4500FB5361 /* MenuSheetDimView.m in Sources */,
 				9F4D81301EEA8B4600FB5361 /* PhotoCropAreaView.m in Sources */,
@@ -4833,6 +4842,7 @@
 				A9202E5F1ED84F6A0036E9B7 /* MessageImageView.swift in Sources */,
 				9F4D7FDA1EEA8B4500FB5361 /* MediaEditingContext.m in Sources */,
 				A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */,
+				2BC4084E1EF186000044C242 /* PaymentPresentable.swift in Sources */,
 				9F4D7EB81EEA8B4500FB5361 /* MediaAssetsMomentsController.m in Sources */,
 				9F4D810A1EEA8B4500FB5361 /* ModernGalleryImageItemView.m in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,

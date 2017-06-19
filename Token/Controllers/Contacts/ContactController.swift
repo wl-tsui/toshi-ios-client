@@ -18,6 +18,10 @@ import SweetUIKit
 import CoreImage
 
 public class ContactController: UIViewController {
+    
+    fileprivate lazy var activityView: UIActivityIndicatorView = {
+        return self.defaultActivityIndicator()
+    }()
 
     public var contact: TokenUser
 
@@ -182,6 +186,8 @@ public class ContactController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.setupActivityIndicator()
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more"), style: .plain, target: self, action: #selector(self.displayActions))
         self.view.backgroundColor = Theme.settingsBackgroundColor
@@ -427,6 +433,12 @@ public class ContactController: UIViewController {
     }
 }
 
+extension ContactController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
+    }
+}
+
 extension ContactController: RateUserControllerDelegate {
     func didRate(_ user: TokenUser, rating: Int, review: String) {
         self.dismiss(animated: true) {
@@ -455,10 +467,21 @@ extension ContactController: PaymentSendControllerDelegate {
             "value": value.toHexString,
         ]
 
+        self.showActivityIndicator()
+        
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
+            
+            guard let transaction = transaction as String? else {
+                self.hideActivityIndicator()
+                return
+            }
+            
+            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-            etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
+            etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
+                
+                self.hideActivityIndicator()
+                
                 if error != nil {
                     guard let json = json?.dictionary else { fatalError("!") }
 

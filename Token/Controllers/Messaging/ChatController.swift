@@ -47,6 +47,10 @@ class ChatController: MessagesCollectionViewController {
         let disposable = SMetaDisposable()
         return disposable
     }()
+    
+    fileprivate lazy var activityView: UIActivityIndicatorView = {
+        return self.defaultActivityIndicator()
+    }()
 
     fileprivate var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
 
@@ -203,6 +207,8 @@ class ChatController: MessagesCollectionViewController {
 
         self.view.backgroundColor = Theme.messageViewBackgroundColor
 
+        self.setupActivityIndicator()
+        
         self.textInputView.delegate = self
 
         self.view.addSubview(self.ethereumPromptView)
@@ -632,6 +638,38 @@ class ChatController: MessagesCollectionViewController {
             self.navigationController?.pushViewController(contactController, animated: true)
         }
     }
+    
+    func sendPayment(with parameters: [String: Any]) {
+        self.showActivityIndicator()
+        
+        self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
+            
+            guard let transaction = transaction as String? else {
+                self.hideActivityIndicator()
+                return
+            }
+            
+            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+            
+            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
+                
+                self.hideActivityIndicator()
+                
+                if error != nil {
+                    guard let json = json?.dictionary else { fatalError("!") }
+                    
+                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                    self.present(alert, animated: true)
+                } else if let json = json?.dictionary {
+                    guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                    guard let value = parameters["value"] as? String else { return }
+                    
+                    let payment = SofaPayment(txHash: txHash, valueHex: value)
+                    self.sendMessage(sofaWrapper: payment)
+                }
+            }
+        }
+    }
 }
 
 extension ChatController: ImagesViewControllerDismissDelegate {
@@ -685,10 +723,21 @@ extension ChatController: MessageCellDelegate {
             "value": value.toHexString,
         ]
 
+        self.showActivityIndicator()
+        
         self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
+            
+            guard let transaction = transaction as String? else {
+                self.hideActivityIndicator()
+                return
+            }
+            
+            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
+            self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
+                
+                self.hideActivityIndicator()
+                
                 if error != nil {
                     guard let json = json?.dictionary else { fatalError("!") }
 
@@ -710,6 +759,12 @@ extension ChatController: MessageCellDelegate {
                 }
             }
         }
+    }
+}
+
+extension ChatController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
     }
 }
 
@@ -1047,23 +1102,7 @@ extension ChatController: PaymentSendControllerDelegate {
                 "value": value.toHexString,
             ]
 
-            self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
-
-                let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction!))"
-
-                self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction!, transactionSignature: signedTransaction) { json, error in
-                    if error != nil {
-                        guard let json = json?.dictionary else { fatalError("!") }
-
-                        let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
-                        self.present(alert, animated: true)
-                    } else if let json = json?.dictionary {
-                        guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
-                        let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
-                        self.sendMessage(sofaWrapper: payment)
-                    }
-                }
-            }
+            self.sendPayment(with: parameters)
         }
     }
 }

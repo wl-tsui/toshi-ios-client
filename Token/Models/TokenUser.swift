@@ -16,7 +16,7 @@
 import Foundation
 import SweetSwift
 
-public typealias UserInfo = (address: String, avatar: UIImage?, name: String?, username: String?, isLocal: Bool)
+public typealias UserInfo = (address: String, paymentAddress: String?, avatar: UIImage?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
 
 extension Notification.Name {
     public static let CurrentUserDidUpdateAvatarNotification = Notification.Name(rawValue: "CurrentUserDidUpdateAvatarNotification")
@@ -130,6 +130,10 @@ public class TokenUser: NSObject, NSCoding {
             Constants.isApp: self.isApp,
             Constants.verified: self.verified,
         ]
+    }
+    
+    var userInfo: UserInfo {
+        return UserInfo(address: self.address, paymentAddress: self.paymentAddress, avatar: self.avatar, avatarPath: self.avatarPath, name: self.name, username: self.displayUsername, isLocal: true)
     }
 
     public static func retrieveCurrentUser() {

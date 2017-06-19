@@ -72,6 +72,10 @@ class PaymentConfirmationController: AlertController {
 
             if self.userInfo.avatar != nil {
                 customView.userAvatarImageView.image = self.userInfo.avatar
+            } else if let path = self.userInfo.avatarPath as String?, path.isEmpty == false {
+                IDAPIClient.shared.downloadAvatar(path: path) { image in
+                    customView.userAvatarImageView.image = image
+                }
             }
 
             customView.userDisplayNameLabel.text = self.userInfo.name

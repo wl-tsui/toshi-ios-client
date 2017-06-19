@@ -31,6 +31,8 @@ class SOFAWebController: UIViewController {
 
     fileprivate let rcpUrl = "https://propsten.infura.io/"
 
+    fileprivate var callbackId = ""
+    
     fileprivate lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
 
@@ -124,41 +126,6 @@ class SOFAWebController: UIViewController {
         self.webView.fillSuperview()
     }
 
-    fileprivate func displayPaymentConfirmation(userInfo: UserInfo, parameters: [String: Any], callbackId: String) {
-
-        guard let valueString = parameters["value"] as? String else { return }
-
-        let paymentConfirmationController = PaymentConfirmationController(userInfo: userInfo, value: NSDecimalNumber(hexadecimalString: valueString))
-
-        let declineIcon = UIImage(named: "cross")
-        let declineAction = Action(title: "Decline", titleColor: UIColor(white: 0.5, alpha: 1.0), icon: declineIcon) { _ in
-            let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
-            self.jsCallback(callbackId: callbackId, payload: payload)
-            paymentConfirmationController.dismiss(animated: true, completion: nil)
-        }
-
-        let approveIcon = UIImage(named: "check")
-        let approveAction = Action(title: "Approve", titleColor: Theme.tintColor, icon: approveIcon) { _ in
-            self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, _ in
-                var payload: String
-
-                if let tx = transaction {
-                    let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: tx))"
-                    payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + tx + "\\\", \\\"" + signedTransaction + "\\\"]}"
-                } else {
-                    payload = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
-                }
-
-                self.jsCallback(callbackId: callbackId, payload: payload)
-                paymentConfirmationController.dismiss(animated: true, completion: nil)
-            }
-        }
-
-        paymentConfirmationController.actions = [declineAction, approveAction]
-
-        self.present(paymentConfirmationController, animated: true)
-    }
-
     public func load(url: URL) {
         let request = URLRequest(url: url)
         self.webView.load(request)
@@ -210,6 +177,8 @@ extension SOFAWebController: WKScriptMessageHandler {
     func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let method = Method(rawValue: message.name) else { return print("failed \(message.name)") }
         guard let callbackId = (message.body as! NSDictionary).value(forKey: "callback") as? String else { return print("missing callback id") }
+        
+        self.callbackId = callbackId
 
         switch method {
         case .getAccounts:
@@ -245,8 +214,8 @@ extension SOFAWebController: WKScriptMessageHandler {
             }
 
             if let to = tx["to"] as? String {
-                IDAPIClient.shared.retrieveUser(username: to) { user in
-                    var userInfo = UserInfo(address: to, avatar: nil, name: nil, username: to, isLocal: false)
+                IDAPIClient.shared.retrieveContact(username: to) { user in
+                    var userInfo = UserInfo(address: to, paymentAddress: to, avatar: nil, avatarPath: nil, name: nil, username: to, isLocal: false)
 
                     if let user = user as TokenUser? {
                         let avatar = user.avatar != nil ? user.avatar : UIImage(color: UIColor.lightGray)
@@ -255,12 +224,11 @@ extension SOFAWebController: WKScriptMessageHandler {
                         userInfo.name = user.name
                         userInfo.isLocal = true
                     }
-
-                    self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters, callbackId: callbackId)
+                    self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
                 }
             } else {
-                let userInfo = UserInfo(address: "", avatar: nil, name: "New Contract", username: "", isLocal: false)
-                self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters, callbackId: callbackId)
+                let userInfo = UserInfo(address: "", paymentAddress: "", avatar: nil, avatarPath: nil, name: "New Contract", username: "", isLocal: false)
+                self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
             }
 
             break
@@ -270,5 +238,27 @@ extension SOFAWebController: WKScriptMessageHandler {
 
             break
         }
+    }
+}
+
+extension SOFAWebController: PaymentPresentable {
+    func paymentApproved(with parameters: [String: Any], userInfo: UserInfo) {
+        self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, _ in
+            var payload: String
+            
+            if let tx = transaction {
+                let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: tx))"
+                payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + tx + "\\\", \\\"" + signedTransaction + "\\\"]}"
+            } else {
+                payload = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
+            }
+            
+            self.jsCallback(callbackId: self.callbackId, payload: payload)
+        }
+    }
+    
+    func paymentDeclined() {
+        let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
+        self.jsCallback(callbackId: callbackId, payload: payload)
     }
 }
