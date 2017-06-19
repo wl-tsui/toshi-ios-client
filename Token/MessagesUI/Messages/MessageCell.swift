@@ -279,9 +279,9 @@ class MessageCell: UICollectionViewCell {
                 self.layoutIfNeeded()
             }
 
-            if let image = message.image {
-                let maxWidth = UIScreen.main.bounds.width - self.totalHorizontalMargin
-                let maxHeight = min(200, image.size.height)
+            if message.image != nil {
+                let maxWidth = UIScreen.main.bounds.width - totalHorizontalMargin
+                let maxHeight: CGFloat = 200
 
                 let imageWidth = imageSize(for: CGSize(width: maxWidth, height: maxHeight)).width
                 self.imageView.widthConstraint?.isActive = true
@@ -294,8 +294,10 @@ class MessageCell: UICollectionViewCell {
                 self.imageView.widthConstraint?.isActive = false
             }
 
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
+            if !frame.isEmpty {
+                self.setNeedsLayout()
+                self.layoutIfNeeded()
+            }
 
             self.textView.linkTextAttributes = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName: self.linkTintColor]
         }
@@ -464,8 +466,8 @@ class MessageCell: UICollectionViewCell {
         var totalHeight: CGFloat = 0
         var totalMargin: CGFloat = 0
 
-        if let image = message.image {
-            let maxHeight = min(200, image.size.height)
+        if message.image != nil {
+            let maxHeight: CGFloat = 200
             totalHeight += imageSize(for: CGSize(width: maxWidth, height: maxHeight)).height
         }
 

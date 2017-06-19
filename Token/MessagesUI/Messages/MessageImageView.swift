@@ -27,7 +27,7 @@ class MessageImageView: UIImageView {
         super.init(frame: frame)
 
         self.isUserInteractionEnabled = true
-        self.contentMode = .scaleAspectFit
+        self.contentMode = .scaleAspectFill
         self.clipsToBounds = true
         self.backgroundColor = .white
 
