@@ -100,6 +100,7 @@
 		14ED3ABF1E4A347400DF8079 /* BrowseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* BrowseNavigationController.swift */; };
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
+		2B35F2C01EF93320006A0FD0 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2B369E371EE59958002A44A3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* Message.swift */; };
 		2B369E381EE59959002A44A3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* Message.swift */; };
 		2BAB90A71EC1194B005D98C6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A01EC1194B005D98C6 /* Accelerate.framework */; };
@@ -4335,6 +4336,7 @@
 				9F4D7F9F1EEA8B4500FB5361 /* DocumentAttributeImageSize.m in Sources */,
 				9F4D80E31EEA8B4500FB5361 /* MediaPickerPhotoStripView.m in Sources */,
 				9F4D817B1EEA8B4600FB5361 /* VTAcceleratedVideoView.m in Sources */,
+				2B35F2C01EF93320006A0FD0 /* ActivityIndicating.swift in Sources */,
 				9F4D7FA11EEA8B4500FB5361 /* DocumentAttributeVideo.m in Sources */,
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F4D804D1EEA8B4500FB5361 /* MediaAssetFetchResultChange.m in Sources */,
