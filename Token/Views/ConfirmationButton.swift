@@ -24,7 +24,7 @@ class ConfirmationButton: UIControl {
     }
 
     static let height: CGFloat = 35
-    let margin: CGFloat = 15
+    let margin: CGFloat = 0
 
     var contentState: ContentState = .actionable {
         didSet {
@@ -66,17 +66,9 @@ class ConfirmationButton: UIControl {
 
     private lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 16)
-        view.textColor = Theme.darkTextColor
+        view.font = Theme.medium(size: 17)
+        view.textColor = Theme.tintColor
         view.textAlignment = .center
-        view.isUserInteractionEnabled = false
-
-        return view
-    }()
-
-    private lazy var underline: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.darkTextColor
         view.isUserInteractionEnabled = false
 
         return view
@@ -154,7 +146,6 @@ class ConfirmationButton: UIControl {
 
         self.addSubview(self.backgroundOverlay)
         self.addSubview(self.titleLabel)
-        self.addSubview(self.underline)
         self.addSubview(self.confirmationLabel)
         self.addSubview(self.checkmarkImageView)
 
@@ -196,11 +187,6 @@ class ConfirmationButton: UIControl {
             self.titleLabel.leftAnchor.constraint(equalTo: self.spacingContainers[0].rightAnchor),
             self.titleLabel.bottomAnchor.constraint(equalTo: self.horizontalContainers[0].bottomAnchor),
             self.titleLabel.rightAnchor.constraint(equalTo: self.spacingContainers[1].leftAnchor),
-
-            self.underline.centerYAnchor.constraint(equalTo: self.horizontalContainers[0].centerYAnchor, constant: 8),
-            self.underline.leftAnchor.constraint(equalTo: self.titleLabel.leftAnchor),
-            self.underline.rightAnchor.constraint(equalTo: self.titleLabel.rightAnchor),
-            self.underline.heightAnchor.constraint(equalToConstant: 1),
 
             self.spacingContainers[2].topAnchor.constraint(equalTo: self.horizontalContainers[1].topAnchor),
             self.spacingContainers[2].leftAnchor.constraint(equalTo: self.horizontalContainers[1].leftAnchor),

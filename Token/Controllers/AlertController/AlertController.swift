@@ -43,7 +43,8 @@ class AlertController: ModalPresentable {
     }
 
     private lazy var actionsStackView: UIStackView = {
-        let stackView = UIStackView.init(withAutoLayout: true)
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .fill
         stackView.axis = .vertical
         stackView.distribution = .fill

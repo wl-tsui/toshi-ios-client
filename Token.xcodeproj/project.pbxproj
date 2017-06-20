@@ -1110,6 +1110,10 @@
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
+		A997B0FE1EF94B4600A143FE /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
+		A997B0FF1EF94B4900A143FE /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
+		A997B1001EF94B4C00A143FE /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
+		A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */; };
 		A9AC74081E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC74091E77E37500365029 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74071E77E37500365029 /* ActionButton.swift */; };
 		A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
@@ -1121,6 +1125,10 @@
 		A9AC74141E78231A00365029 /* BackupPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* BackupPhraseView.swift */; };
 		A9AC74171E78277700365029 /* BackupPhraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* BackupPhraseWordView.swift */; };
 		A9AC74181E78277700365029 /* BackupPhraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* BackupPhraseWordView.swift */; };
+		A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
+		A9BA6B7B1EF7D582007C3206 /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
+		A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
+		A9BA6B7F1EF7D864007C3206 /* AddMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */; };
 		A9BF33AD1E76DF0B009A51AA /* BackupPhraseEnableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AC1E76DF0B009A51AA /* BackupPhraseEnableController.swift */; };
 		A9BF33AF1E76DF54009A51AA /* BackupPhraseCopyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */; };
 		A9BF33B11E76DF67009A51AA /* BackupPhraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */; };
@@ -2130,6 +2138,10 @@
 		A9AC74101E78064500365029 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
 		A9AC74131E78231A00365029 /* BackupPhraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseView.swift; sourceTree = "<group>"; };
 		A9AC74161E78277700365029 /* BackupPhraseWordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseWordView.swift; sourceTree = "<group>"; };
+		A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyController.swift; sourceTree = "<group>"; };
+		A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyHeader.swift; sourceTree = "<group>"; };
+		A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyBulletPoint.swift; sourceTree = "<group>"; };
+		A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyItem.swift; sourceTree = "<group>"; };
 		A9BF33AC1E76DF0B009A51AA /* BackupPhraseEnableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseEnableController.swift; sourceTree = "<group>"; };
 		A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseCopyController.swift; sourceTree = "<group>"; };
 		A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseVerifyController.swift; sourceTree = "<group>"; };
@@ -3521,6 +3533,7 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				A9BA6B771EF7CEAD007C3206 /* AddMoney */,
 				9F232A971EC9E3A300270761 /* Profile */,
 				A9BF33AB1E76DE36009A51AA /* Backup Phrase */,
 				E1A95D581E6F031F002762DA /* Views */,
@@ -3581,6 +3594,17 @@
 				9F54A71F1E951F0600FEB67B /* RateUserController.swift */,
 			);
 			path = "Rate Users";
+			sourceTree = "<group>";
+		};
+		A9BA6B771EF7CEAD007C3206 /* AddMoney */ = {
+			isa = PBXGroup;
+			children = (
+				A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */,
+				A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */,
+				A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */,
+				A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */,
+			);
+			path = AddMoney;
 			sourceTree = "<group>";
 		};
 		A9BF33AB1E76DE36009A51AA /* Backup Phrase */ = {
@@ -4174,6 +4198,7 @@
 				9F4D7F471EEA8B4500FB5361 /* PhotoGaussianBlurFilter.m in Sources */,
 				9F4D7F011EEA8B4500FB5361 /* PaintBrush.m in Sources */,
 				9F4D7F031EEA8B4500FB5361 /* PaintBrushPreview.m in Sources */,
+				A997B1001EF94B4C00A143FE /* AddMoneyHeader.swift in Sources */,
 				9F4D80ED1EEA8B4500FB5361 /* MenuSheetDimView.m in Sources */,
 				9F4D7ED31EEA8B4500FB5361 /* PhotoDummyController.m in Sources */,
 				9F4D80D31EEA8B4500FB5361 /* MediaPickerGalleryGifItemView.m in Sources */,
@@ -4238,6 +4263,7 @@
 				9F4D80251EEA8B4500FB5361 /* UIControl+HitTestEdgeInsets.m in Sources */,
 				149F9A761E72E29A00FB74AA /* ContactsManager.m in Sources */,
 				9F4D80051EEA8B4500FB5361 /* PSKeyValueCoder.m in Sources */,
+				A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */,
 				9F4D80AF1EEA8B4500FB5361 /* DraggableCollectionViewFlowLayout.m in Sources */,
 				9F4D7F3D1EEA8B4500FB5361 /* PhotoEnhanceInterpolationFilter.m in Sources */,
 				149F9A7A1E72E29A00FB74AA /* FavoritesController.swift in Sources */,
@@ -4435,6 +4461,7 @@
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
 				9F4D80E71EEA8B4500FB5361 /* MediaPickerToolbarView.m in Sources */,
 				9F4D7FFD1EEA8B4500FB5361 /* PGCameraMomentSession.m in Sources */,
+				A997B0FF1EF94B4900A143FE /* AddMoneyController.swift in Sources */,
 				149F9A9B1E72E29A00FB74AA /* AppDelegate.m in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
 				149F9A9D1E72E29A00FB74AA /* ControlCell.swift in Sources */,
@@ -4456,6 +4483,7 @@
 				A9AC740C1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				9F4D800B1EEA8B4500FB5361 /* SGraphListNode.m in Sources */,
 				149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */,
+				A997B0FE1EF94B4600A143FE /* AddMoneyBulletPoint.swift in Sources */,
 				9F4D7EB91EEA8B4500FB5361 /* MediaAssetsMomentsController.m in Sources */,
 				9F4D7FDB1EEA8B4500FB5361 /* MediaEditingContext.m in Sources */,
 				149F9AA31E72E29A00FB74AA /* main.m in Sources */,
@@ -4576,6 +4604,7 @@
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				9F4D7ED41EEA8B4500FB5361 /* PhotoEditorController.m in Sources */,
 				9F4D808E1EEA8B4500FB5361 /* AttachmentPhotoCell.m in Sources */,
+				A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */,
 				9F4D7EFA1EEA8B4500FB5361 /* GrainTool.m in Sources */,
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				9F4D7F661EEA8B4500FB5361 /* ShadowsTool.m in Sources */,
@@ -4722,6 +4751,7 @@
 				9F4D80921EEA8B4500FB5361 /* CameraFlashActiveView.m in Sources */,
 				9F4D81221EEA8B4600FB5361 /* ModernGalleryZoomableScrollViewSwipeGestureRecognizer.m in Sources */,
 				9F4D806A1EEA8B4500FB5361 /* ModernClockProgressViewModel.m in Sources */,
+				A9BA6B7F1EF7D864007C3206 /* AddMoneyItem.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				9F4D80F81EEA8B4500FB5361 /* MessageImageViewOverlayView.m in Sources */,
 				9F4D7FDE1EEA8B4500FB5361 /* MediaPickerLayoutMetrics.m in Sources */,
@@ -4920,6 +4950,7 @@
 				9FDB3B171E6D640900EE5FD7 /* ControlCell.swift in Sources */,
 				9F4D7FCE1EEA8B4500FB5361 /* JNWSpringAnimation.m in Sources */,
 				9F4D80EE1EEA8B4500FB5361 /* MenuSheetItemView.m in Sources */,
+				A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */,
 				9F4D7FD21EEA8B4500FB5361 /* MediaAssetImageSignals.m in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9F4D7F981EEA8B4500FB5361 /* DocumentAttributeAnimated.m in Sources */,
@@ -4940,6 +4971,7 @@
 				9F78D9CD1EE93E68003A0B95 /* ModalPresentable.swift in Sources */,
 				9F4D800E1EEA8B4500FB5361 /* SGraphObjectNode.m in Sources */,
 				9F4D807A1EEA8B4500FB5361 /* VideoInfo.mm in Sources */,
+				A9BA6B7B1EF7D582007C3206 /* AddMoneyHeader.swift in Sources */,
 				9F4D81701EEA8B4600FB5361 /* PhotoToolbarView.m in Sources */,
 				9F4D7F2C1EEA8B4500FB5361 /* PhotoCustomFilterPass.m in Sources */,
 				9F4D7FAE1EEA8B4500FB5361 /* Font.mm in Sources */,

@@ -211,7 +211,9 @@ open class SettingsController: UITableViewController {
         case 1:
             switch indexPath.row {
             case 1:
-                break // go to add money
+                guard let current = TokenUser.current else { return }
+                let controller = AddMoneyController(for: current.displayUsername, name: current.name)
+                self.navigationController?.pushViewController(controller, animated: true)
             default:
                 break
             }
