@@ -32,8 +32,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     func getFeaturedApps(completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
         self.teapot.get("/v1/apps/featured?limit=32") { (result: NetworkResult) in
             switch result {
-            case .success(let json, let response):
-                print(response)
+            case .success(let json, _):
                 guard let json = json?.dictionary else { fatalError("No apps json!") }
 
                 let appsJSON = json["results"] as! [[String: Any]]
@@ -57,8 +56,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         self.imageCache.setObject(forKey: app.avatarPath, cacheBlock: { success, failure in
             Teapot(baseURL: pathURL).get { (result: NetworkImageResult) in
                 switch result {
-                case .success(let image, let response):
-                    print(response)
+                case .success(let image, _):
                     success(image, self.cacheExpiry)
                 case .failure(let response, let error):
                     print(response)

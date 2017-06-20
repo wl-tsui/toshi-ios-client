@@ -212,8 +212,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     public func retrieveContact(username: String, completion: @escaping ((TokenUser?) -> Void)) {
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             switch result {
-            case .success(let json, let response):
-                print(response)
+            case .success(let json, _):
                 // we know it's a dictionary for this API
                 guard let json = json?.dictionary else { completion(nil); return }
                 let contact = TokenUser(json: json)
@@ -237,8 +236,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     public func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             switch result {
-            case .success(let json, let response):
-                print(response)
+            case .success(let json, _):
                 // we know it's a dictionary for this API
                 guard let json = json?.dictionary else { completion(nil); return }
                 let user = TokenUser(json: json)
@@ -292,8 +290,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         self.contactCache.setObject(forKey: name, cacheBlock: { success, failure in
             self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
                 switch result {
-                case .success(let json, let response):
-                    print(response)
+                case .success(let json, _):
                     guard let json = json?.dictionary else { completion(nil); return }
 
                     let contact = TokenUser(json: json)
@@ -315,9 +312,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         // /v1/search/user/?query=moxiemarl&offset=80&limit=20
         self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
             switch result {
-            case .success(let json, let response):
-                print(response)
-
+            case .success(let json, _):
                 guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else { completion([]); return }
 
                 var contacts = [TokenUser]()
