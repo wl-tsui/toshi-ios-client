@@ -97,6 +97,8 @@ open class SettingsController: UITableViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
 
         self.tableView.backgroundColor = Theme.settingsBackgroundColor
 
@@ -114,6 +116,13 @@ open class SettingsController: UITableViewController {
         self.nameLabel.text = TokenUser.current?.name
         self.usernameLabel.text = TokenUser.current?.displayUsername
         self.userAvatarImageVIew.image = TokenUser.current?.avatar
+    }
+    
+    @objc private func updateUI() {
+        self.nameLabel.text = TokenUser.current?.name
+        self.usernameLabel.text = TokenUser.current?.displayUsername
+        self.userAvatarImageVIew.image = TokenUser.current?.avatar
+        self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
     }
 
     @objc private func handleBalanceUpdate(notification: Notification) {

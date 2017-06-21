@@ -16,6 +16,10 @@
 import Foundation
 import SweetSwift
 
+public extension NSNotification.Name {
+    public static let currentUserUpdated = NSNotification.Name(rawValue: "currentUserUpdated")
+}
+
 public typealias UserInfo = (address: String, paymentAddress: String?, avatar: UIImage?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
 
 extension Notification.Name {
@@ -93,6 +97,7 @@ public class TokenUser: NSObject, NSCoding {
             }
 
             self._current = newValue
+            NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
         }
     }
 
