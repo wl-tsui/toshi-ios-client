@@ -33,6 +33,7 @@ class ProfileItemCell: UITableViewCell {
         view.font = Theme.semibold(size: 15)
 
         view.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        view.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
 
         return view
     }()

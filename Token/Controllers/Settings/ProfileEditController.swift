@@ -20,7 +20,27 @@ import Formulaic
 import ImagePicker
 
 /// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
-open class ProfileEditController: OverlayController {
+open class ProfileEditController: OverlayController, Editable {
+    
+    var scrollView: UIScrollView {
+        return self.tableView
+    }
+    
+    var keyboardWillShowSelector: Selector {
+        return #selector(keyboardShownNotificationReceived(_:))
+    }
+    
+    var keyboardWillHideSelector: Selector {
+        return #selector(keyboardShownNotificationReceived(_:))
+    }
+    
+    @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
+        self.keyboardWillShow(notification)
+    }
+    
+    @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
+        self.keyboardWillHide(notification)
+    }
 
     fileprivate var menuSheetController: MenuSheetController?
 
@@ -60,6 +80,8 @@ open class ProfileEditController: OverlayController {
 
     fileprivate lazy var tableView: UITableView = {
         let view = UITableView(withAutoLayout: true)
+        
+        view.backgroundColor = UIColor.clear
         view.delegate = self
         view.dataSource = self
         view.separatorStyle = .none
@@ -90,10 +112,59 @@ open class ProfileEditController: OverlayController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
     }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.registerForKeyboardNotifications()
+    }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.unregisterFromKeyboardNotifications()
+    }
+    
+    fileprivate lazy var headerView: UIView = {
+        let view  = UIView(frame: CGRect.zero)
+
+        view.backgroundColor = UIColor.clear
+        view.addSubview(self.avatarImageView)
+        view.addSubview(self.changeAvatarButton)
+        
+        let bottomBorder = UIView(withAutoLayout: true)
+        view.addSubview(bottomBorder)
+        
+        bottomBorder.backgroundColor = Theme.borderColor
+        bottomBorder.set(height: Theme.borderHeight)
+        bottomBorder.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        bottomBorder.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        bottomBorder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        self.avatarImageView.set(height: 80)
+        self.avatarImageView.set(width: 80)
+        self.avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 24).isActive = true
+        self.avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        self.changeAvatarButton.set(height: 38)
+        self.changeAvatarButton.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 12).isActive = true
+        self.changeAvatarButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24).isActive = true
+        self.changeAvatarButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.layoutIfNeeded()
+        
+        return view
+    }()
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.avatarImageView)
-        self.view.addSubview(self.changeAvatarButton)
+        let height = self.headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize).height
+        
+        var headerFrame = self.headerView.frame
+        headerFrame.size.height = height
+        self.headerView.frame = headerFrame
+        
+        self.tableView.tableHeaderView = self.headerView
+        
         self.view.addSubview(self.tableView)
 
         self.view.addSubview(self.activityIndicator)
@@ -103,23 +174,7 @@ open class ProfileEditController: OverlayController {
         self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
 
-        self.view.addSubview(self.activityIndicator)
-
-        self.activityIndicator.set(height: 50.0)
-        self.activityIndicator.set(width: 50.0)
-        self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-
-        self.avatarImageView.set(height: 80)
-        self.avatarImageView.set(width: 80)
-        self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 24).isActive = true
-        self.avatarImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-
-        self.changeAvatarButton.set(height: 38)
-        self.changeAvatarButton.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 12).isActive = true
-        self.changeAvatarButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-
-        self.tableView.topAnchor.constraint(equalTo: self.changeAvatarButton.bottomAnchor, constant: 24).isActive = true
+        self.tableView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
         self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
         self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
