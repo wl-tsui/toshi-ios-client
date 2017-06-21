@@ -58,7 +58,10 @@ class MessageCell: UICollectionViewCell {
         view.isScrollEnabled = false
         view.isEditable = false
         view.backgroundColor = .clear
-        view.contentInset = UIEdgeInsetsMake(7, 7, 0, 0)
+        view.contentMode = .topLeft
+        view.textContainerInset = .zero
+        view.textContainer.lineFragmentPadding = 0
+        view.textContainer.maximumNumberOfLines = 0
 
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
         view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
@@ -126,6 +129,10 @@ class MessageCell: UICollectionViewCell {
 
     private lazy var bottomGuide: UILayoutGuide = {
         UILayoutGuide()
+    }()
+
+    private lazy var textViewHeightConstraint: NSLayoutConstraint = {
+        self.textView.height(0, priority: .high, isActive: false)
     }()
 
     private lazy var bottomConstraint: NSLayoutConstraint = {
@@ -207,6 +214,12 @@ class MessageCell: UICollectionViewCell {
                 self.rightWidthSmall.isActive = false
                 self.leftWidthSmall.isActive = true
                 self.rightWidthBig.isActive = true
+            }
+
+            if let text = message.text, !text.isEmpty {
+                textViewHeightConstraint.isActive = false
+            } else {
+                textViewHeightConstraint.isActive = true
             }
 
             if message.type == .paymentRequest || message.type == .payment {
@@ -495,7 +508,7 @@ class MessageCell: UICollectionViewCell {
 
         if let text = message.text, text.hasEmojiOnly, text.characters.count < 4 {
             totalMargin = 0
-            extraMargin = -14
+            extraMargin = -4
         }
 
         var height = totalHeight + totalMargin + extraMargin
