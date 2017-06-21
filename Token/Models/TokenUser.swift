@@ -41,7 +41,7 @@ public class TokenUser: NSObject, NSCoding {
     static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
     static let favoritesCollectionKey: String = "TokenContacts"
 
-    private static let storedUserKey = "StoredUser"
+    fileprivate static let storedUserKey = "StoredUser"
 
     public static let storedContactKey = "storedContactKey"
 
@@ -51,7 +51,7 @@ public class TokenUser: NSObject, NSCoding {
 
     var verified: Bool = false {
         didSet {
-            self.saveIfNeeded()
+            self.save()
         }
     }
 
@@ -73,25 +73,23 @@ public class TokenUser: NSObject, NSCoding {
             self.postAvatarUpdateNotification()
         }
     }
-
-    private static var _current: TokenUser?
-    static var current: TokenUser? {
+    
+    fileprivate static var _current: TokenUser?
+    fileprivate(set) static var current: TokenUser? {
         get {
             if self._current == nil {
-                self.retrieveCurrentUser()
+                 self._current = self.retrieveCurrentUserFromStore()
             }
-
+            
             return self._current
         }
         set {
-            guard let newPaymentAddress = newValue?.paymentAddress, Cereal.shared.paymentAddress == newPaymentAddress else {
-                fatalError("Tried to set contact as current user.")
-            }
-
+            guard self._current != newValue else { return }
+            
             newValue?.update()
 
             if let user = newValue {
-                user.saveIfNeeded()
+                user.save()
             }
 
             self._current = newValue
@@ -136,21 +134,6 @@ public class TokenUser: NSObject, NSCoding {
         return UserInfo(address: self.address, paymentAddress: self.paymentAddress, avatar: self.avatar, avatarPath: self.avatarPath, name: self.name, username: self.displayUsername, isLocal: true)
     }
 
-    public static func retrieveCurrentUser() {
-        if let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data), self._current == nil,
-            let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
-            var json = deserialised as? [String: Any] {
-
-            // Because of payment address migration, we have to override the stored payment address.
-            // Otherwise users will be sending payments to the wrong address.
-            if json[Constants.paymentAddress] as? String != Cereal.shared.paymentAddress {
-                json[Constants.paymentAddress] = Cereal.shared.paymentAddress
-            }
-
-            self._current = TokenUser(json: json)
-        }
-    }
-
     public override var description: String {
         return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(username)>"
     }
@@ -185,38 +168,6 @@ public class TokenUser: NSObject, NSCoding {
         aCoder.encode(self.JSONData, forKey: "jsonData")
     }
 
-    private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
-    }
-
-    @objc private func updateIfNeeded(_ notification: Notification) {
-        guard let tokenContact = notification.object as? TokenUser else { return }
-        guard tokenContact.address == self.address else { return }
-
-        if self.name == tokenContact.name && self.username == tokenContact.username && self.location == tokenContact.location && self.about == tokenContact.about {
-            return
-        }
-
-        self.update(username: tokenContact.username, name: tokenContact.name, about: tokenContact.about, location: tokenContact.location)
-    }
-
-    private func saveIfNeeded() {
-        // TODO: only save if needed
-        if self.isCurrentUser {
-            Yap.sharedInstance.insert(object: self.JSONData, for: TokenUser.storedUserKey)
-        } else {
-            Yap.sharedInstance.insert(object: self.JSONData, for: self.address, in: TokenUser.storedContactKey)
-        }
-    }
-
-    private func postAvatarUpdateNotification() {
-        if self.isCurrentUser {
-            NotificationCenter.default.post(name: .CurrentUserDidUpdateAvatarNotification, object: self)
-        } else {
-            NotificationCenter.default.post(name: .TokenContactDidUpdateAvatarNotification, object: self)
-        }
-    }
-
     func update(json: [String: Any], updateAvatar: Bool = false, shouldSave: Bool = true) {
         self.address = json[Constants.address] as! String
         self.paymentAddress = (json[Constants.paymentAddress] as? String) ?? (json[Constants.address] as! String)
@@ -249,7 +200,7 @@ public class TokenUser: NSObject, NSCoding {
         }
 
         if shouldSave {
-            self.saveIfNeeded()
+            self.save()
         }
     }
 
@@ -257,7 +208,7 @@ public class TokenUser: NSObject, NSCoding {
         self.avatarPath = avatarPath
         self.avatar = avatar
 
-        self.saveIfNeeded()
+        self.save()
     }
 
     func update(username: String? = nil, name: String? = nil, about: String? = nil, location: String? = nil) {
@@ -266,6 +217,69 @@ public class TokenUser: NSObject, NSCoding {
         self.about = about ?? self.about
         self.location = location ?? self.location
 
-        self.saveIfNeeded()
+        self.save()
+    }
+    
+    public static func createOrUpdateCurrentUser(with json: [String: Any]) {
+        guard self.current != nil else {
+            self.current = TokenUser(json: json)
+            return
+        }
+        
+        self.current?.update(json: json)
+    }
+    
+    public static func retrieveCurrentUser() {
+        self.current = self.retrieveCurrentUserFromStore()
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
+    }
+    
+    @objc private func updateIfNeeded(_ notification: Notification) {
+        guard let tokenContact = notification.object as? TokenUser else { return }
+        guard tokenContact.address == self.address else { return }
+        
+        if self.name == tokenContact.name && self.username == tokenContact.username && self.location == tokenContact.location && self.about == tokenContact.about {
+            return
+        }
+        
+        self.update(username: tokenContact.username, name: tokenContact.name, about: tokenContact.about, location: tokenContact.location)
+    }
+    
+    private func postAvatarUpdateNotification() {
+        if self.isCurrentUser {
+            NotificationCenter.default.post(name: .CurrentUserDidUpdateAvatarNotification, object: self)
+        } else {
+            NotificationCenter.default.post(name: .TokenContactDidUpdateAvatarNotification, object: self)
+        }
+    }
+    
+    private func save() {
+        if self.isCurrentUser {
+            Yap.sharedInstance.insert(object: self.JSONData, for: TokenUser.storedUserKey)
+        } else {
+            Yap.sharedInstance.insert(object: self.JSONData, for: self.address, in: TokenUser.storedContactKey)
+        }
+    }
+    
+    private static func retrieveCurrentUserFromStore() -> TokenUser? {
+        var user: TokenUser?
+        
+        if self._current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data),
+            let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
+            var json = deserialised as? [String: Any] {
+            
+            // Because of payment address migration, we have to override the stored payment address.
+            // Otherwise users will be sending payments to the wrong address.
+            if json[Constants.paymentAddress] as? String != Cereal.shared.paymentAddress {
+                json[Constants.paymentAddress] = Cereal.shared.paymentAddress
+            }
+            
+            user = TokenUser(json: json)
+        }
+        
+        return user
     }
 }

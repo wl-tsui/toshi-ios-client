@@ -105,8 +105,8 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {
         self.retrieveUser(username: Cereal.shared.address) { user in
-            guard user == nil else {
-                TokenUser.current = user
+            if let user = user as TokenUser? {
+                TokenUser.createOrUpdateCurrentUser(with: user.asDict)
 
                 return
             }
@@ -130,7 +130,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         guard response.statusCode == 200 else { return }
                         guard let json = json?.dictionary else { return }
 
-                        TokenUser.current = TokenUser(json: json)
+                        TokenUser.createOrUpdateCurrentUser(with: json)
+                        
+                        print("Current user is verified: \(String(describing: TokenUser.current?.verified))")
+                        
                         print("Registered user with address: \(cereal.address)")
 
                         success()
@@ -192,7 +195,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     guard response.statusCode == 200 else { fatalError() }
                     guard let json = json?.dictionary else { fatalError() }
 
-                    TokenUser.current?.update(json: json, updateAvatar: false, shouldSave: true)
+                    TokenUser.current?.update(json: json)
 
                     completion(true, nil)
                 case .failure(let json, _, _):
@@ -239,9 +242,18 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             case .success(let json, _):
                 // we know it's a dictionary for this API
                 guard let json = json?.dictionary else { completion(nil); return }
-                let user = TokenUser(json: json)
-
-                print("Current user with address: \(user.address)")
+                
+                let user: TokenUser?
+                
+                if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address {
+                    TokenUser.current?.update(json: json)
+                    user = TokenUser.current
+                    
+                    print("Current user with address: \(String(describing: user?.address))")
+                    
+                } else {
+                    user = TokenUser(json: json)
+                }
 
                 completion(user)
             case .failure(let json, let response, let error):
