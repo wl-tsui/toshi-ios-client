@@ -78,9 +78,8 @@ open class TabBarController: UITabBarController {
 
         self.messagingController = ChatsNavigationController(nibName: nil, bundle: nil)
         let chatsController = ChatsController()
-
-        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey) {
-            let thread = chatsController.thread(withAddress: address)
+        
+        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = chatsController.thread(withAddress: address) as TSThread? {
             self.messagingController.viewControllers = [chatsController, ChatController(thread: thread)]
         } else {
             self.messagingController.viewControllers = [chatsController]

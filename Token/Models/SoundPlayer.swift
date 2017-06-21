@@ -45,7 +45,7 @@ public struct SoundPlayer {
     func soundID(for type: SoundType) -> SystemSoundID {
         var soundID: SystemSoundID = 0
 
-        guard let url = Bundle.main.url(forResource: type.rawValue, withExtension: "m4a") else { fatalError("Could not play sound!") }
+        guard let url = Bundle.main.url(forResource: type.rawValue, withExtension: "m4a") else { return soundID }
         AudioServicesCreateSystemSoundID((url as NSURL), &soundID)
 
         return soundID

@@ -29,8 +29,8 @@ public class ContactController: UIViewController {
         return IDAPIClient.shared
     }
 
-    fileprivate var messageSender: MessageSender {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not retrieve app delegate") }
+    fileprivate var messageSender: MessageSender? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
 
         return appDelegate.messageSender
     }
@@ -483,9 +483,13 @@ extension ContactController: PaymentSendControllerDelegate {
                 self.hideActivityIndicator()
                 
                 if error != nil {
-                    guard let json = json?.dictionary else { fatalError("!") }
-
-                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                    
+                    var message = "Something went wrong"
+                    if let json = json?.dictionary as [String: Any]?, let jsonMessage = json["message"] as? String {
+                        message = jsonMessage
+                    }
+                    
+                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
@@ -496,7 +500,7 @@ extension ContactController: PaymentSendControllerDelegate {
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                     let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 
-                    self.messageSender.send(outgoingMessage, success: {
+                    self.messageSender?.send(outgoingMessage, success: {
                         print("message sent")
                     }, failure: { error in
                         print(error)

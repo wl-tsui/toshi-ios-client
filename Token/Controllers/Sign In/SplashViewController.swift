@@ -96,6 +96,14 @@ final class SplashViewController: UIViewController {
 
         self.decorateView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIView.animate(withDuration: 0.2) { 
+            self.view.alpha = 1.0
+        }
+    }
 
     private func decorateView() {
         self.view.addSubview(self.backgroundImageView)
@@ -125,6 +133,8 @@ final class SplashViewController: UIViewController {
         self.newAccountButton.set(height: 44.0)
         self.newAccountButton.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
         self.newAccountButton.bottomAnchor.constraint(equalTo: self.signinButton.topAnchor, constant: -20.0).isActive = true
+        
+        self.view.alpha = 0.0
     }
 
     @objc private func signinPressed(_: UIButton) {

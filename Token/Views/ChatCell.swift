@@ -60,7 +60,7 @@ class ChatCell: UITableViewCell {
                 }
             }
 
-            guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+            guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
             if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
                 self.updateContact(contact)
             } else {

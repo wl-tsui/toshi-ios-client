@@ -91,13 +91,15 @@ class RatingsClient: NSObject {
         self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary else { fatalError() }
-                guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
+                guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
+                    print("Invalid response - Fetch timestamp")
+                    return
+                }
 
                 completion(timestamp)
+                
             case .failure(_, let response, _):
                 print(response)
-                fatalError()
             }
         }
     }

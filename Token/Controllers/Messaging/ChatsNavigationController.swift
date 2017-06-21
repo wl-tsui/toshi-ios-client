@@ -72,19 +72,21 @@ public class ChatsNavigationController: UINavigationController {
 
     public func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
         _ = self.popToRootViewController(animated: false)
-        guard let chatsController = self.viewControllers.first as? ChatsController else { fatalError() }
-
-        let thread = chatsController.thread(withAddress: address)
-        let messagesController = ChatController(thread: thread)
-
-        self.pushViewController(messagesController, animated: false)
+        guard let chatsController = self.viewControllers.first as? ChatsController else { return }
         
-        completion?(messagesController)
+        if let thread = chatsController.thread(withAddress: address) as TSThread? {
+            let messagesController = ChatController(thread: thread)
+            self.pushViewController(messagesController, animated: false)
+            
+            completion?(messagesController)
+        } else {
+            completion?(nil)
+        }
     }
 
     public func openThread(withThreadIdentifier identifier: String, animated: Bool) {
         _ = self.popToRootViewController(animated: animated)
-        guard let chatsController = self.viewControllers.first as? ChatsController else { fatalError() }
+        guard let chatsController = self.viewControllers.first as? ChatsController else { return }
         guard let thread = chatsController.thread(withIdentifier: identifier) else { return }
 
         let messagesController = ChatController(thread: thread)

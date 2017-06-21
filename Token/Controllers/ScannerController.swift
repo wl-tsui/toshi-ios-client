@@ -76,7 +76,14 @@ extension ScannerController: PaymentPresentable {
                 
                 self.hideActivityIndicator()
                 
-                guard let json = json?.dictionary else { fatalError("!") }
+                guard let json = json?.dictionary else {
+                    let controller = UIAlertController.dismissableAlert(title: "Something went wrong")
+                    self.present(controller, animated: true, completion: nil)
+                    self.startScanning()
+                    
+                    return
+                }
+                
                 if error != nil {
                     self.presentPaymentError(error: error, json: json)
                 } else {

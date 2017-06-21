@@ -138,7 +138,7 @@ class BrowseController: SearchableCollectionController {
                 self.present(alertController, animated: true, completion: nil)
             }
 
-            self.featuredApps = apps
+            self.featuredApps = apps ?? []
         }
     }
 

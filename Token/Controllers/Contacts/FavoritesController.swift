@@ -195,13 +195,14 @@ open class FavoritesController: SweetTableController {
 
     fileprivate func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
-            guard let data1 = object1 as? Data else { fatalError() }
-            guard let data2 = object2 as? Data else { fatalError() }
+            if let data1 = object1 as? Data, let data2 = object2 as? Data,
+                let contact1 = TokenUser.user(with: data1) as TokenUser?,
+                let contact2 = TokenUser.user(with: data2) as TokenUser? {
+                
+                return contact1.username.compare(contact2.username)
+            }
 
-            let contact1 = TokenUser.user(with: data1)
-            let contact2 = TokenUser.user(with: data2)
-
-            return contact1!.username.compare(contact2!.username)
+            return .orderedAscending
         }
 
         return viewSorting
@@ -294,8 +295,8 @@ open class FavoritesController: SweetTableController {
     }
 
     fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {
-        let contact = self.contact(at: indexPath)
-        let address = contact.address
+       guard let contact = self.contact(at: indexPath) as TokenUser?,
+        let address = contact.address as String? else { return }
 
         print("Updating contact infor for address: \(address).")
 
@@ -310,18 +311,18 @@ open class FavoritesController: SweetTableController {
         }
     }
 
-    fileprivate func contact(at indexPath: IndexPath) -> TokenUser {
+    fileprivate func contact(at indexPath: IndexPath) -> TokenUser? {
         var contact: TokenUser?
 
         self.uiDatabaseConnection.read { transaction in
-            guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TokenUser.viewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
+            guard let dbExtension: YapDatabaseViewTransaction = transaction.extension(TokenUser.viewExtensionName) as? YapDatabaseViewTransaction else { return }
 
-            guard let data = dbExtension.object(at: indexPath, with: self.mappings) as? Data else { fatalError() }
+            guard let data = dbExtension.object(at: indexPath, with: self.mappings) as? Data else { return }
 
             contact = TokenUser.user(with: data, shouldUpdate: false)
         }
 
-        return contact!
+        return contact
     }
 
     fileprivate func contact(with address: String) -> TokenUser? {
@@ -446,11 +447,13 @@ extension FavoritesController: UITableViewDelegate {
     public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.searchController.searchBar.resignFirstResponder()
 
-        let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath)
-        let contactController = ContactController(contact: contact)
-        self.navigationController?.pushViewController(contactController, animated: true)
-
-        UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
+        if let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath) as TokenUser? {
+        
+            let contactController = ContactController(contact: contact)
+            self.navigationController?.pushViewController(contactController, animated: true)
+            
+            UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
+        }
     }
 }
 

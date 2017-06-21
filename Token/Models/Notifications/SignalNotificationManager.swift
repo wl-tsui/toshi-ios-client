@@ -21,16 +21,14 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         print("Incoming message: \(incomingMessage)")
     }
 
-    static var tabbarController: TabBarController {
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not find application delegate.") }
-        guard let window = delegate.window else { fatalError("Could not find application window.") }
-        guard let tabbarController = window.rootViewController as? TabBarController else { fatalError("Could not find tabbar root.") }
+    static var tabbarController: TabBarController? {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window else { return nil }
 
-        return tabbarController
+        return window.rootViewController as? TabBarController
     }
 
     public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in thread: TSThread!, contactsManager _: ContactsManagerProtocol) {
-        guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController.selectedViewController != SignalNotificationManager.tabbarController.messagingController else {
+        guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
             return
         }
 
@@ -64,10 +62,10 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         UIApplication.shared.applicationIconBadgeNumber = count
 
         if count > 0 {
-            self.tabbarController.messagingController.tabBarItem.badgeValue = "\(count)"
-            self.tabbarController.messagingController.tabBarItem.badgeColor = .red
+            self.tabbarController?.messagingController.tabBarItem.badgeValue = "\(count)"
+            self.tabbarController?.messagingController.tabBarItem.badgeColor = .red
         } else {
-            self.tabbarController.messagingController.tabBarItem.badgeValue = nil
+            self.tabbarController?.messagingController.tabBarItem.badgeValue = nil
         }
     }
 }

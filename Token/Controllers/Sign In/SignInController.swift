@@ -187,12 +187,12 @@ open class SignInController: UIViewController {
                 user.verified = true
                 TokenUser.createOrUpdateCurrentUser(with: user.asDict)
 
-                guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
+                guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 delegate.setupSignalService()
 
                 self.navigationController?.dismiss(animated: true, completion: nil)
             } else {
-                fatalError("No such user")
+                print("No such user")
             }
         }
     }

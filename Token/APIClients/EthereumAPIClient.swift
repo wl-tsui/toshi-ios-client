@@ -47,7 +47,9 @@ public class EthereumAPIClient: NSObject {
 
     private func updateRate() {
         self.getRate { rate in
-            Yap.sharedInstance.insert(object: rate, for: EthereumAPIClient.collectionKey)
+            if rate != nil {
+                Yap.sharedInstance.insert(object: rate, for: EthereumAPIClient.collectionKey)
+            }
         }
     }
 
@@ -64,20 +66,26 @@ public class EthereumAPIClient: NSObject {
             }
         }
     }
-
-    func getRate(_ completion: @escaping ((_ rate: Decimal) -> Void)) {
+    
+    func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
         self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary else { fatalError() }
-                guard let data = json["data"] as? [String: Any] else { fatalError() }
-                guard let rates = data["rates"] as? [String: Any] else { fatalError() }
-                guard let usd = rates["USD"] as? String else { fatalError() }
-
-                completion(Decimal(Double(usd)!))
+                guard let json = json?.dictionary,
+                    let data = json["data"] as? [String: Any],
+                    let rates = data["rates"] as? [String: Any],
+                    let usd = rates["USD"] as? String,
+                    let doubleValue = Double(usd) as Double? else {
+                        
+                        completion(nil)
+                        return
+                }
+                
+                completion(Decimal(doubleValue))
             case .failure(_, let response, let error):
                 print(response)
                 print(error.localizedDescription)
+                completion(nil)
             }
         }
     }

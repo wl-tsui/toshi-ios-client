@@ -122,8 +122,8 @@ class ChatController: MessagesCollectionViewController {
         }
     }
 
-    fileprivate var contact: TokenUser {
-        return self.contactsManager.tokenContact(forAddress: self.thread.contactIdentifier())!
+    fileprivate var contact: TokenUser? {
+        return self.contactsManager?.tokenContact(forAddress: self.thread.contactIdentifier())
     }
 
     fileprivate lazy var mappings: YapDatabaseViewMappings = {
@@ -141,21 +141,21 @@ class ChatController: MessagesCollectionViewController {
         return dbConnection
     }()
 
-    fileprivate lazy var editingDatabaseConnection: YapDatabaseConnection = {
-        self.storageManager.newDatabaseConnection()!
+    fileprivate lazy var editingDatabaseConnection: YapDatabaseConnection? = {
+        self.storageManager?.newDatabaseConnection()
     }()
 
     fileprivate var menuSheetController: MenuSheetController?
 
     var thread: TSThread
 
-    fileprivate var messageSender: MessageSender
+    fileprivate var messageSender: MessageSender?
 
-    fileprivate var contactsManager: ContactsManager
+    fileprivate var contactsManager: ContactsManager?
 
-    fileprivate var contactsUpdater: ContactsUpdater
+    fileprivate var contactsUpdater: ContactsUpdater?
 
-    fileprivate var storageManager: TSStorageManager
+    fileprivate var storageManager: TSStorageManager?
 
     fileprivate lazy var ethereumPromptView: ChatsFloatingHeaderView = {
         let view = ChatsFloatingHeaderView(withAutoLayout: true)
@@ -169,7 +169,10 @@ class ChatController: MessagesCollectionViewController {
     init(thread: TSThread) {
         self.thread = thread
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Could not retrieve app delegate") }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            super.init(nibName: nil, bundle: nil)
+            return
+        }
 
         self.messageSender = appDelegate.messageSender
         self.contactsManager = appDelegate.contactsManager
@@ -301,7 +304,7 @@ class ChatController: MessagesCollectionViewController {
         let thread = self.thread
         guard let text = self.textInputView.text else { return }
 
-        self.editingDatabaseConnection.asyncReadWrite { transaction in
+        self.editingDatabaseConnection?.asyncReadWrite { transaction in
             thread.setDraft(text, transaction: transaction)
         }
     }
@@ -310,7 +313,7 @@ class ChatController: MessagesCollectionViewController {
         let thread = self.thread
         var placeholder: String?
 
-        self.editingDatabaseConnection.asyncReadWrite({ transaction in
+        self.editingDatabaseConnection?.asyncReadWrite({ transaction in
             placeholder = thread.currentDraft(with: transaction)
         }, completionBlock: {
             DispatchQueue.main.async {
@@ -329,8 +332,8 @@ class ChatController: MessagesCollectionViewController {
 
             for i in 0 ..< self.mappings.numberOfItems(inSection: 0) {
                 let indexPath = IndexPath(row: Int(i), section: 0)
-                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
-                guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { fatalError() }
+                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
+                guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { return }
 
                 DispatchQueue.main.async {
                     var shouldProcess = false
@@ -348,7 +351,7 @@ class ChatController: MessagesCollectionViewController {
                     self.collectionView.reloadData()
                     self.scrollToBottom(animated: false)
 
-                    if self.contact.isApp && self.messages.isEmpty {
+                    if let contact = self.contact as TokenUser?, contact.isApp && self.messages.isEmpty {
                         // If contact is an app, and there are no messages between current user and contact
                         // we send the app an empty regular sofa message. This ensures that Signal won't display it,
                         // but at the same time, most bots will reply with a greeting.
@@ -423,7 +426,7 @@ class ChatController: MessagesCollectionViewController {
             let type = SofaType(sofa: message.body)
             switch type {
             case .metadataRequest:
-                let metadataResponse = SofaMetadataResponse(metadataRequest: SofaMetadataRequest(content: message.body!))
+                let metadataResponse = SofaMetadataResponse(metadataRequest: SofaMetadataRequest(content: message.body ?? ""))
                 self.sendMessage(sofaWrapper: metadataResponse)
             default:
                 break
@@ -433,7 +436,7 @@ class ChatController: MessagesCollectionViewController {
         /// TODO: Simplify how we deal with interactions vs text messages.
         /// Since now we know we can expande the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = interaction as? TSOutgoingMessage {
-            let sofaWrapper = SofaWrapper.wrapper(content: interaction.body!)
+            let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: true)
 
             if interaction.hasAttachments() {
@@ -446,7 +449,7 @@ class ChatController: MessagesCollectionViewController {
 
             return message
         } else if let interaction = interaction as? TSIncomingMessage {
-            let sofaWrapper = SofaWrapper.wrapper(content: interaction.body!)
+            let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
 
             if interaction.hasAttachments() {
@@ -493,9 +496,8 @@ class ChatController: MessagesCollectionViewController {
         // If changes do not affect current view, update and return without updating collection view
         // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
         // table/collection view backing model.
-        let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
-        let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
-        if !hasChangesForCurrentView {
+        let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewConnection
+        if let hasChangesForCurrentView = viewConnection?.hasChanges(for: notifications) as Bool?, hasChangesForCurrentView == false {
             self.uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
@@ -512,7 +514,7 @@ class ChatController: MessagesCollectionViewController {
         var messageRowChanges = NSArray()
         var sectionChanges = NSArray()
 
-        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+        viewConnection?.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
 
         if messageRowChanges.count == 0 {
             return
@@ -520,11 +522,11 @@ class ChatController: MessagesCollectionViewController {
 
         self.uiDatabaseConnection.asyncRead { transaction in
             for change in messageRowChanges as! [YapDatabaseViewRowChange] {
-                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
+                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
 
                 switch change.type {
                 case .insert:
-                    guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { fatalError("woot") }
+                    guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { return }
 
                     DispatchQueue.main.async {
                         let result = self.handleInteraction(interaction, shouldProcessCommands: true)
@@ -575,7 +577,7 @@ class ChatController: MessagesCollectionViewController {
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
 
-        self.messageSender.send(outgoingMessage, success: {
+        self.messageSender?.send(outgoingMessage, success: {
             print("message sent")
         }, failure: { error in
             print(error)
@@ -590,7 +592,7 @@ class ChatController: MessagesCollectionViewController {
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
 
-        self.messageSender.sendAttachmentData(imageData, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
+        self.messageSender?.sendAttachmentData(imageData, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
             print("Success")
         }, failure: { error in
             print("Failure: \(error)")
@@ -633,8 +635,8 @@ class ChatController: MessagesCollectionViewController {
 
     @objc
     fileprivate func showContactProfile(_ sender: UITapGestureRecognizer) {
-        if sender.state == .ended {
-            let contactController = ContactController(contact: self.contact)
+        if let contact = self.contact as TokenUser?, sender.state == .ended {
+            let contactController = ContactController(contact: contact)
             self.navigationController?.pushViewController(contactController, animated: true)
         }
     }
@@ -656,9 +658,12 @@ class ChatController: MessagesCollectionViewController {
                 self.hideActivityIndicator()
                 
                 if error != nil {
-                    guard let json = json?.dictionary else { fatalError("!") }
+                    var message = "Something went wrong"
+                    if let json = json?.dictionary as [String: Any]?, let jsonMessage = json["message"] as? String {
+                        message = jsonMessage
+                    }
                     
-                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
@@ -710,7 +715,12 @@ extension ChatController: MessageCellDelegate {
         interaction.paymentState = .pendingConfirmation
         interaction.save()
 
-        guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { fatalError("Could not retrieve payment request for approval.") }
+        guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else {
+            let alert = UIAlertController.dismissableAlert(title: "Somwthing went wrong")
+            self.present(alert, animated: true)
+            
+            return
+        }
 
         let value = paymentRequest.value
         guard let destination = paymentRequest.destinationAddress else { return }
@@ -739,9 +749,13 @@ extension ChatController: MessageCellDelegate {
                 self.hideActivityIndicator()
                 
                 if error != nil {
-                    guard let json = json?.dictionary else { fatalError("!") }
-
-                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: json["message"] as? String)
+                    var message = "Something went wrong"
+                    
+                    if let json = json?.dictionary as [String: Any]?, let jsonMessage = json["message"] as? String {
+                        message = jsonMessage
+                    }
+                    
+                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {
                     // update payment request message
@@ -850,7 +864,7 @@ extension ChatController: ChatInputTextPanelDelegate {
 
                     if let thumbnailData = mediaData?["thumbnailData"] as? Data {
                         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
-                        self.messageSender.sendAttachmentData(thumbnailData, contentType: contentType, sourceFilename: "File.jpeg", in: outgoingMessage, success: {
+                        self.messageSender?.sendAttachmentData(thumbnailData, contentType: contentType, sourceFilename: "File.jpeg", in: outgoingMessage, success: {
                             print("Success")
                         }, failure: { error in
                             print("Failure: \(error)")
@@ -983,7 +997,7 @@ extension ChatController: ChatInputTextPanelDelegate {
             let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
             let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
 
-            self.messageSender.sendAttachmentData(videoData, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
+            self.messageSender?.sendAttachmentData(videoData, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
                 print("Success")
             }, failure: { error in
                 print("Failure: \(error)")

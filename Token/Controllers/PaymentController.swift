@@ -132,13 +132,14 @@ extension PaymentController: UITextFieldDelegate {
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         defer {
-            guard let currencyString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { fatalError("!") }
-            if let currencyValue = self.inputNumberFormatter.number(from: currencyString) {
-                let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue)
-                self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
-                self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
-            } else {
-                self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
+            if let currencyString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
+                if let currencyValue = self.inputNumberFormatter.number(from: currencyString) {
+                    let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue)
+                    self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
+                    self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
+                } else {
+                    self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
+                }
             }
         }
 

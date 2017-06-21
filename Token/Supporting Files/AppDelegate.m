@@ -108,7 +108,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)configureAndPresentWindow {
-    self.window = [[UIWindow alloc] init];
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [Theme viewBackgroundColor];
     self.window.rootViewController = [[TabBarController alloc] init];
 

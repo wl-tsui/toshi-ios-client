@@ -29,11 +29,15 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }
 
-    func getFeaturedApps(completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
+    func getFeaturedApps(completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
         self.teapot.get("/v1/apps/featured?limit=32") { (result: NetworkResult) in
             switch result {
-            case .success(let json, _):
-                guard let json = json?.dictionary else { fatalError("No apps json!") }
+
+            case .success(let json, let response):
+                print(response)
+                guard let json = json?.dictionary else { completion(nil, nil)
+                    return
+                }
 
                 let appsJSON = json["results"] as! [[String: Any]]
                 let apps = appsJSON.map { json -> TokenUser in

@@ -118,7 +118,8 @@ open class ChatsController: SweetTableController {
         let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
-        let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        guard let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewConnection else { return }
+        
         let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
         if !hasChangesForCurrentView {
             self.uiDatabaseConnection.read { transaction in
@@ -173,30 +174,31 @@ open class ChatsController: SweetTableController {
     }
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
-        let thread = self.thread(at: indexPath)
-        let address = thread.contactIdentifier()!
-        print("Updating contact infor for address: \(address).")
-
-        self.idAPIClient.retrieveContact(username: address) { contact in
-            if let contact = contact {
-                print("Updated contact info for \(contact.username)")
+        if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() as String? {
+            print("Updating contact infor for address: \(address).")
+            
+            self.idAPIClient.retrieveContact(username: address) { contact in
+                if let contact = contact {
+                    print("Updated contact info for \(contact.username)")
+                }
             }
         }
     }
 
-    func thread(at indexPath: IndexPath) -> TSThread {
+    func thread(at indexPath: IndexPath) -> TSThread? {
         var thread: TSThread?
+        
         self.uiDatabaseConnection.read { transaction in
-            guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { fatalError() }
-            guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { fatalError() }
+            guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
+            guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { return }
 
             thread = object
         }
 
-        return thread!
+        return thread
     }
 
-    func thread(withAddress address: String) -> TSThread {
+    func thread(withAddress address: String) -> TSThread? {
         var thread: TSThread?
 
         self.uiDatabaseConnection.read { transaction in
@@ -210,7 +212,7 @@ open class ChatsController: SweetTableController {
             }
         }
 
-        return thread!
+        return thread
     }
 
     func thread(withIdentifier identifier: String) -> TSThread? {
@@ -269,19 +271,21 @@ extension ChatsController: UITableViewDelegate {
     open func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 82
     }
-
+    
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let thread = self.thread(at: indexPath)
-        let chatController = ChatController(thread: thread)
-        self.navigationController?.pushViewController(chatController, animated: true)
+        if let thread = self.thread(at: indexPath) as TSThread? {
+            let chatController = ChatController(thread: thread)
+            self.navigationController?.pushViewController(chatController, animated: true)
+        }
     }
 
     public func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
-            let thread = self.thread(at: indexPath)
-
-            TSStorageManager.shared().dbConnection?.asyncReadWrite { transaction in
-                thread.archiveThread(with: transaction)
+            if let thread = self.thread(at: indexPath) as TSThread? {
+                
+                TSStorageManager.shared().dbConnection?.asyncReadWrite { transaction in
+                    thread.archiveThread(with: transaction)
+                }
             }
         }
 

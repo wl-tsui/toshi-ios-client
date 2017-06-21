@@ -300,7 +300,7 @@ open class SofaPaymentRequest: SofaWrapper {
     }
 
     public var value: NSDecimalNumber {
-        guard let hexValue = self.json["value"] as? String else { fatalError() }
+        guard let hexValue = self.json["value"] as? String else { return NSDecimalNumber.zero }
 
         if hexValue.hasPrefix("0x") {
             return NSDecimalNumber(hexadecimalString: hexValue)
@@ -342,7 +342,7 @@ open class SofaPayment: SofaWrapper {
     }
 
     public var value: NSDecimalNumber {
-        guard let hexValue = self.json["value"] as? String else { fatalError() }
+        guard let hexValue = self.json["value"] as? String else { return NSDecimalNumber.zero }
 
         if hexValue.hasPrefix("0x") {
             return NSDecimalNumber(hexadecimalString: hexValue)

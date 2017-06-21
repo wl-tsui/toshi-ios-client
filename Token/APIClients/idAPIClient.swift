@@ -84,13 +84,14 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary else { fatalError() }
-                guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
-
+                guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
+                    print("No response json - Fetch timestamp")
+                    return
+                }
+                
                 completion(timestamp)
             case .failure(_, let response, _):
                 print(response)
-                fatalError()
             }
         }
     }
@@ -192,8 +193,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
                 switch result {
                 case .success(let json, let response):
-                    guard response.statusCode == 200 else { fatalError() }
-                    guard let json = json?.dictionary else { fatalError() }
+                    guard response.statusCode == 200, let json = json?.dictionary else {
+                        print("Invalid response - Update user")
+                        completion(false, "Something went wrong")
+                        return
+                    }
 
                     TokenUser.current?.update(json: json)
 
@@ -360,7 +364,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             self.teapot.post(path, parameters: json, headerFields: fields) { result in
                 switch result {
                 case .success(_, let response):
-                    guard response.statusCode == 204 else { fatalError() }
+                    guard response.statusCode == 204 else {
+                        print("Invalid response - Report user")
+                        completion?(false, "Something went wrong")
+                        return
+                    }
 
                     completion?(true, "")
                 case .failure(let json, _, _):
@@ -385,7 +393,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             self.teapot.get(path, headerFields: fields) { result in
                 switch result {
                 case .success(_, let response):
-                    guard response.statusCode == 204 else { fatalError() }
+                    guard response.statusCode == 204 else {
+                        print("Invalid response - Login")
+                        completion?(false, "Something went wrong")
+                        return
+                    }
 
                     completion?(true, "")
                 case .failure(let json, _, _):
