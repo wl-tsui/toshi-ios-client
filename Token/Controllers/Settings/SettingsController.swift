@@ -221,8 +221,6 @@ open class SettingsController: UITableViewController {
         case 2:
             switch indexPath.row {
             case 0:
-                // passphrase backup, but only if we didn't yet.
-                if self.isAccountSecured { return }
                 self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
             case 1:
                 break // trusted frieds
