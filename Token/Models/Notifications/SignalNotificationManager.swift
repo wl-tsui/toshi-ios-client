@@ -17,17 +17,14 @@ import UIKit
 
 public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage!, in _: TSThread!, contactsManager _: ContactsManagerProtocol!) {
-        print("Incoming message: \(incomingMessage)")
-    }
-
     static var tabbarController: TabBarController? {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window else { return nil }
 
         return window.rootViewController as? TabBarController
     }
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage!, from name: String!, in thread: TSThread!, contactsManager _: ContactsManagerProtocol) {
+    public func notifyUser(for incomingMessage: TSIncomingMessage!, in thread: TSThread!, contactsManager: ContactsManagerProtocol!) {
+
         guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
             return
         }
@@ -35,7 +32,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         defer { SignalNotificationManager.updateApplicationBadgeNumber() }
 
         let content = UNMutableNotificationContent()
-        content.title = name
+        content.title = thread.name()
         content.threadIdentifier = thread.uniqueId
 
         if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
