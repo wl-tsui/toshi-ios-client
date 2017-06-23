@@ -283,7 +283,7 @@ extension TabBarController: ScannerViewControllerDelegate {
                 userInfo = contact.userInfo
                 parameters["to"] = contact.paymentAddress
             } else {
-                userInfo = UserInfo(address: username, paymentAddress: contact?.paymentAddress, avatar: nil, avatarPath: nil, name: nil, username: username, isLocal: false)
+                userInfo = UserInfo(address: username, paymentAddress: contact?.paymentAddress, avatarPath: nil, name: nil, username: username, isLocal: false)
                 parameters["to"] = username
             }
             

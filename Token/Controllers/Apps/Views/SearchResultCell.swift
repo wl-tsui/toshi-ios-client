@@ -19,13 +19,13 @@ class SearchResultCell: UITableViewCell {
     var app: TokenUser? {
         didSet {
             if let app = self.app {
-                NotificationCenter.default.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: app)
-
                 self.usernameLabel.text = app.category
                 self.nameLabel.text = app.name
 
-                if let image = app.avatar {
-                    self.avatarImageView.image = image
+                if let path = app.avatarPath as String? {
+                    AvatarManager.shared.avatar(for: path, completion: { image in
+                        self.avatarImageView.image = image
+                    })
                 }
             } else {
                 self.usernameLabel.text = nil
@@ -103,9 +103,5 @@ class SearchResultCell: UITableViewCell {
 
     required init?(coder _: NSCoder) {
         fatalError()
-    }
-
-    func avatarDidUpdate() {
-        self.avatarImageView.image = self.app?.avatar
     }
 }

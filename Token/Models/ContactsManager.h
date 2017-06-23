@@ -28,14 +28,13 @@
 
 @interface ContactsManager : NSObject <ContactsManagerProtocol>
 
+@property (nonatomic, copy, readonly, nonnull) NSArray<TokenUser *> *tokenContacts;
+
 + (BOOL)name:(nonnull NSString *)nameString matchesQuery:(nonnull NSString *)queryString;
 
 - (nonnull NSString *)displayNameForPhoneIdentifier:(nullable NSString *)phoneNumber;
 
 - (nonnull NSArray<SignalAccount *> *)signalAccounts;
-
-- (nonnull NSArray<TokenUser *> *)tokenContacts;
-
 - (nullable TokenUser *)tokenContactForAddress:(nullable NSString *)address;
 
 - (nullable UIImage *)imageForPhoneIdentifier:(nullable NSString *)phoneNumber;

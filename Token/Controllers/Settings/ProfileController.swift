@@ -164,8 +164,6 @@ open class ProfileController: UIViewController {
 
         self.addSubviewsAndConstraints()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
-
         self.reputationView.setScore(.zero)
         self.updateReputation()
     }
@@ -183,7 +181,12 @@ open class ProfileController: UIViewController {
 
         self.aboutContentLabel.text = TokenUser.current?.about
         self.locationContentLabel.text = TokenUser.current?.location
-        self.avatarImageView.image = TokenUser.current?.avatar
+        
+        if let path = TokenUser.current?.avatarPath as String? {
+            AvatarManager.shared.avatar(for: path, completion: { image in
+                self.avatarImageView.image = image
+            })
+        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -302,12 +305,6 @@ open class ProfileController: UIViewController {
         RatingsClient.shared.scores(for: currentUser.address) { ratingScore in
             self.reputationView.setScore(ratingScore)
         }
-    }
-
-    @objc
-    fileprivate func avatarDidUpdate() {
-        let avatar = TokenUser.current?.avatar
-        self.avatarImageView.image = avatar
     }
 
     @objc

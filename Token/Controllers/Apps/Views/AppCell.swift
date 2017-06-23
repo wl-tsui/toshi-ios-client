@@ -61,13 +61,13 @@ class AppCell: UICollectionViewCell {
                 return
             }
 
-            NotificationCenter.default.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .TokenContactDidUpdateAvatarNotification, object: app)
-
             self.nameLabel.text = app.name
             self.categoryLabel.text = app.category
 
-            if let image = app.avatar {
-                self.avatarImageView.image = image
+            AvatarManager.shared.avatar(for: app.avatarPath) { image in
+                if image != nil {
+                    self.avatarImageView.image = image
+                }
             }
 
             RatingsClient.shared.scores(for: app.address) { ratingScore in
@@ -103,9 +103,5 @@ class AppCell: UICollectionViewCell {
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func avatarDidUpdate() {
-        self.avatarImageView.image = self.app?.avatar
     }
 }

@@ -41,7 +41,7 @@ open class ProfileEditController: OverlayController, Editable {
     @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
         self.keyboardWillHide(notification)
     }
-
+    
     fileprivate var menuSheetController: MenuSheetController?
 
     lazy var dataSource: FormDataSource = {
@@ -104,7 +104,12 @@ open class ProfileEditController: OverlayController, Editable {
         self.addSubviewsAndConstraints()
 
         guard let user = TokenUser.current else { return }
-        self.avatarImageView.image = user.avatar
+        
+        if let path = user.avatarPath as String? {
+            AvatarManager.shared.avatar(for: path, completion: { image in
+                self.avatarImageView.image = image
+            })
+        }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapView))
         self.view.addGestureRecognizer(tapGesture)
@@ -364,8 +369,11 @@ open class ProfileEditController: OverlayController, Editable {
         self.activityIndicator.startAnimating()
 
         self.idAPIClient.updateUser(user) { userUpdated, _ in
-
-            if let image = self.avatarImageView.image as UIImage?, TokenUser.current?.avatar != image {
+            
+            let cachedAvatar = AvatarManager.shared.cachedAvatar(for: user.avatarPath)
+            print(user.avatarPath)
+            if let image = self.avatarImageView.image as UIImage?, image != cachedAvatar {
+                
                 self.idAPIClient.updateAvatar(image) { avatarUpdated in
                     let success = userUpdated == true && avatarUpdated == true
                     self.completeEdit(success: success)

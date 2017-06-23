@@ -215,11 +215,10 @@ extension SOFAWebController: WKScriptMessageHandler {
 
             if let to = tx["to"] as? String {
                 IDAPIClient.shared.retrieveContact(username: to) { user in
-                    var userInfo = UserInfo(address: to, paymentAddress: to, avatar: nil, avatarPath: nil, name: nil, username: to, isLocal: false)
+                    var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
 
                     if let user = user as TokenUser? {
-                        let avatar = user.avatar != nil ? user.avatar : UIImage(color: UIColor.lightGray)
-                        userInfo.avatar = avatar
+                        userInfo.avatarPath = user.avatarPath
                         userInfo.username = user.username
                         userInfo.name = user.name
                         userInfo.isLocal = true
@@ -227,7 +226,7 @@ extension SOFAWebController: WKScriptMessageHandler {
                     self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
                 }
             } else {
-                let userInfo = UserInfo(address: "", paymentAddress: "", avatar: nil, avatarPath: nil, name: "New Contract", username: "", isLocal: false)
+                let userInfo = UserInfo(address: "", paymentAddress: "", avatarPath: nil, name: "New Contract", username: "", isLocal: false)
                 self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
             }
 

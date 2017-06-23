@@ -129,6 +129,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)userDidSignOut {
     [TSAccountManager unregisterTextSecureWithSuccess:^{
+        
+        [AvatarManager.shared cleanCache];
+        
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         [[EthereumAPIClient shared] deregisterForNotificationsWithDeviceToken:self.token];
         [[TSStorageManager sharedManager] resetSignalStorage];
@@ -217,6 +220,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 - (void)setupTSKitEnv {
     self.networkManager = [TSNetworkManager sharedManager];
     self.contactsManager = [[ContactsManager alloc] init];
+    
+    [AvatarManager.shared startDownloadContactsAvatars];
+    
     self.contactsUpdater = [ContactsUpdater sharedUpdater];
 
     TSStorageManager *storageManager = [TSStorageManager sharedManager];

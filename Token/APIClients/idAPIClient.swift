@@ -29,8 +29,6 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public var teapot: Teapot
 
-    private var imageCache = try! Cache<UIImage>(name: "imageCache")
-
     private var contactCache = try! Cache<TokenUser>(name: "tokenContactCache")
 
     let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
@@ -79,19 +77,21 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-
+    
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
-        self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
-            switch result {
-            case .success(let json, _):
-                guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
-                    print("No response json - Fetch timestamp")
-                    return
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
+                        print("No response json - Fetch timestamp")
+                        return
+                    }
+                    
+                    completion(timestamp)
+                case .failure(_, let response, _):
+                    print(response)
                 }
-                
-                completion(timestamp)
-            case .failure(_, let response, _):
-                print(response)
             }
         }
     }
@@ -121,33 +121,35 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
                 let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
-
+                
                 let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-
+                
                 let json = RequestParameter(parameters)
-                self.teapot.post(path, parameters: json, headerFields: fields) { result in
-                    switch result {
-                    case .success(let json, let response):
-                        guard response.statusCode == 200 else { return }
-                        guard let json = json?.dictionary else { return }
-
-                        TokenUser.createOrUpdateCurrentUser(with: json)
-                        
-                        print("Current user is verified: \(String(describing: TokenUser.current?.verified))")
-                        
-                        print("Registered user with address: \(cereal.address)")
-
-                        success()
-                    case .failure(let json, let response, let error):
-                        print(response)
-                        print(error)
-                        print(json ?? "")
+                
+                DispatchQueue.global(qos: .userInitiated).async {
+                    self.teapot.post(path, parameters: json, headerFields: fields) { result in
+                        switch result {
+                        case .success(let json, let response):
+                            guard response.statusCode == 200 else { return }
+                            guard let json = json?.dictionary else { return }
+                            
+                            TokenUser.createOrUpdateCurrentUser(with: json)
+                            
+                            print("Current user is verified: \(String(describing: TokenUser.current?.verified))")
+                            
+                            print("Registered user with address: \(cereal.address)")
+                            
+                            success()
+                        case .failure(let json, let response, let error):
+                            print(error)
+                            print(json ?? "")
+                        }
                     }
                 }
             }
         }
     }
-
+    
     public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool) -> Void)) {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
@@ -156,22 +158,27 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             let payload = self.teapot.multipartData(from: avatar, boundary: boundary, filename: "avatar.png")
             let hashedPayload = cereal.sha3WithID(data: payload)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-
+            
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
             let json = RequestParameter(payload)
-
-            self.teapot.put(path, parameters: json, headerFields: fields) { result in
-                switch result {
-                case .success(let json, _):
-                    guard let userDict = json?.dictionary else { completion(false); return }
-
-                    TokenUser.current?.update(avatar: avatar, avatarPath: userDict["avatar"] as! String)
-
-                    completion(true)
-                case .failure(_, _, let error):
-                    // TODO: show error
-                    print(error)
-                    completion(false)
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.teapot.put(path, parameters: json, headerFields: fields) { result in
+                    switch result {
+                    case .success(let json, _):
+                        guard let userDict = json?.dictionary else { completion(false); return }
+                        
+                        if let path = userDict["avatar"] as? String {
+                            AvatarManager.shared.refreshAvatar(at: path)
+                            TokenUser.current?.update(avatar: avatar, avatarPath: path)
+                        }
+                        
+                        completion(true)
+                    case .failure(_, _, let error):
+                        // TODO: show error
+                        print(error)
+                        completion(false)
+                    }
                 }
             }
         }
@@ -189,23 +196,25 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(user.asDict)
-
-            self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
-                switch result {
-                case .success(let json, let response):
-                    guard response.statusCode == 200, let json = json?.dictionary else {
-                        print("Invalid response - Update user")
-                        completion(false, "Something went wrong")
-                        return
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
+                    switch result {
+                    case .success(let json, let response):
+                        guard response.statusCode == 200, let json = json?.dictionary else {
+                            print("Invalid response - Update user")
+                            completion(false, "Something went wrong")
+                            return
+                        }
+                        
+                        TokenUser.current?.update(json: json)
+                        
+                        completion(true, nil)
+                    case .failure(let json, _, _):
+                        let errors = json?.dictionary?["errors"] as? [[String: Any]]
+                        let message = errors?.first?["message"] as? String
+                        completion(false, message)
                     }
-
-                    TokenUser.current?.update(json: json)
-
-                    completion(true, nil)
-                case .failure(let json, _, _):
-                    let errors = json?.dictionary?["errors"] as? [[String: Any]]
-                    let message = errors?.first?["message"] as? String
-                    completion(false, message)
                 }
             }
         }
@@ -217,20 +226,21 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     ///   - username: username or id address
     ///   - completion: called on completion
     public func retrieveContact(username: String, completion: @escaping ((TokenUser?) -> Void)) {
-        self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
-            switch result {
-            case .success(let json, _):
-                // we know it's a dictionary for this API
-                guard let json = json?.dictionary else { completion(nil); return }
-                let contact = TokenUser(json: json)
-
-                completion(contact)
-            case .failure(let json, let response, let error):
-                print(error.localizedDescription)
-                print(response)
-                print(json?.dictionary ?? "")
-
-                completion(nil)
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    // we know it's a dictionary for this API
+                    guard let json = json?.dictionary else { completion(nil); return }
+                    let contact = TokenUser(json: json)
+                    
+                    completion(contact)
+                case .failure(let json, let response, let error):
+                    print(error.localizedDescription)
+                    print(json?.dictionary ?? "")
+                    
+                    completion(nil)
+                }
             }
         }
     }
@@ -241,82 +251,73 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     ///   - username: username of id address
     ///   - completion: called on completion
     public func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
-        self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
-            switch result {
-            case .success(let json, _):
-                // we know it's a dictionary for this API
-                guard let json = json?.dictionary else { completion(nil); return }
-                
-                let user: TokenUser?
-                
-                if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address {
-                    TokenUser.current?.update(json: json)
-                    user = TokenUser.current
-                    
-                    print("Current user with address: \(String(describing: user?.address))")
-                    
-                } else {
-                    user = TokenUser(json: json)
-                }
-
-                completion(user)
-            case .failure(let json, let response, let error):
-                print(error.localizedDescription)
-                print(response)
-                print(json?.dictionary ?? "")
-
-                completion(nil)
-            }
-        }
-    }
-
-    func downloadAvatar(path: String, fromCache: Bool = true, completion: @escaping (_ image: UIImage?) -> Void) {
-        if fromCache {
-            self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
-                let teapot = Teapot(baseURL: URL(string: path)!)
-                teapot.get { (result: NetworkImageResult) in
-                    switch result {
-                    case .success(let image, _):
-                        success(image, self.cacheExpiry)
-                    case .failure(let response, let error):
-                        print(response)
-                        print(error)
-                        failure(error as NSError)
-                    }
-                }
-            }) { image, _, _ in
-                completion(image)
-            }
-        } else {
-            let teapot = Teapot(baseURL: URL(string: path)!)
-            teapot.get { (result: NetworkImageResult) in
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
                 switch result {
-                case .success(let image, _):
-                    completion(image)
-                case .failure(let response, let error):
+                case .success(let json, _):
+                    // we know it's a dictionary for this API
+                    guard let json = json?.dictionary else { completion(nil); return }
+                    
+                    let user: TokenUser?
+                    
+                    if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address {
+                        TokenUser.current?.update(json: json)
+                        user = TokenUser.current
+                        
+                        print("Current user with address: \(String(describing: user?.address))")
+                        
+                    } else {
+                        user = TokenUser(json: json)
+                    }
+                    
+                    completion(user)
+                case .failure(let json, let response, let error):
+                    print(error.localizedDescription)
                     print(response)
-                    print(error)
+                    print(json?.dictionary ?? "")
+                    
                     completion(nil)
                 }
             }
         }
     }
-
+    
     public func findContact(name: String, completion: @escaping ((TokenUser?) -> Void)) {
-        self.contactCache.setObject(forKey: name, cacheBlock: { success, failure in
-            self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/user/\(name)", completion: { (result: NetworkResult) in
+                var contact: TokenUser?
+                
                 switch result {
                 case .success(let json, _):
                     guard let json = json?.dictionary else { completion(nil); return }
-
-                    let contact = TokenUser(json: json)
+                    
+                    contact = TokenUser(json: json)
                     NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
-
-                    success(contact, self.cacheExpiry)
                 case .failure(_, _, let error):
                     print(error.localizedDescription)
-
-                    failure(error as NSError)
+                }
+                
+                completion(contact)
+            })
+        }
+        
+        self.contactCache.setObject(forKey: name, cacheBlock: { success, failure in
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
+                    switch result {
+                    case .success(let json, _):
+                        guard let json = json?.dictionary else { completion(nil); return }
+                        
+                        let contact = TokenUser(json: json)
+                        NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
+                        
+                        success(contact, self.cacheExpiry)
+                    case .failure(_, _, let error):
+                        print(error.localizedDescription)
+                        
+                        failure(error as NSError)
+                    }
                 }
             }
         }) { contact, _, _ in
@@ -326,20 +327,22 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
         // /v1/search/user/?query=moxiemarl&offset=80&limit=20
-        self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
-            switch result {
-            case .success(let json, _):
-                guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else { completion([]); return }
-
-                var contacts = [TokenUser]()
-                for item in json {
-                    contacts.append(TokenUser(json: item))
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else { completion([]); return }
+                    
+                    var contacts = [TokenUser]()
+                    for item in json {
+                        contacts.append(TokenUser(json: item))
+                    }
+                    completion(contacts)
+                case .failure(_, let response, let error):
+                    print(error.localizedDescription)
+                    completion([])
                 }
-                completion(contacts)
-            case .failure(_, let response, let error):
-                print(response)
-                print(error.localizedDescription)
-                completion([])
             }
         }
     }
@@ -360,22 +363,25 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(payload)
-
-            self.teapot.post(path, parameters: json, headerFields: fields) { result in
-                switch result {
-                case .success(_, let response):
-                    guard response.statusCode == 204 else {
-                        print("Invalid response - Report user")
-                        completion?(false, "Something went wrong")
-                        return
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                
+                self.teapot.post(path, parameters: json, headerFields: fields) { result in
+                    switch result {
+                    case .success(_, let response):
+                        guard response.statusCode == 204 else {
+                            print("Invalid response - Report user")
+                            completion?(false, "Something went wrong")
+                            return
+                        }
+                        
+                        completion?(true, "")
+                    case .failure(let json, _, _):
+                        let errors = json?.dictionary?["errors"] as? [[String: Any]]
+                        let message = errors?.first?["message"] as? String
+                        
+                        completion?(false, message ?? "")
                     }
-
-                    completion?(true, "")
-                case .failure(let json, _, _):
-                    let errors = json?.dictionary?["errors"] as? [[String: Any]]
-                    let message = errors?.first?["message"] as? String
-
-                    completion?(false, message ?? "")
                 }
             }
         }
@@ -385,26 +391,28 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/login/\(login_token)"
-
+            
             let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
-
+            
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-
-            self.teapot.get(path, headerFields: fields) { result in
-                switch result {
-                case .success(_, let response):
-                    guard response.statusCode == 204 else {
-                        print("Invalid response - Login")
-                        completion?(false, "Something went wrong")
-                        return
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.teapot.get(path, headerFields: fields) { result in
+                    switch result {
+                    case .success(_, let response):
+                        guard response.statusCode == 204 else {
+                            print("Invalid response - Login")
+                            completion?(false, "Something went wrong")
+                            return
+                        }
+                        
+                        completion?(true, "")
+                    case .failure(let json, _, _):
+                        let errors = json?.dictionary?["errors"] as? [[String: Any]]
+                        let message = errors?.first?["message"] as? String
+                        
+                        completion?(false, message ?? "")
                     }
-
-                    completion?(true, "")
-                case .failure(let json, _, _):
-                    let errors = json?.dictionary?["errors"] as? [[String: Any]]
-                    let message = errors?.first?["message"] as? String
-
-                    completion?(false, message ?? "")
                 }
             }
         }

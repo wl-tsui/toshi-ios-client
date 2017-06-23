@@ -30,27 +30,27 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     }
 
     func getFeaturedApps(completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
-        self.teapot.get("/v1/apps/featured?limit=32") { (result: NetworkResult) in
-            switch result {
-
-            case .success(let json, let response):
-                print(response)
-                guard let json = json?.dictionary else { completion(nil, nil)
-                    return
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/apps/featured?limit=32") { (result: NetworkResult) in
+                switch result {
+                    
+                case .success(let json, let response):
+                    guard let json = json?.dictionary else { completion(nil, nil)
+                        return
+                    }
+                    
+                    let appsJSON = json["results"] as! [[String: Any]]
+                    let apps = appsJSON.map { json -> TokenUser in
+                        let app = TokenUser(json: json)
+                        
+                        return app
+                    }
+                    
+                    completion(apps, nil)
+                case .failure(let json, let response, let error):
+                    print(json ?? "")
+                    completion([TokenUser](), error)
                 }
-
-                let appsJSON = json["results"] as! [[String: Any]]
-                let apps = appsJSON.map { json -> TokenUser in
-                    let app = TokenUser(json: json)
-
-                    return app
-                }
-
-                completion(apps, nil)
-            case .failure(let json, let response, let error):
-                print(json ?? "")
-                print(response)
-                completion([TokenUser](), error)
             }
         }
     }
@@ -58,14 +58,16 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     func downloadImage(for app: TokenUser, completion: @escaping (_ image: UIImage?) -> Void) {
         guard let pathURL = URL(string: app.avatarPath) else { return }
         self.imageCache.setObject(forKey: app.avatarPath, cacheBlock: { success, failure in
-            Teapot(baseURL: pathURL).get { (result: NetworkImageResult) in
-                switch result {
-                case .success(let image, _):
-                    success(image, self.cacheExpiry)
-                case .failure(let response, let error):
-                    print(response)
-                    print(error)
-                    failure(error as NSError)
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                Teapot(baseURL: pathURL).get { (result: NetworkImageResult) in
+                    switch result {
+                    case .success(let image, _):
+                        success(image, self.cacheExpiry)
+                    case .failure(let response, let error):
+                        print(error)
+                        failure(error as NSError)
+                    }
                 }
             }
         }) { image, _, _ in
@@ -78,31 +80,33 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
             completion([TokenUser](), nil)
             return
         }
-
-        self.teapot.get("/v1/search/apps/?query=\(searchTerm)") { (result: NetworkResult) in
-            switch result {
-            case .success(let json, _):
-                guard let json = json?.dictionary else {
-                    completion([], nil)
-
-                    return
-                }
-
-                guard let appsJSON = json["results"] as? [[String: Any]] else {
-                    completion([TokenUser](), nil)
-                    return
-                }
-
-                let apps = appsJSON.map { json -> TokenUser in
-                    return TokenUser(json: json)
-                }
-
-                completion(apps, nil)
-            case .failure(_, let response, let error):
-                if response.statusCode == 404 {
-                    completion([TokenUser](), nil)
-                } else {
-                    completion([TokenUser](), error)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/search/apps/?query=\(searchTerm)") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    guard let json = json?.dictionary else {
+                        completion([], nil)
+                        
+                        return
+                    }
+                    
+                    guard let appsJSON = json["results"] as? [[String: Any]] else {
+                        completion([TokenUser](), nil)
+                        return
+                    }
+                    
+                    let apps = appsJSON.map { json -> TokenUser in
+                        return TokenUser(json: json)
+                    }
+                    
+                    completion(apps, nil)
+                case .failure(_, let response, let error):
+                    if response.statusCode == 404 {
+                        completion([TokenUser](), nil)
+                    } else {
+                        completion([TokenUser](), error)
+                    }
                 }
             }
         }

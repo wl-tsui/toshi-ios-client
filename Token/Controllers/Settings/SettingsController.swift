@@ -58,7 +58,7 @@ open class SettingsController: UITableViewController {
 
     @IBOutlet weak var userAvatarImageVIew: UIImageView! {
         didSet {
-            self.userAvatarImageVIew.image = TokenUser.current?.avatar
+            self.updateAvatar()
         }
     }
 
@@ -102,9 +102,7 @@ open class SettingsController: UITableViewController {
 
         self.tableView.backgroundColor = Theme.settingsBackgroundColor
 
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(self.avatarDidUpdate), name: .CurrentUserDidUpdateAvatarNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
 
         self.fetchAndUpdateBalance()
     }
@@ -115,14 +113,25 @@ open class SettingsController: UITableViewController {
         self.tableView.reloadData()
         self.nameLabel.text = TokenUser.current?.name
         self.usernameLabel.text = TokenUser.current?.displayUsername
-        self.userAvatarImageVIew.image = TokenUser.current?.avatar
+        self.updateAvatar()
     }
     
     @objc private func updateUI() {
         self.nameLabel.text = TokenUser.current?.name
         self.usernameLabel.text = TokenUser.current?.displayUsername
-        self.userAvatarImageVIew.image = TokenUser.current?.avatar
         self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
+        
+        self.updateAvatar()
+    }
+    
+    fileprivate func updateAvatar() {
+        if let avatarPath = TokenUser.current?.avatarPath as String? {
+            AvatarManager.shared.avatar(for: avatarPath, completion: { image in
+                if image != nil {
+                    self.userAvatarImageVIew.image = image
+                }
+            })
+        }
     }
 
     @objc private func handleBalanceUpdate(notification: Notification) {
@@ -162,11 +171,6 @@ open class SettingsController: UITableViewController {
         DispatchQueue.main.async {
             self.present(alert, animated: true)
         }
-    }
-
-    func avatarDidUpdate() {
-        let avatar = TokenUser.current?.avatar
-        self.userAvatarImageVIew.image = avatar
     }
 
     func alertController(balance: NSDecimalNumber) -> UIAlertController {

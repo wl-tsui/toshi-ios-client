@@ -211,7 +211,14 @@ public class ContactController: UIViewController {
 
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
-        self.avatarImageView.image = self.contact.avatar
+        
+        if let path = self.contact.avatarPath as String? {
+            AvatarManager.shared.avatar(for: path, completion: { image in
+                if image != nil {
+                    self.avatarImageView.image = image
+                }
+            })
+        }
 
         self.updateButton()
     }

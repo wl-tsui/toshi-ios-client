@@ -20,12 +20,7 @@ public extension NSNotification.Name {
     public static let currentUserUpdated = NSNotification.Name(rawValue: "currentUserUpdated")
 }
 
-public typealias UserInfo = (address: String, paymentAddress: String?, avatar: UIImage?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
-
-extension Notification.Name {
-    public static let CurrentUserDidUpdateAvatarNotification = Notification.Name(rawValue: "CurrentUserDidUpdateAvatarNotification")
-    public static let TokenContactDidUpdateAvatarNotification = Notification.Name(rawValue: "TokenContactDidUpdateAvatarNotification")
-}
+public typealias UserInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
 
 public class TokenUser: NSObject, NSCoding {
 
@@ -37,7 +32,6 @@ public class TokenUser: NSObject, NSCoding {
         static let location = "location"
         static let about = "about"
         static let avatar = "avatar"
-        static let avatarDataHex = "avatarDataHex"
         static let isApp = "is_app"
         static let verified = "verified"
     }
@@ -68,15 +62,10 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var about = ""
     private(set) var location = ""
     private(set) var avatarPath = ""
+    
     private(set) var address = ""
     private(set) var paymentAddress = ""
     private(set) var isApp: Bool = false
-
-    private(set) var avatar: UIImage? {
-        didSet {
-            self.postAvatarUpdateNotification()
-        }
-    }
     
     fileprivate static var _current: TokenUser?
     fileprivate(set) static var current: TokenUser? {
@@ -116,11 +105,6 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     var asDict: [String: Any] {
-        var imageDataString = ""
-        if let image = self.avatar, let data = UIImageJPEGRepresentation(image, 1.0) {
-            imageDataString = data.hexadecimalString
-        }
-
         return [
             Constants.address: self.address,
             Constants.paymentAddress: self.paymentAddress,
@@ -129,18 +113,17 @@ public class TokenUser: NSObject, NSCoding {
             Constants.location: self.location,
             Constants.name: self.name,
             Constants.avatar: self.avatarPath,
-            Constants.avatarDataHex: imageDataString,
             Constants.isApp: self.isApp,
             Constants.verified: self.verified,
         ]
     }
     
     var userInfo: UserInfo {
-        return UserInfo(address: self.address, paymentAddress: self.paymentAddress, avatar: self.avatar, avatarPath: self.avatarPath, name: self.name, username: self.displayUsername, isLocal: true)
+        return UserInfo(address: self.address, paymentAddress: self.paymentAddress, avatarPath: self.avatarPath, name: self.name, username: self.displayUsername, isLocal: true)
     }
 
     public override var description: String {
-        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(username)>"
+        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(username), avatarPath: \(self.avatarPath)>"
     }
 
     static func name(from username: String) -> String {
@@ -185,25 +168,6 @@ public class TokenUser: NSObject, NSCoding {
 
         self.verified = json[Constants.verified] as? Bool ?? self.verified
 
-        if updateAvatar {
-            if let avatarDataHex = (json[Constants.avatarDataHex] as? String), !avatarDataHex.isEmpty, let hexData = avatarDataHex.hexadecimalData {
-                let image = UIImage(data: hexData)
-                self.avatar = image
-            }
-
-            if !self.avatarPath.isEmpty {
-                if self.isApp {
-                    AppsAPIClient.shared.downloadImage(for: self) { image in
-                        self.avatar = image
-                    }
-                } else {
-                    IDAPIClient.shared.downloadAvatar(path: self.avatarPath, fromCache: !self.isCurrentUser) { image in
-                        self.avatar = image
-                    }
-                }
-            }
-        }
-
         if shouldSave {
             self.save()
         }
@@ -211,7 +175,6 @@ public class TokenUser: NSObject, NSCoding {
 
     func update(avatar: UIImage, avatarPath: String) {
         self.avatarPath = avatarPath
-        self.avatar = avatar
 
         self.save()
     }
@@ -251,14 +214,6 @@ public class TokenUser: NSObject, NSCoding {
         }
         
         self.update(username: tokenContact.username, name: tokenContact.name, about: tokenContact.about, location: tokenContact.location)
-    }
-    
-    private func postAvatarUpdateNotification() {
-        if self.isCurrentUser {
-            NotificationCenter.default.post(name: .CurrentUserDidUpdateAvatarNotification, object: self)
-        } else {
-            NotificationCenter.default.post(name: .TokenContactDidUpdateAvatarNotification, object: self)
-        }
     }
     
     private func save() {

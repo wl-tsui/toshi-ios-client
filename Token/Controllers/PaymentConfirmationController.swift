@@ -69,13 +69,11 @@ class PaymentConfirmationController: AlertController {
             customView.set(height: customView.frame.height)
             customView.translatesAutoresizingMaskIntoConstraints = false
             customView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-
-            if self.userInfo.avatar != nil {
-                customView.userAvatarImageView.image = self.userInfo.avatar
-            } else if let path = self.userInfo.avatarPath as String?, path.isEmpty == false {
-                IDAPIClient.shared.downloadAvatar(path: path) { image in
+            
+            if let path = self.userInfo.avatarPath as String? {
+                AvatarManager.shared.avatar(for: path, completion: { image in
                     customView.userAvatarImageView.image = image
-                }
+                })
             }
 
             customView.userDisplayNameLabel.text = self.userInfo.name
@@ -87,7 +85,6 @@ class PaymentConfirmationController: AlertController {
             self.customContentView = customView
 
             RatingsClient.shared.scores(for: self.userInfo.address) { score in
-
                 if let view = self.customContentView as? PaymentRequestInfoView {
                     view.ratingView.set(rating: Float(score.score), animated: true)
                     view.ratingCountLabel.text = "(\(score.count))"

@@ -253,9 +253,9 @@ class ChatController: MessagesCollectionViewController {
         self.reloadDraft()
         self.view.layoutIfNeeded()
 
-        self.avatarImageView.image = self.thread.image()
-
         self.tabBarController?.tabBar.isHidden = true
+        
+        self.avatarImageView.image = self.thread.image()
     }
 
     override func viewDidAppear(_ animated: Bool) {

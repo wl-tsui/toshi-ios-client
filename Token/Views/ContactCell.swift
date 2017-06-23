@@ -27,15 +27,20 @@ class ContactCell: UITableViewCell {
                     self.usernameLabel.text = contact.displayUsername
                     self.nameLabel.text = contact.name
                 }
-
-                if let avatar = contact.avatar {
-                    self.avatarImageView.image = avatar
-                }
-            } else {
-                self.usernameLabel.text = nil
-                self.nameLabel.text = nil
-                self.avatarImageView.image = nil
+                
+                AvatarManager.shared.avatar(for: contact.avatarPath, completion: { image in
+                    if image != nil {
+                        self.avatarImageView.image = image
+                    }
+                })
+                
+                return
+                
             }
+            
+            self.usernameLabel.text = nil
+            self.nameLabel.text = nil
+            self.avatarImageView.image = nil
         }
     }
 
@@ -92,7 +97,7 @@ class ContactCell: UITableViewCell {
         self.nameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         self.nameLabel.topAnchor.constraint(greaterThanOrEqualTo: self.contentView.topAnchor, constant: margin).isActive = true
         self.nameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin).isActive = true
-        self.nameLabel.rightAnchor.constraint(greaterThanOrEqualTo: self.contentView.rightAnchor, constant: -margin).isActive = true
+        self.nameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin).isActive = true
 
         self.usernameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: interLabelMargin).isActive = true
