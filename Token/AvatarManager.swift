@@ -64,7 +64,9 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
         operation.addExecutionBlock {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let contactsManager = appDelegate.contactsManager as ContactsManager? else { return }
             
-            let avatarPaths = contactsManager.tokenContacts.flatMap { $0.avatarPath as String }
+            let avatarPaths = contactsManager.tokenContacts.flatMap { contact in
+                contact.avatarPath as String
+            }
             
             if let currentUserAvatarPath = TokenUser.current?.avatarPath as String? {
                 self.downloadAvatar(for: currentUserAvatarPath)
