@@ -33,19 +33,19 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/apps/featured?limit=32") { (result: NetworkResult) in
                 switch result {
-                    
+
                 case .success(let json, let response):
                     guard let json = json?.dictionary else { completion(nil, nil)
                         return
                     }
-                    
+
                     let appsJSON = json["results"] as! [[String: Any]]
                     let apps = appsJSON.map { json -> TokenUser in
                         let app = TokenUser(json: json)
-                        
+
                         return app
                     }
-                    
+
                     completion(apps, nil)
                 case .failure(let json, let response, let error):
                     print(json ?? "")
@@ -58,7 +58,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     func downloadImage(for app: TokenUser, completion: @escaping (_ image: UIImage?) -> Void) {
         guard let pathURL = URL(string: app.avatarPath) else { return }
         self.imageCache.setObject(forKey: app.avatarPath, cacheBlock: { success, failure in
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 Teapot(baseURL: pathURL).get { (result: NetworkImageResult) in
                     switch result {
@@ -80,26 +80,26 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
             completion([TokenUser](), nil)
             return
         }
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/apps/?query=\(searchTerm)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, _):
                     guard let json = json?.dictionary else {
                         completion([], nil)
-                        
+
                         return
                     }
-                    
+
                     guard let appsJSON = json["results"] as? [[String: Any]] else {
                         completion([TokenUser](), nil)
                         return
                     }
-                    
+
                     let apps = appsJSON.map { json -> TokenUser in
                         return TokenUser(json: json)
                     }
-                    
+
                     completion(apps, nil)
                 case .failure(_, let response, let error):
                     if response.statusCode == 404 {

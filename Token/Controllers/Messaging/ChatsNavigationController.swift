@@ -73,11 +73,11 @@ public class ChatsNavigationController: UINavigationController {
     public func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
         _ = self.popToRootViewController(animated: false)
         guard let chatsController = self.viewControllers.first as? ChatsController else { return }
-        
+
         if let thread = chatsController.thread(withAddress: address) as TSThread? {
             let messagesController = ChatController(thread: thread)
             self.pushViewController(messagesController, animated: false)
-            
+
             completion?(messagesController)
         } else {
             completion?(nil)

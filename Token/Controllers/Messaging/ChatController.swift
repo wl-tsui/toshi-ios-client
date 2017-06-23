@@ -47,9 +47,9 @@ class ChatController: MessagesCollectionViewController {
         let disposable = SMetaDisposable()
         return disposable
     }()
-    
+
     fileprivate lazy var activityView: UIActivityIndicatorView = {
-        return self.defaultActivityIndicator()
+        self.defaultActivityIndicator()
     }()
 
     fileprivate var textLayoutQueue = DispatchQueue(label: "com.tokenbrowser.token.layout", qos: DispatchQoS(qosClass: .default, relativePriority: 0))
@@ -211,7 +211,7 @@ class ChatController: MessagesCollectionViewController {
         self.view.backgroundColor = Theme.messageViewBackgroundColor
 
         self.setupActivityIndicator()
-        
+
         self.textInputView.delegate = self
 
         self.view.addSubview(self.ethereumPromptView)
@@ -254,7 +254,7 @@ class ChatController: MessagesCollectionViewController {
         self.view.layoutIfNeeded()
 
         self.tabBarController?.tabBar.isHidden = true
-        
+
         self.avatarImageView.image = self.thread.image()
     }
 
@@ -640,35 +640,35 @@ class ChatController: MessagesCollectionViewController {
             self.navigationController?.pushViewController(contactController, animated: true)
         }
     }
-    
+
     func sendPayment(with parameters: [String: Any]) {
         self.showActivityIndicator()
-        
+
         self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
-            
+
             guard let transaction = transaction as String? else {
                 self.hideActivityIndicator()
                 return
             }
-            
+
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
-            
+
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
-                
+
                 self.hideActivityIndicator()
-                
+
                 if error != nil {
                     var message = "Something went wrong"
                     if let json = json?.dictionary as [String: Any]?, let jsonMessage = json["message"] as? String {
                         message = jsonMessage
                     }
-                    
+
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
                     guard let value = parameters["value"] as? String else { return }
-                    
+
                     let payment = SofaPayment(txHash: txHash, valueHex: value)
                     self.sendMessage(sofaWrapper: payment)
                 }
@@ -718,7 +718,7 @@ extension ChatController: MessageCellDelegate {
         guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else {
             let alert = UIAlertController.dismissableAlert(title: "Somwthing went wrong")
             self.present(alert, animated: true)
-            
+
             return
         }
 
@@ -734,27 +734,27 @@ extension ChatController: MessageCellDelegate {
         ]
 
         self.showActivityIndicator()
-        
+
         self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
-            
+
             guard let transaction = transaction as String? else {
                 self.hideActivityIndicator()
                 return
             }
-            
+
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
             self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
-                
+
                 self.hideActivityIndicator()
-                
+
                 if error != nil {
                     var message = "Something went wrong"
-                    
+
                     if let json = json?.dictionary as [String: Any]?, let jsonMessage = json["message"] as? String {
                         message = jsonMessage
                     }
-                    
+
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {

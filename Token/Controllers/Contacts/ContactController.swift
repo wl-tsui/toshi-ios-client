@@ -18,9 +18,9 @@ import SweetUIKit
 import CoreImage
 
 public class ContactController: UIViewController {
-    
+
     fileprivate lazy var activityView: UIActivityIndicatorView = {
-        return self.defaultActivityIndicator()
+        self.defaultActivityIndicator()
     }()
 
     public var contact: TokenUser
@@ -186,7 +186,7 @@ public class ContactController: UIViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.setupActivityIndicator()
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more"), style: .plain, target: self, action: #selector(self.displayActions))
@@ -211,13 +211,13 @@ public class ContactController: UIViewController {
 
         self.aboutContentLabel.text = self.contact.about
         self.locationContentLabel.text = self.contact.location
-        
+
         if let path = self.contact.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path, completion: { image in
+            AvatarManager.shared.avatar(for: path) { image in
                 if image != nil {
                     self.avatarImageView.image = image
                 }
-            })
+            }
         }
 
         self.updateButton()
@@ -475,27 +475,27 @@ extension ContactController: PaymentSendControllerDelegate {
         ]
 
         self.showActivityIndicator()
-        
+
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
-            
+
             guard let transaction = transaction as String? else {
                 self.hideActivityIndicator()
                 return
             }
-            
+
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
             etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
-                
+
                 self.hideActivityIndicator()
-                
+
                 if error != nil {
-                    
+
                     var message = "Something went wrong"
                     if let json = json?.dictionary as [String: Any]?, let jsonMessage = json["message"] as? String {
                         message = jsonMessage
                     }
-                    
+
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
                     self.present(alert, animated: true)
                 } else if let json = json?.dictionary {

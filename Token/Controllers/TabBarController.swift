@@ -78,7 +78,7 @@ open class TabBarController: UITabBarController {
 
         self.messagingController = ChatsNavigationController(nibName: nil, bundle: nil)
         let chatsController = ChatsController()
-        
+
         if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = chatsController.thread(withAddress: address) as TSThread? {
             self.messagingController.viewControllers = [chatsController, ChatController(thread: thread)]
         } else {
@@ -110,34 +110,34 @@ open class TabBarController: UITabBarController {
 
         self.presentAddressChangeAlertIfNeeded()
     }
-    
+
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
-        self.dismiss(animated: false, completion: {
-        
+        self.dismiss(animated: false) {
+
             TSStorageManager.shared().dbConnection?.readWrite { transaction in
                 var recipient = SignalRecipient(textSecureIdentifier: address, with: transaction)
-                
+
                 if recipient == nil {
                     recipient = SignalRecipient(textSecureIdentifier: address, relay: nil)
                 }
-                
+
                 recipient?.save(with: transaction)
                 let thread = TSContactThread.getOrCreateThread(withContactId: address, transaction: transaction)
                 if thread.archivalDate() != nil {
                     thread.unarchiveThread(with: transaction)
                 }
             }
-            
+
             DispatchQueue.main.async {
-                self.displayMessage(forAddress: address, completion: { controller in
+                self.displayMessage(forAddress: address) { controller in
                     if let chatController = controller as? ChatController, let parameters = parameters as [String: Any]? {
                         chatController.sendPayment(with: parameters)
                     }
-                })
+                }
             }
-        })
+        }
     }
-    
+
     private func presentAddressChangeAlertIfNeeded() {
         guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
 
@@ -231,81 +231,81 @@ extension TabBarController: ScannerViewControllerDelegate {
         } else {
             guard let url = URL(string: result) as URL? else { return }
             let path = url.path
-            
+
             if path.hasPrefix("/add") {
-               let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
-               let contactName = TokenUser.name(from: username)
-                
+                let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
+                let contactName = TokenUser.name(from: username)
+
                 self.idAPIClient.retrieveContact(username: contactName) { contact in
                     guard let contact = contact else {
                         controller.startScanning()
-                        
+
                         return
                     }
-                    
+
                     SoundPlayer.playSound(type: .scanned)
-                    
+
                     self.dismiss(animated: true) {
                         self.switch(to: .favorites)
                         let contactController = ContactController(contact: contact)
                         self.favoritesController.pushViewController(contactController, animated: true)
                     }
                 }
-                
+
             } else {
                 self.proceedToPayment(with: url)
             }
         }
     }
-    
+
     fileprivate func proceedToPayment(with url: URL) {
         let path = url.path
         var username = ""
-        
+
         var userInfo: UserInfo?
         var parameters = ["from": Cereal.shared.paymentAddress]
-        
+
         if path.hasPrefix(QRCodeController.paymentWithAddressPath) {
             username = path.replacingOccurrences(of: QRCodeController.paymentWithAddressPath, with: "")
         } else if path.hasPrefix(QRCodeController.paymentWithUsernamePath) {
             username = path.replacingOccurrences(of: QRCodeController.paymentWithUsernamePath, with: "")
             username = TokenUser.name(from: username)
         }
-        
+
         guard username.length > 0 else {
             self.scannerController.startScanning()
-            
+
             return
         }
-        
+
         self.idAPIClient.retrieveContact(username: username) { contact in
             if let contact = contact as TokenUser? {
                 userInfo = contact.userInfo
                 parameters["to"] = contact.paymentAddress
-                
+
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 appDelegate.contactsManager.refreshContacts()
-                
+
             } else {
                 userInfo = UserInfo(address: username, paymentAddress: contact?.paymentAddress, avatarPath: nil, name: nil, username: username, isLocal: false)
                 parameters["to"] = username
             }
-            
+
             let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
             if let queryItems = components.queryItems {
                 for item in queryItems {
                     if item.name == "value", let value = item.value {
-                        
+
                         let ether = NSDecimalNumber(string: value)
                         let valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
-                        
+
                         parameters["value"] = valueInWei.toHexString
-                        
+
                         break
                     }
                 }
             }
-            
+
             if let scannerController = self.scannerController as? PaymentPresentable {
                 scannerController.displayPaymentConfirmation(userInfo: userInfo!, parameters: parameters)
             }

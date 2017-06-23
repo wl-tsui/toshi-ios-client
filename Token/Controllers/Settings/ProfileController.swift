@@ -129,20 +129,20 @@ open class ProfileController: UIViewController {
 
         return view
     }()
-    
+
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.alwaysBounceVertical = true
         view.showsVerticalScrollIndicator = true
         view.delaysContentTouches = false
         view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 49, right: 0)
-        
+
         return view
     }()
-    
+
     private lazy var container: UIView = {
         let view = UIView()
-        
+
         return view
     }()
 
@@ -181,11 +181,11 @@ open class ProfileController: UIViewController {
 
         self.aboutContentLabel.text = TokenUser.current?.about
         self.locationContentLabel.text = TokenUser.current?.location
-        
+
         if let path = TokenUser.current?.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path, completion: { image in
+            AvatarManager.shared.avatar(for: path) { image in
                 self.avatarImageView.image = image
-            })
+            }
         }
     }
 
@@ -196,107 +196,105 @@ open class ProfileController: UIViewController {
     fileprivate func addSubviewsAndConstraints() {
         let margin: CGFloat = 15
         let avatarSize = CGSize(width: 60, height: 60)
-        
+
         // scroll view
-        view.addSubview(scrollView)
-        scrollView.edges(to: view)
-        
+        view.addSubview(self.scrollView)
+        self.scrollView.edges(to: view)
+
         // container
-        scrollView.addSubview(container)
-        container.edges(to: scrollView)
-        container.width(to: scrollView)
-        
-        
+        self.scrollView.addSubview(self.container)
+        self.container.edges(to: self.scrollView)
+        self.container.width(to: self.scrollView)
+
         // content background view
-        container.addSubview(contentBackgroundView)
-        
-        contentBackgroundView.top(to: container)
-        contentBackgroundView.left(to: container)
-        contentBackgroundView.right(to: container)
-        
+        self.container.addSubview(self.contentBackgroundView)
+
+        self.contentBackgroundView.top(to: self.container)
+        self.contentBackgroundView.left(to: self.container)
+        self.contentBackgroundView.right(to: self.container)
+
         // subviews of content background view
-        contentBackgroundView.addSubview(avatarImageView)
-        contentBackgroundView.addSubview(nameLabel)
-        contentBackgroundView.addSubview(usernameLabel)
-        contentBackgroundView.addSubview(aboutContentLabel)
-        contentBackgroundView.addSubview(locationContentLabel)
-        contentBackgroundView.addSubview(editSeparatorView)
-        contentBackgroundView.addSubview(editProfileButton)
-        contentBackgroundView.addSubview(contentSeparatorView)
-        
-        avatarImageView.size(avatarSize)
-        avatarImageView.origin(to: contentBackgroundView, insets: CGVector(dx: margin, dy: margin * 2))
-        
+        self.contentBackgroundView.addSubview(self.avatarImageView)
+        self.contentBackgroundView.addSubview(self.nameLabel)
+        self.contentBackgroundView.addSubview(self.usernameLabel)
+        self.contentBackgroundView.addSubview(self.aboutContentLabel)
+        self.contentBackgroundView.addSubview(self.locationContentLabel)
+        self.contentBackgroundView.addSubview(self.editSeparatorView)
+        self.contentBackgroundView.addSubview(self.editProfileButton)
+        self.contentBackgroundView.addSubview(self.contentSeparatorView)
+
+        self.avatarImageView.size(avatarSize)
+        self.avatarImageView.origin(to: self.contentBackgroundView, insets: CGVector(dx: margin, dy: margin * 2))
+
         let nameContainer = UILayoutGuide()
-        contentBackgroundView.addLayoutGuide(nameContainer)
-        
-        nameContainer.top(to: contentBackgroundView, offset: margin * 2)
-        nameContainer.leftToRight(of: avatarImageView, offset: margin)
-        nameContainer.right(to: contentBackgroundView, offset: -margin)
-        
-        nameLabel.height(25, relation: .equalOrGreater, priority: .high)
-        nameLabel.top(to: nameContainer)
-        nameLabel.left(to: nameContainer)
-        nameLabel.right(to: nameContainer)
-        
-        usernameLabel.height(25, relation: .equalOrGreater, priority: .high)
-        usernameLabel.topToBottom(of: nameLabel, offset: margin)
-        usernameLabel.left(to: nameContainer)
-        usernameLabel.bottom(to: nameContainer)
-        usernameLabel.right(to: nameContainer)
-        
-        aboutContentLabel.topToBottom(of: nameContainer, offset: margin)
-        aboutContentLabel.left(to: contentBackgroundView, offset: margin)
-        aboutContentLabel.right(to: contentBackgroundView, offset: -margin)
-        
-        locationContentLabel.topToBottom(of: aboutContentLabel, offset: margin)
-        locationContentLabel.left(to: contentBackgroundView, offset: margin)
-        locationContentLabel.right(to: contentBackgroundView, offset: -margin)
-        
-        editSeparatorView.height(Theme.borderHeight)
-        editSeparatorView.topToBottom(of: locationContentLabel, offset: margin)
-        editSeparatorView.left(to: contentBackgroundView)
-        editSeparatorView.right(to: contentBackgroundView)
-        
-        editProfileButton.height(50)
-        editProfileButton.topToBottom(of: editSeparatorView)
-        editProfileButton.left(to: contentBackgroundView)
-        editProfileButton.right(to: contentBackgroundView)
-        
-        contentSeparatorView.height(Theme.borderHeight)
-        contentSeparatorView.topToBottom(of: editProfileButton)
-        contentSeparatorView.left(to: contentBackgroundView)
-        contentSeparatorView.right(to: contentBackgroundView)
-        contentSeparatorView.bottom(to: contentBackgroundView)
-        
-        
+        self.contentBackgroundView.addLayoutGuide(nameContainer)
+
+        nameContainer.top(to: self.contentBackgroundView, offset: margin * 2)
+        nameContainer.leftToRight(of: self.avatarImageView, offset: margin)
+        nameContainer.right(to: self.contentBackgroundView, offset: -margin)
+
+        self.nameLabel.height(25, relation: .equalOrGreater, priority: .high)
+        self.nameLabel.top(to: nameContainer)
+        self.nameLabel.left(to: nameContainer)
+        self.nameLabel.right(to: nameContainer)
+
+        self.usernameLabel.height(25, relation: .equalOrGreater, priority: .high)
+        self.usernameLabel.topToBottom(of: self.nameLabel, offset: margin)
+        self.usernameLabel.left(to: nameContainer)
+        self.usernameLabel.bottom(to: nameContainer)
+        self.usernameLabel.right(to: nameContainer)
+
+        self.aboutContentLabel.topToBottom(of: nameContainer, offset: margin)
+        self.aboutContentLabel.left(to: self.contentBackgroundView, offset: margin)
+        self.aboutContentLabel.right(to: self.contentBackgroundView, offset: -margin)
+
+        self.locationContentLabel.topToBottom(of: self.aboutContentLabel, offset: margin)
+        self.locationContentLabel.left(to: self.contentBackgroundView, offset: margin)
+        self.locationContentLabel.right(to: self.contentBackgroundView, offset: -margin)
+
+        self.editSeparatorView.height(Theme.borderHeight)
+        self.editSeparatorView.topToBottom(of: self.locationContentLabel, offset: margin)
+        self.editSeparatorView.left(to: self.contentBackgroundView)
+        self.editSeparatorView.right(to: self.contentBackgroundView)
+
+        self.editProfileButton.height(50)
+        self.editProfileButton.topToBottom(of: self.editSeparatorView)
+        self.editProfileButton.left(to: self.contentBackgroundView)
+        self.editProfileButton.right(to: self.contentBackgroundView)
+
+        self.contentSeparatorView.height(Theme.borderHeight)
+        self.contentSeparatorView.topToBottom(of: self.editProfileButton)
+        self.contentSeparatorView.left(to: self.contentBackgroundView)
+        self.contentSeparatorView.right(to: self.contentBackgroundView)
+        self.contentSeparatorView.bottom(to: self.contentBackgroundView)
+
         // reputation background view
-        container.addSubview(reputationBackgroundView)
-        
-        reputationBackgroundView.topToBottom(of: contentBackgroundView, offset: 66)
-        reputationBackgroundView.left(to: container)
-        reputationBackgroundView.bottom(to: container)
-        reputationBackgroundView.right(to: container)
-        
+        self.container.addSubview(self.reputationBackgroundView)
+
+        self.reputationBackgroundView.topToBottom(of: self.contentBackgroundView, offset: 66)
+        self.reputationBackgroundView.left(to: self.container)
+        self.reputationBackgroundView.bottom(to: self.container)
+        self.reputationBackgroundView.right(to: self.container)
+
         // subviews of reputation background view
-        reputationBackgroundView.addSubview(reputationSeparatorView)
-        reputationBackgroundView.addSubview(reputationView)
-        reputationBackgroundView.addSubview(bottomSeparatorView)
-        
-        reputationSeparatorView.height(Theme.borderHeight)
-        reputationSeparatorView.top(to: reputationBackgroundView)
-        reputationSeparatorView.left(to: reputationBackgroundView)
-        reputationSeparatorView.right(to: reputationBackgroundView)
-        
-        reputationView.topToBottom(of: reputationSeparatorView, offset: 40)
-        reputationView.left(to: reputationBackgroundView, offset: 34)
-        reputationView.right(to: reputationBackgroundView, offset: -40)
-        
-        bottomSeparatorView.height(Theme.borderHeight)
-        bottomSeparatorView.topToBottom(of: reputationView, offset: 40)
-        bottomSeparatorView.left(to: reputationBackgroundView)
-        bottomSeparatorView.right(to: reputationBackgroundView)
-        bottomSeparatorView.bottom(to: reputationBackgroundView)
+        self.reputationBackgroundView.addSubview(self.reputationSeparatorView)
+        self.reputationBackgroundView.addSubview(self.reputationView)
+        self.reputationBackgroundView.addSubview(self.bottomSeparatorView)
+
+        self.reputationSeparatorView.height(Theme.borderHeight)
+        self.reputationSeparatorView.top(to: self.reputationBackgroundView)
+        self.reputationSeparatorView.left(to: self.reputationBackgroundView)
+        self.reputationSeparatorView.right(to: self.reputationBackgroundView)
+
+        self.reputationView.topToBottom(of: self.reputationSeparatorView, offset: 40)
+        self.reputationView.left(to: self.reputationBackgroundView, offset: 34)
+        self.reputationView.right(to: self.reputationBackgroundView, offset: -40)
+
+        self.bottomSeparatorView.height(Theme.borderHeight)
+        self.bottomSeparatorView.topToBottom(of: self.reputationView, offset: 40)
+        self.bottomSeparatorView.left(to: self.reputationBackgroundView)
+        self.bottomSeparatorView.right(to: self.reputationBackgroundView)
+        self.bottomSeparatorView.bottom(to: self.reputationBackgroundView)
     }
 
     fileprivate func updateReputation() {

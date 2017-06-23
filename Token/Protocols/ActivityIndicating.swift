@@ -20,7 +20,7 @@ import SweetUIKit
 protocol ActivityIndicating: class {
     var activityIndicator: UIActivityIndicatorView { get }
     func defaultActivityIndicator() -> UIActivityIndicatorView
-    
+
     func setupActivityIndicator()
     func showActivityIndicator()
     func hideActivityIndicator()
@@ -30,26 +30,26 @@ extension ActivityIndicating where Self: UIViewController {
 
     func setupActivityIndicator() {
         guard let activityIndicator = self.activityIndicator as UIActivityIndicatorView? else { return }
-        
+
         self.view.addSubview(activityIndicator)
         self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
     }
-    
+
     func defaultActivityIndicator() -> UIActivityIndicatorView {
-        //need to initialize with large style which is available only white, thus need to set color later
+        // need to initialize with large style which is available only white, thus need to set color later
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.color = Theme.lightGreyTextColor
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return activityIndicator
     }
-    
+
     func showActivityIndicator() {
         self.view.bringSubview(toFront: self.activityIndicator)
         self.activityIndicator.startAnimating()
     }
-    
+
     func hideActivityIndicator() {
         self.view.sendSubview(toBack: self.activityIndicator)
         self.activityIndicator.stopAnimating()

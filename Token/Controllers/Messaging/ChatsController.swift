@@ -119,7 +119,7 @@ open class ChatsController: SweetTableController {
 
         // If changes do not affect current view, update and return without updating collection view
         guard let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewConnection else { return }
-        
+
         let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
         if !hasChangesForCurrentView {
             self.uiDatabaseConnection.read { transaction in
@@ -176,7 +176,7 @@ open class ChatsController: SweetTableController {
     func updateContactIfNeeded(at indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() as String? {
             print("Updating contact infor for address: \(address).")
-            
+
             self.idAPIClient.retrieveContact(username: address) { contact in
                 if let contact = contact {
                     print("Updated contact info for \(contact.username)")
@@ -187,7 +187,7 @@ open class ChatsController: SweetTableController {
 
     func thread(at indexPath: IndexPath) -> TSThread? {
         var thread: TSThread?
-        
+
         self.uiDatabaseConnection.read { transaction in
             guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { return }
@@ -271,7 +271,7 @@ extension ChatsController: UITableViewDelegate {
     open func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 82
     }
-    
+
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath) as TSThread? {
             let chatController = ChatController(thread: thread)
@@ -282,7 +282,7 @@ extension ChatsController: UITableViewDelegate {
     public func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
             if let thread = self.thread(at: indexPath) as TSThread? {
-                
+
                 TSStorageManager.shared().dbConnection?.asyncReadWrite { transaction in
                     thread.archiveThread(with: transaction)
                 }

@@ -23,7 +23,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         return window.rootViewController as? TabBarController
     }
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage!, in thread: TSThread!, contactsManager: ContactsManagerProtocol!) {
+    public func notifyUser(for incomingMessage: TSIncomingMessage!, in thread: TSThread!, contactsManager _: ContactsManagerProtocol!) {
 
         guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
             return

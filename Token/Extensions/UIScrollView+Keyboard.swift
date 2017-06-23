@@ -19,41 +19,41 @@ import UIKit
 extension UIScrollView {
     func edgeInsets(from notification: NSNotification) -> UIEdgeInsets {
         guard let value = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue else { return UIEdgeInsets.zero }
-        
+
         var keyboardFrameEnd = CGRect.zero
         value.getValue(&keyboardFrameEnd)
         keyboardFrameEnd = (self.window?.convert(keyboardFrameEnd, to: self.superview))!
-        
+
         var newScrollViewInsets = self.contentInset
         newScrollViewInsets.bottom = self.superview!.bounds.size.height - keyboardFrameEnd.origin.y
-        
+
         return newScrollViewInsets
     }
-    
+
     func addBottomInsets(_ insets: UIEdgeInsets) {
         self.contentInset = insets
         self.scrollIndicatorInsets = insets
     }
-    
-    func removeBottomInsets(from notification: NSNotification) {
+
+    func removeBottomInsets(from _: NSNotification) {
         let insets = UIEdgeInsets(top: self.contentInset.top, left: self.contentInset.left, bottom: 0.0, right: self.contentInset.right)
         self.contentInset = insets
         self.scrollIndicatorInsets = insets
     }
-    
+
     func addBottomInsets(from notification: NSNotification) {
         let insets = self.edgeInsets(from: notification)
         self.contentInset = insets
         self.scrollIndicatorInsets = insets
     }
-    
+
     func increaseBottomInsets(by value: CGFloat) {
         var insets = self.contentInset
-        insets.bottom +=  value
+        insets.bottom += value
         self.contentInset = insets
         self.scrollIndicatorInsets = insets
     }
-    
+
     func decreaseBottomInsets(by value: CGFloat) {
         var insets = self.contentInset
         insets.bottom -= value

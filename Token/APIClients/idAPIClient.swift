@@ -77,7 +77,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-    
+
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
@@ -87,7 +87,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         print("No response json - Fetch timestamp")
                         return
                     }
-                    
+
                     completion(timestamp)
                 case .failure(_, let response, _):
                     print(response)
@@ -101,7 +101,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             return
         }
 
-        self.updateUser(migratedUser) { _, _ in }
+        self.updateUser(migratedUser.asDict) { _, _ in }
     }
 
     public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {
@@ -121,26 +121,26 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
                 let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
-                
+
                 let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-                
+
                 let json = RequestParameter(parameters)
-                
+
                 DispatchQueue.global(qos: .userInitiated).async {
                     self.teapot.post(path, parameters: json, headerFields: fields) { result in
                         switch result {
                         case .success(let json, let response):
                             guard response.statusCode == 200 else { return }
                             guard let json = json?.dictionary else { return }
-                            
+
                             TokenUser.createOrUpdateCurrentUser(with: json)
-                            
+
                             print("Current user is verified: \(String(describing: TokenUser.current?.verified))")
-                            
+
                             print("Registered user with address: \(cereal.address)")
-                            
+
                             success()
-                        case .failure(let json, let response, let error):
+                        case .failure(let json, _, let error):
                             print(error)
                             print(json ?? "")
                         }
@@ -149,7 +149,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-    
+
     public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool) -> Void)) {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
@@ -158,21 +158,21 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             let payload = self.teapot.multipartData(from: avatar, boundary: boundary, filename: "avatar.png")
             let hashedPayload = cereal.sha3WithID(data: payload)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-            
+
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
             let json = RequestParameter(payload)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.put(path, parameters: json, headerFields: fields) { result in
                     switch result {
                     case .success(let json, _):
                         guard let userDict = json?.dictionary else { completion(false); return }
-                        
+
                         if let path = userDict["avatar"] as? String {
                             AvatarManager.shared.refreshAvatar(at: path)
                             TokenUser.current?.update(avatar: avatar, avatarPath: path)
                         }
-                        
+
                         completion(true)
                     case .failure(_, _, let error):
                         // TODO: show error
@@ -184,19 +184,19 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    public func updateUser(_ user: TokenUser, completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
+    public func updateUser(_ userDict: [String: Any], completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/user"
-            let payload = user.JSONData
+            let payload = try! JSONSerialization.data(withJSONObject: userDict, options: [])
             let payloadString = String(data: payload, encoding: .utf8)!
 
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-            let json = RequestParameter(user.asDict)
-            
+            let json = RequestParameter(userDict)
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
                     switch result {
@@ -206,9 +206,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                             completion(false, "Something went wrong")
                             return
                         }
-                        
+
                         TokenUser.current?.update(json: json)
-                        
+
                         completion(true, nil)
                     case .failure(let json, _, _):
                         let errors = json?.dictionary?["errors"] as? [[String: Any]]
@@ -233,12 +233,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     // we know it's a dictionary for this API
                     guard let json = json?.dictionary else { completion(nil); return }
                     let contact = TokenUser(json: json)
-                    
+
                     completion(contact)
                 case .failure(let json, let response, let error):
                     print(error.localizedDescription)
                     print(json?.dictionary ?? "")
-                    
+
                     completion(nil)
                 }
             }
@@ -257,65 +257,65 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 case .success(let json, _):
                     // we know it's a dictionary for this API
                     guard let json = json?.dictionary else { completion(nil); return }
-                    
+
                     let user: TokenUser?
-                    
+
                     if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address {
                         TokenUser.current?.update(json: json)
                         user = TokenUser.current
-                        
+
                         print("Current user with address: \(String(describing: user?.address))")
-                        
+
                     } else {
                         user = TokenUser(json: json)
                     }
-                    
+
                     completion(user)
                 case .failure(let json, let response, let error):
                     print(error.localizedDescription)
                     print(response)
                     print(json?.dictionary ?? "")
-                    
+
                     completion(nil)
                 }
             }
         }
     }
-    
+
     public func findContact(name: String, completion: @escaping ((TokenUser?) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/user/\(name)", completion: { (result: NetworkResult) in
+            self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
                 var contact: TokenUser?
-                
+
                 switch result {
                 case .success(let json, _):
                     guard let json = json?.dictionary else { completion(nil); return }
-                    
+
                     contact = TokenUser(json: json)
                     NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
                 case .failure(_, _, let error):
                     print(error.localizedDescription)
                 }
-                
+
                 completion(contact)
-            })
+            }
         }
-        
+
         self.contactCache.setObject(forKey: name, cacheBlock: { success, failure in
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
                     switch result {
                     case .success(let json, _):
                         guard let json = json?.dictionary else { completion(nil); return }
-                        
+
                         let contact = TokenUser(json: json)
                         NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
-                        
+
                         success(contact, self.cacheExpiry)
                     case .failure(_, _, let error):
                         print(error.localizedDescription)
-                        
+
                         failure(error as NSError)
                     }
                 }
@@ -327,13 +327,13 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
         // /v1/search/user/?query=moxiemarl&offset=80&limit=20
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, _):
                     guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else { completion([]); return }
-                    
+
                     var contacts = [TokenUser]()
                     for item in json {
                         contacts.append(TokenUser(json: item))
@@ -363,9 +363,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(payload)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
-                
+
                 self.teapot.post(path, parameters: json, headerFields: fields) { result in
                     switch result {
                     case .success(_, let response):
@@ -374,12 +374,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                             completion?(false, "Something went wrong")
                             return
                         }
-                        
+
                         completion?(true, "")
                     case .failure(let json, _, _):
                         let errors = json?.dictionary?["errors"] as? [[String: Any]]
                         let message = errors?.first?["message"] as? String
-                        
+
                         completion?(false, message ?? "")
                     }
                 }
@@ -391,11 +391,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         self.fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/login/\(login_token)"
-            
+
             let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
-            
+
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.get(path, headerFields: fields) { result in
                     switch result {
@@ -405,12 +405,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                             completion?(false, "Something went wrong")
                             return
                         }
-                        
+
                         completion?(true, "")
                     case .failure(let json, _, _):
                         let errors = json?.dictionary?["errors"] as? [[String: Any]]
                         let message = errors?.first?["message"] as? String
-                        
+
                         completion?(false, message ?? "")
                     }
                 }

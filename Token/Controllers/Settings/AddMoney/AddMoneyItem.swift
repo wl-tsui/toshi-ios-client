@@ -87,7 +87,7 @@ extension UIStackView {
 
     convenience init(with items: [AddMoneyItem]) {
         self.init()
-        
+
         translatesAutoresizingMaskIntoConstraints = false
         axis = .vertical
         spacing = 15

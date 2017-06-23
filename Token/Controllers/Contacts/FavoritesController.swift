@@ -198,7 +198,7 @@ open class FavoritesController: SweetTableController {
             if let data1 = object1 as? Data, let data2 = object2 as? Data,
                 let contact1 = TokenUser.user(with: data1) as TokenUser?,
                 let contact2 = TokenUser.user(with: data2) as TokenUser? {
-                
+
                 return contact1.username.compare(contact2.username)
             }
 
@@ -295,8 +295,8 @@ open class FavoritesController: SweetTableController {
     }
 
     fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {
-       guard let contact = self.contact(at: indexPath) as TokenUser?,
-        let address = contact.address as String? else { return }
+        guard let contact = self.contact(at: indexPath) as TokenUser?,
+            let address = contact.address as String? else { return }
 
         print("Updating contact infor for address: \(address).")
 
@@ -448,10 +448,10 @@ extension FavoritesController: UITableViewDelegate {
         self.searchController.searchBar.resignFirstResponder()
 
         if let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath) as TokenUser? {
-        
+
             let contactController = ContactController(contact: contact)
             self.navigationController?.pushViewController(contactController, animated: true)
-            
+
             UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
         }
     }

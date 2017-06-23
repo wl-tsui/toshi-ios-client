@@ -169,14 +169,14 @@ class ChatCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         self.unreadLabel.text = nil
         self.avatarImageView.image = nil
         self.usernameLabel.text = nil
         self.lastMessageLabel.text = nil
         self.lastMessageDateLabel.text = nil
     }
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -251,9 +251,9 @@ class ChatCell: UITableViewCell {
     func updateContact(_ contact: TokenUser) {
         self.usernameLabel.text = !contact.name.isEmpty ? contact.name : contact.displayUsername
         self.thread?.cachedContactIdentifier = self.usernameLabel.text
-        
-        AvatarManager.shared.avatar(for: contact.avatarPath, completion: { image in
+
+        AvatarManager.shared.avatar(for: contact.avatarPath) { image in
             self.avatarImageView.image = image
-        })
+        }
     }
 }

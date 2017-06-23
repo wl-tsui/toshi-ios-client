@@ -62,23 +62,23 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var about = ""
     private(set) var location = ""
     private(set) var avatarPath = ""
-    
+
     private(set) var address = ""
     private(set) var paymentAddress = ""
     private(set) var isApp: Bool = false
-    
+
     fileprivate static var _current: TokenUser?
     fileprivate(set) static var current: TokenUser? {
         get {
             if self._current == nil {
-                 self._current = self.retrieveCurrentUserFromStore()
+                self._current = self.retrieveCurrentUserFromStore()
             }
-            
+
             return self._current
         }
         set {
             guard self._current != newValue else { return }
-            
+
             newValue?.update()
 
             if let user = newValue {
@@ -117,7 +117,7 @@ public class TokenUser: NSObject, NSCoding {
             Constants.verified: self.verified,
         ]
     }
-    
+
     var userInfo: UserInfo {
         return UserInfo(address: self.address, paymentAddress: self.paymentAddress, avatarPath: self.avatarPath, name: self.name, username: self.displayUsername, isLocal: true)
     }
@@ -156,7 +156,7 @@ public class TokenUser: NSObject, NSCoding {
         aCoder.encode(self.JSONData, forKey: "jsonData")
     }
 
-    func update(json: [String: Any], updateAvatar: Bool = false, shouldSave: Bool = true) {
+    func update(json: [String: Any], updateAvatar _: Bool = false, shouldSave: Bool = true) {
         self.address = json[Constants.address] as! String
         self.paymentAddress = (json[Constants.paymentAddress] as? String) ?? (json[Constants.address] as! String)
         self.username = json[Constants.username] as! String
@@ -173,7 +173,7 @@ public class TokenUser: NSObject, NSCoding {
         }
     }
 
-    func update(avatar: UIImage, avatarPath: String) {
+    func update(avatar _: UIImage, avatarPath: String) {
         self.avatarPath = avatarPath
 
         self.save()
@@ -187,35 +187,35 @@ public class TokenUser: NSObject, NSCoding {
 
         self.save()
     }
-    
+
     public static func createOrUpdateCurrentUser(with json: [String: Any]) {
         guard self.current != nil else {
             self.current = TokenUser(json: json)
             return
         }
-        
+
         self.current?.update(json: json)
     }
-    
+
     public static func retrieveCurrentUser() {
         self.current = self.retrieveCurrentUserFromStore()
     }
-    
+
     private func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
     }
-    
+
     @objc private func updateIfNeeded(_ notification: Notification) {
         guard let tokenContact = notification.object as? TokenUser else { return }
         guard tokenContact.address == self.address else { return }
-        
+
         if self.name == tokenContact.name && self.username == tokenContact.username && self.location == tokenContact.location && self.about == tokenContact.about {
             return
         }
-        
+
         self.update(username: tokenContact.username, name: tokenContact.name, about: tokenContact.about, location: tokenContact.location)
     }
-    
+
     private func save() {
         if self.isCurrentUser {
             Yap.sharedInstance.insert(object: self.JSONData, for: TokenUser.storedUserKey)
@@ -223,23 +223,23 @@ public class TokenUser: NSObject, NSCoding {
             Yap.sharedInstance.insert(object: self.JSONData, for: self.address, in: TokenUser.storedContactKey)
         }
     }
-    
+
     private static func retrieveCurrentUserFromStore() -> TokenUser? {
         var user: TokenUser?
-        
+
         if self._current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data),
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
             var json = deserialised as? [String: Any] {
-            
+
             // Because of payment address migration, we have to override the stored payment address.
             // Otherwise users will be sending payments to the wrong address.
             if json[Constants.paymentAddress] as? String != Cereal.shared.paymentAddress {
                 json[Constants.paymentAddress] = Cereal.shared.paymentAddress
             }
-            
+
             user = TokenUser(json: json)
         }
-        
+
         return user
     }
 }

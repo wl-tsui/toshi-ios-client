@@ -86,7 +86,7 @@ class RatingsClient: NSObject {
 
         super.init()
     }
-    
+
     private func fetchTimestamp(_ completion: @escaping ((_ ratingScore: Int) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
@@ -96,9 +96,9 @@ class RatingsClient: NSObject {
                         print("Invalid response - Fetch timestamp")
                         return
                     }
-                    
+
                     completion(timestamp)
-                    
+
                 case .failure(_, let response, _):
                     print(response)
                 }
@@ -114,31 +114,31 @@ class RatingsClient: NSObject {
                 "rating": rating,
                 "reviewee": userId,
                 "review": review,
-                ]
-            
+            ]
+
             let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
             let payloadString = String(data: payloadData, encoding: .utf8)!
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-            
+
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(describing: timestamp)]
             let json = RequestParameter(payload)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.post(path, parameters: json, headerFields: fields) { result in
                     switch result {
                     case .success:
                         let alert = UIAlertController(title: "Success", message: "User succesfully reviewed.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default))
-                        
+
                         UIApplication.shared.delegate!.window!?.rootViewController!.present(alert, animated: true)
                         completion?()
                     case .failure(let json, _, _):
                         guard let json = json?.dictionary, let errors = json["errors"] as? [Any], let error = errors.first as? [String: Any], let message = error["message"] as? String else { return }
-                        
+
                         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default))
-                        
+
                         UIApplication.shared.delegate!.window!?.rootViewController!.present(alert, animated: true)
                         completion?()
                     }
@@ -154,7 +154,7 @@ class RatingsClient: NSObject {
                 case .success(let json, _):
                     guard let json = json?.dictionary else { return }
                     guard let ratingScore = RatingScore(json: json) else { return }
-                    
+
                     completion(ratingScore)
                 case .failure:
                     completion(RatingScore.zero)

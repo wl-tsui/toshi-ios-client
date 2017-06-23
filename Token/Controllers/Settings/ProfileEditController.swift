@@ -21,27 +21,27 @@ import ImagePicker
 
 /// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
 open class ProfileEditController: OverlayController, Editable {
-    
+
     var scrollView: UIScrollView {
         return self.tableView
     }
-    
+
     var keyboardWillShowSelector: Selector {
-        return #selector(keyboardShownNotificationReceived(_:))
+        return #selector(self.keyboardShownNotificationReceived(_:))
     }
-    
+
     var keyboardWillHideSelector: Selector {
-        return #selector(keyboardShownNotificationReceived(_:))
+        return #selector(self.keyboardShownNotificationReceived(_:))
     }
-    
+
     @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
         self.keyboardWillShow(notification)
     }
-    
+
     @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
         self.keyboardWillHide(notification)
     }
-    
+
     fileprivate var menuSheetController: MenuSheetController?
 
     lazy var dataSource: FormDataSource = {
@@ -80,7 +80,7 @@ open class ProfileEditController: OverlayController, Editable {
 
     fileprivate lazy var tableView: UITableView = {
         let view = UITableView(withAutoLayout: true)
-        
+
         view.backgroundColor = UIColor.clear
         view.delegate = self
         view.dataSource = self
@@ -104,11 +104,11 @@ open class ProfileEditController: OverlayController, Editable {
         self.addSubviewsAndConstraints()
 
         guard let user = TokenUser.current else { return }
-        
+
         if let path = user.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path, completion: { image in
+            AvatarManager.shared.avatar(for: path) { image in
                 self.avatarImageView.image = image
-            })
+            }
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapView))
@@ -117,59 +117,59 @@ open class ProfileEditController: OverlayController, Editable {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
     }
-    
+
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         self.registerForKeyboardNotifications()
     }
-    
+
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
         self.unregisterFromKeyboardNotifications()
     }
-    
+
     fileprivate lazy var headerView: UIView = {
-        let view  = UIView(frame: CGRect.zero)
+        let view = UIView(frame: CGRect.zero)
 
         view.backgroundColor = UIColor.clear
         view.addSubview(self.avatarImageView)
         view.addSubview(self.changeAvatarButton)
-        
+
         let bottomBorder = UIView(withAutoLayout: true)
         view.addSubview(bottomBorder)
-        
+
         bottomBorder.backgroundColor = Theme.borderColor
         bottomBorder.set(height: Theme.borderHeight)
         bottomBorder.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bottomBorder.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomBorder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
+
         self.avatarImageView.set(height: 80)
         self.avatarImageView.set(width: 80)
         self.avatarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 24).isActive = true
         self.avatarImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
+
         self.changeAvatarButton.set(height: 38)
         self.changeAvatarButton.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: 12).isActive = true
         self.changeAvatarButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24).isActive = true
         self.changeAvatarButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
+
         view.layoutIfNeeded()
-        
+
         return view
     }()
 
     func addSubviewsAndConstraints() {
         let height = self.headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize).height
-        
+
         var headerFrame = self.headerView.frame
         headerFrame.size.height = height
         self.headerView.frame = headerFrame
-        
+
         self.tableView.tableHeaderView = self.headerView
-        
+
         self.view.addSubview(self.tableView)
 
         self.view.addSubview(self.activityIndicator)
@@ -340,10 +340,10 @@ open class ProfileEditController: OverlayController, Editable {
     func saveAndDismiss() {
         guard let user = TokenUser.current else { return }
 
-        var username: String?
-        var name: String?
-        var about: String?
-        var location: String?
+        var username = ""
+        var name = ""
+        var about = ""
+        var location = ""
 
         for item in self.dataSource.items {
             if item.fieldName == "username" {
@@ -363,34 +363,45 @@ open class ProfileEditController: OverlayController, Editable {
             }
         }
 
-        user.update(username: username, name: name, about: about, location: location)
-
         self.view.endEditing(true)
         self.activityIndicator.startAnimating()
 
-        self.idAPIClient.updateUser(user) { userUpdated, _ in
-            
+        let userDict: [String: Any] = [
+            TokenUser.Constants.address: user.address,
+            TokenUser.Constants.paymentAddress: user.paymentAddress,
+            TokenUser.Constants.username: username,
+            TokenUser.Constants.about: about,
+            TokenUser.Constants.location: location,
+            TokenUser.Constants.name: name,
+            TokenUser.Constants.avatar: user.avatarPath,
+            TokenUser.Constants.isApp: user.isApp,
+            TokenUser.Constants.verified: user.verified,
+        ]
+
+        self.idAPIClient.updateUser(userDict) { userUpdated, message in
+
             let cachedAvatar = AvatarManager.shared.cachedAvatar(for: user.avatarPath)
-            print(user.avatarPath)
+
             if let image = self.avatarImageView.image as UIImage?, image != cachedAvatar {
-                
+
                 self.idAPIClient.updateAvatar(image) { avatarUpdated in
                     let success = userUpdated == true && avatarUpdated == true
-                    self.completeEdit(success: success)
+
+                    self.completeEdit(success: success, message: message)
                 }
             } else {
-                self.completeEdit(success: userUpdated)
+                self.completeEdit(success: userUpdated, message: message)
             }
         }
     }
 
-    fileprivate func completeEdit(success: Bool) {
+    fileprivate func completeEdit(success: Bool, message: String?) {
         self.activityIndicator.stopAnimating()
 
         if success == true {
             self.navigationController?.popViewController(animated: true)
         } else {
-            let alert = UIAlertController.dismissableAlert(title: "Error", message: "Something went wrong")
+            let alert = UIAlertController.dismissableAlert(title: "Error", message: message ?? "Something went wrong")
             self.present(alert, animated: true)
         }
     }

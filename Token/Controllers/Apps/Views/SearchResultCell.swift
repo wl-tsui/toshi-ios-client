@@ -23,9 +23,9 @@ class SearchResultCell: UITableViewCell {
                 self.nameLabel.text = app.name
 
                 if let path = app.avatarPath as String? {
-                    AvatarManager.shared.avatar(for: path, completion: { image in
+                    AvatarManager.shared.avatar(for: path) { image in
                         self.avatarImageView.image = image
-                    })
+                    }
                 }
             } else {
                 self.usernameLabel.text = nil

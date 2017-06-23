@@ -60,7 +60,7 @@ public class EthereumAPIClient: NSObject {
                 case .success(let json, _):
                     guard let json = json?.dictionary else { fatalError() }
                     guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
-                    
+
                     completion(String(timestamp))
                 case .failure(_, _, let error):
                     print(error)
@@ -68,7 +68,7 @@ public class EthereumAPIClient: NSObject {
             }
         }
     }
-    
+
     func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
@@ -79,11 +79,11 @@ public class EthereumAPIClient: NSObject {
                         let rates = data["rates"] as? [String: Any],
                         let usd = rates["USD"] as? String,
                         let doubleValue = Double(usd) as Double? else {
-                            
-                            completion(nil)
-                            return
+
+                        completion(nil)
+                        return
                     }
-                    
+
                     completion(Decimal(doubleValue))
                 case .failure(_, let response, let error):
                     print(response)
@@ -96,7 +96,7 @@ public class EthereumAPIClient: NSObject {
 
     public func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
         let json = RequestParameter(parameters)
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.post("/v1/tx/skel", parameters: json) { result in
                 switch result {
@@ -134,7 +134,7 @@ public class EthereumAPIClient: NSObject {
             ]
 
             let json = RequestParameter(params)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.post(path, parameters: json, headerFields: headers) { result in
                     switch result {
@@ -162,12 +162,12 @@ public class EthereumAPIClient: NSObject {
                     let error = NSError(domain: "", code: -1, userInfo: [NSLocalizedFailureReasonErrorKey: "Could not fetch balance."])
                     guard response.statusCode == 200 else { completion(0, error); return }
                     guard let json = json?.dictionary else { completion(0, error); return }
-                    
+
                     let unconfirmedBalanceString = json["unconfirmed_balance"] as? String ?? "0"
                     let unconfirmedBalance = NSDecimalNumber(hexadecimalString: unconfirmedBalanceString)
-                    
+
                     TokenUser.current?.balance = unconfirmedBalance
-                    
+
                     completion(unconfirmedBalance, nil)
                 case .failure(let json, let response, let error):
                     completion(0, error)
@@ -195,10 +195,10 @@ public class EthereumAPIClient: NSObject {
                 "Token-ID-Address": address,
                 "Token-Signature": signature,
                 "Token-Timestamp": timestamp,
-                ]
-            
+            ]
+
             let json = RequestParameter(params)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                     switch result {
@@ -235,7 +235,7 @@ public class EthereumAPIClient: NSObject {
             ]
 
             let json = RequestParameter(params)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
                     switch result {

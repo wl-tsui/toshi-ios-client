@@ -17,15 +17,15 @@ import UIKit
 import CameraScanner
 
 class ScannerController: ScannerViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.setupActivityIndicator()
     }
-    
+
     fileprivate lazy var activityView: UIActivityIndicatorView = {
-        return self.defaultActivityIndicator()
+        self.defaultActivityIndicator()
     }()
 
     override func setupToolbarItems() {
@@ -34,7 +34,7 @@ class ScannerController: ScannerViewController {
 }
 
 extension ScannerController: ActivityIndicating {
-    
+
     var activityIndicator: UIActivityIndicatorView {
         return activityView
     }
@@ -42,54 +42,54 @@ extension ScannerController: ActivityIndicating {
 
 extension ScannerController: PaymentPresentable {
 
-    func paymentFailed(with error: Error?, result: [String : Any]) {
+    func paymentFailed(with _: Error?, result _: [String: Any]) {
         self.startScanning()
     }
-    
+
     func paymentDeclined() {
         self.startScanning()
     }
-    
+
     func paymentApproved(with parameters: [String: Any], userInfo: UserInfo) {
         guard userInfo.isLocal == false else {
             if let tabbarController = self.presentingViewController as? TabBarController, let address = userInfo.address as String? {
                 tabbarController.openPaymentMessage(to: address, parameters: parameters)
             }
-            
+
             return
         }
-        
+
         self.showActivityIndicator()
-        
+
         EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { transaction, error in
-            
+
             guard let transaction = transaction as String? else {
                 self.hideActivityIndicator()
                 self.startScanning()
-                
+
                 return
             }
-            
+
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
-            
+
             EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { json, error in
-                
+
                 self.hideActivityIndicator()
-                
+
                 guard let json = json?.dictionary else {
                     let controller = UIAlertController.dismissableAlert(title: "Something went wrong")
                     self.present(controller, animated: true, completion: nil)
                     self.startScanning()
-                    
+
                     return
                 }
-                
+
                 if error != nil {
                     self.presentPaymentError(error: error, json: json)
                 } else {
-                    self.presentSuccessAlert(with: { action in
+                    self.presentSuccessAlert { _ in
                         self.startScanning()
-                    })
+                    }
                 }
             }
         }

@@ -35,14 +35,14 @@ public class ChatAPIClient: NSObject {
 
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
-            
+
             self.teapot.get("/v1/accounts/bootstrap/") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, let response):
                     guard response.statusCode == 200 else { fatalError("Could not retrieve timestamp from chat service.") }
                     guard let json = json?.dictionary else { fatalError("JSON dictionary not found in payload") }
                     guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp not found in json payload or not an integer.") }
-                    
+
                     completion(timestamp)
                 case .failure(let json, let response, let error):
                     print(error)
@@ -66,17 +66,17 @@ public class ChatAPIClient: NSObject {
 
             let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let requestParameter = RequestParameter(payload)
-            
+
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
                     switch result {
                     case .success(_, let response):
                         guard response.statusCode == 204 else {
                             print("Could not register user. Status code \(response.statusCode)")
-                            
+
                             return
                         }
-                        
+
                         TSStorageManager.storeServerToken(parameters.password, signalingKey: parameters.signalingKey)
                         print("Successfully registered chat user with address: \(cereal.address)")
                     case .failure(let json, let response, let error):

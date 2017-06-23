@@ -27,17 +27,16 @@ class ContactCell: UITableViewCell {
                     self.usernameLabel.text = contact.displayUsername
                     self.nameLabel.text = contact.name
                 }
-                
-                AvatarManager.shared.avatar(for: contact.avatarPath, completion: { image in
+
+                AvatarManager.shared.avatar(for: contact.avatarPath) { image in
                     if image != nil {
                         self.avatarImageView.image = image
                     }
-                })
-                
+                }
+
                 return
-                
             }
-            
+
             self.usernameLabel.text = nil
             self.nameLabel.text = nil
             self.avatarImageView.image = nil

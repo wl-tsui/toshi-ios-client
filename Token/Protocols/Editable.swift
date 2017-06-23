@@ -18,33 +18,33 @@ import UIKit
 
 protocol Editable: class {
     var scrollView: UIScrollView { get }
-    
+
     func registerForKeyboardNotifications()
     func unregisterFromKeyboardNotifications()
-    
+
     var keyboardWillShowSelector: Selector { get }
     var keyboardWillHideSelector: Selector { get }
-    
+
     func keyboardWillShow(_ notification: NSNotification)
     func keyboardWillHide(_ notification: NSNotification)
 }
 
 extension Editable where Self: UIViewController {
-    
+
     func registerForKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: self.keyboardWillShowSelector, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: self.keyboardWillHideSelector, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    
-    func unregisterFromKeyboardNotifications(){
+
+    func unregisterFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    
+
     func keyboardWillShow(_ notification: NSNotification) {
         self.scrollView.addBottomInsets(from: notification)
     }
-    
+
     func keyboardWillHide(_ notification: NSNotification) {
         self.scrollView.removeBottomInsets(from: notification)
     }
