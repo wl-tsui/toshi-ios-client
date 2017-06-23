@@ -47,6 +47,11 @@
     return [Yap sharedInstance];
 }
 
+- (void)refreshContacts
+{
+    self.tokenContacts = nil;
+}
+
 - (void)databaseChanged:(NSNotification *)notification
 {
     NSArray <NSNotification *> *notifications = [self.databaseConnection beginLongLivedReadTransaction];

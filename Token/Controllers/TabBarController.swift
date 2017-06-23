@@ -282,6 +282,10 @@ extension TabBarController: ScannerViewControllerDelegate {
             if let contact = contact as TokenUser? {
                 userInfo = contact.userInfo
                 parameters["to"] = contact.paymentAddress
+                
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                appDelegate.contactsManager.refreshContacts()
+                
             } else {
                 userInfo = UserInfo(address: username, paymentAddress: contact?.paymentAddress, avatarPath: nil, name: nil, username: username, isLocal: false)
                 parameters["to"] = username

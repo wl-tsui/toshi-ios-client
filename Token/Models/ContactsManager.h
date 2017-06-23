@@ -39,4 +39,6 @@
 
 - (nullable UIImage *)imageForPhoneIdentifier:(nullable NSString *)phoneNumber;
 
+- (void)refreshContacts;
+
 @end
