@@ -4,7 +4,7 @@
 
 #import "ContactsManager.h"
 
-#import "Token-Swift.h"
+#import "Toshi-Swift.h"
 
 @interface ContactsManager ()
 

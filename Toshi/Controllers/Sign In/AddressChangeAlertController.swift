@@ -23,7 +23,7 @@ extension NSString {
 
 let AddressChangeAlertShown = "AddressChangeAlertShown"
 
-let alertText = "We have made changes to make\nToken compatible with other\nservices - as a result your\nbalance will appear to be reset.\nAs this is only testnet ETH,\n you don't need to take any action.\nIf you do want to recover your\nbalance for any reason, you can\nread how to do it here: http://developers.tokenbrowser.com/"
+let alertText = "We have made changes to make\nToshi compatible with other\nservices - as a result your\nbalance will appear to be reset.\nAs this is only testnet ETH,\n you don't need to take any action.\nIf you do want to recover your\nbalance for any reason, you can\nread how to do it here: http://developers.toshi.org/"
 
 final class AddressChangeAlertController: AlertController {
 
@@ -47,7 +47,7 @@ final class AddressChangeAlertController: AlertController {
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = UIFont.systemFont(ofSize: 19.0)
-        label.text = "Token Address Changes"
+        label.text = "Toshi Address Changes"
         label.textColor = Theme.tintColor
         label.textAlignment = .center
 

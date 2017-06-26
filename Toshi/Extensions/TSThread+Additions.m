@@ -1,6 +1,6 @@
 #import "TSThread+Additions.h"
 #import <objc/runtime.h>
-#import "Token-Swift.h"
+#import "Toshi-Swift.h"
 
 @implementation TSThread (Additions)
 @dynamic cachedContactIdentifier;

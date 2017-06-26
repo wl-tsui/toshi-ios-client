@@ -1202,7 +1202,7 @@
 		145666031E30D24C00E52027 /* ChatsFloatingHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsFloatingHeaderView.swift; sourceTree = "<group>"; };
 		145666051E30D31A00E52027 /* EthereumAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAPIClient.swift; sourceTree = "<group>"; };
 		146D564B1E4A77F200FE7944 /* AppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCell.swift; sourceTree = "<group>"; };
-		149F9AEE1E72E29A00FB74AA /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		149F9AEE1E72E29A00FB74AA /* Toshi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toshi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentTokenURLPaths.swift; sourceTree = "<group>"; };
 		14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionTokenURLPaths.swift; sourceTree = "<group>"; };
 		14ED3ABC1E4A2B3400DF8079 /* BrowseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseController.swift; sourceTree = "<group>"; };
@@ -2037,14 +2037,14 @@
 		9F8C340C1E71530A005178F9 /* paymentSend.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = paymentSend.m4a; sourceTree = "<group>"; };
 		9F8C340E1E715C7A005178F9 /* menuButton.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = menuButton.m4a; sourceTree = "<group>"; };
 		9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		9F9238B11E24F1D2004BEEE0 /* Token.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Token.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9F9238B11E24F1D2004BEEE0 /* Toshi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toshi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F9238B51E24F1D2004BEEE0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F9238C31E24F1D2004BEEE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F9238C51E24F1D2004BEEE0 /* Development.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Development.plist; sourceTree = "<group>"; };
-		9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Token-Bridging-Header.h"; sourceTree = "<group>"; };
+		9F9238D01E24F402004BEEE0 /* Toshi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Toshi-Bridging-Header.h"; sourceTree = "<group>"; };
 		9F9238D31E24F42A004BEEE0 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cereal.swift; sourceTree = "<group>"; };
 		9F9B25541ECB1BC0007B435A /* ContactActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactActionView.swift; sourceTree = "<group>"; };
@@ -2092,7 +2092,7 @@
 		9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatAPIClient.swift; sourceTree = "<group>"; };
 		9FC72A421E252CFA00EF1141 /* ContactsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsManager.h; sourceTree = "<group>"; };
 		9FC72A431E252CFA00EF1141 /* ContactsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsManager.m; sourceTree = "<group>"; };
-		9FC848301E5DB1B600568F1B /* Token.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Token.entitlements; sourceTree = "<group>"; };
+		9FC848301E5DB1B600568F1B /* Toshi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Toshi.entitlements; sourceTree = "<group>"; };
 		9FCDBAD31E27DE8800A70E07 /* Yap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Yap.swift; sourceTree = "<group>"; };
 		9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = idAPIClient.swift; sourceTree = "<group>"; };
 		9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -3253,8 +3253,8 @@
 		9F9238A81E24F1D2004BEEE0 = {
 			isa = PBXGroup;
 			children = (
-				9FC848301E5DB1B600568F1B /* Token.entitlements */,
-				9F9238B31E24F1D2004BEEE0 /* Token */,
+				9FC848301E5DB1B600568F1B /* Toshi.entitlements */,
+				9F9238B31E24F1D2004BEEE0 /* Toshi */,
 				14147EA21E8119F0006BD47B /* Tests */,
 				9F9238B21E24F1D2004BEEE0 /* Products */,
 				27842ECF00E36BC79A5918DA /* Frameworks */,
@@ -3265,14 +3265,14 @@
 		9F9238B21E24F1D2004BEEE0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9F9238B11E24F1D2004BEEE0 /* Token.app */,
-				149F9AEE1E72E29A00FB74AA /* Token.app */,
+				9F9238B11E24F1D2004BEEE0 /* Toshi.app */,
+				149F9AEE1E72E29A00FB74AA /* Toshi.app */,
 				14147EA11E8119F0006BD47B /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9F9238B31E24F1D2004BEEE0 /* Token */ = {
+		9F9238B31E24F1D2004BEEE0 /* Toshi */ = {
 			isa = PBXGroup;
 			children = (
 				9F4D7BC31EEA8B4400FB5361 /* ImagePicker */,
@@ -3289,7 +3289,7 @@
 				9F9238CC1E24F3D9004BEEE0 /* Resources */,
 				9F9238B41E24F1D2004BEEE0 /* Supporting Files */,
 			);
-			path = Token;
+			path = Toshi;
 			sourceTree = "<group>";
 		};
 		9F9238B41E24F1D2004BEEE0 /* Supporting Files */ = {
@@ -3310,7 +3310,7 @@
 				9FA12BEA1E65CF59003705F6 /* Sounds */,
 				9FAACCD81E31120600FB871D /* SF-UI-Display */,
 				9FAACCE21E31120600FB871D /* SF-UI-Text */,
-				9F9238D01E24F402004BEEE0 /* Token-Bridging-Header.h */,
+				9F9238D01E24F402004BEEE0 /* Toshi-Bridging-Header.h */,
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
 				9F9238C51E24F1D2004BEEE0 /* Development.plist */,
@@ -3719,7 +3719,7 @@
 			);
 			name = Distribution;
 			productName = Token;
-			productReference = 149F9AEE1E72E29A00FB74AA /* Token.app */;
+			productReference = 149F9AEE1E72E29A00FB74AA /* Toshi.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9F9238B01E24F1D2004BEEE0 /* Development */ = {
@@ -3741,7 +3741,7 @@
 			);
 			name = Development;
 			productName = Token;
-			productReference = 9F9238B11E24F1D2004BEEE0 /* Token.app */;
+			productReference = 9F9238B11E24F1D2004BEEE0 /* Toshi.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -3783,7 +3783,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Token" */;
+			buildConfigurationList = 9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Toshi" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -5107,7 +5107,7 @@
 			baseConfigurationReference = 318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = YES;
 				DEVELOPMENT_TEAM = 29X3GG489T;
@@ -5125,7 +5125,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Distribution.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Toshi/Resources/Distribution.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -5135,10 +5135,10 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
-				PRODUCT_NAME = Token;
+				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5150,7 +5150,7 @@
 			baseConfigurationReference = CFAFE0DF986DC3B38AF50EE6 /* Pods-CocoaPods-Distribution.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = NO;
 				DEVELOPMENT_TEAM = 29X3GG489T;
@@ -5168,7 +5168,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Distribution.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Toshi/Resources/Distribution.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -5178,10 +5178,10 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token;
-				PRODUCT_NAME = Token;
+				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5287,7 +5287,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Dev";
-				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = YES;
 				DEVELOPMENT_TEAM = 29X3GG489T;
@@ -5305,7 +5305,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Development.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Toshi/Resources/Development.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -5320,10 +5320,10 @@
 				);
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.dev;
-				PRODUCT_NAME = Token;
+				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5336,7 +5336,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Dev";
-				CODE_SIGN_ENTITLEMENTS = Token.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = NO;
 				DEVELOPMENT_TEAM = 29X3GG489T;
@@ -5354,7 +5354,7 @@
 					"SQLITE_HAS_CODEC=1",
 					HAVE_CONFIG_H,
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Token/Resources/Development.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Toshi/Resources/Development.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -5364,10 +5364,10 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.dev;
-				PRODUCT_NAME = Token;
+				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Token/Resources/Token-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5395,7 +5395,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Token" */ = {
+		9F9238AC1E24F1D2004BEEE0 /* Build configuration list for PBXProject "Toshi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F9238C61E24F1D2004BEEE0 /* Debug */,

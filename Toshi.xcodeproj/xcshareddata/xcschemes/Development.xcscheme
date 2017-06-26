@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "149F9A5D1E72E29A00FB74AA"
-               BuildableName = "Token.app"
-               BlueprintName = "Distribution"
-               ReferencedContainer = "container:Token.xcodeproj">
+               BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
+               BuildableName = "Toshi.app"
+               BlueprintName = "Development"
+               ReferencedContainer = "container:Toshi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,14 +28,24 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "14147EA01E8119F0006BD47B"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
+               ReferencedContainer = "container:Toshi.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "149F9A5D1E72E29A00FB74AA"
-            BuildableName = "Token.app"
-            BlueprintName = "Distribution"
-            ReferencedContainer = "container:Token.xcodeproj">
+            BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
+            BuildableName = "Toshi.app"
+            BlueprintName = "Development"
+            ReferencedContainer = "container:Toshi.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,10 +65,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "149F9A5D1E72E29A00FB74AA"
-            BuildableName = "Token.app"
-            BlueprintName = "Distribution"
-            ReferencedContainer = "container:Token.xcodeproj">
+            BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
+            BuildableName = "Toshi.app"
+            BlueprintName = "Development"
+            ReferencedContainer = "container:Toshi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -74,10 +84,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "149F9A5D1E72E29A00FB74AA"
-            BuildableName = "Token.app"
-            BlueprintName = "Distribution"
-            ReferencedContainer = "container:Token.xcodeproj">
+            BlueprintIdentifier = "9F9238B01E24F1D2004BEEE0"
+            BuildableName = "Toshi.app"
+            BlueprintName = "Development"
+            ReferencedContainer = "container:Toshi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

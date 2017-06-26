@@ -42,10 +42,10 @@ class AddMoneyController: UIViewController {
             .bulletPoint("1. Send ETH from another wallet", "Send to this address to top up your wallet:\n\n\(Cereal.shared.paymentAddress)"),
             .copyToClipBoard("Copy to clipboard", "Copied", #selector(copyToClipBoard(_:))),
             .QRCode(UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)),
-            .warning("Do not send ETH from Mainnet. Token is currently using Ropsten revival Testnet."),
+            .warning("Do not send ETH from Mainnet. Toshi is currently using Ropsten revival Testnet."),
             .bulletPoint("2. Find a local exchanger", "Find a local exchanger of Ethereum in your country. You can give them cash and they will send you Ethereum."),
             .bulletPoint("3. Earn money", "Install an app that lets you earn Ethereum."),
-            .bulletPoint("4. Request money from a friend", "Send a payment request to a friend on Token."),
+            .bulletPoint("4. Request money from a friend", "Send a payment request to a friend on Toshi."),
         ]
     }
 

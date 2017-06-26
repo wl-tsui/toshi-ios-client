@@ -260,7 +260,7 @@ extension ChatsController: Emptiable {
     }
 
     func buttonPressed(sender _: AnyObject) {
-        let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
+        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://toshi.org)"], applicationActivities: [])
 
         self.present(shareController, animated: true) {}
     }

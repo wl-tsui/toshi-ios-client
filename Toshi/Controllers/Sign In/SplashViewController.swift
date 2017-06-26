@@ -47,7 +47,7 @@ final class SplashViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = Theme.viewBackgroundColor
         label.numberOfLines = 0
-        label.text = "Welcome to\nToken"
+        label.text = "Welcome to\nToshi"
 
         return label
     }()
