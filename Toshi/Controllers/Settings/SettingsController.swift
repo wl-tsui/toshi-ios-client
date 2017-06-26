@@ -246,6 +246,11 @@ open class SettingsController: UITableViewController {
             case 0:
                 break // change currency
             case 1:
+                let storyboard = UIStoryboard(name: "ProfileVisibility", bundle: nil)
+                guard let profileVisiblityController = storyboard.instantiateInitialViewController() else { return }
+
+                self.navigationController?.pushViewController(profileVisiblityController, animated: true)
+            case 2:
                 // go sign out
                 self.handleSignOut()
             default:

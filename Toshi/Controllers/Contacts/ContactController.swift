@@ -470,7 +470,7 @@ extension ContactController: PaymentSendControllerDelegate {
                 self.hideActivityIndicator()
                 let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error?.localizedDescription)
                 self.present(alert, animated: true)
-                
+
                 return
             }
 

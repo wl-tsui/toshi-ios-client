@@ -35,12 +35,12 @@ public final class Yap: NSObject, Singleton {
         options.corruptAction = .rename
 
         let keychain = KeychainSwift()
-        
+
         let dbPwd = keychain.getData("DBPWD") ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
         keychain.set(dbPwd, forKey: "DBPWD")
-        
+
         options.cipherKeyBlock = {
-            return keychain.getData("DBPWD")!
+            keychain.getData("DBPWD")!
         }
 
         self.database = YapDatabase(path: self.path, options: options)

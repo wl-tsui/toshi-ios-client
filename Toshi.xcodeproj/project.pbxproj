@@ -1008,6 +1008,10 @@
 		9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEF1E65D043003705F6 /* messageSent.m4a */; };
 		9FB36EAF1E7C27A300DB6F86 /* PN.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEB1E65CF61003705F6 /* PN.m4a */; };
 		9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB8EA461E323B4000505441 /* SofaWrapper.swift */; };
+		9FBB9E321F0136E800B35A0D /* ProfileVisibilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBB9E311F0136E800B35A0D /* ProfileVisibilityController.swift */; };
+		9FBB9E331F0136E800B35A0D /* ProfileVisibilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBB9E311F0136E800B35A0D /* ProfileVisibilityController.swift */; };
+		9FBB9E351F01373C00B35A0D /* ProfileVisibility.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FBB9E341F01373C00B35A0D /* ProfileVisibility.storyboard */; };
+		9FBB9E361F01373C00B35A0D /* ProfileVisibility.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FBB9E341F01373C00B35A0D /* ProfileVisibility.storyboard */; };
 		9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
 		9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
 		9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */; };
@@ -2085,6 +2089,8 @@
 		9FB228841EEEA45B00CCAA1D /* PropertyListPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyListPreferences.h; sourceTree = "<group>"; };
 		9FB228851EEEA45B00CCAA1D /* PropertyListPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyListPreferences.m; sourceTree = "<group>"; };
 		9FB8EA461E323B4000505441 /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
+		9FBB9E311F0136E800B35A0D /* ProfileVisibilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVisibilityController.swift; sourceTree = "<group>"; };
+		9FBB9E341F01373C00B35A0D /* ProfileVisibility.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProfileVisibility.storyboard; sourceTree = "<group>"; };
 		9FC72A2B1E25098000EF1141 /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBootstrapParameters.swift; sourceTree = "<group>"; };
 		9FC72A381E25145D00EF1141 /* CryptoTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoTools.h; sourceTree = "<group>"; };
@@ -3470,6 +3476,15 @@
 			name = SignaServiceKit;
 			sourceTree = "<group>";
 		};
+		9FBB9E301F0136BB00B35A0D /* Profile visiblity */ = {
+			isa = PBXGroup;
+			children = (
+				9FBB9E311F0136E800B35A0D /* ProfileVisibilityController.swift */,
+				9FBB9E341F01373C00B35A0D /* ProfileVisibility.storyboard */,
+			);
+			name = "Profile visiblity";
+			sourceTree = "<group>";
+		};
 		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
 			isa = PBXGroup;
 			children = (
@@ -3553,6 +3568,7 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9FBB9E301F0136BB00B35A0D /* Profile visiblity */,
 				A9BA6B771EF7CEAD007C3206 /* AddMoney */,
 				9F232A971EC9E3A300270761 /* Profile */,
 				A9BF33AB1E76DE36009A51AA /* Backup Phrase */,
@@ -3818,6 +3834,7 @@
 				84C195301ECF05C100B9512F /* sofa-web3.js in Resources */,
 				149F9AC51E72E29A00FB74AA /* SF-UI-Text-Semibold.otf in Resources */,
 				149F9AC61E72E29A00FB74AA /* SF-UI-Display-Black.otf in Resources */,
+				9FBB9E361F01373C00B35A0D /* ProfileVisibility.storyboard in Resources */,
 				149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */,
 				149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */,
@@ -3863,6 +3880,7 @@
 				84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */,
 				9FAACD041E31120600FB871D /* SF-UI-Text-Semibold.otf in Resources */,
 				9FAACCF11E31120600FB871D /* SF-UI-Display-Black.otf in Resources */,
+				9FBB9E351F01373C00B35A0D /* ProfileVisibility.storyboard in Resources */,
 				9FAACD011E31120600FB871D /* SF-UI-Text-MediumItalic.otf in Resources */,
 				9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */,
 				9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */,
@@ -4390,6 +4408,7 @@
 				149F9A8A1E72E29A00FB74AA /* ControlsCollectionViewDelegateDatasource.swift in Sources */,
 				9F4D804D1EEA8B4500FB5361 /* MediaAssetFetchResultChange.m in Sources */,
 				9F4D7F891EEA8B4500FB5361 /* CameraCaptureSession.m in Sources */,
+				9FBB9E331F0136E800B35A0D /* ProfileVisibilityController.swift in Sources */,
 				A9202E651ED84FF90036E9B7 /* MessageCell.swift in Sources */,
 				9F4D7FE91EEA8B4500FB5361 /* MemoryCache.m in Sources */,
 				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
@@ -4889,6 +4908,7 @@
 				9F4D801C1EEA8B4500FB5361 /* TimerTarget.m in Sources */,
 				9F4D7FE01EEA8B4500FB5361 /* MediaPickerModernGalleryMixin.m in Sources */,
 				2BC4C07F1EF3ED4700F99CE2 /* ActivityIndicating.swift in Sources */,
+				9FBB9E321F0136E800B35A0D /* ProfileVisibilityController.swift in Sources */,
 				9F4D7FDC1EEA8B4500FB5361 /* MediaPickerGalleryVideoScrubber.m in Sources */,
 				9F4D80EC1EEA8B4500FB5361 /* MenuSheetDimView.m in Sources */,
 				9F4D81301EEA8B4600FB5361 /* PhotoCropAreaView.m in Sources */,

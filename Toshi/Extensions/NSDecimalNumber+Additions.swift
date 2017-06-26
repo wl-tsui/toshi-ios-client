@@ -28,7 +28,7 @@ public extension NSDecimalNumber {
     public var toHexString: String {
         return "0x\(BaseConverter.decToHex(self.toDecimalString).lowercased())"
     }
-    
+
     public var isANumber: Bool {
         return self != .notANumber
     }

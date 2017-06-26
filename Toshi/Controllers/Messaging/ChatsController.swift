@@ -107,35 +107,35 @@ open class ChatsController: SweetTableController {
 
     @discardableResult static func getOrCreateThread(for address: String) -> TSThread {
         var thread: TSThread?
-        
+
         TSStorageManager.shared().dbConnection?.readWrite { transaction in
             var recipient = SignalRecipient(textSecureIdentifier: address, with: transaction)
-            
+
             var shouldRequestContactsRefresh = false
-            
+
             if recipient == nil {
                 recipient = SignalRecipient(textSecureIdentifier: address, relay: nil)
                 shouldRequestContactsRefresh = true
             }
-            
+
             recipient?.save(with: transaction)
             thread = TSContactThread.getOrCreateThread(withContactId: address, transaction: transaction)
-            
+
             if shouldRequestContactsRefresh == true {
                 self.requestContactsRefresh()
             }
-            
+
             if thread?.archivalDate() != nil {
                 thread?.unarchiveThread(with: transaction)
             }
         }
-        
+
         return thread!
     }
-    
+
     fileprivate static func requestContactsRefresh() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        
+
         appDelegate.contactsManager.refreshContacts()
     }
 

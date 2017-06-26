@@ -34,6 +34,7 @@ public class TokenUser: NSObject, NSCoding {
         static let avatar = "avatar"
         static let isApp = "is_app"
         static let verified = "verified"
+        static let isPublic = "public"
     }
 
     static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
@@ -62,6 +63,8 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var about = ""
     private(set) var location = ""
     private(set) var avatarPath = ""
+
+    private(set) var isPublic = false
 
     private(set) var address = ""
     private(set) var paymentAddress = ""
@@ -115,6 +118,7 @@ public class TokenUser: NSObject, NSCoding {
             Constants.avatar: self.avatarPath,
             Constants.isApp: self.isApp,
             Constants.verified: self.verified,
+            Constants.isPublic: self.isPublic,
         ]
     }
 
@@ -157,6 +161,7 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     func update(json: [String: Any], updateAvatar _: Bool = false, shouldSave: Bool = true) {
+        self.isPublic = json[Constants.isPublic] as? Bool ?? self.isPublic
         self.address = json[Constants.address] as! String
         self.paymentAddress = (json[Constants.paymentAddress] as? String) ?? (json[Constants.address] as! String)
         self.username = json[Constants.username] as! String
@@ -184,6 +189,14 @@ public class TokenUser: NSObject, NSCoding {
         self.name = name ?? self.name
         self.about = about ?? self.about
         self.location = location ?? self.location
+
+        self.save()
+    }
+
+    func updatePublicState(to isPublic: Bool) {
+        self.isPublic = isPublic
+
+        IDAPIClient.shared.updateUser(self.asDict) { _, _ in }
 
         self.save()
     }
