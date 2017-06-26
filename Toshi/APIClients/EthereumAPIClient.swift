@@ -219,7 +219,7 @@ public class EthereumAPIClient: NSObject {
         self.timestamp { timestamp in
             let cereal = Cereal.shared
             let address = cereal.paymentAddress
-            let paymentAddress = TokenUser.current!.paymentAddress
+            let paymentAddress = TokenUser.current?.paymentAddress
             let path = "/v1/apn/deregister"
 
             let params = ["registration_id": deviceToken, "address": paymentAddress]

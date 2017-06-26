@@ -348,7 +348,7 @@ open class ProfileEditController: OverlayController, Editable {
         for item in self.dataSource.items {
             if item.fieldName == "username" {
                 if item.validate() {
-                    username = item.value as? String ?? TokenUser.current!.username
+                    username = item.value as? String ?? (TokenUser.current?.username ?? "")
                 } else {
                     let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
                     self.present(alert, animated: true)
