@@ -143,27 +143,27 @@ class ReputationView: UIView {
 
             self.fiveStarsBarView.topAnchor.constraint(equalTo: self.guides[1].topAnchor, constant: barSpacing),
             self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
             self.fiveStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.fourStarsBarView.topAnchor.constraint(equalTo: self.fiveStarsBarView.bottomAnchor, constant: barSpacing),
             self.fourStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.fourStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.fourStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
             self.fourStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.threeStarsBarView.topAnchor.constraint(equalTo: self.fourStarsBarView.bottomAnchor, constant: barSpacing),
             self.threeStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.threeStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.threeStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
             self.threeStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.twoStarsBarView.topAnchor.constraint(equalTo: self.threeStarsBarView.bottomAnchor, constant: barSpacing),
             self.twoStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.twoStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.twoStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
             self.twoStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.oneStarsBarView.topAnchor.constraint(equalTo: self.twoStarsBarView.bottomAnchor, constant: barSpacing),
             self.oneStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.oneStarsBarView.rightAnchor.constraint(equalTo: self.guides[1].rightAnchor, constant: -horizontalMargin),
+            self.oneStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
             self.oneStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
             self.oneStarsBarView.bottomAnchor.constraint(equalTo: self.guides[1].bottomAnchor, constant: -barSpacing),
         ])
