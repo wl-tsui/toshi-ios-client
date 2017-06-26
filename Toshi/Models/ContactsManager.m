@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSCache *cache;
 
 @property (nonatomic, copy, readwrite) NSArray<TokenUser *> *tokenContacts;
+@property (nonatomic, copy) NSArray <SignalAccount *> *signalRecipients;
 
 @property (nonatomic, strong) YapDatabaseConnection *databaseConnection;
 
@@ -50,15 +51,15 @@
 - (void)refreshContacts
 {
     self.tokenContacts = nil;
+    self.signalRecipients = nil;
 }
 
 - (void)databaseChanged:(NSNotification *)notification
 {
     NSArray <NSNotification *> *notifications = [self.databaseConnection beginLongLivedReadTransaction];
 
-   YapDatabaseViewConnection *viewConnection = [self.databaseConnection ext:TokenUser.viewExtensionName];
+    YapDatabaseViewConnection *viewConnection = [self.databaseConnection ext:TokenUser.viewExtensionName];
     BOOL hasChangesForCurrentView = [viewConnection hasChangesForNotifications:notifications];
-    
     
     if (hasChangesForCurrentView) {
         self.tokenContacts = nil;
@@ -121,42 +122,51 @@
     return contact;
 }
 
+- (NSArray <SignalAccount *> *)signalRecipients
+{
+    if (!_signalRecipients) {
+        NSMutableDictionary<NSString *, SignalAccount *> *signalAccountMap = [NSMutableDictionary dictionary];
+        NSMutableArray<SignalAccount *> *signalAccounts = [NSMutableArray array];
+        NSMutableDictionary<NSString *, NSArray<SignalRecipient *> *> *contactIdToSignalRecipientsMap = [NSMutableDictionary dictionary];
+        NSMutableArray<Contact *> *contacts = [NSMutableArray array];
+        
+        for (TokenUser *tokenContact in self.tokenContacts) {
+            Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
+            
+            [contacts addObject:contact];
+            
+            contactIdToSignalRecipientsMap[contact.uniqueId] = @[[[SignalRecipient alloc] initWithTextSecureIdentifier:tokenContact.address relay:nil]];
+        }
+        
+        for (Contact *contact in contacts) {
+            NSArray<SignalRecipient *> *signalRecipients = contactIdToSignalRecipientsMap[contact.uniqueId];
+            for (SignalRecipient *signalRecipient in [signalRecipients sortedArrayUsingSelector:@selector(compare:)]) {
+                SignalAccount *signalAccount = [[SignalAccount alloc] initWithSignalRecipient:signalRecipient];
+                signalAccount.contact = contact;
+                if (signalRecipients.count > 1) {
+                    @throw NSInvalidArgumentException;
+                    
+                }
+                
+                if (signalAccountMap[signalAccount.recipientId]) {
+                    NSLog(@"Ignoring duplicate contact: %@, %@", signalAccount.recipientId, contact.fullName);
+                    continue;
+                }
+                
+                signalAccountMap[signalAccount.recipientId] = signalAccount;
+                [signalAccounts addObject:signalAccount];
+            }
+        }
+        
+        _signalRecipients = signalAccounts.copy;
+    }
+    
+    return _signalRecipients;
+}
+
 - (NSArray<SignalAccount *> *)signalAccounts
 {
-    NSMutableDictionary<NSString *, SignalAccount *> *signalAccountMap = [NSMutableDictionary dictionary];
-    NSMutableArray<SignalAccount *> *signalAccounts = [NSMutableArray array];
-    NSMutableDictionary<NSString *, NSArray<SignalRecipient *> *> *contactIdToSignalRecipientsMap = [NSMutableDictionary dictionary];
-    NSMutableArray<Contact *> *contacts = [NSMutableArray array];
-    
-    for (TokenUser *tokenContact in self.tokenContacts) {
-        Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
-        
-        [contacts addObject:contact];
-        
-        contactIdToSignalRecipientsMap[contact.uniqueId] = @[[[SignalRecipient alloc] initWithTextSecureIdentifier:tokenContact.address relay:nil]];
-    }
-    
-    for (Contact *contact in contacts) {
-        NSArray<SignalRecipient *> *signalRecipients = contactIdToSignalRecipientsMap[contact.uniqueId];
-        for (SignalRecipient *signalRecipient in [signalRecipients sortedArrayUsingSelector:@selector(compare:)]) {
-            SignalAccount *signalAccount = [[SignalAccount alloc] initWithSignalRecipient:signalRecipient];
-            signalAccount.contact = contact;
-            if (signalRecipients.count > 1) {
-                @throw NSInvalidArgumentException;
-                
-            }
-            
-            if (signalAccountMap[signalAccount.recipientId]) {
-                NSLog(@"Ignoring duplicate contact: %@, %@", signalAccount.recipientId, contact.fullName);
-                continue;
-            }
-            
-            signalAccountMap[signalAccount.recipientId] = signalAccount;
-            [signalAccounts addObject:signalAccount];
-        }
-    }
-    
-    return signalAccounts;
+    return  self.signalRecipients;
 }
 
 - (nullable UIImage *)imageForPhoneIdentifier:(nullable NSString *)phoneNumber

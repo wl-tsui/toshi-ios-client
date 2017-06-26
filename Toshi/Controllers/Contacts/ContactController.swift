@@ -353,19 +353,7 @@ public class ContactController: UIViewController {
 
     @objc private func didTapMessageContactButton() {
         // create thread if needed
-        TSStorageManager.shared().dbConnection?.readWrite { transaction in
-            var recipient = SignalRecipient(textSecureIdentifier: self.contact.address, with: transaction)
-
-            if recipient == nil {
-                recipient = SignalRecipient(textSecureIdentifier: self.contact.address, relay: nil)
-            }
-
-            recipient?.save(with: transaction)
-            let thread = TSContactThread.getOrCreateThread(withContactId: self.contact.address, transaction: transaction)
-            if thread.archivalDate() != nil {
-                thread.unarchiveThread(with: transaction)
-            }
-        }
+        ChatsController.getOrCreateThread(for: self.contact.address)
 
         DispatchQueue.main.async {
             (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.contact.address)
@@ -506,7 +494,7 @@ extension ContactController: PaymentSendControllerDelegate {
                     let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
 
                     // send message to thread
-                    let thread = self.fetchThread(for: self.contact.address)
+                    let thread = ChatsController.getOrCreateThread(for: self.contact.address)
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                     let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 
@@ -518,26 +506,5 @@ extension ContactController: PaymentSendControllerDelegate {
                 }
             }
         }
-    }
-
-    private func fetchThread(for address: String) -> TSThread {
-        var thread: TSThread?
-
-        TSStorageManager.shared().dbConnection?.readWrite { transaction in
-            var recipient = SignalRecipient(textSecureIdentifier: address, with: transaction)
-
-            if recipient == nil {
-                recipient = SignalRecipient(textSecureIdentifier: address, relay: nil)
-            }
-
-            recipient?.save(with: transaction)
-            thread = TSContactThread.getOrCreateThread(withContactId: address, transaction: transaction)
-
-            if thread?.archivalDate() != nil {
-                thread?.unarchiveThread(with: transaction)
-            }
-        }
-
-        return thread!
     }
 }

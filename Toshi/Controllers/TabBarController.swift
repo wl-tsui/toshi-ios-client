@@ -114,19 +114,7 @@ open class TabBarController: UITabBarController {
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
         self.dismiss(animated: false) {
 
-            TSStorageManager.shared().dbConnection?.readWrite { transaction in
-                var recipient = SignalRecipient(textSecureIdentifier: address, with: transaction)
-
-                if recipient == nil {
-                    recipient = SignalRecipient(textSecureIdentifier: address, relay: nil)
-                }
-
-                recipient?.save(with: transaction)
-                let thread = TSContactThread.getOrCreateThread(withContactId: address, transaction: transaction)
-                if thread.archivalDate() != nil {
-                    thread.unarchiveThread(with: transaction)
-                }
-            }
+            ChatsController.getOrCreateThread(for: address)
 
             DispatchQueue.main.async {
                 self.displayMessage(forAddress: address) { controller in
