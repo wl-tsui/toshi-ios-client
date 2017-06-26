@@ -135,8 +135,11 @@ extension PaymentController: UITextFieldDelegate {
             if let currencyString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
                 if let currencyValue = self.inputNumberFormatter.number(from: currencyString) {
                     let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue)
-                    self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
-                    self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
+                    
+                    if ether.isANumber {
+                        self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
+                        self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
+                    }
                 } else {
                     self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
                 }
