@@ -28,8 +28,6 @@ public final class Yap: NSObject, Singleton {
 
     public static let sharedInstance = Yap()
 
-    private var databasePassword: Data
-
     private let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(".Signal.sqlite").path
 
     private override init() {
@@ -37,24 +35,13 @@ public final class Yap: NSObject, Singleton {
         options.corruptAction = .rename
 
         let keychain = KeychainSwift()
-        var databasePassword: Data
-
-        if let dbPwd = keychain.getData("DBPWD") {
-            options.cipherKeyBlock = {
-                dbPwd
-            }
-
-            databasePassword = dbPwd
-        } else {
-            databasePassword = Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
-
-            keychain.set(databasePassword, forKey: "DBPWD")
-            options.cipherKeyBlock = {
-                databasePassword
-            }
+        
+        let dbPwd = keychain.getData("DBPWD") ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
+        keychain.set(dbPwd, forKey: "DBPWD")
+        
+        options.cipherKeyBlock = {
+            return keychain.getData("DBPWD")!
         }
-
-        self.databasePassword = databasePassword
 
         self.database = YapDatabase(path: self.path, options: options)
 
