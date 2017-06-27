@@ -136,6 +136,8 @@
 		2BD135AB1EE18ACF00B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
+		2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
+		2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
 		2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0C1EF910B6007A7130 /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
@@ -1240,6 +1242,7 @@
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BD135A11EE1890200B9F454 /* AddressChangeAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressChangeAlertController.swift; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
+		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
 		2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Keyboard.swift"; sourceTree = "<group>"; };
 		2BE66A0B1EF910B6007A7130 /* Editable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
 		2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarManager.swift; sourceTree = "<group>"; };
@@ -3463,6 +3466,7 @@
 				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
 				9F48C1561E9CD911008BA637 /* CacheExpiry+Default.swift */,
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
+				2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4228,6 +4232,7 @@
 				9F4D7ECD1EEA8B4500FB5361 /* PhotoAvatarCropController.m in Sources */,
 				9F4D7F951EEA8B4500FB5361 /* Color.m in Sources */,
 				9F4D7F1F1EEA8B4500FB5361 /* PaintState.m in Sources */,
+				2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				9F4D7F631EEA8B4500FB5361 /* SaturationTool.m in Sources */,
 				9F4D7F0F1EEA8B4500FB5361 /* PaintInput.m in Sources */,
 				9F4D80291EEA8B4500FB5361 /* UIImage+TG.m in Sources */,
@@ -4650,6 +4655,7 @@
 				9F4D7EFA1EEA8B4500FB5361 /* GrainTool.m in Sources */,
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				9F4D7F661EEA8B4500FB5361 /* ShadowsTool.m in Sources */,
+				2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* BrowseController.swift in Sources */,
 				A9AC74111E78064500365029 /* TextLabel.swift in Sources */,
 				1400418A1E71588A00C1FD87 /* ReputationView.swift in Sources */,
