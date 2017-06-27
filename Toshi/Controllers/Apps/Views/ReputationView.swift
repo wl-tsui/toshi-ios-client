@@ -143,27 +143,27 @@ class ReputationView: UIView {
 
             self.fiveStarsBarView.topAnchor.constraint(equalTo: self.guides[1].topAnchor, constant: barSpacing),
             self.fiveStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
+            self.fiveStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.fiveStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.fourStarsBarView.topAnchor.constraint(equalTo: self.fiveStarsBarView.bottomAnchor, constant: barSpacing),
             self.fourStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.fourStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
+            self.fourStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.fourStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.threeStarsBarView.topAnchor.constraint(equalTo: self.fourStarsBarView.bottomAnchor, constant: barSpacing),
             self.threeStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.threeStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
+            self.threeStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.threeStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.twoStarsBarView.topAnchor.constraint(equalTo: self.threeStarsBarView.bottomAnchor, constant: barSpacing),
             self.twoStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.twoStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
+            self.twoStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.twoStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
 
             self.oneStarsBarView.topAnchor.constraint(equalTo: self.twoStarsBarView.bottomAnchor, constant: barSpacing),
             self.oneStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
-            self.oneStarsBarView.rightAnchor.constraint(equalTo: self.ratingView.rightAnchor, constant: horizontalMargin),
+            self.oneStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.oneStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
             self.oneStarsBarView.bottomAnchor.constraint(equalTo: self.guides[1].bottomAnchor, constant: -barSpacing),
         ])
@@ -225,7 +225,7 @@ class ReputationBarView: UIView {
 
     var percentage: CGFloat = 0 {
         didSet {
-            self.barWidthAnchor.constant = (self.percentage * self.totalWidth)
+            self.setNeedsLayout()
         }
     }
 
@@ -259,6 +259,16 @@ class ReputationBarView: UIView {
         ])
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let barRightMargin: CGFloat = 11
+        let startAndCountWidth: CGFloat = 21
+        let width = self.bounds.size.width - startAndCountWidth
+        
+        self.barWidthAnchor.constant = min((width - barRightMargin), (self.percentage * width))
+    }
+    
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
