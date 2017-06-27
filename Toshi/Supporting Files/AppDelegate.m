@@ -132,9 +132,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)userDidSignOut {
     [TSAccountManager unregisterTextSecureWithSuccess:^{
-        
+
         [AvatarManager.shared cleanCache];
-        
+
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         [[EthereumAPIClient shared] deregisterForNotificationsWithDeviceToken:self.token];
         [[TSStorageManager sharedManager] resetSignalStorage];
@@ -144,8 +144,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
         exit(0);
     } failure:^(NSError *error) {
-        // alert user
-        NSLog(@"Error attempting to unregister text secure.");
+        UIAlertController *alert = [UIAlertController dismissableAlertWithTitle:@"Could not sign out" message:@"Error attempting to unregister from chat service. Our engineers are looking into it."];
+
+        [Navigator presentModally:alert];
     }];
 }
 
