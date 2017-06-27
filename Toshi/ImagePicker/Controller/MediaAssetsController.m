@@ -690,7 +690,7 @@
     CGSize fallbackThumbnailImageSize = CGSizeMake(256, 256);
     SSignal *(^inlineThumbnailSignal)(MediaAsset *) = ^SSignal *(MediaAsset *asset)
     {
-        return [[MediaAssetImageSignals imageForAsset:asset imageType:MediaAssetImageTypeAspectRatioThumbnail size:fallbackThumbnailImageSize allowNetworkAccess:false] catch:^SSignal *(id error)
+        return [[MediaAssetImageSignals imageForAsset:asset imageType:MediaAssetImageTypeFullSize size:fallbackThumbnailImageSize allowNetworkAccess:false] catch:^SSignal *(id error)
                 {
                     if ([error respondsToSelector:@selector(boolValue)] && [error boolValue]) {
                         return [MediaAssetImageSignals imageForAsset:asset imageType:MediaAssetImageTypeAspectRatioThumbnail size:fallbackThumbnailImageSize allowNetworkAccess:true];
