@@ -380,7 +380,7 @@ public class ContactController: UIViewController {
         let paymentSendController = PaymentSendController()
         paymentSendController.delegate = self
 
-        self.present(paymentSendController, animated: true)
+        Navigator.presentModally(paymentSendController)
     }
 
     func didTapRateUser() {
@@ -391,7 +391,7 @@ public class ContactController: UIViewController {
         let rateUserController = RateUserController(user: contact)
         rateUserController.delegate = self
 
-        self.present(rateUserController, animated: true)
+        Navigator.presentModally(rateUserController)
     }
 
     @objc private func displayActions() {
@@ -418,7 +418,7 @@ public class ContactController: UIViewController {
 
         actions.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-        self.present(actions, animated: true)
+        Navigator.presentModally(actions)
     }
 
     fileprivate func updateReputation() {
@@ -469,7 +469,7 @@ extension ContactController: PaymentSendControllerDelegate {
             guard let transaction = transaction as String? else {
                 self.hideActivityIndicator()
                 let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error?.localizedDescription)
-                self.present(alert, animated: true)
+                Navigator.presentModally(alert)
 
                 return
             }
@@ -488,7 +488,7 @@ extension ContactController: PaymentSendControllerDelegate {
                     }
 
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
-                    self.present(alert, animated: true)
+                    Navigator.presentModally(alert)
                 } else if let json = json?.dictionary {
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
                     let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)

@@ -58,7 +58,7 @@ extension PaymentPresentable where Self: UIViewController {
 
         paymentConfirmationController.actions = [declineAction, approveAction]
 
-        self.present(paymentConfirmationController, animated: true)
+        Navigator.presentModally(paymentConfirmationController)
     }
 
     func paymentFailed(with _: Error?, result _: [String: Any]) {}
@@ -72,17 +72,17 @@ extension PaymentPresentable where Self: UIViewController {
 
         alert.addAction(okAction)
 
-        self.present(alert, animated: true, completion: nil)
+        Navigator.presentModally(alert)
     }
 
     func presentSuccessAlert(with actionBlock: ((UIAlertAction) -> Swift.Void)?) {
-        let alertControlelr = UIAlertController.init(title: "Done", message: "Payment succeeded", preferredStyle: .alert)
+        let alertController = UIAlertController.init(title: "Done", message: "Payment succeeded", preferredStyle: .alert)
         let action = UIAlertAction.init(title: "OK", style: .default) { action in
             actionBlock?(action)
         }
 
-        alertControlelr.addAction(action)
+        alertController.addAction(action)
 
-        self.present(alertControlelr, animated: true, completion: nil)
+        Navigator.presentModally(alertController)
     }
 }

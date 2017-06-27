@@ -282,7 +282,7 @@ class ChatController: MessagesCollectionViewController {
         self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
-                self.present(alertController, animated: true, completion: nil)
+                Navigator.presentModally(alertController)
             } else {
                 self.set(balance: balance)
             }
@@ -650,7 +650,7 @@ class ChatController: MessagesCollectionViewController {
                 self.hideActivityIndicator()
 
                 let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error?.localizedDescription)
-                self.present(alert, animated: true)
+                Navigator.presentModally(alert)
 
                 return
             }
@@ -668,7 +668,7 @@ class ChatController: MessagesCollectionViewController {
                     }
 
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
-                    self.present(alert, animated: true)
+                    Navigator.presentModally(alert)
                 } else if let json = json?.dictionary {
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
                     guard let value = parameters["value"] as? String else { return }
@@ -697,7 +697,7 @@ extension ChatController: MessageCellDelegate {
         controller.dismissDelegate = self
         controller.title = self.title
         controller.transitioningDelegate = self
-        present(controller, animated: true, completion: nil)
+        Navigator.presentModally(controller)
     }
 
     func didTapRejectButton(_ cell: MessageCell) {
@@ -721,7 +721,7 @@ extension ChatController: MessageCellDelegate {
 
         guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else {
             let alert = UIAlertController.dismissableAlert(title: "Somwthing went wrong")
-            self.present(alert, animated: true)
+            Navigator.presentModally(alert)
 
             return
         }
@@ -760,7 +760,7 @@ extension ChatController: MessageCellDelegate {
                     }
 
                     let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
-                    self.present(alert, animated: true)
+                    Navigator.presentModally(alert)
                 } else if let json = json?.dictionary {
                     // update payment request message
                     message.isActionable = false
@@ -1040,7 +1040,7 @@ extension ChatController: ChatInputTextPanelDelegate {
                 }
             }
 
-            self.present(assetsController, animated: true, completion: nil)
+            Navigator.presentModally(assetsController)
         }
 
         if MediaAssetsLibrary.authorizationStatus() == MediaLibraryAuthorizationStatusNotDetermined {
@@ -1083,14 +1083,14 @@ extension ChatController: ChatsFloatingHeaderViewDelegate {
     func messagesFloatingView(_: ChatsFloatingHeaderView, didPressRequestButton _: UIButton) {
         let paymentRequestController = PaymentRequestController()
         paymentRequestController.delegate = self
-        self.present(paymentRequestController, animated: true)
+        Navigator.presentModally(paymentRequestController)
     }
 
     func messagesFloatingView(_: ChatsFloatingHeaderView, didPressPayButton _: UIButton) {
         let paymentSendController = PaymentSendController()
         paymentSendController.delegate = self
 
-        self.present(paymentSendController, animated: true)
+       Navigator.presentModally(paymentSendController)
     }
 }
 

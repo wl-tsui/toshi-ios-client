@@ -139,7 +139,7 @@ final class SplashViewController: UIViewController {
 
     @objc private func signinPressed(_: UIButton) {
         let controller = SignInController()
-        self.navigationController?.pushViewController(controller, animated: true)
+        Navigator.push(controller, from: self)
     }
 
     @objc private func newAccountPressed(_: UIButton) {

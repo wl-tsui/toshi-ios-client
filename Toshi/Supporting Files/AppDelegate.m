@@ -70,6 +70,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [self configureAndPresentWindow];
     
     if (TokenUser.current == nil) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [self presentSplash];
     } else {
         [self createOrRestoreNewUser];
@@ -150,9 +153,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [self setupSignalService];
     
     if (TokenUser.current == nil) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
-        [[NSUserDefaults standardUserDefaults] synchronize];
-
         [[IDAPIClient shared] registerUserIfNeeded:^{
             [[ChatAPIClient shared] registerUser];
             [self didCreateUser];
@@ -175,6 +175,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 - (void)didCreateUser {
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [Navigator presentAddressChangeAlertIfNeeded];
 }
 
 - (void)presentSplash

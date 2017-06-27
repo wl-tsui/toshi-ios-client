@@ -135,7 +135,7 @@ class BrowseController: SearchableCollectionController {
         self.appsAPIClient.getFeaturedApps { apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
-                self.present(alertController, animated: true, completion: nil)
+                Navigator.presentModally(alertController)
             }
 
             self.featuredApps = apps ?? []
@@ -153,7 +153,7 @@ class BrowseController: SearchableCollectionController {
             self.appsAPIClient.search(searchText) { apps, error in
                 if let error = error {
                     let alertController = UIAlertController.errorAlert(error as NSError)
-                    self.present(alertController, animated: true, completion: nil)
+                    Navigator.presentModally(alertController)
                 }
 
                 self.searchResult = apps

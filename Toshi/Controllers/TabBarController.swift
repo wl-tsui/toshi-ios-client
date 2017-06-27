@@ -31,6 +31,10 @@ open class TabBarController: UITabBarController {
 
     let tabBarSelectedIndexKey = "TabBarSelectedIndex"
 
+    public var currentNavigationController: UINavigationController? {
+        return self.selectedViewController as? UINavigationController
+    }
+    
     fileprivate var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
     }
@@ -105,12 +109,6 @@ open class TabBarController: UITabBarController {
         self.selectedIndex = index
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        self.presentAddressChangeAlertIfNeeded()
-    }
-
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
         self.dismiss(animated: false) {
 
@@ -123,21 +121,6 @@ open class TabBarController: UITabBarController {
                     }
                 }
             }
-        }
-    }
-
-    private func presentAddressChangeAlertIfNeeded() {
-        guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let alertController = AddressChangeAlertController()
-            alertController.modalPresentationStyle = .custom
-            alertController.transitioningDelegate = alertController
-
-            self.selectedViewController?.present(alertController, animated: true, completion: nil)
-
-            UserDefaults.standard.set(true, forKey: AddressChangeAlertShown)
-            UserDefaults.standard.synchronize()
         }
     }
 
@@ -164,7 +147,7 @@ open class TabBarController: UITabBarController {
 
     fileprivate func presentScanner() {
         SoundPlayer.playSound(type: .menuButton)
-        self.present(self.scannerController, animated: true)
+        Navigator.presentModally(scannerController)
     }
 
     public func openDeepLinkURL(_ url: URL) {

@@ -131,7 +131,7 @@ class RatingsClient: NSObject {
                         let alert = UIAlertController(title: "Success", message: "User succesfully reviewed.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default))
 
-                        UIApplication.shared.delegate!.window!?.rootViewController!.present(alert, animated: true)
+                        Navigator.presentModally(alert)
                         completion?()
                     case .failure(let json, _, _):
                         guard let json = json?.dictionary, let errors = json["errors"] as? [Any], let error = errors.first as? [String: Any], let message = error["message"] as? String else { return }
@@ -139,7 +139,7 @@ class RatingsClient: NSObject {
                         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "OK", style: .default))
 
-                        UIApplication.shared.delegate!.window!?.rootViewController!.present(alert, animated: true)
+                        Navigator.presentModally(alert)
                         completion?()
                     }
                 }

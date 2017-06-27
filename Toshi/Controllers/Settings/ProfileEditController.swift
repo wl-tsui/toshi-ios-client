@@ -256,7 +256,7 @@ open class ProfileEditController: OverlayController, Editable {
                 self.changeAvatar(to: image)
             }
 
-            self.present(assetsController, animated: true, completion: nil)
+            Navigator.presentModally(assetsController)
         }
 
         if MediaAssetsLibrary.authorizationStatus() == MediaLibraryAuthorizationStatusNotDetermined {
@@ -351,7 +351,8 @@ open class ProfileEditController: OverlayController, Editable {
                     username = item.value as? String ?? (TokenUser.current?.username ?? "")
                 } else {
                     let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
-                    self.present(alert, animated: true)
+                    Navigator.presentModally(alert)
+                    
                     return
                 }
             } else if item.fieldName == "name" {
@@ -402,7 +403,7 @@ open class ProfileEditController: OverlayController, Editable {
             self.navigationController?.popViewController(animated: true)
         } else {
             let alert = UIAlertController.dismissableAlert(title: "Error", message: message ?? "Something went wrong")
-            self.present(alert, animated: true)
+            Navigator.presentModally(alert)
         }
     }
 

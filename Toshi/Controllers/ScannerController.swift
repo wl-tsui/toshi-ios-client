@@ -78,7 +78,7 @@ extension ScannerController: PaymentPresentable {
 
                 guard let json = json?.dictionary else {
                     let controller = UIAlertController.dismissableAlert(title: "Something went wrong")
-                    self.present(controller, animated: true, completion: nil)
+                    Navigator.presentModally(controller)
                     self.startScanning()
 
                     return

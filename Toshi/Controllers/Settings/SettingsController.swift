@@ -143,7 +143,7 @@ open class SettingsController: UITableViewController {
         self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
-                self.present(alertController, animated: true, completion: nil)
+                Navigator.presentModally(alertController)
             } else {
                 self.set(balance: balance)
             }
@@ -160,7 +160,7 @@ open class SettingsController: UITableViewController {
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                 fatalError()
             }))
-            self.present(alert, animated: true)
+            Navigator.presentModally(alert)
 
             return
         }
@@ -169,7 +169,7 @@ open class SettingsController: UITableViewController {
         // We dispatch it back to the main thread here, even tho we are already inside the main thread
         // to avoid some weird issue where the alert controller will take seconds to present, instead of being instant.
         DispatchQueue.main.async {
-            self.present(alert, animated: true)
+            Navigator.presentModally(alert)
         }
     }
 
