@@ -261,14 +261,14 @@ class ReputationBarView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         let barRightMargin: CGFloat = 11
         let startAndCountWidth: CGFloat = 21
         let width = self.bounds.size.width - startAndCountWidth
-        
+
         self.barWidthAnchor.constant = min((width - barRightMargin), (self.percentage * width))
     }
-    
+
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

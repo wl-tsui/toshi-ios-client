@@ -1090,7 +1090,7 @@ extension ChatController: ChatsFloatingHeaderViewDelegate {
         let paymentSendController = PaymentSendController()
         paymentSendController.delegate = self
 
-       Navigator.presentModally(paymentSendController)
+        Navigator.presentModally(paymentSendController)
     }
 }
 

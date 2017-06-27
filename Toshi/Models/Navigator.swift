@@ -16,67 +16,67 @@
 import UIKit
 
 public class Navigator: NSObject {
-    
+
     public static var appDelegate: AppDelegate? {
         return UIApplication.shared.delegate as? AppDelegate
     }
-    
+
     public static var window: UIWindow? {
         return self.appDelegate?.window
     }
-    
+
     public static var rootViewController: UIViewController? {
         return self.window?.rootViewController
     }
-    
+
     public static var tabbarController: TabBarController? {
         return self.window?.rootViewController as? TabBarController
     }
-    
+
     public static var topViewController: UIViewController? {
         var topViewController = self.topNonModalViewController
-        
+
         while topViewController?.presentedViewController != nil {
             topViewController = topViewController?.presentedViewController
         }
-        
+
         return topViewController
     }
-    
+
     public static var topNonModalViewController: UIViewController? {
         return self.tabbarController?.currentNavigationController?.topViewController
     }
-    
+
     public static func push(_ viewController: UIViewController, from fromController: UIViewController? = nil, animated: Bool = true) {
         guard viewController.presentingViewController == nil else { return }
-        
+
         if fromController?.navigationController != nil {
             fromController?.navigationController?.pushViewController(viewController, animated: animated)
         } else {
             self.tabbarController?.currentNavigationController?.pushViewController(viewController, animated: animated)
         }
     }
-    
-    public static func present(_ viewController: UIViewController, from parentViewController: UIViewController?, animated: Bool, completion: ((Void) -> Void)? = nil) {
+
+    public static func present(_ viewController: UIViewController, from parentViewController: UIViewController?, animated: Bool, completion: (() -> Void)? = nil) {
         guard viewController.presentingViewController == nil else { return }
-        
+
         if parentViewController?.presentedViewController != nil {
             parentViewController?.presentedViewController?.dismiss(animated: animated, completion: completion)
         }
-        
+
         parentViewController?.present(viewController, animated: true, completion: nil)
     }
-    
+
     public static func presentAddressChangeAlertIfNeeded() {
         guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let alertController = AddressChangeAlertController()
             alertController.modalPresentationStyle = .custom
             alertController.transitioningDelegate = alertController
-            
+
             self.presentModally(alertController)
-            
+
             UserDefaults.standard.set(true, forKey: AddressChangeAlertShown)
             UserDefaults.standard.synchronize()
         }
@@ -85,7 +85,7 @@ public class Navigator: NSObject {
     public static func presentModally(_ controller: UIViewController) {
         self.present(controller, from: self.topViewController, animated: true)
     }
-    
+
     // Navigation assumes the following structure:
     // TabBar controller contains a messages controller. Messages controller lists chats, and pushes threads.
     public static func navigate(to threadIdentifier: String, animated: Bool) {

@@ -34,7 +34,7 @@ open class TabBarController: UITabBarController {
     public var currentNavigationController: UINavigationController? {
         return self.selectedViewController as? UINavigationController
     }
-    
+
     fileprivate var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
     }
@@ -147,7 +147,7 @@ open class TabBarController: UITabBarController {
 
     fileprivate func presentScanner() {
         SoundPlayer.playSound(type: .menuButton)
-        Navigator.presentModally(scannerController)
+        Navigator.presentModally(self.scannerController)
     }
 
     public func openDeepLinkURL(_ url: URL) {

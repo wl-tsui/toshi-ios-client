@@ -352,7 +352,7 @@ open class ProfileEditController: OverlayController, Editable {
                 } else {
                     let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
                     Navigator.presentModally(alert)
-                    
+
                     return
                 }
             } else if item.fieldName == "name" {
