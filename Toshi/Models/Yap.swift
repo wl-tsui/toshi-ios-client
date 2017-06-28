@@ -40,7 +40,8 @@ public final class Yap: NSObject, Singleton {
         keychain.set(dbPwd, forKey: "DBPWD")
 
         options.cipherKeyBlock = {
-            keychain.getData("DBPWD")!
+            let keychain = KeychainSwift()
+            return keychain.getData("DBPWD")!
         }
 
         self.database = YapDatabase(path: self.path, options: options)
