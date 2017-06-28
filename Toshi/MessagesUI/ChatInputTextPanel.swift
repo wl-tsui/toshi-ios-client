@@ -60,6 +60,8 @@ class ChatInputTextPanel: NOCChatInputPanel {
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = Theme.borderHeight
         view.delegate = self
+        view.placeholder = "Message..."
+        view.contentInset = UIEdgeInsets(top: 0.0, left: 10.0, bottom: 0.0, right: 0.0)
         view.font = UIFont.systemFont(ofSize: 16)
         view.internalTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 8, right: 5)
         view.internalTextView.scrollIndicatorInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 5)
