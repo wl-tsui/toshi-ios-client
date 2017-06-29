@@ -203,11 +203,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     // Encryption/Descryption mutates session state and must be synchronized on a serial queue.
     [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch sessionStoreQueue]];
 
-    // ensure this is called from main queue for the first time
-    // otherwise app crashes, because of some code path differences between
-    // us and Signal app.
-    [OWSSignalService sharedInstance];
-
     [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
     [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
 
@@ -221,6 +216,11 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)setupTSKitEnv {
+    // ensure this is called from main queue for the first time
+    // otherwise app crashes, because of some code path differences between
+    // us and Signal app.
+    [OWSSignalService sharedInstance];
+
     self.networkManager = [TSNetworkManager sharedManager];
     self.contactsManager = [[ContactsManager alloc] init];
     
@@ -388,7 +388,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         }
     }];
 
-    OWSSignalService *signalService = [OWSSignalService new];
+    OWSSignalService *signalService = [OWSSignalService sharedInstance];
     self.messageFetcherJob = [[OWSMessageFetcherJob alloc] initWithMessagesManager:[TSMessagesManager sharedManager] messageSender:self.messageSender networkManager:self.networkManager signalService:signalService];
 
     PKPushRegistry *voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];

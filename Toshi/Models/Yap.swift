@@ -35,12 +35,15 @@ public final class Yap: NSObject, Singleton {
         options.corruptAction = .rename
 
         let keychain = KeychainSwift()
+        keychain.synchronizable = false
 
         let dbPwd = keychain.getData("DBPWD") ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
-        keychain.set(dbPwd, forKey: "DBPWD")
+        keychain.set(dbPwd, forKey: "DBPWD", withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
 
         options.cipherKeyBlock = {
             let keychain = KeychainSwift()
+            keychain.synchronizable = false
+
             return keychain.getData("DBPWD")!
         }
 
