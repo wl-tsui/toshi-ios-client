@@ -31,18 +31,18 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
         return queue
     }()
 
-    func avatar(for path: String, completion: @escaping ((UIImage?) -> Void)) {
+    func avatar(for path: String, completion: @escaping ((UIImage?, String?) -> Void)) {
         let avatar = self.imageCache.object(forKey: path)
 
         guard avatar != nil else {
             self.downloadAvatar(path: path) { image in
-                completion(image)
+                completion(image, path)
             }
 
             return
         }
 
-        completion(avatar)
+        completion(avatar, path)
     }
 
     func cachedAvatar(for path: String) -> UIImage? {

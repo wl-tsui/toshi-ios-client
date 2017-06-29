@@ -23,8 +23,10 @@ class SearchResultCell: UITableViewCell {
                 self.nameLabel.text = app.name
 
                 if let path = app.avatarPath as String? {
-                    AvatarManager.shared.avatar(for: path) { image in
-                        self.avatarImageView.image = image
+                    AvatarManager.shared.avatar(for: path) { image, resultPath in
+                        if path == resultPath {
+                            self.avatarImageView.image = image
+                        }
                     }
                 }
             } else {

@@ -126,7 +126,7 @@ open class SettingsController: UITableViewController {
 
     fileprivate func updateAvatar() {
         if let avatarPath = TokenUser.current?.avatarPath as String? {
-            AvatarManager.shared.avatar(for: avatarPath) { image in
+            AvatarManager.shared.avatar(for: avatarPath) { image, _ in
                 if image != nil {
                     self.userAvatarImageVIew.image = image
                 }

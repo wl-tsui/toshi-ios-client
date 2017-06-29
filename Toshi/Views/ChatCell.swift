@@ -252,8 +252,10 @@ class ChatCell: UITableViewCell {
         self.usernameLabel.text = !contact.name.isEmpty ? contact.name : contact.displayUsername
         self.thread?.cachedContactIdentifier = self.usernameLabel.text
 
-        AvatarManager.shared.avatar(for: contact.avatarPath) { image in
-            self.avatarImageView.image = image
+        AvatarManager.shared.avatar(for: contact.avatarPath) { image, path in
+            if contact.avatarPath == path {
+                self.avatarImageView.image = image
+            }
         }
     }
 }

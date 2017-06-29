@@ -213,7 +213,7 @@ public class ContactController: UIViewController {
         self.locationContentLabel.text = self.contact.location
 
         if let path = self.contact.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path) { image in
+            AvatarManager.shared.avatar(for: path) { image, _ in
                 if image != nil {
                     self.avatarImageView.image = image
                 }

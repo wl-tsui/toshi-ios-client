@@ -106,7 +106,7 @@ open class ProfileEditController: OverlayController, Editable {
         guard let user = TokenUser.current else { return }
 
         if let path = user.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path) { image in
+            AvatarManager.shared.avatar(for: path) { image, _ in
                 self.avatarImageView.image = image
             }
         }

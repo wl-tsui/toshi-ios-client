@@ -28,8 +28,8 @@ class ContactCell: UITableViewCell {
                     self.nameLabel.text = contact.name
                 }
 
-                AvatarManager.shared.avatar(for: contact.avatarPath) { image in
-                    if image != nil {
+                AvatarManager.shared.avatar(for: contact.avatarPath) { image, path in
+                    if image != nil && contact.avatarPath == path {
                         self.avatarImageView.image = image
                     }
                 }

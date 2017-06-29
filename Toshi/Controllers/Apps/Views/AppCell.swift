@@ -64,8 +64,8 @@ class AppCell: UICollectionViewCell {
             self.nameLabel.text = app.name
             self.categoryLabel.text = app.category
 
-            AvatarManager.shared.avatar(for: app.avatarPath) { image in
-                if image != nil {
+            AvatarManager.shared.avatar(for: app.avatarPath) { image, path in
+                if image != nil && app.avatarPath == path {
                     self.avatarImageView.image = image
                 }
             }
