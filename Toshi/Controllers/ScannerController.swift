@@ -31,6 +31,11 @@ class ScannerController: ScannerViewController {
     override func setupToolbarItems() {
         self.toolbar.setItems([self.cancelItem], animated: true)
     }
+    
+    fileprivate func showErrorAlert() {
+        let controller = UIAlertController.dismissableAlert(title: "Something went wrong")
+        Navigator.presentModally(controller)
+    }
 }
 
 extension ScannerController: ActivityIndicating {
@@ -65,6 +70,7 @@ extension ScannerController: PaymentPresentable {
 
             guard let transaction = transaction as String? else {
                 self.hideActivityIndicator()
+                self.showErrorAlert()
                 self.startScanning()
 
                 return
@@ -77,8 +83,7 @@ extension ScannerController: PaymentPresentable {
                 self.hideActivityIndicator()
 
                 guard let json = json?.dictionary else {
-                    let controller = UIAlertController.dismissableAlert(title: "Something went wrong")
-                    Navigator.presentModally(controller)
+                    self.showErrorAlert()
                     self.startScanning()
 
                     return
