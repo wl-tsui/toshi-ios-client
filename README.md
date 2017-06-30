@@ -1,6 +1,5 @@
-![Token iOS Cover](https://raw.githubusercontent.com/tokenbrowser/token-ios-client/master/GitHub/cover-2.png)
+![Token iOS Cover](https://raw.githubusercontent.com/tokenbrowser/token-ios-client/master/GitHub/cover.png)
 
-![Screenshots](https://raw.githubusercontent.com/tokenbrowser/token-ios-client/master/GitHub/screenshots-1.png)
 ## Running the project
 
 - Open `Token.xcworkspace` and run
