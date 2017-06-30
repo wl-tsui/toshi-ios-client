@@ -97,7 +97,9 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
         self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
 
             DispatchQueue.global(qos: .userInitiated).async {
-                let teapot = Teapot(baseURL: URL(string: path)!)
+                guard let url = URL(string: path) as URL? else { return }
+                
+                let teapot = Teapot(baseURL: url)
                 teapot.get { (result: NetworkImageResult) in
                     switch result {
                     case .success(let image, _):
