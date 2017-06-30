@@ -589,9 +589,9 @@ class ChatController: MessagesCollectionViewController {
 
         guard let imageData = UIImagePNGRepresentation(image) else { return }
 
+        let wrapper = SofaMessage(body: "")
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
-
+        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
         self.messageSender?.sendAttachmentData(imageData, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
             print("Success")
         }, failure: { error in
@@ -863,11 +863,12 @@ extension ChatController: ChatInputTextPanelDelegate {
                         mediaData = libraryVideo
                         contentType = "video/mov"
                     }
-
+                    
+                    let wrapper = SofaMessage(body: "")
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
 
                     if let thumbnailData = mediaData?["thumbnailData"] as? Data {
-                        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
+                        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
                         self.messageSender?.sendAttachmentData(thumbnailData, contentType: contentType, sourceFilename: "File.jpeg", in: outgoingMessage, success: {
                             print("Success")
                         }, failure: { error in
@@ -998,8 +999,9 @@ extension ChatController: ChatInputTextPanelDelegate {
             guard let videoURL = videoURL else { return }
             guard let videoData = try? Data(contentsOf: videoURL) else { return }
 
+            let wrapper = SofaMessage(body: "")
             let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: "")
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
 
             self.messageSender?.sendAttachmentData(videoData, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
                 print("Success")
