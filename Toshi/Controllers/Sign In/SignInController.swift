@@ -45,7 +45,10 @@ open class SignInController: UIViewController {
     }()
 
     private lazy var passwordField: InputField = {
-        InputField(type: .password)
+        let field = InputField(type: .password)
+        field.textField.autocapitalizationType = .none
+        
+        return field
     }()
 
     private lazy var footnote: Footnote = {
