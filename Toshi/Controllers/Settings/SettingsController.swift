@@ -64,7 +64,7 @@ open class SettingsController: UITableViewController {
 
     @IBOutlet weak var balanceLabel: UILabel! {
         didSet {
-            self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
+            self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: self.balanceLabel.frame.width)
         }
     }
 
@@ -119,7 +119,7 @@ open class SettingsController: UITableViewController {
     @objc private func updateUI() {
         self.nameLabel.text = TokenUser.current?.name
         self.usernameLabel.text = TokenUser.current?.displayUsername
-        self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, width: self.balanceLabel.frame.width)
+        self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: .zero, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: self.balanceLabel.frame.width)
 
         self.updateAvatar()
     }
@@ -151,7 +151,7 @@ open class SettingsController: UITableViewController {
     }
 
     fileprivate func set(balance: NSDecimalNumber) {
-        self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, width: self.balanceLabel.frame.width)
+        self.balanceLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: self.balanceLabel.frame.width)
     }
 
     private func handleSignOut() {

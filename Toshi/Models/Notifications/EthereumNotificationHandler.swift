@@ -74,9 +74,9 @@ class EthereumNotificationHandler: NSObject {
                 content.title = "Payment"
 
                 if sofa.recipientAddress == TokenUser.current?.paymentAddress {
-                    content.body = "Payment received: \(EthereumConverter.fiatValueString(forWei: sofa.value))."
+                    content.body = "Payment received: \(EthereumConverter.fiatValueString(forWei: sofa.value, exchangeRate: EthereumAPIClient.shared.exchangeRate))."
                 } else {
-                    content.body = "Payment sent: \(EthereumConverter.fiatValueString(forWei: sofa.value))."
+                    content.body = "Payment sent: \(EthereumConverter.fiatValueString(forWei: sofa.value, exchangeRate: EthereumAPIClient.shared.exchangeRate))."
                 }
 
                 content.sound = UNNotificationSound(named: "PN.m4a")

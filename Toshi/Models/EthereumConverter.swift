@@ -32,8 +32,8 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: the value in USD to be converted to eth.
     /// - Returns: the eth value.
-    public static func localFiatToEther(forFiat balance: NSNumber) -> NSDecimalNumber {
-        let etherValue = balance.decimalValue / EthereumAPIClient.shared.exchangeRate
+    public static func localFiatToEther(forFiat balance: NSNumber, exchangeRate: Decimal) -> NSDecimalNumber {
+        let etherValue = balance.decimalValue / exchangeRate
 
         return NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
     }
@@ -66,9 +66,9 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: value in wei
     /// - Returns: fiat string represetation: "$10.50"
-    public static func fiatValueString(forWei balance: NSDecimalNumber) -> String {
+    public static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
         let ether = balance.dividing(by: self.weisToEtherConstant)
-        let currentFiatConversion = NSDecimalNumber(decimal: EthereumAPIClient.shared.exchangeRate)
+        let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 
         let numberFormatter = NumberFormatter()
@@ -82,8 +82,8 @@ struct EthereumConverter {
     ///
     /// - Parameter balance: the value in wei
     /// - Returns: the fiat currency value with redundant 3 letter code for clarity.
-    public static func fiatValueStringWithCode(forWei balance: NSDecimalNumber) -> String {
-        return "\(self.fiatValueString(forWei: balance)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
+    public static func fiatValueStringWithCode(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
+        return "\(self.fiatValueString(forWei: balance, exchangeRate: exchangeRate)) \(Locale(identifier: self.forcedLocale).currencyCode!)"
     }
 
     /// Complete formatted string value for a given wei, with fiat aligned left and eth aligned right.
@@ -94,8 +94,8 @@ struct EthereumConverter {
     ///   - balance: the value in wei
     ///   - width: the width of the label, to adjust alignment.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, width: CGFloat) -> NSAttributedString {
-        let attributedString: NSMutableAttributedString = self.balanceAttributedString(forWei: balance).mutableCopy() as! NSMutableAttributedString
+    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat) -> NSAttributedString {
+        let attributedString: NSMutableAttributedString = self.balanceAttributedString(forWei: balance, exchangeRate: exchangeRate).mutableCopy() as! NSMutableAttributedString
         let range = NSRange(location: 0, length: attributedString.length)
 
         let paragraph = NSMutableParagraphStyle()
@@ -115,8 +115,8 @@ struct EthereumConverter {
     /// - Parameters:
     ///   - balance: the value in wei
     /// - Returns: the attributed string to be displayed.
-    public static func balanceAttributedString(forWei balance: NSDecimalNumber) -> NSAttributedString {
-        let fiatText = self.fiatValueStringWithCode(forWei: balance)
+    public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> NSAttributedString {
+        let fiatText = self.fiatValueStringWithCode(forWei: balance, exchangeRate: exchangeRate)
         let etherText = self.ethereumValueString(forWei: balance)
 
         let fiatTextFull = fiatText + "\t"

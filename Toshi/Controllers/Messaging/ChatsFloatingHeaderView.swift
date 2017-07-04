@@ -63,7 +63,7 @@ class ChatsFloatingHeaderView: UIView {
     var balance: NSDecimalNumber? {
         didSet {
             if let balance = self.balance {
-                self.balanceLabel.attributedText = EthereumConverter.balanceAttributedString(forWei: balance)
+                self.balanceLabel.attributedText = EthereumConverter.balanceAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate)
             } else {
                 self.balanceLabel.attributedText = nil
             }

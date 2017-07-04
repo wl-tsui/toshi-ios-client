@@ -1,3 +1,4 @@
+
 // Copyright (c) 2017 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
@@ -73,10 +74,10 @@ class ChatController: MessagesCollectionViewController {
 
             for message in self.messages {
                 if let paymentRequest = message.sofaWrapper as? SofaPaymentRequest {
-                    message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: paymentRequest.value)
+                    message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: paymentRequest.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
                     message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: paymentRequest.value)
                 } else if let payment = message.sofaWrapper as? SofaPayment {
-                    message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: payment.value)
+                    message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: payment.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
                     message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: payment.value)
                 }
             }
@@ -433,6 +434,8 @@ class ChatController: MessagesCollectionViewController {
             }
         }
 
+        let exchangeRate = EthereumAPIClient.shared.exchangeRate
+
         /// TODO: Simplify how we deal with interactions vs text messages.
         /// Since now we know we can expande the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = interaction as? TSOutgoingMessage {
@@ -444,7 +447,7 @@ class ChatController: MessagesCollectionViewController {
             } else if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
-                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
+                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: exchangeRate).string, attributes: [NSForegroundColorAttributeName: Theme.outgoingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 
             return message
@@ -459,11 +462,11 @@ class ChatController: MessagesCollectionViewController {
             } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
-                message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value)
+                message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value, exchangeRate: exchangeRate)
             } else if let payment = sofaWrapper as? SofaPayment {
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment received", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
-                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
+                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: exchangeRate).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])
             }
 
             return message
@@ -1139,7 +1142,7 @@ extension ChatController: PaymentRequestControllerDelegate {
         }
 
         let request: [String: Any] = [
-            "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei).string).",
+            "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
             "value": valueInWei.toHexString,
             "destinationAddress": Cereal.shared.paymentAddress,
         ]

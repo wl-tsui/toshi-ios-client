@@ -1038,6 +1038,11 @@
 		9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
+		9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
+		9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
+		9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
+		9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
+		9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */; };
 		9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */; };
 		9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */; };
@@ -2180,6 +2185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4095,7 +4101,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */,
+				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
+				9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */,
 				14147EA41E8119F0006BD47B /* Tests.swift in Sources */,
+				9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5105,6 +5115,10 @@
 		14147EA61E8119F0006BD47B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -5119,6 +5133,10 @@
 		14147EA71E8119F0006BD47B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
