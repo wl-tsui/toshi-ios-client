@@ -1043,6 +1043,9 @@
 		9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
+		9FE86E021F0BC0AB00A7F71E /* SweetSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FE86E031F0BC14F00A7F71E /* SweetUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9FE86E041F0BC15900A7F71E /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
 		9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */; };
 		9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */; };
 		9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */; };
@@ -1197,6 +1200,18 @@
 				9F3FF8411EB36A8E002D0293 /* YYText.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9FE86E011F0BC09E00A7F71E /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9FE86E031F0BC14F00A7F71E /* SweetUIKit.framework in Copy Frameworks */,
+				9FE86E021F0BC0AB00A7F71E /* SweetSwift.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -2186,6 +2201,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */,
+				9FE86E041F0BC15900A7F71E /* SweetUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3715,6 +3731,7 @@
 				14147E9D1E8119F0006BD47B /* Sources */,
 				14147E9E1E8119F0006BD47B /* Frameworks */,
 				14147E9F1E8119F0006BD47B /* Resources */,
+				9FE86E011F0BC09E00A7F71E /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
