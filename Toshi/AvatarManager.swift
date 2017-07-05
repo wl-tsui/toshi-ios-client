@@ -93,7 +93,7 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
 
             DispatchQueue.global(qos: .userInitiated).async {
                 guard let url = URL(string: path) as URL? else { return }
-                
+
                 let teapot = Teapot(baseURL: url)
                 teapot.get { (result: NetworkImageResult) in
                     switch result {

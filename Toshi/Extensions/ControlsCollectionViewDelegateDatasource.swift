@@ -106,10 +106,10 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
 
         return size
     }
-    
+
     func didTapButton(for cell: ControlCell) {
         guard let indexPath = self.controlsCollectionView?.indexPath(for: cell), indexPath.isValid(for: self.items.count) else { return }
-        
+
         self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.item])
     }
 

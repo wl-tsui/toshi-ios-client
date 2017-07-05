@@ -16,7 +16,7 @@
 import Foundation
 
 extension IndexPath {
-    
+
     func isValid(for count: Int) -> Bool {
         return self.row != NSNotFound && self.row < count
     }

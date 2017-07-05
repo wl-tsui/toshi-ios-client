@@ -74,10 +74,10 @@ class ContactCell: UITableViewCell {
 
         return view
     }()
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         self.avatarImageView.image = nil
         self.nameLabel.text = nil
         self.usernameLabel.text = nil

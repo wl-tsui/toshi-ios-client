@@ -235,7 +235,7 @@ class ChatController: MessagesCollectionViewController {
 
             self.textInputViewBottom,
             self.textInputViewHeight,
-            ])
+        ])
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.avatarImageView)
     }
@@ -391,7 +391,7 @@ class ChatController: MessagesCollectionViewController {
             let identityManager = OWSIdentityManager.shared()
             guard let recipientIdentity = identityManager.recipientIdentity(forRecipientId: recipientId) else { return }
 
-            identityManager.setVerificationState(.verified, identityKey: recipientIdentity.identityKey ,recipientId: recipientId, sendSyncMessage: true)
+            identityManager.setVerificationState(.verified, identityKey: recipientIdentity.identityKey, recipientId: recipientId, sendSyncMessage: true)
         }
 
         actionSheetController.addAction(acceptSafetyNumberAction)
@@ -736,7 +736,7 @@ extension ChatController: MessageCellDelegate {
             "from": Cereal.shared.paymentAddress,
             "to": destination,
             "value": value.toHexString,
-            ]
+        ]
 
         self.showActivityIndicator()
 
@@ -864,7 +864,7 @@ extension ChatController: ChatInputTextPanelDelegate {
                         mediaData = libraryVideo
                         contentType = "video/mov"
                     }
-                    
+
                     let wrapper = SofaMessage(body: "")
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
 
@@ -1116,64 +1116,64 @@ extension ChatController: PaymentSendControllerDelegate {
 
         self.idAPIClient.retrieveContact(username: tokenId) { user in
             guard let user = user else { return }
-            
+
             let parameters: [String: Any] = [
                 "from": Cereal.shared.paymentAddress,
                 "to": user.paymentAddress,
                 "value": value.toHexString,
-                ]
-            
+            ]
+
             self.sendPayment(with: parameters)
         }
     }
 }
 
 extension ChatController: PaymentRequestControllerDelegate {
-    
+
     func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
         defer {
             self.dismiss(animated: true)
         }
-        
+
         guard let valueInWei = valueInWei else {
             return
         }
-        
+
         let request: [String: Any] = [
             "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
             "value": valueInWei.toHexString,
             "destinationAddress": Cereal.shared.paymentAddress,
-            ]
-        
+        ]
+
         let paymentRequest = SofaPaymentRequest(content: request)
-        
+
         self.sendMessage(sofaWrapper: paymentRequest)
     }
 }
 
 extension ChatController: MessagesDataSource {
-    
+
     func models() -> [MessageModel] {
         return self.messageModels
     }
 }
 
 extension ChatController: UIViewControllerTransitioningDelegate {
-    
+
     func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presented is ImagesViewController ? ImagesViewControllerTransition(operation: .present) : nil
     }
-    
+
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return dismissed is ImagesViewController ? ImagesViewControllerTransition(operation: .dismiss) : nil
     }
-    
+
     func interactionControllerForDismissal(using _: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        
+
         if let imagesViewController = presentedViewController as? ImagesViewController, let transition = imagesViewController.interactiveTransition {
             return transition
         }
-        
+
         return nil
     }
 }

@@ -45,17 +45,17 @@ extension PaymentPresentable where Self: UIViewController {
 
         let declineIcon = UIImage(named: "cross")
         let declineAction = Action(title: "Decline", titleColor: UIColor(white: 0.5, alpha: 1.0), icon: declineIcon) { _ in
-            paymentConfirmationController.dismiss(animated: true, completion: {
+            paymentConfirmationController.dismiss(animated: true) {
                 self.paymentDeclined()
-            })
+            }
         }
 
         let approveIcon = UIImage(named: "check")
         let approveAction = Action(title: "Approve", titleColor: Theme.tintColor, icon: approveIcon) { _ in
-            
-            paymentConfirmationController.dismiss(animated: true, completion: {
+
+            paymentConfirmationController.dismiss(animated: true) {
                 self.paymentApproved(with: parameters, userInfo: userInfo)
-            })
+            }
         }
 
         paymentConfirmationController.actions = [declineAction, approveAction]

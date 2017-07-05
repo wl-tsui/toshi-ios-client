@@ -31,7 +31,7 @@ class ScannerController: ScannerViewController {
     override func setupToolbarItems() {
         self.toolbar.setItems([self.cancelItem], animated: true)
     }
-    
+
     fileprivate func showErrorAlert() {
         let controller = UIAlertController.dismissableAlert(title: "Something went wrong")
         Navigator.presentModally(controller)
