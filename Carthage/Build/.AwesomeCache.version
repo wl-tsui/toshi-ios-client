@@ -1,9 +1,24 @@
 {
-  "commitish" : "3178252704d169844ab8203ade6ca7b7f2e9503b",
   "iOS" : [
     {
-      "hash" : "9cb782801fa29a6a8f1ef535520916f11ada199b58dedde39dc89cb5bd24ae69",
+      "hash" : "b28f620fc3c503b59db3db9eb891079888c93037b7f9a54e87bbf657a4ac837d",
       "name" : "AwesomeCache"
     }
+  ],
+  "commitish" : "3178252704d169844ab8203ade6ca7b7f2e9503b",
+  "watchOS" : [
+    {
+      "hash" : "7ae91b0b5833a43aeb9b64288ec4578bc7322a6a5c52c623022750635f15f942",
+      "name" : "AwesomeCache"
+    }
+  ],
+  "tvOS" : [
+    {
+      "hash" : "e97be307dafd798be5094e09c7f7a86c3b9acb74511ae9149af6b49e4df4f7fd",
+      "name" : "AwesomeCache"
+    }
+  ],
+  "Mac" : [
+
   ]
 }

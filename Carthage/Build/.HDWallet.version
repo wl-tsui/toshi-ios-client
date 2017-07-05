@@ -1,9 +1,18 @@
 {
-  "commitish" : "9dc214e2cf6fe5702cff11c09db156e8aee523c9",
   "iOS" : [
     {
-      "hash" : "47a711a3175e581f135852a26b83eb17d50dc7208ffa17efdb5f49f4d0495108",
+      "hash" : "340fad1fc6984e1948af7b00fcf7c8bd2bd8adb0a6d3a29af760bdbbbabb1870",
       "name" : "HDWallet"
     }
+  ],
+  "commitish" : "9dc214e2cf6fe5702cff11c09db156e8aee523c9",
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "Mac" : [
+
   ]
 }
