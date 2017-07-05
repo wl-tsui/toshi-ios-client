@@ -235,7 +235,7 @@ class ChatController: MessagesCollectionViewController {
 
             self.textInputViewBottom,
             self.textInputViewHeight,
-        ])
+            ])
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: self.avatarImageView)
     }
@@ -367,7 +367,6 @@ class ChatController: MessagesCollectionViewController {
 
     fileprivate func showFingerprint(with _: Data, signalId _: String) {
         // Postpone this for now
-        print("Should display fingerprint comparison UI.")
         //        let builder = OWSFingerprintBuilder(storageManager: self.storageManager, contactsManager: self.contactsManager)
         //        let fingerprint = builder.fingerprint(withTheirSignalId: signalId, theirIdentityKey: identityKey)
         //
@@ -375,37 +374,29 @@ class ChatController: MessagesCollectionViewController {
         //        self.present(fingerprintController, animated: true)
     }
 
-    fileprivate func handleInvalidKeyError(_: TSInvalidIdentityKeyErrorMessage) {
+    fileprivate func handleInvalidKeyError(_ errorMessage: TSErrorMessage) {
         // TODO: not yet implemented or designed!
+        guard let recipientId = errorMessage.recipientId else { return }
 
-        //        let keyOwner = self.contactsManager.displayName(forPhoneIdentifier: errorMessage.theirSignalId())
-        //        let titleText = "Your safety number with \(keyOwner) has changed. You may wish to verify it."
-        //
-        //        let actionSheetController = UIAlertController(title: titleText, message: nil, preferredStyle: .actionSheet)
-        //
-        //        let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        //        actionSheetController.addAction(dismissAction)
-        //
-        //        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
-        //
-        //            self.showFingerprint(with: errorMessage.newIdentityKey(), signalId: errorMessage.theirSignalId())
-        //        }
-        //        actionSheetController.addAction(showSafteyNumberAction)
-        //
-        //        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
-        //
-        //            errorMessage.acceptNewIdentityKey()
-        //            if errorMessage is TSInvalidIdentityKeySendingErrorMessage {
-        //                self.messageSender.sendMessage(fromKeyError: (errorMessage as! TSInvalidIdentityKeySendingErrorMessage), success: { () -> Void in
-        //                    print("Got it!")
-        //                }, failure: { (_ error: Error) -> Void in
-        //                    print(error)
-        //                })
-        //            }
-        //        }
-        //        actionSheetController.addAction(acceptSafetyNumberAction)
-        //
-        //        self.present(actionSheetController, animated: true, completion: nil)
+        let keyOwner = self.contactsManager!.displayName(forPhoneIdentifier: recipientId)
+        let titleText = "Your safety number with \(keyOwner) has changed. You may wish to verify it."
+
+        let actionSheetController = UIAlertController(title: titleText, message: nil, preferredStyle: .actionSheet)
+
+        let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        actionSheetController.addAction(dismissAction)
+
+        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
+
+            let identityManager = OWSIdentityManager.shared()
+            guard let recipientIdentity = identityManager.recipientIdentity(forRecipientId: recipientId) else { return }
+
+            identityManager.setVerificationState(.verified, identityKey: recipientIdentity.identityKey ,recipientId: recipientId, sendSyncMessage: true)
+        }
+
+        actionSheetController.addAction(acceptSafetyNumberAction)
+
+        self.present(actionSheetController, animated: true, completion: nil)
     }
 
     /// Handle incoming interactions or previous messages when restoring a conversation.
@@ -415,7 +406,14 @@ class ChatController: MessagesCollectionViewController {
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
     ///
     fileprivate func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message {
-        if let interaction = interaction as? TSInvalidIdentityKeySendingErrorMessage {
+        if let interaction = interaction as? TSErrorMessage, interaction.errorType == .nonBlockingIdentityChange {
+
+            guard let recipientId = interaction.recipientId,
+                OWSIdentityManager.shared().verificationState(forRecipientId: recipientId) != .verified else {
+
+                return Message(sofaWrapper: nil, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false)
+            }
+
             DispatchQueue.main.async {
                 self.handleInvalidKeyError(interaction)
             }
@@ -738,7 +736,7 @@ extension ChatController: MessageCellDelegate {
             "from": Cereal.shared.paymentAddress,
             "to": destination,
             "value": value.toHexString,
-        ]
+            ]
 
         self.showActivityIndicator()
 
@@ -1118,64 +1116,64 @@ extension ChatController: PaymentSendControllerDelegate {
 
         self.idAPIClient.retrieveContact(username: tokenId) { user in
             guard let user = user else { return }
-
+            
             let parameters: [String: Any] = [
                 "from": Cereal.shared.paymentAddress,
                 "to": user.paymentAddress,
                 "value": value.toHexString,
-            ]
-
+                ]
+            
             self.sendPayment(with: parameters)
         }
     }
 }
 
 extension ChatController: PaymentRequestControllerDelegate {
-
+    
     func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
         defer {
             self.dismiss(animated: true)
         }
-
+        
         guard let valueInWei = valueInWei else {
             return
         }
-
+        
         let request: [String: Any] = [
             "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
             "value": valueInWei.toHexString,
             "destinationAddress": Cereal.shared.paymentAddress,
-        ]
-
+            ]
+        
         let paymentRequest = SofaPaymentRequest(content: request)
-
+        
         self.sendMessage(sofaWrapper: paymentRequest)
     }
 }
 
 extension ChatController: MessagesDataSource {
-
+    
     func models() -> [MessageModel] {
         return self.messageModels
     }
 }
 
 extension ChatController: UIViewControllerTransitioningDelegate {
-
+    
     func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presented is ImagesViewController ? ImagesViewControllerTransition(operation: .present) : nil
     }
-
+    
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return dismissed is ImagesViewController ? ImagesViewControllerTransition(operation: .dismiss) : nil
     }
-
+    
     func interactionControllerForDismissal(using _: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-
+        
         if let imagesViewController = presentedViewController as? ImagesViewController, let transition = imagesViewController.interactiveTransition {
             return transition
         }
-
+        
         return nil
     }
 }
