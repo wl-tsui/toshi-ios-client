@@ -27,7 +27,7 @@ class TextLabel: UILabel {
 
         let attributes: [String: Any] = [
             NSFontAttributeName: Theme.regular(size: 16),
-            NSForegroundColorAttributeName: Theme.greyTextColor,
+            NSForegroundColorAttributeName: Theme.darkTextColor,
             NSParagraphStyleAttributeName: paragraphStyle,
         ]
 

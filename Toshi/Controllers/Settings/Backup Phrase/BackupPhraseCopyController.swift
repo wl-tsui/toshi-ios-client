@@ -29,7 +29,7 @@ class BackupPhraseCopyController: UIViewController {
     }()
 
     lazy var textLabel: UILabel = {
-        let view = TextLabel("Carefully write down the words.\nDon’t email it or screenshot it..")
+        let view = TextLabel("Carefully write down the words.\nDon’t email it or screenshot it.")
         view.textAlignment = .center
 
         return view

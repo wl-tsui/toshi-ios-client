@@ -45,7 +45,7 @@ class RateUserController: ModalPresentable {
     }()
 
     lazy var textLabel: UILabel = {
-        let view = TextLabel("How would you rate your experience with this app?")
+        let view = TextLabel(String(format: NSLocalizedString("How would you rate %@", comment: ""), self.user.displayUsername))
         view.textAlignment = .center
         view.textColor = Theme.darkTextColor
 

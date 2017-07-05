@@ -197,23 +197,19 @@ open class ProfileController: UIViewController {
         let margin: CGFloat = 15
         let avatarSize = CGSize(width: 60, height: 60)
 
-        // scroll view
         view.addSubview(self.scrollView)
         self.scrollView.edges(to: view)
 
-        // container
         self.scrollView.addSubview(self.container)
         self.container.edges(to: self.scrollView)
         self.container.width(to: self.scrollView)
 
-        // content background view
         self.container.addSubview(self.contentBackgroundView)
 
         self.contentBackgroundView.top(to: self.container)
         self.contentBackgroundView.left(to: self.container)
         self.contentBackgroundView.right(to: self.container)
 
-        // subviews of content background view
         self.contentBackgroundView.addSubview(self.avatarImageView)
         self.contentBackgroundView.addSubview(self.nameLabel)
         self.contentBackgroundView.addSubview(self.usernameLabel)
@@ -268,7 +264,6 @@ open class ProfileController: UIViewController {
         self.contentSeparatorView.right(to: self.contentBackgroundView)
         self.contentSeparatorView.bottom(to: self.contentBackgroundView)
 
-        // reputation background view
         self.container.addSubview(self.reputationBackgroundView)
 
         self.reputationBackgroundView.topToBottom(of: self.contentBackgroundView, offset: 66)
@@ -276,7 +271,6 @@ open class ProfileController: UIViewController {
         self.reputationBackgroundView.bottom(to: self.container)
         self.reputationBackgroundView.right(to: self.container)
 
-        // subviews of reputation background view
         self.reputationBackgroundView.addSubview(self.reputationSeparatorView)
         self.reputationBackgroundView.addSubview(self.reputationView)
         self.reputationBackgroundView.addSubview(self.bottomSeparatorView)

@@ -31,14 +31,6 @@ class PaymentConfirmationController: AlertController {
         return view
     }()
 
-    lazy var textLabel: UILabel = {
-        let view = TextLabel("How would you rate your experience with this app?")
-        view.textAlignment = .center
-        view.textColor = Theme.darkTextColor
-
-        return view
-    }()
-
     init(userInfo: UserInfo, value: NSDecimalNumber) {
         self.userInfo = userInfo
 

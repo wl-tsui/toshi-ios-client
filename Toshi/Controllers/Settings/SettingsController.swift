@@ -214,7 +214,6 @@ open class SettingsController: UITableViewController {
         case 0:
             switch indexPath.row {
             case 0:
-                // go to user profile
                 self.navigationController?.pushViewController(ProfileController(), animated: true)
             case 1:
                 guard let current = TokenUser.current else { return }
@@ -239,7 +238,7 @@ open class SettingsController: UITableViewController {
             case 0:
                 self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
             case 1:
-                break // trusted frieds
+                break // trusted friends
             default:
                 break
             }
@@ -254,7 +253,6 @@ open class SettingsController: UITableViewController {
 
                 self.navigationController?.pushViewController(profileVisiblityController, animated: true)
             case 2:
-                // go sign out
                 self.handleSignOut()
             default:
                 break

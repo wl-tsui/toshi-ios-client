@@ -134,7 +134,8 @@ class ContactActionView: UIStackView {
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.messageButton.widthAnchor.constraint(equalTo: self.addFavoriteButton.widthAnchor).isActive = true
-        self.addFavoriteButton.widthAnchor.constraint(equalTo: self.payButton.widthAnchor).isActive = true
+        self.messageButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
+        self.addFavoriteButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
+        self.payButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
     }
 }
