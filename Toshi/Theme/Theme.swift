@@ -69,7 +69,7 @@ extension Theme {
     }
 
     public static var unselectedItemTintColor: UIColor {
-        return UIColor(hex: "B1B4B8")
+        return UIColor(hex: "979ca4")
     }
 
     public static var messageViewBackgroundColor: UIColor {
