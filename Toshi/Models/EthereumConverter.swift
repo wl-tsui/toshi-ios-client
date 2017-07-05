@@ -89,20 +89,21 @@ struct EthereumConverter {
     /// Complete formatted string value for a given wei, with fiat aligned left and eth aligned right.
     ///    "$4.99 USD                        0.0050 ETH"
     ///    Fiat is black, and eth value is light grey.
-    ////
+    ///
     /// - Parameters:
     ///   - balance: the value in wei
     ///   - width: the width of the label, to adjust alignment.
+    ///   - attributes: the attributes of the label, to copy them on the attributed string.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat) -> NSAttributedString {
-        let attributedString: NSMutableAttributedString = self.balanceAttributedString(forWei: balance, exchangeRate: exchangeRate).mutableCopy() as! NSMutableAttributedString
+    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat, attributes: [String: Any]? = nil) -> NSAttributedString {
+        let attributedString: NSMutableAttributedString = self.balanceAttributedString(forWei: balance, exchangeRate: exchangeRate, attributes: attributes).mutableCopy() as! NSMutableAttributedString
+
         let range = NSRange(location: 0, length: attributedString.length)
 
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .left
         let nextTabStop = NSTextTab(textAlignment: .right, location: width, options: [:])
         paragraph.tabStops = [nextTabStop]
-
         attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: range)
 
         return attributedString
@@ -111,12 +112,15 @@ struct EthereumConverter {
     /// Complete formatted string value for a given wei, fully left aligned.
     ///    "$4.99 USD    0.0050 ETH"
     ///    Fiat is black, and eth value is light grey.
-    ////
+    ///
     /// - Parameters:
     ///   - balance: the value in wei
+    ///   - attributes: the attributes of the label, to copy them on the attributed string.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> NSAttributedString {
+    public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, attributes: [String: Any]? = nil) -> NSAttributedString {
+
         let fiatText = self.fiatValueStringWithCode(forWei: balance, exchangeRate: exchangeRate)
+
         let etherText = self.ethereumValueString(forWei: balance)
 
         let fiatTextFull = fiatText + "\t"
@@ -124,7 +128,7 @@ struct EthereumConverter {
         let etherRange = (text as NSString).range(of: etherText)
         let fiatRange = (text as NSString).range(of: fiatTextFull)
 
-        let attributedString = NSMutableAttributedString(string: text, attributes: [NSFontAttributeName: Theme.medium(size: 15)])
+        let attributedString = NSMutableAttributedString(string: text, attributes: attributes ?? [NSFontAttributeName: Theme.medium(size: 15)])
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: etherRange)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.darkTextColor, range: fiatRange)
 

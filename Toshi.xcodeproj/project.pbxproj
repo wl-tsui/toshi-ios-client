@@ -130,10 +130,6 @@
 		2BC4C07F1EF3ED4700F99CE2 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
 		2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
-		2BD135A31EE1890200B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		2BD135A61EE1896000B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		2BD135A71EE1896000B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		2BD135AB1EE18ACF00B9F454 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
@@ -998,6 +994,7 @@
 		9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */; };
 		9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
+		9FB1F61D1F0BC21500D21560 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
 		9FB228861EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB228851EEEA45B00CCAA1D /* PropertyListPreferences.m */; };
 		9FB228871EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB228851EEEA45B00CCAA1D /* PropertyListPreferences.m */; };
 		9FB36EA51E7C272400DB6F86 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
@@ -1039,10 +1036,10 @@
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
 		9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
-		9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
-		9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
-		9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
-		9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
+		9FE533881F0B9C5500B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
+		9FE533891F0B9CBC00B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
+		9FE5338A1F0B9CDA00B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
+		9FE5338B1F0B9CF100B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FE86E021F0BC0AB00A7F71E /* SweetSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE86E031F0BC14F00A7F71E /* SweetUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE86E041F0BC15900A7F71E /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
@@ -4118,6 +4115,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E662B2191F0B9B1C00CE54A1 /* EthereumConverterTests.swift in Sources */,
 				9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */,
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
 				9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */,
@@ -4162,7 +4160,6 @@
 				9F4D814F1EEA8B4600FB5361 /* PhotoEditorPreviewView.m in Sources */,
 				9F4D7F871EEA8B4500FB5361 /* Camera.m in Sources */,
 				9F4D7F7F1EEA8B4500FB5361 /* ASHandle.m in Sources */,
-				2BD135A71EE1896000B9F454 /* (null) in Sources */,
 				9F4D7F911EEA8B4500FB5361 /* CameraShotMetadata.m in Sources */,
 				9F4D7FED1EEA8B4500FB5361 /* ModernCache.m in Sources */,
 				9F4D804B1EEA8B4500FB5361 /* MediaAssetFetchResult.m in Sources */,
@@ -4285,7 +4282,6 @@
 				A9202E681ED8500B0036E9B7 /* MessagesViewController.swift in Sources */,
 				9F4D806B1EEA8B4500FB5361 /* ModernClockProgressViewModel.m in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
-				2BD135A31EE1890200B9F454 /* (null) in Sources */,
 				149F9A741E72E29A00FB74AA /* ControlsCollectionView.swift in Sources */,
 				9F4D7FD51EEA8B4500FB5361 /* MediaAssetLegacyImageSignals.m in Sources */,
 				9F4D7F6F1EEA8B4500FB5361 /* VideoEditAdjustments.m in Sources */,
@@ -4647,7 +4643,6 @@
 				9F4D81181EEA8B4600FB5361 /* ModernGalleryVideoPlayerView.m in Sources */,
 				9F4D7ECC1EEA8B4500FB5361 /* PhotoAvatarCropController.m in Sources */,
 				9F4D80721EEA8B4500FB5361 /* ModernGalleryVideoPlayerState.m in Sources */,
-				2BD135A61EE1896000B9F454 /* (null) in Sources */,
 				A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */,
 				9F4D7EE01EEA8B4500FB5361 /* TGActionSheet.m in Sources */,
 				9F4D81121EEA8B4600FB5361 /* ModernGalleryVideoContentView.m in Sources */,
@@ -4969,7 +4964,6 @@
 				A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */,
 				9F4D7F101EEA8B4500FB5361 /* PaintNeonBrush.m in Sources */,
 				9F4D80401EEA8B4500FB5361 /* ImageDataSource.m in Sources */,
-				2BD135AB1EE18ACF00B9F454 /* (null) in Sources */,
 				9F4D7ECA1EEA8B4500FB5361 /* OverlayFormsheetWindow.m in Sources */,
 				9F4D804A1EEA8B4500FB5361 /* MediaAssetFetchResult.m in Sources */,
 				9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */,
