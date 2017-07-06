@@ -1,10 +1,16 @@
-/* 
-  Token.strings
-  Token
 
-  Created by Igor Ranieri on 19/01/2017.
-  Copyright © 2017 Bakken&Bæck. All rights reserved.
-*/
-
+/* Push Notifications */
 "CONTACT_DETAIL_COMM_TYPE_INSECURE" = "Warning: Unregistered Number";
 "APN_Message" = "New message!";
+
+
+/* Browse */
+"browse-navigation-title" = "Browse";
+"browse-search-placeholder" = "Search or type the url";
+
+"browse-top-rated-apps" = "Top Rated Apps";
+"browse-featured-apps" = "Featured Apps";
+"browse-top-rated-public-users" = "Top Rated Public Users";
+"browse-latest-public-users" = "Latest Public Users";
+
+"browse-more-button" = "More";

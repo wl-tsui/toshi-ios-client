@@ -17,47 +17,40 @@ import UIKit
 import SweetUIKit
 
 class AvatarImageView: UIImageView {
-    var cornerRadius: CGFloat {
-        set {
-            self.layer.cornerRadius = newValue
-        }
-        get {
-            return self.layer.cornerRadius
-        }
-    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.setup()
+        setup()
     }
 
     override init(image: UIImage?, highlightedImage: UIImage?) {
         super.init(image: image, highlightedImage: highlightedImage)
 
-        self.setup()
+        setup()
     }
 
     override init(image: UIImage?) {
         super.init(image: image)
 
-        self.setup()
+        setup()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.setup()
+        setup()
     }
 
     private func setup() {
-        self.clipsToBounds = true
-        self.backgroundColor = .lightGray
-
-        self.contentMode = .scaleAspectFill
+        clipsToBounds = true
+        backgroundColor = .lightGray
+        contentMode = .scaleAspectFill
+        layer.borderColor = Theme.borderColor.cgColor
+        layer.borderWidth = Theme.borderHeight
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.cornerRadius = self.frame.width / 2
+        layer.cornerRadius = frame.width / 2
     }
 }

@@ -166,7 +166,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 self.teapot.put(path, parameters: json, headerFields: fields) { result in
                     switch result {
                     case .success(let json, _):
-                        guard let userDict = json?.dictionary else { completion(false); return }
+                        guard let userDict = json?.dictionary else {
+                            completion(false)
+                            return
+                        }
 
                         if let path = userDict["avatar"] as? String {
                             AvatarManager.shared.refreshAvatar(at: path)
@@ -231,11 +234,15 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 switch result {
                 case .success(let json, _):
                     // we know it's a dictionary for this API
-                    guard let json = json?.dictionary else { completion(nil); return }
+                    guard let json = json?.dictionary else {
+                        completion(nil)
+                        return
+                    }
+                    
                     let contact = TokenUser(json: json)
 
                     completion(contact)
-                case .failure(let json, let response, let error):
+                case .failure(let json, _, let error):
                     print(error.localizedDescription)
                     print(json?.dictionary ?? "")
 
@@ -256,7 +263,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 switch result {
                 case .success(let json, _):
                     // we know it's a dictionary for this API
-                    guard let json = json?.dictionary else { completion(nil); return }
+                    guard let json = json?.dictionary else {
+                        completion(nil)
+                        return
+                    }
 
                     let user: TokenUser?
 
@@ -289,7 +299,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                 switch result {
                 case .success(let json, _):
-                    guard let json = json?.dictionary else { completion(nil); return }
+                    guard let json = json?.dictionary else {
+                        completion(nil)
+                        return
+                    }
 
                     contact = TokenUser(json: json)
                     NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
@@ -307,7 +320,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
                     switch result {
                     case .success(let json, _):
-                        guard let json = json?.dictionary else { completion(nil); return }
+                        guard let json = json?.dictionary else {
+                            completion(nil)
+                            return
+                        }
 
                         let contact = TokenUser(json: json)
                         NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
@@ -326,22 +342,70 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
-        // /v1/search/user/?query=moxiemarl&offset=80&limit=20
-
+        
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, _):
-                    guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else { completion([]); return }
+                    guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
+                        completion([])
+                        return
+                    }
 
                     var contacts = [TokenUser]()
                     for item in json {
                         contacts.append(TokenUser(json: item))
                     }
                     completion(contacts)
-                case .failure(_, let response, let error):
+                case .failure(_, _, let error):
                     print(error.localizedDescription)
                     completion([])
+                }
+            }
+        }
+    }
+    
+    public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/search/user?public=true&top=true&recent=false&limit=\(limit)") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
+                        completion([], nil)
+                        return
+                    }
+                    
+                    let contacts = json.map { userJSON in
+                        TokenUser(json: userJSON)
+                    }
+                    completion(contacts, nil)
+                case .failure(_, _, let error):
+                    print(error.localizedDescription)
+                    completion([], error)
+                }
+            }
+        }
+    }
+    
+    public func getLatestPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.teapot.get("/v1/search/user?public=true&top=false&recent=true&limit=\(limit)") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
+                        completion([], nil)
+                        return
+                    }
+                    
+                    let contacts = json.map { userJSON in
+                        TokenUser(json: userJSON)
+                    }
+                    completion(contacts, nil)
+                case .failure(_, _, let error):
+                    print(error.localizedDescription)
+                    completion([], error)
                 }
             }
         }

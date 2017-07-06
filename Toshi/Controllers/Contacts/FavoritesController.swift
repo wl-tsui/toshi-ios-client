@@ -435,11 +435,7 @@ extension FavoritesController: UITableViewDataSource {
 }
 
 extension FavoritesController: UITableViewDelegate {
-
-    public func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-
+    
     public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }

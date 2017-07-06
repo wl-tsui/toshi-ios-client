@@ -16,25 +16,6 @@
 import UIKit
 
 class SearchResultCell: UITableViewCell {
-    var app: TokenUser? {
-        didSet {
-            if let app = self.app {
-                self.usernameLabel.text = app.category
-                self.nameLabel.text = app.name
-
-                if let path = app.avatarPath as String? {
-                    AvatarManager.shared.avatar(for: path) { image, resultPath in
-                        if path == resultPath {
-                            self.avatarImageView.image = image
-                        }
-                    }
-                }
-            } else {
-                self.usernameLabel.text = nil
-                self.nameLabel.text = nil
-            }
-        }
-    }
 
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
@@ -105,5 +86,13 @@ class SearchResultCell: UITableViewCell {
 
     required init?(coder _: NSCoder) {
         fatalError()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        nameLabel.text = nil
+        usernameLabel.text = nil
+        avatarImageView.image = nil
     }
 }

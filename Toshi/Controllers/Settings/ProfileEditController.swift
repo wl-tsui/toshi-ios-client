@@ -444,10 +444,6 @@ extension ProfileEditController: UITableViewDelegate {
     public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-
-    public func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
 }
 
 extension ProfileEditController: UITableViewDataSource {

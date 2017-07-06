@@ -13,274 +13,243 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import SweetFoundation
 import UIKit
 import SweetUIKit
 
-class LaunchAppButton: UIControl {
-    fileprivate lazy var titleLabel: UILabel = {
-        UILabel(withAutoLayout: true)
-    }()
-
-    fileprivate lazy var chevron: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.image = #imageLiteral(resourceName: "chevron")
-
-        return view
-    }()
-
-    required init?(coder _: NSCoder) {
-        fatalError()
-    }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        self.addSubview(self.titleLabel)
-        self.addSubview(self.chevron)
-
-        let margin: CGFloat = 12.0
-
-        self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: margin).isActive = true
-        self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin).isActive = true
-        self.titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -margin).isActive = true
-        self.titleLabel.rightAnchor.constraint(equalTo: self.chevron.leftAnchor, constant: margin).isActive = true
-
-        self.chevron.set(height: 14)
-        self.chevron.set(width: 14)
-        self.chevron.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        self.chevron.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin).isActive = true
-    }
-
-    func setAttributedTitle(_ attributedText: NSAttributedString?) {
-        self.titleLabel.attributedText = attributedText
+enum BrowseContentSection {
+    case topRatedApps
+    case featuredApps
+    case topRatedPublicUsers
+    case latestPublicUsers
+    
+    var title: String {
+        switch self {
+        case .topRatedApps: return Localized("browse-top-rated-apps")
+        case .featuredApps: return Localized("browse-featured-apps")
+        case .topRatedPublicUsers: return Localized("browse-top-rated-public-users")
+        case .latestPublicUsers: return Localized("browse-latest-public-users")
+        }
     }
 }
 
 class BrowseController: SearchableCollectionController {
-    static let cellHeight = CGFloat(220)
-    static let cellWidth = CGFloat(90)
-
-    var featuredApps = [TokenUser]() {
+    
+    fileprivate var contentSections: [BrowseContentSection] = [.topRatedApps, .featuredApps, .topRatedPublicUsers, .latestPublicUsers]
+    
+    fileprivate var items: [[TokenUser]] = [[], [], [], []] {
         didSet {
-            self.collectionView.reloadData()
+            collectionView.reloadData()
+            collectionView.collectionViewLayout.invalidateLayout()
         }
     }
-
-    var searchResult = [TokenUser]() {
-        didSet {
-            self.collectionView.reloadData()
-        }
-    }
-
-    fileprivate lazy var openURLButton: LaunchAppButton = {
-        let view = LaunchAppButton(withAutoLayout: true)
-        view.addTarget(self, action: #selector(self.didTapOpenURLButton), for: .touchUpInside)
-        view.isHidden = true
-
+    
+    fileprivate lazy var searchResultView: BrowseSearchResultView = {
+        let view = BrowseSearchResultView()
+        view.alpha = 0
+        
         return view
     }()
-
-    fileprivate lazy var openButtonAttributes: [String: Any] = {
-        let paragraph = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        paragraph.alignment = .left
-
-        return [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 14)]
+    
+    private lazy var layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: 230)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        
+        return layout
     }()
-
-    fileprivate var openURLButtonTopAnchor: NSLayoutConstraint!
-
-    var appsAPIClient: AppsAPIClient
-
-    init(appsAPIClient: AppsAPIClient = .shared) {
-        self.appsAPIClient = appsAPIClient
-
-        super.init()
-
-        self.loadViewIfNeeded()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    open override func viewDidLoad() {
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.collectionView.showsVerticalScrollIndicator = true
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.backgroundColor = Theme.viewBackgroundColor
-
-        self.searchController.delegate = self
-
-        self.searchBar.delegate = self
-        self.searchBar.barTintColor = Theme.viewBackgroundColor
-        self.searchBar.tintColor = Theme.tintColor
-        self.searchBar.placeholder = "Search or type the url"
-
-        let searchField = self.searchBar.value(forKey: "searchField") as? UITextField
+        
+        title = Localized("browse-navigation-title")
+        
+        collectionView.showsVerticalScrollIndicator = true
+        collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = Theme.viewBackgroundColor
+        collectionView.dataSource = self
+        collectionView.contentInset = UIEdgeInsets(top: searchBar.frame.height, left: 0, bottom: 0, right: 0)
+        collectionView.setCollectionViewLayout(layout, animated: false)
+        collectionView.register(BrowseCell.self)
+        
+        searchBar.delegate = self
+        searchBar.barTintColor = Theme.viewBackgroundColor
+        searchBar.tintColor = Theme.tintColor
+        searchBar.placeholder = Localized("browse-search-placeholder")
+        
+        let searchField = searchBar.value(forKey: "searchField") as? UITextField
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor
-
-        self.collectionView.register(AppCell.self)
-
-        self.collectionView.addSubview(self.openURLButton)
-        self.openURLButton.set(height: 44)
-        self.openURLButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.openURLButton.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.openURLButtonTopAnchor = self.openURLButton.topAnchor.constraint(equalTo: self.collectionView.topAnchor)
-        self.openURLButtonTopAnchor.constant = -self.searchBar.frame.maxY
-        self.openURLButtonTopAnchor.isActive = true
-
-        self.title = "Browse"
-
-        self.appsAPIClient.getFeaturedApps { apps, error in
+        
+        addSubviewsAndConstraints()
+        
+        loadItems()
+    }
+    
+    private func addSubviewsAndConstraints() {
+        view.addSubview(searchResultView)
+        
+        searchResultView.top(to: view, offset: 64)
+        searchResultView.left(to: view)
+        searchResultView.bottom(to: view)
+        searchResultView.right(to: view)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
+        
+        if let indexPathForSelectedRow = searchResultView.indexPathForSelectedRow {
+            searchResultView.deselectRow(at: indexPathForSelectedRow, animated: true)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        searchBar.resignFirstResponder()
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView == collectionView else { return }
+        
+        super.scrollViewDidScroll(scrollView)
+        
+        /* Adjust scroll indicator insets while scrolling to keep
+         the indicator below the search bar. */
+        collectionView.scrollIndicatorInsets.top = max(0, scrollView.contentOffset.y * -1)
+    }
+    
+    private func loadItems() {
+        
+        AppsAPIClient.shared.getTopRatedApps { apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             }
-
-            self.featuredApps = apps ?? []
+            
+            self.items[0] = apps ?? []
         }
-    }
-
-    @objc
-    fileprivate func reload(searchText: String) {
-        if searchText.isURL {
-            let title = NSAttributedString(string: searchText, attributes: self.openButtonAttributes)
-            self.openURLButton.setAttributedTitle(title)
-            self.showOpenURLButton()
-
-        } else {
-            self.appsAPIClient.search(searchText) { apps, error in
-                if let error = error {
-                    let alertController = UIAlertController.errorAlert(error as NSError)
-                    Navigator.presentModally(alertController)
-                }
-
-                self.searchResult = apps
+        
+        AppsAPIClient.shared.getFeaturedApps { apps, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                Navigator.presentModally(alertController)
             }
+            
+            self.items[1] = apps ?? []
         }
-    }
-
-    fileprivate func showOpenURLButton() {
-        self.openURLButton.isHidden = false
-        self.openURLButtonTopAnchor.constant = self.searchBar.frame.minY - 20 // 20pt statusbar
-        UIView.animate(withDuration: 0.25) {
-            self.collectionView.layoutIfNeeded()
+        
+        IDAPIClient.shared.getTopRatedPublicUsers { users, error in
+            
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                Navigator.presentModally(alertController)
+            }
+            
+            self.items[2] = users ?? []
         }
-    }
-
-    fileprivate func hideOpenURLButtonIfNeeded() {
-        guard self.openURLButtonTopAnchor.constant == 0 else { return }
-
-        self.openURLButton.isHidden = true
-        self.openURLButtonTopAnchor.constant = -self.searchBar.frame.maxY
-        UIView.animate(withDuration: 0.25) {
-            self.collectionView.layoutIfNeeded()
-            self.openURLButton.setAttributedTitle(nil)
+        
+        IDAPIClient.shared.getLatestPublicUsers { users, error in
+            
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                Navigator.presentModally(alertController)
+            }
+            
+            self.items[3] = users ?? []
         }
-    }
-
-    @objc
-    fileprivate func didTapOpenURLButton() {
-        guard let string = self.searchController.searchBar.text, let url = URL(string: string) else { return }
-
-        let sofaController = SOFAWebController()
-
-        sofaController.load(url: url)
-        self.navigationController?.pushViewController(sofaController, animated: true)
-    }
-}
-
-extension BrowseController {
-
-    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        if self.searchController.isActive {
-            return self.searchResult.count
-        }
-
-        return self.featuredApps.count
-    }
-
-    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeue(AppCell.self, for: indexPath)
-
-        if self.searchController.isActive {
-            let app = self.searchResult[indexPath.row]
-            cell.app = app
-        } else {
-            let app = self.featuredApps[indexPath.row]
-            cell.app = app
-        }
-
-        return cell
-    }
-
-    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.searchController.isActive {
-            let app = self.searchResult[indexPath.row]
-            let appController = ContactController(contact: app)
-            self.navigationController?.pushViewController(appController, animated: true)
-        } else {
-            let app = self.featuredApps[indexPath.row]
-            let appController = ContactController(contact: app)
-            self.navigationController?.pushViewController(appController, animated: true)
-        }
-    }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-    }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
-        return 10
-    }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 120, height: 140)
-    }
-
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
-        return 10
     }
 }
 
 extension BrowseController: UISearchBarDelegate {
+    
     func searchBar(_: UISearchBar, textDidChange searchText: String) {
+        
+        searchResultView.alpha = 1
 
         if searchText.isEmpty {
-            self.searchResult = [TokenUser]()
-            self.hideOpenURLButtonIfNeeded()
+            searchResultView.searchResults = []
+        } else {
+            AppsAPIClient.shared.search(searchText) { items, error in
+                if let error = error {
+                    let alertController = UIAlertController.errorAlert(error as NSError)
+                    Navigator.presentModally(alertController)
+                }
+                
+                self.searchResultView.searchResults = items
+            }
         }
-
-        // Throttles search to delay performing a search while the user is typing.
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(reload(searchText:)), object: searchText)
-        self.perform(#selector(self.reload(searchText:)), with: searchText, afterDelay: 0.5)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-        self.hideOpenURLButtonIfNeeded()
+        searchResultView.alpha = 0
+        searchResultView.searchResults = []
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if let collectionView = collectionView as? SectionedCollectionView {
+            let cell = collectionView.dequeue(BrowseAppCell.self, for: indexPath)
+            
+            if let section = items.element(at: collectionView.section), let item = section.element(at: indexPath.item) {
+                if !item.name.isEmpty {
+                    cell.nameLabel.text = item.name
+                } else {
+                    cell.nameLabel.text = item.isApp ? item.category : item.username
+                }
+                
+                if let url = URL(string: item.avatarPath) {
+                    cell.avatarImageView.setImage(from: AsyncImageURL(url: url))
+                }
+                
+                RatingsClient.shared.scores(for: item.address) { ratingScore in
+                    cell.ratingView.set(rating: Float(ratingScore.score))
+                }
+            }
+            
+            return cell
+        }
+        
+        let contentSection = contentSections[indexPath.item]
+        
+        let cell = collectionView.dequeue(BrowseCell.self, for: indexPath)
+        cell.collectionView.dataSource = self
+        cell.collectionView.reloadData()
+        cell.collectionView.collectionViewLayout.invalidateLayout()
+        cell.collectionView.section = indexPath.item
+        cell.contentSection = contentSection
+        cell.selectionDelegate = self
+        cell.divider.isHidden = contentSection == .latestPublicUsers
+        
+        return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if let collectionView = collectionView as? SectionedCollectionView {
+            return items[collectionView.section].count
+        }
+        
+        return items.count
     }
 }
 
-extension BrowseController {
-    override func didDismissSearchController(_ searchController: UISearchController) {
-        super.didDismissSearchController(searchController)
-
-        self.collectionView.reloadData()
+extension BrowseController: BrowseCellSelectionDelegate {
+    
+    func seeAll(for contentSection: BrowseContentSection) {
+        let controller = BrowseAllController(contentSection)
+        controller.title = contentSection.title
+        Navigator.push(controller)
     }
-
-    override func willPresentSearchController(_ searchController: UISearchController) {
-        super.willPresentSearchController(searchController)
-
-        self.collectionView.reloadData()
-    }
-}
-
-extension BrowseController: SearchResultsViewDelegate {
-
-    func searchResultsView(_: SearchResultsView, didTapApp app: TokenUser) {
-        let appController = ContactController(contact: app)
-        self.navigationController?.pushViewController(appController, animated: true)
+    
+    func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView) {
+        
+        if let section = items.element(at: collectionView.section), let item = section.element(at: indexPath.item) {
+            Navigator.push(ContactController(contact: item))
+        }
     }
 }
