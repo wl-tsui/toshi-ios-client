@@ -35,11 +35,11 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 switch result {
                     
                 case .success(let json, _):
-                    guard let json = json?.dictionary else { completion(nil, nil)
+                    guard let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
+                        completion(nil, nil)
                         return
                     }
-                    
-                    let appsJSON = json["results"] as! [[String: Any]]
+
                     let apps = appsJSON.map { json -> TokenUser in
                         let app = TokenUser(json: json)
                         
@@ -60,11 +60,12 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 switch result {
                     
                 case .success(let json, _):
-                    guard let json = json?.dictionary else { completion(nil, nil)
+                    guard let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
+                        completion(nil, nil)
                         return
                     }
                     
-                    let appsJSON = json["results"] as! [[String: Any]]
+
                     let apps = appsJSON.map { json -> TokenUser in
                         let app = TokenUser(json: json)
                         
