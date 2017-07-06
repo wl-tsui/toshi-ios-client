@@ -1036,10 +1036,10 @@
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE51CE41E44E26600FCB0E2 /* FingerprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE51CE31E44E26500FCB0E2 /* FingerprintViewController.swift */; };
 		9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
-		9FE533881F0B9C5500B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
-		9FE533891F0B9CBC00B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
-		9FE5338A1F0B9CDA00B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
-		9FE5338B1F0B9CF100B0C2B5 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
+		9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
+		9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
+		9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
+		9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FE86E021F0BC0AB00A7F71E /* SweetSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE86E031F0BC14F00A7F71E /* SweetUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE86E041F0BC15900A7F71E /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
@@ -1165,6 +1165,8 @@
 		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		C31C048D3765021CC4E2509C /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8127F350AC2D5B8DBC172E34 /* libPods-CocoaPods-Development.a */; };
+		D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
+		D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		DBFAB6FED2A3595E0356668C /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 /* End PBXBuildFile section */
@@ -2189,6 +2191,7 @@
 		A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeader.swift; sourceTree = "<group>"; };
 		A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		CFAFE0DF986DC3B38AF50EE6 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
+		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -3388,6 +3391,7 @@
 				9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */,
 				9F9B25541ECB1BC0007B435A /* ContactActionView.swift */,
 				A9181D211EDD8154005B63F6 /* RoundIconButton.swift */,
+				D197BB4FC8D408B73FE253E5 /* BlurView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4115,7 +4119,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E662B2191F0B9B1C00CE54A1 /* EthereumConverterTests.swift in Sources */,
+				E662B2191F0B9B1C00CE54A1,
 				9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */,
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
 				9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */,
@@ -4612,6 +4616,7 @@
 				9F4D807D1EEA8B4500FB5361 /* VideoMediaAttachment.m in Sources */,
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
 				9F4D7F271EEA8B4500FB5361 /* PaintUtils.m in Sources */,
+				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5105,6 +5110,7 @@
 				9F4D80A61EEA8B4500FB5361 /* CameraTimeCodeView.m in Sources */,
 				9F4D802C1EEA8B4500FB5361 /* WeakReference.m in Sources */,
 				9F9B25551ECB1BC0007B435A /* ContactActionView.swift in Sources */,
+				D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

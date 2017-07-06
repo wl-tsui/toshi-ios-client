@@ -35,17 +35,10 @@ public class ChatsNavigationController: UINavigationController {
         self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
-    lazy var backgroundBlur: UIVisualEffectView = {
-        let view = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    lazy var backgroundBlur: BlurView = {
+        let view = BlurView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
-
-        let dimming = UIView()
-        dimming.backgroundColor = Theme.messageViewBackgroundColor.withAlphaComponent(0.6)
-        dimming.isUserInteractionEnabled = false
-        view.addSubview(dimming)
-
-        dimming.edges(to: view)
 
         return view
     }()

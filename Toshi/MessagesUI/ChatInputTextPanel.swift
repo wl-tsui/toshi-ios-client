@@ -87,15 +87,9 @@ class ChatInputTextPanel: NOCChatInputPanel {
         return view
     }()
 
-    lazy var backgroundBlur: UIVisualEffectView = {
-        let view = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    lazy var backgroundBlur: BlurView = {
+        let view = BlurView()
         view.translatesAutoresizingMaskIntoConstraints = false
-
-        let dimming = UIView()
-        dimming.backgroundColor = Theme.messageViewBackgroundColor.withAlphaComponent(0.6)
-        view.addSubview(dimming)
-
-        dimming.edges(to: view)
 
         return view
     }()
