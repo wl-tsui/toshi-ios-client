@@ -37,12 +37,7 @@ class BrowseController: SearchableCollectionController {
     
     fileprivate var contentSections: [BrowseContentSection] = [.topRatedApps, .featuredApps, .topRatedPublicUsers, .latestPublicUsers]
     
-    fileprivate var items: [[TokenUser]] = [[], [], [], []] {
-        didSet {
-            collectionView.reloadData()
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
-    }
+    fileprivate var items: [[TokenUser]] = [[], [], [], []]
     
     fileprivate lazy var searchResultView: BrowseSearchResultView = {
         let view = BrowseSearchResultView()
@@ -132,6 +127,8 @@ class BrowseController: SearchableCollectionController {
             }
             
             self.items[0] = apps ?? []
+            self.collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
         
         AppsAPIClient.shared.getFeaturedApps { apps, error in
@@ -141,6 +138,8 @@ class BrowseController: SearchableCollectionController {
             }
             
             self.items[1] = apps ?? []
+            self.collectionView.reloadItems(at: [IndexPath(item: 1, section: 0)])
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
         
         IDAPIClient.shared.getTopRatedPublicUsers { users, error in
@@ -151,6 +150,8 @@ class BrowseController: SearchableCollectionController {
             }
             
             self.items[2] = users ?? []
+            self.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
         
         IDAPIClient.shared.getLatestPublicUsers { users, error in
@@ -161,6 +162,8 @@ class BrowseController: SearchableCollectionController {
             }
             
             self.items[3] = users ?? []
+            self.collectionView.reloadItems(at: [IndexPath(item: 3, section: 0)])
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
 }

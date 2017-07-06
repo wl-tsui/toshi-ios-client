@@ -43,7 +43,6 @@ class AvatarImageView: UIImageView {
 
     private func setup() {
         clipsToBounds = true
-        backgroundColor = .lightGray
         contentMode = .scaleAspectFill
         layer.borderColor = Theme.borderColor.cgColor
         layer.borderWidth = Theme.borderHeight

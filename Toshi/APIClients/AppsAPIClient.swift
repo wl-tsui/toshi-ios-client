@@ -80,26 +80,6 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    func downloadImage(for app: TokenUser, completion: @escaping (_ image: UIImage?) -> Void) {
-        guard let pathURL = URL(string: app.avatarPath) else { return }
-        self.imageCache.setObject(forKey: app.avatarPath, cacheBlock: { success, failure in
-
-            DispatchQueue.global(qos: .userInitiated).async {
-                Teapot(baseURL: pathURL).get { (result: NetworkImageResult) in
-                    switch result {
-                    case .success(let image, _):
-                        success(image, self.cacheExpiry)
-                    case .failure(_, let error):
-                        print(error)
-                        failure(error as NSError)
-                    }
-                }
-            }
-        }) { image, _, _ in
-            completion(image)
-        }
-    }
-
     func search(_ searchTerm: String, limit: Int = 100, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
         guard !searchTerm.isEmpty else {
             completion([TokenUser](), nil)
