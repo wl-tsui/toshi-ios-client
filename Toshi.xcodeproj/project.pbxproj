@@ -990,7 +990,6 @@
 		9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */; };
 		9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
-		9FB1F61D1F0BC21500D21560 /* PBXBuildFile */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
 		9FB228861EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB228851EEEA45B00CCAA1D /* PropertyListPreferences.m */; };
 		9FB228871EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FB228851EEEA45B00CCAA1D /* PropertyListPreferences.m */; };
 		9FB36EA51E7C272400DB6F86 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
@@ -4127,7 +4126,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E662B2191F0B9B1C00CE54A1,
 				9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */,
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
 				9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */,
