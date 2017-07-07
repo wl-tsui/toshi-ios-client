@@ -49,26 +49,29 @@ public struct RatingScore {
     }
 
     static var zero: RatingScore {
-        return RatingScore(score: 0.0, count: 0, stars: StarsCount.zero)
+        return RatingScore(reputationScore: 0.0, averageRating: 0.0, reviewCount: 0, stars: StarsCount.zero)
     }
 
-    let score: Double
-    let count: Int
+    let reputationScore: Double
+    let averageRating: Double
+    let reviewCount: Int
 
     let stars: StarsCount
 
     init?(json: [String: Any]) {
-        guard let score = json["score"] as? Double else { return nil }
-        guard let count = json["count"] as? Int else { return nil }
+        guard let reputationScore = json["reputation_score"] as? Double else { return nil }
+        guard let averageRating = json["average_rating"] as? Double else { return nil }
+        guard let reviewCount = json["review_count"] as? Int else { return nil }
         guard let stars = json["stars"] as? [String: Int] else { return nil }
         guard let starsCount = StarsCount(stars) else { return nil }
 
-        self.init(score: score, count: count, stars: starsCount)
+        self.init(reputationScore: reputationScore, averageRating: averageRating, reviewCount: reviewCount, stars: starsCount)
     }
 
-    private init(score: Double, count: Int, stars: StarsCount) {
-        self.score = score
-        self.count = count
+    private init(reputationScore: Double, averageRating: Double, reviewCount: Int, stars: StarsCount) {
+        self.reputationScore = reputationScore
+        self.averageRating = averageRating
+        self.reviewCount = reviewCount
         self.stars = stars
     }
 }

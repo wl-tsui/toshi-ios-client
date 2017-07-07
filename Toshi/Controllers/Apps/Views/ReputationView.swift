@@ -170,11 +170,11 @@ class ReputationView: UIView {
     }
 
     public func setScore(_ ratingScore: RatingScore) {
-        self.reviewCount = ratingScore.count
-        self.ratingLabel.text = "\(ratingScore.score)"
-        self.ratingView.set(rating: Float(ratingScore.score))
+        self.reviewCount = ratingScore.reviewCount
+        self.ratingLabel.text = "\(ratingScore.averageRating)"
+        self.ratingView.set(rating: Float(ratingScore.averageRating))
 
-        let count = ratingScore.count == 0 ? 1 : ratingScore.count
+        let count = ratingScore.reviewCount == 0 ? 1 : ratingScore.reviewCount
 
         self.fiveStarsBarView.numberOfStars = 5
         self.fiveStarsBarView.percentage = CGFloat(ratingScore.stars.five) / CGFloat(count)

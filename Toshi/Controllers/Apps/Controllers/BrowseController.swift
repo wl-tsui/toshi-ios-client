@@ -210,7 +210,7 @@ extension BrowseController: UISearchBarDelegate {
                 }
                 
                 RatingsClient.shared.scores(for: item.address) { ratingScore in
-                    cell.ratingView.set(rating: Float(ratingScore.score))
+                    cell.ratingView.set(rating: Float(ratingScore.averageRating))
                 }
             }
             
