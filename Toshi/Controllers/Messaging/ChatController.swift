@@ -386,7 +386,7 @@ class ChatController: MessagesCollectionViewController {
         let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         actionSheetController.addAction(dismissAction)
 
-        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
+        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
 
             let identityManager = OWSIdentityManager.shared()
             guard let recipientIdentity = identityManager.recipientIdentity(forRecipientId: recipientId) else { return }
@@ -404,8 +404,9 @@ class ChatController: MessagesCollectionViewController {
     /// - Parameters:
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
+    ///   - shouldHandleInvalidKey: if true and there is any invalid key error, will process it and ask for contact identity confirmation
     ///
-    fileprivate func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false) -> Message {
+    fileprivate func handleInteraction(_ interaction: TSInteraction, shouldProcessCommands: Bool = false, shouldHandleInvalidKey: Bool = false) -> Message {
         if let interaction = interaction as? TSErrorMessage, interaction.errorType == .nonBlockingIdentityChange {
 
             guard let recipientId = interaction.recipientId,
@@ -413,9 +414,11 @@ class ChatController: MessagesCollectionViewController {
 
                 return Message(sofaWrapper: nil, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false)
             }
-
-            DispatchQueue.main.async {
-                self.handleInvalidKeyError(interaction)
+            
+            if shouldHandleInvalidKey {
+                DispatchQueue.main.async {
+                    self.handleInvalidKeyError(interaction)
+                }
             }
 
             return Message(sofaWrapper: nil, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false)
@@ -530,7 +533,7 @@ class ChatController: MessagesCollectionViewController {
                     guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { return }
 
                     DispatchQueue.main.async {
-                        let result = self.handleInteraction(interaction, shouldProcessCommands: true)
+                        let result = self.handleInteraction(interaction, shouldProcessCommands: true, shouldHandleInvalidKey: true)
                         self.messages.append(result)
 
                         if result.isOutgoing {
