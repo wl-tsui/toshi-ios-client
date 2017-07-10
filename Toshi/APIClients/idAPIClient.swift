@@ -27,6 +27,8 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
 
+    public static let allowedSearchTermCharacters = CharacterSet.urlQueryAllowed.subtracting(CharacterSet(charactersIn: ":/?#[]@!$&'()*+,;= "))
+
     public var teapot: Teapot
 
     private var contactCache = try! Cache<TokenUser>(name: "tokenContactCache")
@@ -344,7 +346,8 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     public func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
         
         DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/search/user?query=\(name)") { (result: NetworkResult) in
+            let query = name.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? name
+            self.teapot.get("/v1/search/user?query=\(query)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, _):
                     guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {

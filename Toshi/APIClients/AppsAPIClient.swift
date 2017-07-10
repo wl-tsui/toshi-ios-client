@@ -87,7 +87,8 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         }
 
         DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/search/user/?query=\(searchTerm)&limit=\(limit)") { (result: NetworkResult) in
+            let query = searchTerm.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? searchTerm
+            self.teapot.get("/v1/search/apps/?query=\(query)&limit=\(limit)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, _):
                     guard let json = json?.dictionary else {
