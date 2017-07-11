@@ -18,7 +18,7 @@ import UIKit
 class ControlsCollectionView: UICollectionView {
 
     convenience init() {
-        self.init(frame: .zero, collectionViewLayout: UICollectionViewRightAlignedLayout())
+        self.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {

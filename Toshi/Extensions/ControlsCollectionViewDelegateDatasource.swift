@@ -19,7 +19,7 @@ protocol ControlViewActionDelegate: class {
     func controlsCollectionViewDidSelectControl(_ button: SofaMessage.Button)
 }
 
-class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateRightAlignedLayout, ControlCellDelegate {
+class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, ControlCellDelegate, UICollectionViewDelegateFlowLayout {
     var items: [SofaMessage.Button] = [] {
         didSet {
             self.subcontrolsCollectionView?.isUserInteractionEnabled = true
@@ -46,32 +46,26 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 44)
     }
 
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumInteritemSpacingForSectionAt _: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
 
     func didTapButton(for cell: ControlCell) {
         guard let indexPath = self.subcontrolsCollectionView?.indexPath(for: cell), indexPath.isValid(for: self.items.count) else { return }
-        //        let normalizedIndexPath = self.reversedControlIndexPath(indexPath)
 
         self.actionDelegate?.controlsCollectionViewDidSelectControl(self.items[indexPath.item])
     }
-
-    func reversedControlIndexPath(_ indexPath: IndexPath) -> IndexPath {
-        let row = (self.items.count - 1) - indexPath.item
-        return IndexPath(row: row, section: indexPath.section)
-    }
 }
 
-class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateRightAlignedLayout, ControlCellDelegate {
+class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, ControlCellDelegate, UICollectionViewDelegateFlowLayout {
     var items: [SofaMessage.Button] = [] {
         didSet {
             self.controlsCollectionView?.isUserInteractionEnabled = true
@@ -98,7 +92,7 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cell = ControlCell(frame: .zero)
         cell.buttonItem = self.items[indexPath.row]
 
@@ -115,6 +109,7 @@ class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICo
 
     func reversedControlIndexPath(_ indexPath: IndexPath) -> IndexPath {
         let row = (self.items.count - 1) - indexPath.item
+
         return IndexPath(row: row, section: indexPath.section)
     }
 }

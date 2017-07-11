@@ -1047,8 +1047,6 @@
 		9FEFEF691E670B0A00948277 /* MessagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */; };
 		9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
 		9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
-		9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
-		9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */; };
 		9FF6AF9F1E83DE04001B5907 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
 		9FF6AFA01E83DE04001B5907 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
 		9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
@@ -2150,8 +2148,6 @@
 		9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagesCollectionViewController.swift; path = ../Controllers/Messaging/MessagesCollectionViewController.swift; sourceTree = "<group>"; };
 		9FF00E351EB20F3500A854A8 /* EmptyCallHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyCallHandler.h; sourceTree = "<group>"; };
 		9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyCallHandler.m; sourceTree = "<group>"; };
-		9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewRightAlignedLayout.h; sourceTree = "<group>"; };
-		9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewRightAlignedLayout.m; sourceTree = "<group>"; };
 		9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		A90E5A261F03BBAB00DAA501 /* BrowseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseCell.swift; sourceTree = "<group>"; };
 		A90E5A281F03CE0400DAA501 /* BrowseAppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseAppCell.swift; sourceTree = "<group>"; };
@@ -3588,8 +3584,6 @@
 		9FDB3B151E6D63D900EE5FD7 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */,
-				9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */,
 				9FEFEF681E670B0A00948277 /* MessagesCollectionViewController.swift */,
 				9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */,
 				9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */,
@@ -4453,7 +4447,6 @@
 				9F4D7FE91EEA8B4500FB5361 /* MemoryCache.m in Sources */,
 				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
 				9F4D80EF1EEA8B4500FB5361 /* MenuSheetItemView.m in Sources */,
-				9FF6AF991E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,
 				9F4D81491EEA8B4600FB5361 /* PhotoEditorCurvesToolView.m in Sources */,
 				9F4D80F71EEA8B4500FB5361 /* MessageImageAdditionalDataView.m in Sources */,
 				9F4D7F691EEA8B4500FB5361 /* SharpenTool.m in Sources */,
@@ -5071,7 +5064,6 @@
 				9F4D7F441EEA8B4500FB5361 /* PhotoFilterDefinition.m in Sources */,
 				9F4D7FFC1EEA8B4500FB5361 /* PGCameraMomentSession.m in Sources */,
 				9F4D80841EEA8B4500FB5361 /* AttachmentCameraView.m in Sources */,
-				9FF6AF981E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m in Sources */,
 				9F4D7F2A1EEA8B4500FB5361 /* PhotoCropControl.m in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				9F4D815C1EEA8B4600FB5361 /* PhotoEntitiesContainerView.m in Sources */,
