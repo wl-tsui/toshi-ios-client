@@ -48,6 +48,7 @@ class SubcontrolCell: ControlCell {
 
         self.button.setTitleColor(Theme.darkTextColor, for: .normal)
         self.button.setTitleColor(Theme.actionButtonTitleColor, for: .highlighted)
+        self.button.setTitleColor(Theme.darkTextColor, for: .selected)
         self.button.titleLabel?.font = Theme.regular(size: 15)
         self.button.contentHorizontalAlignment = .left
 
