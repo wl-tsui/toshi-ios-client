@@ -1,8 +1,8 @@
 {
-  "commitish" : "0.0.2",
+  "commitish" : "0.0.3",
   "iOS" : [
     {
-      "hash" : "146c0a7d51c2374b0287ebd4529813cc25c919c2b4ceaa3a4524188d63728a95",
+      "hash" : "4c81447d2e62de5b56862feb9bca09da19a9511e10a2c14aa889f90fa3f87d48",
       "name" : "Teapot"
     }
   ]
