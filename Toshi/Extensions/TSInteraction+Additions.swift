@@ -24,7 +24,22 @@ extension TSInteraction {
         case pendingConfirmation = 1
         case failed = 2
         case rejected = 3
-        case paid = 4
+        case approved = 4
+        
+        var stateText: String {
+            switch self {
+            case .failed:
+                return "Failed"
+            case .pendingConfirmation:
+                return "Requested"
+            case .rejected:
+                return "Rejected"
+            case .approved:
+                return "Approved"
+            default:
+                return ""
+            }
+        }
     }
 
     public var paymentStateRaw: Int {

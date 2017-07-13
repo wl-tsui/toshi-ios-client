@@ -18,8 +18,8 @@ class MessageImageView: UIImageView {
 
         return gestureRecognizer
     }()
-
-    required init?(coder _: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -34,8 +34,6 @@ class MessageImageView: UIImageView {
         self.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
 
         self.addGestureRecognizer(self.tapGestureRecognizer)
-
-        self.widthConstraint = width(UIScreen.main.bounds.width - self.totalHorizontalMargin, priority: .high)
     }
 
     func tap(_: UITapGestureRecognizer) {

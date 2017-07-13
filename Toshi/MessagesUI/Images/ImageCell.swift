@@ -3,7 +3,7 @@ import UIKit
 import TinyConstraints
 
 class ImageCell: UICollectionViewCell {
-    static var reuseIdentifier = "MessageCell"
+    static var reuseIdentifier = "ImageCell"
 
     lazy var imageView: UIImageView = {
         let view = UIImageView()

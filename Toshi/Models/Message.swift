@@ -39,11 +39,32 @@ open class Message: NSObject, NOCChatItem {
         return nil
     }
 
+    fileprivate lazy var attachmentsCache: NSCache<NSString, UIImage> = {
+        return NSCache<NSString, UIImage>()
+    }()
+
+    fileprivate func streamImage(for stream: TSAttachmentStream) -> UIImage? {
+        var image: UIImage?
+
+        if let cachedImage = self.attachmentsCache.object(forKey: self.uniqueIdentifier() as NSString) as UIImage? {
+            image = cachedImage
+        } else {
+            if let streamImage = stream.image() as UIImage? {
+                self.attachmentsCache.setObject(streamImage, forKey: self.uniqueIdentifier() as NSString)
+                image = streamImage
+            }
+        }
+
+        return image
+    }
+
     public var image: UIImage? {
         if self.attachment is TSAttachmentPointer {
             return #imageLiteral(resourceName: "placeholder")
         } else if let stream = attachment as? TSAttachmentStream {
-            guard let image = stream.image() else { return #imageLiteral(resourceName: "placeholder") }
+
+
+            guard let image = self.streamImage(for: stream) else { return #imageLiteral(resourceName: "placeholder") }
             // TODO: add play button if video
             return image
         }

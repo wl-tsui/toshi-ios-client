@@ -22,12 +22,12 @@ protocol ControlCellDelegate: class {
 class SubcontrolCell: ControlCell {
 
     override var buttonInsets: UIEdgeInsets {
-        return UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 64)
+        return UIEdgeInsets(top: 4, left: 15, bottom: 4, right: 15)
     }
 
     lazy var separatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.borderColor
+        view.backgroundColor = Theme.separatorColor
 
         return view
     }()
@@ -38,8 +38,8 @@ class SubcontrolCell: ControlCell {
         self.contentView.addSubview(self.separatorView)
 
         self.separatorView.set(height: 1)
-        self.separatorView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 12).isActive = true
-        self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: 12).isActive = true
+        self.separatorView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15).isActive = true
+        self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -15).isActive = true
         self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
 
         self.contentView.layer.cornerRadius = 0.0

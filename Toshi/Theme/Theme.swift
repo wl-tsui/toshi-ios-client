@@ -116,6 +116,10 @@ extension Theme {
         return UIColor(white: 0.95, alpha: 1)
     }
 
+    public static var separatorColor: UIColor {
+        return UIColor(white: 0.95, alpha: 1)
+    }
+
     // MARK: - Message colours
 
     public static var outgoingMessageBackgroundColor: UIColor {

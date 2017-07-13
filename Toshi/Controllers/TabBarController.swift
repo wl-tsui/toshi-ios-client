@@ -112,7 +112,7 @@ open class TabBarController: UITabBarController {
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
         self.dismiss(animated: false) {
 
-            ChatsController.getOrCreateThread(for: address)
+            ChatsInteractor.getOrCreateThread(for: address)
 
             DispatchQueue.main.async {
                 self.displayMessage(forAddress: address) { controller in

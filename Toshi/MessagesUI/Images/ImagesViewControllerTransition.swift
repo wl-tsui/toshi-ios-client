@@ -36,7 +36,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
 
         if self.isPresenting {
             guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController else { return }
-            guard let messagesViewController = tabBarController.messagingController.topViewController as? MessagesViewController else { return }
+            guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .to) as? ImagesViewController else { return }
 
             transitionContext.containerView.addSubview(imagesViewController.view)
@@ -44,44 +44,46 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             self.animate(with: transitionContext, messagesViewController, imagesViewController)
         } else {
             guard let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController else { return }
-            guard let messagesViewController = tabBarController.messagingController.topViewController as? MessagesViewController else { return }
+            guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .from) as? ImagesViewController else { return }
 
             self.animate(with: transitionContext, messagesViewController, imagesViewController)
         }
     }
 
-    func thumbnailImageView(for messagesViewController: MessagesViewController, _ imagesViewController: ImagesViewController) -> UIImageView? {
+    func thumbnailImageView(for messagesViewController: ChatController, _ imagesViewController: ImagesViewController) -> UIImageView? {
         messagesViewController.view.setNeedsLayout()
         messagesViewController.view.layoutIfNeeded()
 
         if !self.isPresenting {
-            messagesViewController.collectionView.scrollToItem(at: imagesViewController.currentIndexPath, at: .centeredVertically, animated: false)
+            messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
+        
+        guard let cell = messagesViewController.tableView.cellForRow(at: imagesViewController.currentIndexPath) as? ImageMessageCell else { return nil }
 
-        guard let cell = messagesViewController.collectionView.cellForItem(at: imagesViewController.currentIndexPath) as? MessageCell else { return nil }
-
-        return cell.imageView
+        return  cell.messageImageView
     }
 
-    func fullsizeImageView(for messagesViewController: MessagesViewController, _ imagesViewController: ImagesViewController) -> UIImageView? {
+    func fullsizeImageView(for messagesViewController: ChatController, _ imagesViewController: ImagesViewController) -> UIImageView? {
         imagesViewController.view.setNeedsLayout()
         imagesViewController.view.layoutIfNeeded()
 
         if !self.isPresenting {
-            messagesViewController.collectionView.scrollToItem(at: imagesViewController.currentIndexPath, at: .centeredVertically, animated: false)
+            messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
+        
+        print(imagesViewController)
 
         guard let toCell = imagesViewController.collectionView.visibleCells.flatMap({ cell in cell as? ImageCell }).filter({ imageCell in imageCell.frame.width != 0 }).first else { return nil }
 
         return toCell.imageView
     }
 
-    func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: MessagesViewController, _ imagesViewController: ImagesViewController) {
-        messagesViewController.layout.paused = true
+    func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: ChatController, _ imagesViewController: ImagesViewController) {
+      //  messagesViewController.layout.paused = true
 
         if !self.isPresenting {
-            messagesViewController.collectionView.scrollToItem(at: imagesViewController.currentIndexPath, at: .centeredVertically, animated: false)
+            messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
 
         guard let thumbnail = thumbnailImageView(for: messagesViewController, imagesViewController) else { return }
@@ -90,8 +92,8 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         thumbnail.isHidden = true
         fullsize.isHidden = true
 
-        var beginFrame = self.isPresenting ? context.containerView.convert(thumbnail.frame, from: thumbnail) : context.containerView.convert(fullsize.frame, from: fullsize)
-        var endFrame = self.isPresenting ? context.containerView.convert(fullsize.frame, from: fullsize) : context.containerView.convert(thumbnail.frame, from: thumbnail)
+        var beginFrame = self.isPresenting ? context.containerView.convert(thumbnail.frame, from: thumbnail.superview) : context.containerView.convert(fullsize.frame, from: fullsize)
+        var endFrame = self.isPresenting ? context.containerView.convert(fullsize.frame, from: fullsize) : context.containerView.convert(thumbnail.frame, from: thumbnail.superview)
 
         imagesViewController.view.alpha = self.isPresenting ? 0 : 1
 
@@ -148,7 +150,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             scalingImageView.center = CGPoint(x: endFrame.width / 2, y: endFrame.height / 2)
             scalingImageView.transform = self.isPresenting ? .identity : scale
         }) { _ in
-            messagesViewController.layout.paused = false
+           // messagesViewController.layout.paused = false
             fadingBackground.removeFromSuperview()
             mask.removeFromSuperview()
             clippingContainer.removeFromSuperview()

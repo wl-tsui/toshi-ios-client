@@ -353,7 +353,7 @@ public class ContactController: UIViewController {
 
     @objc private func didTapMessageContactButton() {
         // create thread if needed
-        ChatsController.getOrCreateThread(for: self.contact.address)
+        ChatsInteractor.getOrCreateThread(for: self.contact.address)
 
         DispatchQueue.main.async {
             (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.contact.address)
@@ -494,7 +494,7 @@ extension ContactController: PaymentSendControllerDelegate {
                     let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
 
                     // send message to thread
-                    let thread = ChatsController.getOrCreateThread(for: self.contact.address)
+                    let thread = ChatsInteractor.getOrCreateThread(for: self.contact.address)
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                     let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 

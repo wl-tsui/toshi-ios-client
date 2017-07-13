@@ -19,7 +19,8 @@ protocol ControlViewActionDelegate: class {
     func controlsCollectionViewDidSelectControl(_ button: SofaMessage.Button)
 }
 
-class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, ControlCellDelegate, UICollectionViewDelegateFlowLayout {
+class SubcontrolsViewDelegateDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, ControlCellDelegate, UICollectionViewDelegateFlowLayout {
+
     var items: [SofaMessage.Button] = [] {
         didSet {
             self.subcontrolsCollectionView?.isUserInteractionEnabled = true
@@ -43,6 +44,9 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
         cell.buttonItem = self.items[indexPath.row]
         cell.delegate = self
 
+        let isBottomCell = indexPath.item == self.items.count - 1
+        cell.separatorView.isHidden = isBottomCell
+
         return cell
     }
 
@@ -65,7 +69,8 @@ class SubcontrolsViewDelegateDatasource: NSObject, UICollectionViewDataSource, U
     }
 }
 
-class ControlsViewDelegateDatasource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, ControlCellDelegate, UICollectionViewDelegateFlowLayout {
+class ControlsViewDelegateDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, ControlCellDelegate, UICollectionViewDelegateFlowLayout {
+
     var items: [SofaMessage.Button] = [] {
         didSet {
             self.controlsCollectionView?.isUserInteractionEnabled = true

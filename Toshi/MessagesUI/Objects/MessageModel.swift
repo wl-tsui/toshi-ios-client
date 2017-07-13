@@ -1,13 +1,13 @@
 import Foundation
 import UIKit
 
-typealias MessageAction = () -> Void
+typealias MessageAction = ((MessageButtonModel.MessageType?) -> Void)
 
 struct MessageButtonModel {
     let type: MessageType
     let title: String
     let icon: String
-
+    
     enum MessageType {
         case approve
         case decline
@@ -45,6 +45,10 @@ struct MessageModel {
     let text: String?
     let isOutgoing: Bool
 
+    var identifier: String {
+        return self.message.uniqueIdentifier()
+    }
+
     var image: UIImage? {
         if self.message.image != nil {
             return self.message.image
@@ -53,7 +57,7 @@ struct MessageModel {
         }
     }
 
-    let buttonModels: [MessageButtonModel]?
+    var buttonModels: [MessageButtonModel]?
     var status: Status?
     var isActionable: Bool?
     var signalMessage: TSMessage?
@@ -106,6 +110,9 @@ struct MessageModel {
             }
             self.subtitle = message.ethereumValueString
 
+        } else if message.image != nil {
+            self.type = .image
+            self.buttonModels = nil
         } else {
             self.type = .simple
             self.buttonModels = nil

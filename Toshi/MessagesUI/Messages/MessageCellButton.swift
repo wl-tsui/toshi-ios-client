@@ -4,6 +4,9 @@ import TinyConstraints
 
 class MessageCellButton: UIControl {
 
+    var indexPath: IndexPath?
+    var action: MessageAction?
+    
     var model: MessageButtonModel? {
         didSet {
             if let model = model {
@@ -28,7 +31,13 @@ class MessageCellButton: UIControl {
                 }
                 self.divider.backgroundColor = nil
             }
+            
+            self.addTarget(self, action: #selector(performModelAction), for: .touchUpInside)
         }
+    }
+    
+    @objc fileprivate func performModelAction() {
+        self.action?(self.model?.type)
     }
 
     lazy var titleLabel: UILabel = {
