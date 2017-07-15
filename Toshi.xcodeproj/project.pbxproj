@@ -3592,8 +3592,6 @@
 		9FDB3B151E6D63D900EE5FD7 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				9FF6AF961E83CA84001B5907 /* UICollectionViewRightAlignedLayout.h */,
-				9FF6AF971E83CA84001B5907 /* UICollectionViewRightAlignedLayout.m */,
 				9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */,
 				9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */,
 				9FDB3B1A1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDataSource.swift */,
@@ -4456,7 +4454,6 @@
 				9F4D7F891EEA8B4500FB5361 /* CameraCaptureSession.m in Sources */,
 				9FBB9E331F0136E800B35A0D /* ProfileVisibilityController.swift in Sources */,
 				A90E5A321F06A60F00DAA501 /* BrowseAllController.swift in Sources */,
-				A9202E651ED84FF90036E9B7,
 				9F4D7FE91EEA8B4500FB5361 /* MemoryCache.m in Sources */,
 				9FD247841ED3037F00A38C40 /* String+isURL.swift in Sources */,
 				9F4D80EF1EEA8B4500FB5361 /* MenuSheetItemView.m in Sources */,
