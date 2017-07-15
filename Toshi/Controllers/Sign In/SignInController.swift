@@ -187,7 +187,7 @@ open class SignInController: UIViewController {
                 Cereal.shared = cereal
                 UserDefaults.standard.set(false, forKey: RequiresSignIn)
 
-                user.verified = true
+                user.updateVerificationState(true)
                 TokenUser.createOrUpdateCurrentUser(with: user.asDict)
 
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }

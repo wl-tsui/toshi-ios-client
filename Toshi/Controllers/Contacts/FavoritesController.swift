@@ -41,10 +41,6 @@ open class FavoritesController: SweetTableController {
         return dbConnection
     }()
 
-    fileprivate var chatAPIClient: ChatAPIClient {
-        return ChatAPIClient.shared
-    }
-
     fileprivate var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }

@@ -350,12 +350,17 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             self.teapot.get("/v1/search/user?query=\(query)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, _):
-                    guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
+                    guard let dictionary = json?.dictionary, var json = dictionary["results"] as? [[String: Any]] else {
                         completion([])
                         return
                     }
 
                     var contacts = [TokenUser]()
+                    json = json.filter({ item -> Bool in
+                        guard let address = item[TokenUser.Constants.address] as? String else { return true }
+                        return address != Cereal.shared.address
+                    })
+
                     for item in json {
                         contacts.append(TokenUser(json: item))
                     }

@@ -65,7 +65,7 @@ class BackupPhraseView: UIView {
                     self.shake()
                 }
             } else {
-                TokenUser.current?.verified = (self.verificationStatus == .correct)
+                TokenUser.current?.updateVerificationState(self.verificationStatus == .correct)
             }
         }
     }

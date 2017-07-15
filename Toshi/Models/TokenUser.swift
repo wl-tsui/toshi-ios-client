@@ -48,7 +48,7 @@ public class TokenUser: NSObject, NSCoding {
 
     var balance = NSDecimalNumber.zero
 
-    var verified: Bool = false {
+    private(set) var verified: Bool = false {
         didSet {
             self.save()
         }
@@ -158,6 +158,10 @@ public class TokenUser: NSObject, NSCoding {
 
     @objc(encodeWithCoder:) public func encode(with aCoder: NSCoder) {
         aCoder.encode(self.JSONData, forKey: "jsonData")
+    }
+
+    func updateVerificationState(_ verified: Bool) {
+        self.verified = verified
     }
 
     func update(json: [String: Any], updateAvatar _: Bool = false, shouldSave: Bool = true) {
