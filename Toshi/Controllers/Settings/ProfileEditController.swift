@@ -16,11 +16,13 @@
 import UIKit
 import SweetUIKit
 import SweetFoundation
-import Formulaic
 import ImagePicker
 
 /// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
 open class ProfileEditController: OverlayController, Editable {
+
+    fileprivate static let profileVisibilitySectionTitle = Localized("Profile visibility")
+    fileprivate static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
 
     var scrollView: UIScrollView {
         return self.tableView
@@ -44,19 +46,8 @@ open class ProfileEditController: OverlayController, Editable {
 
     fileprivate var menuSheetController: MenuSheetController?
 
-    lazy var dataSource: FormDataSource = {
-        let dataSource = FormDataSource(delegate: nil)
-        let usernameValidator = TextInputValidator(minLength: 2, maxLength: 60, validationPattern: IDAPIClient.usernameValidationPattern)
-
-        dataSource.items = [
-            FormItem(title: "Username", value: TokenUser.current?.username, fieldName: "username", type: .input, textInputValidator: usernameValidator),
-            FormItem(title: "Display name", value: TokenUser.current?.name, fieldName: "name", type: .input),
-            FormItem(title: "About", value: TokenUser.current?.about, fieldName: "about", type: .input),
-            FormItem(title: "Location", value: TokenUser.current?.location, fieldName: "location", type: .input),
-        ]
-
-        return dataSource
-    }()
+    fileprivate let editingSections = [ProfileEditSection(items: [ProfileEditItem(.username), ProfileEditItem(.displayName), ProfileEditItem(.about), ProfileEditItem(.location)]),
+                                       ProfileEditSection(items: [ProfileEditItem(.visibility)], headerTitle: profileVisibilitySectionTitle, footerTitle: profileVisibilitySectionFooter)]
 
     fileprivate var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
@@ -71,7 +62,7 @@ open class ProfileEditController: OverlayController, Editable {
     fileprivate lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
-        let title = NSAttributedString(string: "Change picture", attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 16)])
+        let title = NSAttributedString(string: Localized("Change profile photo"), attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 16)])
         view.setAttributedTitle(title, for: .normal)
         view.addTarget(self, action: #selector(updateAvatar), for: .touchUpInside)
 
@@ -79,13 +70,18 @@ open class ProfileEditController: OverlayController, Editable {
     }()
 
     fileprivate lazy var tableView: UITableView = {
-        let view = UITableView(withAutoLayout: true)
+        let view = UITableView(frame: self.view.frame, style: .grouped)
+        view.translatesAutoresizingMaskIntoConstraints = false
 
+        let tabBarHeight:CGFloat = 49.0
+        view.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight, right: 0.0)
         view.backgroundColor = UIColor.clear
+        view.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight, right: 0.0)
+        view.register(InputCell.self)
         view.delegate = self
         view.dataSource = self
-        view.separatorStyle = .none
-        view.register(ProfileItemCell.self)
+        view.tableFooterView = UIView()
+        view.register(UINib(nibName: "InputCell", bundle: nil), forCellReuseIdentifier: String(describing: InputCell.self))
         view.layer.borderWidth = Theme.borderHeight
         view.layer.borderColor = Theme.borderColor.cgColor
         view.alwaysBounceVertical = true
@@ -100,6 +96,7 @@ open class ProfileEditController: OverlayController, Editable {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = Localized("Edit profile")
         self.view.backgroundColor = Theme.navigationBarColor
         self.addSubviewsAndConstraints()
 
@@ -116,6 +113,8 @@ open class ProfileEditController: OverlayController, Editable {
 
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
+        self.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: Theme.bold(size: 17.0),
+                                                                       NSForegroundColorAttributeName: Theme.tintColor], for: .normal)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -213,7 +212,7 @@ open class ProfileEditController: OverlayController, Editable {
 
         itemViews.append(carouselItem)
 
-        let galleryItem = MenuSheetButtonItemView.init(title: "Library", type: MenuSheetButtonTypeDefault, action: {
+        let galleryItem = MenuSheetButtonItemView(title: "Library", type: MenuSheetButtonTypeDefault, action: {
             self.menuSheetController?.dismiss(animated: true)
             self.displayMediaPicker(forFile: false, fromFileMenu: false)
         })!
@@ -222,7 +221,7 @@ open class ProfileEditController: OverlayController, Editable {
 
         carouselItem.underlyingViews = [galleryItem]
 
-        let cancelItem = MenuSheetButtonItemView.init(title: "Cancel", type: MenuSheetButtonTypeCancel, action: {
+        let cancelItem = MenuSheetButtonItemView(title: "Cancel", type: MenuSheetButtonTypeCancel, action: {
             self.menuSheetController?.dismiss(animated: true)
         })!
 
@@ -344,27 +343,41 @@ open class ProfileEditController: OverlayController, Editable {
         var name = ""
         var about = ""
         var location = ""
+        var isPublic = false
 
-        for item in self.dataSource.items {
-            if item.fieldName == "username" {
-                if item.validate() {
-                    username = item.value as? String ?? (TokenUser.current?.username ?? "")
-                } else {
-                    let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
-                    Navigator.presentModally(alert)
+        // we use flatmap here to map nested array into one
+        let editedItems = self.editingSections.flatMap { section in
+            return section.items
+        }
 
-                    return
-                }
-            } else if item.fieldName == "name" {
-                name = item.value as? String ?? ""
-            } else if item.fieldName == "about" {
-                about = item.value as? String ?? ""
-            } else if item.fieldName == "location" {
-                location = item.value as? String ?? ""
+        editedItems.forEach { item in
+            let text = item.detailText
+
+            switch item.type {
+            case .username:
+                username = text
+            case .displayName:
+                name = text
+            case .about:
+                about = text
+            case .location:
+                location = text
+            case .visibility:
+                isPublic = item.switchMode
+            default:
+                break
             }
         }
 
         self.view.endEditing(true)
+        
+        if self.validateUserName(username) == false {
+            let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
+            Navigator.presentModally(alert)
+
+            return
+        }
+
         self.activityIndicator.startAnimating()
 
         let userDict: [String: Any] = [
@@ -376,6 +389,7 @@ open class ProfileEditController: OverlayController, Editable {
             TokenUser.Constants.name: name,
             TokenUser.Constants.avatar: user.avatarPath,
             TokenUser.Constants.isApp: user.isApp,
+            TokenUser.Constants.isPublic: isPublic,
             TokenUser.Constants.verified: user.verified,
         ]
 
@@ -394,6 +408,37 @@ open class ProfileEditController: OverlayController, Editable {
                 self.completeEdit(success: userUpdated, message: message)
             }
         }
+    }
+
+    fileprivate func validateUserName(_ username: String) -> Bool {
+        let none = NSRegularExpression.MatchingOptions(rawValue: 0)
+        let range = NSRange(location: 0, length: username.characters.count)
+
+        var isValid = true
+
+        if isValid {
+            isValid = username.characters.count >= 2
+        }
+
+        if isValid {
+            isValid = username.characters.count <= 60
+        }
+
+        var regex: NSRegularExpression?
+        do {
+            let pattern = IDAPIClient.usernameValidationPattern
+            regex = try NSRegularExpression(pattern: pattern, options: [.anchorsMatchLines, .dotMatchesLineSeparators, .useUnicodeWordBoundaries])
+        } catch {
+            fatalError("Invalid regular expression pattern")
+        }
+
+        if isValid {
+            if  let validationRegex = regex {
+                isValid = validationRegex.numberOfMatches(in: username, options: none, range: range) >= 1
+            }
+        }
+        
+        return isValid
     }
 
     fileprivate func completeEdit(success: Bool, message: String?) {
@@ -448,15 +493,34 @@ extension ProfileEditController: UITableViewDelegate {
 
 extension ProfileEditController: UITableViewDataSource {
 
-    public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return self.dataSource.count
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return section == 1 ? "Profile Visibility" : nil
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        let editingSection = self.editingSections[section]
+        
+        return editingSection.footerTitle
+    }
+    
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return self.editingSections.count
+    }
+    
+    public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let editingSection = self.editingSections[section]
+        
+        return editingSection.items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(ProfileItemCell.self, for: indexPath)
-        let formItem = self.dataSource.item(at: indexPath)
-        cell.selectionStyle = .none
-        cell.formItem = formItem
+        let cell = tableView.dequeue(InputCell.self, for: indexPath)
+        
+        let section = self.editingSections[indexPath.section]
+        let item = section.items[indexPath.row]
+        
+        let configurator = ProfileEditConfigurator(item: item)
+        configurator.configure(cell: cell)
 
         return cell
     }
