@@ -86,8 +86,15 @@ final class TextMessageCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        self.textView.attributedText = nil
-        self.textView.text = nil
+        if let text = self.textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
+            let range = NSRange(location: 0, length: text.string.length)
+
+            text.removeAttribute(NSLinkAttributeName, range: range)
+            text.removeAttribute(NSForegroundColorAttributeName, range: range)
+            text.removeAttribute(NSUnderlineStyleAttributeName, range: range)
+
+            self.textView.attributedText = text
+        }
 
         self.containerLeftEqualConstraint.isActive = false
         self.containerRightEqualConstraint.isActive = false
