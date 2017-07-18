@@ -133,13 +133,21 @@ open class ChatsController: SweetTableController {
             return
         }
 
+        let rowChanges = messageRowChanges as! [YapDatabaseViewRowChange]
+
+        if let insertedRow = rowChanges.first(where: {$0.type == .insert}) {
+            if let thread = self.thread(at: insertedRow.newIndexPath) as TSThread?, let contactIdentfier = thread.contactIdentifier() as String? {
+                IDAPIClient.shared.updateContact(with: contactIdentfier)
+            }
+        }
+
         // No need to animate the tableview if not being presented.
         // Avoids an issue where tableview will actually cause a crash on update
         // during a chat update.
         if self.navigationController?.topViewController == self && self.tabBarController?.selectedViewController == self.navigationController {
             self.tableView.beginUpdates()
 
-            for rowChange in messageRowChanges as! [YapDatabaseViewRowChange] {
+            for rowChange in rowChanges {
                 switch rowChange.type {
                 case .delete:
                     self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)

@@ -52,6 +52,8 @@
 {
     self.tokenContacts = nil;
     self.signalRecipients = nil;
+
+    [AvatarManager.shared startDownloadContactsAvatars];
 }
 
 - (void)databaseChanged:(NSNotification *)notification
@@ -62,7 +64,7 @@
     BOOL hasChangesForCurrentView = [viewConnection hasChangesForNotifications:notifications];
     
     if (hasChangesForCurrentView) {
-        self.tokenContacts = nil;
+        [self refreshContacts];
     }
 }
 
@@ -129,7 +131,7 @@
         NSMutableArray<SignalAccount *> *signalAccounts = [NSMutableArray array];
         NSMutableDictionary<NSString *, NSArray<SignalRecipient *> *> *contactIdToSignalRecipientsMap = [NSMutableDictionary dictionary];
         NSMutableArray<Contact *> *contacts = [NSMutableArray array];
-        
+
         for (TokenUser *tokenContact in self.tokenContacts) {
             Contact *contact = [[Contact alloc] initWithContactWithFirstName:tokenContact.username andLastName:tokenContact.name andUserTextPhoneNumbers:@[tokenContact.address] andImage:nil andContactID:(int)tokenContact.hash];
             
@@ -160,7 +162,7 @@
         
         _signalRecipients = signalAccounts.copy;
     }
-    
+
     return _signalRecipients;
 }
 

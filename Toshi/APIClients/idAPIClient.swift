@@ -80,6 +80,19 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
+    func updateContact(with identifier: String) {
+        self.findContact(name: identifier) { updatedContact in
+            if let updatedContact = updatedContact {
+                DispatchQueue.main.async {
+                    Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: TokenUser.storedContactKey)
+
+                    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+                    appDelegate.contactsManager.refreshContacts()
+                }
+            }
+        }
+    }
+
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
