@@ -283,11 +283,11 @@ final class ChatController: OverlayController {
         view.addSubview(textInputView)
 
         NSLayoutConstraint.activate([
-            self.textInputView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+                self.textInputView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+                self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
-            self.textInputViewBottom,
-            self.textInputViewHeight,
+                self.textInputViewBottom,
+                self.textInputViewHeight,
         ])
 
         view.addSubview(controlsView)
@@ -312,10 +312,11 @@ final class ChatController: OverlayController {
         ethereumPromptView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         ethereumPromptView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         ethereumPromptView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-
+        
         view.addSubview(tableView)
 
         tableView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor).isActive = true
+
         tableView.left(to: view)
         tableView.right(to: view)
         tableView.bottomToTop(of: controlsView)
@@ -498,7 +499,7 @@ final class ChatController: OverlayController {
             let prefix = "Webview::"
             guard action.hasPrefix(prefix) else { return }
             guard let actionPath = action.components(separatedBy: prefix).last,
-                let url = URL(string: actionPath) else { return }
+                  let url = URL(string: actionPath) else { return }
 
             let sofaWebController = SOFAWebController()
             sofaWebController.load(url: url)
@@ -935,9 +936,9 @@ extension ChatController: PaymentRequestControllerDelegate {
         guard let valueInWei = valueInWei else { return }
 
         let request: [String: Any] = [
-            "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
-            "value": valueInWei.toHexString,
-            "destinationAddress": Cereal.shared.paymentAddress,
+                "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
+                "value": valueInWei.toHexString,
+                "destinationAddress": Cereal.shared.paymentAddress,
         ]
 
         let paymentRequest = SofaPaymentRequest(content: request)

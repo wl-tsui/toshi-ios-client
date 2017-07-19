@@ -179,15 +179,15 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Settings" id="ZUh-Zh-8AK">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dGU-NG-AvB">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dGU-NG-AvB">
                                         <rect key="frame" x="0.0" y="483.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dGU-NG-AvB" id="GNQ-5E-Tlw">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRs-tP-aau">
-                                                    <rect key="frame" x="20" y="12.5" width="335" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Develop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRs-tP-aau">
+                                                    <rect key="frame" x="20" y="12.5" width="302" height="20"/>
                                                     <fontDescription key="fontDescription" name="SFUIText-Regular" family="SF UI Text" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -256,7 +256,6 @@
                         <outlet property="ratingsView" destination="0e6-m4-Xlo" id="suP-f9-fkP"/>
                         <outlet property="userAvatarImageVIew" destination="gvh-jA-gSN" id="0AR-Tg-kLQ"/>
                         <outlet property="usernameLabel" destination="qXq-f8-Bm1" id="UQz-gs-2Fe"/>
-                        <outlet property="versionLabel" destination="cRs-tP-aau" id="HXX-EQ-5Pd"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ekY-l7-EC7" userLabel="First Responder" sceneMemberID="firstResponder"/>

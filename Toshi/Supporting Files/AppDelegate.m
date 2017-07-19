@@ -36,7 +36,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
-@property (nonatomic) NSString *token;
+@property (nonatomic, copy, readwrite) NSString *token;
 @property (nonatomic) NSString *voipToken;
 
 @end
@@ -136,7 +136,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [AvatarManager.shared cleanCache];
 
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-        [[EthereumAPIClient shared] deregisterForNotificationsWithDeviceToken:self.token];
+        [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotifications];
         [[TSStorageManager sharedManager] resetSignalStorage];
         [[Yap sharedInstance] wipeStorage];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
@@ -400,7 +400,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:self.voipToken success:^{
         NSLog(@"TOKEN: chat PN register - SUCCESS: token: %@, voip: %@", self.token, self.voipToken);
 
-        [[EthereumAPIClient shared] registerForPushNotificationsWithDeviceToken:self.token];
+        [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
+        [[EthereumAPIClient shared] registerForSwitchedNetworkPushNotificationsIfNeededWithCompletion:nil];
 
     } failure:^(NSError *error) {
         NSLog(@"TOKEN: chat PN register - FAILURE: %@", error.localizedDescription);

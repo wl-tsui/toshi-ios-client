@@ -22,6 +22,33 @@ public extension NSNotification.Name {
 
 open class SettingsController: UITableViewController {
 
+    enum Sections: Int {
+        case profile
+        case balance
+        case security
+        case settings
+    }
+
+    enum ProfileCells: Int {
+        case user
+        case qrCode
+    }
+
+    enum BalanceCells: Int {
+        case balance
+        case addMoney
+    }
+
+    enum SecurityCells: Int {
+        case storePhrase
+    }
+
+    enum SettingsCells: Int {
+        case develop
+        case profileVisibility
+        case signOut
+    }
+
     fileprivate var ethereumAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
@@ -65,15 +92,6 @@ open class SettingsController: UITableViewController {
     @IBOutlet weak var balanceLabel: UILabel! {
         didSet {
             self.set(balance: .zero)
-        }
-    }
-
-    @IBOutlet weak var versionLabel: UILabel! {
-        didSet {
-            let info = Bundle.main.infoDictionary!
-            let version = info["CFBundleShortVersionString"] as! String
-
-            self.versionLabel.text = "Version \(version)"
         }
     }
 
@@ -205,66 +223,86 @@ open class SettingsController: UITableViewController {
 
     // MARK: TableView methods
 
-    /// This handles the actions for cell selection.
-    ///
-    /// There's unfortunatelly way to directly add IBActions for touching a cell.
-    ///
-    func performAction(for indexPath: IndexPath) {
-        switch indexPath.section {
-        case 0:
-            switch indexPath.row {
-            case 0:
-                self.navigationController?.pushViewController(ProfileController(), animated: true)
-            case 1:
-                guard let current = TokenUser.current else { return }
-                let qrCodecontroller = QRCodeController(for: current.displayUsername, name: current.name)
+    open override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let section = Sections(rawValue: indexPath.section) else { return }
 
-                self.navigationController?.pushViewController(qrCodecontroller, animated: true)
-            default:
-                break
-            }
-        case 1:
-            switch indexPath.row {
-            case 1:
-                guard let current = TokenUser.current else { return }
-                let controller = AddMoneyController(for: current.displayUsername, name: current.name)
-                self.navigationController?.pushViewController(controller, animated: true)
-            default:
-                break
-            }
-
-        case 2:
-            switch indexPath.row {
-            case 0:
-                self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
-            case 1:
-                break // trusted friends
-            default:
-                break
-            }
-
-        case 3:
-            switch indexPath.row {
-            case 0:
-                break // change currency
-            case 1:
-                let storyboard = UIStoryboard(name: "ProfileVisibility", bundle: nil)
-                guard let profileVisiblityController = storyboard.instantiateInitialViewController() else { return }
-
-                self.navigationController?.pushViewController(profileVisiblityController, animated: true)
-            case 2:
-                self.handleSignOut()
-            default:
-                break
-            }
-
-        default:
-            break
+        switch section {
+            case .profile:
+                didSelectProfileSection(at: indexPath)
+            case .balance:
+                didSelectBalanceSection(at: indexPath)
+            case .security:
+                didSelectSecuritySection(at: indexPath)
+            case .settings:
+                didSelectSettingsSection(at: indexPath)
         }
     }
 
-    open override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performAction(for: indexPath)
+    fileprivate func didSelectProfileSection(at indexPath: IndexPath) {
+        guard let profileCellType = ProfileCells(rawValue: indexPath.row) else { return }
+
+        switch profileCellType {
+        case .user:
+            self.navigationController?.pushViewController(ProfileController(), animated: true)
+        case .qrCode:
+            self.pushQRCodeController()
+        }
+    }
+
+    fileprivate func didSelectBalanceSection(at indexPath: IndexPath) {
+        guard let balanceCellType = BalanceCells(rawValue: indexPath.row) else { return }
+
+        switch balanceCellType {
+        case .addMoney:
+            break
+        case .balance:
+          self.pushAddMoneyController()
+        }
+    }
+
+    private func pushQRCodeController() {
+        guard let current = TokenUser.current else { return }
+        let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
+
+        self.navigationController?.pushViewController(qrCodeController, animated: true)
+    }
+
+    private func pushAddMoneyController() {
+        guard let current = TokenUser.current else { return }
+        let controller = AddMoneyController(for: current.displayUsername, name: current.name)
+
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+
+    fileprivate func didSelectSecuritySection(at indexPath: IndexPath) {
+        guard let securityCellType = SecurityCells(rawValue: indexPath.row) else {
+            return
+        }
+
+        switch securityCellType {
+        case .storePhrase:
+            self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
+        }
+    }
+
+    fileprivate func didSelectSettingsSection(at indexPath: IndexPath) {
+        guard let settingsCellType = SettingsCells(rawValue: indexPath.row) else { return }
+
+        switch settingsCellType {
+        case .develop:
+            self.pushViewController("DevelopSettings")
+        case .profileVisibility:
+            self.pushViewController("ProfileVisibility")
+        case .signOut:
+            self.handleSignOut()
+        }
+    }
+
+    fileprivate func pushViewController(_ storyboardName: String) {
+        guard let storyboard = UIStoryboard(name: storyboardName, bundle: nil) as UIStoryboard? else { return }
+        guard let controller = storyboard.instantiateInitialViewController() else { return }
+
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     open override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

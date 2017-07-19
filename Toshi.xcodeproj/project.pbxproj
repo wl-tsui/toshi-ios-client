@@ -94,6 +94,8 @@
 		14ED3ABD1E4A2B3400DF8079 /* BrowseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABC1E4A2B3400DF8079 /* BrowseController.swift */; };
 		14ED3ABF1E4A347400DF8079 /* BrowseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABE1E4A347400DF8079 /* BrowseNavigationController.swift */; };
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
+		2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
+		2B002D901F17BA1800D92240 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
 		2B10A3FC1F082C9300E0F7DC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */; };
 		2B10A3FD1F082C9300E0F7DC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */; };
 		2B10A3FF1F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
@@ -1182,6 +1184,12 @@
 		D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		DBFAB6FED2A3595E0356668C /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
+		E681FC911F15266000DEC69E /* DevelopSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */; };
+		E681FC921F15266000DEC69E /* DevelopSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */; };
+		E681FC991F15284600DEC69E /* DevelopSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E681FC981F15284600DEC69E /* DevelopSettings.storyboard */; };
+		E681FC9A1F15284600DEC69E /* DevelopSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E681FC981F15284600DEC69E /* DevelopSettings.storyboard */; };
+		E68F63571F1606EF005FC33D /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */; };
+		E68F63581F1606EF005FC33D /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1245,6 +1253,7 @@
 		14ED3ABE1E4A347400DF8079 /* BrowseNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BrowseNavigationController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Distribution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A2B3E9FEB8D75D91B02772E /* Pods-CocoaPods-Development.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.debug.xcconfig"; sourceTree = "<group>"; };
+		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkSwitcher.swift; path = Network/NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		2B32003A1F16150400D6942B /* ImageMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMessageCell.swift; sourceTree = "<group>"; };
@@ -2212,6 +2221,9 @@
 		CFAFE0DF986DC3B38AF50EE6 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopSettingsController.swift; sourceTree = "<group>"; };
+		E681FC981F15284600DEC69E /* DevelopSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DevelopSettings.storyboard; sourceTree = "<group>"; };
+		E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2424,6 +2436,14 @@
 				2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2B002D8D1F17B9F900D92240 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		2B3EE2AB1EDEC6E40056E6A4 /* EmptyState */ = {
@@ -3347,6 +3367,7 @@
 				9F9238CE1E24F3EB004BEEE0 /* Views */,
 				9FD0ED201E2F8378000507B0 /* Protocols */,
 				9F9238CD1E24F3DE004BEEE0 /* Controllers */,
+				2B002D8D1F17B9F900D92240 /* Network */,
 				9F9238CC1E24F3D9004BEEE0 /* Resources */,
 				9F9238B41E24F1D2004BEEE0 /* Supporting Files */,
 			);
@@ -3636,6 +3657,7 @@
 				E1A95D541E6EF092002762DA /* SettingsController.swift */,
 				9F27525D1EB9CA7A00050C08 /* Settings.storyboard */,
 				9F04A7221E38D1400043534A /* QRCodeController.swift */,
+				D197B1F87C657D03839972CB /* Develop */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3744,6 +3766,24 @@
 				A9ED6CCC1E82B57E00160637 /* InputField.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D197B1F87C657D03839972CB /* Develop */ = {
+			isa = PBXGroup;
+			children = (
+				E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */,
+				E681FC981F15284600DEC69E /* DevelopSettings.storyboard */,
+				D197B72136F982842FAFC6FC /* Network */,
+			);
+			path = Develop;
+			sourceTree = "<group>";
+		};
+		D197B72136F982842FAFC6FC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		E1A95D581E6F031F002762DA /* Views */ = {
@@ -3909,6 +3949,7 @@
 				9FB36EA81E7C27A300DB6F86 /* menuButton.m4a in Resources */,
 				149F9AD21E72E29A00FB74AA /* SF-UI-Text-Medium.otf in Resources */,
 				9F27525F1EB9CA7A00050C08 /* Settings.storyboard in Resources */,
+				E681FC9A1F15284600DEC69E /* DevelopSettings.storyboard in Resources */,
 				149F9AD31E72E29A00FB74AA /* SF-UI-Text-Bold.otf in Resources */,
 				149F9AD41E72E29A00FB74AA /* Localizable.strings in Resources */,
 				149F9AD51E72E29A00FB74AA /* SF-UI-Display-Bold.otf in Resources */,
@@ -3956,6 +3997,7 @@
 				9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */,
 				9FAACD001E31120600FB871D /* SF-UI-Text-Medium.otf in Resources */,
 				9FAACCFA1E31120600FB871D /* SF-UI-Text-Bold.otf in Resources */,
+				E681FC991F15284600DEC69E /* DevelopSettings.storyboard in Resources */,
 				9F27525E1EB9CA7A00050C08 /* Settings.storyboard in Resources */,
 				9FAACCB51E30F24100FB871D /* Localizable.strings in Resources */,
 				9FAACCF21E31120600FB871D /* SF-UI-Display-Bold.otf in Resources */,
@@ -4217,6 +4259,7 @@
 				9F4D806F1EEA8B4500FB5361 /* ModernGalleryModel.m in Sources */,
 				9F30A81E1ED2EDA9003E56A2 /* SOFAWebController.swift in Sources */,
 				9F4D80F11EEA8B4500FB5361 /* MenuSheetTitleItemView.m in Sources */,
+				E681FC921F15266000DEC69E /* DevelopSettingsController.swift in Sources */,
 				9F4D80BD1EEA8B4500FB5361 /* MediaAssetsGifCell.m in Sources */,
 				9F4D801B1EEA8B4500FB5361 /* TGVideoEditAdjustments.m in Sources */,
 				9F78D9D01EE93E68003A0B95 /* ModalPresentationController.swift in Sources */,
@@ -4536,6 +4579,7 @@
 				9F4D7FE31EEA8B4500FB5361 /* MediaSelectionContext.m in Sources */,
 				9F4D80151EEA8B4500FB5361 /* StringUtils.mm in Sources */,
 				9F4D7F351EEA8B4500FB5361 /* PhotoEditorPicture.m in Sources */,
+				2B002D901F17BA1800D92240 /* NetworkSwitcher.swift in Sources */,
 				9F4D81411EEA8B4600FB5361 /* PhotoEditorBlurView.m in Sources */,
 				9F4D7F091EEA8B4500FB5361 /* PaintEllipticalBrush.m in Sources */,
 				149F9A921E72E29A00FB74AA /* ChatAPIClient.swift in Sources */,
@@ -4651,6 +4695,7 @@
 				9F4D7EE31EEA8B4500FB5361 /* TGImagePickerController.mm in Sources */,
 				9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */,
 				9F4D81531EEA8B4600FB5361 /* PhotoEditorSliderView.m in Sources */,
+				E68F63581F1606EF005FC33D /* NetworkSettingsController.swift in Sources */,
 				9F4D80451EEA8B4500FB5361 /* ImageMediaAttachment.m in Sources */,
 				9F4D807D1EEA8B4500FB5361 /* VideoMediaAttachment.m in Sources */,
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
@@ -4730,6 +4775,7 @@
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F4D809A1EEA8B4500FB5361 /* CameraMainPhoneView.m in Sources */,
 				9F4D80201EEA8B4500FB5361 /* UICollectionView+Transitioning.m in Sources */,
+				E681FC911F15266000DEC69E /* DevelopSettingsController.swift in Sources */,
 				9F4D800A1EEA8B4500FB5361 /* SGraphListNode.m in Sources */,
 				9F4D7FC81EEA8B4500FB5361 /* ImageManagerTask.m in Sources */,
 				9F4D812E1EEA8B4600FB5361 /* PhotoBrushSettingsView.m in Sources */,
@@ -4776,6 +4822,7 @@
 				9F4D80541EEA8B4500FB5361 /* MediaAssetsLegacyLibrary.m in Sources */,
 				9F4D81781EEA8B4600FB5361 /* SharedMediaSectionHeaderView.m in Sources */,
 				9FD25D3C1E813C3F0011F164 /* Navigator.swift in Sources */,
+				2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */,
 				9F4D80241EEA8B4500FB5361 /* UIControl+HitTestEdgeInsets.m in Sources */,
 				9F4D7FC41EEA8B4500FB5361 /* Hacks.m in Sources */,
 				9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */,
@@ -5121,6 +5168,7 @@
 				9F4D7F0E1EEA8B4500FB5361 /* PaintInput.m in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */,
+				E68F63571F1606EF005FC33D /* NetworkSettingsController.swift in Sources */,
 				9F4D80581EEA8B4500FB5361 /* MediaAssetsModernLibrary.m in Sources */,
 				9F4D80021EEA8B4500FB5361 /* PhotoEditorRawDataOutput.m in Sources */,
 				9F4D7F621EEA8B4500FB5361 /* SaturationTool.m in Sources */,
@@ -5425,7 +5473,7 @@
 					"-framework",
 					RevealServer,
 				);
-				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100 -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.dev;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";

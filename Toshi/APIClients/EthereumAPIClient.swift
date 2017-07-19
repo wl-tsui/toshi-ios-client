@@ -19,12 +19,7 @@ import Teapot
 public class EthereumAPIClient: NSObject {
 
     static let shared: EthereumAPIClient = EthereumAPIClient()
-
     private static let collectionKey = "ethereumExchangeRate"
-
-    public var teapot: Teapot
-
-    private var exchangeTeapot: Teapot
 
     public var exchangeRate: Decimal {
         self.updateRate()
@@ -36,8 +31,28 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    private override init() {
-        self.teapot = Teapot(baseURL: URL(string: TokenEthereumServiceBaseURLPath)!)
+    fileprivate var exchangeTeapot: Teapot
+
+    fileprivate var mainTeapot: Teapot
+
+    fileprivate var switchedNetworkTeapot: Teapot
+
+    fileprivate var activeTeapot: Teapot {
+        if NetworkSwitcher.shared.isDefaultNetworkActive {
+            return self.mainTeapot
+        } else {
+            return self.switchedNetworkTeapot
+        }
+    }
+
+    fileprivate static var teapotUrl: String {
+        return NetworkSwitcher.shared.activeNetworkBaseUrl
+    }
+
+    fileprivate override init() {
+        self.mainTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
+        self.switchedNetworkTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
+
         self.exchangeTeapot = Teapot(baseURL: URL(string: "https://api.coinbase.com")!)
 
         super.init()
@@ -45,31 +60,7 @@ public class EthereumAPIClient: NSObject {
         self.updateRate()
     }
 
-    private func updateRate() {
-        self.getRate { rate in
-            if rate != nil {
-                Yap.sharedInstance.insert(object: rate, for: EthereumAPIClient.collectionKey)
-            }
-        }
-    }
-
-    func timestamp(_ completion: @escaping ((_ timestamp: String) -> Void)) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
-                switch result {
-                case .success(let json, _):
-                    guard let json = json?.dictionary else { fatalError() }
-                    guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
-
-                    completion(String(timestamp))
-                case .failure(_, _, let error):
-                    print(error)
-                }
-            }
-        }
-    }
-
-    func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
+    public func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
                 switch result {
@@ -98,7 +89,7 @@ public class EthereumAPIClient: NSObject {
         let json = RequestParameter(parameters)
 
         DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.post("/v1/tx/skel", parameters: json) { result in
+            self.activeTeapot.post("/v1/tx/skel", parameters: json) { result in
                 switch result {
                 case .success(let json, let response):
                     print(response)
@@ -114,7 +105,7 @@ public class EthereumAPIClient: NSObject {
     }
 
     public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ json: RequestParameter?, _ error: Error?) -> Void)) {
-        self.timestamp { timestamp in
+        self.timestamp(self.activeTeapot) { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/tx"
             let params = [
@@ -136,7 +127,7 @@ public class EthereumAPIClient: NSObject {
             let json = RequestParameter(params)
 
             DispatchQueue.global(qos: .userInitiated).async {
-                self.teapot.post(path, parameters: json, headerFields: headers) { result in
+                self.activeTeapot.post(path, parameters: json, headerFields: headers) { result in
                     switch result {
                     case .success(let json, let response):
                         print(response)
@@ -156,7 +147,7 @@ public class EthereumAPIClient: NSObject {
 
     public func getBalance(address: String, completion: @escaping ((_ balance: NSDecimalNumber, _ error: Error?) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/balance/\(address)") { (result: NetworkResult) in
+            self.activeTeapot.get("/v1/balance/\(address)") { (result: NetworkResult) in
                 switch result {
                 case .success(let json, let response):
                     let error = NSError(domain: "", code: -1, userInfo: [NSLocalizedFailureReasonErrorKey: "Could not fetch balance."])
@@ -179,74 +170,140 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func registerForPushNotifications(deviceToken: String) {
-        self.timestamp { timestamp in
-            let cereal = Cereal.shared
-            let path = "/v1/apn/register"
-            let address = cereal.address
-            let paymentAddress = cereal.paymentAddress
+    public func registerForMainNetworkPushNotifications() {
+        self.timestamp(self.mainTeapot) { timestamp in
+            self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { success in
+            }
+        }
+    }
 
-            let params = ["registration_id": deviceToken, "address": paymentAddress]
-            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = cereal.sha3WithID(string: payloadString)
-            let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+    public func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((Bool) -> Void)? = nil) {
+        guard NetworkSwitcher.shared.isDefaultNetworkActive == false else {
+            completion?(true)
+            return
+        }
 
-            let headerFields: [String: String] = [
-                "Token-ID-Address": address,
-                "Token-Signature": signature,
-                "Token-Timestamp": timestamp,
-            ]
+        self.switchedNetworkTeapot.baseURL = URL(string: NetworkSwitcher.shared.activeNetworkBaseUrl)!
 
-            let json = RequestParameter(params)
+        self.timestamp(self.switchedNetworkTeapot) { timestamp in
+            self.registerForPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
+        }
+    }
 
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
-                    switch result {
-                    case .success(let json, let response):
-                        print(json ?? "")
-                        print(response)
-                    case .failure(let json, let response, let error):
-                        print(json ?? "")
-                        print(response)
-                        print(error)
-                    }
+    public func deregisterFromMainNetworkPushNotifications() {
+        self.timestamp(self.mainTeapot) { timestamp in
+            self.deregisterFromPushNotifications(timestamp, teapot: self.mainTeapot)
+        }
+    }
+
+    public func deregisterFromSwitchedNetworkPushNotifications(completion: ((Bool) -> Void)? = nil) {
+        self.timestamp(self.switchedNetworkTeapot) { timestamp in
+            self.deregisterFromPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
+        }
+    }
+
+    fileprivate func updateRate() {
+        self.getRate { rate in
+            if rate != nil {
+                Yap.sharedInstance.insert(object: rate, for: EthereumAPIClient.collectionKey)
+            }
+        }
+    }
+
+    fileprivate func timestamp(_ teapot: Teapot, _ completion: @escaping ((_ timestamp: String) -> Void)) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            teapot.get("/v1/timestamp") { (result: NetworkResult) in
+                switch result {
+                case .success(let json, _):
+                    guard let json = json?.dictionary else { fatalError() }
+                    guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
+
+                    completion(String(timestamp))
+                case .failure(_, _, let error):
+                    print(error)
                 }
             }
         }
     }
 
-    public func deregisterForNotifications(deviceToken: String) {
-        self.timestamp { timestamp in
-            let cereal = Cereal.shared
-            let address = cereal.paymentAddress
-            let paymentAddress = TokenUser.current?.paymentAddress
-            let path = "/v1/apn/deregister"
+    fileprivate func registerForPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((Bool) -> Void)? = nil) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
-            let params = ["registration_id": deviceToken, "address": paymentAddress]
+        let cereal = Cereal.shared
+        let path = "/v1/apn/register"
+        let address = cereal.address
 
-            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
-            let hashedPayload = cereal.sha3WithWallet(string: payloadString)
-            let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+        let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
+        let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
+        let hashedPayload = cereal.sha3WithID(string: payloadString)
+        let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let headerFields: [String: String] = [
-                "Token-ID-Address": address,
-                "Token-Signature": signature,
-                "Token-Timestamp": timestamp,
+        let headerFields: [String: String] = [
+            "Token-ID-Address": address,
+            "Token-Signature": signature,
+            "Token-Timestamp": timestamp,
             ]
 
-            let json = RequestParameter(params)
+        let json = RequestParameter(params)
 
-            DispatchQueue.global(qos: .userInitiated).async {
-                self.teapot.post(path, parameters: json, headerFields: headerFields) { result in
-                    switch result {
-                    case .success(let json, let response):
-                        print(json ?? "")
-                        print(response)
-                    case .failure(let json, let response, let error):
-                        print(json ?? "")
-                        print(response)
-                        print(error)
-                    }
+        DispatchQueue.global(qos: .userInitiated).async {
+            teapot.post(path, parameters: json, headerFields: headerFields) { result in
+                switch result {
+                case .success(let json, let response):
+                    print(json ?? "")
+                    print(response)
+
+                    print("\n +++ Registered for :\(teapot.baseURL)")
+
+                    completion?(true)
+                case .failure(let json, let response, let error):
+                    print(json ?? "")
+                    print(response)
+                    print(error)
+
+                    completion?(false)
+                }
+            }
+        }
+    }
+
+    fileprivate func deregisterFromPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((Bool) -> Void)? = nil) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+
+        let cereal = Cereal.shared
+        let address = cereal.paymentAddress
+        let path = "/v1/apn/deregister"
+
+        let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
+
+        let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
+        let hashedPayload = cereal.sha3WithWallet(string: payloadString)
+        let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
+
+        let headerFields: [String: String] = [
+            "Token-ID-Address": address,
+            "Token-Signature": signature,
+            "Token-Timestamp": timestamp,
+            ]
+
+        let json = RequestParameter(params)
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            teapot.post(path, parameters: json, headerFields: headerFields) { result in
+                switch result {
+                case .success(let json, let response):
+                    print(json ?? "")
+                    print(response)
+
+                    print("\n --- DE-registered from :\(teapot.baseURL)")
+
+                    completion?(true)
+                case .failure(let json, let response, let error):
+                    print(json ?? "")
+                    print(response)
+                    print(error)
+
+                    completion?(false)
                 }
             }
         }
