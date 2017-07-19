@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "approve.png",
+      "filename" : "message-border.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "approve@2x.png",
+      "filename" : "message-border@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "approve@3x.png",
+      "filename" : "message-border@3x.png",
       "scale" : "3x"
     }
   ],

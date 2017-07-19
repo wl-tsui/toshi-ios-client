@@ -114,19 +114,21 @@ final class ChatController: OverlayController {
     }()
 
     private(set) lazy var tableView: UITableView = {
-        let view = UITableView(frame: self.view.frame, style: .plain)
+        let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
+        view.backgroundColor = Theme.viewBackgroundColor
         view.estimatedRowHeight = 64.0
         view.allowsSelection = true
         view.dataSource = self
+        view.delegate = self
         view.tableFooterView = UIView()
         view.separatorStyle = .none
         view.keyboardDismissMode = .interactive
+        view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
 
-        view.register(ImageMessageCell.self)
-        view.register(TextMessageCell.self)
-        view.register(PaymentMessageCell.self)
+        view.register(MessagesImageCell.self)
+        view.register(MessagesPaymentCell.self)
+        view.register(MessagesTextCell.self)
 
         return view
     }()
@@ -221,7 +223,6 @@ final class ChatController: OverlayController {
 
     fileprivate func registerNotifications() {
         let notificationCenter = NotificationCenter.default
-        // notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
         notificationCenter.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidHide), name: .UIKeyboardDidHide, object: nil)
@@ -255,8 +256,10 @@ final class ChatController: OverlayController {
         })
 
         tabBarController?.tabBar.isHidden = true
-
-        avatarImageView.image = viewModel.thread.image()
+        
+        if let url = viewModel.contactAvatarUrl {
+            avatarImageView.setImage(from: url)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -300,7 +303,7 @@ final class ChatController: OverlayController {
 
         hideSubcontrolsMenu()
 
-        view.backgroundColor = Theme.messageViewBackgroundColor
+        view.backgroundColor = Theme.viewBackgroundColor
 
         setupActivityIndicator()
 
@@ -314,7 +317,6 @@ final class ChatController: OverlayController {
         ethereumPromptView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         view.addSubview(tableView)
-
         tableView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor).isActive = true
 
         tableView.left(to: view)
@@ -436,8 +438,11 @@ final class ChatController: OverlayController {
 
         signalMessage.paymentState = state
         signalMessage.save()
-
-        tableView.reloadRows(at: [indexPath], with: .fade)
+        
+        (tableView.cellForRow(at: indexPath) as? MessagesPaymentCell)?.setPaymentState(signalMessage.paymentState, for: message.type)
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
 
     fileprivate func image(for message: MessageModel) -> UIImage {
@@ -478,18 +483,6 @@ final class ChatController: OverlayController {
 
     fileprivate func set(balance: NSDecimalNumber) {
         ethereumPromptView.balance = balance
-    }
-
-    // Mark: Handle new messages
-
-    fileprivate func showFingerprint(with _: Data, signalId _: String) {
-        // Postpone this for now
-
-        //        let builder = OWSFingerprintBuilder(storageManager: self.storageManager, contactsManager: self.contactsManager)
-        //        let fingerprint = builder.fingerprint(withTheirSignalId: signalId, theirIdentityKey: identityKey)
-        //
-        //        let fingerprintController = FingerprintViewController(fingerprint: fingerprint)
-        //        self.present(fingerprintController, animated: true)
     }
 
     // MARK: - Control handling
@@ -631,7 +624,23 @@ final class ChatController: OverlayController {
     }
 }
 
+extension ChatController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if viewModel.messageModels[indexPath.row].type == .image {
+            
+            let controller = ImagesViewController(messages: viewModel.messageModels, initialIndexPath: indexPath)
+            controller.transitioningDelegate = self
+            controller.dismissDelegate = self
+            controller.title = title
+            Navigator.presentModally(controller)
+        }
+    }
+}
+
 extension ChatController: UITableViewDataSource {
+    
     public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         guard let messages = self.viewModel.messageModels as [MessageModel]? else { return 0 }
 
@@ -639,94 +648,73 @@ extension ChatController: UITableViewDataSource {
     }
 
     public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let message = viewModel.messageModels.element(at: indexPath.item) as MessageModel? else { return UITableViewCell() }
-
-        switch message.type {
-        case .image:
-            return imageMessageCell(for: message, at: indexPath)
-        case .simple:
-            return textMessageCell(for: message, at: indexPath)
-        case .payment, .paymentRequest:
-            return paymentMessageCell(for: message, at: indexPath)
-
-        default:
-            break
+        
+        let message = viewModel.messageModels[indexPath.item]
+        let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
+        
+        if let cell = cell as? MessagesBasicCell {
+            
+            if let url = viewModel.contactAvatarUrl, !message.isOutgoing {
+                cell.avatarImageView.setImage(from: url)
+            }
+            
+            cell.isOutGoing = message.isOutgoing
         }
-
-        return UITableViewCell()
-    }
-
-    fileprivate func imageMessageCell(for message: MessageModel, at indexPath: IndexPath) -> ImageMessageCell {
-        let cell = tableView.dequeue(ImageMessageCell.self, for: indexPath)
-        cell.isOutgoing = message.isOutgoing
-        cell.setup(with: image(for: message))
-        cell.tapDelegate = self
-
-        if let identifier = self.viewModel.contact?.avatarPath as String?, message.isOutgoing == false {
-            AvatarManager.shared.avatar(for: identifier, completion: { image, _ in
-                cell.avatarImageView.image = image
-            })
+        
+        if let cell = cell as? MessagesImageCell, message.type == .image {
+            cell.messageImage = message.image
+        } else if let cell = cell as? MessagesPaymentCell, (message.type == .payment) || (message.type == .paymentRequest), let signalMessage = message.signalMessage {
+            cell.titleLabel.text = message.title
+            cell.subtitleLabel.text = message.subtitle
+            cell.messageLabel.text = message.text
+            cell.setPaymentState(signalMessage.paymentState, for: message.type)
+            cell.selectionDelegate = self
+        } else if let cell = cell as? MessagesTextCell, message.type == .simple {
+            cell.messageText = message.text
         }
-
-        return cell
-    }
-
-    fileprivate func textMessageCell(for message: MessageModel, at indexPath: IndexPath) -> TextMessageCell {
-        let cell = tableView.dequeue(TextMessageCell.self, for: indexPath)
-        cell.textView.attributedText = nil
-        cell.textView.text = message.text
-        cell.isOutgoing = message.isOutgoing
-
-        if let identifier = self.viewModel.contact?.avatarPath as String?, message.isOutgoing == false {
-            AvatarManager.shared.avatar(for: identifier, completion: { image, _ in
-                cell.avatarImageView.image = image
-            })
-        }
-
-        return cell
-    }
-
-    fileprivate func paymentMessageCell(for message: MessageModel, at indexPath: IndexPath) -> PaymentMessageCell {
-        let cell = tableView.dequeue(PaymentMessageCell.self, for: indexPath)
-        cell.titleLabel.text = message.title
-        cell.subTitleLabel.text = message.subtitle
-        cell.detailsLabel.text = message.text
-
-        cell.isOutgoing = message.isOutgoing
-        cell.setup(with: message)
-
-        if let identifier = self.viewModel.contact?.avatarPath as String?, message.isOutgoing == false {
-            AvatarManager.shared.avatar(for: identifier, completion: { image, _ in
-                cell.avatarImageView.image = image
-            })
-        }
-
-        cell.delegate = self
-
+        
         return cell
     }
 }
 
-extension ChatController: PaymentMessageCellDelegate {
-    func didTapApprovePaymentCell(_ cell: PaymentMessageCell) {
+extension MessageModel {
+    
+    var reuseIdentifier: String {
+        switch type {
+        case .simple:
+            return MessagesTextCell.reuseIdentifier
+        case .image:
+            return MessagesImageCell.reuseIdentifier
+        case .paymentRequest, .payment:
+            return MessagesPaymentCell.reuseIdentifier
+        case .status:
+            return MessagesStatusCell.reuseIdentifier
+        }
+    }
+}
+
+
+extension ChatController: MessagesPaymentCellDelegate {
+    
+    func approvePayment(for cell: MessagesPaymentCell) {
         guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
         guard let message = self.viewModel.messageModels.element(at: indexPath.row) as MessageModel? else { return }
-
+        
         adjustToPaymentState(.pendingConfirmation, at: indexPath)
-
+        
         guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { return }
-
+        
         showActivityIndicator()
-
+        
         viewModel.interactor.sendPayment(in: paymentRequest.value, completion: { (success: Bool) in
             let state: TSInteraction.PaymentState = success ? .approved : .failed
             self.adjustToPaymentState(state, at: indexPath)
         })
     }
-
-    func didTapRejectPaymentCell(_ cell: PaymentMessageCell) {
+    
+    func declinePayment(for cell: MessagesPaymentCell) {
         guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
-
+        
         adjustToPaymentState(.rejected, at: indexPath)
     }
 }
@@ -734,19 +722,7 @@ extension ChatController: PaymentMessageCellDelegate {
 extension ChatController: ImagesViewControllerDismissDelegate {
 
     func imagesAreDismissed(from indexPath: IndexPath) {
-        tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: false)
-    }
-}
-
-extension ChatController: ImageMessageCellDelegate {
-    func didTapImage(in cell: ImageMessageCell) {
-        guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
-
-        let controller = ImagesViewController(messages: viewModel.messageModels, initialIndexPath: indexPath)
-        controller.dismissDelegate = self
-        controller.title = title
-        controller.transitioningDelegate = self
-        Navigator.presentModally(controller)
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
     }
 }
 
@@ -928,6 +904,7 @@ extension ChatController: PaymentSendControllerDelegate {
 }
 
 extension ChatController: PaymentRequestControllerDelegate {
+    
     func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
         defer {
             self.dismiss(animated: true)
@@ -948,6 +925,7 @@ extension ChatController: PaymentRequestControllerDelegate {
 }
 
 extension ChatController: UIViewControllerTransitioningDelegate {
+    
     func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presented is ImagesViewController ? ImagesViewControllerTransition(operation: .present) : nil
     }

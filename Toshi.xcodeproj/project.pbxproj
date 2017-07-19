@@ -100,12 +100,6 @@
 		2B10A3FD1F082C9300E0F7DC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */; };
 		2B10A3FF1F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
 		2B10A4001F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
-		2B32003B1F16150400D6942B /* ImageMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32003A1F16150400D6942B /* ImageMessageCell.swift */; };
-		2B32003C1F16150400D6942B /* ImageMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32003A1F16150400D6942B /* ImageMessageCell.swift */; };
-		2B32003E1F1615B600D6942B /* TextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32003D1F1615B600D6942B /* TextMessageCell.swift */; };
-		2B32003F1F1615B600D6942B /* TextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B32003D1F1615B600D6942B /* TextMessageCell.swift */; };
-		2B3200411F1615FF00D6942B /* PaymentMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3200401F1615FF00D6942B /* PaymentMessageCell.swift */; };
-		2B3200421F1615FF00D6942B /* PaymentMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3200401F1615FF00D6942B /* PaymentMessageCell.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		2B35F2C01EF93320006A0FD0 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2B369E371EE59958002A44A3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* Message.swift */; };
@@ -953,7 +947,6 @@
 		9F78D9E21EE93FCB003A0B95 /* AddressChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9E01EE93FCB003A0B95 /* AddressChangeAlertController.swift */; };
 		9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7B896C1E51C6DA009C192E /* TSInteraction+Additions.swift */; };
 		9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */; };
-		9F82B1B41EDF0F0800EA7626 /* BouncyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E731ED857DC0036E9B7 /* BouncyLayout.swift */; };
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
@@ -1124,13 +1117,9 @@
 		A9202E3F1ED82AFC0036E9B7 /* TinyConstraints.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A9202E591ED84F6A0036E9B7 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */; };
 		A9202E5C1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */; };
-		A9202E5E1ED84F6A0036E9B7 /* MessageCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E511ED84F6A0036E9B7 /* MessageCellButton.swift */; };
-		A9202E5F1ED84F6A0036E9B7 /* MessageImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E521ED84F6A0036E9B7 /* MessageImageView.swift */; };
 		A9202E611ED84F6A0036E9B7 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E551ED84F6A0036E9B7 /* AsyncImage.swift */; };
 		A9202E621ED84F6A0036E9B7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E561ED84F6A0036E9B7 /* Extensions.swift */; };
 		A9202E631ED84F6A0036E9B7 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E571ED84F6A0036E9B7 /* MessageModel.swift */; };
-		A9202E661ED850060036E9B7 /* MessageCellButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E511ED84F6A0036E9B7 /* MessageCellButton.swift */; };
-		A9202E671ED850080036E9B7 /* MessageImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E521ED84F6A0036E9B7 /* MessageImageView.swift */; };
 		A9202E691ED850100036E9B7 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E551ED84F6A0036E9B7 /* AsyncImage.swift */; };
 		A9202E6A1ED850130036E9B7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E561ED84F6A0036E9B7 /* Extensions.swift */; };
 		A9202E6B1ED850150036E9B7 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E571ED84F6A0036E9B7 /* MessageModel.swift */; };
@@ -1138,7 +1127,6 @@
 		A9202E6E1ED850220036E9B7 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4C1ED84F6A0036E9B7 /* ImagesViewController.swift */; };
 		A9202E701ED850270036E9B7 /* ImagesViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */; };
 		A9202E721ED854010036E9B7 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */; };
-		A9202E741ED857DC0036E9B7 /* BouncyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E731ED857DC0036E9B7 /* BouncyLayout.swift */; };
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
@@ -1169,6 +1157,20 @@
 		A9BF33B51E76F8D0009A51AA /* BackupPhraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */; };
 		A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
+		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
+		A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */; };
+		A9E1DCD31F1E1989001A4ABE /* MessagesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */; };
+		A9E1DCD41F1E1989001A4ABE /* MessagesPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */; };
+		A9E1DCD61F1E1989001A4ABE /* MessagesTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */; };
+		A9E1DCDA1F1E1A72001A4ABE /* IconLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */; };
+		A9E1DCDB1F1E1A72001A4ABE /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */; };
+		A9E1DCDC1F1E2765001A4ABE /* MessagesBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */; };
+		A9E1DCDD1F1E2768001A4ABE /* MessagesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */; };
+		A9E1DCDE1F1E276B001A4ABE /* MessagesPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */; };
+		A9E1DCDF1F1E276E001A4ABE /* MessagesTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */; };
+		A9E1DCE01F1E2777001A4ABE /* IconLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */; };
+		A9E1DCE11F1E277A001A4ABE /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */; };
+		A9E1DCE51F1E5C64001A4ABE /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
 		A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */; };
 		A9ED6CC81E8282D000160637 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC71E8282D000160637 /* SignInController.swift */; };
 		A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
@@ -1256,9 +1258,6 @@
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkSwitcher.swift; path = Network/NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
-		2B32003A1F16150400D6942B /* ImageMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageMessageCell.swift; sourceTree = "<group>"; };
-		2B32003D1F1615B600D6942B /* TextMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageCell.swift; sourceTree = "<group>"; };
-		2B3200401F1615FF00D6942B /* PaymentMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentMessageCell.swift; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileEditConfigurator.swift; path = Views/ProfileEditConfigurator.swift; sourceTree = "<group>"; };
 		2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ProfileEditItem .swift"; path = "Models/ProfileEditItem .swift"; sourceTree = "<group>"; };
@@ -2188,13 +2187,10 @@
 		A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		A9202E4C1ED84F6A0036E9B7 /* ImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
 		A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesViewControllerTransition.swift; sourceTree = "<group>"; };
-		A9202E511ED84F6A0036E9B7 /* MessageCellButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCellButton.swift; sourceTree = "<group>"; };
-		A9202E521ED84F6A0036E9B7 /* MessageImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageImageView.swift; sourceTree = "<group>"; };
 		A9202E551ED84F6A0036E9B7 /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		A9202E561ED84F6A0036E9B7 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A9202E571ED84F6A0036E9B7 /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputTextPanel.swift; sourceTree = "<group>"; };
-		A9202E731ED857DC0036E9B7 /* BouncyLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BouncyLayout.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
@@ -2211,6 +2207,13 @@
 		A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseCopyController.swift; sourceTree = "<group>"; };
 		A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseVerifyController.swift; sourceTree = "<group>"; };
 		A9BF33B61E76F918009A51AA /* CheckboxControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxControl.swift; sourceTree = "<group>"; };
+		A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesBasicCell.swift; sourceTree = "<group>"; };
+		A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesImageCell.swift; sourceTree = "<group>"; };
+		A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesPaymentCell.swift; sourceTree = "<group>"; };
+		A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesTextCell.swift; sourceTree = "<group>"; };
+		A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconLabelButton.swift; sourceTree = "<group>"; };
+		A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
+		A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesStatusCell.swift; sourceTree = "<group>"; };
 		A9E65DCD1E76B4A600304123 /* NSLayoutConstraint+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Additions.swift"; sourceTree = "<group>"; };
 		A9ED6CC71E8282D000160637 /* SignInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		A9ED6CCC1E82B57E00160637 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
@@ -3665,11 +3668,11 @@
 		A9202E491ED84F6A0036E9B7 /* MessagesUI */ = {
 			isa = PBXGroup;
 			children = (
-				A9202E731ED857DC0036E9B7 /* BouncyLayout.swift */,
-				A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */,
+				A9E1DCCC1F1E1989001A4ABE /* Cells */,
 				A9202E4A1ED84F6A0036E9B7 /* Images */,
-				A9202E4F1ED84F6A0036E9B7 /* Messages */,
 				A9202E541ED84F6A0036E9B7 /* Objects */,
+				A9E1DCD71F1E1A72001A4ABE /* Views */,
+				A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */,
 			);
 			path = MessagesUI;
 			sourceTree = "<group>";
@@ -3682,18 +3685,6 @@
 				A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */,
 			);
 			path = Images;
-			sourceTree = "<group>";
-		};
-		A9202E4F1ED84F6A0036E9B7 /* Messages */ = {
-			isa = PBXGroup;
-			children = (
-				A9202E511ED84F6A0036E9B7 /* MessageCellButton.swift */,
-				A9202E521ED84F6A0036E9B7 /* MessageImageView.swift */,
-				2B32003A1F16150400D6942B /* ImageMessageCell.swift */,
-				2B32003D1F1615B600D6942B /* TextMessageCell.swift */,
-				2B3200401F1615FF00D6942B /* PaymentMessageCell.swift */,
-			);
-			path = Messages;
 			sourceTree = "<group>";
 		};
 		A9202E541ED84F6A0036E9B7 /* Objects */ = {
@@ -3741,6 +3732,27 @@
 			children = (
 				A9AC74131E78231A00365029 /* BackupPhraseView.swift */,
 				A9AC74161E78277700365029 /* BackupPhraseWordView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A9E1DCCC1F1E1989001A4ABE /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */,
+				A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */,
+				A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */,
+				A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */,
+				A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		A9E1DCD71F1E1A72001A4ABE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */,
+				A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4250,7 +4262,6 @@
 				9F4D80DF1EEA8B4500FB5361 /* MediaPickerPhotoCounterButton.m in Sources */,
 				9F4D810D1EEA8B4500FB5361 /* ModernGalleryItemView.m in Sources */,
 				9F4D7FA31EEA8B4500FB5361 /* DocumentMediaAttachment.m in Sources */,
-				A9202E661ED850060036E9B7 /* MessageCellButton.swift in Sources */,
 				9F4D80D71EEA8B4500FB5361 /* MediaPickerGalleryPhotoItemView.m in Sources */,
 				9F4D81111EEA8B4600FB5361 /* ModernGalleryTransitionView.m in Sources */,
 				9F4D81351EEA8B4600FB5361 /* PhotoCropRotationView.m in Sources */,
@@ -4276,7 +4287,6 @@
 				9F4D7F291EEA8B4500FB5361 /* PhotoBlurPass.m in Sources */,
 				9F4D80A11EEA8B4500FB5361 /* CameraPreviewView.m in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
-				2B32003F1F1615B600D6942B /* TextMessageCell.swift in Sources */,
 				9F4D7F3B1EEA8B4500FB5361 /* PhotoEnhanceColorConversionFilter.m in Sources */,
 				9F4D7FE11EEA8B4500FB5361 /* MediaPickerModernGalleryMixin.m in Sources */,
 				9F4D7EDB1EEA8B4500FB5361 /* PhotoPaintController.m in Sources */,
@@ -4284,6 +4294,7 @@
 				9F4D7F0B1EEA8B4500FB5361 /* PaintFaceDetector.m in Sources */,
 				9F78D9DD1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				9F4D81551EEA8B4600FB5361 /* PhotoEditorTintSwatchView.m in Sources */,
+				A9E1DCDE1F1E276B001A4ABE /* MessagesPaymentCell.swift in Sources */,
 				9F4D812F1EEA8B4600FB5361 /* PhotoBrushSettingsView.m in Sources */,
 				9F4D815D1EEA8B4600FB5361 /* PhotoEntitiesContainerView.m in Sources */,
 				9F4D80811EEA8B4500FB5361 /* AttachmentAssetCell.m in Sources */,
@@ -4293,6 +4304,7 @@
 				149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */,
 				9F4D7FEF1EEA8B4500FB5361 /* ModernGalleryRotationGestureRecognizer.m in Sources */,
 				9F4D7FC31EEA8B4500FB5361 /* GPUImageTwoInputFilter.m in Sources */,
+				A9E1DCDC1F1E2765001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9F4D80131EEA8B4500FB5361 /* SharedMediaUtils.m in Sources */,
 				9F54AB0E1ECC8D390008489F /* ScannerController.swift in Sources */,
 				149F9A661E72E29A00FB74AA /* MessageFetcherJob.swift in Sources */,
@@ -4317,6 +4329,7 @@
 				9F4D7FFF1EEA8B4500FB5361 /* PhotoCaptionInputMixin.m in Sources */,
 				149F9A6B1E72E29A00FB74AA /* BrowseController.swift in Sources */,
 				9F4D7FCF1EEA8B4500FB5361 /* JNWSpringAnimation.m in Sources */,
+				A9E1DCDD1F1E2768001A4ABE /* MessagesImageCell.swift in Sources */,
 				149F9A6E1E72E29A00FB74AA /* ReputationView.swift in Sources */,
 				9F4D81371EEA8B4600FB5361 /* PhotoCropScrollView.m in Sources */,
 				149F9A6F1E72E29A00FB74AA /* Yap.swift in Sources */,
@@ -4332,7 +4345,6 @@
 				9F4D811B1EEA8B4600FB5361 /* ModernGalleryVideoView.m in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
 				149F9A721E72E29A00FB74AA /* PaymentRequestController.swift in Sources */,
-				A9202E671ED850080036E9B7 /* MessageImageView.swift in Sources */,
 				9F4D7F0D1EEA8B4500FB5361 /* Painting.m in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				9F4D7ECD1EEA8B4500FB5361 /* PhotoAvatarCropController.m in Sources */,
@@ -4369,6 +4381,7 @@
 				9F4D7F6F1EEA8B4500FB5361 /* VideoEditAdjustments.m in Sources */,
 				9F4D805B1EEA8B4500FB5361 /* MediaAttachment.m in Sources */,
 				9F4D813B1EEA8B4600FB5361 /* PhotoEditorBlurAreaView.m in Sources */,
+				A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */,
 				9F4D7F2B1EEA8B4500FB5361 /* PhotoCropControl.m in Sources */,
 				9F4D7F4F1EEA8B4500FB5361 /* PhotoMaskPosition.m in Sources */,
 				9F4D810F1EEA8B4500FB5361 /* ModernGalleryScrollView.m in Sources */,
@@ -4383,7 +4396,6 @@
 				A9202E691ED850100036E9B7 /* AsyncImage.swift in Sources */,
 				9F4D80B51EEA8B4500FB5361 /* ImagePickerCellCheckButton.m in Sources */,
 				9F4D81171EEA8B4600FB5361 /* ModernGalleryVideoItemView.m in Sources */,
-				2B32003C1F16150400D6942B /* ImageMessageCell.swift in Sources */,
 				9F4D80231EEA8B4500FB5361 /* UICollectionView+Utils.m in Sources */,
 				9F4D7F431EEA8B4500FB5361 /* PhotoFilter.m in Sources */,
 				9F4D80111EEA8B4500FB5361 /* SharedMediaCollectionLayout.m in Sources */,
@@ -4406,7 +4418,6 @@
 				9F4D7F3F1EEA8B4500FB5361 /* PhotoEnhanceLUTGenerator.m in Sources */,
 				9F4D81211EEA8B4600FB5361 /* ModernGalleryZoomableScrollView.m in Sources */,
 				9F4D7F6B1EEA8B4500FB5361 /* SpringAnimation.m in Sources */,
-				9F82B1B41EDF0F0800EA7626 /* BouncyLayout.swift in Sources */,
 				9F4D7F2D1EEA8B4500FB5361 /* PhotoCustomFilterPass.m in Sources */,
 				9F4D80A51EEA8B4500FB5361 /* CameraShutterButton.m in Sources */,
 				A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */,
@@ -4483,7 +4494,6 @@
 				9F4D7F751EEA8B4500FB5361 /* AccessChecker.m in Sources */,
 				9F4D81471EEA8B4600FB5361 /* PhotoEditorCurvesHistogramView.m in Sources */,
 				149F9A831E72E29A00FB74AA /* ChatsFloatingHeaderView.swift in Sources */,
-				2B3200421F1615FF00D6942B /* PaymentMessageCell.swift in Sources */,
 				9F4D80AB1EEA8B4500FB5361 /* CheckButtonView.m in Sources */,
 				9F4D80831EEA8B4500FB5361 /* AttachmentCameraCell.m in Sources */,
 				9F4D7F671EEA8B4500FB5361 /* ShadowsTool.m in Sources */,
@@ -4493,6 +4503,7 @@
 				9F4D80B31EEA8B4500FB5361 /* HistogramView.m in Sources */,
 				9F88EA051EE0411A00267573 /* SettingsController.swift in Sources */,
 				A9BF33B51E76F8D0009A51AA /* BackupPhraseVerifyController.swift in Sources */,
+				A9E1DCDF1F1E276E001A4ABE /* MessagesTextCell.swift in Sources */,
 				9F4D80D51EEA8B4500FB5361 /* MediaPickerGalleryInterfaceView.m in Sources */,
 				9F4D7FDF1EEA8B4500FB5361 /* MediaPickerLayoutMetrics.m in Sources */,
 				9F4D7EE91EEA8B4500FB5361 /* TGModernGalleryTransitionView.m in Sources */,
@@ -4576,6 +4587,7 @@
 				9F4D7FB51EEA8B4500FB5361 /* GLProgram.m in Sources */,
 				149F9A8E1E72E29A00FB74AA /* BrowseNavigationController.swift in Sources */,
 				149F9A901E72E29A00FB74AA /* CryptoTools.m in Sources */,
+				A9E1DCE11F1E277A001A4ABE /* IconLabelView.swift in Sources */,
 				9F4D7FE31EEA8B4500FB5361 /* MediaSelectionContext.m in Sources */,
 				9F4D80151EEA8B4500FB5361 /* StringUtils.mm in Sources */,
 				9F4D7F351EEA8B4500FB5361 /* PhotoEditorPicture.m in Sources */,
@@ -4659,6 +4671,7 @@
 				9F4D80491EEA8B4500FB5361 /* MediaAsset.m in Sources */,
 				149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */,
 				9F4D7F311EEA8B4500FB5361 /* PhotoEditorAnimation.m in Sources */,
+				A9E1DCE01F1E2777001A4ABE /* IconLabelButton.swift in Sources */,
 				9F4D80551EEA8B4500FB5361 /* MediaAssetsLegacyLibrary.m in Sources */,
 				9F4D7F331EEA8B4500FB5361 /* PhotoEditorInterfaceAssets.m in Sources */,
 				2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */,
@@ -4738,6 +4751,7 @@
 				9F4D81121EEA8B4600FB5361 /* ModernGalleryVideoContentView.m in Sources */,
 				9F4D80B41EEA8B4500FB5361 /* ImagePickerCellCheckButton.m in Sources */,
 				9F4D80C41EEA8B4500FB5361 /* MediaAssetsMomentsSectionHeaderView.m in Sources */,
+				A9E1DCDB1F1E1A72001A4ABE /* IconLabelView.swift in Sources */,
 				2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
 				9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */,
 				9F4D81481EEA8B4600FB5361 /* PhotoEditorCurvesToolView.m in Sources */,
@@ -4787,6 +4801,7 @@
 				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
 				9F48C1571E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
 				9F4D80381EEA8B4500FB5361 /* PSLMDBTable.m in Sources */,
+				A9E1DCDA1F1E1A72001A4ABE /* IconLabelButton.swift in Sources */,
 				9F4D7F0C1EEA8B4500FB5361 /* Painting.m in Sources */,
 				9F4D7EFE1EEA8B4500FB5361 /* ImageBlur.m in Sources */,
 				9F4D7F7A1EEA8B4500FB5361 /* ASActor.m in Sources */,
@@ -4795,7 +4810,6 @@
 				9F4D808A1EEA8B4500FB5361 /* AttachmentGifCell.m in Sources */,
 				9F4D7F141EEA8B4500FB5361 /* PaintRadialBrush.m in Sources */,
 				9F4D80161EEA8B4500FB5361 /* SuggestionContext.m in Sources */,
-				A9202E5E1ED84F6A0036E9B7 /* MessageCellButton.swift in Sources */,
 				9F4D80F41EEA8B4500FB5361 /* MenuView.m in Sources */,
 				9F4D80261EEA8B4500FB5361 /* UIImage+MediaEditableItem.m in Sources */,
 				9F4D7F021EEA8B4500FB5361 /* PaintBrushPreview.m in Sources */,
@@ -4829,7 +4843,6 @@
 				A9202E611ED84F6A0036E9B7 /* AsyncImage.swift in Sources */,
 				9F4D7EC61EEA8B4500FB5361 /* OverlayControllerWindow.m in Sources */,
 				9F4D80FC1EEA8B4500FB5361 /* ModernButton.m in Sources */,
-				2B32003B1F16150400D6942B /* ImageMessageCell.swift in Sources */,
 				9FDB3B191E6D648000EE5FD7 /* ControlsCollectionView.swift in Sources */,
 				9F4D7F241EEA8B4500FB5361 /* PaintUndoManager.m in Sources */,
 				9F4D80F01EEA8B4500FB5361 /* MenuSheetTitleItemView.m in Sources */,
@@ -4839,6 +4852,7 @@
 				9FC72A441E252CFA00EF1141 /* ContactsManager.m in Sources */,
 				9F4D80101EEA8B4500FB5361 /* SharedMediaCollectionLayout.m in Sources */,
 				9F4D7FC01EEA8B4500FB5361 /* GPUImageOutput.m in Sources */,
+				A9E1DCE51F1E5C64001A4ABE /* MessagesStatusCell.swift in Sources */,
 				9F4D80221EEA8B4500FB5361 /* UICollectionView+Utils.m in Sources */,
 				9F4D7F801EEA8B4500FB5361 /* ASQueue.m in Sources */,
 				9F4D7F001EEA8B4500FB5361 /* PaintBrush.m in Sources */,
@@ -4945,13 +4959,13 @@
 				9F4D7F4E1EEA8B4500FB5361 /* PhotoMaskPosition.m in Sources */,
 				145666041E30D24C00E52027 /* ChatsFloatingHeaderView.swift in Sources */,
 				2BC85F7F1F0F946600BCB171 /* InputCell.swift in Sources */,
+				A9E1DCD41F1E1989001A4ABE /* MessagesPaymentCell.swift in Sources */,
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
 				9F4D7EEE1EEA8B4500FB5361 /* BlurTool.m in Sources */,
 				9F4D80661EEA8B4500FB5361 /* MediaPickerGalleryVideoItem.m in Sources */,
 				9F4D7FE21EEA8B4500FB5361 /* MediaSelectionContext.m in Sources */,
 				9F4D7F1E1EEA8B4500FB5361 /* PaintState.m in Sources */,
 				9F4D811C1EEA8B4600FB5361 /* ModernGalleryView.m in Sources */,
-				2B3200411F1615FF00D6942B /* PaymentMessageCell.swift in Sources */,
 				2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
 				2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */,
 				9F4D81581EEA8B4600FB5361 /* PhotoEditorToolButtonsView.m in Sources */,
@@ -4961,6 +4975,7 @@
 				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
 				9F4D80BC1EEA8B4500FB5361 /* MediaAssetsGifCell.m in Sources */,
+				A9E1DCD31F1E1989001A4ABE /* MessagesImageCell.swift in Sources */,
 				9F4D80E01EEA8B4500FB5361 /* MediaPickerPhotoStripCell.m in Sources */,
 				9F4D7FEC1EEA8B4500FB5361 /* ModernCache.m in Sources */,
 				9F4D80081EEA8B4500FB5361 /* PSKeyValueEncoder.m in Sources */,
@@ -4982,7 +4997,6 @@
 				A9BF33AD1E76DF0B009A51AA /* BackupPhraseEnableController.swift in Sources */,
 				9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */,
 				9F4D7EF01EEA8B4500FB5361 /* ContrastTool.m in Sources */,
-				A9202E741ED857DC0036E9B7 /* BouncyLayout.swift in Sources */,
 				9F4D80C81EEA8B4500FB5361 /* MediaAssetsTipView.m in Sources */,
 				9F4D802E1EEA8B4500FB5361 /* mdb.c in Sources */,
 				9F4D81441EEA8B4600FB5361 /* PhotoEditorCollectionView.m in Sources */,
@@ -5043,10 +5057,10 @@
 				9F4D803C1EEA8B4500FB5361 /* AVURLAsset+MediaItem.m in Sources */,
 				9F4D80461EEA8B4500FB5361 /* MediaAsset+MediaEditableItem.m in Sources */,
 				A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */,
-				A9202E5F1ED84F6A0036E9B7 /* MessageImageView.swift in Sources */,
 				9F4D7FDA1EEA8B4500FB5361 /* MediaEditingContext.m in Sources */,
 				A9E65DCE1E76B4A600304123 /* NSLayoutConstraint+Additions.swift in Sources */,
 				2BC4084E1EF186000044C242 /* PaymentPresentable.swift in Sources */,
+				A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9F4D7EB81EEA8B4500FB5361 /* MediaAssetsMomentsController.m in Sources */,
 				9F4D810A1EEA8B4500FB5361 /* ModernGalleryImageItemView.m in Sources */,
 				9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */,
@@ -5073,7 +5087,6 @@
 				9F78D9D41EE93EFF003A0B95 /* PaymentConfirmationController.swift in Sources */,
 				9F4D80301EEA8B4500FB5361 /* midl.c in Sources */,
 				9F4D816A1EEA8B4600FB5361 /* PhotoPaintSparseView.m in Sources */,
-				2B32003E1F1615B600D6942B /* TextMessageCell.swift in Sources */,
 				9F4D7F6C1EEA8B4500FB5361 /* TintTool.m in Sources */,
 				9F4D7ED21EEA8B4500FB5361 /* PhotoDummyController.m in Sources */,
 				A90E5A291F03CE0400DAA501 /* BrowseAppCell.swift in Sources */,
@@ -5196,6 +5209,7 @@
 				9F4D81501EEA8B4600FB5361 /* PhotoEditorRadialBlurView.m in Sources */,
 				9F4D7F901EEA8B4500FB5361 /* CameraShotMetadata.m in Sources */,
 				9F4D7F941EEA8B4500FB5361 /* Color.m in Sources */,
+				A9E1DCD61F1E1989001A4ABE /* MessagesTextCell.swift in Sources */,
 				9F4D7F821EEA8B4500FB5361 /* ATQueue.m in Sources */,
 				9F4D7F9A1EEA8B4500FB5361 /* DocumentAttributeAudio.m in Sources */,
 				9F4D80B61EEA8B4500FB5361 /* ImageView.m in Sources */,

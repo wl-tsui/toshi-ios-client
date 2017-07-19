@@ -164,36 +164,6 @@ final class ChatsInteractor {
     }
     
     func handleInvalidKeyError(_: TSInvalidIdentityKeyErrorMessage) {
-        // TODO: not yet implemented or designed!
-        
-        //        let keyOwner = self.contactsManager.displayName(forPhoneIdentifier: errorMessage.theirSignalId())
-        //        let titleText = "Your safety number with \(keyOwner) has changed. You may wish to verify it."
-        //
-        //        let actionSheetController = UIAlertController(title: titleText, message: nil, preferredStyle: .actionSheet)
-        //
-        //        let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        //        actionSheetController.addAction(dismissAction)
-        //
-        //        let showSafteyNumberAction = UIAlertAction(title: NSLocalizedString("Compare fingerprints.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
-        //
-        //            self.showFingerprint(with: errorMessage.newIdentityKey(), signalId: errorMessage.theirSignalId())
-        //        }
-        //        actionSheetController.addAction(showSafteyNumberAction)
-        //
-        //        let acceptSafetyNumberAction = UIAlertAction(title: NSLocalizedString("Accept the new contact identity.", comment: "Action sheet item"), style: .default) { (_: UIAlertAction) -> Void in
-        //
-        //            errorMessage.acceptNewIdentityKey()
-        //            if errorMessage is TSInvalidIdentityKeySendingErrorMessage {
-        //                self.messageSender.sendMessage(fromKeyError: (errorMessage as! TSInvalidIdentityKeySendingErrorMessage), success: { () -> Void in
-        //                    print("Got it!")
-        //                }, failure: { (_ error: Error) -> Void in
-        //                    print(error)
-        //                })
-        //            }
-        //        }
-        //        actionSheetController.addAction(acceptSafetyNumberAction)
-        //
-        //        self.present(actionSheetController, animated: true, completion: nil)
     }
     
     /// Handle incoming interactions or previous messages when restoring a conversation.

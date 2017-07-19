@@ -72,10 +72,6 @@ extension Theme {
         return UIColor(hex: "979ca4")
     }
 
-    public static var messageViewBackgroundColor: UIColor {
-        return UIColor(hex: "FAFAFA")
-    }
-
     public static var settingsBackgroundColor: UIColor {
         return UIColor(hex: "F3F4F5")
     }
@@ -121,10 +117,6 @@ extension Theme {
     }
 
     // MARK: - Message colours
-
-    public static var outgoingMessageBackgroundColor: UIColor {
-        return UIColor(hex: "01C236")
-    }
 
     public static var incomingMessageBackgroundColor: UIColor {
         return UIColor(hex: "EAEAEA")

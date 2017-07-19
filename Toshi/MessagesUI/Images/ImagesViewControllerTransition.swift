@@ -59,7 +59,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
         
-        guard let cell = messagesViewController.tableView.cellForRow(at: imagesViewController.currentIndexPath) as? ImageMessageCell else { return nil }
+        guard let cell = messagesViewController.tableView.cellForRow(at: imagesViewController.currentIndexPath) as? MessagesImageCell else { return nil }
 
         return  cell.messageImageView
     }
@@ -80,7 +80,6 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     }
 
     func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: ChatController, _ imagesViewController: ImagesViewController) {
-      //  messagesViewController.layout.paused = true
 
         if !self.isPresenting {
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
@@ -150,7 +149,6 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             scalingImageView.center = CGPoint(x: endFrame.width / 2, y: endFrame.height / 2)
             scalingImageView.transform = self.isPresenting ? .identity : scale
         }) { _ in
-           // messagesViewController.layout.paused = false
             fadingBackground.removeFromSuperview()
             mask.removeFromSuperview()
             clippingContainer.removeFromSuperview()

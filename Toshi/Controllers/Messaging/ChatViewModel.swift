@@ -62,12 +62,17 @@ final class ChatViewModel {
         return ChatsInteractor(output: self.output, thread: self.thread)
     }()
     
-    private(set) var contact: TokenUser? {
-        get {
-            return self.contactsManager?.tokenContact(forAddress: self.thread.contactIdentifier())
-        }
-        set {}
+    var contact: TokenUser? {
+        return self.contactsManager?.tokenContact(forAddress: self.thread.contactIdentifier())
     }
+    
+    lazy var contactAvatarUrl: AsyncImageURL? = {
+        if let contact = self.contact, let url = URL(string: contact.avatarPath) {
+            return AsyncImageURL(url: url)
+        }
+        
+        return nil
+    }()
     
     var currentButton: SofaMessage.Button?
     
@@ -77,14 +82,14 @@ final class ChatViewModel {
         }
     }
     
-    private(set) var messages: [Message] = [Message]() {
+    private(set) var messages: [Message] = [] {
         didSet {
             self.output.didReload()
         }
     }
     
     var visibleMessages: [Message] {
-        return self.messages.filter { (message) -> Bool in
+        return self.messages.filter { message -> Bool in
             message.isDisplayable
         }
     }

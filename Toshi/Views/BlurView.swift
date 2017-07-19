@@ -19,7 +19,7 @@ class BlurView: UIVisualEffectView {
 
     private(set) lazy var dimmingView: UIView = {
         let dimmingView = UIView()
-        dimmingView.backgroundColor = Theme.messageViewBackgroundColor.withAlphaComponent(0.6)
+        dimmingView.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.6)
 
         return dimmingView
     }()

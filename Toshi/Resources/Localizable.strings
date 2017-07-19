@@ -14,3 +14,8 @@
 "browse-latest-public-users" = "Latest Public Users";
 
 "browse-more-button" = "More";
+
+
+/* Messages */
+"messages_payment_approve" = "Approve";
+"messages_payment_decline" = "Decline";
