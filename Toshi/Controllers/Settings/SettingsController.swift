@@ -253,9 +253,9 @@ open class SettingsController: UITableViewController {
 
         switch balanceCellType {
         case .addMoney:
+            self.pushAddMoneyController()
+        default:
             break
-        case .balance:
-          self.pushAddMoneyController()
         }
     }
 
