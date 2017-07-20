@@ -45,7 +45,6 @@ open class SettingsController: UITableViewController {
 
     enum SettingsCells: Int {
         case develop
-        case profileVisibility
         case signOut
     }
 
@@ -291,8 +290,6 @@ open class SettingsController: UITableViewController {
         switch settingsCellType {
         case .develop:
             self.pushViewController("DevelopSettings")
-        case .profileVisibility:
-            self.pushViewController("ProfileVisibility")
         case .signOut:
             self.handleSignOut()
         }
