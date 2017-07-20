@@ -124,7 +124,7 @@ final class ChatController: OverlayController {
         view.tableFooterView = UIView()
         view.separatorStyle = .none
         view.keyboardDismissMode = .interactive
-        view.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
+        view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
 
         view.register(MessagesImageCell.self)
         view.register(MessagesPaymentCell.self)
@@ -659,6 +659,7 @@ extension ChatController: UITableViewDataSource {
             }
             
             cell.isOutGoing = message.isOutgoing
+            cell.cornerType = cornerType(for: indexPath)
         }
         
         if let cell = cell as? MessagesImageCell, message.type == .image {
@@ -674,6 +675,22 @@ extension ChatController: UITableViewDataSource {
         }
         
         return cell
+    }
+    
+    private func cornerType(for indexPath: IndexPath) -> MessageCornerType {
+        guard let currentMessage = viewModel.messageModels.element(at: indexPath.row) else { return .top }
+        guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else { return .top }
+        guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
+            return previousMessage.isOutgoing == currentMessage.isOutgoing ? .bottom : .top
+        }
+        
+        if currentMessage.isOutgoing == previousMessage.isOutgoing, currentMessage.isOutgoing == nextMessage.isOutgoing {
+            return .middle
+        } else if currentMessage.isOutgoing == previousMessage.isOutgoing, currentMessage.isOutgoing != nextMessage.isOutgoing {
+            return .bottom
+        }
+        
+        return .top
     }
 }
 

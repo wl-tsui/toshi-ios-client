@@ -10,6 +10,11 @@ class MessagesTextCell: MessagesBasicCell {
         didSet {
             textView.text = messageText
             detectUsernameLinksIfNeeded()
+            
+            if let messageText = messageText, messageText.hasEmojiOnly, messageText.emojiVisibleLength <= 3 {
+                bubbleView.backgroundColor = nil
+                textView.font = Theme.regular(size: 50)
+            }
         }
     }
     
@@ -49,7 +54,7 @@ class MessagesTextCell: MessagesBasicCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         bubbleView.addSubview(textView)
-        textView.edges(to: bubbleView, insets: UIEdgeInsets(top: 8, left: 15, bottom: -8, right: -15))
+        textView.edges(to: bubbleView, insets: UIEdgeInsets(top: 8, left: 12, bottom: -8, right: -12))
     }
     
     override func prepareForReuse() {
@@ -65,6 +70,7 @@ class MessagesTextCell: MessagesBasicCell {
             textView.attributedText = text
         }
         
+        textView.font = Theme.regular(size: 17)
         textView.text = nil
     }
     

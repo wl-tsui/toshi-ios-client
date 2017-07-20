@@ -2,6 +2,12 @@ import Foundation
 import UIKit
 import TinyConstraints
 
+enum MessageCornerType {
+    case top
+    case middle
+    case bottom
+}
+
 /* Messages Basic Cell:
  This UITableViewCell is the base cell for the different
  advanced cells used in messages. It provides the ground layout. */
@@ -36,27 +42,29 @@ class MessagesBasicCell: UITableViewCell {
         return view
     }()
     
-    private let margin: CGFloat = 15
-    private let avatarRadius: CGFloat = 40
+    private let margin: CGFloat = 10
+    private let avatarRadius: CGFloat = 44
     
     private var bubbleLeftConstraint: NSLayoutConstraint?
     private var bubbleRightConstraint: NSLayoutConstraint?
     private var bubbleLeftConstantConstraint: NSLayoutConstraint?
     private var bubbleRightConstantConstraint: NSLayoutConstraint?
     
-    private let messageBorderImage = UIImage(named: "message-border")?.stretchableImage(withLeftCapWidth: 16, topCapHeight: 16)
-    private let messageBorderOutgoingImage = UIImage(named: "message-border-outgoing")?.stretchableImage(withLeftCapWidth: 16, topCapHeight: 16)
-    private let messageBorderPaymentImage = UIImage(named: "message-border-payment")?.stretchableImage(withLeftCapWidth: 16, topCapHeight: 16)
-    private let messageBorderPaymentOutgoingImage = UIImage(named: "message-border-payment-outgoing")?.stretchableImage(withLeftCapWidth: 16, topCapHeight: 16)
+    private let cornerBottomOutgoing = UIImage(named: "corner-bottom-outgoing")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerBottomOutlineOutgoing = UIImage(named: "corner-bottom-outline-outgoing")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerBottomOutline = UIImage(named: "corner-bottom-outline")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerBottom = UIImage(named: "corner-bottom")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerMiddleOutgoing = UIImage(named: "corner-middle-outgoing")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerMiddleOutlineOutgoing = UIImage(named: "corner-middle-outline-outgoing")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerMiddleOutline = UIImage(named: "corner-middle-outline")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerMiddle = UIImage(named: "corner-middle")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerTopOutgoing = UIImage(named: "corner-top-outgoing")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerTopOutlineOutgoing = UIImage(named: "corner-top-outline-outgoing")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerTopOutline = UIImage(named: "corner-top-outline")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
+    private let cornerTop = UIImage(named: "corner-top")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
     
     var isOutGoing: Bool = false {
         didSet {
-            if self is MessagesPaymentCell {
-                messageBorderImageView.image = isOutGoing ? messageBorderPaymentOutgoingImage : messageBorderPaymentImage
-            } else {
-                messageBorderImageView.image = isOutGoing ? messageBorderOutgoingImage : messageBorderImage
-            }
-            
             if isOutGoing {
                 bubbleRightConstraint?.isActive = false
                 bubbleLeftConstantConstraint?.isActive = false
@@ -70,6 +78,37 @@ class MessagesBasicCell: UITableViewCell {
             }
         }
     }
+    
+    var cornerType: MessageCornerType = .top {
+        didSet {
+            messageBorderImageView.image = cornerImage
+        }
+    }
+    
+    private var cornerImage: UIImage? {
+        
+        if cornerType == .top {
+            contentLayoutGuideTopConstraint?.constant = 8
+        } else {
+            contentLayoutGuideTopConstraint?.constant = 4
+        }
+        
+        if self is MessagesPaymentCell {
+            switch cornerType {
+            case .top: return isOutGoing ? cornerTopOutlineOutgoing : cornerTopOutline
+            case .middle: return isOutGoing ? cornerMiddleOutlineOutgoing : cornerMiddleOutline
+            case .bottom: return isOutGoing ? cornerBottomOutlineOutgoing : cornerBottomOutline
+            }
+        } else {
+            switch cornerType {
+            case .top: return isOutGoing ? cornerTopOutgoing : cornerTop
+            case .middle: return isOutGoing ? cornerMiddleOutgoing : cornerMiddle
+            case .bottom: return isOutGoing ? cornerBottomOutgoing : cornerBottom
+            }
+        }
+    }
+    
+    private var contentLayoutGuideTopConstraint: NSLayoutConstraint?
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -92,7 +131,10 @@ class MessagesBasicCell: UITableViewCell {
         contentView.addLayoutGuide(centerLayoutGuide)
         contentView.addLayoutGuide(rightLayoutGuide)
         
-        contentLayoutGuide.edges(to: contentView, insets: UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0))
+        contentLayoutGuideTopConstraint = contentLayoutGuide.top(to: contentView, offset: 2)
+        contentLayoutGuide.left(to: contentView)
+        contentLayoutGuide.bottom(to: contentView)
+        contentLayoutGuide.right(to: contentView)
         contentLayoutGuide.width(UIScreen.main.bounds.width)
         
         leftLayoutGuide.top(to: contentLayoutGuide)
@@ -117,7 +159,7 @@ class MessagesBasicCell: UITableViewCell {
         contentView.addSubview(avatarImageView)
         avatarImageView.left(to: leftLayoutGuide)
         avatarImageView.bottom(to: leftLayoutGuide)
-        avatarImageView.right(to: leftLayoutGuide, offset: -4)
+        avatarImageView.right(to: leftLayoutGuide, offset: -8)
         avatarImageView.height(to: avatarImageView, avatarImageView.widthAnchor)
         
         /* Bubble View:

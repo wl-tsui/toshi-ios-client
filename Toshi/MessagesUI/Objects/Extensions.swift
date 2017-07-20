@@ -50,6 +50,16 @@ extension String {
 
         return emojiOnly
     }
+    
+    var emojiVisibleLength: Int {
+        var count = 0
+        
+        enumerateSubstrings(in: startIndex ..< endIndex, options: .byComposedCharacterSequences) { _ in
+            count += 1
+        }
+        
+        return count
+    }
 }
 
 extension UIView {

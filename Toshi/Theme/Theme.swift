@@ -119,7 +119,7 @@ extension Theme {
     // MARK: - Message colours
 
     public static var incomingMessageBackgroundColor: UIColor {
-        return UIColor(hex: "EAEAEA")
+        return UIColor(hex: "F1F0F0")
     }
 
     public static var outgoingMessageTextColor: UIColor {
