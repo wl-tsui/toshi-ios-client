@@ -16,12 +16,12 @@
 import UIKit
 import SweetUIKit
 
-class DevelopSettingsController: UITableViewController {
+class AdvancedSettingsController: UITableViewController {
     
     @IBOutlet fileprivate weak var networkNameLabel: UILabel!
 }
 
-extension DevelopSettingsController {
+extension AdvancedSettingsController {
 
     public override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         guard let footerView = view as? UITableViewHeaderFooterView else { return }

@@ -289,7 +289,7 @@ open class SettingsController: UITableViewController {
 
         switch settingsCellType {
         case .develop:
-            self.pushViewController("DevelopSettings")
+            self.pushViewController("AdvancedSettings")
         case .signOut:
             self.handleSignOut()
         }

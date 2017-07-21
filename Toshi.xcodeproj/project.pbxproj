@@ -1107,6 +1107,11 @@
 		A90E5A321F06A60F00DAA501 /* BrowseAllController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5A301F069CAF00DAA501 /* BrowseAllController.swift */; };
 		A90E5A331F06A62300DAA501 /* BrowseSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5A2E1F0680A500DAA501 /* BrowseSearchResultView.swift */; };
 		A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9181D211EDD8154005B63F6 /* RoundIconButton.swift */; };
+		A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
+		A9191DCA1F2203DD00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
+		A9191DCB1F2203DD00498A4F /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
+		A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
+		A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
 		A9202E381ED82AAD0036E9B7 /* BouncyLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E361ED82AAD0036E9B7 /* BouncyLayout.framework */; };
 		A9202E3D1ED82AFC0036E9B7 /* BouncyLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E361ED82AAD0036E9B7 /* BouncyLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A9202E3E1ED82AFC0036E9B7 /* TinyConstraints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */; };
@@ -1182,12 +1187,6 @@
 		D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		DBFAB6FED2A3595E0356668C /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
-		E681FC911F15266000DEC69E /* DevelopSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */; };
-		E681FC921F15266000DEC69E /* DevelopSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */; };
-		E681FC991F15284600DEC69E /* DevelopSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E681FC981F15284600DEC69E /* DevelopSettings.storyboard */; };
-		E681FC9A1F15284600DEC69E /* DevelopSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E681FC981F15284600DEC69E /* DevelopSettings.storyboard */; };
-		E68F63571F1606EF005FC33D /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */; };
-		E68F63581F1606EF005FC33D /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -2176,6 +2175,9 @@
 		A90E5A2E1F0680A500DAA501 /* BrowseSearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseSearchResultView.swift; sourceTree = "<group>"; };
 		A90E5A301F069CAF00DAA501 /* BrowseAllController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseAllController.swift; sourceTree = "<group>"; };
 		A9181D211EDD8154005B63F6 /* RoundIconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundIconButton.swift; sourceTree = "<group>"; };
+		A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdvancedSettings.storyboard; sourceTree = "<group>"; };
+		A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsController.swift; sourceTree = "<group>"; };
+		A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSettingsController.swift; sourceTree = "<group>"; };
 		A9202E361ED82AAD0036E9B7 /* BouncyLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BouncyLayout.framework; path = Carthage/Build/iOS/BouncyLayout.framework; sourceTree = "<group>"; };
 		A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TinyConstraints.framework; path = Carthage/Build/iOS/TinyConstraints.framework; sourceTree = "<group>"; };
 		A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -2218,9 +2220,6 @@
 		CFAFE0DF986DC3B38AF50EE6 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
-		E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopSettingsController.swift; sourceTree = "<group>"; };
-		E681FC981F15284600DEC69E /* DevelopSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DevelopSettings.storyboard; sourceTree = "<group>"; };
-		E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3635,6 +3634,7 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				A9191DC41F2203DD00498A4F /* Advanced */,
 				2B4794181F1E069500AC3EB4 /* Models */,
 				A9BA6B771EF7CEAD007C3206 /* AddMoney */,
 				9F232A971EC9E3A300270761 /* Profile */,
@@ -3644,9 +3644,26 @@
 				E1A95D541E6EF092002762DA /* SettingsController.swift */,
 				9F27525D1EB9CA7A00050C08 /* Settings.storyboard */,
 				9F04A7221E38D1400043534A /* QRCodeController.swift */,
-				D197B1F87C657D03839972CB /* Develop */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		A9191DC41F2203DD00498A4F /* Advanced */ = {
+			isa = PBXGroup;
+			children = (
+				A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */,
+				A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */,
+				A9191DC71F2203DD00498A4F /* Network */,
+			);
+			path = Advanced;
+			sourceTree = "<group>";
+		};
+		A9191DC71F2203DD00498A4F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		A9202E491ED84F6A0036E9B7 /* MessagesUI */ = {
@@ -3762,24 +3779,6 @@
 				A9ED6CCC1E82B57E00160637 /* InputField.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		D197B1F87C657D03839972CB /* Develop */ = {
-			isa = PBXGroup;
-			children = (
-				E681FC8F1F15266000DEC69E /* DevelopSettingsController.swift */,
-				E681FC981F15284600DEC69E /* DevelopSettings.storyboard */,
-				D197B72136F982842FAFC6FC /* Network */,
-			);
-			path = Develop;
-			sourceTree = "<group>";
-		};
-		D197B72136F982842FAFC6FC /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				E68F63561F1606EF005FC33D /* NetworkSettingsController.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		E1A95D581E6F031F002762DA /* Views */ = {
@@ -3937,6 +3936,7 @@
 				149F9ACB1E72E29A00FB74AA /* SF-UI-Display-Regular.otf in Resources */,
 				149F9ACC1E72E29A00FB74AA /* SF-UI-Display-Light.otf in Resources */,
 				149F9ACD1E72E29A00FB74AA /* SF-UI-Display-Ultralight.otf in Resources */,
+				A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */,
 				149F9ACF1E72E29A00FB74AA /* SF-UI-Display-Thin.otf in Resources */,
 				9FB36EAC1E7C27A300DB6F86 /* requestPayment.m4a in Resources */,
 				149F9AD01E72E29A00FB74AA /* SF-UI-Display-Medium.otf in Resources */,
@@ -3944,7 +3944,6 @@
 				9FB36EA81E7C27A300DB6F86 /* menuButton.m4a in Resources */,
 				149F9AD21E72E29A00FB74AA /* SF-UI-Text-Medium.otf in Resources */,
 				9F27525F1EB9CA7A00050C08 /* Settings.storyboard in Resources */,
-				E681FC9A1F15284600DEC69E /* DevelopSettings.storyboard in Resources */,
 				149F9AD31E72E29A00FB74AA /* SF-UI-Text-Bold.otf in Resources */,
 				149F9AD41E72E29A00FB74AA /* Localizable.strings in Resources */,
 				149F9AD51E72E29A00FB74AA /* SF-UI-Display-Bold.otf in Resources */,
@@ -3984,6 +3983,7 @@
 				9FAACCF61E31120600FB871D /* SF-UI-Display-Regular.otf in Resources */,
 				9FAACCF41E31120600FB871D /* SF-UI-Display-Light.otf in Resources */,
 				9FAACCF91E31120600FB871D /* SF-UI-Display-Ultralight.otf in Resources */,
+				A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */,
 				9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */,
 				9FAACCF81E31120600FB871D /* SF-UI-Display-Thin.otf in Resources */,
 				9F8C340F1E715C7A005178F9 /* menuButton.m4a in Resources */,
@@ -3991,7 +3991,6 @@
 				9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */,
 				9FAACD001E31120600FB871D /* SF-UI-Text-Medium.otf in Resources */,
 				9FAACCFA1E31120600FB871D /* SF-UI-Text-Bold.otf in Resources */,
-				E681FC991F15284600DEC69E /* DevelopSettings.storyboard in Resources */,
 				9F27525E1EB9CA7A00050C08 /* Settings.storyboard in Resources */,
 				9FAACCB51E30F24100FB871D /* Localizable.strings in Resources */,
 				9FAACCF21E31120600FB871D /* SF-UI-Display-Bold.otf in Resources */,
@@ -4252,7 +4251,6 @@
 				9F4D806F1EEA8B4500FB5361 /* ModernGalleryModel.m in Sources */,
 				9F30A81E1ED2EDA9003E56A2 /* SOFAWebController.swift in Sources */,
 				9F4D80F11EEA8B4500FB5361 /* MenuSheetTitleItemView.m in Sources */,
-				E681FC921F15266000DEC69E /* DevelopSettingsController.swift in Sources */,
 				9F4D80BD1EEA8B4500FB5361 /* MediaAssetsGifCell.m in Sources */,
 				9F4D801B1EEA8B4500FB5361 /* TGVideoEditAdjustments.m in Sources */,
 				9F78D9D01EE93E68003A0B95 /* ModalPresentationController.swift in Sources */,
@@ -4408,6 +4406,7 @@
 				9F4D80251EEA8B4500FB5361 /* UIControl+HitTestEdgeInsets.m in Sources */,
 				149F9A761E72E29A00FB74AA /* ContactsManager.m in Sources */,
 				9F4D80051EEA8B4500FB5361 /* PSKeyValueCoder.m in Sources */,
+				A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */,
 				A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */,
 				9F4D80AF1EEA8B4500FB5361 /* DraggableCollectionViewFlowLayout.m in Sources */,
 				9F4D7F3D1EEA8B4500FB5361 /* PhotoEnhanceInterpolationFilter.m in Sources */,
@@ -4689,7 +4688,6 @@
 				9F4D7EE31EEA8B4500FB5361 /* TGImagePickerController.mm in Sources */,
 				9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */,
 				9F4D81531EEA8B4600FB5361 /* PhotoEditorSliderView.m in Sources */,
-				E68F63581F1606EF005FC33D /* NetworkSettingsController.swift in Sources */,
 				9F4D80451EEA8B4500FB5361 /* ImageMediaAttachment.m in Sources */,
 				9F4D807D1EEA8B4500FB5361 /* VideoMediaAttachment.m in Sources */,
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
@@ -4770,7 +4768,6 @@
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				9F4D809A1EEA8B4500FB5361 /* CameraMainPhoneView.m in Sources */,
 				9F4D80201EEA8B4500FB5361 /* UICollectionView+Transitioning.m in Sources */,
-				E681FC911F15266000DEC69E /* DevelopSettingsController.swift in Sources */,
 				9F4D800A1EEA8B4500FB5361 /* SGraphListNode.m in Sources */,
 				9F4D7FC81EEA8B4500FB5361 /* ImageManagerTask.m in Sources */,
 				9F4D812E1EEA8B4600FB5361 /* PhotoBrushSettingsView.m in Sources */,
@@ -5129,6 +5126,7 @@
 				9F4D804E1EEA8B4500FB5361 /* MediaAssetGroup.m in Sources */,
 				9F4D80521EEA8B4500FB5361 /* MediaAssetMomentList.m in Sources */,
 				9F4D7F1C1EEA8B4500FB5361 /* PaintSlice.m in Sources */,
+				A9191DCB1F2203DD00498A4F /* NetworkSettingsController.swift in Sources */,
 				9F4D80FE1EEA8B4500FB5361 /* ModernButtonView.m in Sources */,
 				9F4D80F61EEA8B4500FB5361 /* MessageImageAdditionalDataView.m in Sources */,
 				9F4D7F201EEA8B4500FB5361 /* PaintSwatch.m in Sources */,
@@ -5161,7 +5159,6 @@
 				9F4D7F0E1EEA8B4500FB5361 /* PaintInput.m in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */,
-				E68F63571F1606EF005FC33D /* NetworkSettingsController.swift in Sources */,
 				9F4D80581EEA8B4500FB5361 /* MediaAssetsModernLibrary.m in Sources */,
 				9F4D80021EEA8B4500FB5361 /* PhotoEditorRawDataOutput.m in Sources */,
 				9F4D7F621EEA8B4500FB5361 /* SaturationTool.m in Sources */,
@@ -5177,6 +5174,7 @@
 				9F4D7F8E1EEA8B4500FB5361 /* CameraMovieWriter.m in Sources */,
 				9F4D7EDA1EEA8B4500FB5361 /* PhotoPaintController.m in Sources */,
 				143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */,
+				A9191DCA1F2203DD00498A4F /* AdvancedSettingsController.swift in Sources */,
 				9F4D7F8C1EEA8B4500FB5361 /* CameraInterfaceAssets.m in Sources */,
 				9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */,
 				9F4D80E61EEA8B4500FB5361 /* MediaPickerToolbarView.m in Sources */,
