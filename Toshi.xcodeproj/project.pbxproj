@@ -1161,6 +1161,7 @@
 		A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
+		A9D8F41F1F224B5600C3614A /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
 		A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */; };
 		A9E1DCD31F1E1989001A4ABE /* MessagesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */; };
@@ -4649,6 +4650,7 @@
 				9F4D81671EEA8B4600FB5361 /* PhotoPaintSettingsView.m in Sources */,
 				9F4D80331EEA8B4500FB5361 /* PSLMDBKeyValueCursor.m in Sources */,
 				9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
+				A9D8F41F1F224B5600C3614A /* NetworkSettingsController.swift in Sources */,
 				9F4D7EF91EEA8B4500FB5361 /* FadeTool.m in Sources */,
 				149F9AA01E72E29A00FB74AA /* SofaWrapper.swift in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,

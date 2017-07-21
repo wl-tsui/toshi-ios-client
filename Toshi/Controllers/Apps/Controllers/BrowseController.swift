@@ -209,8 +209,8 @@ extension BrowseController: UISearchBarDelegate {
                     cell.avatarImageView.setImage(from: AsyncImageURL(url: url))
                 }
                 
-                RatingsClient.shared.scores(for: item.address) { ratingScore in
-                    cell.ratingView.set(rating: Float(ratingScore.averageRating))
+                if let averageRating = item.averageRating {
+                    cell.ratingView.set(rating: averageRating)
                 }
             }
             

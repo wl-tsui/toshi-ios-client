@@ -35,6 +35,8 @@ public class TokenUser: NSObject, NSCoding {
         static let isApp = "is_app"
         static let verified = "verified"
         static let isPublic = "public"
+        static let reputationScore = "reputation_score"
+        static let averageRating = "average_rating"
     }
 
     static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
@@ -69,6 +71,8 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var address = ""
     private(set) var paymentAddress = ""
     private(set) var isApp: Bool = false
+    private(set) var reputationScore: Float? = nil
+    private(set) var averageRating: Float? = nil
 
     fileprivate static var _current: TokenUser?
     fileprivate(set) static var current: TokenUser? {
@@ -174,8 +178,9 @@ public class TokenUser: NSObject, NSCoding {
         self.about = json[Constants.about] as? String ?? self.about
         self.avatarPath = json[Constants.avatar] as? String ?? self.avatarPath
         self.isApp = json[Constants.isApp] as? Bool ?? self.isApp
-
         self.verified = json[Constants.verified] as? Bool ?? self.verified
+        self.reputationScore = json[Constants.reputationScore] as? Float ?? self.reputationScore
+        self.averageRating = json[Constants.averageRating] as? Float ?? self.averageRating
 
         if shouldSave {
             self.save()
