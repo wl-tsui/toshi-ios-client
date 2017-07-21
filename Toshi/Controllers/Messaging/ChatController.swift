@@ -113,6 +113,10 @@ final class ChatController: OverlayController {
         return view
     }()
 
+    fileprivate lazy var networkView: ActiveNetworkView = {
+        self.defaultActiveNetworkView()
+    }()
+
     private(set) lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +129,8 @@ final class ChatController: OverlayController {
         view.separatorStyle = .none
         view.keyboardDismissMode = .interactive
         view.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+
+        view.contentInset = UIEdgeInsets(top: ChatsFloatingHeaderView.height + 64.0, left: 0, bottom: 0, right: 0)
 
         view.register(MessagesImageCell.self)
         view.register(MessagesPaymentCell.self)
@@ -309,19 +315,22 @@ final class ChatController: OverlayController {
 
         textInputView.delegate = self
 
+        view.addSubview(tableView)
+
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+
+        tableView.left(to: view)
+        tableView.right(to: view)
+        tableView.bottomToTop(of: controlsView)
+
         view.addSubview(ethereumPromptView)
 
         ethereumPromptView.heightAnchor.constraint(equalToConstant: ChatsFloatingHeaderView.height).isActive = true
         ethereumPromptView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         ethereumPromptView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         ethereumPromptView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        
-        view.addSubview(tableView)
-        tableView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor).isActive = true
 
-        tableView.left(to: view)
-        tableView.right(to: view)
-        tableView.bottomToTop(of: controlsView)
+        self.setupActiveNetworkView(hidden: true)
 
         view.addSubview(subcontrolsView)
 
@@ -333,7 +342,6 @@ final class ChatController: OverlayController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
     }
-
 
     func sendPayment(with parameters: [String: Any]) {
         showActivityIndicator()
@@ -670,6 +678,15 @@ extension ChatController: UITableViewDataSource {
             cell.messageLabel.text = message.text
             cell.setPaymentState(signalMessage.paymentState, for: message.type)
             cell.selectionDelegate = self
+
+            let isPaymentOpen = (message.signalMessage?.paymentState ?? .none) == .none
+            let isMessageActionable = message.isActionable ?? false
+
+            let isOpenPaymentRequest = isMessageActionable && isPaymentOpen
+            if isOpenPaymentRequest {
+                showActiveNetworkViewIfNeeded()
+            }
+
         } else if let cell = cell as? MessagesTextCell, message.type == .simple {
             cell.messageText = message.text
         }
@@ -726,6 +743,9 @@ extension ChatController: MessagesPaymentCellDelegate {
         viewModel.interactor.sendPayment(in: paymentRequest.value, completion: { (success: Bool) in
             let state: TSInteraction.PaymentState = success ? .approved : .failed
             self.adjustToPaymentState(state, at: indexPath)
+            DispatchQueue.main.asyncAfter(seconds: 2.0) {
+                self.hideActiveNetworkViewIfNeeded()
+            }
         })
     }
     
@@ -733,6 +753,10 @@ extension ChatController: MessagesPaymentCellDelegate {
         guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
         
         adjustToPaymentState(.rejected, at: indexPath)
+
+        DispatchQueue.main.asyncAfter(seconds: 2.0) {
+            self.hideActiveNetworkViewIfNeeded()
+        }
     }
 }
 
@@ -787,7 +811,9 @@ extension ChatController: ChatInteractorOutput {
     }
 
     func didFinishRequest() {
-        hideActivityIndicator()
+        DispatchQueue.main.async {
+            self.hideActivityIndicator()
+        }
     }
 }
 
@@ -804,7 +830,7 @@ extension ChatController: ChatInputTextPanelDelegate {
     func inputTextPanel(_: ChatInputTextPanel, requestSendText text: String) {
         let wrapper = SofaMessage(content: ["body": text])
 
-        viewModel.interactor.sendMessage(sofaWrapper: wrapper)
+        viewModel.interactor.sendMessage(sofaWrapper: wrapper) 
     }
 
     func inputTextPanelRequestSendAttachment(_: ChatInputTextPanel) {
@@ -1044,6 +1070,26 @@ extension ChatController: ControlViewActionDelegate {
             self.view.layoutIfNeeded()
 
             completion?()
+        }
+    }
+}
+
+extension ChatController: ActiveNetworkDisplaying {
+
+    var activeNetworkView: ActiveNetworkView {
+        return networkView
+    }
+
+    var activeNetworkViewConstraints: [NSLayoutConstraint] {
+         return [activeNetworkView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor, constant: -1),
+                 activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                 activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)]
+    }
+
+    func requestLayoutUpdate() {
+        UIView.animate(withDuration: 0.2) {
+            self.tableView.contentInset = UIEdgeInsets(top: ChatsFloatingHeaderView.height + 64.0 + (self.activeNetworkView.heightConstraint?.constant ?? 0), left: 0, bottom: 0, right: 0)
+            self.view.layoutIfNeeded()
         }
     }
 }

@@ -15,6 +15,7 @@
 
 import UIKit
 import SweetUIKit
+import TinyConstraints
 
 class PaymentConfirmationController: AlertController {
 
@@ -25,10 +26,8 @@ class PaymentConfirmationController: AlertController {
 
     fileprivate var review: String = ""
 
-    lazy var titleLabel: TitleLabel = {
-        let view = TitleLabel("Rate \(String(describing: self.userInfo.username))")
-
-        return view
+    fileprivate lazy var networkView: ActiveNetworkView = {
+        self.defaultActiveNetworkView()
     }()
 
     init(userInfo: UserInfo, value: NSDecimalNumber) {
@@ -54,14 +53,19 @@ class PaymentConfirmationController: AlertController {
         super.viewDidLoad()
 
         self.setupCustomContentView()
+
+        setupActiveNetworkView()
+
+        showActiveNetworkViewIfNeeded()
     }
 
     fileprivate func setupCustomContentView() {
         if let customView = Bundle.main.loadNibNamed("PaymentRequestInfoView", owner: nil, options: nil)?.first as? PaymentRequestInfoView {
-            customView.set(height: customView.frame.height)
+
             customView.translatesAutoresizingMaskIntoConstraints = false
             customView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
 
+            customView.set(height: customView.frame.height + activeNetworkView.frame.height)
             if let path = self.userInfo.avatarPath as String? {
                 AvatarManager.shared.avatar(for: path) { image, _ in
                     customView.userAvatarImageView.image = image
@@ -83,5 +87,18 @@ class PaymentConfirmationController: AlertController {
                 }
             }
         }
+    }
+}
+
+extension PaymentConfirmationController: ActiveNetworkDisplaying {
+
+    var activeNetworkView: ActiveNetworkView {
+        return networkView
+    }
+
+    var activeNetworkViewConstraints: [NSLayoutConstraint] {
+        return [activeNetworkView.top(to: view),
+                activeNetworkView.left(to: view),
+                activeNetworkView.right(to: view)]
     }
 }

@@ -76,6 +76,10 @@ class PaymentController: UIViewController {
         return view
     }()
 
+    fileprivate lazy var networkView: ActiveNetworkView = {
+        self.defaultActiveNetworkView()
+    }()
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
@@ -125,6 +129,8 @@ class PaymentController: UIViewController {
         self.etherAmountLabel.topAnchor.constraint(equalTo: self.currencyAmountLabel.bottomAnchor).isActive = true
         self.etherAmountLabel.leftAnchor.constraint(equalTo: self.currencyAmountLabel.leftAnchor).isActive = true
         self.etherAmountLabel.rightAnchor.constraint(equalTo: self.currencyAmountLabel.rightAnchor).isActive = true
+
+        setupActiveNetworkView()
     }
 }
 
@@ -180,5 +186,18 @@ extension PaymentController: UIToolbarDelegate {
 
     func position(for _: UIBarPositioning) -> UIBarPosition {
         return .topAttached
+    }
+}
+
+extension PaymentController: ActiveNetworkDisplaying {
+
+    var activeNetworkView: ActiveNetworkView {
+        return networkView
+    }
+
+    var activeNetworkViewConstraints: [NSLayoutConstraint] {
+        return [activeNetworkView.topAnchor.constraint(equalTo: toolbar.bottomAnchor),
+                activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)]
     }
 }

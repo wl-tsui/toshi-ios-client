@@ -1183,8 +1183,12 @@
 		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		C31C048D3765021CC4E2509C /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8127F350AC2D5B8DBC172E34 /* libPods-CocoaPods-Development.a */; };
+		D197B401E977724E946A55BE /* ActiveNetworkDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */; };
 		D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
+		D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
+		D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
+		D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */; };
 		DBFAB6FED2A3595E0356668C /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 /* End PBXBuildFile section */
@@ -2218,6 +2222,8 @@
 		A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeader.swift; sourceTree = "<group>"; };
 		A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		CFAFE0DF986DC3B38AF50EE6 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
+		D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveNetworkView.swift; sourceTree = "<group>"; };
+		D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveNetworkDisplaying.swift; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3439,6 +3445,7 @@
 				9F9B25541ECB1BC0007B435A /* ContactActionView.swift */,
 				A9181D211EDD8154005B63F6 /* RoundIconButton.swift */,
 				D197BB4FC8D408B73FE253E5 /* BlurView.swift */,
+				D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */,
 				2BC85F7E1F0F946600BCB171 /* InputCell.swift */,
 				2BC85F7B1F0F939C00BCB171 /* InputCell.xib */,
 			);
@@ -3616,6 +3623,7 @@
 				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
 				2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */,
 				2BE66A0B1EF910B6007A7130 /* Editable.swift */,
+				D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -3623,6 +3631,8 @@
 		9FDB3B151E6D63D900EE5FD7 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				9FF6AF961E83CA84001B5907,
+				9FF6AF971E83CA84001B5907,
 				9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */,
 				9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */,
 				9FDB3B1A1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDataSource.swift */,
@@ -4694,6 +4704,8 @@
 				9F4D7F271EEA8B4500FB5361 /* PaintUtils.m in Sources */,
 				A90E5A2A1F03D0CF00DAA501 /* BrowseAppCell.swift in Sources */,
 				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
+				D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */,
+				D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5197,6 +5209,8 @@
 				9F4D802C1EEA8B4500FB5361 /* WeakReference.m in Sources */,
 				9F9B25551ECB1BC0007B435A /* ContactActionView.swift in Sources */,
 				D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */,
+				D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */,
+				D197B401E977724E946A55BE /* ActiveNetworkDisplaying.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

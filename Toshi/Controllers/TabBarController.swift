@@ -278,6 +278,7 @@ extension TabBarController: ScannerViewControllerDelegate {
             }
 
             if let scannerController = self.scannerController as? PaymentPresentable {
+                scannerController.setStatusBarHidden(true)
                 scannerController.displayPaymentConfirmation(userInfo: userInfo!, parameters: parameters)
             }
         }

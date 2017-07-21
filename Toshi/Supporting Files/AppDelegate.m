@@ -401,6 +401,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         NSLog(@"TOKEN: chat PN register - SUCCESS: token: %@, voip: %@", self.token, self.voipToken);
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
+
         [[EthereumAPIClient shared] registerForSwitchedNetworkPushNotificationsIfNeededWithCompletion:nil];
 
     } failure:^(NSError *error) {

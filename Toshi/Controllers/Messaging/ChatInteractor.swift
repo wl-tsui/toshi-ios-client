@@ -54,13 +54,15 @@ final class ChatsInteractor {
     
     fileprivate var messageSender: MessageSender?
    
-    func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date()) {
+    func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: ((Bool) -> Void)? = nil) {
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
         
         self.messageSender?.send(outgoingMessage, success: {
+            completion?(true)
             print("message sent")
         }, failure: { error in
+            completion?(false)
             print(error)
         })
     }
@@ -221,6 +223,7 @@ final class ChatsInteractor {
                 message.title = "Payment request"
                 message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
             } else if let payment = sofaWrapper as? SofaPayment {
+                self.output?.didFinishRequest()
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment received", attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.medium(size: 17)])
                 message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: EthereumAPIClient.shared.exchangeRate).string, attributes: [NSForegroundColorAttributeName: Theme.incomingMessageTextColor, NSFontAttributeName: Theme.regular(size: 15)])

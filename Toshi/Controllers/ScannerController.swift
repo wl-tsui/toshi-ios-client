@@ -18,6 +18,8 @@ import CameraScanner
 
 class ScannerController: ScannerViewController {
 
+    var isStatusBarHidden = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +29,14 @@ class ScannerController: ScannerViewController {
     fileprivate lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
+
+    override var prefersStatusBarHidden: Bool {
+        return isStatusBarHidden
+    }
+
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .slide
+    }
 
     override func setupToolbarItems() {
         self.toolbar.setItems([self.cancelItem], animated: true)
@@ -47,15 +57,24 @@ extension ScannerController: ActivityIndicating {
 
 extension ScannerController: PaymentPresentable {
 
+    func setStatusBarHidden(_: Bool) {
+        isStatusBarHidden = true
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
     func paymentFailed(with _: Error?, result _: [String: Any]) {
         self.startScanning()
+        isStatusBarHidden = false
+        startScanning()
     }
 
     func paymentDeclined() {
+        isStatusBarHidden = false
         self.startScanning()
     }
 
     func paymentApproved(with parameters: [String: Any], userInfo: UserInfo) {
+        isStatusBarHidden = false
         guard userInfo.isLocal == false else {
             if let tabbarController = self.presentingViewController as? TabBarController, let address = userInfo.address as String? {
                 tabbarController.openPaymentMessage(to: address, parameters: parameters)

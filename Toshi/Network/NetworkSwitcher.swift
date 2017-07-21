@@ -25,6 +25,7 @@ enum NetworkInfo {
     static let ActiveNetwork = "ActiveNetwork"
 
     struct Label {
+
         static let RopstenTestNetwork = Localized("Ropsten Test Network")
         static let ToshiTestNetwork = Localized("Toshi Test Network")
     }
@@ -61,7 +62,6 @@ public enum Network: String {
 }
 
 public final class NetworkSwitcher {
-
     static let shared = NetworkSwitcher()
     fileprivate let keychain = KeychainSwift()
 

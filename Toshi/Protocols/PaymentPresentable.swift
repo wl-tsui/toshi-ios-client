@@ -27,6 +27,8 @@ protocol PaymentPresentable: class {
 
     func paymentDeclined()
     func paymentApproved(with parameters: [String: Any], userInfo: UserInfo)
+
+    func setStatusBarHidden(_ bool: Bool)
 }
 
 extension PaymentPresentable where Self: UIViewController {
@@ -87,4 +89,6 @@ extension PaymentPresentable where Self: UIViewController {
 
         Navigator.presentModally(alertController)
     }
+
+    func setStatusBarHidden(_ bool: Bool) { }
 }
