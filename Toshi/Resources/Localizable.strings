@@ -19,3 +19,8 @@
 /* Messages */
 "messages_payment_approve" = "Approve";
 "messages_payment_decline" = "Decline";
+
+/* Balance */
+"balance-navigation-title" = "Balance";
+"balance-action-send" = "Send";
+"balance-action-deposit" = "Deposit";

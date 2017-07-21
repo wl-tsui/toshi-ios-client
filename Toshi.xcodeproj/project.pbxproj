@@ -108,6 +108,7 @@
 		2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
+		2B483F931F223EF000AFA7D7 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		2B695CBA1EF9B9A80025119B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
 		2BAB90A71EC1194B005D98C6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A01EC1194B005D98C6 /* Accelerate.framework */; };
 		2BAB90A81EC1194B005D98C6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A11EC1194B005D98C6 /* AudioToolbox.framework */; };
@@ -1112,6 +1113,7 @@
 		A9191DCB1F2203DD00498A4F /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
+		A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
 		A9202E381ED82AAD0036E9B7 /* BouncyLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E361ED82AAD0036E9B7 /* BouncyLayout.framework */; };
 		A9202E3D1ED82AFC0036E9B7 /* BouncyLayout.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E361ED82AAD0036E9B7 /* BouncyLayout.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A9202E3E1ED82AFC0036E9B7 /* TinyConstraints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */; };
@@ -1159,6 +1161,7 @@
 		A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
+		A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
 		A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */; };
 		A9E1DCD31F1E1989001A4ABE /* MessagesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */; };
 		A9E1DCD41F1E1989001A4ABE /* MessagesPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */; };
@@ -2182,6 +2185,7 @@
 		A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdvancedSettings.storyboard; sourceTree = "<group>"; };
 		A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsController.swift; sourceTree = "<group>"; };
 		A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSettingsController.swift; sourceTree = "<group>"; };
+		A9191DCF1F2220C100498A4F /* BalanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceController.swift; sourceTree = "<group>"; };
 		A9202E361ED82AAD0036E9B7 /* BouncyLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BouncyLayout.framework; path = Carthage/Build/iOS/BouncyLayout.framework; sourceTree = "<group>"; };
 		A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TinyConstraints.framework; path = Carthage/Build/iOS/TinyConstraints.framework; sourceTree = "<group>"; };
 		A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
@@ -3631,8 +3635,6 @@
 		9FDB3B151E6D63D900EE5FD7 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				9FF6AF961E83CA84001B5907,
-				9FF6AF971E83CA84001B5907,
 				9FDB3B161E6D640900EE5FD7 /* ControlCell.swift */,
 				9FDB3B181E6D648000EE5FD7 /* ControlsCollectionView.swift */,
 				9FDB3B1A1E6D649A00EE5FD7 /* ControlsCollectionViewDelegateDataSource.swift */,
@@ -3644,6 +3646,7 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				A9191DCE1F2220B100498A4F /* Balance */,
 				A9191DC41F2203DD00498A4F /* Advanced */,
 				2B4794181F1E069500AC3EB4 /* Models */,
 				A9BA6B771EF7CEAD007C3206 /* AddMoney */,
@@ -3674,6 +3677,14 @@
 				A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		A9191DCE1F2220B100498A4F /* Balance */ = {
+			isa = PBXGroup;
+			children = (
+				A9191DCF1F2220C100498A4F /* BalanceController.swift */,
+			);
+			path = Balance;
 			sourceTree = "<group>";
 		};
 		A9202E491ED84F6A0036E9B7 /* MessagesUI */ = {
@@ -4335,6 +4346,7 @@
 				9F4D811B1EEA8B4600FB5361 /* ModernGalleryVideoView.m in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
 				149F9A721E72E29A00FB74AA /* PaymentRequestController.swift in Sources */,
+				A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */,
 				9F4D7F0D1EEA8B4500FB5361 /* Painting.m in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				9F4D7ECD1EEA8B4500FB5361 /* PhotoAvatarCropController.m in Sources */,
@@ -4418,6 +4430,7 @@
 				9F4D80051EEA8B4500FB5361 /* PSKeyValueCoder.m in Sources */,
 				A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */,
 				A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */,
+				2B483F931F223EF000AFA7D7 /* NetworkSettingsController.swift in Sources */,
 				9F4D80AF1EEA8B4500FB5361 /* DraggableCollectionViewFlowLayout.m in Sources */,
 				9F4D7F3D1EEA8B4500FB5361 /* PhotoEnhanceInterpolationFilter.m in Sources */,
 				149F9A7A1E72E29A00FB74AA /* FavoritesController.swift in Sources */,
@@ -5165,6 +5178,7 @@
 				2BE6FB0F1EFC0C1600B0B848 /* AvatarManager.swift in Sources */,
 				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				9F4D7F401EEA8B4500FB5361 /* PhotoEnhancePass.m in Sources */,
+				A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */,
 				9F4D7F4C1EEA8B4500FB5361 /* PhotoLookupFilterPass.m in Sources */,
 				9F4D813E1EEA8B4600FB5361 /* PhotoEditorBlurTypeButton.m in Sources */,
 				9F4D816C1EEA8B4600FB5361 /* PhotoTextEntityView.m in Sources */,

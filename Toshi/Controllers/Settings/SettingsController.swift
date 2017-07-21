@@ -36,7 +36,6 @@ open class SettingsController: UITableViewController {
 
     enum BalanceCells: Int {
         case balance
-        case addMoney
     }
 
     enum SecurityCells: Int {
@@ -93,6 +92,8 @@ open class SettingsController: UITableViewController {
             self.set(balance: .zero)
         }
     }
+    
+    private var balance: NSDecimalNumber?
 
     static func instantiateFromNib() -> SettingsController {
         return UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as! SettingsController
@@ -168,6 +169,8 @@ open class SettingsController: UITableViewController {
     }
 
     fileprivate func set(balance: NSDecimalNumber) {
+        self.balance = balance
+        
         let attributes = self.balanceLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
         let balanceString = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: self.balanceLabel.frame.width, attributes: attributes)
 
@@ -249,14 +252,11 @@ open class SettingsController: UITableViewController {
     }
 
     fileprivate func didSelectBalanceSection(at indexPath: IndexPath) {
-        guard let balanceCellType = BalanceCells(rawValue: indexPath.row) else { return }
-
-        switch balanceCellType {
-        case .addMoney:
-            self.pushAddMoneyController()
-        default:
-            break
+        let controller = BalanceController()
+        if let balance = balance {
+            controller.balance = balance
         }
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     private func pushQRCodeController() {
@@ -264,13 +264,6 @@ open class SettingsController: UITableViewController {
         let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
 
         self.navigationController?.pushViewController(qrCodeController, animated: true)
-    }
-
-    private func pushAddMoneyController() {
-        guard let current = TokenUser.current else { return }
-        let controller = AddMoneyController(for: current.displayUsername, name: current.name)
-
-        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     fileprivate func didSelectSecuritySection(at indexPath: IndexPath) {
