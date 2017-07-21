@@ -22,6 +22,8 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
     static let shared = AvatarManager()
 
     private var imageCache = try! Cache<UIImage>(name: "imageCache")
+    
+    private var teapots = [String: Teapot]()
 
     private lazy var downloadOperationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -87,15 +89,34 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
 
         self.downloadAvatar(path: path) { _ in }
     }
+    
+    private func baseURL(from url: URL) -> String? {
+        if url.baseURL == nil {
+            guard let scheme = url.scheme, let host = url.host else { return nil }
+            return "\(scheme)://\(host)"
+        }
+
+        return url.baseURL?.absoluteString
+    }
+
+    private func teapot(for url: URL) -> Teapot? {
+        guard let base = baseURL(from: url) as String? else { return nil }
+        if teapots[base] == nil {
+            guard let baseUrl = URL(string: base) as URL? else { return nil }
+            teapots[base] = Teapot(baseURL: baseUrl)
+        }
+
+        return teapots[base]
+    }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
+
         self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
-
             DispatchQueue.global(qos: .userInitiated).async {
-                guard let url = URL(string: path) as URL? else { return }
+                guard let url = URL(string: path) as URL?,
+                    let teapot = self.teapot(for: url) as Teapot? else { return }
 
-                let teapot = Teapot(baseURL: url)
-                teapot.get { (result: NetworkImageResult) in
+                teapot.get(url.relativePath) { (result: NetworkImageResult) in
                     switch result {
                     case .success(let image, _):
                         success(image, self.cacheExpiry)
