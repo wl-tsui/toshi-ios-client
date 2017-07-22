@@ -100,7 +100,11 @@ public final class NetworkSwitcher {
     }
 
     public var availableNetworks: [Network] {
-        return [.ropstenTestNetwork, .toshiTestNetwork]
+        #if DEBUG
+            return [.ropstenTestNetwork, .toshiTestNetwork]
+        #else
+            return [.ropstenTestNetwork]
+        #endif
     }
 
     public func activateNetwork(_ network: Network?) {

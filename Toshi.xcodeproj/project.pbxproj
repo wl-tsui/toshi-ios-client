@@ -108,7 +108,6 @@
 		2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
-		2B483F931F223EF000AFA7D7 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		2B695CBA1EF9B9A80025119B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
 		2BAB90A71EC1194B005D98C6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A01EC1194B005D98C6 /* Accelerate.framework */; };
 		2BAB90A81EC1194B005D98C6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A11EC1194B005D98C6 /* AudioToolbox.framework */; };
@@ -149,6 +148,8 @@
 		2BE66A0C1EF910B6007A7130 /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
 		2BE6FB0F1EFC0C1600B0B848 /* AvatarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */; };
 		2BE6FB101EFC0CC500B0B848 /* AvatarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */; };
+		848D82221F23D50900BBFA66 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
+		848D82231F23D50A00BBFA66 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		84B2E4021EF3F6C3009927B2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
 		84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 84C1952E1ECF05C100B9512F /* sofa-web3.js */; };
@@ -1110,7 +1111,6 @@
 		A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9181D211EDD8154005B63F6 /* RoundIconButton.swift */; };
 		A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCA1F2203DD00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
-		A9191DCB1F2203DD00498A4F /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
 		A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
@@ -1161,7 +1161,6 @@
 		A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
-		A9D8F41F1F224B5600C3614A /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
 		A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */; };
 		A9E1DCD31F1E1989001A4ABE /* MessagesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */; };
@@ -4431,7 +4430,7 @@
 				9F4D80051EEA8B4500FB5361 /* PSKeyValueCoder.m in Sources */,
 				A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */,
 				A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */,
-				2B483F931F223EF000AFA7D7 /* NetworkSettingsController.swift in Sources */,
+				848D82231F23D50A00BBFA66 /* NetworkSettingsController.swift in Sources */,
 				9F4D80AF1EEA8B4500FB5361 /* DraggableCollectionViewFlowLayout.m in Sources */,
 				9F4D7F3D1EEA8B4500FB5361 /* PhotoEnhanceInterpolationFilter.m in Sources */,
 				149F9A7A1E72E29A00FB74AA /* FavoritesController.swift in Sources */,
@@ -4650,7 +4649,6 @@
 				9F4D81671EEA8B4600FB5361 /* PhotoPaintSettingsView.m in Sources */,
 				9F4D80331EEA8B4500FB5361 /* PSLMDBKeyValueCursor.m in Sources */,
 				9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
-				A9D8F41F1F224B5600C3614A /* NetworkSettingsController.swift in Sources */,
 				9F4D7EF91EEA8B4500FB5361 /* FadeTool.m in Sources */,
 				149F9AA01E72E29A00FB74AA /* SofaWrapper.swift in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,
@@ -4991,6 +4989,7 @@
 				9F4D7FF21EEA8B4500FB5361 /* ModernViewStorage.m in Sources */,
 				9F4D80D41EEA8B4500FB5361 /* MediaPickerGalleryInterfaceView.m in Sources */,
 				9F4D80361EEA8B4500FB5361 /* PSLMDBKeyValueStore.m in Sources */,
+				848D82221F23D50900BBFA66 /* NetworkSettingsController.swift in Sources */,
 				9F4D7F381EEA8B4500FB5361 /* PhotoEditorValues.m in Sources */,
 				9F4D80A41EEA8B4500FB5361 /* CameraShutterButton.m in Sources */,
 				9F4D7F561EEA8B4500FB5361 /* PhotoPaintTextEntity.m in Sources */,
@@ -5153,7 +5152,6 @@
 				9F4D804E1EEA8B4500FB5361 /* MediaAssetGroup.m in Sources */,
 				9F4D80521EEA8B4500FB5361 /* MediaAssetMomentList.m in Sources */,
 				9F4D7F1C1EEA8B4500FB5361 /* PaintSlice.m in Sources */,
-				A9191DCB1F2203DD00498A4F /* NetworkSettingsController.swift in Sources */,
 				9F4D80FE1EEA8B4500FB5361 /* ModernButtonView.m in Sources */,
 				9F4D80F61EEA8B4500FB5361 /* MessageImageAdditionalDataView.m in Sources */,
 				9F4D7F201EEA8B4500FB5361 /* PaintSwatch.m in Sources */,
