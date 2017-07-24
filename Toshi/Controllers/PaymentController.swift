@@ -22,6 +22,7 @@ class PaymentController: UIViewController {
     lazy var currencyNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 2
         formatter.locale = Locale(identifier: "en_US")
 
         return formatter
@@ -30,6 +31,7 @@ class PaymentController: UIViewController {
     lazy var inputNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
 
         return formatter
     }()
@@ -137,46 +139,46 @@ class PaymentController: UIViewController {
 extension PaymentController: UITextFieldDelegate {
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        defer {
-            if let currencyString = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) {
-                if let currencyValue = self.inputNumberFormatter.number(from: currencyString) {
-                    let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue, exchangeRate: EthereumAPIClient.shared.exchangeRate)
-
-                    if ether.isANumber {
-                        self.valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
-                        self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
-                    }
-                } else {
-                    self.etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
-                }
-            }
-        }
-
         guard let newValue = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else {
             return true
         }
 
         guard newValue.length > 0 else {
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
+            etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
 
             return true
         }
 
-        guard let number = self.inputNumberFormatter.number(from: newValue) else {
+        guard let number = inputNumberFormatter.number(from: newValue) else {
+
+            shadowTextField.text = ""
+
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
+            etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
 
             return false
         }
 
         /// For NSNumber's stringValue, the decimal separator is always a `.`.
         // stringValue just calls description(withLocale:) passing nil, so it defaults to `en_US`.
-        let components = newValue.components(separatedBy: ".")
-        if components.count == 2, let decimalPlaces = components.last?.length, decimalPlaces > 2 {
+        let components = newValue.components(separatedBy: inputNumberFormatter.decimalSeparator)
+        if components.count == 2, let fractionalDigitsCount = components.last?.length, fractionalDigitsCount > 2 {
             return false
         }
 
-        let content = currencyNumberFormatter.string(from: number)
-        currencyAmountLabel.text = content
+        currencyAmountLabel.text = currencyNumberFormatter.string(from: number)
+
+        if let currencyValue = inputNumberFormatter.number(from: newValue) {
+            let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+
+            if ether.isANumber {
+                valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
+                etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: ether)
+            } else {
+                etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
+            }
+        }
 
         return true
     }
