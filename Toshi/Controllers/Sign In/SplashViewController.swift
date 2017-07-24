@@ -94,7 +94,7 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.decorateView()
+        decorateView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -106,35 +106,35 @@ final class SplashViewController: UIViewController {
     }
 
     private func decorateView() {
-        self.view.addSubview(self.backgroundImageView)
-        self.backgroundImageView.fillSuperview()
+        view.addSubview(backgroundImageView)
+        backgroundImageView.fillSuperview()
 
-        self.backgroundImageView.addSubview(self.logoImageView)
-        self.logoImageView.topAnchor.constraint(equalTo: self.backgroundImageView.topAnchor, constant: logoTopSpace).isActive = true
-        self.logoImageView.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
-        self.logoImageView.set(height: logoSize)
-        self.logoImageView.set(width: logoSize)
+        backgroundImageView.addSubview(logoImageView)
+        logoImageView.topAnchor.constraint(equalTo: backgroundImageView.topAnchor, constant: logoTopSpace).isActive = true
+        logoImageView.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
+        logoImageView.set(height: logoSize)
+        logoImageView.set(width: logoSize)
 
-        self.backgroundImageView.addSubview(self.titleLabel)
-        self.titleLabel.topAnchor.constraint(equalTo: self.logoImageView.bottomAnchor, constant: 24.0).isActive = true
-        self.titleLabel.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
+        backgroundImageView.addSubview(titleLabel)
+        titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 24.0).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
 
-        self.backgroundImageView.addSubview(self.subtitleLabel)
-        self.subtitleLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 20.0).isActive = true
-        self.subtitleLabel.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
+        backgroundImageView.addSubview(subtitleLabel)
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20.0).isActive = true
+        subtitleLabel.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
 
-        self.backgroundImageView.addSubview(self.signinButton)
-        self.signinButton.set(width: 70.0)
-        self.signinButton.set(height: 44.0)
-        self.signinButton.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
-        self.signinButton.bottomAnchor.constraint(equalTo: self.backgroundImageView.bottomAnchor, constant: -40.0).isActive = true
+        backgroundImageView.addSubview(signinButton)
+        signinButton.set(width: 70.0)
+        signinButton.set(height: 44.0)
+        signinButton.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
+        signinButton.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -40.0).isActive = true
 
-        self.backgroundImageView.addSubview(self.newAccountButton)
-        self.newAccountButton.set(height: 44.0)
-        self.newAccountButton.centerXAnchor.constraint(equalTo: self.backgroundImageView.centerXAnchor).isActive = true
-        self.newAccountButton.bottomAnchor.constraint(equalTo: self.signinButton.topAnchor, constant: -20.0).isActive = true
+        backgroundImageView.addSubview(newAccountButton)
+        newAccountButton.set(height: 44.0)
+        newAccountButton.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
+        newAccountButton.bottomAnchor.constraint(equalTo: signinButton.topAnchor, constant: -20.0).isActive = true
 
-        self.view.alpha = 0.0
+        view.alpha = 0.0
     }
 
     @objc private func signinPressed(_: UIButton) {
@@ -143,7 +143,7 @@ final class SplashViewController: UIViewController {
     }
 
     @objc private func newAccountPressed(_: UIButton) {
-        self.dismiss(animated: true) {
+        dismiss(animated: true) {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             appDelegate.createOrRestoreNewUser()
         }

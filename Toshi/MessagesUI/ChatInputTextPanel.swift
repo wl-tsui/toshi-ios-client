@@ -41,7 +41,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
     }
 
     fileprivate func inputContainerHeight(for textViewHeight: CGFloat) -> CGFloat {
-        return min(self.maximumInputContainerHeight, max(ChatInputTextPanel.defaultHeight, textViewHeight + self.inputContainerInsets.top + self.inputContainerInsets.bottom))
+        return min(maximumInputContainerHeight, max(ChatInputTextPanel.defaultHeight, textViewHeight + inputContainerInsets.top + inputContainerInsets.bottom))
     }
 
     lazy var inputContainer: UIView = {
@@ -96,9 +96,9 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
     public var text: String? {
         get {
-            return self.inputField.text
+            return inputField.text
         } set {
-            self.inputField.text = newValue ?? ""
+            inputField.text = newValue ?? ""
         }
     }
 
@@ -113,15 +113,15 @@ class ChatInputTextPanel: NOCChatInputPanel {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-        self.addSubview(self.backgroundBlur)
-        self.backgroundBlur.edges(to: self)
+        addSubview(backgroundBlur)
+        backgroundBlur.edges(to: self)
 
-        self.addSubview(self.inputContainer)
-        self.addSubview(self.attachButton)
-        self.addSubview(self.inputField)
-        self.addSubview(self.sendButton)
+        addSubview(inputContainer)
+        addSubview(attachButton)
+        addSubview(inputField)
+        addSubview(sendButton)
 
         NSLayoutConstraint.activate([
             self.attachButton.leftAnchor.constraint(equalTo: self.leftAnchor),
@@ -140,18 +140,18 @@ class ChatInputTextPanel: NOCChatInputPanel {
             self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.inputContainerInsets.bottom),
         ])
 
-        self.sendButton.leftToRight(of: self.inputField)
-        self.sendButton.bottom(to: self, offset: -3)
-        self.sendButton.right(to: self)
-        self.sendButton.height(44)
-        self.sendButtonWidth.isActive = true
+        sendButton.leftToRight(of: inputField)
+        sendButton.bottom(to: self, offset: -3)
+        sendButton.right(to: self)
+        sendButton.height(44)
+        sendButtonWidth.isActive = true
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
 
         if self.point(inside: point, with: event) {
 
-            for subview in self.subviews.reversed() {
+            for subview in subviews.reversed() {
                 let point = subview.convert(point, from: self)
 
                 if let hitTestView = subview.hitTest(point, with: event) {
@@ -175,9 +175,9 @@ class ChatInputTextPanel: NOCChatInputPanel {
         // Resign and become first responder to accept auto-correct suggestions
         let temp = UITextField()
         temp.isHidden = true
-        self.superview!.addSubview(temp)
+        superview!.addSubview(temp)
         temp.becomeFirstResponder()
-        self.inputField.internalTextView.becomeFirstResponder()
+        inputField.internalTextView.becomeFirstResponder()
         temp.removeFromSuperview()
 
         guard let text = self.inputField.text, !text.isEmpty else { return }
@@ -190,7 +190,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
         }
 
         self.text = nil
-        self.sendButton.isEnabled = false
+        sendButton.isEnabled = false
     }
 }
 

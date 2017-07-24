@@ -47,18 +47,18 @@ public final class Yap: NSObject, Singleton {
             return keychain.getData("DBPWD")!
         }
 
-        self.database = YapDatabase(path: self.path, options: options)
+        database = YapDatabase(path: path, options: options)
 
-        let url = NSURL(fileURLWithPath: self.path)
+        let url = NSURL(fileURLWithPath: path)
         try! url.setResourceValue(false, forKey: .isUbiquitousItemKey)
         try! url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
 
-        self.mainConnection = self.database.newConnection()
+        mainConnection = database.newConnection()
     }
 
     public func wipeStorage() {
         KeychainSwift().delete("DBPWD")
-        try! FileManager.default.removeItem(atPath: self.path)
+        try! FileManager.default.removeItem(atPath: path)
     }
 
     /// Insert a object into the database using the main thread default connection.
@@ -69,13 +69,13 @@ public final class Yap: NSObject, Singleton {
     ///   - collection: Optional. The name of the collection the object belongs to. Helps with organisation.
     ///   - metadata: Optional. Any serialisable object. Could be a related object, a description, a timestamp, a dictionary, and so on.
     public final func insert(object: Any?, for key: String, in collection: String? = nil, with metadata: Any? = nil) {
-        self.mainConnection.asyncReadWrite { transaction in
+        mainConnection.asyncReadWrite { transaction in
             transaction.setObject(object, forKey: key, inCollection: collection, withMetadata: metadata)
         }
     }
 
     public final func removeObject(for key: String, in collection: String? = nil) {
-        self.mainConnection.asyncReadWrite { transaction in
+        mainConnection.asyncReadWrite { transaction in
             transaction.removeObject(forKey: key, inCollection: collection)
         }
     }
@@ -85,7 +85,7 @@ public final class Yap: NSObject, Singleton {
     /// - Parameter key: Key to check for the presence of a stored object.
     /// - Returns: Bool whether or not a certain object was stored for that key.
     public final func containsObject(for key: String, in collection: String? = nil) -> Bool {
-        return self.retrieveObject(for: key, in: collection) != nil
+        return retrieveObject(for: key, in: collection) != nil
     }
 
     /// Retrieve an object for a given key inside a given (optional) collection.
@@ -96,7 +96,7 @@ public final class Yap: NSObject, Singleton {
     /// - Returns: The stored object.
     public final func retrieveObject(for key: String, in collection: String? = nil) -> Any? {
         var object: Any?
-        self.mainConnection.read { transaction in
+        mainConnection.read { transaction in
             object = transaction.object(forKey: key, inCollection: collection)
         }
 
@@ -111,7 +111,7 @@ public final class Yap: NSObject, Singleton {
     public final func retrieveObjects(in collection: String) -> [Any] {
         var objects = [Any]()
 
-        self.mainConnection.read { transaction in
+        mainConnection.read { transaction in
             transaction.enumerateKeysAndObjects(inCollection: collection) { _, object, _ in
                 objects.append(object)
             }

@@ -65,13 +65,13 @@ open class SettingsController: UITableViewController {
 
     @IBOutlet weak var ratingsView: UIView! {
         didSet {
-            self.ratingsView.isHidden = true
+            ratingsView.isHidden = true
         }
     }
 
     @IBOutlet weak var nameLabel: UILabel! {
         didSet {
-            self.nameLabel.text = TokenUser.current?.name
+            nameLabel.text = TokenUser.current?.name
         }
     }
 
@@ -92,7 +92,7 @@ open class SettingsController: UITableViewController {
             self.set(balance: .zero)
         }
     }
-    
+
     private var balance: NSDecimalNumber?
 
     static func instantiateFromNib() -> SettingsController {
@@ -170,7 +170,7 @@ open class SettingsController: UITableViewController {
 
     fileprivate func set(balance: NSDecimalNumber) {
         self.balance = balance
-        
+
         let attributes = self.balanceLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
         let balanceString = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: self.balanceLabel.frame.width, attributes: attributes)
 
@@ -229,14 +229,14 @@ open class SettingsController: UITableViewController {
         guard let section = Sections(rawValue: indexPath.section) else { return }
 
         switch section {
-            case .profile:
-                didSelectProfileSection(at: indexPath)
-            case .balance:
-                didSelectBalanceSection(at: indexPath)
-            case .security:
-                didSelectSecuritySection(at: indexPath)
-            case .settings:
-                didSelectSettingsSection(at: indexPath)
+        case .profile:
+            didSelectProfileSection(at: indexPath)
+        case .balance:
+            didSelectBalanceSection(at: indexPath)
+        case .security:
+            didSelectSecuritySection(at: indexPath)
+        case .settings:
+            didSelectSettingsSection(at: indexPath)
         }
     }
 
@@ -251,7 +251,7 @@ open class SettingsController: UITableViewController {
         }
     }
 
-    fileprivate func didSelectBalanceSection(at indexPath: IndexPath) {
+    fileprivate func didSelectBalanceSection(at _: IndexPath) {
         let controller = BalanceController()
         if let balance = balance {
             controller.balance = balance

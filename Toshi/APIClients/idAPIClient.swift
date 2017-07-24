@@ -38,23 +38,23 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     public var baseURL: URL
 
     private override init() {
-        self.baseURL = URL(string: TokenIdServiceBaseURLPath)!
-        self.teapot = Teapot(baseURL: self.baseURL)
+        baseURL = URL(string: TokenIdServiceBaseURLPath)!
+        teapot = Teapot(baseURL: baseURL)
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateAllContacts), name: IDAPIClient.updateContactsNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateAllContacts), name: IDAPIClient.updateContactsNotification, object: nil)
     }
 
     /// We use a background queue and a semaphore to ensure we only update the UI
     /// once all the contacts have been processed.
     func updateAllContacts() {
-        self.updateContacts(for: TokenUser.storedContactKey)
-        self.updateContacts(for: TokenUser.favoritesCollectionKey)
+        updateContacts(for: TokenUser.storedContactKey)
+        updateContacts(for: TokenUser.favoritesCollectionKey)
     }
 
     private func updateContacts(for collectionKey: String) {
-        self.contactUpdateQueue.async {
+        contactUpdateQueue.async {
             guard let contactsData = Yap.sharedInstance.retrieveObjects(in: collectionKey) as? [Data] else { return }
             let semaphore = DispatchSemaphore(value: 0)
 
@@ -81,7 +81,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     func updateContact(with identifier: String) {
-        self.findContact(name: identifier) { updatedContact in
+        findContact(name: identifier) { updatedContact in
             if let updatedContact = updatedContact {
                 DispatchQueue.main.async {
                     Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: TokenUser.storedContactKey)
@@ -116,11 +116,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             return
         }
 
-        self.updateUser(migratedUser.asDict) { _, _ in }
+        updateUser(migratedUser.asDict) { _, _ in }
     }
 
     public func registerUserIfNeeded(_ success: @escaping (() -> Void)) {
-        self.retrieveUser(username: Cereal.shared.address) { user in
+        retrieveUser(username: Cereal.shared.address) { user in
             if let user = user as TokenUser? {
                 TokenUser.createOrUpdateCurrentUser(with: user.asDict)
 
@@ -166,7 +166,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool) -> Void)) {
-        self.fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/user"
             let boundary = "teapot.boundary"
@@ -203,7 +203,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func updateUser(_ userDict: [String: Any], completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
-        self.fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/user"
             let payload = try! JSONSerialization.data(withJSONObject: userDict, options: [])
@@ -253,7 +253,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         completion(nil)
                         return
                     }
-                    
+
                     let contact = TokenUser(json: json)
 
                     completion(contact)
@@ -329,7 +329,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
 
-        self.contactCache.setObject(forKey: name, cacheBlock: { success, failure in
+        contactCache.setObject(forKey: name, cacheBlock: { success, failure in
 
             DispatchQueue.global(qos: .userInitiated).async {
                 self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
@@ -357,7 +357,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func searchContacts(name: String, completion: @escaping (([TokenUser]) -> Void)) {
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             let query = name.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? name
             self.teapot.get("/v1/search/user?query=\(query)") { (result: NetworkResult) in
@@ -369,10 +369,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     }
 
                     var contacts = [TokenUser]()
-                    json = json.filter({ item -> Bool in
+                    json = json.filter { item -> Bool in
                         guard let address = item[TokenUser.Constants.address] as? String else { return true }
                         return address != Cereal.shared.address
-                    })
+                    }
 
                     for item in json {
                         contacts.append(TokenUser(json: item))
@@ -385,9 +385,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-    
+
     public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/user?public=true&top=true&recent=false&limit=\(limit)") { (result: NetworkResult) in
                 switch result {
@@ -396,7 +396,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         completion([], nil)
                         return
                     }
-                    
+
                     let contacts = json.map { userJSON in
                         TokenUser(json: userJSON)
                     }
@@ -408,9 +408,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-    
+
     public func getLatestPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/user?public=true&top=false&recent=true&limit=\(limit)") { (result: NetworkResult) in
                 switch result {
@@ -419,7 +419,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         completion([], nil)
                         return
                     }
-                    
+
                     let contacts = json.map { userJSON in
                         TokenUser(json: userJSON)
                     }
@@ -433,7 +433,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func reportUser(address: String, reason: String = "", completion: ((_ success: Bool, _ message: String) -> Void)? = nil) {
-        self.fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/report"
 
@@ -473,7 +473,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func login(login_token: String, completion: ((_ success: Bool, _ message: String) -> Void)? = nil) {
-        self.fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/login/\(login_token)"
 

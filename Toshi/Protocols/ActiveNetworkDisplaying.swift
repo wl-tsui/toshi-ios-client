@@ -33,8 +33,8 @@ extension ActiveNetworkDisplaying where Self: UIViewController {
     func setupActiveNetworkView(hidden: Bool = false) {
         guard let activeNetworkView = self.activeNetworkView as ActiveNetworkView? else { return }
 
-        self.view.addSubview(activeNetworkView)
-        NSLayoutConstraint.activate(self.activeNetworkViewConstraints)
+        view.addSubview(activeNetworkView)
+        NSLayoutConstraint.activate(activeNetworkViewConstraints)
 
         if !hidden {
             showActiveNetworkViewIfNeeded()

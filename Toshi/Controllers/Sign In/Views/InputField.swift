@@ -79,13 +79,13 @@ class InputField: UIView {
     convenience init(type: FieldType) {
         self.init(withAutoLayout: true)
         self.type = type
-        self.backgroundColor = .white
+        backgroundColor = .white
 
-        self.addSubview(self.topSeparatorView)
-        self.addSubview(self.shortBottomSeparatorView)
-        self.addSubview(self.bottomSeparatorView)
-        self.addSubview(self.titleLabel)
-        self.addSubview(self.textField)
+        addSubview(topSeparatorView)
+        addSubview(shortBottomSeparatorView)
+        addSubview(bottomSeparatorView)
+        addSubview(titleLabel)
+        addSubview(textField)
 
         NSLayoutConstraint.activate([
             self.topSeparatorView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -114,23 +114,23 @@ class InputField: UIView {
         ])
 
         if self.type == .username {
-            self.bottomSeparatorView.isHidden = true
+            bottomSeparatorView.isHidden = true
         } else {
-            self.topSeparatorView.isHidden = true
-            self.shortBottomSeparatorView.isHidden = true
+            topSeparatorView.isHidden = true
+            shortBottomSeparatorView.isHidden = true
         }
 
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tap(_:))))
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
     }
 
     func tap(_: UITapGestureRecognizer) {
-        self.textField.becomeFirstResponder()
+        textField.becomeFirstResponder()
     }
 }
 
 extension InputField: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_: UITextField) {
-        self.feedbackGenerator.impactOccurred()
+        feedbackGenerator.impactOccurred()
     }
 }

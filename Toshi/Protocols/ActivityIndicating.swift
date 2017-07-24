@@ -31,9 +31,9 @@ extension ActivityIndicating where Self: UIViewController {
     func setupActivityIndicator() {
         guard let activityIndicator = self.activityIndicator as UIActivityIndicatorView? else { return }
 
-        self.view.addSubview(activityIndicator)
-        self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        view.addSubview(activityIndicator)
+        self.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 
     func defaultActivityIndicator() -> UIActivityIndicatorView {
@@ -46,12 +46,12 @@ extension ActivityIndicating where Self: UIViewController {
     }
 
     func showActivityIndicator() {
-        self.view.bringSubview(toFront: self.activityIndicator)
-        self.activityIndicator.startAnimating()
+        view.bringSubview(toFront: activityIndicator)
+        activityIndicator.startAnimating()
     }
 
     func hideActivityIndicator() {
-        self.view.sendSubview(toBack: self.activityIndicator)
-        self.activityIndicator.stopAnimating()
+        view.sendSubview(toBack: activityIndicator)
+        activityIndicator.stopAnimating()
     }
 }

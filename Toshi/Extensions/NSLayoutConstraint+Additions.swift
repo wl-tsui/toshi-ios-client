@@ -22,7 +22,7 @@ public enum LayoutPriority: UILayoutPriority {
     case fittingSize = 50
 
     public var value: UILayoutPriority {
-        return self.rawValue
+        return rawValue
     }
 }
 

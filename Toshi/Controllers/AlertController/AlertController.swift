@@ -38,7 +38,7 @@ class AlertController: ModalPresentable {
 
     var customContentView: UIView? {
         didSet {
-            self.arrangeCustomView()
+            arrangeCustomView()
         }
     }
 
@@ -68,49 +68,49 @@ class AlertController: ModalPresentable {
 
     func arrangeCustomView() {
         if let customContentView = self.customContentView as UIView? {
-            self.reviewContainer.addSubview(customContentView)
+            reviewContainer.addSubview(customContentView)
             self.customContentView?.fillSuperview()
         }
 
-        self.reviewContainer.setNeedsLayout()
-        self.reviewContainer.layoutIfNeeded()
+        reviewContainer.setNeedsLayout()
+        reviewContainer.layoutIfNeeded()
 
-        self.contentView.setNeedsLayout()
-        self.contentView.layoutIfNeeded()
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
 
-        self.view.setNeedsLayout()
-        self.view.layoutIfNeeded()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.init(white: 0.6, alpha: 0.7)
+        view.backgroundColor = UIColor(white: 0.6, alpha: 0.7)
 
-        self.view.addSubview(self.background)
-        self.view.addSubview(self.contentView)
+        view.addSubview(background)
+        view.addSubview(contentView)
 
-        self.contentView.backgroundColor = Theme.lightGreyTextColor
+        contentView.backgroundColor = Theme.lightGreyTextColor
 
-        self.contentView.addSubview(self.actionsStackView)
-        self.contentView.addSubview(self.reviewContainer)
+        contentView.addSubview(actionsStackView)
+        contentView.addSubview(reviewContainer)
 
-        self.reviewContainer.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.reviewContainer.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.reviewContainer.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        reviewContainer.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        reviewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        reviewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
 
-        self.actionsStackView.topAnchor.constraint(equalTo: self.reviewContainer.bottomAnchor, constant: 1.0).isActive = true
-        self.actionsStackView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor).isActive = true
-        self.actionsStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.actionsStackView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        actionsStackView.topAnchor.constraint(equalTo: reviewContainer.bottomAnchor, constant: 1.0).isActive = true
+        actionsStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        actionsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        actionsStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
 
-        self.background.fillSuperview()
+        background.fillSuperview()
 
-        self.contentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.contentView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        self.contentView.widthAnchor.constraint(equalToConstant: PaymentConfirmationController.contentWidth).isActive = true
+        contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalToConstant: PaymentConfirmationController.contentWidth).isActive = true
 
-        self.background.addGestureRecognizer(self.tapGesture)
+        background.addGestureRecognizer(tapGesture)
     }
 
     lazy var tapGesture: UITapGestureRecognizer = {
@@ -122,7 +122,7 @@ class AlertController: ModalPresentable {
 
     func tap(_ gesture: UITapGestureRecognizer) {
         if gesture.state == .recognized {
-            self.dismiss(animated: true)
+            dismiss(animated: true)
         }
     }
 
@@ -131,9 +131,9 @@ class AlertController: ModalPresentable {
     }()
 
     private func setupActionsButtons() {
-        for action in self.actions {
+        for action in actions {
             let button = self.button(for: action)
-            self.actionsStackView.addArrangedSubview(button)
+            actionsStackView.addArrangedSubview(button)
         }
     }
 
@@ -153,9 +153,9 @@ class AlertController: ModalPresentable {
 
     @objc private func actionButtonPressed(_ button: UIButton) {
         guard let buttonIndex = self.actionsStackView.arrangedSubviews.index(of: button) as Int? else { return }
-        guard self.actions.count - 1 >= buttonIndex else { return }
+        guard actions.count - 1 >= buttonIndex else { return }
 
-        let action: Action = self.actions[buttonIndex]
+        let action: Action = actions[buttonIndex]
         action.block(action)
     }
 }

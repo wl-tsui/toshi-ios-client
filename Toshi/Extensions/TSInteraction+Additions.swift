@@ -25,7 +25,7 @@ extension TSInteraction {
         case failed = 2
         case rejected = 3
         case approved = 4
-        
+
         var stateText: String {
             switch self {
             case .failed:
@@ -53,10 +53,10 @@ extension TSInteraction {
 
     public var paymentState: PaymentState {
         get {
-            return PaymentState(rawValue: self.paymentStateRaw)!
+            return PaymentState(rawValue: paymentStateRaw)!
         }
         set {
-            self.paymentStateRaw = newValue.rawValue
+            paymentStateRaw = newValue.rawValue
         }
     }
 }

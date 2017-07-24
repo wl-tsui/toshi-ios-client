@@ -22,7 +22,7 @@ public extension UIView {
     }
 
     func bounce() {
-        self.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+        transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
 
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 200, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.transform = .identity
@@ -30,7 +30,7 @@ public extension UIView {
     }
 
     func shake() {
-        self.transform = CGAffineTransform(translationX: 10, y: 0)
+        transform = CGAffineTransform(translationX: 10, y: 0)
 
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 50, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.transform = .identity
@@ -38,10 +38,10 @@ public extension UIView {
     }
 
     func prepareForSuperview() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        self.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        self.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        self.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        translatesAutoresizingMaskIntoConstraints = false
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
     }
 }

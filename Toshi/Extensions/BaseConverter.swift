@@ -28,7 +28,7 @@ public struct BaseConverter {
             let xi = i < x.count ? x[i] : 0
             let yi = i < y.count ? y[i] : 0
             let zi = carry + xi + yi
-            z.append(zi % self.base)
+            z.append(zi % base)
             carry = zi / base
             i += 1
         }
@@ -52,13 +52,13 @@ public struct BaseConverter {
 
         while true {
             if numU & 1 > 0 {
-                result = self.add(result, y: power)
+                result = add(result, y: power)
             }
             numU = numU >> 1
             if numU == 0 {
                 break
             }
-            power = self.add(power, y: power)
+            power = add(power, y: power)
         }
 
         return result
@@ -74,7 +74,7 @@ public struct BaseConverter {
 
         if !digits.isEmpty {
             for i in (0 ... (digits.count - 1)).reversed() {
-                let n = self.stringToInt(digits[i])
+                let n = stringToInt(digits[i])
 
                 if n != nil {
                     ary.append(n!)
@@ -119,7 +119,7 @@ public struct BaseConverter {
 
     func stringToInt(_ digit: String) -> Int? {
 
-        switch self.base {
+        switch base {
         case 2, 3, 4, 5, 6, 7, 8, 9, 10:
             return Int(digit)
         case 16:
@@ -151,7 +151,7 @@ public struct BaseConverter {
 
     func intToString(_ digit: Int) -> String {
 
-        switch self.base {
+        switch base {
         case 2, 3, 4, 5, 6, 7, 8, 9, 10:
             return digit.description
         case 16:
@@ -187,10 +187,10 @@ public struct BaseConverter {
     }
 
     public static func decToHex(_ decStr: String) -> String {
-        return self.convertBase(decStr, fromBase: 10, toBase: 16)
+        return convertBase(decStr, fromBase: 10, toBase: 16)
     }
 
     public static func hexToDec(_ hexStr: String) -> String {
-        return self.convertBase(hexStr, fromBase: 16, toBase: 10)
+        return convertBase(hexStr, fromBase: 16, toBase: 10)
     }
 }

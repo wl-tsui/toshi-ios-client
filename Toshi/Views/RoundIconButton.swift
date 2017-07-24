@@ -22,24 +22,24 @@ class RoundIconButton: UIControl {
     convenience init(imageName: String, circleDiameter: CGFloat) {
         self.init(frame: .zero)
 
-        self.circle.layer.cornerRadius = circleDiameter / 2
-        addSubview(self.circle)
+        circle.layer.cornerRadius = circleDiameter / 2
+        addSubview(circle)
 
-        self.circle.size(CGSize(width: circleDiameter, height: circleDiameter))
-        self.circle.center(in: self)
+        circle.size(CGSize(width: circleDiameter, height: circleDiameter))
+        circle.center(in: self)
 
-        self.icon.image = UIImage(named: imageName)
-        addSubview(self.icon)
+        icon.image = UIImage(named: imageName)
+        addSubview(icon)
 
-        self.icon.center(in: self)
+        icon.center(in: self)
     }
 
     override var isEnabled: Bool {
         didSet {
-            self.transform = self.isEnabled ? .identity : CGAffineTransform(scaleX: 0.5, y: 0.5)
-            self.alpha = self.isEnabled ? 1 : 0
+            transform = isEnabled ? .identity : CGAffineTransform(scaleX: 0.5, y: 0.5)
+            alpha = isEnabled ? 1 : 0
 
-            self.circle.backgroundColor = self.isEnabled ? Theme.tintColor : Theme.greyTextColor
+            circle.backgroundColor = isEnabled ? Theme.tintColor : Theme.greyTextColor
         }
     }
 }

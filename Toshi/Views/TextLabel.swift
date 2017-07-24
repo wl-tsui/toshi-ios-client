@@ -31,7 +31,7 @@ class TextLabel: UILabel {
             NSParagraphStyleAttributeName: paragraphStyle,
         ]
 
-        self.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
-        self.numberOfLines = 0
+        attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+        numberOfLines = 0
     }
 }

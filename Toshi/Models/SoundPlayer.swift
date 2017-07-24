@@ -33,13 +33,13 @@ public struct SoundPlayer {
     fileprivate var sounds = [SystemSoundID]()
 
     fileprivate init() {
-        self.sounds = [
+        sounds = [
             self.soundID(for: .messageSent),
         ]
     }
 
     static func playSound(type: SoundType) {
-        self.shared.playSound(type: type)
+        shared.playSound(type: type)
     }
 
     func soundID(for type: SoundType) -> SystemSoundID {
@@ -54,7 +54,7 @@ public struct SoundPlayer {
     func playSound(type: SoundType) {
         guard UIApplication.shared.applicationState == .active else { return }
 
-        let id = self.soundID(for: type)
+        let id = soundID(for: type)
         AudioServicesPlaySystemSound(id)
     }
 }

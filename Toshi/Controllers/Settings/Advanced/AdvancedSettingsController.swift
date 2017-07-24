@@ -17,13 +17,13 @@ import UIKit
 import SweetUIKit
 
 class AdvancedSettingsController: UITableViewController {
-    
+
     @IBOutlet fileprivate weak var networkNameLabel: UILabel!
 }
 
 extension AdvancedSettingsController {
 
-    public override func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+    public override func tableView(_: UITableView, willDisplayFooterView view: UIView, forSection _: Int) {
         guard let footerView = view as? UITableViewHeaderFooterView else { return }
 
         let info = Bundle.main.infoDictionary!
@@ -32,7 +32,7 @@ extension AdvancedSettingsController {
         footerView.textLabel?.text = "Changing the network allows you to test developed apps without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\nApp version: \(version ?? "").\(buildNumber ?? "")"
     }
 
-    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(NetworkSettingsController(), animated: true)
+    public override func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
+        navigationController?.pushViewController(NetworkSettingsController(), animated: true)
     }
 }

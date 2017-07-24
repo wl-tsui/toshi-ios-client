@@ -41,14 +41,14 @@ class PaymentRequestController: PaymentController {
         let title = UIBarButtonItem(title: "Request Payment", style: .plain, target: nil, action: nil)
         title.setTitleTextAttributes([NSFontAttributeName: Theme.semibold(size: 17), NSForegroundColorAttributeName: Theme.darkTextColor], for: .normal)
 
-        self.toolbar.items = [self.cancelBarButton, spacing, title, spacing, self.continueBarButton]
+        toolbar.items = [self.cancelBarButton, spacing, title, spacing, self.continueBarButton]
     }
 
     func cancelRequest() {
-        self.delegate?.paymentRequestControllerDidFinish(valueInWei: nil)
+        delegate?.paymentRequestControllerDidFinish(valueInWei: nil)
     }
 
     func sendRequest() {
-        self.delegate?.paymentRequestControllerDidFinish(valueInWei: self.valueInWei)
+        delegate?.paymentRequestControllerDidFinish(valueInWei: valueInWei)
     }
 }

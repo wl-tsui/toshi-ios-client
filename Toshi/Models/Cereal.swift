@@ -33,11 +33,11 @@ public class Cereal: NSObject {
     static let privateKeyStorageKey = "cerealPrivateKey"
 
     public var address: String {
-        return self.idCereal.address
+        return idCereal.address
     }
 
     public var paymentAddress: String {
-        return self.walletCereal.address
+        return walletCereal.address
     }
 
     // restore from words
@@ -50,20 +50,20 @@ public class Cereal: NSObject {
         // ID path 0H/1/0
         let idKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
-        self.idCereal = EtherealCereal(privateKey: idPrivateKey)
+        idCereal = EtherealCereal(privateKey: idPrivateKey)
 
         // wallet path: 44H/60H/0H/0
         let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
-        self.walletCereal = EtherealCereal(privateKey: walletPrivateKey)
+        walletCereal = EtherealCereal(privateKey: walletPrivateKey)
     }
 
     // restore from local user or create new
     public override init() {
         if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
-            self.mnemonic = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english)!
+            mnemonic = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english)!
         } else {
-            var entropy = Data(count: self.entropyByteCount)
+            var entropy = Data(count: entropyByteCount)
             // This creates the private key inside a block, result is of internal type ResultType.
             // We just need to check if it's 0 to ensure that there were no errors.
             let result = entropy.withUnsafeMutableBytes { mutableBytes in
@@ -71,52 +71,52 @@ public class Cereal: NSObject {
             }
             guard result == 0 else { fatalError("Failed to randomly generate and copy bytes for entropy generation. SecRandomCopyBytes error code: (\(result)).") }
 
-            self.mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english)!
+            mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english)!
 
-            Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
+            Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
         }
 
         // ID path 0H/1/0
-        let idKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
+        let idKeychain = mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
-        self.idCereal = EtherealCereal(privateKey: idPrivateKey)
+        idCereal = EtherealCereal(privateKey: idPrivateKey)
 
         // wallet path: 44H/60H/0H/0 and then 0 again. Metamask root path, first key.
         // Metamask allows multiple addresses, by incrementing the last path. So second key would be: 44H/60H/0H/0/1 and so on.
-        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        let walletKeychain = mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
-        self.walletCereal = EtherealCereal(privateKey: walletPrivateKey)
+        walletCereal = EtherealCereal(privateKey: walletPrivateKey)
     }
 
     // MARK: - Sign with id
 
     public func signWithID(message: String) -> String {
-        return self.idCereal.sign(message: message)
+        return idCereal.sign(message: message)
     }
 
     public func signWithID(hex: String) -> String {
-        return self.idCereal.sign(hex: hex)
+        return idCereal.sign(hex: hex)
     }
 
     public func sha3WithID(string: String) -> String {
-        return self.idCereal.sha3(string: string)
+        return idCereal.sha3(string: string)
     }
 
     public func sha3WithID(data: Data) -> String {
-        return self.idCereal.sha3(data: data)
+        return idCereal.sha3(data: data)
     }
 
     // MARK: - Sign with wallet
 
     public func signWithWallet(message: String) -> String {
-        return self.walletCereal.sign(message: message)
+        return walletCereal.sign(message: message)
     }
 
     public func signWithWallet(hex: String) -> String {
-        return self.walletCereal.sign(hex: hex)
+        return walletCereal.sign(hex: hex)
     }
 
     public func sha3WithWallet(string: String) -> String {
-        return self.walletCereal.sha3(string: string)
+        return walletCereal.sha3(string: string)
     }
 }

@@ -30,9 +30,9 @@ public class ChatsNavigationController: UINavigationController {
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        self.tabBarItem = UITabBarItem(title: "Recent", image: #imageLiteral(resourceName: "chats"), tag: 0)
-        self.tabBarItem.selectedImage = #imageLiteral(resourceName: "chats-selected")
-        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
+        tabBarItem = UITabBarItem(title: "Recent", image: #imageLiteral(resourceName: "chats"), tag: 0)
+        tabBarItem.selectedImage = #imageLiteral(resourceName: "chats-selected")
+        tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
     lazy var backgroundBlur: BlurView = {
@@ -53,23 +53,23 @@ public class ChatsNavigationController: UINavigationController {
         navigationBar.barStyle = .default
         navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
 
-        self.navigationBar.insertSubview(self.backgroundBlur, at: 0)
-        self.backgroundBlur.edges(to: self.navigationBar, insets: UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0))
+        navigationBar.insertSubview(backgroundBlur, at: 0)
+        backgroundBlur.edges(to: navigationBar, insets: UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0))
     }
 
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        self.navigationBar.sendSubview(toBack: self.backgroundBlur)
+        navigationBar.sendSubview(toBack: backgroundBlur)
     }
 
     public func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
-        _ = self.popToRootViewController(animated: false)
+        _ = popToRootViewController(animated: false)
         guard let chatsController = self.viewControllers.first as? ChatsController else { return }
 
         if let thread = chatsController.thread(withAddress: address) as TSThread? {
             let messagesController = ChatController(thread: thread)
-            self.pushViewController(messagesController, animated: false)
+            pushViewController(messagesController, animated: false)
 
             completion?(messagesController)
         } else {
@@ -90,24 +90,24 @@ public class ChatsNavigationController: UINavigationController {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ChatController {
-            UserDefaults.standard.setValue(viewController.thread.contactIdentifier(), forKey: self.selectedThreadAddressKey)
+            UserDefaults.standard.setValue(viewController.thread.contactIdentifier(), forKey: selectedThreadAddressKey)
         }
     }
 
     public override func popViewController(animated: Bool) -> UIViewController? {
-        UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+        UserDefaults.standard.removeObject(forKey: selectedThreadAddressKey)
 
         return super.popViewController(animated: animated)
     }
 
     public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+        UserDefaults.standard.removeObject(forKey: selectedThreadAddressKey)
 
         return super.popToRootViewController(animated: animated)
     }
 
     public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: self.selectedThreadAddressKey)
+        UserDefaults.standard.removeObject(forKey: selectedThreadAddressKey)
 
         return super.popToViewController(viewController, animated: animated)
     }

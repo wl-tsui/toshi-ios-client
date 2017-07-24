@@ -84,7 +84,7 @@ class ReputationView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
     }
 
     required init?(coder _: NSCoder) {
@@ -94,27 +94,27 @@ class ReputationView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        self.layoutIfNeeded()
-        self.setScore(.zero)
+        layoutIfNeeded()
+        setScore(.zero)
     }
 
     func addSubviewsAndConstraints() {
 
-        for guide in self.guides {
-            self.addLayoutGuide(guide)
+        for guide in guides {
+            addLayoutGuide(guide)
         }
 
-        self.addSubview(self.ratingLabel)
-        self.addSubview(self.ratingView)
-        self.addSubview(self.ratingsCountLabel)
+        addSubview(ratingLabel)
+        addSubview(ratingView)
+        addSubview(ratingsCountLabel)
 
-        self.addSubview(self.fiveStarsBarView)
-        self.addSubview(self.fourStarsBarView)
-        self.addSubview(self.threeStarsBarView)
-        self.addSubview(self.twoStarsBarView)
-        self.addSubview(self.oneStarsBarView)
+        addSubview(fiveStarsBarView)
+        addSubview(fourStarsBarView)
+        addSubview(threeStarsBarView)
+        addSubview(twoStarsBarView)
+        addSubview(oneStarsBarView)
 
-        self.ratingsCountLabel.set(height: 16)
+        ratingsCountLabel.set(height: 16)
 
         let horizontalMargin: CGFloat = 16
         let barHeight: CGFloat = 18
@@ -170,26 +170,26 @@ class ReputationView: UIView {
     }
 
     public func setScore(_ ratingScore: RatingScore) {
-        self.reviewCount = ratingScore.reviewCount
-        self.ratingLabel.text = "\(ratingScore.averageRating)"
-        self.ratingView.set(rating: Float(ratingScore.averageRating))
+        reviewCount = ratingScore.reviewCount
+        ratingLabel.text = "\(ratingScore.averageRating)"
+        ratingView.set(rating: Float(ratingScore.averageRating))
 
         let count = ratingScore.reviewCount == 0 ? 1 : ratingScore.reviewCount
 
-        self.fiveStarsBarView.numberOfStars = 5
-        self.fiveStarsBarView.percentage = CGFloat(ratingScore.stars.five) / CGFloat(count)
+        fiveStarsBarView.numberOfStars = 5
+        fiveStarsBarView.percentage = CGFloat(ratingScore.stars.five) / CGFloat(count)
 
-        self.fourStarsBarView.numberOfStars = 4
-        self.fourStarsBarView.percentage = CGFloat(ratingScore.stars.four) / CGFloat(count)
+        fourStarsBarView.numberOfStars = 4
+        fourStarsBarView.percentage = CGFloat(ratingScore.stars.four) / CGFloat(count)
 
-        self.threeStarsBarView.numberOfStars = 3
-        self.threeStarsBarView.percentage = CGFloat(ratingScore.stars.three) / CGFloat(count)
+        threeStarsBarView.numberOfStars = 3
+        threeStarsBarView.percentage = CGFloat(ratingScore.stars.three) / CGFloat(count)
 
-        self.twoStarsBarView.numberOfStars = 2
-        self.twoStarsBarView.percentage = CGFloat(ratingScore.stars.two) / CGFloat(count)
+        twoStarsBarView.numberOfStars = 2
+        twoStarsBarView.percentage = CGFloat(ratingScore.stars.two) / CGFloat(count)
 
-        self.oneStarsBarView.numberOfStars = 1
-        self.oneStarsBarView.percentage = CGFloat(ratingScore.stars.one) / CGFloat(count)
+        oneStarsBarView.numberOfStars = 1
+        oneStarsBarView.percentage = CGFloat(ratingScore.stars.one) / CGFloat(count)
     }
 }
 
@@ -238,9 +238,9 @@ class ReputationBarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.addSubview(self.numberLabel)
-        self.addSubview(self.starImageView)
-        self.addSubview(self.barView)
+        addSubview(numberLabel)
+        addSubview(starImageView)
+        addSubview(barView)
 
         NSLayoutConstraint.activate([
             self.numberLabel.topAnchor.constraint(equalTo: self.topAnchor),
@@ -264,9 +264,9 @@ class ReputationBarView: UIView {
 
         let barRightMargin: CGFloat = 11
         let startAndCountWidth: CGFloat = 21
-        let width = self.bounds.size.width - startAndCountWidth
+        let width = bounds.size.width - startAndCountWidth
 
-        self.barWidthAnchor.constant = min((width - barRightMargin), (self.percentage * width))
+        barWidthAnchor.constant = min((width - barRightMargin), (percentage * width))
     }
 
     required init?(coder _: NSCoder) {

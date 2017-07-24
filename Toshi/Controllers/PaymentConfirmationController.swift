@@ -37,8 +37,8 @@ class PaymentConfirmationController: AlertController {
 
         self.value = value
 
-        self.modalPresentationStyle = .custom
-        self.transitioningDelegate = self
+        modalPresentationStyle = .custom
+        transitioningDelegate = self
     }
 
     required init?(coder _: NSCoder) {
@@ -52,7 +52,7 @@ class PaymentConfirmationController: AlertController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setupCustomContentView()
+        setupCustomContentView()
 
         setupActiveNetworkView()
 
@@ -72,15 +72,15 @@ class PaymentConfirmationController: AlertController {
                 }
             }
 
-            customView.userDisplayNameLabel.text = self.userInfo.name
-            customView.userNameLabel.text = self.userInfo.username
-            customView.valueLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: self.value, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: customView.valueLabel.frame.width)
+            customView.userDisplayNameLabel.text = userInfo.name
+            customView.userNameLabel.text = userInfo.username
+            customView.valueLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: value, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: customView.valueLabel.frame.width)
 
-            customView.mode = (self.userInfo.isLocal == true) ? Mode.localUser : Mode.remoteUser
+            customView.mode = (userInfo.isLocal == true) ? Mode.localUser : Mode.remoteUser
 
-            self.customContentView = customView
+            customContentView = customView
 
-            RatingsClient.shared.scores(for: self.userInfo.address) { score in
+            RatingsClient.shared.scores(for: userInfo.address) { score in
                 if let view = self.customContentView as? PaymentRequestInfoView {
                     view.ratingView.set(rating: Float(score.averageRating), animated: true)
                     view.ratingCountLabel.text = "(\(score.reviewCount))"

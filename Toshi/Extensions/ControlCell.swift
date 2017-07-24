@@ -35,24 +35,24 @@ class SubcontrolCell: ControlCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.contentView.addSubview(self.separatorView)
+        contentView.addSubview(separatorView)
 
-        self.separatorView.set(height: 1)
-        self.separatorView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 15).isActive = true
-        self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -15).isActive = true
-        self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        separatorView.set(height: 1)
+        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
+        separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
 
-        self.contentView.layer.cornerRadius = 0.0
-        self.contentView.layer.borderColor = nil
-        self.contentView.layer.borderWidth = 0.0
+        contentView.layer.cornerRadius = 0.0
+        contentView.layer.borderColor = nil
+        contentView.layer.borderWidth = 0.0
 
-        self.button.setTitleColor(Theme.darkTextColor, for: .normal)
-        self.button.setTitleColor(Theme.actionButtonTitleColor, for: .highlighted)
-        self.button.setTitleColor(Theme.darkTextColor, for: .selected)
-        self.button.titleLabel?.font = Theme.regular(size: 15)
-        self.button.contentHorizontalAlignment = .left
+        button.setTitleColor(Theme.darkTextColor, for: .normal)
+        button.setTitleColor(Theme.actionButtonTitleColor, for: .highlighted)
+        button.setTitleColor(Theme.darkTextColor, for: .selected)
+        button.titleLabel?.font = Theme.regular(size: 15)
+        button.contentHorizontalAlignment = .left
 
-        self.button.fillSuperview(with: self.buttonInsets)
+        button.fillSuperview(with: buttonInsets)
     }
 
     required init?(coder _: NSCoder) {
@@ -69,7 +69,7 @@ class ControlCell: UICollectionViewCell {
 
     var buttonItem: SofaMessage.Button? {
         didSet {
-            let title = self.buttonItem?.label
+            let title = buttonItem?.label
             self.button.setTitle(title, for: .normal)
             self.button.titleLabel?.lineBreakMode = .byTruncatingTail
         }
@@ -90,14 +90,14 @@ class ControlCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.contentView.backgroundColor = Theme.viewBackgroundColor
-        self.contentView.layer.cornerRadius = 8
-        self.contentView.layer.borderColor = Theme.borderColor.cgColor
-        self.contentView.layer.borderWidth = Theme.borderHeight
+        contentView.backgroundColor = Theme.viewBackgroundColor
+        contentView.layer.cornerRadius = 8
+        contentView.layer.borderColor = Theme.borderColor.cgColor
+        contentView.layer.borderWidth = Theme.borderHeight
 
-        self.contentView.addSubview(self.button)
+        contentView.addSubview(button)
 
-        self.button.fillSuperview(with: self.buttonInsets)
+        button.fillSuperview(with: buttonInsets)
     }
 
     required init?(coder _: NSCoder) {
@@ -105,8 +105,8 @@ class ControlCell: UICollectionViewCell {
     }
 
     func didTapButton() {
-        let wasSelected = self.button.isSelected
-        self.delegate?.didTapButton(for: self)
-        self.button.isSelected = !wasSelected
+        let wasSelected = button.isSelected
+        delegate?.didTapButton(for: self)
+        button.isSelected = !wasSelected
     }
 }

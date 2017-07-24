@@ -46,16 +46,16 @@ open class ChatsController: SweetTableController {
     public init() {
         super.init()
 
-        self.title = "Recent"
+        title = "Recent"
 
-        self.uiDatabaseConnection.asyncRead { transaction in
+        uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
         }
 
-        self.registerNotifications()
-        self.loadViewIfNeeded()
+        registerNotifications()
+        loadViewIfNeeded()
 
-        self.showEmptyStateIfNeeded()
+        showEmptyStateIfNeeded()
     }
 
     public required init?(coder _: NSCoder) {
@@ -65,22 +65,22 @@ open class ChatsController: SweetTableController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
 
-        self.tableView.separatorStyle = .none
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.tableView.register(ChatCell.self)
-        self.tableView.showsVerticalScrollIndicator = true
-        self.tableView.alwaysBounceVertical = true
+        tableView.separatorStyle = .none
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(ChatCell.self)
+        tableView.showsVerticalScrollIndicator = true
+        tableView.alwaysBounceVertical = true
         NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
 
-        self.adjustEmptyView()
+        adjustEmptyView()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        tabBarController?.tabBar.isHidden = false
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -95,29 +95,29 @@ open class ChatsController: SweetTableController {
     }()
 
     fileprivate func addSubviewsAndConstraints() {
-        self.view.addSubview(self.emptyStateContainerView)
-        let topSpace: CGFloat = (self.navigationController?.navigationBar.frame.height ?? 0.0)
-        self.emptyStateContainerView.set(height: self.view.frame.height - topSpace)
-        self.emptyStateContainerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.emptyStateContainerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.emptyStateContainerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        view.addSubview(emptyStateContainerView)
+        let topSpace: CGFloat = (navigationController?.navigationBar.frame.height ?? 0.0)
+        emptyStateContainerView.set(height: view.frame.height - topSpace)
+        emptyStateContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        emptyStateContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        emptyStateContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
-        self.view.layoutIfNeeded()
+        view.layoutIfNeeded()
     }
 
     func registerNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
     func yapDatabaseDidChange(notification _: NSNotification) {
-        let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
+        let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
         guard let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewConnection else { return }
 
         let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
         if !hasChangesForCurrentView {
-            self.uiDatabaseConnection.read { transaction in
+            uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
 
@@ -127,7 +127,7 @@ open class ChatsController: SweetTableController {
         var messageRowChanges = NSArray()
         var sectionChanges = NSArray()
 
-        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: mappings)
 
         if sectionChanges.count == 0 && messageRowChanges.count == 0 {
             return
@@ -135,7 +135,7 @@ open class ChatsController: SweetTableController {
 
         let rowChanges = messageRowChanges as! [YapDatabaseViewRowChange]
 
-        if let insertedRow = rowChanges.first(where: {$0.type == .insert}) {
+        if let insertedRow = rowChanges.first(where: { $0.type == .insert }) {
             if let thread = self.thread(at: insertedRow.newIndexPath) as TSThread?, let contactIdentfier = thread.contactIdentifier() as String? {
                 IDAPIClient.shared.updateContact(with: contactIdentfier)
             }
@@ -144,43 +144,43 @@ open class ChatsController: SweetTableController {
         // No need to animate the tableview if not being presented.
         // Avoids an issue where tableview will actually cause a crash on update
         // during a chat update.
-        if self.navigationController?.topViewController == self && self.tabBarController?.selectedViewController == self.navigationController {
-            self.tableView.beginUpdates()
+        if navigationController?.topViewController == self && tabBarController?.selectedViewController == navigationController {
+            tableView.beginUpdates()
 
             for rowChange in rowChanges {
                 switch rowChange.type {
                 case .delete:
-                    self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
+                    tableView.deleteRows(at: [rowChange.indexPath], with: .left)
                 case .insert:
-                    self.updateContactIfNeeded(at: rowChange.newIndexPath)
-                    self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
+                    updateContactIfNeeded(at: rowChange.newIndexPath)
+                    tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
                 case .move:
-                    self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
-                    self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
+                    tableView.deleteRows(at: [rowChange.indexPath], with: .left)
+                    tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
                 case .update:
-                    self.tableView.reloadRows(at: [rowChange.indexPath], with: .automatic)
+                    tableView.reloadRows(at: [rowChange.indexPath], with: .automatic)
                 }
             }
 
-            self.tableView.endUpdates()
+            tableView.endUpdates()
         } else {
-            self.tableView.reloadData()
+            tableView.reloadData()
         }
 
-        self.showEmptyStateIfNeeded()
+        showEmptyStateIfNeeded()
     }
 
     private func showEmptyStateIfNeeded() {
-        let shouldHideEmptyState = self.mappings.numberOfItems(inSection: 0) > 0
+        let shouldHideEmptyState = mappings.numberOfItems(inSection: 0) > 0
 
-        self.makeEmptyView(hidden: shouldHideEmptyState)
+        makeEmptyView(hidden: shouldHideEmptyState)
     }
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() as String? {
             print("Updating contact infor for address: \(address).")
 
-            self.idAPIClient.retrieveContact(username: address) { contact in
+            idAPIClient.retrieveContact(username: address) { contact in
                 if let contact = contact {
                     print("Updated contact info for \(contact.username)")
                 }
@@ -191,7 +191,7 @@ open class ChatsController: SweetTableController {
     func thread(at indexPath: IndexPath) -> TSThread? {
         var thread: TSThread?
 
-        self.uiDatabaseConnection.read { transaction in
+        uiDatabaseConnection.read { transaction in
             guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
             guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { return }
 
@@ -204,7 +204,7 @@ open class ChatsController: SweetTableController {
     func thread(withAddress address: String) -> TSThread? {
         var thread: TSThread?
 
-        self.uiDatabaseConnection.read { transaction in
+        uiDatabaseConnection.read { transaction in
             transaction.enumerateRows(inCollection: TSThread.collection()) { _, object, _, stop in
                 if let possibleThread = object as? TSThread {
                     if possibleThread.contactIdentifier() == address {
@@ -221,7 +221,7 @@ open class ChatsController: SweetTableController {
     func thread(withIdentifier identifier: String) -> TSThread? {
         var thread: TSThread?
 
-        self.uiDatabaseConnection.read { transaction in
+        uiDatabaseConnection.read { transaction in
             transaction.enumerateRows(inCollection: TSThread.collection()) { _, object, _, stop in
                 if let possibleThread = object as? TSThread {
                     if possibleThread.uniqueId == identifier {
@@ -255,7 +255,7 @@ extension ChatsController: Emptiable {
     }
 
     func sourceView() -> UIView {
-        return self.emptyStateContainerView
+        return emptyStateContainerView
     }
 
     func isScrollable() -> Bool {
@@ -278,7 +278,7 @@ extension ChatsController: UITableViewDelegate {
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath) as TSThread? {
             let chatController = ChatController(thread: thread)
-            self.navigationController?.pushViewController(chatController, animated: true)
+            navigationController?.pushViewController(chatController, animated: true)
         }
     }
 
@@ -299,11 +299,11 @@ extension ChatsController: UITableViewDelegate {
 extension ChatsController: UITableViewDataSource {
 
     open func numberOfSections(in _: UITableView) -> Int {
-        return Int(self.mappings.numberOfSections())
+        return Int(mappings.numberOfSections())
     }
 
     open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(self.mappings.numberOfItems(inSection: UInt(section)))
+        return Int(mappings.numberOfItems(inSection: UInt(section)))
     }
 
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

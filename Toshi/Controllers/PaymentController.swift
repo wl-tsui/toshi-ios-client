@@ -87,48 +87,48 @@ class PaymentController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = Theme.viewBackgroundColor
+        view.backgroundColor = Theme.viewBackgroundColor
 
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.shadowTextField.becomeFirstResponder()
+        shadowTextField.becomeFirstResponder()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        self.shadowTextField.becomeFirstResponder()
+        shadowTextField.becomeFirstResponder()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        self.shadowTextField.resignFirstResponder()
+        shadowTextField.resignFirstResponder()
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.shadowTextField)
-        self.view.addSubview(self.currencyAmountLabel)
-        self.view.addSubview(self.etherAmountLabel)
-        self.view.addSubview(self.toolbar)
+        view.addSubview(shadowTextField)
+        view.addSubview(currencyAmountLabel)
+        view.addSubview(etherAmountLabel)
+        view.addSubview(toolbar)
 
-        self.toolbar.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
-        self.toolbar.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.toolbar.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        toolbar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        toolbar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        toolbar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        self.currencyAmountLabel.set(height: 64)
-        self.currencyAmountLabel.topAnchor.constraint(equalTo: self.toolbar.bottomAnchor, constant: 80).isActive = true
-        self.currencyAmountLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 24).isActive = true
-        self.currencyAmountLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -24).isActive = true
+        currencyAmountLabel.set(height: 64)
+        currencyAmountLabel.topAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: 80).isActive = true
+        currencyAmountLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+        currencyAmountLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
 
-        self.etherAmountLabel.set(height: 34)
-        self.etherAmountLabel.topAnchor.constraint(equalTo: self.currencyAmountLabel.bottomAnchor).isActive = true
-        self.etherAmountLabel.leftAnchor.constraint(equalTo: self.currencyAmountLabel.leftAnchor).isActive = true
-        self.etherAmountLabel.rightAnchor.constraint(equalTo: self.currencyAmountLabel.rightAnchor).isActive = true
+        etherAmountLabel.set(height: 34)
+        etherAmountLabel.topAnchor.constraint(equalTo: currencyAmountLabel.bottomAnchor).isActive = true
+        etherAmountLabel.leftAnchor.constraint(equalTo: currencyAmountLabel.leftAnchor).isActive = true
+        etherAmountLabel.rightAnchor.constraint(equalTo: currencyAmountLabel.rightAnchor).isActive = true
 
         setupActiveNetworkView()
     }
@@ -157,13 +157,13 @@ extension PaymentController: UITextFieldDelegate {
         }
 
         guard newValue.length > 0 else {
-            self.currencyAmountLabel.text = self.currencyNumberFormatter.string(from: 0)
+            currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
 
             return true
         }
 
         guard let number = self.inputNumberFormatter.number(from: newValue) else {
-            self.currencyAmountLabel.text = self.currencyNumberFormatter.string(from: 0)
+            currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
 
             return false
         }
@@ -175,8 +175,8 @@ extension PaymentController: UITextFieldDelegate {
             return false
         }
 
-        let content = self.currencyNumberFormatter.string(from: number)
-        self.currencyAmountLabel.text = content
+        let content = currencyNumberFormatter.string(from: number)
+        currencyAmountLabel.text = content
 
         return true
     }

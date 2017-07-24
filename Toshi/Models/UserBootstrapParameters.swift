@@ -91,13 +91,13 @@ public class UserBootstrapParameter {
 
         let storageManager = TSStorageManager.shared()
 
-        self.identityKey = ((identityKeyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
-        self.lastResortPreKey = storageManager.getOrGenerateLastResortKey()
-        self.prekeys = storageManager.generatePreKeyRecords() as! [PreKeyRecord]
+        identityKey = ((identityKeyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
+        lastResortPreKey = storageManager.getOrGenerateLastResortKey()
+        prekeys = storageManager.generatePreKeyRecords() as! [PreKeyRecord]
 
-        self.registrationId = TSAccountManager.getOrGenerateRegistrationId()
+        registrationId = TSAccountManager.getOrGenerateRegistrationId()
 
-        self.signalingKey = CryptoTools.generateSecureRandomData(52).base64EncodedString()
+        signalingKey = CryptoTools.generateSecureRandomData(52).base64EncodedString()
 
         let keyPair = Curve25519.generateKeyPair()!
         let keyToSign = (keyPair.publicKey() as NSData).prependKeyType()! as Data
@@ -105,12 +105,12 @@ public class UserBootstrapParameter {
 
         let signedPK = SignedPreKeyRecord(id: Int32(0), keyPair: keyPair, signature: signature, generatedAt: Date())!
 
-        self.signedPrekey = signedPK
+        signedPrekey = signedPK
 
-        for prekey in self.prekeys {
+        for prekey in prekeys {
             storageManager.storePreKey(prekey.id, preKeyRecord: prekey)
         }
 
-        storageManager.storeSignedPreKey(self.signedPrekey.id, signedPreKeyRecord: self.signedPrekey)
+        storageManager.storeSignedPreKey(signedPrekey.id, signedPreKeyRecord: signedPrekey)
     }
 }

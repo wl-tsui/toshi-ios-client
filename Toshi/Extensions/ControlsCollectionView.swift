@@ -22,7 +22,7 @@ class ControlsCollectionView: UICollectionView {
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        for cell in self.visibleCells {
+        for cell in visibleCells {
             if cell.frame.contains(point) {
                 return super.point(inside: point, with: event)
             }
@@ -32,7 +32,7 @@ class ControlsCollectionView: UICollectionView {
     }
 
     func deselectButtons() {
-        self.visibleCells.forEach { cell in
+        visibleCells.forEach { cell in
             (cell as? ControlCell)?.button.isSelected = false
         }
     }

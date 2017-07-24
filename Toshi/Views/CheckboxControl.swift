@@ -63,8 +63,8 @@ class CheckboxControl: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.addSubview(self.checkbox)
-        self.addSubview(self.titleLabel)
+        addSubview(checkbox)
+        addSubview(titleLabel)
 
         NSLayoutConstraint.activate([
             self.checkbox.topAnchor.constraint(equalTo: self.topAnchor),
@@ -79,8 +79,8 @@ class CheckboxControl: UIControl {
 
     override var isHighlighted: Bool {
         didSet {
-            if self.isHighlighted != oldValue {
-                self.feedbackGenerator.impactOccurred()
+            if isHighlighted != oldValue {
+                feedbackGenerator.impactOccurred()
 
                 UIView.highlightAnimation {
                     self.checkbox.alpha = self.isHighlighted ? 0.6 : 1

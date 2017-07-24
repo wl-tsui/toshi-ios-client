@@ -46,19 +46,19 @@ class SettingsSectionHeader: UIView {
 
     convenience init(title: String, error: String? = nil) {
         self.init()
-        self.clipsToBounds = true
+        clipsToBounds = true
 
         let margin: CGFloat = 20
 
-        self.titleLabel.text = title.uppercased()
-        self.addSubview(self.titleLabel)
+        titleLabel.text = title.uppercased()
+        addSubview(titleLabel)
 
-        self.titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
         if let error = error {
-            self.errorLabel.text = error
-            self.addSubview(self.errorLabel)
-            self.addSubview(self.errorImage)
+            errorLabel.text = error
+            addSubview(errorLabel)
+            addSubview(errorImage)
 
             NSLayoutConstraint.activate([
                 self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin),
@@ -85,8 +85,8 @@ class SettingsSectionHeader: UIView {
                 self.errorImage.transform = hidden ? CGAffineTransform(translationX: 0, y: 30) : .identity
             }, completion: nil)
         } else {
-            self.errorLabel.transform = hidden ? CGAffineTransform(translationX: 0, y: 30) : .identity
-            self.errorImage.transform = hidden ? CGAffineTransform(translationX: 0, y: 30) : .identity
+            errorLabel.transform = hidden ? CGAffineTransform(translationX: 0, y: 30) : .identity
+            errorImage.transform = hidden ? CGAffineTransform(translationX: 0, y: 30) : .identity
         }
     }
 }

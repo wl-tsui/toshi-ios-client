@@ -112,8 +112,8 @@ class SOFAWebController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(self.webView)
-        self.view.addSubview(self.toolbar)
+        view.addSubview(webView)
+        view.addSubview(toolbar)
 
         NSLayoutConstraint.activate([
             self.toolbar.leftAnchor.constraint(equalTo: self.view.leftAnchor),
@@ -121,20 +121,20 @@ class SOFAWebController: UIViewController {
             self.toolbar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
         ])
 
-        self.toolbar.set(height: 44)
-        self.hidesBottomBarWhenPushed = true
-        self.webView.fillSuperview()
+        toolbar.set(height: 44)
+        hidesBottomBarWhenPushed = true
+        webView.fillSuperview()
     }
 
     public func load(url: URL) {
         let request = URLRequest(url: url)
-        self.webView.load(request)
+        webView.load(request)
     }
 
     init() {
         super.init(nibName: nil, bundle: nil)
 
-        self.loadViewIfNeeded()
+        loadViewIfNeeded()
     }
 
     required init?(coder _: NSCoder) {
@@ -143,19 +143,19 @@ class SOFAWebController: UIViewController {
 
     @objc
     fileprivate func didTapBackButton() {
-        self.webView.goBack()
+        webView.goBack()
     }
 
     @objc
     fileprivate func didTapForwardButton() {
-        self.webView.goForward()
+        webView.goForward()
     }
 }
 
 extension SOFAWebController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-        self.backBarButtonItem.isEnabled = webView.canGoBack
-        self.forwardBarButtonItem.isEnabled = webView.canGoForward
+        backBarButtonItem.isEnabled = webView.canGoBack
+        forwardBarButtonItem.isEnabled = webView.canGoForward
     }
 }
 
@@ -163,7 +163,7 @@ extension SOFAWebController: WKScriptMessageHandler {
     fileprivate func jsCallback(callbackId: String, payload: String) {
         let js = "SOFA.callback(\"" + callbackId + "\",\"" + payload + "\")"
 
-        self.webView.evaluateJavaScript("javascript:" + js) { jsReturnValue, error in
+        webView.evaluateJavaScript("javascript:" + js) { jsReturnValue, error in
             if let error = error {
                 print("Error: \(error)")
             } else if let newCount = jsReturnValue as? Int {
@@ -183,7 +183,7 @@ extension SOFAWebController: WKScriptMessageHandler {
         switch method {
         case .getAccounts:
             let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
-            self.jsCallback(callbackId: callbackId, payload: payload)
+            jsCallback(callbackId: callbackId, payload: payload)
 
             break
         case .signTransaction:
@@ -227,13 +227,13 @@ extension SOFAWebController: WKScriptMessageHandler {
                 }
             } else {
                 let userInfo = UserInfo(address: "", paymentAddress: "", avatarPath: nil, name: "New Contract", username: "", isLocal: false)
-                self.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
+                displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
             }
 
             break
         case .approveTransaction:
             let payload = "{\\\"error\\\": null, \\\"result\\\": true}"
-            self.jsCallback(callbackId: callbackId, payload: payload)
+            jsCallback(callbackId: callbackId, payload: payload)
 
             break
         }
@@ -242,7 +242,7 @@ extension SOFAWebController: WKScriptMessageHandler {
 
 extension SOFAWebController: PaymentPresentable {
     func paymentApproved(with parameters: [String: Any], userInfo _: UserInfo) {
-        self.etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, _ in
+        etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, _ in
             var payload: String
 
             if let tx = transaction {
@@ -258,6 +258,6 @@ extension SOFAWebController: PaymentPresentable {
 
     func paymentDeclined() {
         let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
-        self.jsCallback(callbackId: callbackId, payload: payload)
+        jsCallback(callbackId: callbackId, payload: payload)
     }
 }

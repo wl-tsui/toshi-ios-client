@@ -23,11 +23,11 @@ public class SplashNavigationController: UINavigationController {
 
     convenience init() {
         self.init(rootViewController: SplashViewController())
-        self.title = "Sign in"
+        title = "Sign in"
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.setNavigationBarHidden(true, animated: false)
+        setNavigationBarHidden(true, animated: false)
     }
 }

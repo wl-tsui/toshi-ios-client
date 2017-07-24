@@ -84,8 +84,8 @@ class RatingsClient: NSObject {
     public var baseURL: URL
 
     private override init() {
-        self.baseURL = URL(string: TokenRatingsServiceBaseURLPath)!
-        self.teapot = Teapot(baseURL: self.baseURL)
+        baseURL = URL(string: TokenRatingsServiceBaseURLPath)!
+        teapot = Teapot(baseURL: baseURL)
 
         super.init()
     }
@@ -110,7 +110,7 @@ class RatingsClient: NSObject {
     }
 
     public func submit(userId: String, rating: Int, review: String, completion: (() -> Void)? = nil) {
-        self.fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/review/submit"
             let payload: [String: Any] = [

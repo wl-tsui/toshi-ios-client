@@ -39,20 +39,20 @@ class NetworkSettingsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = Localized("Network")
+        title = Localized("Network")
 
-        self.view.addSubview(self.tableView)
-        self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        view.addSubview(tableView)
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        self.setupActivityIndicator()
+        setupActivityIndicator()
     }
 
-    func activeNetworkChanged(_ notification: Notification) {
-        self.hideActivityIndicator()
-        self.tableView.reloadData()
+    func activeNetworkChanged(_: Notification) {
+        hideActivityIndicator()
+        tableView.reloadData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -83,20 +83,19 @@ extension NetworkSettingsController: UITableViewDataSource {
         return cell
     }
 
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return NetworkSwitcher.shared.availableNetworks.count
     }
 }
 
 extension NetworkSettingsController: UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let network = NetworkSwitcher.shared.availableNetworks[indexPath.row]
 
         guard network.rawValue != NetworkSwitcher.shared.activeNetwork.rawValue else { return }
 
-        self.showActivityIndicator()
+        showActivityIndicator()
         NetworkSwitcher.shared.activateNetwork(network)
     }
 }

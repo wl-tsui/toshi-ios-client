@@ -13,38 +13,38 @@ class ActionBarButton: UIControl {
 
     override var tintColor: UIColor! {
         didSet {
-            self.titleLabel.textColor = self.tintColor
-            self.imageView.tintColor = self.tintColor
+            titleLabel.textColor = tintColor
+            imageView.tintColor = tintColor
         }
     }
 
     init() {
         super.init(frame: .zero)
 
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
 
-        self.titleLabel.textAlignment = .center
-        self.titleLabel.font = Theme.medium(size: 14)
+        titleLabel.textAlignment = .center
+        titleLabel.font = Theme.medium(size: 14)
 
-        self.imageContainerView.isUserInteractionEnabled = true
-        self.imageView.isUserInteractionEnabled = true
+        imageContainerView.isUserInteractionEnabled = true
+        imageView.isUserInteractionEnabled = true
 
-        self.imageContainerView.addSubview(self.imageView)
-        self.imageView.centerYAnchor.constraint(equalTo: self.imageContainerView.centerYAnchor).isActive = true
-        self.imageView.centerXAnchor.constraint(equalTo: self.imageContainerView.centerXAnchor).isActive = true
+        imageContainerView.addSubview(imageView)
+        imageView.centerYAnchor.constraint(equalTo: imageContainerView.centerYAnchor).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: imageContainerView.centerXAnchor).isActive = true
 
-        self.addSubview(self.imageContainerView)
-        self.addSubview(self.titleLabel)
+        addSubview(imageContainerView)
+        addSubview(titleLabel)
 
-        self.titleLabel.set(height: 16)
-        self.titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        titleLabel.set(height: 16)
+        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
 
-        self.imageContainerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.imageContainerView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.imageContainerView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        self.imageContainerView.bottomAnchor.constraint(equalTo: self.titleLabel.topAnchor).isActive = true
+        imageContainerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        imageContainerView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        imageContainerView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        imageContainerView.bottomAnchor.constraint(equalTo: titleLabel.topAnchor).isActive = true
     }
 
     required init?(coder _: NSCoder) {
@@ -52,42 +52,42 @@ class ActionBarButton: UIControl {
     }
 
     func setTitle(_ title: String) {
-        self.titleLabel.text = title
+        titleLabel.text = title
     }
 
     func setTitleColor(_ color: UIColor) {
-        self.titleLabel.textColor = color
+        titleLabel.textColor = color
     }
 
     func setImage(_ image: UIImage) {
-        self.imageView.image = image
+        imageView.image = image
     }
 
     override func touchesBegan(_: Set<UITouch>, with _: UIEvent?) {
-        self.isHighlighted = true
+        isHighlighted = true
 
-        self.previousImageTintColor = self.imageView.tintColor
-        self.previousLabelTintColor = self.titleLabel.tintColor
+        previousImageTintColor = imageView.tintColor
+        previousLabelTintColor = titleLabel.tintColor
 
-        self.imageView.tintColor = Theme.tintColor
-        self.titleLabel.textColor = Theme.tintColor
-        self.sendActions(for: .touchDown)
+        imageView.tintColor = Theme.tintColor
+        titleLabel.textColor = Theme.tintColor
+        sendActions(for: .touchDown)
     }
 
     override func touchesCancelled(_: Set<UITouch>, with _: UIEvent?) {
-        self.isHighlighted = false
+        isHighlighted = false
 
-        self.imageView.tintColor = self.previousImageTintColor
-        self.titleLabel.textColor = self.previousLabelTintColor
+        imageView.tintColor = previousImageTintColor
+        titleLabel.textColor = previousLabelTintColor
     }
 
     override func touchesEnded(_: Set<UITouch>, with _: UIEvent?) {
-        self.isHighlighted = false
+        isHighlighted = false
 
-        self.imageView.tintColor = self.previousImageTintColor
-        self.titleLabel.textColor = self.previousLabelTintColor
+        imageView.tintColor = previousImageTintColor
+        titleLabel.textColor = previousLabelTintColor
 
-        self.sendActions(for: .touchUpInside)
+        sendActions(for: .touchUpInside)
     }
 }
 

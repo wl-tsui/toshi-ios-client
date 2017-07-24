@@ -89,15 +89,15 @@ open class FavoritesController: SweetTableController {
     public init() {
         super.init(style: .plain)
 
-        self.registerTokenContactsDatabaseView()
+        registerTokenContactsDatabaseView()
 
-        self.uiDatabaseConnection.asyncRead { transaction in
+        uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
         }
 
-        self.title = "Favorites"
+        title = "Favorites"
 
-        self.registerNotifications()
+        registerNotifications()
     }
 
     public required init?(coder _: NSCoder) {
@@ -107,29 +107,29 @@ open class FavoritesController: SweetTableController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
 
-        self.view.layoutIfNeeded()
-        self.adjustEmptyView()
+        view.layoutIfNeeded()
+        adjustEmptyView()
 
-        self.tableView.register(ContactCell.self)
-        self.tableView.register(ChatCell.self)
+        tableView.register(ContactCell.self)
+        tableView.register(ChatCell.self)
 
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
+        tableView.dataSource = self
+        tableView.delegate = self
 
-        self.tableView.backgroundColor = Theme.viewBackgroundColor
-        self.tableView.separatorStyle = .none
-        self.tableView.tableHeaderView = self.searchController.searchBar
+        tableView.backgroundColor = Theme.viewBackgroundColor
+        tableView.separatorStyle = .none
+        tableView.tableHeaderView = searchController.searchBar
 
-        self.navigationItem.rightBarButtonItem = self.addButton
+        navigationItem.rightBarButtonItem = addButton
 
-        self.definesPresentationContext = true
+        definesPresentationContext = true
 
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         appearance.setTitleColor(Theme.greyTextColor, for: .normal)
 
-        self.displayContacts()
+        displayContacts()
 
         if let address = UserDefaults.standard.string(forKey: FavoritesNavigationController.selectedContactKey) {
             // This doesn't restore a contact if they are not our contact, but a search result
@@ -145,8 +145,8 @@ open class FavoritesController: SweetTableController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.tableView.reloadData()
-        self.showOrHideEmptyState()
+        tableView.reloadData()
+        showOrHideEmptyState()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -160,33 +160,33 @@ open class FavoritesController: SweetTableController {
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        for view in self.searchController.searchBar.subviews {
+        for view in searchController.searchBar.subviews {
             view.clipsToBounds = false
         }
-        self.searchController.searchBar.superview?.clipsToBounds = false
+        searchController.searchBar.superview?.clipsToBounds = false
     }
 
     fileprivate func addSubviewsAndConstraints() {
-        self.view.addSubview(self.emptyStateContainerView)
-        let topSpace: CGFloat = (self.navigationController?.navigationBar.frame.height ?? 0.0) + self.searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
-        self.emptyStateContainerView.set(height: self.view.frame.height - topSpace)
-        self.emptyStateContainerView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.emptyStateContainerView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.emptyStateContainerView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        view.addSubview(emptyStateContainerView)
+        let topSpace: CGFloat = (navigationController?.navigationBar.frame.height ?? 0.0) + searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
+        emptyStateContainerView.set(height: view.frame.height - topSpace)
+        emptyStateContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        emptyStateContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        emptyStateContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
     fileprivate func showOrHideEmptyState() {
         var shouldHideEmptyState = false
 
-        let hasFavourites = self.mappings.numberOfItems(inSection: 0) > 0
+        let hasFavourites = mappings.numberOfItems(inSection: 0) > 0
 
-        if self.searchController.isActive {
-            shouldHideEmptyState = self.searchContacts.count > 0 || hasFavourites
+        if searchController.isActive {
+            shouldHideEmptyState = searchContacts.count > 0 || hasFavourites
         } else {
             shouldHideEmptyState = hasFavourites
         }
 
-        self.makeEmptyView(hidden: shouldHideEmptyState)
+        makeEmptyView(hidden: shouldHideEmptyState)
     }
 
     fileprivate func contactSorting() -> YapDatabaseViewSorting {
@@ -217,7 +217,7 @@ open class FavoritesController: SweetTableController {
             return nil
         }
 
-        let viewSorting = self.contactSorting()
+        let viewSorting = contactSorting()
 
         let options = YapDatabaseViewOptions()
         options.isPersistent = false
@@ -229,9 +229,9 @@ open class FavoritesController: SweetTableController {
     }
 
     fileprivate func displayContacts() {
-        self.searchController.isActive = false
-        self.tableView.reloadData()
-        self.showOrHideEmptyState()
+        searchController.isActive = false
+        tableView.reloadData()
+        showOrHideEmptyState()
     }
 
     fileprivate func registerNotifications() {
@@ -245,13 +245,13 @@ open class FavoritesController: SweetTableController {
             self.showOrHideEmptyState()
         }
 
-        let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
+        let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
-        let viewConnection = self.uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        let viewConnection = uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
         let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications)
         if !hasChangesForCurrentView {
-            self.uiDatabaseConnection.read { transaction in
+            uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
 
@@ -261,33 +261,33 @@ open class FavoritesController: SweetTableController {
         var messageRowChanges = NSArray()
         var sectionChanges = NSArray()
 
-        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+        viewConnection.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: mappings)
 
         if sectionChanges.count == 0 && messageRowChanges.count == 0 {
             return
         }
 
-        guard !self.searchController.isActive else { return }
+        guard !searchController.isActive else { return }
 
-        self.tableView.beginUpdates()
+        tableView.beginUpdates()
 
         for rowChange in messageRowChanges as! [YapDatabaseViewRowChange] {
 
             switch rowChange.type {
             case .delete:
-                self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
+                tableView.deleteRows(at: [rowChange.indexPath], with: .left)
             case .insert:
-                self.updateContactIfNeeded(at: rowChange.newIndexPath)
-                self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
+                updateContactIfNeeded(at: rowChange.newIndexPath)
+                tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
             case .move:
-                self.tableView.deleteRows(at: [rowChange.indexPath], with: .left)
-                self.tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
+                tableView.deleteRows(at: [rowChange.indexPath], with: .left)
+                tableView.insertRows(at: [rowChange.newIndexPath], with: .right)
             case .update:
-                self.tableView.reloadRows(at: [rowChange.indexPath], with: .middle)
+                tableView.reloadRows(at: [rowChange.indexPath], with: .middle)
             }
         }
 
-        self.tableView.endUpdates()
+        tableView.endUpdates()
     }
 
     fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {
@@ -431,7 +431,7 @@ extension FavoritesController: UITableViewDataSource {
 }
 
 extension FavoritesController: UITableViewDelegate {
-    
+
     public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }

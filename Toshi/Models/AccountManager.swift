@@ -26,7 +26,7 @@ class AccountManager: NSObject {
     }
 
     @objc func register(verificationCode: String) -> AnyPromise {
-        return AnyPromise(self.register(verificationCode: verificationCode))
+        return AnyPromise(register(verificationCode: verificationCode))
     }
 
     func register(verificationCode: String) -> Promise<Void> {

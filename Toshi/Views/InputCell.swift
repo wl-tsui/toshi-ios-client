@@ -20,7 +20,7 @@ protocol InputCellDelegate: class {
 }
 
 final class InputCell: UITableViewCell, UITextFieldDelegate {
-    
+
     @IBOutlet private(set) weak var textField: UITextField!
 
     @IBOutlet weak var switchControl: UISwitch!
@@ -30,37 +30,36 @@ final class InputCell: UITableViewCell, UITextFieldDelegate {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.textField.textColor = Theme.greyTextColor
-        self.textField.delegate = self
+
+        textField.textColor = Theme.greyTextColor
+        textField.delegate = self
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        self.textField.isHidden = false
-        self.switchControl.isHidden = true
+        textField.isHidden = false
+        switchControl.isHidden = true
 
-        self.textField.text = nil
-        self.titleLabel.text = nil
-        self.switchControl.isOn = false
+        textField.text = nil
+        titleLabel.text = nil
+        switchControl.isOn = false
     }
 
-    @objc @IBAction fileprivate func switchValueDidChange(_ sender: Any) {
-        self.delegate?.inputDidUpdate(self.textField.text, self.switchControl.isOn)
+    @objc @IBAction fileprivate func switchValueDidChange(_: Any) {
+        delegate?.inputDidUpdate(textField.text, switchControl.isOn)
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string)
-        self.delegate?.inputDidUpdate(text, self.switchControl.isOn)
+        delegate?.inputDidUpdate(text, switchControl.isOn)
 
         return true
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
+
         return true
     }
 }
-

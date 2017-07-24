@@ -27,8 +27,8 @@ public class ChatAPIClient: NSObject {
 
     private override init() {
         let tokenChatServiceBaseURL = Bundle.main.object(forInfoDictionaryKey: "TokenChatServiceBaseURL") as! String
-        self.baseURL = URL(string: tokenChatServiceBaseURL)!
-        self.teapot = Teapot(baseURL: self.baseURL)
+        baseURL = URL(string: tokenChatServiceBaseURL)!
+        teapot = Teapot(baseURL: baseURL)
 
         super.init()
     }
@@ -54,7 +54,7 @@ public class ChatAPIClient: NSObject {
     }
 
     public func registerUser() {
-        self.fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let parameters = UserBootstrapParameter()
             let path = "/v1/accounts/bootstrap"

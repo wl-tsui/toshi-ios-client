@@ -50,14 +50,14 @@ extension String {
 
         return emojiOnly
     }
-    
+
     var emojiVisibleLength: Int {
         var count = 0
-        
+
         enumerateSubstrings(in: startIndex ..< endIndex, options: .byComposedCharacterSequences) { _ in
             count += 1
         }
-        
+
         return count
     }
 }
@@ -72,10 +72,10 @@ extension UIView {
         } else {
             let mask = CAShapeLayer()
             mask.path = path
-            self.layer.mask = mask
+            layer.mask = mask
         }
 
-        self.setNeedsDisplay()
+        setNeedsDisplay()
     }
 }
 
@@ -109,7 +109,7 @@ extension UIImageView {
         switch contentMode {
         case .scaleAspectFill:
 
-            let scale = max(self.frame.size.width / actualSize.width, self.frame.size.height / actualSize.height)
+            let scale = max(frame.size.width / actualSize.width, frame.size.height / actualSize.height)
             return CGSize(width: actualSize.width * scale, height: actualSize.height * scale)
 
         case .scaleAspectFit:

@@ -60,22 +60,22 @@ final class PaymentRequestInfoView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        self.userAvatarImageView.layer.cornerRadius = 22.0
-        self.userAvatarImageView.layer.masksToBounds = true
+        userAvatarImageView.layer.cornerRadius = 22.0
+        userAvatarImageView.layer.masksToBounds = true
     }
 
     private func updateConstraintsPriority() {
-        for constraint in self.remoteUserModeConstraints {
-            constraint.priority = self.mode.remoteModePriority
+        for constraint in remoteUserModeConstraints {
+            constraint.priority = mode.remoteModePriority
         }
 
-        for constraint in self.localUserModeConstraints {
-            constraint.priority = self.mode.localModePriority
+        for constraint in localUserModeConstraints {
+            constraint.priority = mode.localModePriority
         }
 
-        self.setNeedsLayout()
+        setNeedsLayout()
 
-        self.ratingView.isHidden = self.mode == .remoteUser
-        self.ratingCountLabel.isHidden = self.mode == .remoteUser
+        ratingView.isHidden = mode == .remoteUser
+        ratingCountLabel.isHidden = mode == .remoteUser
     }
 }

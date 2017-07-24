@@ -59,10 +59,10 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         UIApplication.shared.applicationIconBadgeNumber = count
 
         if count > 0 {
-            self.tabbarController?.messagingController.tabBarItem.badgeValue = "\(count)"
-            self.tabbarController?.messagingController.tabBarItem.badgeColor = .red
+            tabbarController?.messagingController.tabBarItem.badgeValue = "\(count)"
+            tabbarController?.messagingController.tabBarItem.badgeColor = .red
         } else {
-            self.tabbarController?.messagingController.tabBarItem.badgeValue = nil
+            tabbarController?.messagingController.tabBarItem.badgeValue = nil
         }
     }
 }

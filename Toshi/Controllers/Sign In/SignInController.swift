@@ -78,48 +78,48 @@ open class SignInController: UIViewController {
     public init() {
         super.init(nibName: nil, bundle: nil)
 
-        self.title = "Sign in"
+        title = "Sign in"
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.settingsBackgroundColor
 
         self.addSubviewsAndConstraints()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tap(_:)))
         tapGesture.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tapGesture)
+        view.addGestureRecognizer(tapGesture)
     }
 
     func tap(_: UITapGestureRecognizer) {
-        self.usernameField.textField.resignFirstResponder()
-        self.passwordField.textField.resignFirstResponder()
+        usernameField.textField.resignFirstResponder()
+        passwordField.textField.resignFirstResponder()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     private func addSubviewsAndConstraints() {
 
         let margin: CGFloat = 16
 
-        self.view.addSubview(self.scrollView)
-        self.scrollView.addSubview(self.contentView)
-        self.contentView.addSubview(self.usernameField)
-        self.contentView.addSubview(self.passwordField)
-        self.contentView.addSubview(self.footnote)
-        self.contentView.addSubview(self.signInButton)
-        self.contentView.addSubview(self.scanQRButton)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(usernameField)
+        contentView.addSubview(passwordField)
+        contentView.addSubview(footnote)
+        contentView.addSubview(signInButton)
+        contentView.addSubview(scanQRButton)
 
         NSLayoutConstraint.activate([
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),

@@ -47,11 +47,11 @@ struct DateTimeFormatter {
     }
 
     static func dateOlderThanOneDay(date: Date) -> Bool {
-        return Date().timeIntervalSince(date) > self.oneDayTimeInterval
+        return Date().timeIntervalSince(date) > oneDayTimeInterval
     }
 
     static func dateOlderThanOneWeek(date: Date) -> Bool {
-        return Date().timeIntervalSince(date) > self.oneWeekTimeInterval
+        return Date().timeIntervalSince(date) > oneWeekTimeInterval
     }
 
     static func isDate(_ date: Date, sameDayAs anotherDate: Date) -> Bool {

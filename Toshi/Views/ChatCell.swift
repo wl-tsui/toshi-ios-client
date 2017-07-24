@@ -27,22 +27,22 @@ class ChatCell: UITableViewCell {
 
                 switch SofaType(sofa: messageBody) {
                 case .message:
-                    self.lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaMessage(content: messageBody).body, attributes: self.messageAttributes)
+                    lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaMessage(content: messageBody).body, attributes: messageAttributes)
                 case .paymentRequest:
-                    self.lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaPaymentRequest(content: messageBody).body, attributes: self.messageAttributes)
+                    lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaPaymentRequest(content: messageBody).body, attributes: messageAttributes)
                 default:
-                    self.lastMessageLabel.attributedText = nil
+                    lastMessageLabel.attributedText = nil
                 }
             } else {
-                self.lastMessageLabel.attributedText = nil
+                lastMessageLabel.attributedText = nil
             }
 
             // date
             if let date = self.thread?.lastMessageDate() {
                 if DateTimeFormatter.isDate(date, sameDayAs: Date()) {
-                    self.lastMessageDateLabel.text = DateTimeFormatter.timeFormatter.string(from: date)
+                    lastMessageDateLabel.text = DateTimeFormatter.timeFormatter.string(from: date)
                 } else {
-                    self.lastMessageDateLabel.text = DateTimeFormatter.dateFormatter.string(from: date)
+                    lastMessageDateLabel.text = DateTimeFormatter.dateFormatter.string(from: date)
                 }
             }
 
@@ -50,30 +50,30 @@ class ChatCell: UITableViewCell {
             if let thread = self.thread {
                 let count = TSMessagesManager.shared().unreadMessages(in: thread)
                 if count > 0 {
-                    self.unreadLabel.text = "\(count)"
-                    self.unreadView.isHidden = false
-                    self.lastMessageDateLabel.textColor = Theme.tintColor
+                    unreadLabel.text = "\(count)"
+                    unreadView.isHidden = false
+                    lastMessageDateLabel.textColor = Theme.tintColor
                 } else {
-                    self.unreadLabel.text = nil
-                    self.unreadView.isHidden = true
-                    self.lastMessageDateLabel.textColor = Theme.greyTextColor
+                    unreadLabel.text = nil
+                    unreadView.isHidden = true
+                    lastMessageDateLabel.textColor = Theme.greyTextColor
                 }
             }
 
             guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
             if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
-                self.updateContact(contact)
+                updateContact(contact)
             } else {
-                IDAPIClient.shared.retrieveContact(username: self.thread?.contactIdentifier() ?? "") { contact in
+                IDAPIClient.shared.retrieveContact(username: thread?.contactIdentifier() ?? "") { contact in
                     guard let contact = contact else { return }
                     self.updateContact(contact)
                 }
             }
 
             if let lastMessage = self.lastMessageLabel.text, !lastMessage.isEmpty {
-                self.textGuideHeight.constant = 5
+                textGuideHeight.constant = 5
             } else {
-                self.textGuideHeight.constant = 0
+                textGuideHeight.constant = 0
             }
         }
     }
@@ -170,78 +170,78 @@ class ChatCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        self.unreadLabel.text = nil
-        self.avatarImageView.image = nil
-        self.usernameLabel.text = nil
-        self.lastMessageLabel.text = nil
-        self.lastMessageDateLabel.text = nil
+        unreadLabel.text = nil
+        avatarImageView.image = nil
+        usernameLabel.text = nil
+        lastMessageLabel.text = nil
+        lastMessageDateLabel.text = nil
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator
 
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = Theme.cellSelectionColor
         self.selectedBackgroundView = selectedBackgroundView
 
-        self.contentView.addSubview(self.unreadView)
-        self.contentView.addSubview(self.avatarImageView)
-        self.contentView.addSubview(self.usernameLabel)
-        self.contentView.addSubview(self.lastMessageLabel)
-        self.contentView.addSubview(self.lastMessageDateLabel)
-        self.contentView.addSubview(self.separatorView)
+        contentView.addSubview(unreadView)
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(usernameLabel)
+        contentView.addSubview(lastMessageLabel)
+        contentView.addSubview(lastMessageDateLabel)
+        contentView.addSubview(separatorView)
 
         for guide in guides {
-            self.contentView.addLayoutGuide(guide)
+            contentView.addLayoutGuide(guide)
         }
 
-        self.contentView.addLayoutGuide(self.textGuide)
+        contentView.addLayoutGuide(textGuide)
 
         let margin: CGFloat = 15.0
 
-        self.guides[0].left(to: contentView, offset: margin)
-        self.guides[0].centerY(to: contentView)
+        guides[0].left(to: contentView, offset: margin)
+        guides[0].centerY(to: contentView)
 
-        self.guides[1].leftToRight(of: self.guides[0], offset: margin)
-        self.guides[1].centerY(to: contentView)
+        guides[1].leftToRight(of: guides[0], offset: margin)
+        guides[1].centerY(to: contentView)
 
-        self.guides[2].top(to: self.guides[1])
-        self.guides[2].leftToRight(of: self.guides[1], offset: margin)
-        self.guides[2].right(to: contentView, offset: 0)
+        guides[2].top(to: guides[1])
+        guides[2].leftToRight(of: guides[1], offset: margin)
+        guides[2].right(to: contentView, offset: 0)
 
-        self.avatarImageView.size(CGSize(width: 44, height: 44))
-        self.avatarImageView.centerY(to: self.guides[0])
-        self.avatarImageView.left(to: self.guides[0])
-        self.avatarImageView.right(to: self.guides[0])
+        avatarImageView.size(CGSize(width: 44, height: 44))
+        avatarImageView.centerY(to: guides[0])
+        avatarImageView.left(to: guides[0])
+        avatarImageView.right(to: guides[0])
 
-        self.usernameLabel.top(to: self.guides[1])
-        self.usernameLabel.left(to: self.guides[1])
-        self.usernameLabel.right(to: self.guides[1])
+        usernameLabel.top(to: guides[1])
+        usernameLabel.left(to: guides[1])
+        usernameLabel.right(to: guides[1])
 
-        self.textGuide.topToBottom(of: self.usernameLabel)
-        self.textGuide.left(to: self.guides[1])
-        self.textGuide.right(to: self.guides[1])
+        textGuide.topToBottom(of: usernameLabel)
+        textGuide.left(to: guides[1])
+        textGuide.right(to: guides[1])
 
-        self.lastMessageLabel.topToBottom(of: self.textGuide)
-        self.lastMessageLabel.left(to: self.guides[1])
-        self.lastMessageLabel.right(to: self.guides[1])
-        self.lastMessageLabel.bottom(to: self.guides[1])
+        lastMessageLabel.topToBottom(of: textGuide)
+        lastMessageLabel.left(to: guides[1])
+        lastMessageLabel.right(to: guides[1])
+        lastMessageLabel.bottom(to: guides[1])
 
-        self.lastMessageDateLabel.top(to: self.contentView, offset: 10)
-        self.lastMessageDateLabel.left(to: self.guides[2])
-        self.lastMessageDateLabel.right(to: self.guides[2])
+        lastMessageDateLabel.top(to: contentView, offset: 10)
+        lastMessageDateLabel.left(to: guides[2])
+        lastMessageDateLabel.right(to: guides[2])
 
-        self.unreadView.topToBottom(of: self.lastMessageDateLabel, offset: 12)
-        self.unreadView.right(to: self.guides[2])
-        self.unreadView.height(24)
-        self.unreadView.width(24, relation: .equalOrGreater)
+        unreadView.topToBottom(of: lastMessageDateLabel, offset: 12)
+        unreadView.right(to: guides[2])
+        unreadView.height(24)
+        unreadView.width(24, relation: .equalOrGreater)
 
-        self.separatorView.left(to: self.guides[1])
-        self.separatorView.right(to: self)
-        self.separatorView.height(Theme.borderHeight)
-        self.separatorView.bottom(to: self.contentView)
+        separatorView.left(to: guides[1])
+        separatorView.right(to: self)
+        separatorView.height(Theme.borderHeight)
+        separatorView.bottom(to: contentView)
     }
 
     required init?(coder _: NSCoder) {
@@ -249,8 +249,8 @@ class ChatCell: UITableViewCell {
     }
 
     func updateContact(_ contact: TokenUser) {
-        self.usernameLabel.text = !contact.name.isEmpty ? contact.name : contact.displayUsername
-        self.thread?.cachedContactIdentifier = self.usernameLabel.text
+        usernameLabel.text = !contact.name.isEmpty ? contact.name : contact.displayUsername
+        thread?.cachedContactIdentifier = usernameLabel.text
 
         AvatarManager.shared.avatar(for: contact.avatarPath) { image, path in
             if contact.avatarPath == path {

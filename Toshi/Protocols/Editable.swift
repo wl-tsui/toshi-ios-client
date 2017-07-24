@@ -32,8 +32,8 @@ protocol Editable: class {
 extension Editable where Self: UIViewController {
 
     func registerForKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: self.keyboardWillShowSelector, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: self.keyboardWillHideSelector, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: keyboardWillShowSelector, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: keyboardWillHideSelector, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     func unregisterFromKeyboardNotifications() {
@@ -42,10 +42,10 @@ extension Editable where Self: UIViewController {
     }
 
     func keyboardWillShow(_ notification: NSNotification) {
-        self.scrollView.addBottomInsets(from: notification)
+        scrollView.addBottomInsets(from: notification)
     }
 
     func keyboardWillHide(_ notification: NSNotification) {
-        self.scrollView.removeBottomInsets(from: notification)
+        scrollView.removeBottomInsets(from: notification)
     }
 }

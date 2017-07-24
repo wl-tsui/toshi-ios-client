@@ -71,7 +71,7 @@ open class SofaWrapper: SofaWrapperProtocol {
     open var content: String = ""
 
     open var json: [String: Any] {
-        let sofaBody = self.content.replacingOccurrences(of: self.type.rawValue, with: "")
+        let sofaBody = content.replacingOccurrences(of: type.rawValue, with: "")
         let data = sofaBody.data(using: .utf8)!
 
         guard let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []) else { return [String: Any]() }
@@ -107,7 +107,7 @@ open class SofaWrapper: SofaWrapperProtocol {
         guard let data = try? JSONSerialization.data(withJSONObject: json, options: []) else { fatalError() }
         guard let jsonString = String(data: data, encoding: .utf8) else { fatalError() }
 
-        self.content = self.type.rawValue + jsonString
+        content = type.rawValue + jsonString
     }
 }
 
@@ -142,10 +142,10 @@ open class SofaMessage: SofaWrapper {
         open var subcontrols: [Button] = []
 
         public init(json: [String: Any]) {
-            self.type = ControlType(rawValue: json["type"] as! String)!
-            self._label = json["label"] as! String
+            type = ControlType(rawValue: json["type"] as! String)!
+            _label = json["label"] as! String
 
-            switch self.type {
+            switch type {
             case .button:
                 if let value = json["value"] {
                     self.value = value
@@ -155,7 +155,7 @@ open class SofaMessage: SofaWrapper {
                 }
             case .group:
                 let controls = json["controls"] as! [[String: Any]]
-                self.subcontrols = controls.map { (control) -> Button in
+                subcontrols = controls.map { (control) -> Button in
                     return Button(json: control)
                 }
             }
@@ -288,7 +288,7 @@ open class SofaPaymentRequest: SofaWrapper {
     }
 
     public var body: String {
-        guard self.content.hasPrefix(self.type.rawValue) else {
+        guard content.hasPrefix(type.rawValue) else {
             fatalError("Creating SofaMessage with invalid type!")
         }
 
@@ -310,7 +310,7 @@ open class SofaPaymentRequest: SofaWrapper {
     }
 
     public var destinationAddress: String? {
-        return (self.json["destinationAddress"] as? String)
+        return (json["destinationAddress"] as? String)
     }
 }
 

@@ -120,8 +120,8 @@ class RateUserController: ModalPresentable {
 
     func tap(_: UITapGestureRecognizer) {
 
-        if self.inputField.internalTextView.isFirstResponder {
-            self.inputField.internalTextView.resignFirstResponder()
+        if inputField.internalTextView.isFirstResponder {
+            inputField.internalTextView.resignFirstResponder()
         } else {
             dismiss(animated: true)
         }
@@ -130,14 +130,14 @@ class RateUserController: ModalPresentable {
     func press(_ gestureRecognizer: UITapGestureRecognizer) {
 
         let locationInView = gestureRecognizer.location(in: gestureRecognizer.view)
-        let margin = (RateUserController.contentWidth - self.ratingView.frame.width) / 2
+        let margin = (RateUserController.contentWidth - ratingView.frame.width) / 2
 
         if locationInView.x < margin {
-            self.rating = 0
+            rating = 0
         } else if locationInView.x > RateUserController.contentWidth - margin {
-            self.rating = self.ratingView.numberOfStars
+            rating = ratingView.numberOfStars
         } else {
-            let oneStarWidth = self.ratingView.frame.width / CGFloat(self.ratingView.numberOfStars)
+            let oneStarWidth = ratingView.frame.width / CGFloat(ratingView.numberOfStars)
             self.rating = Int(round((locationInView.x - margin) / oneStarWidth))
         }
     }
@@ -186,8 +186,8 @@ class RateUserController: ModalPresentable {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.modalPresentationStyle = .custom
-        self.transitioningDelegate = self
+        modalPresentationStyle = .custom
+        transitioningDelegate = self
 
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
@@ -199,35 +199,35 @@ class RateUserController: ModalPresentable {
     }
 
     func cancel(_: ActionButton) {
-        self.inputField.internalTextView.resignFirstResponder()
+        inputField.internalTextView.resignFirstResponder()
         dismiss(animated: true)
     }
 
     func submit(_: ActionButton) {
-        self.delegate?.didRate(self.user, rating: Int(self.rating), review: self.review)
+        delegate?.didRate(user, rating: Int(rating), review: review)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(self.background)
-        self.view.addSubview(self.contentView)
+        view.addSubview(background)
+        view.addSubview(contentView)
 
-        self.contentView.addSubview(self.reviewContainer)
-        self.reviewContainer.addSubview(self.titleLabel)
-        self.reviewContainer.addSubview(self.textLabel)
-        self.reviewContainer.addSubview(self.ratingView)
+        contentView.addSubview(reviewContainer)
+        reviewContainer.addSubview(titleLabel)
+        reviewContainer.addSubview(textLabel)
+        reviewContainer.addSubview(ratingView)
 
-        self.contentView.addSubview(self.inputField)
-        self.contentView.addSubview(self.dividers[0])
-        self.contentView.addSubview(self.cancelButton)
-        self.contentView.addSubview(self.dividers[1])
-        self.contentView.addSubview(self.submitButton)
+        contentView.addSubview(inputField)
+        contentView.addSubview(dividers[0])
+        contentView.addSubview(cancelButton)
+        contentView.addSubview(dividers[1])
+        contentView.addSubview(submitButton)
 
-        self.contentView.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.7)
+        contentView.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.7)
 
-        self.dividers[0].backgroundColor = Theme.greyTextColor
-        self.dividers[1].backgroundColor = Theme.greyTextColor
+        dividers[0].backgroundColor = Theme.greyTextColor
+        dividers[1].backgroundColor = Theme.greyTextColor
 
         NSLayoutConstraint.activate([
             self.background.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -280,28 +280,28 @@ class RateUserController: ModalPresentable {
             self.submitButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
         ])
 
-        self.background.addGestureRecognizer(self.tapGesture)
-        self.reviewContainer.addGestureRecognizer(self.pressGesture)
+        background.addGestureRecognizer(tapGesture)
+        reviewContainer.addGestureRecognizer(pressGesture)
     }
 
     fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
         let info = KeyboardInfo(notification.userInfo)
-        self.keyboardHeight = info.endFrame.height
+        keyboardHeight = info.endFrame.height
     }
 
     fileprivate dynamic func keyboardWillHide(_: Notification) {
-        self.keyboardHeight = 0
+        keyboardHeight = 0
     }
 }
 
 extension RateUserController: HPGrowingTextViewDelegate {
 
     func growingTextView(_ textView: HPGrowingTextView!, willChangeHeight _: Float) {
-        self.inputHeight = textView.frame.height
+        inputHeight = textView.frame.height
     }
 
     func growingTextViewDidChange(_ textView: HPGrowingTextView!) {
-        self.inputHeight = textView.frame.height
-        self.review = textView.text
+        inputHeight = textView.frame.height
+        review = textView.text
     }
 }

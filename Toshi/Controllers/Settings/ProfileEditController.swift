@@ -25,23 +25,23 @@ open class ProfileEditController: OverlayController, Editable {
     fileprivate static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
 
     var scrollView: UIScrollView {
-        return self.tableView
+        return tableView
     }
 
     var keyboardWillShowSelector: Selector {
-        return #selector(self.keyboardShownNotificationReceived(_:))
+        return #selector(keyboardShownNotificationReceived(_:))
     }
 
     var keyboardWillHideSelector: Selector {
-        return #selector(self.keyboardShownNotificationReceived(_:))
+        return #selector(keyboardShownNotificationReceived(_:))
     }
 
     @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
-        self.keyboardWillShow(notification)
+        keyboardWillShow(notification)
     }
 
     @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
-        self.keyboardWillHide(notification)
+        keyboardWillHide(notification)
     }
 
     fileprivate var menuSheetController: MenuSheetController?
@@ -73,7 +73,7 @@ open class ProfileEditController: OverlayController, Editable {
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let tabBarHeight:CGFloat = 49.0
+        let tabBarHeight: CGFloat = 49.0
         view.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight, right: 0.0)
         view.backgroundColor = UIColor.clear
         view.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight, right: 0.0)
@@ -96,8 +96,8 @@ open class ProfileEditController: OverlayController, Editable {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = Localized("Edit profile")
-        self.view.backgroundColor = Theme.navigationBarColor
+        title = Localized("Edit profile")
+        view.backgroundColor = Theme.navigationBarColor
         self.addSubviewsAndConstraints()
 
         guard let user = TokenUser.current else { return }
@@ -109,24 +109,24 @@ open class ProfileEditController: OverlayController, Editable {
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapView))
-        self.view.addGestureRecognizer(tapGesture)
+        view.addGestureRecognizer(tapGesture)
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
-        self.navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: Theme.bold(size: 17.0),
-                                                                       NSForegroundColorAttributeName: Theme.tintColor], for: .normal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: Theme.bold(size: 17.0),
+                                                                   NSForegroundColorAttributeName: Theme.tintColor], for: .normal)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.registerForKeyboardNotifications()
+        registerForKeyboardNotifications()
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        self.unregisterFromKeyboardNotifications()
+        unregisterFromKeyboardNotifications()
     }
 
     fileprivate lazy var headerView: UIView = {
@@ -161,34 +161,34 @@ open class ProfileEditController: OverlayController, Editable {
     }()
 
     func addSubviewsAndConstraints() {
-        let height = self.headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize).height
+        let height = headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize).height
 
-        var headerFrame = self.headerView.frame
+        var headerFrame = headerView.frame
         headerFrame.size.height = height
-        self.headerView.frame = headerFrame
+        headerView.frame = headerFrame
 
-        self.tableView.tableHeaderView = self.headerView
+        tableView.tableHeaderView = headerView
 
-        self.view.addSubview(self.tableView)
+        view.addSubview(tableView)
 
-        self.view.addSubview(self.activityIndicator)
+        view.addSubview(self.activityIndicator)
 
         self.activityIndicator.set(height: 50.0)
         self.activityIndicator.set(width: 50.0)
-        self.activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        self.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
 
-        self.tableView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
-        self.tableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.tableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
     func updateAvatar() {
-        self.menuSheetController = MenuSheetController()
-        self.menuSheetController?.dismissesByOutsideTap = true
-        self.menuSheetController?.hasSwipeGesture = true
-        self.menuSheetController?.maxHeight = 445 - MenuSheetButtonItemViewHeight
+        menuSheetController = MenuSheetController()
+        menuSheetController?.dismissesByOutsideTap = true
+        menuSheetController?.hasSwipeGesture = true
+        menuSheetController?.maxHeight = 445 - MenuSheetButtonItemViewHeight
         var itemViews = [UIView]()
 
         let carouselItem = AttachmentCarouselItemView(camera: Camera.cameraAvailable(), selfPortrait: false, forProfilePhoto: true, assetType: MediaAssetPhotoType)!
@@ -226,10 +226,10 @@ open class ProfileEditController: OverlayController, Editable {
         })!
 
         itemViews.append(cancelItem)
-        self.menuSheetController?.setItemViews(itemViews)
+        menuSheetController?.setItemViews(itemViews)
         carouselItem.remainingHeight = MenuSheetButtonItemViewHeight * CGFloat(itemViews.count - 1)
 
-        self.menuSheetController?.present(in: self, sourceView: self.view, animated: true)
+        menuSheetController?.present(in: self, sourceView: view, animated: true)
     }
 
     private func displayMediaPicker(forFile _: Bool, fromFileMenu _: Bool) {
@@ -278,7 +278,7 @@ open class ProfileEditController: OverlayController, Editable {
     func changeAvatar(to avatar: UIImage?) {
         if let avatar = avatar as UIImage? {
             let scaledImage = avatar.resized(toHeight: 320)
-            self.avatarImageView.image = scaledImage
+            avatarImageView.image = scaledImage
         }
     }
 
@@ -333,7 +333,7 @@ open class ProfileEditController: OverlayController, Editable {
     }
 
     func cancelAndDismiss() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     func saveAndDismiss() {
@@ -346,7 +346,7 @@ open class ProfileEditController: OverlayController, Editable {
         var isPublic = false
 
         // we use flatmap here to map nested array into one
-        let editedItems = self.editingSections.flatMap { section in
+        let editedItems = editingSections.flatMap { section in
             return section.items
         }
 
@@ -369,16 +369,16 @@ open class ProfileEditController: OverlayController, Editable {
             }
         }
 
-        self.view.endEditing(true)
-        
-        if self.validateUserName(username) == false {
+        view.endEditing(true)
+
+        if validateUserName(username) == false {
             let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
             Navigator.presentModally(alert)
 
             return
         }
 
-        self.activityIndicator.startAnimating()
+        activityIndicator.startAnimating()
 
         let userDict: [String: Any] = [
             TokenUser.Constants.address: user.address,
@@ -393,7 +393,7 @@ open class ProfileEditController: OverlayController, Editable {
             TokenUser.Constants.verified: user.verified,
         ]
 
-        self.idAPIClient.updateUser(userDict) { userUpdated, message in
+        idAPIClient.updateUser(userDict) { userUpdated, message in
 
             let cachedAvatar = AvatarManager.shared.cachedAvatar(for: user.avatarPath)
 
@@ -433,19 +433,19 @@ open class ProfileEditController: OverlayController, Editable {
         }
 
         if isValid {
-            if  let validationRegex = regex {
+            if let validationRegex = regex {
                 isValid = validationRegex.numberOfMatches(in: username, options: none, range: range) >= 1
             }
         }
-        
+
         return isValid
     }
 
     fileprivate func completeEdit(success: Bool, message: String?) {
-        self.activityIndicator.stopAnimating()
+        activityIndicator.stopAnimating()
 
         if success == true {
-            self.navigationController?.popViewController(animated: true)
+            navigationController?.popViewController(animated: true)
         } else {
             let alert = UIAlertController.dismissableAlert(title: "Error", message: message ?? "Something went wrong")
             Navigator.presentModally(alert)
@@ -454,7 +454,7 @@ open class ProfileEditController: OverlayController, Editable {
 
     @objc private func didTapView(sender: UITapGestureRecognizer) {
         if sender.state == .recognized {
-            self.becomeFirstResponder()
+            becomeFirstResponder()
         }
     }
 
@@ -476,11 +476,11 @@ extension ProfileEditController: ImagePickerDelegate {
     public func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
         guard let image = images.first else { return }
 
-        self.changeAvatar(to: image)
+        changeAvatar(to: image)
     }
 
     public func cancelButtonDidPress(_: ImagePickerController) {
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
 }
 
@@ -493,32 +493,32 @@ extension ProfileEditController: UITableViewDelegate {
 
 extension ProfileEditController: UITableViewDataSource {
 
-    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    public func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 1 ? "Profile Visibility" : nil
     }
-    
-    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        let editingSection = self.editingSections[section]
-        
+
+    public func tableView(_: UITableView, titleForFooterInSection section: Int) -> String? {
+        let editingSection = editingSections[section]
+
         return editingSection.footerTitle
     }
-    
-    public func numberOfSections(in tableView: UITableView) -> Int {
-        return self.editingSections.count
+
+    public func numberOfSections(in _: UITableView) -> Int {
+        return editingSections.count
     }
-    
+
     public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let editingSection = self.editingSections[section]
-        
+        let editingSection = editingSections[section]
+
         return editingSection.items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(InputCell.self, for: indexPath)
-        
-        let section = self.editingSections[indexPath.section]
+
+        let section = editingSections[indexPath.section]
         let item = section.items[indexPath.row]
-        
+
         let configurator = ProfileEditConfigurator(item: item)
         configurator.configure(cell: cell)
 

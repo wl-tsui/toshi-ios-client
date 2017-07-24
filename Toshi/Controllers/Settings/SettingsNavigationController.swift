@@ -28,9 +28,9 @@ public class SettingsNavigationController: UINavigationController {
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        self.tabBarItem = UITabBarItem(title: "Me", image: #imageLiteral(resourceName: "me"), tag: 0)
-        self.tabBarItem.selectedImage = #imageLiteral(resourceName: "me-selected")
-        self.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
+        tabBarItem = UITabBarItem(title: "Me", image: #imageLiteral(resourceName: "me"), tag: 0)
+        tabBarItem.selectedImage = #imageLiteral(resourceName: "me-selected")
+        tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
     public required init?(coder _: NSCoder) {

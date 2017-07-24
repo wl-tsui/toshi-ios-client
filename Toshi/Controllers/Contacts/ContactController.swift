@@ -169,8 +169,8 @@ public class ContactController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.edgesForExtendedLayout = .bottom
-        self.title = "Contact"
+        edgesForExtendedLayout = .bottom
+        title = "Contact"
     }
 
     public required init?(coder _: NSCoder) {
@@ -181,36 +181,36 @@ public class ContactController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
 
-        self.view = scrollView
+        view = scrollView
     }
 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setupActivityIndicator()
+        setupActivityIndicator()
 
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more"), style: .plain, target: self, action: #selector(self.displayActions))
-        self.view.backgroundColor = Theme.settingsBackgroundColor
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more"), style: .plain, target: self, action: #selector(displayActions))
+        view.backgroundColor = Theme.settingsBackgroundColor
 
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
 
-        self.reputationView.setScore(.zero)
-        self.updateReputation()
+        reputationView.setScore(.zero)
+        updateReputation()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if self.contact.name.isEmpty {
-            self.usernameLabel.text = nil
-            self.nameLabel.text = self.contact.displayUsername
+        if contact.name.isEmpty {
+            usernameLabel.text = nil
+            nameLabel.text = contact.displayUsername
         } else {
-            self.nameLabel.text = self.contact.name
-            self.usernameLabel.text = self.contact.displayUsername
+            nameLabel.text = contact.name
+            usernameLabel.text = contact.displayUsername
         }
 
-        self.aboutContentLabel.text = self.contact.about
-        self.locationContentLabel.text = self.contact.location
+        aboutContentLabel.text = contact.about
+        locationContentLabel.text = contact.location
 
         if let path = self.contact.avatarPath as String? {
             AvatarManager.shared.avatar(for: path) { image, _ in
@@ -220,7 +220,7 @@ public class ContactController: UIViewController {
             }
         }
 
-        self.updateButton()
+        updateButton()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -231,31 +231,31 @@ public class ContactController: UIViewController {
         super.viewDidLayoutSubviews()
 
         guard let scrollView = self.view as? UIScrollView else { return }
-        scrollView.contentSize.height = self.bottomSeparatorView.frame.maxY
+        scrollView.contentSize.height = bottomSeparatorView.frame.maxY
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.reputationBackgroundView)
-        self.view.addSubview(self.contentBackgroundView)
+        view.addSubview(reputationBackgroundView)
+        view.addSubview(contentBackgroundView)
 
-        self.view.addSubview(self.avatarImageView)
-        self.view.addSubview(self.nameLabel)
-        self.view.addSubview(self.usernameLabel)
-        self.view.addSubview(self.aboutContentLabel)
-        self.view.addSubview(self.locationContentLabel)
+        view.addSubview(avatarImageView)
+        view.addSubview(nameLabel)
+        view.addSubview(usernameLabel)
+        view.addSubview(aboutContentLabel)
+        view.addSubview(locationContentLabel)
 
-        self.view.addSubview(self.actionsSeparatorView)
-        self.view.addSubview(self.actionView)
+        view.addSubview(actionsSeparatorView)
+        view.addSubview(actionView)
 
-        self.view.addSubview(self.topSeparatorView)
+        view.addSubview(topSeparatorView)
 
-        self.view.addSubview(self.reputationTitle)
+        view.addSubview(reputationTitle)
 
-        self.view.addSubview(self.reputationSeparatorView)
+        view.addSubview(reputationSeparatorView)
 
-        self.view.addSubview(self.reputationView)
-        self.view.addSubview(self.rateThisUserButton)
-        self.view.addSubview(self.bottomSeparatorView)
+        view.addSubview(reputationView)
+        view.addSubview(rateThisUserButton)
+        view.addSubview(bottomSeparatorView)
 
         let height: CGFloat = 26.0
         let marginHorizontal: CGFloat = 16.0
@@ -263,97 +263,97 @@ public class ContactController: UIViewController {
         let itemSpacing: CGFloat = 8.0
         let avatarSize: CGFloat = 60.0
 
-        self.avatarImageView.set(height: avatarSize)
-        self.avatarImageView.set(width: avatarSize)
-        self.avatarImageView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 28).isActive = true
-        self.avatarImageView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
+        avatarImageView.set(height: avatarSize)
+        avatarImageView.set(width: avatarSize)
+        avatarImageView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 28).isActive = true
+        avatarImageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: marginHorizontal).isActive = true
 
-        self.nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        self.nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22).isActive = true
-        self.nameLabel.topAnchor.constraint(equalTo: self.avatarImageView.topAnchor).isActive = true
-        self.nameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: marginHorizontal).isActive = true
-        self.nameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        nameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        nameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: marginHorizontal).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16).isActive = true
-        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: itemSpacing).isActive = true
-        self.usernameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: marginHorizontal).isActive = true
-        self.usernameLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        usernameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 16).isActive = true
+        usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: itemSpacing).isActive = true
+        usernameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: marginHorizontal).isActive = true
+        usernameLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.aboutContentLabel.topAnchor.constraint(equalTo: self.avatarImageView.bottomAnchor, constant: marginVertical).isActive = true
-        self.aboutContentLabel.leftAnchor.constraint(equalTo: self.avatarImageView.leftAnchor).isActive = true
-        self.aboutContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        aboutContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        aboutContentLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: marginVertical).isActive = true
+        aboutContentLabel.leftAnchor.constraint(equalTo: avatarImageView.leftAnchor).isActive = true
+        aboutContentLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.locationContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
-        self.locationContentLabel.topAnchor.constraint(equalTo: self.aboutContentLabel.bottomAnchor, constant: itemSpacing).isActive = true
-        self.locationContentLabel.leftAnchor.constraint(equalTo: self.avatarImageView.leftAnchor).isActive = true
-        self.locationContentLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.locationContentLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -marginVertical).isActive = true
+        locationContentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: height).isActive = true
+        locationContentLabel.topAnchor.constraint(equalTo: aboutContentLabel.bottomAnchor, constant: itemSpacing).isActive = true
+        locationContentLabel.leftAnchor.constraint(equalTo: avatarImageView.leftAnchor).isActive = true
+        locationContentLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        locationContentLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -marginVertical).isActive = true
 
-        self.actionsSeparatorView.topAnchor.constraint(equalTo: self.locationContentLabel.bottomAnchor, constant: marginVertical).isActive = true
-        self.actionsSeparatorView.leftAnchor.constraint(equalTo: self.avatarImageView.leftAnchor).isActive = true
-        self.actionsSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.actionsSeparatorView.bottomAnchor.constraint(equalTo: self.actionView.topAnchor, constant: -marginVertical).isActive = true
+        actionsSeparatorView.topAnchor.constraint(equalTo: locationContentLabel.bottomAnchor, constant: marginVertical).isActive = true
+        actionsSeparatorView.leftAnchor.constraint(equalTo: avatarImageView.leftAnchor).isActive = true
+        actionsSeparatorView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        actionsSeparatorView.bottomAnchor.constraint(equalTo: actionView.topAnchor, constant: -marginVertical).isActive = true
 
-        self.actionView.set(height: 54)
-        self.actionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.actionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        actionView.set(height: 54)
+        actionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        actionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        self.contentBackgroundView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.contentBackgroundView.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor).isActive = true
-        self.contentBackgroundView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.contentBackgroundView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.contentBackgroundView.bottomAnchor.constraint(equalTo: self.topSeparatorView.topAnchor).isActive = true
+        contentBackgroundView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        contentBackgroundView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        contentBackgroundView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        contentBackgroundView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        contentBackgroundView.bottomAnchor.constraint(equalTo: topSeparatorView.topAnchor).isActive = true
 
         // We set the view and separator width cosntraints to be the same, to force the scrollview content size to conform to the window
         // otherwise no view is requiring a width of the window, and the scrollview contentSize will shrink to the smallest
         // possible width that satisfy all other constraints.
-        self.topSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.topSeparatorView.topAnchor.constraint(equalTo: self.actionView.bottomAnchor, constant: marginVertical).isActive = true
-        self.topSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.topSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        topSeparatorView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        topSeparatorView.topAnchor.constraint(equalTo: actionView.bottomAnchor, constant: marginVertical).isActive = true
+        topSeparatorView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        topSeparatorView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        self.reputationTitle.set(height: 18)
-        self.reputationTitle.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.reputationTitle.bottomAnchor.constraint(equalTo: self.reputationSeparatorView.topAnchor, constant: -8.0).isActive = true
+        reputationTitle.set(height: 18)
+        reputationTitle.leftAnchor.constraint(equalTo: view.leftAnchor, constant: marginHorizontal).isActive = true
+        reputationTitle.bottomAnchor.constraint(equalTo: reputationSeparatorView.topAnchor, constant: -8.0).isActive = true
 
-        self.reputationSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.reputationSeparatorView.topAnchor.constraint(equalTo: self.topSeparatorView.bottomAnchor, constant: 66.0).isActive = true
-        self.reputationSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.reputationSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        reputationSeparatorView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        reputationSeparatorView.topAnchor.constraint(equalTo: topSeparatorView.bottomAnchor, constant: 66.0).isActive = true
+        reputationSeparatorView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        reputationSeparatorView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        self.reputationView.topAnchor.constraint(equalTo: self.reputationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
-        self.reputationView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: marginHorizontal).isActive = true
-        self.reputationView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -marginHorizontal).isActive = true
+        reputationView.topAnchor.constraint(equalTo: reputationSeparatorView.bottomAnchor, constant: marginVertical).isActive = true
+        reputationView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: marginHorizontal).isActive = true
+        reputationView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -marginHorizontal).isActive = true
 
-        self.rateThisUserButton.set(height: 22)
-        self.rateThisUserButton.topAnchor.constraint(equalTo: self.reputationView.bottomAnchor, constant: 30).isActive = true
-        self.rateThisUserButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        rateThisUserButton.set(height: 22)
+        rateThisUserButton.topAnchor.constraint(equalTo: reputationView.bottomAnchor, constant: 30).isActive = true
+        rateThisUserButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 
-        self.reputationBackgroundView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.reputationBackgroundView.topAnchor.constraint(equalTo: self.reputationSeparatorView.bottomAnchor).isActive = true
-        self.reputationBackgroundView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.reputationBackgroundView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.reputationBackgroundView.bottomAnchor.constraint(equalTo: self.bottomSeparatorView.topAnchor).isActive = true
+        reputationBackgroundView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        reputationBackgroundView.topAnchor.constraint(equalTo: reputationSeparatorView.bottomAnchor).isActive = true
+        reputationBackgroundView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        reputationBackgroundView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        reputationBackgroundView.bottomAnchor.constraint(equalTo: bottomSeparatorView.topAnchor).isActive = true
 
-        self.bottomSeparatorView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
-        self.bottomSeparatorView.topAnchor.constraint(equalTo: self.rateThisUserButton.bottomAnchor, constant: 20).isActive = true
-        self.bottomSeparatorView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.bottomSeparatorView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        bottomSeparatorView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        bottomSeparatorView.topAnchor.constraint(equalTo: rateThisUserButton.bottomAnchor, constant: 20).isActive = true
+        bottomSeparatorView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        bottomSeparatorView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
 
     func updateButton() {
-        let isContactAdded = Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey)
+        let isContactAdded = Yap.sharedInstance.containsObject(for: contact.address, in: TokenUser.favoritesCollectionKey)
         let fontColor = isContactAdded ? Theme.tintColor : Theme.lightGreyTextColor
         let title = isContactAdded ? "Favorited" : "Favorite"
 
-        self.actionView.addFavoriteButton.titleLabel.text = title
-        self.actionView.addFavoriteButton.tintColor = fontColor
+        actionView.addFavoriteButton.titleLabel.text = title
+        actionView.addFavoriteButton.tintColor = fontColor
     }
 
     @objc private func didTapMessageContactButton() {
         // create thread if needed
-        ChatsInteractor.getOrCreateThread(for: self.contact.address)
+        ChatsInteractor.getOrCreateThread(for: contact.address)
 
         DispatchQueue.main.async {
             (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.contact.address)
@@ -365,14 +365,14 @@ public class ContactController: UIViewController {
     }
 
     @objc private func didTapAddContactButton() {
-        if Yap.sharedInstance.containsObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey) {
-            Yap.sharedInstance.removeObject(for: self.contact.address, in: TokenUser.favoritesCollectionKey)
+        if Yap.sharedInstance.containsObject(for: contact.address, in: TokenUser.favoritesCollectionKey) {
+            Yap.sharedInstance.removeObject(for: contact.address, in: TokenUser.favoritesCollectionKey)
 
-            self.updateButton()
+            updateButton()
         } else {
-            Yap.sharedInstance.insert(object: self.contact.JSONData, for: self.contact.address, in: TokenUser.favoritesCollectionKey)
+            Yap.sharedInstance.insert(object: contact.JSONData, for: contact.address, in: TokenUser.favoritesCollectionKey)
             SoundPlayer.playSound(type: .addedContact)
-            self.updateButton()
+            updateButton()
         }
     }
 
@@ -384,7 +384,7 @@ public class ContactController: UIViewController {
     }
 
     func didTapRateUser() {
-        self.presentUserRatingPrompt(contact: self.contact)
+        presentUserRatingPrompt(contact: contact)
     }
 
     private func presentUserRatingPrompt(contact: TokenUser) {
@@ -397,9 +397,9 @@ public class ContactController: UIViewController {
     @objc private func displayActions() {
         let actions = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let blockingManager = OWSBlockingManager.shared()
-        let address = self.contact.address
+        let address = contact.address
 
-        if self.contact.isBlocked {
+        if contact.isBlocked {
             actions.addAction(UIAlertAction(title: "Unblock", style: .destructive, handler: { _ in
                 blockingManager.removeBlockedPhoneNumber(address)
             }))
@@ -422,7 +422,7 @@ public class ContactController: UIViewController {
     }
 
     fileprivate func updateReputation() {
-        RatingsClient.shared.scores(for: self.contact.address) { ratingScore in
+        RatingsClient.shared.scores(for: contact.address) { ratingScore in
             self.reputationView.setScore(ratingScore)
         }
     }
@@ -436,7 +436,7 @@ extension ContactController: ActivityIndicating {
 
 extension ContactController: RateUserControllerDelegate {
     func didRate(_ user: TokenUser, rating: Int, review: String) {
-        self.dismiss(animated: true) {
+        dismiss(animated: true) {
             RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) {
                 self.updateReputation()
             }
@@ -462,7 +462,7 @@ extension ContactController: PaymentSendControllerDelegate {
             "value": value.toHexString,
         ]
 
-        self.showActivityIndicator()
+        showActivityIndicator()
 
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { transaction, error in
 

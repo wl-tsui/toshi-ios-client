@@ -35,8 +35,8 @@ class Footnote: UIView {
     convenience init(text: String) {
         self.init(withAutoLayout: true)
 
-        self.addSubview(self.icon)
-        self.addSubview(self.textLabel)
+        addSubview(icon)
+        addSubview(textLabel)
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 2
@@ -48,9 +48,9 @@ class Footnote: UIView {
             NSParagraphStyleAttributeName: paragraphStyle,
         ]
 
-        self.textLabel.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+        textLabel.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
 
-        let imageSize = self.icon.image?.size ?? .zero
+        let imageSize = icon.image?.size ?? .zero
 
         NSLayoutConstraint.activate([
             self.icon.topAnchor.constraint(equalTo: self.topAnchor, constant: 1),

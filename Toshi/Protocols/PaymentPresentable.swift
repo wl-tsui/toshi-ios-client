@@ -70,7 +70,7 @@ extension PaymentPresentable where Self: UIViewController {
     func presentPaymentError(error: Error?, json: [String: Any]) {
         let message = json["message"] as? String
         let alert = UIAlertController(title: "Error completing transaction", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction.init(title: "OK", style: .default) { _ in
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.paymentFailed(with: error, result: json)
         }
 
@@ -80,8 +80,8 @@ extension PaymentPresentable where Self: UIViewController {
     }
 
     func presentSuccessAlert(with actionBlock: ((UIAlertAction) -> Swift.Void)?) {
-        let alertController = UIAlertController.init(title: "Done", message: "Payment succeeded", preferredStyle: .alert)
-        let action = UIAlertAction.init(title: "OK", style: .default) { action in
+        let alertController = UIAlertController(title: "Done", message: "Payment succeeded", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { action in
             actionBlock?(action)
         }
 
@@ -90,5 +90,5 @@ extension PaymentPresentable where Self: UIViewController {
         Navigator.presentModally(alertController)
     }
 
-    func setStatusBarHidden(_ bool: Bool) { }
+    func setStatusBarHidden(_: Bool) {}
 }

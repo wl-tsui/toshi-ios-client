@@ -39,19 +39,19 @@ class AddMoneyHeader: UIView {
     convenience init(title: String, subtitle: String) {
         self.init()
 
-        self.titleLabel.text = title
-        addSubview(self.titleLabel)
+        titleLabel.text = title
+        addSubview(titleLabel)
 
-        self.subtitleLabel.text = subtitle
-        addSubview(self.subtitleLabel)
+        subtitleLabel.text = subtitle
+        addSubview(subtitleLabel)
 
-        self.titleLabel.top(to: self, offset: 15)
-        self.titleLabel.left(to: self, offset: 15)
-        self.titleLabel.right(to: self, offset: -15)
+        titleLabel.top(to: self, offset: 15)
+        titleLabel.left(to: self, offset: 15)
+        titleLabel.right(to: self, offset: -15)
 
-        self.subtitleLabel.topToBottom(of: self.titleLabel, offset: 5)
-        self.subtitleLabel.left(to: self, offset: 15)
-        self.subtitleLabel.right(to: self, offset: -15)
-        self.subtitleLabel.bottom(to: self)
+        subtitleLabel.topToBottom(of: titleLabel, offset: 5)
+        subtitleLabel.left(to: self, offset: 15)
+        subtitleLabel.right(to: self, offset: -15)
+        subtitleLabel.bottom(to: self)
     }
 }

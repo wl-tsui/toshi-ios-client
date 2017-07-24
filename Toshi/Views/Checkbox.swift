@@ -75,8 +75,8 @@ class Checkbox: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.addSubview(self.unCheckedView)
-        self.addSubview(self.checkedView)
+        addSubview(unCheckedView)
+        addSubview(checkedView)
 
         NSLayoutConstraint.activate([
             self.unCheckedView.topAnchor.constraint(equalTo: self.topAnchor),

@@ -18,40 +18,40 @@ import SweetFoundation
 import UIKit
 
 class BrowseSearchResultView: UITableView {
-    
+
     var searchResults: [TokenUser] = [] {
         didSet {
             reloadData()
         }
     }
-    
+
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
-        
+
         backgroundColor = Theme.viewBackgroundColor
-        
+
         dataSource = self
         delegate = self
         separatorStyle = .none
         alwaysBounceVertical = true
         showsVerticalScrollIndicator = true
         contentInset.bottom = 60
-        
+
         register(SearchResultCell.self)
     }
-    
+
     override var canBecomeFirstResponder: Bool {
         return true
     }
 }
 
 extension BrowseSearchResultView: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let item = searchResults.element(at: indexPath.row) {
             Navigator.push(ContactController(contact: item))
         }
@@ -59,27 +59,27 @@ extension BrowseSearchResultView: UITableViewDelegate {
 }
 
 extension BrowseSearchResultView: UITableViewDataSource {
-    
+
     func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return searchResults.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(SearchResultCell.self, for: indexPath)
-        
+
         if let item = searchResults.element(at: indexPath.row) {
             cell.usernameLabel.text = item.isApp ? item.category : item.username
             cell.nameLabel.text = item.name
-            
+
             if let url = URL(string: item.avatarPath) {
                 cell.avatarImageView.setImage(from: AsyncImageURL(url: url))
             }
         }
-        
+
         return cell
     }
 }

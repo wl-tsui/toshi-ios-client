@@ -242,14 +242,14 @@ final class ChatController: OverlayController {
 
         addSubviewsAndConstraints()
 
-        viewModel.fetchAndUpdateBalance(completion: { balance, error in
+        viewModel.fetchAndUpdateBalance { balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             } else {
                 self.set(balance: balance)
             }
-        })
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -257,12 +257,12 @@ final class ChatController: OverlayController {
 
         isVisible = true
 
-        viewModel.reloadDraft(completion: { placeholder in
+        viewModel.reloadDraft { placeholder in
             self.textInputView.text = placeholder
-        })
+        }
 
         tabBarController?.tabBar.isHidden = true
-        
+
         if let url = viewModel.contactAvatarUrl {
             avatarImageView.setImage(from: url)
         }
@@ -292,11 +292,11 @@ final class ChatController: OverlayController {
         view.addSubview(textInputView)
 
         NSLayoutConstraint.activate([
-                self.textInputView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-                self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.textInputView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
-                self.textInputViewBottom,
-                self.textInputViewHeight,
+            self.textInputViewBottom,
+            self.textInputViewHeight,
         ])
 
         view.addSubview(controlsView)
@@ -330,7 +330,7 @@ final class ChatController: OverlayController {
         ethereumPromptView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         ethereumPromptView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 
-        self.setupActiveNetworkView(hidden: true)
+        setupActiveNetworkView(hidden: true)
 
         view.addSubview(subcontrolsView)
 
@@ -446,9 +446,9 @@ final class ChatController: OverlayController {
 
         signalMessage.paymentState = state
         signalMessage.save()
-        
+
         (tableView.cellForRow(at: indexPath) as? MessagesPaymentCell)?.setPaymentState(signalMessage.paymentState, for: message.type)
-        
+
         tableView.beginUpdates()
         tableView.endUpdates()
     }
@@ -482,10 +482,10 @@ final class ChatController: OverlayController {
 
             self.showActivityIndicator()
 
-            self.viewModel.interactor.sendPayment(in: paymentRequest.value, completion: { (success: Bool) in
+            self.viewModel.interactor.sendPayment(in: paymentRequest.value) { (success: Bool) in
                 let state: TSInteraction.PaymentState = success ? .approved : .failed
                 self.adjustToPaymentState(state, at: indexPath)
-            })
+            }
         }
     }
 
@@ -500,7 +500,7 @@ final class ChatController: OverlayController {
             let prefix = "Webview::"
             guard action.hasPrefix(prefix) else { return }
             guard let actionPath = action.components(separatedBy: prefix).last,
-                  let url = URL(string: actionPath) else { return }
+                let url = URL(string: actionPath) else { return }
 
             let sofaWebController = SOFAWebController()
             sofaWebController.load(url: url)
@@ -633,11 +633,11 @@ final class ChatController: OverlayController {
 }
 
 extension ChatController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         if viewModel.messageModels[indexPath.row].type == .image {
-            
+
             let controller = ImagesViewController(messages: viewModel.messageModels, initialIndexPath: indexPath)
             controller.transitioningDelegate = self
             controller.dismissDelegate = self
@@ -648,7 +648,7 @@ extension ChatController: UITableViewDelegate {
 }
 
 extension ChatController: UITableViewDataSource {
-    
+
     public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         guard let messages = self.viewModel.messageModels as [MessageModel]? else { return 0 }
 
@@ -656,20 +656,20 @@ extension ChatController: UITableViewDataSource {
     }
 
     public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         let message = viewModel.messageModels[indexPath.item]
         let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
-        
+
         if let cell = cell as? MessagesBasicCell {
-            
+
             if let url = viewModel.contactAvatarUrl, !message.isOutgoing {
                 cell.avatarImageView.setImage(from: url)
             }
-            
+
             cell.isOutGoing = message.isOutgoing
             cell.cornerType = cornerType(for: indexPath)
         }
-        
+
         if let cell = cell as? MessagesImageCell, message.type == .image {
             cell.messageImage = message.image
         } else if let cell = cell as? MessagesPaymentCell, (message.type == .payment) || (message.type == .paymentRequest), let signalMessage = message.signalMessage {
@@ -690,29 +690,29 @@ extension ChatController: UITableViewDataSource {
         } else if let cell = cell as? MessagesTextCell, message.type == .simple {
             cell.messageText = message.text
         }
-        
+
         return cell
     }
-    
+
     private func cornerType(for indexPath: IndexPath) -> MessageCornerType {
         guard let currentMessage = viewModel.messageModels.element(at: indexPath.row) else { return .top }
         guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else { return .top }
         guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
             return previousMessage.isOutgoing == currentMessage.isOutgoing ? .bottom : .top
         }
-        
+
         if currentMessage.isOutgoing == previousMessage.isOutgoing, currentMessage.isOutgoing == nextMessage.isOutgoing {
             return .middle
         } else if currentMessage.isOutgoing == previousMessage.isOutgoing, currentMessage.isOutgoing != nextMessage.isOutgoing {
             return .bottom
         }
-        
+
         return .top
     }
 }
 
 extension MessageModel {
-    
+
     var reuseIdentifier: String {
         switch type {
         case .simple:
@@ -727,31 +727,30 @@ extension MessageModel {
     }
 }
 
-
 extension ChatController: MessagesPaymentCellDelegate {
-    
+
     func approvePayment(for cell: MessagesPaymentCell) {
         guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
         guard let message = self.viewModel.messageModels.element(at: indexPath.row) as MessageModel? else { return }
-        
+
         adjustToPaymentState(.pendingConfirmation, at: indexPath)
-        
+
         guard let paymentRequest = message.sofaWrapper as? SofaPaymentRequest else { return }
-        
+
         showActivityIndicator()
-        
-        viewModel.interactor.sendPayment(in: paymentRequest.value, completion: { (success: Bool) in
+
+        viewModel.interactor.sendPayment(in: paymentRequest.value) { (success: Bool) in
             let state: TSInteraction.PaymentState = success ? .approved : .failed
             self.adjustToPaymentState(state, at: indexPath)
             DispatchQueue.main.asyncAfter(seconds: 2.0) {
                 self.hideActiveNetworkViewIfNeeded()
             }
-        })
+        }
     }
-    
+
     func declinePayment(for cell: MessagesPaymentCell) {
         guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
-        
+
         adjustToPaymentState(.rejected, at: indexPath)
 
         DispatchQueue.main.asyncAfter(seconds: 2.0) {
@@ -830,7 +829,7 @@ extension ChatController: ChatInputTextPanelDelegate {
     func inputTextPanel(_: ChatInputTextPanel, requestSendText text: String) {
         let wrapper = SofaMessage(content: ["body": text])
 
-        viewModel.interactor.sendMessage(sofaWrapper: wrapper) 
+        viewModel.interactor.sendMessage(sofaWrapper: wrapper)
     }
 
     func inputTextPanelRequestSendAttachment(_: ChatInputTextPanel) {
@@ -947,7 +946,7 @@ extension ChatController: PaymentSendControllerDelegate {
 }
 
 extension ChatController: PaymentRequestControllerDelegate {
-    
+
     func paymentRequestControllerDidFinish(valueInWei: NSDecimalNumber?) {
         defer {
             self.dismiss(animated: true)
@@ -956,9 +955,9 @@ extension ChatController: PaymentRequestControllerDelegate {
         guard let valueInWei = valueInWei else { return }
 
         let request: [String: Any] = [
-                "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
-                "value": valueInWei.toHexString,
-                "destinationAddress": Cereal.shared.paymentAddress,
+            "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
+            "value": valueInWei.toHexString,
+            "destinationAddress": Cereal.shared.paymentAddress,
         ]
 
         let paymentRequest = SofaPaymentRequest(content: request)
@@ -968,7 +967,7 @@ extension ChatController: PaymentRequestControllerDelegate {
 }
 
 extension ChatController: UIViewControllerTransitioningDelegate {
-    
+
     func animationController(forPresented presented: UIViewController, presenting _: UIViewController, source _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return presented is ImagesViewController ? ImagesViewControllerTransition(operation: .present) : nil
     }
@@ -1081,9 +1080,9 @@ extension ChatController: ActiveNetworkDisplaying {
     }
 
     var activeNetworkViewConstraints: [NSLayoutConstraint] {
-         return [activeNetworkView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor, constant: -1),
-                 activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                 activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)]
+        return [activeNetworkView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor, constant: -1),
+                activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
+                activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)]
     }
 
     func requestLayoutUpdate() {

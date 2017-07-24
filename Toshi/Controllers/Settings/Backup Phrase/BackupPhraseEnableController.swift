@@ -60,18 +60,18 @@ class BackupPhraseEnableController: UIViewController {
     public init() {
         super.init(nibName: nil, bundle: nil)
 
-        self.title = "Store backup phrase"
-        self.hidesBottomBarWhenPushed = true
+        title = "Store backup phrase"
+        hidesBottomBarWhenPushed = true
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.settingsBackgroundColor
 
-        self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.textLabel)
-        self.view.addSubview(self.checkboxControl)
-        self.view.addSubview(self.actionButton)
+        view.addSubview(titleLabel)
+        view.addSubview(textLabel)
+        view.addSubview(checkboxControl)
+        view.addSubview(actionButton)
 
         NSLayoutConstraint.activate([
             self.titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 40 + 64),
@@ -93,11 +93,11 @@ class BackupPhraseEnableController: UIViewController {
 
     func checked(_ checkboxControl: CheckboxControl) {
         checkboxControl.checkbox.checked = !checkboxControl.checkbox.checked
-        self.actionButton.isEnabled = checkboxControl.checkbox.checked
+        actionButton.isEnabled = checkboxControl.checkbox.checked
     }
 
     func proceed(_: ActionButton) {
         let controller = BackupPhraseCopyController()
-        self.navigationController?.pushViewController(controller, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

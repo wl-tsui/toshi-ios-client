@@ -59,7 +59,7 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var name = ""
 
     var displayUsername: String {
-        return "@\(self.username)"
+        return "@\(username)"
     }
     private(set) var username = ""
     private(set) var about = ""
@@ -71,20 +71,20 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var address = ""
     private(set) var paymentAddress = ""
     private(set) var isApp: Bool = false
-    private(set) var reputationScore: Float? = nil
-    private(set) var averageRating: Float? = nil
+    private(set) var reputationScore: Float?
+    private(set) var averageRating: Float?
 
     fileprivate static var _current: TokenUser?
     fileprivate(set) static var current: TokenUser? {
         get {
-            if self._current == nil {
-                self._current = self.retrieveCurrentUserFromStore()
+            if _current == nil {
+                _current = retrieveCurrentUserFromStore()
             }
 
-            return self._current
+            return _current
         }
         set {
-            guard self._current != newValue else { return }
+            guard _current != newValue else { return }
 
             newValue?.update()
 
@@ -92,7 +92,7 @@ public class TokenUser: NSObject, NSCoding {
                 user.save()
             }
 
-            self._current = newValue
+            _current = newValue
             NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
         }
     }
@@ -100,15 +100,15 @@ public class TokenUser: NSObject, NSCoding {
     var isBlocked: Bool {
         let blockingManager = OWSBlockingManager.shared()
 
-        return blockingManager.blockedPhoneNumbers().contains(self.address)
+        return blockingManager.blockedPhoneNumbers().contains(address)
     }
 
     var isCurrentUser: Bool {
-        return self.address == Cereal.shared.address
+        return address == Cereal.shared.address
     }
 
     public var JSONData: Data {
-        return try! JSONSerialization.data(withJSONObject: self.asDict, options: [])
+        return try! JSONSerialization.data(withJSONObject: asDict, options: [])
     }
 
     var asDict: [String: Any] {
@@ -127,11 +127,11 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     var userInfo: UserInfo {
-        return UserInfo(address: self.address, paymentAddress: self.paymentAddress, avatarPath: self.avatarPath, name: self.name, username: self.displayUsername, isLocal: true)
+        return UserInfo(address: address, paymentAddress: paymentAddress, avatarPath: avatarPath, name: name, username: displayUsername, isLocal: true)
     }
 
     public override var description: String {
-        return "<User: address: \(self.address), payment address: \(self.paymentAddress), name: \(self.name), username: \(username), avatarPath: \(self.avatarPath)>"
+        return "<User: address: \(address), payment address: \(paymentAddress), name: \(name), username: \(username), avatarPath: \(avatarPath)>"
     }
 
     static func name(from username: String) -> String {
@@ -148,9 +148,9 @@ public class TokenUser: NSObject, NSCoding {
     public init(json: [String: Any], shouldSave: Bool = true) {
         super.init()
 
-        self.update(json: json, updateAvatar: true, shouldSave: shouldSave)
+        update(json: json, updateAvatar: true, shouldSave: shouldSave)
 
-        self.setupNotifications()
+        setupNotifications()
     }
 
     public required convenience init?(coder aDecoder: NSCoder) {
@@ -161,7 +161,7 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     @objc(encodeWithCoder:) public func encode(with aCoder: NSCoder) {
-        aCoder.encode(self.JSONData, forKey: "jsonData")
+        aCoder.encode(JSONData, forKey: "jsonData")
     }
 
     func updateVerificationState(_ verified: Bool) {
@@ -169,28 +169,28 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     func update(json: [String: Any], updateAvatar _: Bool = false, shouldSave: Bool = true) {
-        self.isPublic = json[Constants.isPublic] as? Bool ?? self.isPublic
-        self.address = json[Constants.address] as! String
-        self.paymentAddress = (json[Constants.paymentAddress] as? String) ?? (json[Constants.address] as! String)
-        self.username = json[Constants.username] as! String
-        self.name = json[Constants.name] as? String ?? self.name
-        self.location = json[Constants.location] as? String ?? self.location
-        self.about = json[Constants.about] as? String ?? self.about
-        self.avatarPath = json[Constants.avatar] as? String ?? self.avatarPath
-        self.isApp = json[Constants.isApp] as? Bool ?? self.isApp
-        self.verified = json[Constants.verified] as? Bool ?? self.verified
-        self.reputationScore = json[Constants.reputationScore] as? Float ?? self.reputationScore
-        self.averageRating = json[Constants.averageRating] as? Float ?? self.averageRating
+        isPublic = json[Constants.isPublic] as? Bool ?? isPublic
+        address = json[Constants.address] as! String
+        paymentAddress = (json[Constants.paymentAddress] as? String) ?? (json[Constants.address] as! String)
+        username = json[Constants.username] as! String
+        name = json[Constants.name] as? String ?? name
+        location = json[Constants.location] as? String ?? location
+        about = json[Constants.about] as? String ?? about
+        avatarPath = json[Constants.avatar] as? String ?? avatarPath
+        isApp = json[Constants.isApp] as? Bool ?? isApp
+        verified = json[Constants.verified] as? Bool ?? verified
+        reputationScore = json[Constants.reputationScore] as? Float ?? reputationScore
+        averageRating = json[Constants.averageRating] as? Float ?? averageRating
 
         if shouldSave {
-            self.save()
+            save()
         }
     }
 
     func update(avatar _: UIImage, avatarPath: String) {
         self.avatarPath = avatarPath
 
-        self.save()
+        save()
     }
 
     func update(username: String? = nil, name: String? = nil, about: String? = nil, location: String? = nil) {
@@ -199,57 +199,57 @@ public class TokenUser: NSObject, NSCoding {
         self.about = about ?? self.about
         self.location = location ?? self.location
 
-        self.save()
+        save()
     }
 
     func updatePublicState(to isPublic: Bool) {
         self.isPublic = isPublic
 
-        IDAPIClient.shared.updateUser(self.asDict) { _, _ in }
+        IDAPIClient.shared.updateUser(asDict) { _, _ in }
 
-        self.save()
+        save()
     }
 
     public static func createOrUpdateCurrentUser(with json: [String: Any]) {
-        guard self.current != nil else {
-            self.current = TokenUser(json: json)
+        guard current != nil else {
+            current = TokenUser(json: json)
             return
         }
 
-        self.current?.update(json: json)
+        current?.update(json: json)
     }
 
     public static func retrieveCurrentUser() {
-        self.current = self.retrieveCurrentUserFromStore()
+        current = retrieveCurrentUserFromStore()
     }
 
     private func setupNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateIfNeeded), name: IDAPIClient.didFetchContactInfoNotification, object: nil)
     }
 
     @objc private func updateIfNeeded(_ notification: Notification) {
         guard let tokenContact = notification.object as? TokenUser else { return }
-        guard tokenContact.address == self.address else { return }
+        guard tokenContact.address == address else { return }
 
-        if self.name == tokenContact.name && self.username == tokenContact.username && self.location == tokenContact.location && self.about == tokenContact.about {
+        if name == tokenContact.name && username == tokenContact.username && location == tokenContact.location && about == tokenContact.about {
             return
         }
 
-        self.update(username: tokenContact.username, name: tokenContact.name, about: tokenContact.about, location: tokenContact.location)
+        update(username: tokenContact.username, name: tokenContact.name, about: tokenContact.about, location: tokenContact.location)
     }
 
     private func save() {
-        if self.isCurrentUser {
-            Yap.sharedInstance.insert(object: self.JSONData, for: TokenUser.storedUserKey)
+        if isCurrentUser {
+            Yap.sharedInstance.insert(object: JSONData, for: TokenUser.storedUserKey)
         } else {
-            Yap.sharedInstance.insert(object: self.JSONData, for: self.address, in: TokenUser.storedContactKey)
+            Yap.sharedInstance.insert(object: JSONData, for: address, in: TokenUser.storedContactKey)
         }
     }
 
     private static func retrieveCurrentUserFromStore() -> TokenUser? {
         var user: TokenUser?
 
-        if self._current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data),
+        if _current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data),
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
             var json = deserialised as? [String: Any] {
 

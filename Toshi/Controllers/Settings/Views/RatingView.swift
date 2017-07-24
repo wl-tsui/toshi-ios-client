@@ -48,15 +48,15 @@ open class RatingView: UIView {
         super.init(frame: .zero)
 
         if let customStarSize = customStarSize {
-            self.starSize = customStarSize
-            self.backgroundStars.backgroundColor = Theme.greyTextColor
+            starSize = customStarSize
+            backgroundStars.backgroundColor = Theme.greyTextColor
         }
 
-        self.commonInit()
+        commonInit()
     }
 
     private func commonInit() {
-        self.addSubview(self.backgroundStars)
+        addSubview(backgroundStars)
 
         NSLayoutConstraint.activate([
             self.backgroundStars.topAnchor.constraint(equalTo: self.topAnchor),
@@ -67,7 +67,7 @@ open class RatingView: UIView {
             self.backgroundStars.heightAnchor.constraint(equalToConstant: self.starSize).priority(.high),
         ])
 
-        self.addSubview(self.ratingStars)
+        addSubview(ratingStars)
 
         NSLayoutConstraint.activate([
             self.ratingStars.topAnchor.constraint(equalTo: self.topAnchor),
@@ -75,47 +75,47 @@ open class RatingView: UIView {
             self.ratingStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
 
-        self.ratingConstraint.isActive = true
+        ratingConstraint.isActive = true
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        self.numberOfStars = 5
+        numberOfStars = 5
         super.init(coder: aDecoder)
 
-        self.commonInit()
+        commonInit()
     }
 
     func set(rating: Float, animated: Bool = false) {
         let denominator: Float = 2
         let roundedRating = round(rating * denominator) / denominator
 
-        self.rating = Int(min(Float(self.numberOfStars), max(0, roundedRating)))
-        self.ratingConstraint.constant = self.starSize * CGFloat(roundedRating)
+        self.rating = Int(min(Float(numberOfStars), max(0, roundedRating)))
+        ratingConstraint.constant = starSize * CGFloat(roundedRating)
 
         if animated {
             UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
                 self.layoutIfNeeded()
             }, completion: nil)
         } else {
-            self.layoutIfNeeded()
+            layoutIfNeeded()
         }
     }
 
     var starsMask: CALayer {
-        let starRadius = self.starSize / 2
+        let starRadius = starSize / 2
 
         let mask = CAShapeLayer()
-        mask.frame = CGRect(x: 0, y: 0, width: self.starSize, height: self.starSize)
+        mask.frame = CGRect(x: 0, y: 0, width: starSize, height: starSize)
         mask.position = CGPoint(x: starRadius, y: starRadius)
 
         var mutablePath: CGMutablePath?
 
-        for i in 0 ..< self.numberOfStars {
+        for i in 0 ..< numberOfStars {
 
             if let mutablePath = mutablePath {
-                mutablePath.addPath(self.starPath(with: starRadius, offset: CGFloat(i) * self.starSize))
+                mutablePath.addPath(starPath(with: starRadius, offset: CGFloat(i) * starSize))
             } else {
-                mutablePath = self.starPath(with: starRadius).mutableCopy()
+                mutablePath = starPath(with: starRadius).mutableCopy()
             }
         }
 

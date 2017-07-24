@@ -12,7 +12,7 @@ extension UIImageView {
             return
         }
 
-        self.image = placeholder
+        image = placeholder
 
         url.fetchImage { image in
             if let image = image {
@@ -47,8 +47,8 @@ extension AsyncImageURL {
     }
 
     func prefetchImage() {
-        if self.cachedImage == nil {
-            self.fetchImage { image in
+        if cachedImage == nil {
+            fetchImage { image in
                 if image == nil {
                     self.downloadImage { _ in }
                 }
@@ -87,7 +87,7 @@ extension AsyncImageURL {
 
     func removeImage() {
         ImageCache.shared.removeObject(forKey: imageName as NSString)
-        ImageStorage(in: "images").remove(fileName: self.imageName)
+        ImageStorage(in: "images").remove(fileName: imageName)
     }
 }
 
@@ -98,8 +98,8 @@ struct ImageStorage {
 
     init(in folder: String) {
         self.folder = folder
-        self.path = try! self.system.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-        try? self.system.createDirectory(at: self.path.appendingPathComponent(folder), withIntermediateDirectories: true, attributes: nil)
+        path = try! system.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        try? system.createDirectory(at: path.appendingPathComponent(folder), withIntermediateDirectories: true, attributes: nil)
     }
 
     func fetchAllImages() -> [UIImage]? {
@@ -125,12 +125,12 @@ struct ImageStorage {
 
     func save(_ image: UIImage, fileName: String) {
         let data = UIImagePNGRepresentation(image)
-        try? data?.write(to: self.path.appendingPathComponent(self.folder).appendingPathComponent(fileName))
+        try? data?.write(to: path.appendingPathComponent(folder).appendingPathComponent(fileName))
     }
 
     func remove(fileName: String) {
-        let url = self.path.appendingPathComponent(self.folder).appendingPathComponent(fileName)
-        try? self.system.removeItem(at: url)
+        let url = path.appendingPathComponent(folder).appendingPathComponent(fileName)
+        try? system.removeItem(at: url)
     }
 }
 

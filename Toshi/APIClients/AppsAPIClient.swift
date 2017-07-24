@@ -26,14 +26,14 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     private var imageCache = try! Cache<UIImage>(name: "appImageCache")
 
     override init() {
-        self.teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
+        teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }
-    
+
     func getTopRatedApps(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/apps?top=true&recent=false&limit=\(limit)") { (result: NetworkResult) in
                 switch result {
-                    
+
                 case .success(let json, _):
                     guard let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
                         completion(nil, nil)
@@ -42,10 +42,10 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
 
                     let apps = appsJSON.map { json -> TokenUser in
                         let app = TokenUser(json: json)
-                        
+
                         return app
                     }
-                    
+
                     completion(apps, nil)
                 case .failure(_, _, let error):
                     completion([TokenUser](), error)
@@ -53,25 +53,24 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-    
+
     func getFeaturedApps(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/apps?top=false&recent=true&limit=\(limit)") { (result: NetworkResult) in
                 switch result {
-                    
+
                 case .success(let json, _):
                     guard let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
                         completion(nil, nil)
                         return
                     }
-                    
 
                     let apps = appsJSON.map { json -> TokenUser in
                         let app = TokenUser(json: json)
-                        
+
                         return app
                     }
-                    
+
                     completion(apps, nil)
                 case .failure(_, _, let error):
                     completion([TokenUser](), error)

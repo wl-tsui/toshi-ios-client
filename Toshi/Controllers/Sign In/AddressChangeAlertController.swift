@@ -57,32 +57,32 @@ final class AddressChangeAlertController: AlertController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.clear
 
-        self.contentView.backgroundColor = Theme.viewBackgroundColor
-        self.contentView.widthAnchor.constraint(equalToConstant: 270.0).isActive = true
+        contentView.backgroundColor = Theme.viewBackgroundColor
+        contentView.widthAnchor.constraint(equalToConstant: 270.0).isActive = true
 
-        self.content.addSubview(self.titleLabel)
-        self.titleLabel.set(height: 27.0)
-        self.titleLabel.topAnchor.constraint(equalTo: self.content.topAnchor, constant: 10.0).isActive = true
-        self.titleLabel.leftAnchor.constraint(equalTo: self.content.leftAnchor).isActive = true
-        self.titleLabel.rightAnchor.constraint(equalTo: self.content.rightAnchor).isActive = true
+        content.addSubview(titleLabel)
+        titleLabel.set(height: 27.0)
+        titleLabel.topAnchor.constraint(equalTo: content.topAnchor, constant: 10.0).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: content.leftAnchor).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: content.rightAnchor).isActive = true
 
-        self.content.addSubview(self.textView)
+        content.addSubview(textView)
 
-        self.textView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor).isActive = true
-        self.textView.leftAnchor.constraint(equalTo: self.content.leftAnchor).isActive = true
-        self.textView.rightAnchor.constraint(equalTo: self.content.rightAnchor).isActive = true
-        self.textView.bottomAnchor.constraint(equalTo: self.content.bottomAnchor).isActive = true
+        textView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
+        textView.leftAnchor.constraint(equalTo: content.leftAnchor).isActive = true
+        textView.rightAnchor.constraint(equalTo: content.rightAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: content.bottomAnchor).isActive = true
 
-        self.content.set(height: 230.0)
+        content.set(height: 230.0)
 
-        self.customContentView = self.content
+        customContentView = content
 
-        let action = Action.init(title: "Continue", titleColor: Theme.tintColor) { _ in
+        let action = Action(title: "Continue", titleColor: Theme.tintColor) { _ in
             self.dismiss(animated: true, completion: nil)
         }
 
-        self.actions = [action]
+        actions = [action]
     }
 }

@@ -23,7 +23,7 @@ class ScannerController: ScannerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setupActivityIndicator()
+        setupActivityIndicator()
     }
 
     fileprivate lazy var activityView: UIActivityIndicatorView = {
@@ -39,7 +39,7 @@ class ScannerController: ScannerViewController {
     }
 
     override func setupToolbarItems() {
-        self.toolbar.setItems([self.cancelItem], animated: true)
+        toolbar.setItems([self.cancelItem], animated: true)
     }
 
     fileprivate func showErrorAlert() {
@@ -63,14 +63,14 @@ extension ScannerController: PaymentPresentable {
     }
 
     func paymentFailed(with _: Error?, result _: [String: Any]) {
-        self.startScanning()
+        startScanning()
         isStatusBarHidden = false
         startScanning()
     }
 
     func paymentDeclined() {
         isStatusBarHidden = false
-        self.startScanning()
+        startScanning()
     }
 
     func paymentApproved(with parameters: [String: Any], userInfo: UserInfo) {
@@ -83,7 +83,7 @@ extension ScannerController: PaymentPresentable {
             return
         }
 
-        self.showActivityIndicator()
+        showActivityIndicator()
 
         EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { transaction, error in
 

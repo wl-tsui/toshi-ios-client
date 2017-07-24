@@ -22,15 +22,15 @@ final class ProfileEditConfigurator {
     init(item: ProfileEditItem) {
         self.item = item
     }
-    
+
     func configure(cell: InputCell) {
         cell.selectionStyle = .none
-        cell.titleLabel.text = self.item.titleText
-        cell.textField.text = self.item.detailText
-        cell.switchControl.isOn = self.item.switchMode
+        cell.titleLabel.text = item.titleText
+        cell.textField.text = item.detailText
+        cell.switchControl.isOn = item.switchMode
 
-        cell.switchControl.isHidden = self.item.type != .visibility
-        cell.textField.isHidden = self.item.type == .visibility
+        cell.switchControl.isHidden = item.type != .visibility
+        cell.textField.isHidden = item.type == .visibility
 
         cell.delegate = self
     }
@@ -39,6 +39,6 @@ final class ProfileEditConfigurator {
 extension ProfileEditConfigurator: InputCellDelegate {
 
     func inputDidUpdate(_ detailText: String?, _ switchMode: Bool) {
-        self.item.update(detailText, switchMode)
+        item.update(detailText, switchMode)
     }
 }

@@ -39,19 +39,19 @@ class AddMoneyBulletPoint: UIView {
     convenience init(title: String, text: String) {
         self.init()
 
-        self.titleLabel.text = title
-        addSubview(self.titleLabel)
+        titleLabel.text = title
+        addSubview(titleLabel)
 
-        self.textLabel.text = text
-        addSubview(self.textLabel)
+        textLabel.text = text
+        addSubview(textLabel)
 
-        self.titleLabel.top(to: self, offset: 15)
-        self.titleLabel.left(to: self, offset: 15)
-        self.titleLabel.right(to: self, offset: -15)
+        titleLabel.top(to: self, offset: 15)
+        titleLabel.left(to: self, offset: 15)
+        titleLabel.right(to: self, offset: -15)
 
-        self.textLabel.topToBottom(of: self.titleLabel, offset: 5)
-        self.textLabel.left(to: self, offset: 15)
-        self.textLabel.right(to: self, offset: -15)
-        self.textLabel.bottom(to: self)
+        textLabel.topToBottom(of: titleLabel, offset: 5)
+        textLabel.left(to: self, offset: 15)
+        textLabel.right(to: self, offset: -15)
+        textLabel.bottom(to: self)
     }
 }

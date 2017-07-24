@@ -66,37 +66,37 @@ public final class NetworkSwitcher {
     fileprivate let keychain = KeychainSwift()
 
     init() {
-        self.keychain.synchronizable = false
+        keychain.synchronizable = false
 
         NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
     }
 
     public var activeNetwork: Network {
         guard let switched = self.switchedNetwork as Network? else {
-            return self.defaultNetwork
+            return defaultNetwork
         }
 
         return switched
     }
 
     public var defaultNetworkBaseUrl: String {
-        return self.defaultNetwork.baseURL
+        return defaultNetwork.baseURL
     }
 
     public var isDefaultNetworkActive: Bool {
-        return self.activeNetwork.rawValue == self.defaultNetwork.rawValue
+        return activeNetwork.rawValue == defaultNetwork.rawValue
     }
 
     public var activeNetworkLabel: String {
-        return self.activeNetwork.label
+        return activeNetwork.label
     }
 
     public var activeNetworkBaseUrl: String {
-        return self.activeNetwork.baseURL
+        return activeNetwork.baseURL
     }
 
     public var activeNetworkID: String {
-        return self.activeNetwork.rawValue
+        return activeNetwork.rawValue
     }
 
     public var availableNetworks: [Network] {
@@ -110,7 +110,7 @@ public final class NetworkSwitcher {
     public func activateNetwork(_ network: Network?) {
         guard network?.rawValue != _switchedNetwork?.rawValue else { return }
 
-        self.deregisterFromActiveNetworkPushNotificationsIfNeeded{ success in
+        deregisterFromActiveNetworkPushNotificationsIfNeeded { success in
             if success {
                 self.switchedNetwork = network
             } else {
@@ -125,14 +125,14 @@ public final class NetworkSwitcher {
             _switchedNetwork = newValue
 
             guard let network = _switchedNetwork as Network? else {
-                self.keychain.delete(NetworkInfo.ActiveNetwork)
+                keychain.delete(NetworkInfo.ActiveNetwork)
                 let notification = Notification(name: .SwitchedNetworkChanged)
                 NotificationCenter.default.post(notification)
 
                 return
             }
 
-            self.registerForSwitchedNetworkPushNotifications { success in
+            registerForSwitchedNetworkPushNotifications { success in
                 if success {
                     self.keychain.set(network.rawValue, forKey: NetworkInfo.ActiveNetwork)
 
@@ -147,9 +147,9 @@ public final class NetworkSwitcher {
         get {
             guard let cachedNetwork = self._switchedNetwork as Network? else {
                 guard let storedNetworkID = self.keychain.get(NetworkInfo.ActiveNetwork) as String? else { return nil }
-                self._switchedNetwork = Network(rawValue: storedNetworkID)
+                _switchedNetwork = Network(rawValue: storedNetworkID)
 
-                return self._switchedNetwork
+                return _switchedNetwork
             }
 
             return cachedNetwork
@@ -167,12 +167,12 @@ public final class NetworkSwitcher {
             completion(true)
             return
         }
-        guard self.isDefaultNetworkActive == false && self.switchedNetwork != nil else {
+        guard isDefaultNetworkActive == false && self.switchedNetwork != nil else {
             completion(true)
             return
         }
 
-        EthereumAPIClient.shared.deregisterFromSwitchedNetworkPushNotifications{ success in
+        EthereumAPIClient.shared.deregisterFromSwitchedNetworkPushNotifications { success in
             completion(success)
         }
     }
@@ -185,7 +185,7 @@ public final class NetworkSwitcher {
         #endif
     }
 
-    @objc private func userDidSignOut(_ notification: Notification) {
-        self.activateNetwork(nil)
+    @objc private func userDidSignOut(_: Notification) {
+        activateNetwork(nil)
     }
 }

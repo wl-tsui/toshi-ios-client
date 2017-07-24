@@ -27,143 +27,143 @@ protocol ChatViewModelOutput: ChatInteractorOutput {
 }
 
 final class ChatViewModel {
-    
+
     fileprivate var output: ChatViewModelOutput
 
     init(output: ChatViewModelOutput, thread: TSThread) {
         self.output = output
         self.thread = thread
-        
-        self.storageManager = TSStorageManager.shared()
-        
-        self.uiDatabaseConnection.asyncRead { transaction in
+
+        storageManager = TSStorageManager.shared()
+
+        uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
         }
-        
-        self.loadMessages()
-        self.registerNotifications()
-        
+
+        loadMessages()
+        registerNotifications()
+
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        
-        self.contactsManager = appDelegate.contactsManager
+
+        contactsManager = appDelegate.contactsManager
     }
-    
+
     fileprivate var contactsManager: ContactsManager?
-    
+
     fileprivate var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
-    
+
     private(set) var thread: TSThread
-    
+
     private(set) lazy var interactor: ChatsInteractor = {
-        return ChatsInteractor(output: self.output, thread: self.thread)
+        ChatsInteractor(output: self.output, thread: self.thread)
     }()
-    
+
     var contact: TokenUser? {
-        return self.contactsManager?.tokenContact(forAddress: self.thread.contactIdentifier())
+        return contactsManager?.tokenContact(forAddress: thread.contactIdentifier())
     }
-    
+
     lazy var contactAvatarUrl: AsyncImageURL? = {
         if let contact = self.contact, let url = URL(string: contact.avatarPath) {
             return AsyncImageURL(url: url)
         }
-        
+
         return nil
     }()
-    
+
     var currentButton: SofaMessage.Button?
-    
+
     var messageModels: [MessageModel] {
-        return self.visibleMessages.flatMap { message in
+        return visibleMessages.flatMap { message in
             MessageModel(message: message)
         }
     }
-    
+
     private(set) var messages: [Message] = [] {
         didSet {
             self.output.didReload()
         }
     }
-    
+
     var visibleMessages: [Message] {
-        return self.messages.filter { message -> Bool in
+        return messages.filter { message -> Bool in
             message.isDisplayable
         }
     }
-    
+
     func visibleMessage(at index: Int) -> Message {
-        return self.visibleMessages[index]
+        return visibleMessages[index]
     }
-    
+
     func message(at index: Int) -> Message {
-        return self.messages[index]
+        return messages[index]
     }
-    
+
     fileprivate var storageManager: TSStorageManager?
-    
+
     fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = TSStorageManager.shared().database()!
         let dbConnection = database.newConnection()
         dbConnection.beginLongLivedReadTransaction()
-        
+
         return dbConnection
     }()
-    
+
     fileprivate lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
         mappings.setIsReversed(true, forGroup: TSInboxGroup)
-        
+
         return mappings
     }()
-    
+
     fileprivate lazy var editingDatabaseConnection: YapDatabaseConnection? = {
         self.storageManager?.newDatabaseConnection()
     }()
-    
+
     fileprivate func registerNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
-    
+
     func saveDraftIfNeeded(inputViewText: String?) {
         let thread = self.thread
         guard let text = inputViewText else { return }
-        
-        self.editingDatabaseConnection?.asyncReadWrite { transaction in
+
+        editingDatabaseConnection?.asyncReadWrite { transaction in
             thread.setDraft(text, transaction: transaction)
         }
     }
-    
+
     @objc
     fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
-        let notifications = self.uiDatabaseConnection.beginLongLivedReadTransaction()
-        
+        let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
+
         // If changes do not affect current view, update and return without updating collection view
         // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
         // table/collection view backing model.
-        let viewConnection = self.uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewConnection
+        let viewConnection = uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewConnection
         if let hasChangesForCurrentView = viewConnection?.hasChanges(for: notifications) as Bool?, hasChangesForCurrentView == false {
-            self.uiDatabaseConnection.read { transaction in
+            uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
-            
+
             return
         }
-        
+
         var messageRowChanges = NSArray()
         var sectionChanges = NSArray()
-        
-        viewConnection?.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: self.mappings)
+
+        viewConnection?.getSectionChanges(&sectionChanges, rowChanges: &messageRowChanges, for: notifications, with: mappings)
 
         guard messageRowChanges.count > 0 else { return }
 
-        self.uiDatabaseConnection.asyncRead { transaction in
+        uiDatabaseConnection.asyncRead { transaction in
             for change in messageRowChanges as! [YapDatabaseViewRowChange] {
                 guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
-                
+
                 switch change.type {
                 case .insert:
                     guard let interaction = dbExtension.object(at: change.newIndexPath, with: self.mappings) as? TSInteraction else { return }
@@ -203,7 +203,7 @@ final class ChatViewModel {
         let thread = self.thread
         var placeholder: String?
 
-        self.editingDatabaseConnection?.asyncReadWrite({ transaction in
+        editingDatabaseConnection?.asyncReadWrite({ transaction in
             placeholder = thread.currentDraft(with: transaction)
         }, completionBlock: {
             DispatchQueue.main.async {
@@ -211,7 +211,7 @@ final class ChatViewModel {
             }
         })
     }
-    
+
     func displayState(for button: SofaMessage.Button?) -> DisplayState {
         if let button = button, let currentButton = self.currentButton {
             if button == currentButton {
@@ -220,39 +220,39 @@ final class ChatViewModel {
                 return .hideAndShow
             }
         }
-        
-        if button == nil && self.currentButton == nil {
+
+        if button == nil && currentButton == nil {
             return .doNothing
-        } else if button == nil && self.currentButton != nil {
+        } else if button == nil && currentButton != nil {
             return .hide
         } else {
             return .show
         }
     }
-    
+
     func fetchAndUpdateBalance(completion: @escaping ((NSDecimalNumber, Error?) -> Void)) {
-        self.interactor.fetchAndUpdateBalance(completion: completion)
+        interactor.fetchAndUpdateBalance(completion: completion)
     }
-    
+
     func loadMessages() {
-        self.uiDatabaseConnection.asyncRead { transaction in
+        uiDatabaseConnection.asyncRead { transaction in
             self.mappings.update(with: transaction)
-            
+
             var messages = [Message]()
-            
+
             for i in 0 ..< self.mappings.numberOfItems(inSection: 0) {
                 let indexPath = IndexPath(row: Int(i), section: 0)
                 guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
                 guard let interaction = dbExtension.object(at: indexPath, with: self.mappings) as? TSInteraction else { return }
-                
+
                 var shouldProcess = false
                 if let message = interaction as? TSMessage, SofaType(sofa: message.body ?? "") == .paymentRequest {
                     shouldProcess = true
                 }
-                
+
                 messages.append(self.interactor.handleInteraction(interaction, shouldProcessCommands: shouldProcess))
             }
-            
+
             let current = Set(messages)
             let previous = Set(self.messages)
             let new = current.subtracting(previous).sorted { (message1, message2) -> Bool in
@@ -261,10 +261,10 @@ final class ChatViewModel {
                 if message1.date.compare(message2.date) == .orderedSame {
                     return message1.signalMessage.hasAttachments()
                 }
-                
+
                 return message1.date.compare(message2.date) == .orderedAscending
             }
-            
+
             DispatchQueue.main.async {
                 self.messages = new
             }

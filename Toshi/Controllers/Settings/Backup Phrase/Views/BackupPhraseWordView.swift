@@ -61,11 +61,11 @@ class BackupPhraseWordView: UIControl {
         self.init(withAutoLayout: true)
         self.word = word
 
-        self.wordLabel.text = word.text
+        wordLabel.text = word.text
 
-        self.addSubview(self.background)
-        self.background.addSubview(self.backgroundOverlay)
-        self.addSubview(self.wordLabel)
+        addSubview(background)
+        background.addSubview(backgroundOverlay)
+        addSubview(wordLabel)
 
         NSLayoutConstraint.activate([
             self.background.topAnchor.constraint(equalTo: self.topAnchor),
@@ -86,26 +86,26 @@ class BackupPhraseWordView: UIControl {
             self.heightAnchor.constraint(equalToConstant: BackupPhraseWordView.height).priority(.high),
         ])
 
-        self.setNeedsLayout()
+        setNeedsLayout()
     }
 
     override func layoutIfNeeded() {
         super.layoutIfNeeded()
-        self.layoutBorder()
+        layoutBorder()
     }
 
     func layoutBorder() {
 
-        for shape in self.shapeLayers {
-            shape.bounds = self.bounds
-            shape.position = CGPoint(x: self.bounds.width / 2, y: self.bounds.height / 2)
-            shape.path = UIBezierPath(roundedRect: self.bounds, cornerRadius: 4).cgPath
+        for shape in shapeLayers {
+            shape.bounds = bounds
+            shape.position = CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+            shape.path = UIBezierPath(roundedRect: bounds, cornerRadius: 4).cgPath
         }
     }
 
     func setBorder(dashed: Bool) {
 
-        for shape in self.shapeLayers {
+        for shape in shapeLayers {
             shape.lineDashPattern = dashed ? [5, 5] : nil
         }
     }
@@ -119,8 +119,8 @@ class BackupPhraseWordView: UIControl {
     }
 
     func getSize() -> CGSize {
-        self.layoutIfNeeded()
-        return self.frame.size
+        layoutIfNeeded()
+        return frame.size
     }
 
     var isAddedForVerification: Bool = false {
@@ -136,8 +136,8 @@ class BackupPhraseWordView: UIControl {
 
     override var isHighlighted: Bool {
         didSet {
-            if self.isHighlighted != oldValue {
-                self.feedbackGenerator.impactOccurred()
+            if isHighlighted != oldValue {
+                feedbackGenerator.impactOccurred()
 
                 UIView.highlightAnimation {
                     self.backgroundOverlay.alpha = self.isHighlighted ? 1 : 0

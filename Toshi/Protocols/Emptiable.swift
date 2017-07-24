@@ -60,7 +60,7 @@ extension Emptiable where Self: UIViewController {
 
         scrollView.addSubview(containerView)
 
-        let verticalOffset = self.contentCenterVerticalOffset()
+        let verticalOffset = contentCenterVerticalOffset()
         containerView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         containerView.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor, constant: verticalOffset).isActive = true
         containerView.set(width: sourceView.bounds.width - 30.0)
@@ -87,9 +87,9 @@ extension Emptiable where Self: UIViewController {
             descriptionLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         }
 
-        titleLabel.text = self.emptyStateTitle()
+        titleLabel.text = emptyStateTitle()
 
-        let attributedString = NSMutableAttributedString(string: self.emptyStateDescription())
+        let attributedString = NSMutableAttributedString(string: emptyStateDescription())
         let paragraphStyle = NSMutableParagraphStyle()
 
         paragraphStyle.alignment = .center
@@ -105,8 +105,8 @@ extension Emptiable where Self: UIViewController {
         scrollView.alwaysBounceVertical = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.isScrollEnabled = self.isScrollable()
-        scrollView.contentSize = self.sourceView().frame.size
+        scrollView.isScrollEnabled = isScrollable()
+        scrollView.contentSize = sourceView().frame.size
 
         return scrollView
     }
@@ -118,7 +118,7 @@ extension Emptiable where Self: UIViewController {
         button.layer.cornerRadius = 5.0
         button.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 30.0, bottom: 0.0, right: 30.0)
 
-        button.addTarget(self, action: self.buttonPressed, for: .touchUpInside)
+        button.addTarget(self, action: buttonPressed, for: .touchUpInside)
 
         return button
     }

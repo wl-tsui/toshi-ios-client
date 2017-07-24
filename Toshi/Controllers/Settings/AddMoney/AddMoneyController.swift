@@ -37,7 +37,7 @@ class AddMoneyController: UIViewController {
 
         title = "Add Money"
 
-        self.items = [
+        items = [
             .header("Add money to my Wallet", "You can add money to your account in a variety of ways."),
             .bulletPoint("1. Send ETH from another wallet", "Send to this address to top up your wallet:\n\n\(Cereal.shared.paymentAddress)"),
             .copyToClipBoard("Copy to clipboard", "Copied", #selector(copyToClipBoard(_:))),
@@ -54,12 +54,12 @@ class AddMoneyController: UIViewController {
 
         view.backgroundColor = Theme.settingsBackgroundColor
 
-        view.addSubview(self.scrollView)
-        self.scrollView.edges(to: view)
+        view.addSubview(scrollView)
+        scrollView.edges(to: view)
 
-        self.scrollView.addSubview(self.stackView)
-        self.stackView.edges(to: self.scrollView)
-        self.stackView.width(to: self.scrollView)
+        scrollView.addSubview(stackView)
+        stackView.edges(to: scrollView)
+        stackView.width(to: scrollView)
     }
 
     func copyToClipBoard(_ button: ConfirmationButton) {

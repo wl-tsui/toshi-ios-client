@@ -116,7 +116,7 @@ class ConfirmationButton: UIControl {
     var title: String? {
         didSet {
             guard let title = self.title else { return }
-            self.titleLabel.text = title
+            titleLabel.text = title
         }
     }
 
@@ -134,27 +134,27 @@ class ConfirmationButton: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.layer.cornerRadius = 4
-        self.clipsToBounds = true
+        layer.cornerRadius = 4
+        clipsToBounds = true
 
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
 
-        self.topConstraint.isActive = true
+        topConstraint.isActive = true
     }
 
     private func addSubviewsAndConstraints() {
 
-        self.addSubview(self.backgroundOverlay)
-        self.addSubview(self.titleLabel)
-        self.addSubview(self.confirmationLabel)
-        self.addSubview(self.checkmarkImageView)
+        addSubview(backgroundOverlay)
+        addSubview(titleLabel)
+        addSubview(confirmationLabel)
+        addSubview(checkmarkImageView)
 
-        for container in self.horizontalContainers {
-            self.addLayoutGuide(container)
+        for container in horizontalContainers {
+            addLayoutGuide(container)
         }
 
-        for container in self.spacingContainers {
-            self.addLayoutGuide(container)
+        for container in spacingContainers {
+            addLayoutGuide(container)
         }
 
         NSLayoutConstraint.activate([
@@ -213,8 +213,8 @@ class ConfirmationButton: UIControl {
 
     override var isHighlighted: Bool {
         didSet {
-            if self.isHighlighted != oldValue {
-                self.feedbackGenerator.impactOccurred()
+            if isHighlighted != oldValue {
+                feedbackGenerator.impactOccurred()
 
                 UIView.highlightAnimation {
                     self.backgroundOverlay.alpha = self.isHighlighted ? 1 : 0

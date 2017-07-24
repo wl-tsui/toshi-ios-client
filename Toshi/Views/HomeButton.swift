@@ -66,17 +66,17 @@ class HomeButton: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.addSubview(self.imageContainerView)
-        self.addSubview(self.subtitle)
+        addSubview(imageContainerView)
+        addSubview(subtitle)
 
-        self.imageContainerView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.imageContainerView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.imageContainerView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        self.imageContainerView.bottomAnchor.constraint(equalTo: self.subtitle.topAnchor).isActive = true
+        imageContainerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        imageContainerView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        imageContainerView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        imageContainerView.bottomAnchor.constraint(equalTo: subtitle.topAnchor).isActive = true
 
-        self.subtitle.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.subtitle.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        self.subtitle.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        subtitle.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        subtitle.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        subtitle.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
     required init?(coder _: NSCoder) {
@@ -84,11 +84,11 @@ class HomeButton: UIControl {
     }
 
     func setImage(_ image: UIImage) {
-        self.imageView.image = image
-        self.imageView.highlightedImage = image.colored(with: UIColor.black.withAlphaComponent(0.2))
+        imageView.image = image
+        imageView.highlightedImage = image.colored(with: UIColor.black.withAlphaComponent(0.2))
     }
 
     func setSubtitle(_ text: String) {
-        self.subtitle.text = text
+        subtitle.text = text
     }
 }

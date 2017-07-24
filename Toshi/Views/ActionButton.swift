@@ -29,9 +29,9 @@ class ActionButton: UIControl {
 
         subscript(state: ButtonState) -> UIColor? {
             get {
-                return self.color[state.key]
+                return color[state.key]
             } set {
-                self.color[state.key] = newValue
+                color[state.key] = newValue
             }
         }
     }
@@ -42,7 +42,7 @@ class ActionButton: UIControl {
         case disabled
 
         var key: String {
-            return self.rawValue
+            return rawValue
         }
     }
 
@@ -59,54 +59,52 @@ class ActionButton: UIControl {
     }
 
     var style: ButtonStyle? {
-        get {
-            return self.style
-        } set {
-            guard let style = newValue else { return }
+        didSet {
+            guard let style = self.style else { return }
 
             switch style {
             case .primary:
                 // Primary buttons have the tint color as background with a light text color
-                self.titleColor[.normal] = Theme.lightTextColor
-                self.buttonColor[.normal] = Theme.tintColor
-                self.borderColor[.normal] = Theme.tintColor
+                titleColor[.normal] = Theme.lightTextColor
+                buttonColor[.normal] = Theme.tintColor
+                borderColor[.normal] = Theme.tintColor
 
-                self.titleColor[.highlighted] = Theme.lightTextColor
-                self.buttonColor[.highlighted] = Theme.tintColor
-                self.borderColor[.highlighted] = Theme.tintColor
+                titleColor[.highlighted] = Theme.lightTextColor
+                buttonColor[.highlighted] = Theme.tintColor
+                borderColor[.highlighted] = Theme.tintColor
 
-                self.titleColor[.disabled] = Theme.lightTextColor
-                self.buttonColor[.disabled] = Theme.greyTextColor
-                self.borderColor[.disabled] = Theme.greyTextColor
+                titleColor[.disabled] = Theme.lightTextColor
+                buttonColor[.disabled] = Theme.greyTextColor
+                borderColor[.disabled] = Theme.greyTextColor
             case .secondary:
                 // Secondary buttons have a white background with a dark text color and a border
-                self.titleColor[.normal] = Theme.darkTextColor
-                self.buttonColor[.normal] = .white
-                self.borderColor[.normal] = Theme.greyTextColor
+                titleColor[.normal] = Theme.darkTextColor
+                buttonColor[.normal] = .white
+                borderColor[.normal] = Theme.greyTextColor
 
-                self.titleColor[.highlighted] = Theme.darkTextColor
-                self.buttonColor[.highlighted] = .white
-                self.borderColor[.highlighted] = Theme.greyTextColor
+                titleColor[.highlighted] = Theme.darkTextColor
+                buttonColor[.highlighted] = .white
+                borderColor[.highlighted] = Theme.greyTextColor
 
-                self.titleColor[.disabled] = Theme.greyTextColor
-                self.buttonColor[.disabled] = .clear
-                self.borderColor[.disabled] = Theme.greyTextColor
+                titleColor[.disabled] = Theme.greyTextColor
+                buttonColor[.disabled] = .clear
+                borderColor[.disabled] = Theme.greyTextColor
             case .plain:
                 // Plain buttons have no background with the tint color for the title
-                self.titleColor[.normal] = Theme.tintColor
-                self.buttonColor[.normal] = .clear
-                self.borderColor[.normal] = .clear
+                titleColor[.normal] = Theme.tintColor
+                buttonColor[.normal] = .clear
+                borderColor[.normal] = .clear
 
-                self.titleColor[.highlighted] = Theme.tintColor
-                self.buttonColor[.highlighted] = .clear
-                self.borderColor[.highlighted] = .clear
+                titleColor[.highlighted] = Theme.tintColor
+                buttonColor[.highlighted] = .clear
+                borderColor[.highlighted] = .clear
 
-                self.titleColor[.disabled] = Theme.greyTextColor
-                self.buttonColor[.disabled] = .clear
-                self.borderColor[.disabled] = .clear
+                titleColor[.disabled] = Theme.greyTextColor
+                buttonColor[.disabled] = .clear
+                borderColor[.disabled] = .clear
             }
 
-            self.restyle()
+            restyle()
         }
     }
 
@@ -160,15 +158,15 @@ class ActionButton: UIControl {
     convenience init(margin: CGFloat) {
         self.init(frame: .zero)
 
-        self.style = .primary
-        self.translatesAutoresizingMaskIntoConstraints = false
+        style = .primary
+        translatesAutoresizingMaskIntoConstraints = false
 
-        self.addSubview(self.background)
-        self.background.addSubview(self.backgroundOverlay)
-        self.addSubview(self.titleLabel)
+        addSubview(background)
+        background.addSubview(backgroundOverlay)
+        addSubview(titleLabel)
 
-        for guide in self.guides {
-            self.addLayoutGuide(guide)
+        for guide in guides {
+            addLayoutGuide(guide)
         }
 
         NSLayoutConstraint.activate([
@@ -223,7 +221,7 @@ class ActionButton: UIControl {
 
     override var isEnabled: Bool {
         didSet {
-            self.buttonState = self.isEnabled ? .normal : .disabled
+            buttonState = isEnabled ? .normal : .disabled
 
             UIView.highlightAnimation {
                 self.restyle()

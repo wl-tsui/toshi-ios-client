@@ -39,8 +39,8 @@ class MessageFetcherJob: NSObject {
 
     func runAsync() {
         NSLog("\(TAG) \(#function)")
-        guard self.signalService.isCensorshipCircumventionActive else {
-            NSLog("\(self.TAG) delegating message fetching to SocketManager since we're using normal transport.")
+        guard signalService.isCensorshipCircumventionActive else {
+            NSLog("\(TAG) delegating message fetching to SocketManager since we're using normal transport.")
             TSSocketManager.requestSocketOpen()
             return
         }
@@ -48,8 +48,8 @@ class MessageFetcherJob: NSObject {
         NSLog("\(TAG) using fallback message fetching.")
 
         let promiseId = NSDate().timeIntervalSince1970
-        NSLog("\(self.TAG) starting promise: \(promiseId)")
-        let runPromise = self.fetchUndeliveredMessages().then { (envelopes: [OWSSignalServiceProtosEnvelope], more: Bool) -> Void in
+        NSLog("\(TAG) starting promise: \(promiseId)")
+        let runPromise = fetchUndeliveredMessages().then { (envelopes: [OWSSignalServiceProtosEnvelope], more: Bool) -> Void in
             for envelope in envelopes {
                 NSLog("\(self.TAG) received envelope.")
                 self.messagesManager.handleReceivedEnvelope(envelope)
@@ -67,34 +67,34 @@ class MessageFetcherJob: NSObject {
         }
 
         // maintain reference to make sure it's not de-alloced prematurely.
-        self.runPromises[promiseId] = runPromise
+        runPromises[promiseId] = runPromise
     }
 
     // use in DEBUG or wherever you can't receive push notifications to poll for messages.
     // Do not use in production.
     func startRunLoop(timeInterval: Double) {
         NSLog("\(TAG) Starting message fetch polling. This should not be used in production.")
-        self.timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(self.runAsync), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(runAsync), userInfo: nil, repeats: true)
     }
 
     func stopRunLoop() {
-        self.timer?.invalidate()
-        self.timer = nil
+        timer?.invalidate()
+        timer = nil
     }
 
     func parseMessagesResponse(responseObject: Any?) -> (envelopes: [OWSSignalServiceProtosEnvelope], more: Bool)? {
         guard let responseObject = responseObject else {
-            NSLog("\(self.TAG) response object was surpringly nil")
+            NSLog("\(TAG) response object was surpringly nil")
             return nil
         }
 
         guard let responseDict = responseObject as? [String: Any] else {
-            NSLog("\(self.TAG) response object was not a dictionary")
+            NSLog("\(TAG) response object was not a dictionary")
             return nil
         }
 
         guard let messageDicts = responseDict["messages"] as? [[String: Any]] else {
-            NSLog("\(self.TAG) messages object was not a list of dictionaries")
+            NSLog("\(TAG) messages object was not a list of dictionaries")
             return nil
         }
 
@@ -195,12 +195,12 @@ class MessageFetcherJob: NSObject {
 
     func acknowledgeDelivery(envelope: OWSSignalServiceProtosEnvelope) {
         let request = OWSAcknowledgeMessageDeliveryRequest(source: envelope.source, timestamp: envelope.timestamp)
-        self.networkManager.makeRequest(request,
-                                        success: { (_: URLSessionDataTask?, _: Any?) -> Void in
-                                            NSLog("\(self.TAG) acknowledged delivery for message at timestamp: \(envelope.timestamp)")
-                                        },
-                                        failure: { (_: URLSessionDataTask?, error: Error?) in
-                                            NSLog("\(self.TAG) acknowledging delivery for message at timestamp: \(envelope.timestamp) failed with error: \(String(describing: error))")
+        networkManager.makeRequest(request,
+                                   success: { (_: URLSessionDataTask?, _: Any?) -> Void in
+                                       NSLog("\(self.TAG) acknowledged delivery for message at timestamp: \(envelope.timestamp)")
+                                   },
+                                   failure: { (_: URLSessionDataTask?, error: Error?) in
+                                       NSLog("\(self.TAG) acknowledging delivery for message at timestamp: \(envelope.timestamp) failed with error: \(String(describing: error))")
         })
     }
 }

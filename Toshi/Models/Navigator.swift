@@ -22,19 +22,19 @@ public class Navigator: NSObject {
     }
 
     public static var window: UIWindow? {
-        return self.appDelegate?.window
+        return appDelegate?.window
     }
 
     public static var rootViewController: UIViewController? {
-        return self.window?.rootViewController
+        return window?.rootViewController
     }
 
     public static var tabbarController: TabBarController? {
-        return self.window?.rootViewController as? TabBarController
+        return window?.rootViewController as? TabBarController
     }
 
     public static var topViewController: UIViewController? {
-        var topViewController = self.topNonModalViewController
+        var topViewController = topNonModalViewController
 
         while topViewController?.presentedViewController != nil {
             topViewController = topViewController?.presentedViewController
@@ -44,7 +44,7 @@ public class Navigator: NSObject {
     }
 
     public static var topNonModalViewController: UIViewController? {
-        return self.tabbarController?.currentNavigationController?.topViewController
+        return tabbarController?.currentNavigationController?.topViewController
     }
 
     public static func push(_ viewController: UIViewController, from fromController: UIViewController? = nil, animated: Bool = true) {
@@ -53,7 +53,7 @@ public class Navigator: NSObject {
         if fromController?.navigationController != nil {
             fromController?.navigationController?.pushViewController(viewController, animated: animated)
         } else {
-            self.tabbarController?.currentNavigationController?.pushViewController(viewController, animated: animated)
+            tabbarController?.currentNavigationController?.pushViewController(viewController, animated: animated)
         }
     }
 
@@ -83,7 +83,7 @@ public class Navigator: NSObject {
     }
 
     public static func presentModally(_ controller: UIViewController) {
-        self.present(controller, from: self.topViewController, animated: true)
+        present(controller, from: topViewController, animated: true)
     }
 
     // Navigation assumes the following structure:

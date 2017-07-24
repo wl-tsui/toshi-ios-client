@@ -35,7 +35,7 @@ public class BackgroundNotificationHandler: NSObject {
         }
 
         if let payment = SofaWrapper.wrapper(content: body) as? SofaPayment, payment.status == .confirmed {
-            self.enqueueLocalNotification(for: payment)
+            enqueueLocalNotification(for: payment)
             completion([])
 
             return

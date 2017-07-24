@@ -31,7 +31,7 @@ open class Message: NSObject, NOCChatItem {
     public var attributedSubtitle: NSAttributedString?
 
     public var attachment: TSAttachment? {
-        if self.signalMessage.hasAttachments(), let attachmentId = (self.signalMessage.attachmentIds as? [String])?.first, let attachment = TSAttachment.fetch(uniqueId: attachmentId) {
+        if signalMessage.hasAttachments(), let attachmentId = (self.signalMessage.attachmentIds as? [String])?.first, let attachment = TSAttachment.fetch(uniqueId: attachmentId) {
 
             return attachment
         }
@@ -40,7 +40,7 @@ open class Message: NSObject, NOCChatItem {
     }
 
     fileprivate lazy var attachmentsCache: NSCache<NSString, UIImage> = {
-        return NSCache<NSString, UIImage>()
+        NSCache<NSString, UIImage>()
     }()
 
     fileprivate func streamImage(for stream: TSAttachmentStream) -> UIImage? {
@@ -50,7 +50,7 @@ open class Message: NSObject, NOCChatItem {
             image = cachedImage
         } else {
             if let streamImage = stream.image() as UIImage? {
-                self.attachmentsCache.setObject(streamImage, forKey: self.uniqueIdentifier() as NSString)
+                attachmentsCache.setObject(streamImage, forKey: uniqueIdentifier() as NSString)
                 image = streamImage
             }
         }
@@ -59,10 +59,9 @@ open class Message: NSObject, NOCChatItem {
     }
 
     public var image: UIImage? {
-        if self.attachment is TSAttachmentPointer {
+        if attachment is TSAttachmentPointer {
             return #imageLiteral(resourceName: "placeholder")
         } else if let stream = attachment as? TSAttachmentStream {
-
 
             guard let image = self.streamImage(for: stream) else { return #imageLiteral(resourceName: "placeholder") }
             // TODO: add play button if video
@@ -75,26 +74,26 @@ open class Message: NSObject, NOCChatItem {
     public var title: String? {
         set {
             if let string = newValue {
-                self.attributedTitle = NSAttributedString(string: string, attributes: [NSFontAttributeName: Theme.semibold(size: 15), NSForegroundColorAttributeName: Theme.incomingMessageTextColor])
+                attributedTitle = NSAttributedString(string: string, attributes: [NSFontAttributeName: Theme.semibold(size: 15), NSForegroundColorAttributeName: Theme.incomingMessageTextColor])
             } else {
-                self.attributedTitle = nil
+                attributedTitle = nil
             }
         }
         get {
-            return self.attributedTitle?.string
+            return attributedTitle?.string
         }
     }
 
     public var subtitle: String? {
         set {
             if let string = newValue {
-                self.attributedSubtitle = NSAttributedString(string: string, attributes: [NSFontAttributeName: Theme.regular(size: 15), NSForegroundColorAttributeName: Theme.incomingMessageTextColor])
+                attributedSubtitle = NSAttributedString(string: string, attributes: [NSFontAttributeName: Theme.regular(size: 15), NSForegroundColorAttributeName: Theme.incomingMessageTextColor])
             } else {
-                self.attributedSubtitle = nil
+                attributedSubtitle = nil
             }
         }
         get {
-            return self.attributedSubtitle?.string
+            return attributedSubtitle?.string
         }
     }
 

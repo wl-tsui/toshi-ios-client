@@ -71,86 +71,86 @@ class ImagesViewController: UIViewController {
         self.messages = messages
         self.initialIndexPath = initialIndexPath
 
-        self.modalPresentationStyle = .custom
+        modalPresentationStyle = .custom
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(self.navigationBar)
-        self.navigationBar.top(to: self.view)
-        self.navigationBar.left(to: self.view)
-        self.navigationBar.right(to: self.view)
-        self.navigationBar.height(64)
+        view.addSubview(navigationBar)
+        navigationBar.top(to: view)
+        navigationBar.left(to: view)
+        navigationBar.right(to: view)
+        navigationBar.height(64)
 
-        self.navigationBar.addSubview(self.separatorView)
-        self.separatorView.bottom(to: self.navigationBar)
-        self.separatorView.left(to: self.navigationBar)
-        self.separatorView.right(to: self.navigationBar)
-        self.separatorView.height(Theme.borderHeight)
+        navigationBar.addSubview(separatorView)
+        separatorView.bottom(to: navigationBar)
+        separatorView.left(to: navigationBar)
+        separatorView.right(to: navigationBar)
+        separatorView.height(Theme.borderHeight)
 
-        self.view.addSubview(self.collectionView)
-        self.collectionView.topToBottom(of: self.navigationBar)
-        self.collectionView.left(to: self.view)
-        self.collectionView.bottom(to: self.view)
-        self.collectionView.right(to: self.view)
+        view.addSubview(collectionView)
+        collectionView.topToBottom(of: navigationBar)
+        collectionView.left(to: view)
+        collectionView.bottom(to: view)
+        collectionView.right(to: view)
 
-        self.navigationBar.setItems([UINavigationItem(title: self.title ?? "")], animated: false)
-        self.navigationBar.topItem?.leftBarButtonItem = self.doneButton
+        navigationBar.setItems([UINavigationItem(title: self.title ?? "")], animated: false)
+        navigationBar.topItem?.leftBarButtonItem = doneButton
 
-        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
-        self.panGestureRecognizer.delegate = self
-        view.addGestureRecognizer(self.panGestureRecognizer)
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(_:)))
+        panGestureRecognizer.delegate = self
+        view.addGestureRecognizer(panGestureRecognizer)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.view.layoutIfNeeded()
-        self.collectionView.reloadData()
+        view.layoutIfNeeded()
+        collectionView.reloadData()
 
         guard let initialIndexPath = initialIndexPath else { return }
-        self.collectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
-        self.isInitialScroll = false
+        collectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
+        isInitialScroll = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        self.dismissDelegate?.imagesAreDismissed(from: self.currentIndexPath)
+        dismissDelegate?.imagesAreDismissed(from: currentIndexPath)
     }
 
     func done(_: UIBarButtonItem) {
-        self.dismissDelegate?.imagesAreDismissed(from: self.currentIndexPath)
+        dismissDelegate?.imagesAreDismissed(from: currentIndexPath)
 
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     func pan(_ gestureRecognizer: UIPanGestureRecognizer) {
 
         switch gestureRecognizer.state {
         case .began:
-            self.interactiveTransition = UIPercentDrivenInteractiveTransition()
+            interactiveTransition = UIPercentDrivenInteractiveTransition()
             dismiss(animated: true, completion: nil)
         case .changed:
             let translation = gestureRecognizer.translation(in: view)
             let progress = max(translation.y / view.bounds.height, 0)
-            self.interactiveTransition?.update(progress)
+            interactiveTransition?.update(progress)
         case .ended:
             let translation = gestureRecognizer.translation(in: view)
             let velocity = gestureRecognizer.velocity(in: view)
             let shouldComplete = translation.y > 50 && velocity.y >= 0
 
             if shouldComplete {
-                self.interactiveTransition?.finish()
+                interactiveTransition?.finish()
             } else {
-                self.interactiveTransition?.update(0)
-                self.interactiveTransition?.cancel()
-                self.interactiveTransition = nil
+                interactiveTransition?.update(0)
+                interactiveTransition?.cancel()
+                interactiveTransition = nil
             }
         case .cancelled:
-            self.interactiveTransition?.cancel()
-            self.interactiveTransition = nil
+            interactiveTransition?.cancel()
+            interactiveTransition = nil
         default: break
         }
     }
@@ -173,7 +173,7 @@ extension ImagesViewController: UICollectionViewDataSource {
 
     func collectionView(_: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? ImageCell else { return }
-        cell.imageView.image = self.messages[indexPath.row].image
+        cell.imageView.image = messages[indexPath.row].image
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -181,12 +181,12 @@ extension ImagesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return self.messages.count
+        return messages.count
     }
 
     func scrollViewDidScroll(_: UIScrollView) {
-        if !self.isInitialScroll {
-            self.dismissDelegate?.imagesAreDismissed(from: self.currentIndexPath)
+        if !isInitialScroll {
+            dismissDelegate?.imagesAreDismissed(from: currentIndexPath)
         }
     }
 }
@@ -195,10 +195,10 @@ extension ImagesViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        if self.messages[indexPath.row].image != nil {
-            return CGSize(width: self.view.bounds.width, height: self.view.bounds.height - 64)
+        if messages[indexPath.row].image != nil {
+            return CGSize(width: view.bounds.width, height: view.bounds.height - 64)
         }
 
-        return CGSize(width: 0, height: self.view.bounds.height - 64)
+        return CGSize(width: 0, height: view.bounds.height - 64)
     }
 }

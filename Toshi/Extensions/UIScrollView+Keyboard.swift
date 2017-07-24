@@ -22,42 +22,42 @@ extension UIScrollView {
 
         var keyboardFrameEnd = CGRect.zero
         value.getValue(&keyboardFrameEnd)
-        keyboardFrameEnd = (self.window?.convert(keyboardFrameEnd, to: self.superview))!
+        keyboardFrameEnd = (window?.convert(keyboardFrameEnd, to: superview))!
 
-        var newScrollViewInsets = self.contentInset
-        newScrollViewInsets.bottom = self.superview!.bounds.size.height - keyboardFrameEnd.origin.y
+        var newScrollViewInsets = contentInset
+        newScrollViewInsets.bottom = superview!.bounds.size.height - keyboardFrameEnd.origin.y
 
         return newScrollViewInsets
     }
 
     func addBottomInsets(_ insets: UIEdgeInsets) {
-        self.contentInset = insets
-        self.scrollIndicatorInsets = insets
+        contentInset = insets
+        scrollIndicatorInsets = insets
     }
 
     func removeBottomInsets(from _: NSNotification) {
-        let insets = UIEdgeInsets(top: self.contentInset.top, left: self.contentInset.left, bottom: 0.0, right: self.contentInset.right)
-        self.contentInset = insets
-        self.scrollIndicatorInsets = insets
+        let insets = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: 0.0, right: contentInset.right)
+        contentInset = insets
+        scrollIndicatorInsets = insets
     }
 
     func addBottomInsets(from notification: NSNotification) {
-        let insets = self.edgeInsets(from: notification)
-        self.contentInset = insets
-        self.scrollIndicatorInsets = insets
+        let insets = edgeInsets(from: notification)
+        contentInset = insets
+        scrollIndicatorInsets = insets
     }
 
     func increaseBottomInsets(by value: CGFloat) {
-        var insets = self.contentInset
+        var insets = contentInset
         insets.bottom += value
-        self.contentInset = insets
-        self.scrollIndicatorInsets = insets
+        contentInset = insets
+        scrollIndicatorInsets = insets
     }
 
     func decreaseBottomInsets(by value: CGFloat) {
-        var insets = self.contentInset
+        var insets = contentInset
         insets.bottom -= value
-        self.contentInset = insets
-        self.scrollIndicatorInsets = contentInset
+        contentInset = insets
+        scrollIndicatorInsets = contentInset
     }
 }

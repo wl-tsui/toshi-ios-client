@@ -52,45 +52,45 @@ class SearchResultCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.contentView.addSubview(self.avatarImageView)
-        self.contentView.addSubview(self.usernameLabel)
-        self.contentView.addSubview(self.nameLabel)
-        self.contentView.addSubview(self.separatorView)
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(usernameLabel)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(separatorView)
 
         let margin: CGFloat = 16.0
         let interLabelMargin: CGFloat = 6.0
         let imageSize: CGFloat = 44.0
         let height: CGFloat = 24.0
 
-        self.avatarImageView.set(height: imageSize)
-        self.avatarImageView.set(width: imageSize)
-        self.avatarImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
-        self.avatarImageView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin).isActive = true
+        avatarImageView.set(height: imageSize)
+        avatarImageView.set(width: imageSize)
+        avatarImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        avatarImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
 
-        self.nameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
-        self.nameLabel.topAnchor.constraint(greaterThanOrEqualTo: self.contentView.topAnchor, constant: margin).isActive = true
-        self.nameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin).isActive = true
-        self.nameLabel.rightAnchor.constraint(greaterThanOrEqualTo: self.contentView.rightAnchor, constant: -margin).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
+        nameLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: margin).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: margin).isActive = true
+        nameLabel.rightAnchor.constraint(greaterThanOrEqualTo: contentView.rightAnchor, constant: -margin).isActive = true
 
-        self.usernameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
-        self.usernameLabel.topAnchor.constraint(equalTo: self.nameLabel.bottomAnchor, constant: interLabelMargin).isActive = true
-        self.usernameLabel.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor, constant: margin).isActive = true
-        self.usernameLabel.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin).isActive = true
-        self.usernameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -margin).isActive = true
+        usernameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
+        usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: interLabelMargin).isActive = true
+        usernameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: margin).isActive = true
+        usernameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
+        usernameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin).isActive = true
 
-        self.separatorView.set(height: Theme.borderHeight)
-        self.separatorView.leftAnchor.constraint(equalTo: self.avatarImageView.rightAnchor).isActive = true
-        self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        separatorView.set(height: Theme.borderHeight)
+        separatorView.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor).isActive = true
+        separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
     }
 
     required init?(coder _: NSCoder) {
         fatalError()
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         nameLabel.text = nil
         usernameLabel.text = nil
         avatarImageView.image = nil

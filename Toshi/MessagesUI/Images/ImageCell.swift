@@ -22,7 +22,7 @@ class ImageCell: UICollectionViewCell {
 
         contentView.backgroundColor = .clear
 
-        contentView.addSubview(self.imageView)
-        self.imageView.edges(to: contentView)
+        contentView.addSubview(imageView)
+        imageView.edges(to: contentView)
     }
 }

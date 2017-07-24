@@ -50,20 +50,20 @@ public class ProfileEditItem {
 
         switch type {
         case .username:
-            self.titleText = Localized("Username")
-            self.detailText = user.username
+            titleText = Localized("Username")
+            detailText = user.username
         case .displayName:
-            self.titleText =  Localized("Display name")
-            self.detailText = user.name
+            titleText = Localized("Display name")
+            detailText = user.name
         case .about:
-            self.titleText =  Localized("About")
-            self.detailText = user.about
+            titleText = Localized("About")
+            detailText = user.about
         case .location:
-            self.titleText =  Localized("Location")
-            self.detailText = user.location
+            titleText = Localized("Location")
+            detailText = user.location
         case .visibility:
-            self.titleText =  Localized("Public")
-            self.switchMode = user.isPublic
+            titleText = Localized("Public")
+            switchMode = user.isPublic
         default:
             break
         }

@@ -10,7 +10,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     let operation: ControllerTransitionOperation
 
     private var duration: TimeInterval {
-        switch self.operation {
+        switch operation {
         case .present:
             return 0.5
         case .dismiss:
@@ -19,7 +19,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     }
 
     var isPresenting: Bool {
-        return self.operation == .present
+        return operation == .present
     }
 
     init(operation: ControllerTransitionOperation) {
@@ -29,25 +29,25 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     }
 
     func transitionDuration(using _: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return self.duration
+        return duration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
-        if self.isPresenting {
+        if isPresenting {
             guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController else { return }
             guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .to) as? ImagesViewController else { return }
 
             transitionContext.containerView.addSubview(imagesViewController.view)
 
-            self.animate(with: transitionContext, messagesViewController, imagesViewController)
+            animate(with: transitionContext, messagesViewController, imagesViewController)
         } else {
             guard let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController else { return }
             guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .from) as? ImagesViewController else { return }
 
-            self.animate(with: transitionContext, messagesViewController, imagesViewController)
+            animate(with: transitionContext, messagesViewController, imagesViewController)
         }
     }
 
@@ -55,23 +55,23 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         messagesViewController.view.setNeedsLayout()
         messagesViewController.view.layoutIfNeeded()
 
-        if !self.isPresenting {
+        if !isPresenting {
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
-        
+
         guard let cell = messagesViewController.tableView.cellForRow(at: imagesViewController.currentIndexPath) as? MessagesImageCell else { return nil }
 
-        return  cell.messageImageView
+        return cell.messageImageView
     }
 
     func fullsizeImageView(for messagesViewController: ChatController, _ imagesViewController: ImagesViewController) -> UIImageView? {
         imagesViewController.view.setNeedsLayout()
         imagesViewController.view.layoutIfNeeded()
 
-        if !self.isPresenting {
+        if !isPresenting {
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
-        
+
         print(imagesViewController)
 
         guard let toCell = imagesViewController.collectionView.visibleCells.flatMap({ cell in cell as? ImageCell }).filter({ imageCell in imageCell.frame.width != 0 }).first else { return nil }
@@ -81,7 +81,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
 
     func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: ChatController, _ imagesViewController: ImagesViewController) {
 
-        if !self.isPresenting {
+        if !isPresenting {
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
 
@@ -91,10 +91,10 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         thumbnail.isHidden = true
         fullsize.isHidden = true
 
-        var beginFrame = self.isPresenting ? context.containerView.convert(thumbnail.frame, from: thumbnail.superview) : context.containerView.convert(fullsize.frame, from: fullsize)
-        var endFrame = self.isPresenting ? context.containerView.convert(fullsize.frame, from: fullsize) : context.containerView.convert(thumbnail.frame, from: thumbnail.superview)
+        var beginFrame = isPresenting ? context.containerView.convert(thumbnail.frame, from: thumbnail.superview) : context.containerView.convert(fullsize.frame, from: fullsize)
+        var endFrame = isPresenting ? context.containerView.convert(fullsize.frame, from: fullsize) : context.containerView.convert(thumbnail.frame, from: thumbnail.superview)
 
-        imagesViewController.view.alpha = self.isPresenting ? 0 : 1
+        imagesViewController.view.alpha = isPresenting ? 0 : 1
 
         let navigationBarHeight: CGFloat = 64
         let topBarHeight: CGFloat = 48
@@ -103,7 +103,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         let fadingBackground = UIView()
         fadingBackground.backgroundColor = Theme.viewBackgroundColor
         fadingBackground.frame = CGRect(x: 0, y: navigationBarHeight, width: context.containerView.bounds.width, height: context.containerView.bounds.height - navigationBarHeight)
-        fadingBackground.alpha = self.isPresenting ? 0 : 1
+        fadingBackground.alpha = isPresenting ? 0 : 1
         context.containerView.addSubview(fadingBackground)
 
         let messagesFrame = CGRect(x: 0, y: navigationBarHeight + topBarHeight, width: context.containerView.bounds.width, height: context.containerView.bounds.height - (navigationBarHeight + topBarHeight + bottomBarHeight))
@@ -111,11 +111,11 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
 
         let mask = UIView()
         mask.clipsToBounds = true
-        mask.frame = self.isPresenting ? messagesFrame : imageFrame
+        mask.frame = isPresenting ? messagesFrame : imageFrame
         context.containerView.addSubview(mask)
 
-        beginFrame.origin.y -= self.isPresenting ? navigationBarHeight + topBarHeight : navigationBarHeight
-        endFrame.origin.y -= self.isPresenting ? navigationBarHeight : navigationBarHeight + topBarHeight
+        beginFrame.origin.y -= isPresenting ? navigationBarHeight + topBarHeight : navigationBarHeight
+        endFrame.origin.y -= isPresenting ? navigationBarHeight : navigationBarHeight + topBarHeight
 
         let clippingContainer = UIView()
         clippingContainer.layer.cornerRadius = 16
@@ -126,7 +126,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         guard let scalingImageView = fullsize.duplicate() else { return }
         scalingImageView.contentMode = fullsize.contentMode
         scalingImageView.clipsToBounds = true
-        scalingImageView.frame = self.isPresenting ? endFrame : beginFrame
+        scalingImageView.frame = isPresenting ? endFrame : beginFrame
         clippingContainer.addSubview(scalingImageView)
 
         guard let fullsizeImageSize = fullsize.contentModeAwareImageSize() else { return }
@@ -136,14 +136,14 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
 
         scalingImageView.center = CGPoint(x: beginFrame.width / 2, y: beginFrame.height / 2)
-        scalingImageView.transform = self.isPresenting ? scale : .identity
+        scalingImageView.transform = isPresenting ? scale : .identity
 
-        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             fadingBackground.alpha = self.isPresenting ? 1 : 0
             imagesViewController.view.alpha = self.isPresenting ? 1 : 0
         }, completion: nil)
 
-        UIView.animate(withDuration: self.duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeInOutFromCurrentStateWithUserInteraction, animations: {
+        UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeInOutFromCurrentStateWithUserInteraction, animations: {
             clippingContainer.frame = endFrame
             mask.frame = self.isPresenting ? imageFrame : messagesFrame
             scalingImageView.center = CGPoint(x: endFrame.width / 2, y: endFrame.height / 2)

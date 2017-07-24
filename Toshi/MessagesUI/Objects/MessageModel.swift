@@ -7,7 +7,7 @@ struct MessageButtonModel {
     let type: MessageType
     let title: String
     let icon: String
-    
+
     enum MessageType {
         case approve
         case decline
@@ -46,12 +46,12 @@ struct MessageModel {
     let isOutgoing: Bool
 
     var identifier: String {
-        return self.message.uniqueIdentifier()
+        return message.uniqueIdentifier()
     }
 
     var image: UIImage? {
-        if self.message.image != nil {
-            return self.message.image
+        if message.image != nil {
+            return message.image
         } else {
             return nil
         }
@@ -69,62 +69,62 @@ struct MessageModel {
     init(message: Message) {
         self.message = message
 
-        self.isOutgoing = message.isOutgoing
+        isOutgoing = message.isOutgoing
 
         if let title = message.title, !title.isEmpty {
             self.title = title
         } else {
-            self.title = nil
+            title = nil
         }
 
-        self.fiatValueString = nil
-        self.ethereumValueString = nil
+        fiatValueString = nil
+        ethereumValueString = nil
 
-        self.subtitle = message.subtitle
-        self.text = message.text
+        subtitle = message.subtitle
+        text = message.text
 
-        self.signalMessage = message.signalMessage
-        self.sofaWrapper = message.sofaWrapper
+        signalMessage = message.signalMessage
+        sofaWrapper = message.sofaWrapper
 
         if message.sofaWrapper?.type == .paymentRequest {
-            self.type = .paymentRequest
-            self.buttonModels = message.isOutgoing ? nil : [.approve, .decline]
+            type = .paymentRequest
+            buttonModels = message.isOutgoing ? nil : [.approve, .decline]
 
-            self.fiatValueString = message.fiatValueString
-            self.ethereumValueString = message.ethereumValueString
+            fiatValueString = message.fiatValueString
+            ethereumValueString = message.ethereumValueString
 
             if let fiatValueString = message.fiatValueString {
-                self.title = "Request for \(fiatValueString)"
+                title = "Request for \(fiatValueString)"
             }
-            self.subtitle = message.ethereumValueString
+            subtitle = message.ethereumValueString
 
         } else if message.sofaWrapper?.type == .payment {
-            self.type = .payment
-            self.buttonModels = nil
+            type = .payment
+            buttonModels = nil
 
-            self.fiatValueString = message.fiatValueString
-            self.ethereumValueString = message.ethereumValueString
+            fiatValueString = message.fiatValueString
+            ethereumValueString = message.ethereumValueString
 
             if let fiatValueString = message.fiatValueString {
-                self.title = "Payment for \(fiatValueString)"
+                title = "Payment for \(fiatValueString)"
             }
-            self.subtitle = message.ethereumValueString
+            subtitle = message.ethereumValueString
 
         } else if message.image != nil {
-            self.type = .image
-            self.buttonModels = nil
+            type = .image
+            buttonModels = nil
         } else {
-            self.type = .simple
-            self.buttonModels = nil
+            type = .simple
+            buttonModels = nil
         }
 
-        self.status = nil
+        status = nil
 
-        self.isActionable = self.buttonModels != nil
+        isActionable = buttonModels != nil
     }
 
     var imageOnly: Bool {
-        guard let text = self.text else { return self.image != nil }
-        return self.image != nil && text.isEmpty
+        guard let text = self.text else { return image != nil }
+        return image != nil && text.isEmpty
     }
 }

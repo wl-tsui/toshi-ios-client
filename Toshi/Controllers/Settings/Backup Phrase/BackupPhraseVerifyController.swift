@@ -65,22 +65,22 @@ class BackupPhraseVerifyController: UIViewController {
     public init() {
         super.init(nibName: nil, bundle: nil)
 
-        self.title = "Store backup phrase"
-        self.hidesBottomBarWhenPushed = true
+        title = "Store backup phrase"
+        hidesBottomBarWhenPushed = true
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.settingsBackgroundColor
 
-        self.addSubviewsAndConstraints()
+        addSubviewsAndConstraints()
     }
 
     func addSubviewsAndConstraints() {
-        self.view.addSubview(self.titleLabel)
-        self.view.addSubview(self.textLabel)
-        self.view.addSubview(self.verifyPhraseView)
-        self.view.addSubview(self.shuffledPhraseView)
+        view.addSubview(titleLabel)
+        view.addSubview(textLabel)
+        view.addSubview(verifyPhraseView)
+        view.addSubview(shuffledPhraseView)
 
         /*
          Between each view we place a layout-guide to add dynamic control of
@@ -91,8 +91,8 @@ class BackupPhraseVerifyController: UIViewController {
          even when the target height for the first layout-guide is not reached.
          */
 
-        for guide in self.guides {
-            self.view.addLayoutGuide(guide)
+        for guide in guides {
+            view.addLayoutGuide(guide)
         }
 
         NSLayoutConstraint.activate([
@@ -148,7 +148,7 @@ extension BackupPhraseVerifyController: AddDelegate {
     func add(_ wordView: BackupPhraseWordView) {
         guard let word = wordView.word else { return }
 
-        self.verifyPhraseView.add(word)
+        verifyPhraseView.add(word)
         wordView.isEnabled = false
     }
 }
@@ -158,8 +158,8 @@ extension BackupPhraseVerifyController: RemoveDelegate {
     func remove(_ wordView: BackupPhraseWordView) {
         guard let word = wordView.word else { return }
 
-        self.verifyPhraseView.remove(word)
-        self.shuffledPhraseView.reset(word)
+        verifyPhraseView.remove(word)
+        shuffledPhraseView.reset(word)
     }
 }
 

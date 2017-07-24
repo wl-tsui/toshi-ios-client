@@ -17,7 +17,7 @@ import Foundation
 
 extension String {
     public var isURL: Bool {
-        let fullRange = NSRange(location: 0, length: self.length)
+        let fullRange = NSRange(location: 0, length: length)
         let detector = try! NSDataDetector(types: NSTextCheckingAllSystemTypes)
         for match in detector.matches(in: self, options: [], range: fullRange) {
             if match.resultType == .link && match.range.location == fullRange.location && match.range.length == fullRange.length {

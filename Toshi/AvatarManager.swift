@@ -22,7 +22,7 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
     static let shared = AvatarManager()
 
     private var imageCache = try! Cache<UIImage>(name: "imageCache")
-    
+
     private var teapots = [String: Teapot]()
 
     private lazy var downloadOperationQueue: OperationQueue = {
@@ -34,10 +34,10 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
     }()
 
     func avatar(for path: String, completion: @escaping ((UIImage?, String?) -> Void)) {
-        let avatar = self.imageCache.object(forKey: path)
+        let avatar = imageCache.object(forKey: path)
 
         guard avatar != nil else {
-            self.downloadAvatar(path: path) { image in
+            downloadAvatar(path: path) { image in
                 completion(image, path)
             }
 
@@ -48,19 +48,19 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
     }
 
     func cachedAvatar(for path: String) -> UIImage? {
-        return self.imageCache.object(forKey: path)
+        return imageCache.object(forKey: path)
     }
 
     func refreshAvatar(at path: String) {
-        self.imageCache.removeObject(forKey: path)
+        imageCache.removeObject(forKey: path)
     }
 
     func cleanCache() {
-        self.imageCache.removeAllObjects()
+        imageCache.removeAllObjects()
     }
 
     func startDownloadContactsAvatars() {
-        self.downloadOperationQueue.cancelAllOperations()
+        downloadOperationQueue.cancelAllOperations()
 
         let operation = BlockOperation()
         operation.addExecutionBlock {
@@ -79,17 +79,17 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
             }
         }
 
-        self.downloadOperationQueue.addOperation(operation)
+        downloadOperationQueue.addOperation(operation)
     }
 
     private func downloadAvatar(for path: String) {
-        guard self.imageCache.object(forKey: path) == nil else {
+        guard imageCache.object(forKey: path) == nil else {
             return
         }
 
-        self.downloadAvatar(path: path) { _ in }
+        downloadAvatar(path: path) { _ in }
     }
-    
+
     private func baseURL(from url: URL) -> String? {
         if url.baseURL == nil {
             guard let scheme = url.scheme, let host = url.host else { return nil }
@@ -111,7 +111,7 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
 
-        self.imageCache.setObject(forKey: path, cacheBlock: { success, failure in
+        imageCache.setObject(forKey: path, cacheBlock: { success, failure in
             DispatchQueue.global(qos: .userInitiated).async {
                 guard let url = URL(string: path) as URL?,
                     let teapot = self.teapot(for: url) as Teapot? else { return }

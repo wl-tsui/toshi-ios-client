@@ -22,7 +22,7 @@ public class EthereumAPIClient: NSObject {
     private static let collectionKey = "ethereumExchangeRate"
 
     public var exchangeRate: Decimal {
-        self.updateRate()
+        updateRate()
 
         if let rate = Yap.sharedInstance.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
             return rate
@@ -39,9 +39,9 @@ public class EthereumAPIClient: NSObject {
 
     fileprivate var activeTeapot: Teapot {
         if NetworkSwitcher.shared.isDefaultNetworkActive {
-            return self.mainTeapot
+            return mainTeapot
         } else {
-            return self.switchedNetworkTeapot
+            return switchedNetworkTeapot
         }
     }
 
@@ -50,14 +50,14 @@ public class EthereumAPIClient: NSObject {
     }
 
     fileprivate override init() {
-        self.mainTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
-        self.switchedNetworkTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
+        mainTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
+        switchedNetworkTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
 
-        self.exchangeTeapot = Teapot(baseURL: URL(string: "https://api.coinbase.com")!)
+        exchangeTeapot = Teapot(baseURL: URL(string: "https://api.coinbase.com")!)
 
         super.init()
 
-        self.updateRate()
+        updateRate()
     }
 
     public func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
@@ -105,7 +105,7 @@ public class EthereumAPIClient: NSObject {
     }
 
     public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ json: RequestParameter?, _ error: Error?) -> Void)) {
-        self.timestamp(self.activeTeapot) { timestamp in
+        timestamp(activeTeapot) { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/tx"
             let params = [
@@ -171,8 +171,8 @@ public class EthereumAPIClient: NSObject {
     }
 
     public func registerForMainNetworkPushNotifications() {
-        self.timestamp(self.mainTeapot) { timestamp in
-            self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { success in
+        timestamp(mainTeapot) { timestamp in
+            self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _ in
             }
         }
     }
@@ -183,27 +183,27 @@ public class EthereumAPIClient: NSObject {
             return
         }
 
-        self.switchedNetworkTeapot.baseURL = URL(string: NetworkSwitcher.shared.activeNetworkBaseUrl)!
+        switchedNetworkTeapot.baseURL = URL(string: NetworkSwitcher.shared.activeNetworkBaseUrl)!
 
-        self.timestamp(self.switchedNetworkTeapot) { timestamp in
+        timestamp(switchedNetworkTeapot) { timestamp in
             self.registerForPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
         }
     }
 
     public func deregisterFromMainNetworkPushNotifications() {
-        self.timestamp(self.mainTeapot) { timestamp in
+        timestamp(mainTeapot) { timestamp in
             self.deregisterFromPushNotifications(timestamp, teapot: self.mainTeapot)
         }
     }
 
     public func deregisterFromSwitchedNetworkPushNotifications(completion: ((Bool) -> Void)? = nil) {
-        self.timestamp(self.switchedNetworkTeapot) { timestamp in
+        timestamp(switchedNetworkTeapot) { timestamp in
             self.deregisterFromPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
         }
     }
 
     fileprivate func updateRate() {
-        self.getRate { rate in
+        getRate { rate in
             if rate != nil {
                 Yap.sharedInstance.insert(object: rate, for: EthereumAPIClient.collectionKey)
             }
@@ -242,7 +242,7 @@ public class EthereumAPIClient: NSObject {
             "Token-ID-Address": address,
             "Token-Signature": signature,
             "Token-Timestamp": timestamp,
-            ]
+        ]
 
         let json = RequestParameter(params)
 
@@ -284,7 +284,7 @@ public class EthereumAPIClient: NSObject {
             "Token-ID-Address": address,
             "Token-Signature": signature,
             "Token-Timestamp": timestamp,
-            ]
+        ]
 
         let json = RequestParameter(params)
 

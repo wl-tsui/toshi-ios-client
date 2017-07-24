@@ -22,8 +22,8 @@ class ProfileItemCell: UITableViewCell {
 
     var formItem: FormItem? {
         didSet {
-            self.itemLabel.text = self.formItem?.title
-            self.itemTextField.text = self.formItem?.value as? String
+            itemLabel.text = formItem?.title
+            itemTextField.text = formItem?.value as? String
         }
     }
 
@@ -57,29 +57,29 @@ class ProfileItemCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        self.contentView.addSubview(self.itemLabel)
-        self.contentView.addSubview(self.itemTextField)
-        self.contentView.addSubview(self.separatorView)
+        contentView.addSubview(itemLabel)
+        contentView.addSubview(itemTextField)
+        contentView.addSubview(separatorView)
 
         let margin: CGFloat = 22.0
 
-        self.itemLabel.set(height: 44)
-        self.itemLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.itemLabel.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin).isActive = true
-        self.itemLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+        itemLabel.set(height: 44)
+        itemLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        itemLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
+        itemLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
 
-        self.itemTextField.set(height: 44)
-        self.itemTextField.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-        self.itemTextField.leftAnchor.constraint(equalTo: self.itemLabel.rightAnchor, constant: margin).isActive = true
-        self.itemTextField.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.itemTextField.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin).isActive = true
+        itemTextField.set(height: 44)
+        itemTextField.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        itemTextField.leftAnchor.constraint(equalTo: itemLabel.rightAnchor, constant: margin).isActive = true
+        itemTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        itemTextField.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
 
-        self.separatorView.set(height: Theme.borderHeight)
-        self.separatorView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-        self.separatorView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin).isActive = true
-        self.separatorView.rightAnchor.constraint(equalTo: self.contentView.rightAnchor).isActive = true
+        separatorView.set(height: Theme.borderHeight)
+        separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileItemCell.textFieldDidChange), name: .UITextFieldTextDidChange, object: self.itemTextField)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileItemCell.textFieldDidChange), name: .UITextFieldTextDidChange, object: itemTextField)
     }
 
     required init?(coder _: NSCoder) {
@@ -87,7 +87,7 @@ class ProfileItemCell: UITableViewCell {
     }
 
     override func prepareForReuse() {
-        self.formItem = nil
+        formItem = nil
     }
 }
 

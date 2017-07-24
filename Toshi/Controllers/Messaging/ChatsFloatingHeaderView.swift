@@ -63,9 +63,9 @@ class ChatsFloatingHeaderView: UIView {
     var balance: NSDecimalNumber? {
         didSet {
             if let balance = self.balance {
-                self.balanceLabel.attributedText = EthereumConverter.balanceAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+                balanceLabel.attributedText = EthereumConverter.balanceAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate)
             } else {
-                self.balanceLabel.attributedText = nil
+                balanceLabel.attributedText = nil
             }
         }
     }
@@ -87,35 +87,35 @@ class ChatsFloatingHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.addSubview(self.backgroundBlur)
-        self.addSubview(self.balanceLabel)
-        self.addSubview(self.requestButton)
-        self.addSubview(self.payButton)
-        self.addSubview(self.separatorView)
+        addSubview(backgroundBlur)
+        addSubview(balanceLabel)
+        addSubview(requestButton)
+        addSubview(payButton)
+        addSubview(separatorView)
 
-        self.backgroundBlur.edges(to: self)
+        backgroundBlur.edges(to: self)
 
         let margin = CGFloat(10)
-        self.balanceLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.balanceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        self.balanceLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin).isActive = true
+        balanceLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        balanceLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        balanceLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
 
         let buttonWidth = CGFloat(70)
-        self.requestButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.requestButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        self.requestButton.leftAnchor.constraint(equalTo: self.balanceLabel.rightAnchor).isActive = true
-        self.requestButton.rightAnchor.constraint(equalTo: self.payButton.leftAnchor).isActive = true
-        self.requestButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        requestButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        requestButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        requestButton.leftAnchor.constraint(equalTo: balanceLabel.rightAnchor).isActive = true
+        requestButton.rightAnchor.constraint(equalTo: payButton.leftAnchor).isActive = true
+        requestButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 
-        self.payButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        self.payButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        self.payButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        self.payButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        payButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        payButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        payButton.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        payButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 
-        self.separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        self.separatorView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        self.separatorView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        self.separatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        separatorView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        separatorView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
     required init?(coder _: NSCoder) {
@@ -123,10 +123,10 @@ class ChatsFloatingHeaderView: UIView {
     }
 
     func request(button: UIButton) {
-        self.delegate?.messagesFloatingView(self, didPressRequestButton: button)
+        delegate?.messagesFloatingView(self, didPressRequestButton: button)
     }
 
     func pay(button: UIButton) {
-        self.delegate?.messagesFloatingView(self, didPressPayButton: button)
+        delegate?.messagesFloatingView(self, didPressPayButton: button)
     }
 }
