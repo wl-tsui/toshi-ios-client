@@ -99,6 +99,7 @@ class RateUserController: ModalPresentable {
         view.internalTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 5, right: 5)
         view.internalTextView.scrollIndicatorInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 5)
         view.placeholder = " Review (optional)"
+        view.returnKeyType = .done
 
         return view
     }()
@@ -303,5 +304,11 @@ extension RateUserController: HPGrowingTextViewDelegate {
     func growingTextViewDidChange(_ textView: HPGrowingTextView!) {
         inputHeight = textView.frame.height
         review = textView.text
+    }
+
+    func growingTextViewShouldReturn(_ growingTextView: HPGrowingTextView!) -> Bool {
+        growingTextView.resignFirstResponder()
+
+        return false
     }
 }
