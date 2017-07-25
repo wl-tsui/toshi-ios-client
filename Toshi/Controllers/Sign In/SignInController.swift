@@ -66,7 +66,8 @@ open class SignInController: UIViewController {
     private lazy var scanQRButton: ActionButton = {
         let view = ActionButton(margin: 30)
         view.title = "Scan QR to sign in"
-        view.style = .secondary
+
+        view.setButtonStyle(.secondary)
 
         return view
     }()

@@ -63,10 +63,11 @@ class RateUserController: ModalPresentable {
     private lazy var cancelButton: ActionButton = {
         let view = ActionButton(margin: 0)
         view.title = "Not now"
-        view.style = .plain
         view.background.layer.cornerRadius = 0
         view.titleLabel.font = Theme.regular(size: 18)
+        
         view.addTarget(self, action: #selector(cancel(_:)), for: .touchUpInside)
+        view.setButtonStyle(.plain)
 
         return view
     }()
@@ -74,11 +75,12 @@ class RateUserController: ModalPresentable {
     private lazy var submitButton: ActionButton = {
         let view = ActionButton(margin: 0)
         view.title = "Submit"
-        view.style = .plain
         view.background.layer.cornerRadius = 0
         view.titleLabel.font = Theme.semibold(size: 18)
-        view.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)
         view.isEnabled = false
+
+        view.addTarget(self, action: #selector(submit(_:)), for: .touchUpInside)
+        view.setButtonStyle(.plain)
 
         return view
     }()

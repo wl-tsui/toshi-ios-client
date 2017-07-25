@@ -58,54 +58,50 @@ class ActionButton: UIControl {
         case plain
     }
 
-    var style: ButtonStyle? {
-        didSet {
-            guard let style = self.style else { return }
+    func setButtonStyle(_ style: ButtonStyle) {
+        switch style {
+        case .primary:
+            // Primary buttons have the tint color as background with a light text color
+            titleColor[.normal] = Theme.lightTextColor
+            buttonColor[.normal] = Theme.tintColor
+            borderColor[.normal] = Theme.tintColor
 
-            switch style {
-            case .primary:
-                // Primary buttons have the tint color as background with a light text color
-                titleColor[.normal] = Theme.lightTextColor
-                buttonColor[.normal] = Theme.tintColor
-                borderColor[.normal] = Theme.tintColor
+            titleColor[.highlighted] = Theme.lightTextColor
+            buttonColor[.highlighted] = Theme.tintColor
+            borderColor[.highlighted] = Theme.tintColor
 
-                titleColor[.highlighted] = Theme.lightTextColor
-                buttonColor[.highlighted] = Theme.tintColor
-                borderColor[.highlighted] = Theme.tintColor
+            titleColor[.disabled] = Theme.lightTextColor
+            buttonColor[.disabled] = Theme.greyTextColor
+            borderColor[.disabled] = Theme.greyTextColor
+        case .secondary:
+            // Secondary buttons have a white background with a dark text color and a border
+            titleColor[.normal] = Theme.darkTextColor
+            buttonColor[.normal] = .white
+            borderColor[.normal] = Theme.greyTextColor
 
-                titleColor[.disabled] = Theme.lightTextColor
-                buttonColor[.disabled] = Theme.greyTextColor
-                borderColor[.disabled] = Theme.greyTextColor
-            case .secondary:
-                // Secondary buttons have a white background with a dark text color and a border
-                titleColor[.normal] = Theme.darkTextColor
-                buttonColor[.normal] = .white
-                borderColor[.normal] = Theme.greyTextColor
+            titleColor[.highlighted] = Theme.darkTextColor
+            buttonColor[.highlighted] = .white
+            borderColor[.highlighted] = Theme.greyTextColor
 
-                titleColor[.highlighted] = Theme.darkTextColor
-                buttonColor[.highlighted] = .white
-                borderColor[.highlighted] = Theme.greyTextColor
+            titleColor[.disabled] = Theme.greyTextColor
+            buttonColor[.disabled] = .clear
+            borderColor[.disabled] = Theme.greyTextColor
+        case .plain:
+            // Plain buttons have no background with the tint color for the title
+            titleColor[.normal] = Theme.tintColor
+            buttonColor[.normal] = .clear
+            borderColor[.normal] = .clear
 
-                titleColor[.disabled] = Theme.greyTextColor
-                buttonColor[.disabled] = .clear
-                borderColor[.disabled] = Theme.greyTextColor
-            case .plain:
-                // Plain buttons have no background with the tint color for the title
-                titleColor[.normal] = Theme.tintColor
-                buttonColor[.normal] = .clear
-                borderColor[.normal] = .clear
+            titleColor[.highlighted] = Theme.tintColor
+            buttonColor[.highlighted] = .clear
+            borderColor[.highlighted] = .clear
 
-                titleColor[.highlighted] = Theme.tintColor
-                buttonColor[.highlighted] = .clear
-                borderColor[.highlighted] = .clear
-
-                titleColor[.disabled] = Theme.greyTextColor
-                buttonColor[.disabled] = .clear
-                borderColor[.disabled] = .clear
-            }
-
-            restyle()
+            titleColor[.disabled] = Theme.greyTextColor
+            buttonColor[.disabled] = .clear
+            borderColor[.disabled] = .clear
         }
+
+        restyle()
     }
 
     lazy var background: UIView = {
@@ -155,10 +151,13 @@ class ActionButton: UIControl {
         }
     }
 
-    convenience init(margin: CGFloat) {
-        self.init(frame: .zero)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-        style = .primary
+    init(margin: CGFloat) {
+        super.init(frame: .zero)
+
         translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(background)
@@ -199,6 +198,8 @@ class ActionButton: UIControl {
 
             heightConstraint
         ])
+
+        setButtonStyle(.primary)
     }
 
     override var isHighlighted: Bool {
