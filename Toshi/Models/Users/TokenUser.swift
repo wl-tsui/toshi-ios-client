@@ -122,7 +122,7 @@ public class TokenUser: NSObject, NSCoding {
             Constants.avatar: self.avatarPath,
             Constants.isApp: self.isApp,
             Constants.verified: self.verified,
-            Constants.isPublic: self.isPublic,
+            Constants.isPublic: self.isPublic
         ]
     }
 

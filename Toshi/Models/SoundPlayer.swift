@@ -34,7 +34,7 @@ public struct SoundPlayer {
 
     fileprivate init() {
         sounds = [
-            self.soundID(for: .messageSent),
+            self.soundID(for: .messageSent)
         ]
     }
 

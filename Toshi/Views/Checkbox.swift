@@ -55,7 +55,7 @@ class Checkbox: UIView {
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.leftAnchor.constraint(equalTo: view.leftAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            imageView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            imageView.rightAnchor.constraint(equalTo: view.rightAnchor)
         ])
 
         return view
@@ -84,7 +84,7 @@ class Checkbox: UIView {
             self.unCheckedView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.unCheckedView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.unCheckedView.widthAnchor.constraint(equalToConstant: Checkbox.size),
-            self.unCheckedView.heightAnchor.constraint(equalToConstant: Checkbox.size),
+            self.unCheckedView.heightAnchor.constraint(equalToConstant: Checkbox.size)
         ])
 
         NSLayoutConstraint.activate([
@@ -93,7 +93,7 @@ class Checkbox: UIView {
             self.checkedView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.checkedView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.checkedView.widthAnchor.constraint(equalToConstant: Checkbox.size),
-            self.checkedView.heightAnchor.constraint(equalToConstant: Checkbox.size),
+            self.checkedView.heightAnchor.constraint(equalToConstant: Checkbox.size)
         ])
     }
 }

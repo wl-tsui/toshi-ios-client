@@ -55,11 +55,11 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
     }
 
     public static func updateApplicationBadgeNumber() {
-        let count = Int(TSMessagesManager.shared().unreadMessagesCount())
-        UIApplication.shared.applicationIconBadgeNumber = count
+        let unreadMessagesCount = Int(TSMessagesManager.shared().unreadMessagesCount())
+        UIApplication.shared.applicationIconBadgeNumber = unreadMessagesCount
 
-        if count > 0 {
-            tabbarController?.messagingController.tabBarItem.badgeValue = "\(count)"
+        if unreadMessagesCount > 0 {
+            tabbarController?.messagingController.tabBarItem.badgeValue = "\(unreadMessagesCount)"
             tabbarController?.messagingController.tabBarItem.badgeColor = .red
         } else {
             tabbarController?.messagingController.tabBarItem.badgeValue = nil

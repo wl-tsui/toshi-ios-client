@@ -17,7 +17,7 @@ import Foundation
 import UIKit
 import SweetUIKit
 
-protocol BrowseCellSelectionDelegate {
+protocol BrowseCellSelectionDelegate: class {
     func seeAll(for contentSection: BrowseContentSection)
     func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView)
 }
@@ -30,7 +30,7 @@ class BrowseCell: UICollectionViewCell {
 
     let horizontalInset: CGFloat = 10
 
-    var selectionDelegate: BrowseCellSelectionDelegate?
+    weak var selectionDelegate: BrowseCellSelectionDelegate?
 
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()

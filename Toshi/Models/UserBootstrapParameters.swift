@@ -52,19 +52,19 @@ public class UserBootstrapParameter {
         for prekey in self.prekeys {
             let prekeyParam: [String: Any] = [
                 "keyId": prekey.id,
-                "publicKey": ((prekey.keyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString(),
+                "publicKey": ((prekey.keyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
             ]
             prekeys.append(prekeyParam)
         }
 
         let lastResortKey: [String: Any] = [
             "keyId": Int(self.lastResortPreKey.id),
-            "publicKey": ((self.lastResortPreKey.keyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString(),
+            "publicKey": ((self.lastResortPreKey.keyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString()
         ]
         let signedPreKey: [String: Any] = [
             "keyId": Int(self.signedPrekey.id),
             "publicKey": ((self.signedPrekey.keyPair.publicKey() as NSData).prependKeyType() as Data).base64EncodedString(),
-            "signature": self.signedPrekey.signature.base64EncodedString(),
+            "signature": self.signedPrekey.signature.base64EncodedString()
         ]
 
         let payload: [String: Any] = [
@@ -74,7 +74,7 @@ public class UserBootstrapParameter {
             "preKeys": prekeys,
             "registrationId": Int(self.registrationId),
             "signalingKey": self.signalingKey,
-            "signedPreKey": signedPreKey,
+            "signedPreKey": signedPreKey
         ]
 
         return payload

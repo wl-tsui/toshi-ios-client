@@ -156,7 +156,7 @@ open class SignInController: UIViewController {
             self.scanQRButton.topAnchor.constraint(equalTo: self.signInButton.bottomAnchor, constant: 10),
             self.scanQRButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin),
             self.scanQRButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin),
-            self.scanQRButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            self.scanQRButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
     }
 

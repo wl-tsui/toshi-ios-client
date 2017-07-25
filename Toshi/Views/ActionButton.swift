@@ -197,7 +197,7 @@ class ActionButton: UIControl {
 
             self.guides[0].widthAnchor.constraint(equalTo: self.guides[1].widthAnchor).priority(.high),
 
-            heightConstraint,
+            heightConstraint
         ])
     }
 

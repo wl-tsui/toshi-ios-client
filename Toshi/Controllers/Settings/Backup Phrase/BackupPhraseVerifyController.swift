@@ -138,7 +138,7 @@ class BackupPhraseVerifyController: UIViewController {
             self.guides[1].heightAnchor.constraint(equalTo: self.guides[0].heightAnchor, multiplier: 0.5),
             self.guides[2].heightAnchor.constraint(equalTo: self.guides[0].heightAnchor),
             self.guides[3].heightAnchor.constraint(equalTo: self.guides[2].heightAnchor),
-            self.guides[4].heightAnchor.constraint(equalTo: self.guides[3].heightAnchor),
+            self.guides[4].heightAnchor.constraint(equalTo: self.guides[3].heightAnchor)
         ])
     }
 }

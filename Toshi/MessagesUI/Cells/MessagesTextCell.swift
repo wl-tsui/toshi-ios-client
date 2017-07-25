@@ -86,7 +86,7 @@ class MessagesTextCell: MessagesBasicCell {
                     let attributes: [String: Any] = [
                         NSLinkAttributeName: "toshi://username:\((text.string as NSString).substring(with: result.rangeAt(1)))",
                         NSForegroundColorAttributeName: (self.isOutGoing ? Theme.lightTextColor : Theme.tintColor),
-                        NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
+                        NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue
                     ]
 
                     text.addAttributes(attributes, range: result.rangeAt(1))

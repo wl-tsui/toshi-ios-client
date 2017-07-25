@@ -68,12 +68,12 @@ class SettingsSectionHeader: UIView {
                 self.errorLabel.rightAnchor.constraint(equalTo: self.errorImage.leftAnchor, constant: -5),
 
                 self.errorImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-                self.errorImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin),
+                self.errorImage.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
             ])
         } else {
             NSLayoutConstraint.activate([
                 self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: margin),
-                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin),
+                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -margin)
             ])
         }
     }

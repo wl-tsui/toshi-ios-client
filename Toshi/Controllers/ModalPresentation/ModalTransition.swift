@@ -22,8 +22,10 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     var duration: TimeInterval {
         switch operation {
-        case .present: return 0.8
-        case .dismiss: return 0.4
+        case .present:
+            return 0.8
+        case .dismiss:
+            return 0.4
         }
     }
 
@@ -38,8 +40,10 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         switch operation {
-        case .present: present(with: transitionContext)
-        case .dismiss: dismiss(with: transitionContext)
+        case .present:
+            present(with: transitionContext)
+        case .dismiss:
+            dismiss(with: transitionContext)
         }
     }
 

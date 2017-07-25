@@ -110,7 +110,7 @@ final class ChatsInteractor {
             let parameters: [String: Any] = [
                 "from": Cereal.shared.paymentAddress,
                 "to": user.paymentAddress,
-                "value": value.toHexString,
+                "value": value.toHexString
             ]
 
             self.sendPayment(with: parameters, completion: completion)
@@ -310,7 +310,7 @@ final class ChatsInteractor {
 
             var mediaDescriptions = [[String: Any]]()
 
-            if let itemDescriptions = itemDescriptions as? [Dictionary<String, Any>] {
+            if let itemDescriptions = itemDescriptions as? [[String: Any]] {
 
                 for description in itemDescriptions {
                     if description["localImage"] != nil ||
@@ -329,7 +329,7 @@ final class ChatsInteractor {
                 }
             }
 
-            if mediaDescriptions.count > 0 {
+            if !mediaDescriptions.isEmpty {
                 for description in mediaDescriptions {
 
                     var mediaData: [String: Any]?

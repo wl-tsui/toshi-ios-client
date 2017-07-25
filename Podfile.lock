@@ -55,6 +55,7 @@ PODS:
   - SQLCipher/fts (3.4.1):
     - SQLCipher/common
   - SSignalKit (0.0.2)
+  - SwiftLint (0.20.1)
   - TwistedOakCollapsingFutures (1.0.0):
     - UnionFind (~> 1.0)
   - UnionFind (1.0.1)
@@ -115,6 +116,7 @@ DEPENDENCIES:
   - SignalServiceKit (from `https://github.com/toshiapp/SignalServiceKit.git`, commit `d8c6931`)
   - SocketRocket (from `https://github.com/facebook/SocketRocket.git`)
   - SSignalKit
+  - SwiftLint
 
 EXTERNAL SOURCES:
   AxolotlKit:
@@ -153,10 +155,11 @@ SPEC CHECKSUMS:
   SocketRocket: dbb1554b8fc288ef8ef370d6285aeca7361be31e
   SQLCipher: 43d12c0eb9c57fb438749618fc3ce0065509a559
   SSignalKit: d65a4f89cdf037c787d630c7d6d6359b80f290f4
+  SwiftLint: f60095dc173a3f3ec505bb34f5229c3dfd779a54
   TwistedOakCollapsingFutures: f359b90f203e9ab13dfb92c9ff41842a7fe1cd0c
   UnionFind: c33be5adb12983981d6e827ea94fc7f9e370f52d
   YapDatabase: cd911121580ff16675f65ad742a9eb0ab4d9e266
 
-PODFILE CHECKSUM: 7f94c6f42e963a454fe6b5bccb054998a061f364
+PODFILE CHECKSUM: 273ec449c213a3404b9a636ac12b219f8e925cf4
 
 COCOAPODS: 1.2.1

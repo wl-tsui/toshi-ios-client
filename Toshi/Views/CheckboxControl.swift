@@ -49,7 +49,7 @@ class CheckboxControl: UIControl {
             let attributes: [String: Any] = [
                 NSFontAttributeName: Theme.regular(size: 16),
                 NSForegroundColorAttributeName: Theme.darkTextColor,
-                NSParagraphStyleAttributeName: paragraphStyle,
+                NSParagraphStyleAttributeName: paragraphStyle
             ]
 
             self.titleLabel.attributedText = NSMutableAttributedString(string: title, attributes: attributes)
@@ -73,7 +73,7 @@ class CheckboxControl: UIControl {
             self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             self.titleLabel.leftAnchor.constraint(equalTo: self.checkbox.rightAnchor, constant: 15),
             self.titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
     }
 

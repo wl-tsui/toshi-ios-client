@@ -2,14 +2,14 @@ import Foundation
 import UIKit
 import TinyConstraints
 
-protocol MessagesPaymentCellDelegate {
+protocol MessagesPaymentCellDelegate: class {
     func approvePayment(for cell: MessagesPaymentCell)
     func declinePayment(for cell: MessagesPaymentCell)
 }
 
 class MessagesPaymentCell: MessagesBasicCell {
 
-    var selectionDelegate: MessagesPaymentCellDelegate?
+    weak var selectionDelegate: MessagesPaymentCellDelegate?
 
     static let reuseIdentifier = "MessagesPaymentCell"
 

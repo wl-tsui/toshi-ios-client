@@ -29,15 +29,15 @@ struct Word {
 typealias Phrase = [Word]
 typealias Layout = [NSLayoutConstraint]
 
-protocol AddDelegate {
+protocol AddDelegate: class {
     func add(_ wordView: BackupPhraseWordView)
 }
 
-protocol RemoveDelegate {
+protocol RemoveDelegate: class {
     func remove(_ wordView: BackupPhraseWordView)
 }
 
-protocol VerificationDelegate {
+protocol VerificationDelegate: class {
     func verify(_ phrase: Phrase) -> VerificationStatus
 }
 
@@ -77,9 +77,9 @@ class BackupPhraseView: UIView {
     let margin: CGFloat = 10
     let maxWidth = UIScreen.main.bounds.width - 30
 
-    var addDelegate: AddDelegate?
-    var removeDelegate: RemoveDelegate?
-    var verificationDelegate: VerificationDelegate?
+    weak var addDelegate: AddDelegate?
+    weak var removeDelegate: RemoveDelegate?
+    weak var verificationDelegate: VerificationDelegate?
 
     var wordViews: [BackupPhraseWordView] = []
     var containers: [UILayoutGuide] = []

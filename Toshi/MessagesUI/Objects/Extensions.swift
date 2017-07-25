@@ -117,7 +117,8 @@ extension UIImageView {
             let scale = min(frame.size.width / actualSize.width, frame.size.height / actualSize.height)
             return CGSize(width: actualSize.width * scale, height: actualSize.height * scale)
 
-        default: return nil
+        default:
+            return nil
         }
     }
 }

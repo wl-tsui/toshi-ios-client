@@ -161,7 +161,7 @@ open class SofaMessage: SofaWrapper {
             }
         }
 
-        public static func ==(lhs: SofaMessage.Button, rhs: SofaMessage.Button) -> Bool {
+        public static func == (lhs: SofaMessage.Button, rhs: SofaMessage.Button) -> Bool {
             let lhv = lhs.value as AnyObject
             let rhv = rhs.value as AnyObject
             let lha = lhs.action as AnyObject
@@ -233,7 +233,7 @@ open class SofaCommand: SofaWrapper {
     public convenience init(button: SofaMessage.Button) {
         let json: [String: Any] = [
             "body": button.label,
-            "value": button.value!,
+            "value": button.value!
         ]
 
         self.init(content: json)
@@ -355,7 +355,7 @@ open class SofaPayment: SofaWrapper {
         let payment: [String: String] = [
             "status": Status.unconfirmed.rawValue,
             "txHash": txHash,
-            "value": valueHex,
+            "value": valueHex
         ]
 
         self.init(content: payment)

@@ -87,7 +87,8 @@ extension BalanceController: UITableViewDataSource {
             cell.textLabel?.text = Localized("balance-action-deposit")
             cell.textLabel?.textColor = Theme.tintColor
             cell.textLabel?.font = Theme.regular(size: 17)
-        default: break
+        default:
+            break
         }
 
         return cell

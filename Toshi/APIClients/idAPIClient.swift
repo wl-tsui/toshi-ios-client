@@ -131,7 +131,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 let cereal = Cereal.shared
                 let path = "/v1/user"
                 let parameters = [
-                    "payment_address": cereal.paymentAddress,
+                    "payment_address": cereal.paymentAddress
                 ]
                 let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
@@ -439,7 +439,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
             let payload = [
                 "token_id": address,
-                "details": reason,
+                "details": reason
             ]
             let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
             let payloadString = String(data: payloadData, encoding: .utf8)!

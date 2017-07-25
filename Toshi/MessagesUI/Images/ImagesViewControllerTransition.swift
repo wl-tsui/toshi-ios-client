@@ -74,7 +74,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
 
         print(imagesViewController)
 
-        guard let toCell = imagesViewController.collectionView.visibleCells.flatMap({ cell in cell as? ImageCell }).filter({ imageCell in imageCell.frame.width != 0 }).first else { return nil }
+        guard let toCell = imagesViewController.collectionView.visibleCells.flatMap({ cell in cell as? ImageCell }).first(where: { imageCell in imageCell.frame.width != 0 }) else { return nil }
 
         return toCell.imageView
     }

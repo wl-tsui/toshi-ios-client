@@ -103,12 +103,12 @@ struct ImageStorage {
     }
 
     func fetchAllImages() -> [UIImage]? {
-        guard let files = try? system.contentsOfDirectory(at: path.appendingPathComponent(folder), includingPropertiesForKeys: nil), files.count > 0 else { return nil }
+        guard let files = try? system.contentsOfDirectory(at: path.appendingPathComponent(folder), includingPropertiesForKeys: nil), !files.isEmpty else { return nil }
         return files.flatMap { file in try? Data(contentsOf: file) }.flatMap { data in UIImage(data: data) }
     }
 
     func fetch(_ imageName: String, completion: @escaping AsyncImageCompletion) {
-        guard let files = try? system.contentsOfDirectory(at: path.appendingPathComponent(folder), includingPropertiesForKeys: nil), files.count > 0 else {
+        guard let files = try? system.contentsOfDirectory(at: path.appendingPathComponent(folder), includingPropertiesForKeys: nil), !files.isEmpty else {
             completion(nil)
             return
         }

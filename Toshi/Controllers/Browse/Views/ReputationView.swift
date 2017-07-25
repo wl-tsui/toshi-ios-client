@@ -165,7 +165,7 @@ class ReputationView: UIView {
             self.oneStarsBarView.leftAnchor.constraint(equalTo: self.guides[1].leftAnchor, constant: horizontalMargin),
             self.oneStarsBarView.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.oneStarsBarView.heightAnchor.constraint(equalToConstant: barHeight),
-            self.oneStarsBarView.bottomAnchor.constraint(equalTo: self.guides[1].bottomAnchor, constant: -barSpacing),
+            self.oneStarsBarView.bottomAnchor.constraint(equalTo: self.guides[1].bottomAnchor, constant: -barSpacing)
         ])
     }
 
@@ -255,7 +255,7 @@ class ReputationBarView: UIView {
             self.barView.leftAnchor.constraint(equalTo: self.starImageView.rightAnchor, constant: 8),
             self.barView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 
-            self.barWidthAnchor,
+            self.barWidthAnchor
         ])
     }
 

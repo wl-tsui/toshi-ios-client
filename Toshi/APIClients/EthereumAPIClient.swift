@@ -110,7 +110,7 @@ public class EthereumAPIClient: NSObject {
             let path = "/v1/tx"
             let params = [
                 "tx": originalTransaction,
-                "signature": transactionSignature,
+                "signature": transactionSignature
             ]
 
             let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
@@ -121,7 +121,7 @@ public class EthereumAPIClient: NSObject {
             let headers: [String: String] = [
                 "Token-ID-Address": cereal.paymentAddress,
                 "Token-Signature": signature,
-                "Token-Timestamp": timestamp,
+                "Token-Timestamp": timestamp
             ]
 
             let json = RequestParameter(params)
@@ -241,7 +241,7 @@ public class EthereumAPIClient: NSObject {
         let headerFields: [String: String] = [
             "Token-ID-Address": address,
             "Token-Signature": signature,
-            "Token-Timestamp": timestamp,
+            "Token-Timestamp": timestamp
         ]
 
         let json = RequestParameter(params)
@@ -283,7 +283,7 @@ public class EthereumAPIClient: NSObject {
         let headerFields: [String: String] = [
             "Token-ID-Address": address,
             "Token-Signature": signature,
-            "Token-Timestamp": timestamp,
+            "Token-Timestamp": timestamp
         ]
 
         let json = RequestParameter(params)

@@ -1,4 +1,3 @@
-
 // Copyright (c) 2017 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
@@ -296,7 +295,7 @@ final class ChatController: OverlayController {
             self.textInputView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
             self.textInputViewBottom,
-            self.textInputViewHeight,
+            self.textInputViewHeight
         ])
 
         view.addSubview(controlsView)
@@ -389,11 +388,11 @@ final class ChatController: OverlayController {
 
             self.controlsView.isHidden = true
             self.updateSubcontrols(with: nil)
-            self.controlsViewHeightConstraint.constant = self.buttons.count > 0 ? 250 : 0
+            self.controlsViewHeightConstraint.constant = !self.buttons.isEmpty ? 250 : 0
             self.controlsViewDelegateDatasource.items = self.buttons
             self.controlsView.reloadData()
 
-            let duration = self.buttons.count > 0 ? 0.0 : 0.3
+            let duration = !self.buttons.isEmpty ? 0.0 : 0.3
 
             UIView.animate(withDuration: duration, delay: 0.0, options: [.curveEaseIn, .beginFromCurrentState], animations: {
                 self.controlsView.layoutIfNeeded()
@@ -957,7 +956,7 @@ extension ChatController: PaymentRequestControllerDelegate {
         let request: [String: Any] = [
             "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: EthereumAPIClient.shared.exchangeRate).string).",
             "value": valueInWei.toHexString,
-            "destinationAddress": Cereal.shared.paymentAddress,
+            "destinationAddress": Cereal.shared.paymentAddress
         ]
 
         let paymentRequest = SofaPaymentRequest(content: request)

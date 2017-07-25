@@ -48,9 +48,9 @@ class ChatCell: UITableViewCell {
 
             // unread badge
             if let thread = self.thread {
-                let count = TSMessagesManager.shared().unreadMessages(in: thread)
-                if count > 0 {
-                    unreadLabel.text = "\(count)"
+                let unreadMessagesCount = TSMessagesManager.shared().unreadMessages(in: thread)
+                if unreadMessagesCount > 0 {
+                    unreadLabel.text = "\(unreadMessagesCount)"
                     unreadView.isHidden = false
                     lastMessageDateLabel.textColor = Theme.tintColor
                 } else {
@@ -87,7 +87,7 @@ class ChatCell: UITableViewCell {
         return [
             NSFontAttributeName: Theme.regular(size: 15),
             NSForegroundColorAttributeName: Theme.greyTextColor,
-            NSParagraphStyleAttributeName: paragraphStyle,
+            NSParagraphStyleAttributeName: paragraphStyle
         ]
     }()
 
@@ -104,7 +104,7 @@ class ChatCell: UITableViewCell {
         self.unreadLabel.textAlignment = .center
         view.addSubview(self.unreadLabel)
 
-        self.unreadLabel.edges(to: view, insets: UIEdgeInsetsMake(0, 5, 0, -5))
+        self.unreadLabel.edges(to: view, insets: UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5))
 
         return view
     }()

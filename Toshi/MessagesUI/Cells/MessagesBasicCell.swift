@@ -95,15 +95,21 @@ class MessagesBasicCell: UITableViewCell {
 
         if self is MessagesPaymentCell {
             switch cornerType {
-            case .top: return isOutGoing ? cornerTopOutlineOutgoing : cornerTopOutline
-            case .middle: return isOutGoing ? cornerMiddleOutlineOutgoing : cornerMiddleOutline
-            case .bottom: return isOutGoing ? cornerBottomOutlineOutgoing : cornerBottomOutline
+            case .top:
+                return isOutGoing ? cornerTopOutlineOutgoing : cornerTopOutline
+            case .middle:
+                return isOutGoing ? cornerMiddleOutlineOutgoing : cornerMiddleOutline
+            case .bottom:
+                return isOutGoing ? cornerBottomOutlineOutgoing : cornerBottomOutline
             }
         } else {
             switch cornerType {
-            case .top: return isOutGoing ? cornerTopOutgoing : cornerTop
-            case .middle: return isOutGoing ? cornerMiddleOutgoing : cornerMiddle
-            case .bottom: return isOutGoing ? cornerBottomOutgoing : cornerBottom
+            case .top:
+                return isOutGoing ? cornerTopOutgoing : cornerTop
+            case .middle:
+                return isOutGoing ? cornerMiddleOutgoing : cornerMiddle
+            case .bottom:
+                return isOutGoing ? cornerBottomOutgoing : cornerBottom
             }
         }
     }

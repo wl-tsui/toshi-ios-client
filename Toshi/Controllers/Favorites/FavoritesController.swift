@@ -154,7 +154,7 @@ open class FavoritesController: SweetTableController {
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewWillDisappear(animated)
     }
 
     open override func viewDidLayoutSubviews() {
@@ -181,7 +181,7 @@ open class FavoritesController: SweetTableController {
         let hasFavourites = mappings.numberOfItems(inSection: 0) > 0
 
         if searchController.isActive {
-            shouldHideEmptyState = searchContacts.count > 0 || hasFavourites
+            shouldHideEmptyState = !searchContacts.isEmpty || hasFavourites
         } else {
             shouldHideEmptyState = hasFavourites
         }
@@ -210,7 +210,7 @@ open class FavoritesController: SweetTableController {
         guard Yap.sharedInstance.database.registeredExtension(TokenUser.viewExtensionName) == nil else { return true }
 
         let viewGrouping = YapDatabaseViewGrouping.withObjectBlock { (_, _, _, object) -> String? in
-            if let _ = object as? Data {
+            if (object as? Data) != nil {
                 return TokenUser.favoritesCollectionKey
             }
 

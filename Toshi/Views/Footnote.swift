@@ -45,7 +45,7 @@ class Footnote: UIView {
         let attributes: [String: Any] = [
             NSFontAttributeName: Theme.regular(size: 13),
             NSForegroundColorAttributeName: Theme.greyTextColor,
-            NSParagraphStyleAttributeName: paragraphStyle,
+            NSParagraphStyleAttributeName: paragraphStyle
         ]
 
         textLabel.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
@@ -61,7 +61,7 @@ class Footnote: UIView {
             self.textLabel.topAnchor.constraint(equalTo: self.topAnchor),
             self.textLabel.leftAnchor.constraint(equalTo: self.icon.rightAnchor, constant: 6),
             self.textLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.textLabel.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.textLabel.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
     }
 }

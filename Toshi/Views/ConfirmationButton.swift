@@ -207,7 +207,7 @@ class ConfirmationButton: UIControl {
             self.checkmarkImageView.leftAnchor.constraint(equalTo: self.confirmationLabel.rightAnchor, constant: 3),
             self.checkmarkImageView.rightAnchor.constraint(equalTo: self.spacingContainers[3].leftAnchor),
 
-            self.heightAnchor.constraint(equalToConstant: ConfirmationButton.height),
+            self.heightAnchor.constraint(equalToConstant: ConfirmationButton.height)
         ])
     }
 

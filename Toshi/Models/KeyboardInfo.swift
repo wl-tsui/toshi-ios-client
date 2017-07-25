@@ -23,10 +23,14 @@ public struct KeyboardInfo {
 
     public var animationOptions: UIViewAnimationOptions {
         switch animationCurve {
-        case .easeInOut: return .curveEaseInOut
-        case .easeIn: return .curveEaseIn
-        case .easeOut: return .curveEaseOut
-        case .linear: return .curveLinear
+        case .easeInOut:
+            return .curveEaseInOut
+        case .easeIn:
+            return .curveEaseIn
+        case .easeOut:
+            return .curveEaseOut
+        case .linear:
+            return .curveLinear
         }
     }
 

@@ -26,7 +26,7 @@ final class InputCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet weak var switchControl: UISwitch!
     @IBOutlet private(set) weak var titleLabel: UILabel!
 
-    var delegate: InputCellDelegate?
+    weak var delegate: InputCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()

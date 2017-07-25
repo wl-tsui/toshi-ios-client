@@ -278,7 +278,7 @@ class RateUserController: ModalPresentable {
             self.submitButton.topAnchor.constraint(equalTo: self.dividers[1].bottomAnchor),
             self.submitButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
             self.submitButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-            self.submitButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            self.submitButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
 
         background.addGestureRecognizer(tapGesture)

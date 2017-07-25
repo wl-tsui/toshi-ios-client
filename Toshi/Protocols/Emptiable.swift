@@ -94,7 +94,7 @@ extension Emptiable where Self: UIViewController {
 
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 3
-        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
 
         descriptionLabel.attributedText = attributedString
     }

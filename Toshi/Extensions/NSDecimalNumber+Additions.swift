@@ -37,7 +37,7 @@ public extension NSDecimalNumber {
         var hexString = hexString.replacingOccurrences(of: "0x", with: "")
 
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
-        assert(hexString.characters.count > 0, "Can't be empty")
+        assert(!hexString.characters.isEmpty, "Can't be empty")
 
         // Assert if string isn't too long
         assert(hexString.characters.count <= 64, "Too large")

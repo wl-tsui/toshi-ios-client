@@ -64,7 +64,7 @@ open class RatingView: UIView {
             self.backgroundStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.backgroundStars.rightAnchor.constraint(equalTo: self.rightAnchor),
             self.backgroundStars.widthAnchor.constraint(equalToConstant: self.starSize * CGFloat(numberOfStars)).priority(.high),
-            self.backgroundStars.heightAnchor.constraint(equalToConstant: self.starSize).priority(.high),
+            self.backgroundStars.heightAnchor.constraint(equalToConstant: self.starSize).priority(.high)
         ])
 
         addSubview(ratingStars)
@@ -72,7 +72,7 @@ open class RatingView: UIView {
         NSLayoutConstraint.activate([
             self.ratingStars.topAnchor.constraint(equalTo: self.topAnchor),
             self.ratingStars.leftAnchor.constraint(equalTo: self.leftAnchor),
-            self.ratingStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            self.ratingStars.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
 
         ratingConstraint.isActive = true

@@ -137,7 +137,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
             self.inputField.topAnchor.constraint(equalTo: self.topAnchor, constant: self.inputContainerInsets.top),
             self.inputField.leftAnchor.constraint(equalTo: self.attachButton.rightAnchor),
-            self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.inputContainerInsets.bottom),
+            self.inputField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -self.inputContainerInsets.bottom)
         ])
 
         sendButton.leftToRight(of: inputField)

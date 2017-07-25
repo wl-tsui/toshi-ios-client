@@ -28,7 +28,7 @@ class TextLabel: UILabel {
         let attributes: [String: Any] = [
             NSFontAttributeName: Theme.regular(size: 16),
             NSForegroundColorAttributeName: Theme.darkTextColor,
-            NSParagraphStyleAttributeName: paragraphStyle,
+            NSParagraphStyleAttributeName: paragraphStyle
         ]
 
         attributedText = NSMutableAttributedString(string: text, attributes: attributes)

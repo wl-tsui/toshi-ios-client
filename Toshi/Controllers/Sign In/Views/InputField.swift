@@ -110,7 +110,7 @@ class InputField: UIView {
             self.textField.topAnchor.constraint(equalTo: self.topAnchor),
             self.textField.leftAnchor.constraint(equalTo: self.titleLabel.rightAnchor, constant: 20),
             self.textField.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.textField.rightAnchor.constraint(equalTo: self.rightAnchor),
+            self.textField.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
 
         if self.type == .username {

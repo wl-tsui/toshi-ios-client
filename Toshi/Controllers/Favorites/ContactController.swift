@@ -459,7 +459,7 @@ extension ContactController: PaymentSendControllerDelegate {
         let parameters: [String: Any] = [
             "from": Cereal.shared.paymentAddress,
             "to": self.contact.paymentAddress,
-            "value": value.toHexString,
+            "value": value.toHexString
         ]
 
         showActivityIndicator()

@@ -116,7 +116,7 @@ class RatingsClient: NSObject {
             let payload: [String: Any] = [
                 "rating": rating,
                 "reviewee": userId,
-                "review": review,
+                "review": review
             ]
 
             let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])

@@ -96,7 +96,7 @@ open class TabBarController: UITabBarController {
             self.messagingController,
             self.placeholderScannerController,
             self.favoritesController,
-            self.settingsController,
+            self.settingsController
         ]
 
         view.tintColor = Theme.tintColor

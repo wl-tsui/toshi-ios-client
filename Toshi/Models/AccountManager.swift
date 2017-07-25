@@ -33,7 +33,7 @@ class AccountManager: NSObject {
         return firstly {
             Promise { fulfill, reject in
 
-                if verificationCode.characters.count == 0 {
+                if verificationCode.characters.isEmpty {
                     let error = OWSErrorWithCodeDescription(.userError, NSLocalizedString("REGISTRATION_ERROR_BLANK_VERIFICATION_CODE", comment: "alert body during registration"))
                     reject(error)
                 }

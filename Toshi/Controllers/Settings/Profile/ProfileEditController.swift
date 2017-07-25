@@ -390,7 +390,7 @@ open class ProfileEditController: OverlayController, Editable {
             TokenUser.Constants.avatar: user.avatarPath,
             TokenUser.Constants.isApp: user.isApp,
             TokenUser.Constants.isPublic: isPublic,
-            TokenUser.Constants.verified: user.verified,
+            TokenUser.Constants.verified: user.verified
         ]
 
         idAPIClient.updateUser(userDict) { userUpdated, message in

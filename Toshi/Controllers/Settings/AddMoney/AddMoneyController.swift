@@ -45,7 +45,7 @@ class AddMoneyController: UIViewController {
             .warning("Do not send ETH from Mainnet. Toshi is currently using Ropsten revival Testnet."),
             .bulletPoint("2. Find a local exchanger", "Find a local exchanger of Ethereum in your country. You can give them cash and they will send you Ethereum."),
             .bulletPoint("3. Earn money", "Install an app that lets you earn Ethereum."),
-            .bulletPoint("4. Request money from a friend", "Send a payment request to a friend on Toshi."),
+            .bulletPoint("4. Request money from a friend", "Send a payment request to a friend on Toshi.")
         ]
     }
 

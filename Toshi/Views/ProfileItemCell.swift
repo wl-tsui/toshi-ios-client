@@ -87,6 +87,7 @@ class ProfileItemCell: UITableViewCell {
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         formItem = nil
     }
 }

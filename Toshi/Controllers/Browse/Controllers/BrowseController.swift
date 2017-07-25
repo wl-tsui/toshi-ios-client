@@ -25,10 +25,14 @@ enum BrowseContentSection {
 
     var title: String {
         switch self {
-        case .topRatedApps: return Localized("browse-top-rated-apps")
-        case .featuredApps: return Localized("browse-featured-apps")
-        case .topRatedPublicUsers: return Localized("browse-top-rated-public-users")
-        case .latestPublicUsers: return Localized("browse-latest-public-users")
+        case .topRatedApps:
+            return Localized("browse-top-rated-apps")
+        case .featuredApps:
+            return Localized("browse-featured-apps")
+        case .topRatedPublicUsers:
+            return Localized("browse-top-rated-public-users")
+        case .latestPublicUsers:
+            return Localized("browse-latest-public-users")
         }
     }
 }

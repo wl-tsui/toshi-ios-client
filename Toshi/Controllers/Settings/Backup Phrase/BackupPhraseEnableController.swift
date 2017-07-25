@@ -87,7 +87,7 @@ class BackupPhraseEnableController: UIViewController {
             self.checkboxControl.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
 
             self.actionButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.actionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30),
+            self.actionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30)
         ])
     }
 

@@ -27,7 +27,7 @@ public extension NSNotification.Name {
 let paymentStatusMap = [
     SofaPayment.Status.unconfirmed: NSNotification.Name.ethereumPaymentUnconfirmedNotification,
     SofaPayment.Status.confirmed: NSNotification.Name.ethereumPaymentConfirmedNotification,
-    SofaPayment.Status.error: NSNotification.Name.ethereumPaymentErrorNotification,
+    SofaPayment.Status.error: NSNotification.Name.ethereumPaymentErrorNotification
 ]
 
 class EthereumNotificationHandler: NSObject {

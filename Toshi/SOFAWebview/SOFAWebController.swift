@@ -118,7 +118,7 @@ class SOFAWebController: UIViewController {
         NSLayoutConstraint.activate([
             self.toolbar.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.toolbar.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.toolbar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.toolbar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
 
         toolbar.set(height: 44)

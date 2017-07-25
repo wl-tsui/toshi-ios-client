@@ -1,7 +1,7 @@
 import UIKit
 import TinyConstraints
 
-protocol ImagesViewControllerDismissDelegate {
+protocol ImagesViewControllerDismissDelegate: class {
     func imagesAreDismissed(from indexPath: IndexPath)
 }
 
@@ -9,7 +9,7 @@ class ImagesViewController: UIViewController {
 
     var messages: [MessageModel] = []
     var initialIndexPath: IndexPath!
-    var dismissDelegate: ImagesViewControllerDismissDelegate?
+    weak var dismissDelegate: ImagesViewControllerDismissDelegate?
     var isInitialScroll: Bool = true
 
     var interactiveTransition: UIPercentDrivenInteractiveTransition?
@@ -151,7 +151,8 @@ class ImagesViewController: UIViewController {
         case .cancelled:
             interactiveTransition?.cancel()
             interactiveTransition = nil
-        default: break
+        default:
+            break
         }
     }
 }
