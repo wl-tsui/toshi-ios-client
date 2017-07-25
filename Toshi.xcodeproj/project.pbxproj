@@ -139,6 +139,8 @@
 		2BC85F7D1F0F939C00BCB171 /* InputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC85F7B1F0F939C00BCB171 /* InputCell.xib */; };
 		2BC85F7F1F0F946600BCB171 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC85F7E1F0F946600BCB171 /* InputCell.swift */; };
 		2BC85F801F0F946600BCB171 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC85F7E1F0F946600BCB171 /* InputCell.swift */; };
+		2BD0AC8C1F278677000D2A58 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC8B1F278677000D2A58 /* token.cer */; };
+		2BD0AC8D1F27867B000D2A58 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC891F27866A000D2A58 /* token.cer */; };
 		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
@@ -953,8 +955,6 @@
 		9F88EA041EE0402F00267573 /* BackupPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* BackupPhraseView.swift */; };
 		9F88EA051EE0411A00267573 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 		9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
-		9F8A803B1E9D07FC0017ED9C /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9F8A80391E9D07F70017ED9C /* token.cer */; };
-		9F8A803C1E9D07FF0017ED9C /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9F8A803A1E9D07F70017ED9C /* token.cer */; };
 		9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
 		9F8C340F1E715C7A005178F9 /* menuButton.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340E1E715C7A005178F9 /* menuButton.m4a */; };
 		9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */; };
@@ -1289,6 +1289,8 @@
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BC85F7B1F0F939C00BCB171 /* InputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputCell.xib; sourceTree = "<group>"; };
 		2BC85F7E1F0F946600BCB171 /* InputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCell.swift; sourceTree = "<group>"; };
+		2BD0AC891F27866A000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = token.cer; path = "Certificate(dev)/token.cer"; sourceTree = "<group>"; };
+		2BD0AC8B1F278677000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = token.cer; path = "Certificate(dis)/token.cer"; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
 		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
 		2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Keyboard.swift"; sourceTree = "<group>"; };
@@ -2086,8 +2088,6 @@
 		9F844BD41E30D880001C5498 /* ChatsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		9F844BD91E30DF48001C5498 /* ContactController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactController.swift; sourceTree = "<group>"; };
-		9F8A80391E9D07F70017ED9C /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
-		9F8A803A1E9D07F70017ED9C /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
 		9F8C340C1E71530A005178F9 /* paymentSend.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = paymentSend.m4a; sourceTree = "<group>"; };
 		9F8C340E1E715C7A005178F9 /* menuButton.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = menuButton.m4a; sourceTree = "<group>"; };
 		9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -2457,6 +2457,22 @@
 				2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		2BD0AC871F278609000D2A58 /* Certificate(dev) */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0AC891F27866A000D2A58 /* token.cer */,
+			);
+			name = "Certificate(dev)";
+			sourceTree = "<group>";
+		};
+		2BD0AC881F278619000D2A58 /* Certificate(dis) */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0AC8B1F278677000D2A58 /* token.cer */,
+			);
+			name = "Certificate(dis)";
 			sourceTree = "<group>";
 		};
 		2BE6FB0D1EFC0BE800B0B848 /* Avatars */ = {
@@ -3385,6 +3401,8 @@
 		9F9238CC1E24F3D9004BEEE0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2BD0AC881F278619000D2A58 /* Certificate(dis) */,
+				2BD0AC871F278609000D2A58 /* Certificate(dev) */,
 				9FAACCD81E31120600FB871D /* SF-UI-Display */,
 				9FAACCE21E31120600FB871D /* SF-UI-Text */,
 				9FA12BEA1E65CF59003705F6 /* Sounds */,
@@ -3396,8 +3414,6 @@
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
 				9FAACCB41E30F24100FB871D /* Localizable.strings */,
 				9F9238D01E24F402004BEEE0 /* Toshi-Bridging-Header.h */,
-				9F8A80391E9D07F70017ED9C /* token.cer */,
-				9F8A803A1E9D07F70017ED9C /* token.cer */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -3962,6 +3978,7 @@
 				9FB36EA91E7C27A300DB6F86 /* paymentSend.m4a in Resources */,
 				149F9AD71E72E29A00FB74AA /* SF-UI-Text-RegularItalic.otf in Resources */,
 				9F78D9DF1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
+				2BD0AC8C1F278677000D2A58 /* token.cer in Resources */,
 				149F9AD81E72E29A00FB74AA /* SF-UI-Text-Regular.otf in Resources */,
 				84B2E4021EF3F6C3009927B2 /* LaunchScreen.storyboard in Resources */,
 				149F9ADA1E72E29A00FB74AA /* SF-UI-Text-SemiboldItalic.otf in Resources */,
@@ -3976,7 +3993,6 @@
 				9FB36EAD1E7C27A300DB6F86 /* messageReceived.m4a in Resources */,
 				149F9AE21E72E29A00FB74AA /* SF-UI-Display-Semibold.otf in Resources */,
 				149F9AE51E72E29A00FB74AA /* SF-UI-Text-Ultrathin.otf in Resources */,
-				9F8A803C1E9D07FF0017ED9C /* token.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4018,12 +4034,12 @@
 				9FA12BF41E66CA42003705F6 /* messageReceived.m4a in Resources */,
 				9FAACCFF1E31120600FB871D /* SF-UI-Text-LightItalic.otf in Resources */,
 				9FAACCFE1E31120600FB871D /* SF-UI-Text-Light.otf in Resources */,
+				2BD0AC8D1F27867B000D2A58 /* token.cer in Resources */,
 				9FAACCF71E31120600FB871D /* SF-UI-Display-Semibold.otf in Resources */,
 				9FEFEF641E66CE0000948277 /* scan.m4a in Resources */,
 				9FA12BF01E65D043003705F6 /* messageSent.m4a in Resources */,
 				9FAACD061E31120600FB871D /* SF-UI-Text-Ultrathin.otf in Resources */,
 				9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */,
-				9F8A803B1E9D07FC0017ED9C /* token.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
