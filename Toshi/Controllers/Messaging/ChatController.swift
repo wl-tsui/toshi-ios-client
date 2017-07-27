@@ -384,8 +384,6 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func adjustToNewButtons() {
-        DispatchQueue.main.async {
-
             self.controlsView.isHidden = true
             self.updateSubcontrols(with: nil)
             self.controlsViewHeightConstraint.constant = !self.buttons.isEmpty ? 250 : 0
@@ -429,7 +427,6 @@ final class ChatController: OverlayController {
                     self.controlsView.deselectButtons()
                 }
             })
-        }
     }
 
     fileprivate func scrollToBottom(animated: Bool = true) {
@@ -797,8 +794,21 @@ extension ChatController: ChatViewModelOutput {
 
 extension ChatController: ChatInteractorOutput {
 
-    func didHandleSofaMessage(with buttons: [SofaMessage.Button]) {
-        self.buttons = buttons
+    func didHandleSofaMessage(with buttons: [SofaMessage.Button], showKeyboard: Bool?) {
+        DispatchQueue.main.async {
+            if let showKeyboard = showKeyboard {
+                if showKeyboard == true {
+                    // A small delay is used here to make the inputField be able to become first responder
+                     DispatchQueue.main.asyncAfter(seconds: 0.1) {
+                        self.textInputView.inputField.becomeFirstResponder()
+                     }
+                } else {
+                    self.textInputView.inputField.resignFirstResponder()
+                }
+            }
+
+            self.buttons = buttons
+        }
     }
 
     func didCatchError(_ error: Error) {

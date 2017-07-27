@@ -19,7 +19,7 @@ protocol ChatInteractorOutput: class {
     func didCatchError(_ error: Error)
 
     func didFinishRequest()
-    func didHandleSofaMessage(with buttons: [SofaMessage.Button])
+    func didHandleSofaMessage(with buttons: [SofaMessage.Button], showKeyboard: Bool?)
 }
 
 final class ChatsInteractor {
@@ -216,7 +216,7 @@ final class ChatsInteractor {
             if interaction.hasAttachments() {
                 message.messageType = "Image"
             } else if let sofaMessage = sofaWrapper as? SofaMessage {
-                output?.didHandleSofaMessage(with: sofaMessage.buttons)
+                output?.didHandleSofaMessage(with: sofaMessage.buttons, showKeyboard: sofaMessage.showKeyboard)
             } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
                 message.messageType = "Actionable"
                 message.title = "Payment request"
