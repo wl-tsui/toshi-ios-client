@@ -63,15 +63,6 @@ open class SignInController: UIViewController {
         return view
     }()
 
-    private lazy var scanQRButton: ActionButton = {
-        let view = ActionButton(margin: 30)
-        view.title = "Scan QR to sign in"
-
-        view.setButtonStyle(.secondary)
-
-        return view
-    }()
-
     public required init?(coder _: NSCoder) {
         fatalError("")
     }
@@ -120,7 +111,6 @@ open class SignInController: UIViewController {
         contentView.addSubview(passwordField)
         contentView.addSubview(footnote)
         contentView.addSubview(signInButton)
-        contentView.addSubview(scanQRButton)
 
         NSLayoutConstraint.activate([
             self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -153,11 +143,7 @@ open class SignInController: UIViewController {
             self.signInButton.topAnchor.constraint(equalTo: self.footnote.bottomAnchor, constant: margin * 2),
             self.signInButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin),
             self.signInButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin),
-
-            self.scanQRButton.topAnchor.constraint(equalTo: self.signInButton.bottomAnchor, constant: 10),
-            self.scanQRButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin),
-            self.scanQRButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -margin),
-            self.scanQRButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            self.signInButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
     }
 
