@@ -1,11 +1,17 @@
 import XCTest
-import SweetSwift
+import UIKit
 
 class Tests: XCTestCase {
 
     func testExample() {
-        let balance = EthereumConverter.balanceAttributedString(forWei: NSDecimalNumber.zero, exchangeRate: 0.0005)
-        print(balance)
-        XCTAssertTrue(true)
+        let expect = expectation(description: "get ethereum rate")
+        EthereumAPIClient.shared.getRate { decimal in
+            XCTAssertNotNil(decimal)
+            expect.fulfill()
+
+         }
+
+        waitForExpectations(timeout: 100)
+
     }
 }

@@ -16,10 +16,6 @@
 import UIKit
 import SweetUIKit
 
-public extension NSNotification.Name {
-    public static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
-}
-
 open class SettingsController: UITableViewController {
 
     enum Sections: Int {

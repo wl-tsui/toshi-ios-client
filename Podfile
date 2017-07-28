@@ -19,4 +19,8 @@ abstract_target 'CocoaPods' do
   target 'Distribution' do
 
   end
+
+  target 'Tests' do
+	
+  end
 end
