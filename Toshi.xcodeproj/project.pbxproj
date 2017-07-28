@@ -1131,6 +1131,8 @@
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
+		A963D5301F288E5D00297FDF /* MessagesCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */; };
+		A963D5311F288E8900297FDF /* MessagesCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */; };
 		A997B0FE1EF94B4600A143FE /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
 		A997B0FF1EF94B4900A143FE /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
 		A997B1001EF94B4C00A143FE /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
@@ -2224,6 +2226,7 @@
 		A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputTextPanel.swift; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
+		A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCornerView.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -3818,6 +3821,7 @@
 			children = (
 				A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */,
 				A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */,
+				A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4830,6 +4834,7 @@
 				9F4D7EE31EEA8B4500FB5361 /* TGImagePickerController.mm in Sources */,
 				9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */,
 				9F4D81531EEA8B4600FB5361 /* PhotoEditorSliderView.m in Sources */,
+				A963D5311F288E8900297FDF /* MessagesCornerView.swift in Sources */,
 				9F4D80451EEA8B4500FB5361 /* ImageMediaAttachment.m in Sources */,
 				9F4D807D1EEA8B4500FB5361 /* VideoMediaAttachment.m in Sources */,
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
@@ -5086,6 +5091,7 @@
 				9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */,
 				9F4D7EEE1EEA8B4500FB5361 /* BlurTool.m in Sources */,
 				9F4D80661EEA8B4500FB5361 /* MediaPickerGalleryVideoItem.m in Sources */,
+				A963D5301F288E5D00297FDF /* MessagesCornerView.swift in Sources */,
 				9F4D7FE21EEA8B4500FB5361 /* MediaSelectionContext.m in Sources */,
 				9F4D7F1E1EEA8B4500FB5361 /* PaintState.m in Sources */,
 				9F4D811C1EEA8B4600FB5361 /* ModernGalleryView.m in Sources */,
