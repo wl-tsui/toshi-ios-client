@@ -287,7 +287,7 @@ extension ChatsController: UITableViewDelegate {
             if let thread = self.thread(at: indexPath) as TSThread? {
 
                 TSStorageManager.shared().dbConnection?.asyncReadWrite { transaction in
-                    thread.archiveThread(with: transaction)
+                    thread.remove(with: transaction)
                 }
             }
         }
