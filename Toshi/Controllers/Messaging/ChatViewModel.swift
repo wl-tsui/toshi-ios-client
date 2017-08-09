@@ -24,11 +24,13 @@ enum DisplayState {
 
 protocol ChatViewModelOutput: ChatInteractorOutput {
     func didReload()
+    func didRequireKeyboardVisibilityUpdate(_ sofaMessage: SofaMessage)
+    func didReceiveLastMessage()
 }
 
 final class ChatViewModel {
 
-    fileprivate var output: ChatViewModelOutput
+    fileprivate weak var output: ChatViewModelOutput?
 
     init(output: ChatViewModelOutput, thread: TSThread) {
         self.output = output
@@ -73,21 +75,55 @@ final class ChatViewModel {
 
     var currentButton: SofaMessage.Button?
 
-    var messageModels: [MessageModel] {
-        return visibleMessages.flatMap { message in
-            MessageModel(message: message)
-        }
-    }
+    var messageModels: [MessageModel] = []
+
+    fileprivate lazy var reloadQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        queue.name = "Chat-Reload-Queue"
+
+        return queue
+    }()
 
     private(set) var messages: [Message] = [] {
         didSet {
-            self.output.didReload()
+            reloadQueue.cancelAllOperations()
+
+            let operation = BlockOperation()
+            operation.addExecutionBlock { [weak self] in
+
+                guard operation.isCancelled == false else { return }
+                guard let strongSelf = self else { return }
+
+                strongSelf.visibleMessages = strongSelf.messages.filter { message -> Bool in
+                    message.isDisplayable
+                }
+
+                for message in strongSelf.messages {
+                    if let paymentRequest = message.sofaWrapper as? SofaPaymentRequest {
+                        message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: paymentRequest.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+                        message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: paymentRequest.value)
+                    } else if let payment = message.sofaWrapper as? SofaPayment {
+                        message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: payment.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+                        message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: payment.value)
+                    }
+                }
+
+                DispatchQueue.main.async {
+                    strongSelf.output?.didReload()
+
+                    guard operation.isCancelled == false else { return }
+                    strongSelf.output?.didReceiveLastMessage()
+                }
+            }
+
+            reloadQueue.addOperation(operation)
         }
     }
 
-    var visibleMessages: [Message] {
-        return messages.filter { message -> Bool in
-            message.isDisplayable
+    var visibleMessages: [Message] = [] {
+        didSet {
+            messageModels = visibleMessages.flatMap { MessageModel(message: $0) }
         }
     }
 
@@ -136,6 +172,7 @@ final class ChatViewModel {
 
     @objc
     fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
+        
         let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -159,6 +196,7 @@ final class ChatViewModel {
 
         uiDatabaseConnection.asyncRead { [weak self] transaction in
             guard let strongSelf = self else { return }
+
             for change in messageRowChanges as! [YapDatabaseViewRowChange] {
                 guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
 
@@ -169,6 +207,10 @@ final class ChatViewModel {
                     DispatchQueue.main.async {
                         let result = strongSelf.interactor.handleInteraction(interaction, shouldProcessCommands: true)
                         strongSelf.messages.append(result)
+
+                        if let sofaMessage = result.sofaWrapper as? SofaMessage {
+                            strongSelf.output?.didRequireKeyboardVisibilityUpdate(sofaMessage)
+                        }
 
                         strongSelf.interactor.playSound(for: result)
 
