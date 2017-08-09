@@ -105,8 +105,8 @@ open class FavoritesController: SweetTableController {
     fileprivate func setupForCurrentUserNotifications() {
         registerTokenContactsDatabaseView()
 
-        uiDatabaseConnection.asyncRead { transaction in
-            self.mappings.update(with: transaction)
+        uiDatabaseConnection.asyncRead { [weak self] transaction in
+            self?.mappings.update(with: transaction)
         }
 
         registerDatabaseNotifications()

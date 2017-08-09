@@ -64,11 +64,11 @@ open class ChatsController: SweetTableController {
     }
 
     fileprivate func loadMessages() {
-        uiDatabaseConnection.asyncRead { transaction in
-            self.mappings.update(with: transaction)
+        uiDatabaseConnection.asyncRead { [weak self] transaction in
+            self?.mappings.update(with: transaction)
 
             DispatchQueue.main.async {
-                self.showEmptyStateIfNeeded()
+                self?.showEmptyStateIfNeeded()
             }
         }
 
