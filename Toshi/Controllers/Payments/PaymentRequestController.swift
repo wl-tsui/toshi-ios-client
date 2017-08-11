@@ -20,35 +20,26 @@ protocol PaymentRequestControllerDelegate: class {
 }
 
 class PaymentRequestController: PaymentController {
+    
     weak var delegate: PaymentRequestControllerDelegate?
 
-    lazy var continueBarButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(sendRequest))
-
-        return item
-    }()
-
-    lazy var cancelBarButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelRequest))
-
-        return item
-    }()
-
+    private lazy var cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelItemTapped(_:)))
+    private lazy var continueItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(continueItemTapped(_:)))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let spacing = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let title = UIBarButtonItem(title: "Request Payment", style: .plain, target: nil, action: nil)
-        title.setTitleTextAttributes([NSFontAttributeName: Theme.semibold(size: 17), NSForegroundColorAttributeName: Theme.darkTextColor], for: .normal)
-
-        toolbar.items = [self.cancelBarButton, spacing, title, spacing, self.continueBarButton]
+        
+        title = Localized("payment_request")
+        
+        navigationItem.leftBarButtonItem = cancelItem
+        navigationItem.rightBarButtonItem = continueItem
     }
-
-    func cancelRequest() {
+    
+    func cancelItemTapped(_ item: UIBarButtonItem) {
         delegate?.paymentRequestControllerDidFinish(valueInWei: nil)
     }
-
-    func sendRequest() {
+    
+    func continueItemTapped(_ item: UIBarButtonItem) {
         delegate?.paymentRequestControllerDidFinish(valueInWei: valueInWei)
     }
 }

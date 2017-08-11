@@ -16,39 +16,36 @@
 import UIKit
 
 protocol PaymentSendControllerDelegate: class {
-    func paymentSendControllerDidFinish(valueInWei: NSDecimalNumber?)
+    func paymentSendControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentSendController)
 }
 
 class PaymentSendController: PaymentController {
+    
     weak var delegate: PaymentSendControllerDelegate?
-
-    lazy var continueBarButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(send))
-
-        return item
-    }()
-
-    lazy var cancelBarButton: UIBarButtonItem = {
-        let item = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-
-        return item
-    }()
-
+    
+    private lazy var cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelItemTapped(_:)))
+    private lazy var continueItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(continueItemTapped(_:)))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let spacing = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let title = UIBarButtonItem(title: "Send Payment", style: .plain, target: nil, action: nil)
-        title.setTitleTextAttributes([NSFontAttributeName: Theme.semibold(size: 17), NSForegroundColorAttributeName: Theme.darkTextColor], for: .normal)
-
-        toolbar.items = [self.cancelBarButton, spacing, title, spacing, self.continueBarButton]
+        
+        title = Localized("payment_send")
+        
+        navigationItem.leftBarButtonItem = cancelItem
+        navigationItem.rightBarButtonItem = continueItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem.back
     }
 
-    func cancel() {
-        delegate?.paymentSendControllerDidFinish(valueInWei: nil)
+    func cancelItemTapped(_ item: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 
-    func send() {
-        delegate?.paymentSendControllerDidFinish(valueInWei: valueInWei)
+    func continueItemTapped(_ item: UIBarButtonItem) {
+        delegate?.paymentSendControllerFinished(with: valueInWei, for: self)
     }
 }
