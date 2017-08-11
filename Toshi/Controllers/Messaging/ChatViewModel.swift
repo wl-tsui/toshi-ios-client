@@ -107,7 +107,7 @@ final class ChatViewModel {
 
                 strongSelf.visibleMessages = strongSelf.messages.filter { message -> Bool in
                     message.isDisplayable
-                }
+                }.reversed()
 
                 DispatchQueue.main.async {
                     strongSelf.output?.didReload()

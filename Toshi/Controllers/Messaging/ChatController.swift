@@ -94,6 +94,7 @@ final class ChatController: OverlayController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Theme.viewBackgroundColor
         view.estimatedRowHeight = 64.0
+        view.scrollsToTop = false
         view.dataSource = self
         view.delegate = self
         view.separatorStyle = .none
@@ -181,8 +182,10 @@ final class ChatController: OverlayController {
         let topInset = ChatsFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
         let bottomInset = textInputHeight
 
-        tableView.contentInset = UIEdgeInsets(top: topInset + 2, left: 0, bottom: bottomInset + buttonsHeight + 10, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
+        // The tableview is inverted 180 degrees
+        // 10 + 2 hmm....?
+        tableView.contentInset = UIEdgeInsets(top: bottomInset + buttonsHeight + 10, left: 0, bottom: topInset + 2 + 10, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: bottomInset + buttonsHeight, left: 0, bottom: topInset + 2, right: 0)
     }
 
     fileprivate func registerNotifications() {
@@ -203,6 +206,8 @@ final class ChatController: OverlayController {
         addSubviewsAndConstraints()
 
         textInputView.delegate = self
+
+        self.tableView.transform = CGAffineTransform (scaleX: 1, y: -1)
 
         controlsViewDelegateDatasource.controlsCollectionView = controlsView
         subcontrolsViewDelegateDatasource.subcontrolsCollectionView = subcontrolsView
@@ -387,7 +392,9 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func scrollToBottom(animated: Bool = true) {
-        tableView.scrollRectToVisible(CGRect(x: 0, y: tableView.contentSize.height - tableView.bounds.height, width: tableView.bounds.width, height: tableView.bounds.height), animated: false)
+        guard self.viewModel.visibleMessages.count > 0 else { return }
+
+        self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
     }
 
     fileprivate func adjustToPaymentState(_ state: TSInteraction.PaymentState, at indexPath: IndexPath) {
@@ -622,6 +629,8 @@ extension ChatController: UITableViewDataSource {
             cell.messageText = message.text
         }
 
+        cell.transform = self.tableView.transform
+
         return cell
     }
 
@@ -639,12 +648,12 @@ extension ChatController: UITableViewDataSource {
             }
 
             // this is the first cell of many
-            return currentMessage.isOutgoing == nextMessage.isOutgoing ? .top : .single
+            return currentMessage.isOutgoing == nextMessage.isOutgoing ? .bottom : .single
         }
 
         guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
             // this is the last cell
-            return currentMessage.isOutgoing == previousMessage.isOutgoing ? .bottom : .single
+            return currentMessage.isOutgoing == previousMessage.isOutgoing ? .top : .single
         }
 
         if currentMessage.isOutgoing != previousMessage.isOutgoing, currentMessage.isOutgoing != nextMessage.isOutgoing {
@@ -655,10 +664,10 @@ extension ChatController: UITableViewDataSource {
             return .middle
         } else if currentMessage.isOutgoing == previousMessage.isOutgoing {
             // the previous message is from the same user but the next message is not
-            return .bottom
+            return .top
         } else {
             // the next message is from the same user but the previous message is not
-            return .top
+            return .bottom
         }
     }
 }
