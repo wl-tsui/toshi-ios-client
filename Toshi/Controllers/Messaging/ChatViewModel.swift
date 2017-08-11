@@ -95,10 +95,6 @@ final class ChatViewModel {
                 guard operation.isCancelled == false else { return }
                 guard let strongSelf = self else { return }
 
-                strongSelf.visibleMessages = strongSelf.messages.filter { message -> Bool in
-                    message.isDisplayable
-                }
-
                 for message in strongSelf.messages {
                     if let paymentRequest = message.sofaWrapper as? SofaPaymentRequest {
                         message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: paymentRequest.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
@@ -107,6 +103,10 @@ final class ChatViewModel {
                         message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: payment.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
                         message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: payment.value)
                     }
+                }
+
+                strongSelf.visibleMessages = strongSelf.messages.filter { message -> Bool in
+                    message.isDisplayable
                 }
 
                 DispatchQueue.main.async {
