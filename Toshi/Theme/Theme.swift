@@ -138,7 +138,7 @@ extension Theme {
 extension Theme {
 
     static var sectionTitleFont: UIFont {
-        return .systemFont(ofSize: 12)
+        return .preferredFont(forTextStyle: .footnote)
     }
 
     static func light(size: CGFloat) -> UIFont {
