@@ -16,15 +16,23 @@
 import Foundation
 
 extension String {
-    public var isURL: Bool {
-        let fullRange = NSRange(location: 0, length: length)
-        let detector = try! NSDataDetector(types: NSTextCheckingAllSystemTypes)
-        for match in detector.matches(in: self, options: [], range: fullRange) {
-            if match.resultType == .link && match.range.location == fullRange.location && match.range.length == fullRange.length {
-                return true
-            }
+
+    public var isValidURL: Bool {
+
+        if let url = URL(string: self), UIApplication.shared.canOpenURL(url) {
+            let urlPattern = "^(http|https|ftp)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&amp;%\\$#\\=~_\\-]+))*$"
+            return matches(pattern: urlPattern)
         }
 
         return false
+    }
+    
+    private func matches(pattern: String) -> Bool {
+         do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [.caseInsensitive])
+            return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: utf16.count)) != nil
+        } catch {
+            return false
+        }
     }
 }

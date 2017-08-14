@@ -199,7 +199,7 @@ class BrowseController: SearchableCollectionController {
     @objc
     fileprivate func reload(searchText: String) {
 
-        if searchText.isURL {
+        if searchText.isValidURL {
             let title = NSAttributedString(string: searchText, attributes: openButtonAttributes)
             openURLButton.setAttributedTitle(title)
 
