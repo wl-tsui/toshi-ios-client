@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TSThread (Additions)
 
 @property (nonatomic, readonly) NSArray<TSMessage *> *messages;
-@property (nullable, nonatomic, copy) NSString *cachedContactIdentifier;
 
 @end
 

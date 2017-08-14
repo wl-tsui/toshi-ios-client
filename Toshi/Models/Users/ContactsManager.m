@@ -78,7 +78,7 @@
     for (SignalAccount *account in self.signalAccounts) {
         Contact *contact = account.contact;
         if ([contact.userTextPhoneNumbers.firstObject isEqualToString:phoneNumber]) {
-            return contact.firstName;
+            return (contact.lastName.length > 0) ? contact.lastName : [NSString stringWithFormat:@"@%@", contact.firstName];
         }
     }
 

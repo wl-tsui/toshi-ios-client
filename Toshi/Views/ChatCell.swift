@@ -250,7 +250,6 @@ class ChatCell: UITableViewCell {
 
     func updateContact(_ contact: TokenUser) {
         usernameLabel.text = !contact.name.isEmpty ? contact.name : contact.displayUsername
-        thread?.cachedContactIdentifier = usernameLabel.text
 
         AvatarManager.shared.avatar(for: contact.avatarPath) { image, path in
             if contact.avatarPath == path {

@@ -3,7 +3,6 @@
 #import "Toshi-Swift.h"
 
 @implementation TSThread (Additions)
-@dynamic cachedContactIdentifier;
 static char _internalPropertyKey;
 
 - (NSArray<TSMessage *> *)messages {
@@ -21,19 +20,6 @@ static char _internalPropertyKey;
     }
 
     return visible;
-}
-
-- (void)setCachedContactIdentifier:(NSString *)value {
-    objc_setAssociatedObject(self, &_internalPropertyKey, value, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (NSString *)cachedContactIdentifier {
-    NSString *identifier = (NSString* )objc_getAssociatedObject(self, &_internalPropertyKey);
-    if (identifier == nil) {
-        return [self name];
-    }
-
-    return identifier;
 }
 
 @end

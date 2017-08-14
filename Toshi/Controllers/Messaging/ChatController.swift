@@ -168,7 +168,7 @@ final class ChatController: OverlayController {
         super.init(nibName: nil, bundle: nil)
 
         hidesBottomBarWhenPushed = true
-        title = thread.cachedContactIdentifier
+        title = thread.name()
 
         registerNotifications()
     }
@@ -251,7 +251,6 @@ final class ChatController: OverlayController {
 
         viewModel.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
-        title = viewModel.thread.cachedContactIdentifier
     }
 
     override func viewWillDisappear(_ animated: Bool) {
