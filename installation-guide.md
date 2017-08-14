@@ -41,3 +41,7 @@ To enable **SwiftLint autocorrect** in your Xcode project you need to install th
 3. When a pop-up asks to load or skip bundle, choose **Load Bundle**.
 
 That's it! Now everytime your swift file is (auto)saved, the autocorrect is executed.
+
+#### Change the SwiftLint file
+
+Run the command `open .swiftlint.yml` from your project to adjust the rules.
