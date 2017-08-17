@@ -179,7 +179,7 @@ final class ChatViewModel {
         // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
         // table/collection view backing model.
         // swiftlint:disable force_cast
-        let viewConnection = uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        let viewConnection = uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
         // swiftlint:enable force_cast
         if let hasChangesForCurrentView = viewConnection.hasChanges(for: notifications) as Bool?, hasChangesForCurrentView == false {
             uiDatabaseConnection.read { transaction in
