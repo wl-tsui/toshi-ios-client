@@ -85,7 +85,7 @@ class PaymentAddressInputView: UIView {
         bottomDivider.right(to: self, offset: -16)
         bottomDivider.height(Theme.borderHeight)
 
-        // NOTE: disable and hide qrButton until the QR related code is refactored 
+        // NOTE: disable and hide qrButton until the QR related code is refactored
         qrButton.isEnabled = false
         qrButton.isHidden = true
     }

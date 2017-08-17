@@ -59,9 +59,6 @@ class BrowseController: SearchableCollectionController {
     }()
 
     fileprivate lazy var openButtonAttributes: [String: Any] = {
-        let paragraph = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        paragraph.alignment = .left
-
         return [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 14)]
     }()
 

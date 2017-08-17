@@ -92,7 +92,9 @@ open class SettingsController: UITableViewController {
     private var balance: NSDecimalNumber?
 
     static func instantiateFromNib() -> SettingsController {
-        return UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as! SettingsController
+        guard let settingsController = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsController else { fatalError("Storyboard named 'Settings' should be provided in application") }
+        
+        return  settingsController
     }
 
     private init() {
