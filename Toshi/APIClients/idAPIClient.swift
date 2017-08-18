@@ -27,8 +27,6 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
 
-    public static let updateContactsNotification = Notification.Name(rawValue: "UpdateContactWithAddress")
-
     public static let didFetchContactInfoNotification = Notification.Name(rawValue: "DidFetchContactInfo")
 
     public static let allowedSearchTermCharacters = CharacterSet.urlQueryAllowed.subtracting(CharacterSet(charactersIn: ":/?#[]@!$&'()*+,;= "))
@@ -46,13 +44,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         teapot = Teapot(baseURL: baseURL)
 
         super.init()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(updateAllContacts), name: IDAPIClient.updateContactsNotification, object: nil)
     }
 
     /// We use a background queue and a semaphore to ensure we only update the UI
     /// once all the contacts have been processed.
-    func updateAllContacts() {
+    func updateContacts() {
         updateContacts(for: TokenUser.storedContactKey)
         updateContacts(for: TokenUser.favoritesCollectionKey)
     }
@@ -69,6 +65,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     let tokenContact = TokenUser(json: dictionary)
                     self.findContact(name: tokenContact.address) { updatedContact in
                         if let updatedContact = updatedContact {
+
                             DispatchQueue.main.async {
                                 Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: collectionKey)
                             }
@@ -89,6 +86,10 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             if let updatedContact = updatedContact {
                 DispatchQueue.main.async {
                     Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: TokenUser.storedContactKey)
+
+                    if updatedContact.address == Cereal.shared.address {
+                        NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
+                    }
 
                     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                     appDelegate.contactsManager.refreshContacts()

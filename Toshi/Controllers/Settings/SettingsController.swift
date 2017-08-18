@@ -130,6 +130,8 @@ open class SettingsController: UITableViewController {
         self.nameLabel.text = TokenUser.current?.name
         self.usernameLabel.text = TokenUser.current?.displayUsername
         self.updateAvatar()
+
+        IDAPIClient.shared.updateContact(with: Cereal.shared.address)
     }
 
     @objc private func updateUI() {

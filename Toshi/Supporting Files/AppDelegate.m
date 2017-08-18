@@ -53,6 +53,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
     [OWSSignalService setBaseURLPath:tokenChatServiceBaseURL];
 
+    [[IDAPIClient shared] updateContacts];
+
     // Set the seed the generator for rand().
     //
     // We should always use arc4random() instead of rand(), but we

@@ -90,7 +90,6 @@ open class ChatsController: SweetTableController {
         tableView.register(ChatCell.self)
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
-        NotificationCenter.default.post(name: IDAPIClient.updateContactsNotification, object: nil, userInfo: nil)
 
         adjustEmptyView()
     }
