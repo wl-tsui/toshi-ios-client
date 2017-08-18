@@ -65,14 +65,6 @@ final class ChatViewModel {
         return contactsManager?.tokenContact(forAddress: thread.contactIdentifier())
     }
 
-    lazy var contactAvatarUrl: AsyncImageURL? = {
-        if let contact = self.contact, let url = URL(string: contact.avatarPath) {
-            return AsyncImageURL(url: url)
-        }
-
-        return nil
-    }()
-
     var currentButton: SofaMessage.Button?
 
     var messageModels: [MessageModel] = []

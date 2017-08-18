@@ -281,8 +281,12 @@ extension BrowseController: UISearchBarDelegate {
                     cell.nameLabel.text = item.isApp ? item.category : item.username
                 }
 
-                if let url = URL(string: item.avatarPath) {
-                    cell.avatarImageView.setImage(from: AsyncImageURL(url: url))
+                if let avatarPath = item.avatarPath as String? {
+                    AvatarManager.shared.avatar(for: avatarPath, completion: { image, path in
+                        if avatarPath == path {
+                            cell.avatarImageView.image = image
+                        }
+                    })
                 }
 
                 if let averageRating = item.averageRating {
