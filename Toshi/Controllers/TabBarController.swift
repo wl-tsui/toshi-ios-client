@@ -194,93 +194,77 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
-        if result.hasPrefix("web-signin:") {
-            let login_token = result.substring(from: result.index(result.startIndex, offsetBy: 11))
-            idAPIClient.login(login_token: login_token) { _, _ in
-                self.dismiss(animated: true)
+        if let intent = QRCodeIntent(result: result) {
+            switch intent {
+            case .webSignIn(let loginToken):
+                idAPIClient.login(login_token: loginToken) { _, _ in
+                    SoundPlayer.playSound(type: .scanned)
+                    self.dismiss(animated: true)
+                }
+            case .paymentRequest(let weiValue, let address, let username, _):
+                if let username = username {
+                    proceedToPayment(username: username, weiValue: weiValue)
+                } else if let address = address {
+                    proceedToPayment(address: address, weiValue: weiValue)
+                }
+            case .addContact(let username):
+                let contactName = TokenUser.name(from: username)
+                viewContact(with: contactName)
+            default:
+                scannerController.startScanning()
             }
         } else {
-            guard let url = URL(string: result) as URL? else { return }
-            let path = url.path
-
-            if path.hasPrefix("/add") {
-                let username = result.replacingOccurrences(of: QRCodeController.addUsernameBasePath, with: "")
-                let contactName = TokenUser.name(from: username)
-
-                idAPIClient.retrieveContact(username: contactName) { contact in
-                    guard let contact = contact else {
-                        controller.startScanning()
-
-                        return
-                    }
-
-                    SoundPlayer.playSound(type: .scanned)
-
-                    self.dismiss(animated: true) {
-                        self.switch(to: .favorites)
-                        let contactController = ContactController(contact: contact)
-                        self.favoritesController.pushViewController(contactController, animated: true)
-                    }
-                }
-
-            } else {
-                proceedToPayment(with: url)
-            }
+            scannerController.startScanning()
         }
     }
 
-    fileprivate func proceedToPayment(with url: URL) {
-        let path = url.path
-        var username = ""
+    private func proceedToPayment(address: String, weiValue: String?) {
+        let userInfo = UserInfo(address: address, paymentAddress: address, avatarPath: nil, name: nil, username: address, isLocal: false)
+        var parameters = ["from": Cereal.shared.paymentAddress, "to": address]
+        parameters["value"] = weiValue
 
-        var userInfo: UserInfo?
-        var parameters = ["from": Cereal.shared.paymentAddress]
+        proceedToPayment(userInfo: userInfo, parameters: parameters)
+    }
 
-        if path.hasPrefix(QRCodeController.paymentWithAddressPath) {
-            username = path.replacingOccurrences(of: QRCodeController.paymentWithAddressPath, with: "")
-        } else if path.hasPrefix(QRCodeController.paymentWithUsernamePath) {
-            username = path.replacingOccurrences(of: QRCodeController.paymentWithUsernamePath, with: "")
-            username = TokenUser.name(from: username)
-        }
-
-        guard username.length > 0 else {
-            scannerController.startScanning()
-
-            return
-        }
-
+    private func proceedToPayment(username: String, weiValue: String?) {
         idAPIClient.retrieveContact(username: username) { contact in
             if let contact = contact as TokenUser? {
-                userInfo = contact.userInfo
-                parameters["to"] = contact.paymentAddress
+                var parameters = ["from": Cereal.shared.paymentAddress, "to": contact.paymentAddress]
+                parameters["value"] = weiValue
 
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                appDelegate.contactsManager.refreshContacts()
-
+                self.proceedToPayment(userInfo: contact.userInfo, parameters: parameters)
             } else {
-                userInfo = UserInfo(address: username, paymentAddress: contact?.paymentAddress, avatarPath: nil, name: nil, username: username, isLocal: false)
-                parameters["to"] = username
-            }
-
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            if let queryItems = components.queryItems {
-                for item in queryItems {
-                    if item.name == "value", let value = item.value {
-
-                        let ether = NSDecimalNumber(string: value)
-                        let valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
-
-                        parameters["value"] = valueInWei.toHexString
-
-                        break
-                    }
-                }
-            }
-
-            if let scannerController = self.scannerController as? PaymentPresentable {
-                scannerController.setStatusBarHidden(true)
-                scannerController.displayPaymentConfirmation(userInfo: userInfo!, parameters: parameters)
+                self.scannerController.startScanning()
             }
         }
     }
+
+    private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any]) {
+        if parameters["value"] != nil, let scannerController = self.scannerController as? PaymentPresentable {
+            scannerController.setStatusBarHidden(true)
+            scannerController.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
+            SoundPlayer.playSound(type: .scanned)
+        } else {
+            scannerController.startScanning()
+        }
+    }
+
+    private func viewContact(with contactName: String) {
+        idAPIClient.retrieveContact(username: contactName) { contact in
+            guard let contact = contact else {
+                self.scannerController.startScanning()
+
+                return
+            }
+
+            SoundPlayer.playSound(type: .scanned)
+
+            self.dismiss(animated: true) {
+                self.switch(to: .favorites)
+                let contactController = ContactController(contact: contact)
+                self.favoritesController.pushViewController(contactController, animated: true)
+            }
+        }
+    }
+
 }
