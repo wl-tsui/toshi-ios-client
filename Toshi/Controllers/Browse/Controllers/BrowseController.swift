@@ -96,8 +96,6 @@ class BrowseController: SearchableCollectionController {
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor
 
         addSubviewsAndConstraints()
-
-        loadItems()
     }
 
     private func addSubviewsAndConstraints() {
@@ -120,7 +118,8 @@ class BrowseController: SearchableCollectionController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        collectionView.reloadData()
+        loadItems()
+
         collectionView.collectionViewLayout.invalidateLayout()
 
         if let indexPathForSelectedRow = searchResultView.indexPathForSelectedRow {
