@@ -223,10 +223,6 @@ public class ContactController: UIViewController {
         updateButton()
     }
 
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -377,10 +373,10 @@ public class ContactController: UIViewController {
     }
 
     @objc private func didTapPayButton() {
-        let paymentSendController = PaymentSendController()
-        paymentSendController.delegate = self
-        
-        let navigationController = UINavigationController(rootViewController: paymentSendController)
+        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
+        paymentController.delegate = self
+
+        let navigationController = UINavigationController(rootViewController: paymentController)
         Navigator.presentModally(navigationController)
     }
 
@@ -445,9 +441,10 @@ extension ContactController: RateUserControllerDelegate {
     }
 }
 
-extension ContactController: PaymentSendControllerDelegate {
-    
-    func paymentSendControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentSendController) {
+extension ContactController: PaymentControllerDelegate {
+
+    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
+        
         defer { dismiss(animated: true) }
         guard let value = valueInWei else { return }
 

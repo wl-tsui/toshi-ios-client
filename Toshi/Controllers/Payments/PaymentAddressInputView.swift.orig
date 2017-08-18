@@ -84,6 +84,13 @@ class PaymentAddressInputView: UIView {
         bottomDivider.bottom(to: self)
         bottomDivider.right(to: self, offset: -16)
         bottomDivider.height(Theme.borderHeight)
+<<<<<<< HEAD
+=======
+
+        // NOTE: disable and hide qrButton until the QR related code is refactored
+        qrButton.isEnabled = false
+        qrButton.isHidden = true
+>>>>>>> d151211b29e3484170ae6202480a1fe3a8e117d9
     }
 
     func qrButtonTapped(_ button: UIButton) {
