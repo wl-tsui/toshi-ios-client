@@ -48,7 +48,7 @@ class SettingsSectionHeader: UIView {
         self.init()
         clipsToBounds = true
 
-        let margin: CGFloat = 20
+        let margin: CGFloat = 15
 
         titleLabel.text = title.uppercased()
         addSubview(titleLabel)

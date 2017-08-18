@@ -89,7 +89,7 @@ open class TabBarController: UITabBarController {
             messagingController.viewControllers = [chatsController]
         }
 
-        settingsController = SettingsNavigationController(rootViewController: SettingsController.instantiateFromNib())
+        settingsController = SettingsNavigationController(rootViewController: SettingsController())
 
         viewControllers = [
             self.browseController,

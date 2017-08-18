@@ -16,31 +16,64 @@
 import UIKit
 import SweetUIKit
 
-open class SettingsController: UITableViewController {
+open class SettingsController: UIViewController {
 
-    enum Sections: Int {
+    enum SettingsSection: Int {
         case profile
         case balance
         case security
         case settings
+
+        var items: [SettingsItem] {
+            switch self {
+            case .profile:
+                return [.profile, .qrCode]
+            case .balance:
+                return [.balance]
+            case .security:
+                return [.security]
+            case .settings:
+                #if DEBUG
+                    return [.advanced, .signOut]
+                #else
+                    return [.signOut]
+                #endif
+            }
+        }
+
+        var headerTitle: String? {
+            switch self {
+            case .profile:
+                return Localized("Profile")
+            case .balance:
+                return Localized("Balance")
+            case .security:
+                return Localized("Security")
+            case .settings:
+                #if DEBUG
+                    return Localized("Settings")
+                #else
+                    return nil
+                #endif
+            }
+        }
+
+        var footerTitle: String? {
+            switch self {
+            case .settings:
+                let info = Bundle.main.infoDictionary!
+                let version = info["CFBundleShortVersionString"]
+                let buildNumber = info["CFBundleVersion"]
+
+                return "App version: \(version ?? "").\(buildNumber ?? "")"
+            default:
+                return nil
+            }
+        }
     }
 
-    enum ProfileCells: Int {
-        case user
-        case qrCode
-    }
-
-    enum BalanceCells: Int {
-        case balance
-    }
-
-    enum SecurityCells: Int {
-        case storePhrase
-    }
-
-    enum SettingsCells: Int {
-        case develop
-        case signOut
+    enum SettingsItem: Int {
+        case profile, qrCode, balance, security, advanced, signOut
     }
 
     fileprivate var ethereumAPIClient: EthereumAPIClient {
@@ -59,37 +92,28 @@ open class SettingsController: UITableViewController {
         return TokenUser.current?.verified ?? false
     }
 
-    @IBOutlet weak var ratingsView: UIView! {
+    fileprivate let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
+
+    fileprivate lazy var tableView: UITableView = {
+
+        let view = UITableView(frame: self.view.frame, style: .grouped)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.allowsSelection = true
+        view.estimatedRowHeight = 64.0
+        view.dataSource = self
+        view.delegate = self
+        view.tableFooterView = UIView()
+
+        view.register(UITableViewCell.self)
+
+        return view
+    }()
+
+    fileprivate var balance: NSDecimalNumber? {
         didSet {
-            ratingsView.isHidden = true
+            self.tableView.reloadData()
         }
     }
-
-    @IBOutlet weak var nameLabel: UILabel! {
-        didSet {
-            nameLabel.text = TokenUser.current?.name
-        }
-    }
-
-    @IBOutlet weak var usernameLabel: UILabel! {
-        didSet {
-            self.usernameLabel.text = TokenUser.current?.displayUsername
-        }
-    }
-
-    @IBOutlet weak var userAvatarImageVIew: UIImageView! {
-        didSet {
-            self.updateAvatar()
-        }
-    }
-
-    @IBOutlet weak var balanceLabel: UILabel! {
-        didSet {
-            self.set(balance: .zero)
-        }
-    }
-
-    private var balance: NSDecimalNumber?
 
     static func instantiateFromNib() -> SettingsController {
         guard let settingsController = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsController else { fatalError("Storyboard named 'Settings' should be provided in application") }
@@ -97,14 +121,8 @@ open class SettingsController: UITableViewController {
         return  settingsController
     }
 
-    private init() {
-        fatalError()
-    }
-
     private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -114,10 +132,18 @@ open class SettingsController: UITableViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = Localized("Me")
+
+        view.addSubview(tableView)
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.backgroundColor = Theme.settingsBackgroundColor
+
+        tableView.registerNib(SettingsProfileCell.self)
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
-
-        self.tableView.backgroundColor = Theme.settingsBackgroundColor
-
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
 
         self.fetchAndUpdateBalance()
@@ -126,58 +152,30 @@ open class SettingsController: UITableViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.tableView.reloadData()
-        self.nameLabel.text = TokenUser.current?.name
-        self.usernameLabel.text = TokenUser.current?.displayUsername
-        self.updateAvatar()
-
         IDAPIClient.shared.updateContact(with: Cereal.shared.address)
     }
 
     @objc private func updateUI() {
-        self.nameLabel.text = TokenUser.current?.name
-        self.usernameLabel.text = TokenUser.current?.displayUsername
-        self.set(balance: .zero)
-
-        self.updateAvatar()
-    }
-
-    fileprivate func updateAvatar() {
-        if let avatarPath = TokenUser.current?.avatarPath as String? {
-            AvatarManager.shared.avatar(for: avatarPath) { [weak self] image, _ in
-                if image != nil {
-                    self?.userAvatarImageVIew.image = image
-                }
-            }
-        }
+        self.tableView.reloadData()
     }
 
     @objc private func handleBalanceUpdate(notification: Notification) {
         guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
-        self.set(balance: balance)
+        self.balance = balance
     }
 
     fileprivate func fetchAndUpdateBalance() {
-        self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
+        self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { [weak self] balance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             } else {
-                self.set(balance: balance)
+                self?.balance = balance
             }
         }
     }
 
-    fileprivate func set(balance: NSDecimalNumber) {
-        self.balance = balance
-
-        let attributes = self.balanceLabel.attributedText?.attributes(at: 0, effectiveRange: nil)
-        let balanceString = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: self.balanceLabel.frame.width, attributes: attributes)
-
-        self.balanceLabel.attributedText = balanceString
-    }
-
-    private func handleSignOut() {
+    fileprivate func handleSignOut() {
         guard let currentUser = TokenUser.current else {
             let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
@@ -223,68 +221,15 @@ open class SettingsController: UITableViewController {
         return alert
     }
 
-    // MARK: TableView methods
+    fileprivate func setupProfileCell(_ cell: UITableViewCell) {
+        guard let cell = cell as? SettingsProfileCell else { return }
 
-    open override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let section = Sections(rawValue: indexPath.section) else { return }
+        cell.displayNameLabel.text = TokenUser.current?.name
+        cell.usernameLabel.text = TokenUser.current?.displayUsername
 
-        switch section {
-        case .profile:
-            didSelectProfileSection(at: indexPath)
-        case .balance:
-            didSelectBalanceSection(at: indexPath)
-        case .security:
-            didSelectSecuritySection(at: indexPath)
-        case .settings:
-            didSelectSettingsSection(at: indexPath)
-        }
-    }
-
-    fileprivate func didSelectProfileSection(at indexPath: IndexPath) {
-        guard let profileCellType = ProfileCells(rawValue: indexPath.row) else { return }
-
-        switch profileCellType {
-        case .user:
-            self.navigationController?.pushViewController(ProfileController(), animated: true)
-        case .qrCode:
-            self.pushQRCodeController()
-        }
-    }
-
-    fileprivate func didSelectBalanceSection(at _: IndexPath) {
-        let controller = BalanceController()
-        if let balance = balance {
-            controller.balance = balance
-        }
-        self.navigationController?.pushViewController(controller, animated: true)
-    }
-
-    private func pushQRCodeController() {
-        guard let current = TokenUser.current else { return }
-        let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
-
-        self.navigationController?.pushViewController(qrCodeController, animated: true)
-    }
-
-    fileprivate func didSelectSecuritySection(at indexPath: IndexPath) {
-        guard let securityCellType = SecurityCells(rawValue: indexPath.row) else {
-            return
-        }
-
-        switch securityCellType {
-        case .storePhrase:
-            self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
-        }
-    }
-
-    fileprivate func didSelectSettingsSection(at indexPath: IndexPath) {
-        guard let settingsCellType = SettingsCells(rawValue: indexPath.row) else { return }
-
-        switch settingsCellType {
-        case .develop:
-            self.pushViewController("AdvancedSettings")
-        case .signOut:
-            self.handleSignOut()
+        guard let avatarPath = TokenUser.current?.avatarPath as String? else { return }
+        AvatarManager.shared.avatar(for: avatarPath) { image, _ in
+            cell.avatarImageView.image = image
         }
     }
 
@@ -295,7 +240,7 @@ open class SettingsController: UITableViewController {
         self.navigationController?.pushViewController(controller, animated: true)
     }
 
-    open override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 2 {
             let view = SettingsSectionHeader(title: "Security", error: "Your account is at risk")
             view.setErrorHidden(self.isAccountSecured, animated: false)
@@ -303,6 +248,105 @@ open class SettingsController: UITableViewController {
             return view
         }
 
-        return super.tableView(tableView, viewForHeaderInSection: section)
+        return nil
+    }
+}
+
+extension SettingsController: UITableViewDataSource {
+
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        var cell: UITableViewCell
+
+        let section = sections[indexPath.section]
+        let item = section.items[indexPath.row]
+
+        switch item {
+        case .profile:
+            cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
+        default:
+            cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
+        }
+
+        switch item {
+        case .profile:
+            setupProfileCell(cell)
+        case .qrCode:
+            cell.textLabel?.text = Localized("My QR Code")
+            cell.textLabel?.textColor = Theme.darkTextColor
+            cell.accessoryType = .disclosureIndicator
+        case .balance:
+            let balance = self.balance ?? .zero
+
+            let attributes = cell.textLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
+            let balanceString = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: UIScreen.main.bounds.width - 50, attributes: attributes)
+
+            cell.textLabel?.attributedText = balanceString
+
+            cell.accessoryType = .disclosureIndicator
+        case .security:
+            cell.textLabel?.text = Localized("Store backup phrase")
+            cell.textLabel?.textColor = Theme.darkTextColor
+            cell.accessoryType = .disclosureIndicator
+        case .advanced:
+            cell.textLabel?.text = Localized("Advanced")
+            cell.textLabel?.textColor = Theme.darkTextColor
+            cell.accessoryType = .disclosureIndicator
+        case .signOut:
+            cell.textLabel?.text = Localized("Sign out")
+            cell.textLabel?.textColor = Theme.errorColor
+            cell.accessoryType = .none
+        }
+
+        return cell
+    }
+
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+
+    public func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let sectionInfo = sections[section]
+        return sectionInfo.items.count
+    }
+}
+
+extension SettingsController: UITableViewDelegate {
+
+    public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sectionInfo = sections[indexPath.section]
+        let item = sectionInfo.items[indexPath.row]
+
+        switch item {
+        case .profile:
+            self.navigationController?.pushViewController(ProfileController(), animated: true)
+        case .qrCode:
+            guard let current = TokenUser.current else { return }
+            let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
+
+            self.navigationController?.pushViewController(qrCodeController, animated: true)
+        case .balance:
+            let controller = BalanceController()
+            if let balance = balance {
+                controller.balance = balance
+            }
+            self.navigationController?.pushViewController(controller, animated: true)
+        case .security:
+            self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
+        case .advanced:
+            self.pushViewController("AdvancedSettings")
+        case .signOut:
+            self.handleSignOut()
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = sections[section]
+        return sectionInfo.headerTitle
+    }
+
+    public func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        let sectionInfo = sections[section]
+        return sectionInfo.footerTitle
     }
 }
