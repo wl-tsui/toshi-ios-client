@@ -150,14 +150,14 @@ open class SignInController: UIViewController {
 
         let words = passphrase.trimmingCharacters(in: .whitespaces).components(separatedBy: " ")
         guard words.count == 12 else {
-            let alert = UIAlertController.dismissableAlert(title: "Invalid passphrase", message: "Make sure your backup phrase consists of 12 words, separated by a single space.")
+            let alert = UIAlertController.dismissableAlert(title: Localized("passphrase_signin_error_title"), message: Localized("passphrase_signin_error_words_count"))
             Navigator.presentModally(alert)
 
             return
         }
 
         guard let cereal = Cereal(words: words) else {
-            let alert = UIAlertController.dismissableAlert(title: "Invalid passphrase", message: "Are you sure you typed your backup phrase correctly?")
+            let alert = UIAlertController.dismissableAlert(title: Localized("passphrase_signin_error_title"), message: Localized("passphrase_signin_error_verification"))
             Navigator.presentModally(alert)
 
             return

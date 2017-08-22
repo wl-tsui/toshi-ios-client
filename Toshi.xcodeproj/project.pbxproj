@@ -967,7 +967,7 @@
 		9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD41E30D880001C5498 /* ChatsController.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F844BDA1E30DF48001C5498 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
-		9F88EA041EE0402F00267573 /* BackupPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* BackupPhraseView.swift */; };
+		9F88EA041EE0402F00267573 /* PassphraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* PassphraseView.swift */; };
 		9F88EA051EE0411A00267573 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 		9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
@@ -1165,19 +1165,19 @@
 		A9AC740F1E78051F00365029 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740D1E78051F00365029 /* TitleLabel.swift */; };
 		A9AC74111E78064500365029 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74101E78064500365029 /* TextLabel.swift */; };
 		A9AC74121E78064500365029 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74101E78064500365029 /* TextLabel.swift */; };
-		A9AC74141E78231A00365029 /* BackupPhraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* BackupPhraseView.swift */; };
-		A9AC74171E78277700365029 /* BackupPhraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* BackupPhraseWordView.swift */; };
-		A9AC74181E78277700365029 /* BackupPhraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* BackupPhraseWordView.swift */; };
+		A9AC74141E78231A00365029 /* PassphraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* PassphraseView.swift */; };
+		A9AC74171E78277700365029 /* PassphraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* PassphraseWordView.swift */; };
+		A9AC74181E78277700365029 /* PassphraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* PassphraseWordView.swift */; };
 		A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
 		A9BA6B7B1EF7D582007C3206 /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
 		A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
 		A9BA6B7F1EF7D864007C3206 /* AddMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */; };
-		A9BF33AD1E76DF0B009A51AA /* BackupPhraseEnableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AC1E76DF0B009A51AA /* BackupPhraseEnableController.swift */; };
-		A9BF33AF1E76DF54009A51AA /* BackupPhraseCopyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */; };
-		A9BF33B11E76DF67009A51AA /* BackupPhraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */; };
-		A9BF33B31E76F8D0009A51AA /* BackupPhraseEnableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AC1E76DF0B009A51AA /* BackupPhraseEnableController.swift */; };
-		A9BF33B41E76F8D0009A51AA /* BackupPhraseCopyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */; };
-		A9BF33B51E76F8D0009A51AA /* BackupPhraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */; };
+		A9BF33AD1E76DF0B009A51AA /* PassphraseEnableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AC1E76DF0B009A51AA /* PassphraseEnableController.swift */; };
+		A9BF33AF1E76DF54009A51AA /* PassphraseCopyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AE1E76DF54009A51AA /* PassphraseCopyController.swift */; };
+		A9BF33B11E76DF67009A51AA /* PassphraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */; };
+		A9BF33B31E76F8D0009A51AA /* PassphraseEnableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AC1E76DF0B009A51AA /* PassphraseEnableController.swift */; };
+		A9BF33B41E76F8D0009A51AA /* PassphraseCopyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AE1E76DF54009A51AA /* PassphraseCopyController.swift */; };
+		A9BF33B51E76F8D0009A51AA /* PassphraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */; };
 		A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
@@ -2267,15 +2267,15 @@
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		A9AC74101E78064500365029 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
-		A9AC74131E78231A00365029 /* BackupPhraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseView.swift; sourceTree = "<group>"; };
-		A9AC74161E78277700365029 /* BackupPhraseWordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseWordView.swift; sourceTree = "<group>"; };
+		A9AC74131E78231A00365029 /* PassphraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseView.swift; sourceTree = "<group>"; };
+		A9AC74161E78277700365029 /* PassphraseWordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseWordView.swift; sourceTree = "<group>"; };
 		A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyController.swift; sourceTree = "<group>"; };
 		A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyHeader.swift; sourceTree = "<group>"; };
 		A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyBulletPoint.swift; sourceTree = "<group>"; };
 		A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyItem.swift; sourceTree = "<group>"; };
-		A9BF33AC1E76DF0B009A51AA /* BackupPhraseEnableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseEnableController.swift; sourceTree = "<group>"; };
-		A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseCopyController.swift; sourceTree = "<group>"; };
-		A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackupPhraseVerifyController.swift; sourceTree = "<group>"; };
+		A9BF33AC1E76DF0B009A51AA /* PassphraseEnableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseEnableController.swift; sourceTree = "<group>"; };
+		A9BF33AE1E76DF54009A51AA /* PassphraseCopyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseCopyController.swift; sourceTree = "<group>"; };
+		A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseVerifyController.swift; sourceTree = "<group>"; };
 		A9BF33B61E76F918009A51AA /* CheckboxControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxControl.swift; sourceTree = "<group>"; };
 		A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesBasicCell.swift; sourceTree = "<group>"; };
 		A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesImageCell.swift; sourceTree = "<group>"; };
@@ -3748,7 +3748,7 @@
 			children = (
 				A9BA6B771EF7CEAD007C3206 /* AddMoney */,
 				A9191DC41F2203DD00498A4F /* Advanced */,
-				A9BF33AB1E76DE36009A51AA /* Backup Phrase */,
+				A9BF33AB1E76DE36009A51AA /* Passphrase */,
 				A9191DCE1F2220B100498A4F /* Balance */,
 				2B4794181F1E069500AC3EB4 /* Models */,
 				9F232A971EC9E3A300270761 /* Profile */,
@@ -3836,22 +3836,22 @@
 			path = AddMoney;
 			sourceTree = "<group>";
 		};
-		A9BF33AB1E76DE36009A51AA /* Backup Phrase */ = {
+		A9BF33AB1E76DE36009A51AA /* Passphrase */ = {
 			isa = PBXGroup;
 			children = (
 				A9BF33B21E76F8C9009A51AA /* Views */,
-				A9BF33AE1E76DF54009A51AA /* BackupPhraseCopyController.swift */,
-				A9BF33AC1E76DF0B009A51AA /* BackupPhraseEnableController.swift */,
-				A9BF33B01E76DF67009A51AA /* BackupPhraseVerifyController.swift */,
+				A9BF33AE1E76DF54009A51AA /* PassphraseCopyController.swift */,
+				A9BF33AC1E76DF0B009A51AA /* PassphraseEnableController.swift */,
+				A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */,
 			);
-			path = "Backup Phrase";
+			path = Passphrase;
 			sourceTree = "<group>";
 		};
 		A9BF33B21E76F8C9009A51AA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A9AC74131E78231A00365029 /* BackupPhraseView.swift */,
-				A9AC74161E78277700365029 /* BackupPhraseWordView.swift */,
+				A9AC74131E78231A00365029 /* PassphraseView.swift */,
+				A9AC74161E78277700365029 /* PassphraseWordView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4426,7 +4426,7 @@
 				84FFE1EC1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
 				9F4D7F7B1EEA8B4500FB5361 /* ASActor.m in Sources */,
 				9F4D7F851EEA8B4500FB5361 /* AudioWaveform.m in Sources */,
-				9F88EA041EE0402F00267573 /* BackupPhraseView.swift in Sources */,
+				9F88EA041EE0402F00267573 /* PassphraseView.swift in Sources */,
 				9F4D7F4D1EEA8B4500FB5361 /* PhotoLookupFilterPass.m in Sources */,
 				9F4D7FA51EEA8B4500FB5361 /* DoubleTapGestureRecognizer.m in Sources */,
 				9F4D7FF71EEA8B4500FB5361 /* NSValue+JNWAdditions.m in Sources */,
@@ -4605,7 +4605,7 @@
 				9F4D80531EEA8B4500FB5361 /* MediaAssetMomentList.m in Sources */,
 				9F4D80431EEA8B4500FB5361 /* ImageInfo.mm in Sources */,
 				9F4D80CB1EEA8B4500FB5361 /* MediaAssetsVideoCell.m in Sources */,
-				A9AC74181E78277700365029 /* BackupPhraseWordView.swift in Sources */,
+				A9AC74181E78277700365029 /* PassphraseWordView.swift in Sources */,
 				9F4D81291EEA8B4600FB5361 /* PaintingWrapperView.m in Sources */,
 				9F4D7EB31EEA8B4500FB5361 /* CameraPhotoPreviewController.m in Sources */,
 				149F9A751E72E29A00FB74AA /* ChatsNavigationController.swift in Sources */,
@@ -4669,7 +4669,7 @@
 				9F4D810B1EEA8B4500FB5361 /* ModernGalleryImageItemView.m in Sources */,
 				9F4D80091EEA8B4500FB5361 /* PSKeyValueEncoder.m in Sources */,
 				149F9A7F1E72E29A00FB74AA /* ProfileController.swift in Sources */,
-				A9BF33B41E76F8D0009A51AA /* BackupPhraseCopyController.swift in Sources */,
+				A9BF33B41E76F8D0009A51AA /* PassphraseCopyController.swift in Sources */,
 				9F4D80871EEA8B4500FB5361 /* AttachmentCarouselItemView.m in Sources */,
 				9F4D7EBF1EEA8B4500FB5361 /* MediaPickerController.m in Sources */,
 				9F4D807B1EEA8B4500FB5361 /* VideoInfo.mm in Sources */,
@@ -4703,7 +4703,7 @@
 				9F4D805F1EEA8B4500FB5361 /* MediaPickerGalleryItem.m in Sources */,
 				9F4D80B31EEA8B4500FB5361 /* HistogramView.m in Sources */,
 				9F88EA051EE0411A00267573 /* SettingsController.swift in Sources */,
-				A9BF33B51E76F8D0009A51AA /* BackupPhraseVerifyController.swift in Sources */,
+				A9BF33B51E76F8D0009A51AA /* PassphraseVerifyController.swift in Sources */,
 				A9E1DCDF1F1E276E001A4ABE /* MessagesTextCell.swift in Sources */,
 				9F4D80D51EEA8B4500FB5361 /* MediaPickerGalleryInterfaceView.m in Sources */,
 				9F4D7FDF1EEA8B4500FB5361 /* MediaPickerLayoutMetrics.m in Sources */,
@@ -4746,7 +4746,7 @@
 				149F9A8C1E72E29A00FB74AA /* FavoritesNavigationController.swift in Sources */,
 				2BC4084F1EF186000044C242 /* PaymentPresentable.swift in Sources */,
 				2B10A4001F082CAC00E0F7DC /* ChatInteractor.swift in Sources */,
-				A9BF33B31E76F8D0009A51AA /* BackupPhraseEnableController.swift in Sources */,
+				A9BF33B31E76F8D0009A51AA /* PassphraseEnableController.swift in Sources */,
 				9F4D7F391EEA8B4500FB5361 /* PhotoEditorValues.m in Sources */,
 				9F4D7EFB1EEA8B4500FB5361 /* GrainTool.m in Sources */,
 				9F4D7F211EEA8B4500FB5361 /* PaintSwatch.m in Sources */,
@@ -5071,7 +5071,7 @@
 				9F4D80BE1EEA8B4500FB5361 /* MediaAssetsMomentsCollectionLayout.m in Sources */,
 				9F844BD51E30D880001C5498 /* ChatsController.swift in Sources */,
 				9F4D809E1EEA8B4500FB5361 /* CameraModeControl.m in Sources */,
-				A9BF33B11E76DF67009A51AA /* BackupPhraseVerifyController.swift in Sources */,
+				A9BF33B11E76DF67009A51AA /* PassphraseVerifyController.swift in Sources */,
 				9F4D7EC01EEA8B4500FB5361 /* MenuSheetController.m in Sources */,
 				9F4D7FE61EEA8B4500FB5361 /* MediaVideoConverter.m in Sources */,
 				9F54A7231E951F1500FEB67B /* RatingsClient.swift in Sources */,
@@ -5179,7 +5179,7 @@
 				9F4D81581EEA8B4600FB5361 /* PhotoEditorToolButtonsView.m in Sources */,
 				9F4D7FD61EEA8B4500FB5361 /* MediaAssetModernImageSignals.m in Sources */,
 				9F4D7F0A1EEA8B4500FB5361 /* PaintFaceDetector.m in Sources */,
-				A9BF33AF1E76DF54009A51AA /* BackupPhraseCopyController.swift in Sources */,
+				A9BF33AF1E76DF54009A51AA /* PassphraseCopyController.swift in Sources */,
 				9F3CFDE61E5F086200E8D632 /* EthereumConverter.swift in Sources */,
 				9F7B896D1E51C6DA009C192E /* TSInteraction+Additions.swift in Sources */,
 				9F4D80BC1EEA8B4500FB5361 /* MediaAssetsGifCell.m in Sources */,
@@ -5202,8 +5202,8 @@
 				9F4D7F641EEA8B4500FB5361 /* ScaleImage.m in Sources */,
 				9F4D80781EEA8B4500FB5361 /* StaticBackdropImageData.m in Sources */,
 				9F4D80EA1EEA8B4500FB5361 /* MenuSheetCollectionView.m in Sources */,
-				A9AC74171E78277700365029 /* BackupPhraseWordView.swift in Sources */,
-				A9BF33AD1E76DF0B009A51AA /* BackupPhraseEnableController.swift in Sources */,
+				A9AC74171E78277700365029 /* PassphraseWordView.swift in Sources */,
+				A9BF33AD1E76DF0B009A51AA /* PassphraseEnableController.swift in Sources */,
 				9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */,
 				2B3DF3611F4721EB00A869A3 /* SettingsProfileCell.swift in Sources */,
 				A916290D1F3B5828008A7F36 /* PaymentAddressController.swift in Sources */,
@@ -5229,7 +5229,7 @@
 				9F4D7F721EEA8B4500FB5361 /* WarmthTool.m in Sources */,
 				9F4D7F1A1EEA8B4500FB5361 /* PaintShaderSet.m in Sources */,
 				9FD247831ED3037F00A38C40 /* String+isURL.swift in Sources */,
-				A9AC74141E78231A00365029 /* BackupPhraseView.swift in Sources */,
+				A9AC74141E78231A00365029 /* PassphraseView.swift in Sources */,
 				A9AC74081E77E37500365029 /* ActionButton.swift in Sources */,
 				9F4D80881EEA8B4500FB5361 /* AttachmentFileTipView.m in Sources */,
 				9F4D80961EEA8B4500FB5361 /* CameraFlipButton.m in Sources */,

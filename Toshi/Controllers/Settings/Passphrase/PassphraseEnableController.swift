@@ -16,57 +16,52 @@
 import UIKit
 import SweetUIKit
 
-class BackupPhraseCopyController: UIViewController {
+class PassphraseEnableController: UIViewController {
 
     fileprivate var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
     lazy var titleLabel: TitleLabel = {
-        let view = TitleLabel("This is your backup phrase")
+        let view = TitleLabel(Localized("passphrase_enable_title"))
 
         return view
     }()
 
     lazy var textLabel: UILabel = {
-        let view = TextLabel("Carefully write down the words.\nDon’t email it or screenshot it.")
-        view.textAlignment = .center
+        let view = TextLabel(Localized("passphrase_enable_text"))
+
+        return view
+    }()
+
+    lazy var checkboxControl: CheckboxControl = {
+        let text = Localized("passphrase_enable_checkbox")
+
+        let view = CheckboxControl(withAutoLayout: true)
+        view.title = text
+        view.addTarget(self, action: #selector(checked(_:)), for: .touchUpInside)
 
         return view
     }()
 
     private lazy var actionButton: ActionButton = {
         let view = ActionButton(margin: 30)
-        view.title = "Verify phrase"
+        view.title = Localized("passphrase_enable_action")
+        view.isEnabled = false
         view.addTarget(self, action: #selector(proceed(_:)), for: .touchUpInside)
 
         return view
     }()
 
-    private lazy var phraseView: BackupPhraseView = {
-        let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .original)
-
-        return view
-    }()
-
-    private lazy var confirmationButton: ConfirmationButton = {
-        let view = ConfirmationButton(withAutoLayout: true)
-        view.title = "Copy phrase to clipboard"
-        view.confirmation = "Copied to clipboard"
-        view.addTarget(self, action: #selector(copyToClipBoard(_:)), for: .touchUpInside)
-
-        return view
-    }()
+    public required init?(coder _: NSCoder) {
+        fatalError("")
+    }
 
     public init() {
         super.init(nibName: nil, bundle: nil)
 
-        title = "Store backup phrase"
+        title = Localized("passphrase_enable_navigation_title")
         hidesBottomBarWhenPushed = true
-    }
-
-    public required init?(coder _: NSCoder) {
-        fatalError("")
     }
 
     override func viewDidLoad() {
@@ -75,8 +70,7 @@ class BackupPhraseCopyController: UIViewController {
 
         view.addSubview(titleLabel)
         view.addSubview(textLabel)
-        view.addSubview(phraseView)
-        view.addSubview(confirmationButton)
+        view.addSubview(checkboxControl)
         view.addSubview(actionButton)
 
         NSLayoutConstraint.activate([
@@ -88,29 +82,22 @@ class BackupPhraseCopyController: UIViewController {
             self.textLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
             self.textLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
 
-            self.phraseView.topAnchor.constraint(equalTo: self.textLabel.bottomAnchor, constant: 60),
-            self.phraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15),
-            self.phraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15),
-
-            self.confirmationButton.topAnchor.constraint(equalTo: self.phraseView.bottomAnchor, constant: 20),
-            self.confirmationButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.checkboxControl.topAnchor.constraint(equalTo: self.textLabel.bottomAnchor, constant: 30),
+            self.checkboxControl.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
+            self.checkboxControl.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
 
             self.actionButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             self.actionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30)
         ])
     }
 
-    func proceed(_: ActionButton) {
-        let controller = BackupPhraseVerifyController()
-        navigationController?.pushViewController(controller, animated: true)
+    func checked(_ checkboxControl: CheckboxControl) {
+        checkboxControl.checkbox.checked = !checkboxControl.checkbox.checked
+        actionButton.isEnabled = checkboxControl.checkbox.checked
     }
-
-    func copyToClipBoard(_ button: ConfirmationButton) {
-
-        UIPasteboard.general.string = Cereal().mnemonic.words.joined(separator: " ")
-
-        DispatchQueue.main.asyncAfter(seconds: 0.1) {
-            button.contentState = button.contentState == .actionable ? .confirmation : .actionable
-        }
+    
+    func proceed(_: ActionButton) {
+        let controller = PassphraseCopyController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

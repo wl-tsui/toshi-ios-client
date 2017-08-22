@@ -39,3 +39,56 @@
 "payment_message_success_title" = "Succeeded";
 "payment_message_success_message" = "Your Payment was successful.";
 "payment_message_button" = "Ok";
+
+/* Passphrase */
+"passphrase_copy_navigation_title" = "Store passphrase";
+"passphrase_copy_title" = "This is your passphrase";
+"passphrase_copy_text" = "Carefully write down the words.\nDon’t email it or screenshot it.";
+"passphrase_copy_action" = "Verify passphrase";
+"passphrase_copy_confirm_title" = "Copy passphrase to clipboard";
+"passphrase_copy_confirm_copied" = "Copied to clipboard";
+
+"passphrase_enable_navigation_title" = "Store passphrase";
+"passphrase_enable_title" = "Let’s secure your account";
+"passphrase_enable_text" = "Storing a passphrase will allow you to recover your funds if your phone is ever lost or stolen.\n\nIt’s important to store this passphrase securely where nobody else can access it, such as on a piece of paper or in a password manager.";
+"passphrase_enable_checkbox" = "I understand that if I lose my passphrase, I will be unable to recover access to my account.";
+"passphrase_enable_action" = "Continue";
+
+"passphrase_verify_navigation_title" = "Store passphrase";
+"passphrase_verify_title" = "Verify the passphrase";
+"passphrase_verify_text" = "Tap the words to put them next to each other in the correct order.";
+
+"passphrase_signin_error_title" = "Invalid passphrase";
+"passphrase_signin_error_words_count" = "Make sure your passphrase consists of 12 words, separated by a single space.";
+"passphrase_signin_error_verification" = "Are you sure you typed your passphrase correctly?";
+
+/* Settings */
+"settings_navigation_title" = "Me";
+
+"settings_header_profile" = "Profile";
+"settings_header_balance" = "Balance";
+"settings_header_security" = "Security";
+"settings_header_security_text" = "Your account is at risk";
+"settings_header_settings" = "Settings";
+
+"settings_cell_qr" = "My QR Code";
+"settings_cell_passphrase" = "Store passphrase";
+"settings_cell_advanced" = "Advanced";
+"settings_cell_signout" = "Sign out";
+
+"settings_signout_error_title" = "No user found!";
+"settings_signout_error_message" = "This is an error. Please report this.";
+
+"settings_signout_insecure_title" = "Have you secured your passphrase?";
+"settings_signout_insecure_message" = "Without this you will not be able to recover your account or sign back in.";
+
+"settings_signout_nofunds_title" = "Are you sure you want to sign out?";
+"settings_signout_nofunds_message" = "Since you have no funds and did not secure your account, it will be deleted.";
+
+"settings_signout_stepsneeded_title" = "Sign out cancelled";
+"settings_signout_stepsneeded_message" = "You need to complete at least one of the security steps to sign out.";
+
+"settings_signout_action_ok" = "Ok";
+"settings_signout_action_cancel" = "Cancel";
+"settings_signout_action_delete" = "Delete";
+"settings_signout_action_signout" = "Sign out";

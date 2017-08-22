@@ -16,7 +16,7 @@
 import UIKit
 import SweetUIKit
 
-class BackupPhraseWordView: UIControl {
+class PassphraseWordView: UIControl {
 
     static let height: CGFloat = 35
 
@@ -83,7 +83,7 @@ class BackupPhraseWordView: UIControl {
             self.wordLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.wordLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
 
-            self.heightAnchor.constraint(equalToConstant: BackupPhraseWordView.height).priority(.high)
+            self.heightAnchor.constraint(equalToConstant: PassphraseWordView.height).priority(.high)
         ])
 
         setNeedsLayout()

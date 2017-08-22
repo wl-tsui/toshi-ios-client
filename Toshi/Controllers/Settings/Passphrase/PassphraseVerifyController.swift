@@ -16,7 +16,7 @@
 import UIKit
 import SweetUIKit
 
-class BackupPhraseVerifyController: UIViewController {
+class PassphraseVerifyController: UIViewController {
 
     fileprivate var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
@@ -26,27 +26,27 @@ class BackupPhraseVerifyController: UIViewController {
     private let margin: CGFloat = 30
 
     lazy var titleLabel: TitleLabel = {
-        let view = TitleLabel("Verify the phrase")
+        let view = TitleLabel(Localized("passphrase_verify_title"))
 
         return view
     }()
 
     lazy var textLabel: UILabel = {
-        let view = TextLabel("Tap the words to put them next to each other in the correct order")
+        let view = TextLabel(Localized("passphrase_verify_text"))
         view.textAlignment = .center
 
         return view
     }()
 
-    fileprivate lazy var shuffledPhraseView: BackupPhraseView = {
-        let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .shuffled)
+    fileprivate lazy var shuffledPassphraseView: PassphraseView = {
+        let view = PassphraseView(with: Cereal().mnemonic.words, for: .shuffled)
         view.addDelegate = self
 
         return view
     }()
 
-    fileprivate lazy var verifyPhraseView: BackupPhraseView = {
-        let view = BackupPhraseView(with: Cereal().mnemonic.words, for: .verification)
+    fileprivate lazy var verifyPassphraseView: PassphraseView = {
+        let view = PassphraseView(with: Cereal().mnemonic.words, for: .verification)
         view.removeDelegate = self
         view.verificationDelegate = self
         view.backgroundColor = Theme.passphraseVerificationContainerColor
@@ -65,7 +65,7 @@ class BackupPhraseVerifyController: UIViewController {
     public init() {
         super.init(nibName: nil, bundle: nil)
 
-        title = "Store backup phrase"
+        title = Localized("passphrase_verify_navigation_title")
         hidesBottomBarWhenPushed = true
     }
 
@@ -79,8 +79,8 @@ class BackupPhraseVerifyController: UIViewController {
     func addSubviewsAndConstraints() {
         view.addSubview(titleLabel)
         view.addSubview(textLabel)
-        view.addSubview(verifyPhraseView)
-        view.addSubview(shuffledPhraseView)
+        view.addSubview(verifyPassphraseView)
+        view.addSubview(shuffledPassphraseView)
 
         /*
          Between each view we place a layout-guide to add dynamic control of
@@ -114,22 +114,22 @@ class BackupPhraseVerifyController: UIViewController {
 
             self.guides[2].topAnchor.constraint(equalTo: self.textLabel.bottomAnchor),
             self.guides[2].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[2].bottomAnchor.constraint(equalTo: self.verifyPhraseView.topAnchor),
+            self.guides[2].bottomAnchor.constraint(equalTo: self.verifyPassphraseView.topAnchor),
             self.guides[2].rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
-            self.verifyPhraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
-            self.verifyPhraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
+            self.verifyPassphraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
+            self.verifyPassphraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
 
-            self.guides[3].topAnchor.constraint(equalTo: self.verifyPhraseView.bottomAnchor),
+            self.guides[3].topAnchor.constraint(equalTo: self.verifyPassphraseView.bottomAnchor),
             self.guides[3].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[3].bottomAnchor.constraint(equalTo: self.shuffledPhraseView.topAnchor),
+            self.guides[3].bottomAnchor.constraint(equalTo: self.shuffledPassphraseView.topAnchor),
             self.guides[3].rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
-            self.shuffledPhraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
-            self.shuffledPhraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
-            self.shuffledPhraseView.heightAnchor.constraint(equalTo: self.verifyPhraseView.heightAnchor).priority(.high),
+            self.shuffledPassphraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
+            self.shuffledPassphraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
+            self.shuffledPassphraseView.heightAnchor.constraint(equalTo: self.verifyPassphraseView.heightAnchor).priority(.high),
 
-            self.guides[4].topAnchor.constraint(equalTo: self.shuffledPhraseView.bottomAnchor),
+            self.guides[4].topAnchor.constraint(equalTo: self.shuffledPassphraseView.bottomAnchor),
             self.guides[4].leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.guides[4].bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.guides[4].rightAnchor.constraint(equalTo: self.view.rightAnchor),
@@ -143,27 +143,27 @@ class BackupPhraseVerifyController: UIViewController {
     }
 }
 
-extension BackupPhraseVerifyController: AddDelegate {
+extension PassphraseVerifyController: AddDelegate {
 
-    func add(_ wordView: BackupPhraseWordView) {
+    func add(_ wordView: PassphraseWordView) {
         guard let word = wordView.word else { return }
 
-        verifyPhraseView.add(word)
+        verifyPassphraseView.add(word)
         wordView.isEnabled = false
     }
 }
 
-extension BackupPhraseVerifyController: RemoveDelegate {
+extension PassphraseVerifyController: RemoveDelegate {
 
-    func remove(_ wordView: BackupPhraseWordView) {
+    func remove(_ wordView: PassphraseWordView) {
         guard let word = wordView.word else { return }
 
-        verifyPhraseView.remove(word)
-        shuffledPhraseView.reset(word)
+        verifyPassphraseView.remove(word)
+        shuffledPassphraseView.reset(word)
     }
 }
 
-extension BackupPhraseVerifyController: VerificationDelegate {
+extension PassphraseVerifyController: VerificationDelegate {
 
     func verify(_ phrase: Phrase) -> VerificationStatus {
         assert(Cereal().mnemonic.words.count <= 12, "Too large")

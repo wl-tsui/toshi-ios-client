@@ -30,18 +30,18 @@ typealias Phrase = [Word]
 typealias Layout = [NSLayoutConstraint]
 
 protocol AddDelegate: class {
-    func add(_ wordView: BackupPhraseWordView)
+    func add(_ wordView: PassphraseWordView)
 }
 
 protocol RemoveDelegate: class {
-    func remove(_ wordView: BackupPhraseWordView)
+    func remove(_ wordView: PassphraseWordView)
 }
 
 protocol VerificationDelegate: class {
     func verify(_ phrase: Phrase) -> VerificationStatus
 }
 
-enum BackupPhraseType {
+enum PassphraseType {
     case original
     case shuffled
     case verification
@@ -54,9 +54,9 @@ enum VerificationStatus {
     case incorrect
 }
 
-class BackupPhraseView: UIView {
+class PassphraseView: UIView {
 
-    private var type: BackupPhraseType = .original
+    private var type: PassphraseType = .original
 
     var verificationStatus: VerificationStatus = .unverified {
         didSet {
@@ -81,10 +81,10 @@ class BackupPhraseView: UIView {
     weak var removeDelegate: RemoveDelegate?
     weak var verificationDelegate: VerificationDelegate?
 
-    var wordViews: [BackupPhraseWordView] = []
+    var wordViews: [PassphraseWordView] = []
     var containers: [UILayoutGuide] = []
 
-    convenience init(with originalPhrase: [String], for type: BackupPhraseType) {
+    convenience init(with originalPhrase: [String], for type: PassphraseType) {
         self.init(withAutoLayout: true)
         self.type = type
 
@@ -191,10 +191,10 @@ class BackupPhraseView: UIView {
         layout.removeAll()
     }
 
-    func wordViews(for phrase: Phrase) -> [BackupPhraseWordView] {
+    func wordViews(for phrase: Phrase) -> [PassphraseWordView] {
 
-        return phrase.map { word -> BackupPhraseWordView in
-            let wordView = BackupPhraseWordView(with: word)
+        return phrase.map { word -> PassphraseWordView in
+            let wordView = PassphraseWordView(with: word)
             wordView.isAddedForVerification = false
             wordView.addTarget(self, action: #selector(toggleAddedState(for:)), for: .touchUpInside)
 
@@ -213,8 +213,8 @@ class BackupPhraseView: UIView {
         return container
     }
 
-    func currentWordViews() -> [BackupPhraseWordView] {
-        var views: [BackupPhraseWordView] = []
+    func currentWordViews() -> [PassphraseWordView] {
+        var views: [PassphraseWordView] = []
 
         for currentWord in currentPhrase {
             for wordView in wordViews {
@@ -242,7 +242,7 @@ class BackupPhraseView: UIView {
             let newWidth = origin.x + size.width + margin
 
             if newWidth > maxWidth {
-                origin.y += BackupPhraseWordView.height + margin
+                origin.y += PassphraseWordView.height + margin
                 origin.x = 0
 
                 if let previousWordView = previousWordView {
@@ -290,12 +290,12 @@ class BackupPhraseView: UIView {
             let size = wordView.getSize()
             let newWidth = origin.x + size.width + self.margin
 
-            self.layout.append(wordView.topAnchor.constraint(equalTo: lastContainer.topAnchor, constant: newWidth > self.maxWidth ? BackupPhraseWordView.height + self.margin : 0))
+            self.layout.append(wordView.topAnchor.constraint(equalTo: lastContainer.topAnchor, constant: newWidth > self.maxWidth ? PassphraseWordView.height + self.margin : 0))
             self.layout.append(wordView.centerXAnchor.constraint(equalTo: lastContainer.centerXAnchor))
         }
     }
 
-    func toggleAddedState(for wordView: BackupPhraseWordView) {
+    func toggleAddedState(for wordView: PassphraseWordView) {
         wordView.isAddedForVerification = !wordView.isAddedForVerification
 
         if wordView.isAddedForVerification {

@@ -44,14 +44,14 @@ open class SettingsController: UIViewController {
         var headerTitle: String? {
             switch self {
             case .profile:
-                return Localized("Profile")
+                return Localized("settings_header_profile")
             case .balance:
-                return Localized("Balance")
+                return Localized("settings_header_balance")
             case .security:
-                return Localized("Security")
+                return Localized("settings_header_security")
             case .settings:
                 #if DEBUG
-                    return Localized("Settings")
+                    return Localized("settings_header_settings")
                 #else
                     return nil
                 #endif
@@ -117,7 +117,7 @@ open class SettingsController: UIViewController {
 
     static func instantiateFromNib() -> SettingsController {
         guard let settingsController = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsController else { fatalError("Storyboard named 'Settings' should be provided in application") }
-        
+
         return  settingsController
     }
 
@@ -132,7 +132,7 @@ open class SettingsController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Localized("Me")
+        title = Localized("settings_navigation_title")
 
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -177,8 +177,8 @@ open class SettingsController: UIViewController {
 
     fileprivate func handleSignOut() {
         guard let currentUser = TokenUser.current else {
-            let alert = UIAlertController(title: "No user found!", message: "This is an error. Please report this.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            let alert = UIAlertController(title: Localized("settings_signout_error_title"), message: Localized("settings_signout_error_message"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_ok"), style: .default, handler: { _ in
                 fatalError()
             }))
             Navigator.presentModally(alert)
@@ -198,22 +198,22 @@ open class SettingsController: UIViewController {
         var alert: UIAlertController
 
         if self.isAccountSecured {
-            alert = UIAlertController(title: "Have you secured your backup phrase?", message: "Without this you will not be able to recover your account or sign back in.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert = UIAlertController(title: Localized("settings_signout_insecure_title"), message: Localized("settings_signout_insecure_message"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_cancel"), style: .cancel))
 
-            alert.addAction(UIAlertAction(title: "Sign out", style: .destructive) { _ in
+            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_signout"), style: .destructive) { _ in
                 (UIApplication.shared.delegate as? AppDelegate)?.signOutUser()
             })
         } else if balance == .zero {
-            alert = UIAlertController(title: "Are you sure you want to sign out?", message: "Since you have no funds and did not secure your account, it will be deleted.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert = UIAlertController(title: Localized("settings_signout_nofunds_title"), message: Localized("settings_signout_nofunds_message"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_cancel"), style: .cancel))
 
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_delete"), style: .destructive) { _ in
                 (UIApplication.shared.delegate as? AppDelegate)?.signOutUser()
             })
         } else {
-            alert = UIAlertController(title: "Sign out cancelled", message: "You need to complete at least one of the security steps to sign out.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .cancel))
+            alert = UIAlertController(title: Localized("settings_signout_stepsneeded_title"), message: Localized("settings_signout_stepsneeded_message"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_ok"), style: .cancel))
         }
 
         alert.view.tintColor = Theme.tintColor
@@ -242,7 +242,7 @@ open class SettingsController: UIViewController {
 
     open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 2 {
-            let view = SettingsSectionHeader(title: "Security", error: "Your account is at risk")
+            let view = SettingsSectionHeader(title: Localized("settings_header_security"), error: Localized("settings_header_security_text"))
             view.setErrorHidden(self.isAccountSecured, animated: false)
 
             return view
@@ -272,7 +272,7 @@ extension SettingsController: UITableViewDataSource {
         case .profile:
             setupProfileCell(cell)
         case .qrCode:
-            cell.textLabel?.text = Localized("My QR Code")
+            cell.textLabel?.text = Localized("settings_cell_qr")
             cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .balance:
@@ -285,15 +285,15 @@ extension SettingsController: UITableViewDataSource {
 
             cell.accessoryType = .disclosureIndicator
         case .security:
-            cell.textLabel?.text = Localized("Store backup phrase")
+            cell.textLabel?.text = Localized("settings_cell_passphrase")
             cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .advanced:
-            cell.textLabel?.text = Localized("Advanced")
+            cell.textLabel?.text = Localized("settings_cell_advanced")
             cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .signOut:
-            cell.textLabel?.text = Localized("Sign out")
+            cell.textLabel?.text = Localized("settings_cell_signout")
             cell.textLabel?.textColor = Theme.errorColor
             cell.accessoryType = .none
         }
@@ -332,7 +332,7 @@ extension SettingsController: UITableViewDelegate {
             }
             self.navigationController?.pushViewController(controller, animated: true)
         case .security:
-            self.navigationController?.pushViewController(BackupPhraseEnableController(), animated: true)
+            self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
         case .advanced:
             self.pushViewController("AdvancedSettings")
         case .signOut:
