@@ -139,6 +139,8 @@ extension PaymentAddressController: ScannerViewControllerDelegate {
             default:
                 scannerController.startScanning()
             }
+        } else {
+            scannerController.startScanning()
         }
     }
 
