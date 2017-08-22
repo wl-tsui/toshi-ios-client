@@ -218,7 +218,7 @@ extension PaymentController: UITextFieldDelegate {
         currencyAmountLabel.text = currencyNumberFormatter.string(from: number)
 
         if let currencyValue = inputNumberFormatter.number(from: newValue) {
-            let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+            let ether = EthereumConverter.localFiatToEther(forFiat: currencyValue, exchangeRate: ExchangeRateClient.exchangeRate)
 
             if ether.isANumber {
                 valueInWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)

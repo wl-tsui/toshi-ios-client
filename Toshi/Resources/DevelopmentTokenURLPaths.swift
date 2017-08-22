@@ -17,3 +17,4 @@ let TokenRatingsServiceBaseURLPath = "https://token-rep-service-development.hero
 let TokenIdServiceBaseURLPath = "https://token-id-service-development.herokuapp.com"
 let TokenEthereumServiceBaseURLPath = "https://token-eth-service-development.herokuapp.com"
 let TokenDirectoryServiceBaseURLPath = "https://token-id-service-development.herokuapp.com"
+let ToshiExchangeRateServiceBaseURLPath = "https://toshi-exchangerate-service.herokuapp.com"

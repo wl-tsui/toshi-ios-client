@@ -89,10 +89,10 @@ final class ChatViewModel {
 
                 for message in strongSelf.messages {
                     if let paymentRequest = message.sofaWrapper as? SofaPaymentRequest {
-                        message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: paymentRequest.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+                        message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: paymentRequest.value, exchangeRate: ExchangeRateClient.exchangeRate)
                         message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: paymentRequest.value)
                     } else if let payment = message.sofaWrapper as? SofaPayment {
-                        message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: payment.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+                        message.fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate)
                         message.ethereumValueString = EthereumConverter.ethereumValueString(forWei: payment.value)
                     }
                 }

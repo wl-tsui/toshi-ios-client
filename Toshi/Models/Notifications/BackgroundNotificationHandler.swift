@@ -48,7 +48,7 @@ public class BackgroundNotificationHandler: NSObject {
         let content = UNMutableNotificationContent()
         content.title = "Payment received!"
 
-        let value = EthereumConverter.fiatValueString(forWei: payment.value, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+        let value = EthereumConverter.fiatValueString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate)
         content.body = "You've received \(value)."
 
         content.sound = UNNotificationSound(named: "PN.m4a")

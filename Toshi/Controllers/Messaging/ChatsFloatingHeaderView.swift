@@ -26,9 +26,18 @@ class ChatsFloatingHeaderView: UIView {
 
     static let height = CGFloat(48)
 
-    private(set) lazy var balanceLabel: UILabel = {
+    private(set) lazy var fiatValueLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
+        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         label.textColor = Theme.darkTextColor
+        label.font = Theme.regular(size: 16)
+
+        return label
+    }()
+
+    private(set) lazy var ethereumValueLabel: UILabel = {
+        let label = UILabel(withAutoLayout: true)
+        label.textColor = Theme.lightGreyTextColor
         label.font = Theme.regular(size: 16)
 
         return label
@@ -63,9 +72,12 @@ class ChatsFloatingHeaderView: UIView {
     var balance: NSDecimalNumber? {
         didSet {
             if let balance = self.balance {
-                balanceLabel.attributedText = EthereumConverter.balanceAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate)
+                let rate = ExchangeRateClient.exchangeRate
+                fiatValueLabel.text = EthereumConverter.fiatValueStringWithCode(forWei: balance, exchangeRate: rate)
+                ethereumValueLabel.text = EthereumConverter.ethereumValueString(forWei: balance)
             } else {
-                balanceLabel.attributedText = nil
+                fiatValueLabel.text = nil
+                ethereumValueLabel.text = nil
             }
         }
     }
@@ -88,7 +100,8 @@ class ChatsFloatingHeaderView: UIView {
         super.init(frame: frame)
 
         addSubview(backgroundBlur)
-        addSubview(balanceLabel)
+        addSubview(fiatValueLabel)
+        addSubview(ethereumValueLabel)
         addSubview(requestButton)
         addSubview(payButton)
         addSubview(separatorView)
@@ -96,14 +109,18 @@ class ChatsFloatingHeaderView: UIView {
         backgroundBlur.edges(to: self)
 
         let margin = CGFloat(10)
-        balanceLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        balanceLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        balanceLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
+        fiatValueLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        fiatValueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        fiatValueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
+
+        ethereumValueLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        ethereumValueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        ethereumValueLabel.leftAnchor.constraint(equalTo: fiatValueLabel.rightAnchor, constant: margin).isActive = true
 
         let buttonWidth = CGFloat(70)
         requestButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
         requestButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        requestButton.leftAnchor.constraint(equalTo: balanceLabel.rightAnchor).isActive = true
+        requestButton.leftAnchor.constraint(equalTo: ethereumValueLabel.rightAnchor).isActive = true
         requestButton.rightAnchor.constraint(equalTo: payButton.leftAnchor).isActive = true
         requestButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 

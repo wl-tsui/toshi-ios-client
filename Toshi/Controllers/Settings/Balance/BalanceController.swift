@@ -18,6 +18,7 @@ class BalanceController: UIViewController {
         view.separatorStyle = .singleLine
 
         view.register(UITableViewCell.self, forCellReuseIdentifier: self.reuseIdentifier)
+        view.registerNib(InputCell.self)
 
         return view
     }()
@@ -82,14 +83,26 @@ extension BalanceController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         cell.selectionStyle = .none
 
         switch indexPath.row {
         case 0:
             if let balance = balance {
-                cell.textLabel?.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: UIScreen.main.bounds.width - 40)
+               let cell = tableView.dequeue(InputCell.self, for: indexPath)
+                cell.selectionStyle = .none
+
+                let ethereumValueString = EthereumConverter.ethereumValueString(forWei: balance)
+                let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: balance, exchangeRate: ExchangeRateClient.exchangeRate)
+
+                cell.titleLabel.text = fiatValueString
+                cell.textField.text = ethereumValueString
+                cell.textField.textAlignment = .right
+                cell.textField.isUserInteractionEnabled = false
+                cell.switchControl.isHidden = true
+
+                cell.titleWidthConstraint?.isActive = false
+                cell.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
             }
         case 1:
             cell.textLabel?.text = Localized("balance-action-send")

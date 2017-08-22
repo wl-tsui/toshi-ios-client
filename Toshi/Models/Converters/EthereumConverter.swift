@@ -71,9 +71,10 @@ struct EthereumConverter {
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 
+        let locale = TokenUser.current?.cachedCurrencyLocale ?? Locale(identifier: forcedLocale)
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
-        numberFormatter.locale = Locale(identifier: forcedLocale)
+        numberFormatter.locale = locale
 
         return "\(numberFormatter.string(from: fiat)!)"
     }
@@ -83,7 +84,19 @@ struct EthereumConverter {
     /// - Parameter balance: the value in wei
     /// - Returns: the fiat currency value with redundant 3 letter code for clarity.
     public static func fiatValueStringWithCode(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
-        return "\(fiatValueString(forWei: balance, exchangeRate: exchangeRate)) \(Locale(identifier: forcedLocale).currencyCode!)"
+        let locale = TokenUser.current?.cachedCurrencyLocale ?? Locale(identifier: forcedLocale)
+
+        let ether = balance.dividing(by: weisToEtherConstant)
+        let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
+        let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
+
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = locale
+
+        let fiatValueString = numberFormatter.string(from: fiat)!
+
+        return numberFormatter.currencySymbol == numberFormatter.currencyCode ? fiatValueString : "\(fiatValueString) \(locale.currencyCode!)"
     }
 
     /// Complete formatted string value for a given wei, with fiat aligned left and eth aligned right.
@@ -121,7 +134,6 @@ struct EthereumConverter {
     public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, attributes: [String: Any]? = nil) -> NSAttributedString {
 
         let fiatText = fiatValueStringWithCode(forWei: balance, exchangeRate: exchangeRate)
-
         let etherText = ethereumValueString(forWei: balance)
 
         let fiatTextFull = fiatText + "\t"

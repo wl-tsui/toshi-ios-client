@@ -74,7 +74,7 @@ class PaymentConfirmationController: AlertController {
 
             customView.userDisplayNameLabel.text = userInfo.name
             customView.userNameLabel.text = userInfo.username
-            customView.valueLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: value, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: customView.valueLabel.frame.width)
+            customView.valueLabel.attributedText = EthereumConverter.balanceSparseAttributedString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate, width: customView.valueLabel.frame.width)
 
             customView.mode = (userInfo.isLocal == true) ? Mode.localUser : Mode.remoteUser
 

@@ -34,9 +34,9 @@ open class SettingsController: UIViewController {
                 return [.security]
             case .settings:
                 #if DEBUG
-                    return [.advanced, .signOut]
+                    return [.localCurrency, .advanced, .signOut]
                 #else
-                    return [.signOut]
+                    return [.localCurrency, .signOut]
                 #endif
             }
         }
@@ -50,30 +50,30 @@ open class SettingsController: UIViewController {
             case .security:
                 return Localized("settings_header_security")
             case .settings:
-                #if DEBUG
-                    return Localized("settings_header_settings")
-                #else
-                    return nil
-                #endif
+                return Localized("settings_header_settings")
             }
         }
 
         var footerTitle: String? {
             switch self {
             case .settings:
-                let info = Bundle.main.infoDictionary!
-                let version = info["CFBundleShortVersionString"]
-                let buildNumber = info["CFBundleVersion"]
-
-                return "App version: \(version ?? "").\(buildNumber ?? "")"
+                return SettingsSection.appVersionString
             default:
                 return nil
             }
         }
+
+        fileprivate static var appVersionString: String {
+            let info = Bundle.main.infoDictionary!
+            let version = info["CFBundleShortVersionString"]
+            let buildNumber = info["CFBundleVersion"]
+
+            return "App version: \(version ?? "").\(buildNumber ?? "")"
+        }
     }
 
     enum SettingsItem: Int {
-        case profile, qrCode, balance, security, advanced, signOut
+        case profile, qrCode, balance, security, advanced, localCurrency, signOut
     }
 
     fileprivate var ethereumAPIClient: EthereumAPIClient {
@@ -142,9 +142,12 @@ open class SettingsController: UIViewController {
         tableView.backgroundColor = Theme.settingsBackgroundColor
 
         tableView.registerNib(SettingsProfileCell.self)
+        tableView.registerNib(InputCell.self)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUpdateLocalCurrency), name: .localCurrencyUpdated, object: nil)
 
         self.fetchAndUpdateBalance()
     }
@@ -157,6 +160,10 @@ open class SettingsController: UIViewController {
 
     @objc private func updateUI() {
         self.tableView.reloadData()
+    }
+
+    @objc private func handleUpdateLocalCurrency() {
+        self.balance = self.balance ?? .zero
     }
 
     @objc private func handleBalanceUpdate(notification: Notification) {
@@ -264,6 +271,8 @@ extension SettingsController: UITableViewDataSource {
         switch item {
         case .profile:
             cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
+        case .balance:
+            cell = tableView.dequeue(InputCell.self, for: indexPath)
         default:
             cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
         }
@@ -276,16 +285,30 @@ extension SettingsController: UITableViewDataSource {
             cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .balance:
-            let balance = self.balance ?? .zero
+            if let cell = cell as? InputCell {
 
-            let attributes = cell.textLabel?.attributedText?.attributes(at: 0, effectiveRange: nil)
-            let balanceString = EthereumConverter.balanceSparseAttributedString(forWei: balance, exchangeRate: EthereumAPIClient.shared.exchangeRate, width: UIScreen.main.bounds.width - 50, attributes: attributes)
+                let balance = self.balance ?? .zero
 
-            cell.textLabel?.attributedText = balanceString
+                let ethereumValueString = EthereumConverter.ethereumValueString(forWei: balance)
+                let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: balance, exchangeRate: ExchangeRateClient.exchangeRate)
 
-            cell.accessoryType = .disclosureIndicator
+                cell.titleLabel.text = fiatValueString
+                cell.textField.text = ethereumValueString
+                cell.textField.textAlignment = .right
+                cell.textField.isUserInteractionEnabled = false
+                cell.switchControl.isHidden = true
+
+                cell.titleWidthConstraint?.isActive = false
+                cell.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+                
+                cell.accessoryType = .disclosureIndicator
+            }
         case .security:
             cell.textLabel?.text = Localized("settings_cell_passphrase")
+            cell.textLabel?.textColor = Theme.darkTextColor
+            cell.accessoryType = .disclosureIndicator
+        case .localCurrency:
+            cell.textLabel?.text = Localized("Local currency")
             cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .advanced:
@@ -309,11 +332,25 @@ extension SettingsController: UITableViewDataSource {
         let sectionInfo = sections[section]
         return sectionInfo.items.count
     }
+
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let section = sections[indexPath.section]
+        let item = section.items[indexPath.row]
+
+        switch item {
+        case .profile:
+            return UITableViewAutomaticDimension
+        default:
+            return 44.0
+        }
+    }
 }
 
 extension SettingsController: UITableViewDelegate {
 
     public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
         let sectionInfo = sections[indexPath.section]
         let item = sectionInfo.items[indexPath.row]
 
@@ -333,6 +370,8 @@ extension SettingsController: UITableViewDelegate {
             self.navigationController?.pushViewController(controller, animated: true)
         case .security:
             self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
+        case .localCurrency:
+            self.navigationController?.pushViewController(CurrencyPicker(), animated: true)
         case .advanced:
             self.pushViewController("AdvancedSettings")
         case .signOut:

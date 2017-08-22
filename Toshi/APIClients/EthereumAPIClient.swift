@@ -19,19 +19,6 @@ import Teapot
 public class EthereumAPIClient: NSObject {
 
     static let shared: EthereumAPIClient = EthereumAPIClient()
-    private static let collectionKey = "ethereumExchangeRate"
-
-    public var exchangeRate: Decimal {
-        updateRate()
-
-        if let rate = Yap.sharedInstance.retrieveObject(for: EthereumAPIClient.collectionKey) as? Decimal {
-            return rate
-        } else {
-            return 15.0
-        }
-    }
-
-    fileprivate var exchangeTeapot: Teapot
 
     fileprivate var mainTeapot: Teapot
 
@@ -53,36 +40,7 @@ public class EthereumAPIClient: NSObject {
         mainTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
         switchedNetworkTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
 
-        exchangeTeapot = Teapot(baseURL: URL(string: "https://api.coinbase.com")!)
-
         super.init()
-
-        updateRate()
-    }
-
-    public func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.exchangeTeapot.get("/v2/exchange-rates?currency=ETH") { (result: NetworkResult) in
-                switch result {
-                case .success(let json, _):
-                    guard let json = json?.dictionary,
-                        let data = json["data"] as? [String: Any],
-                        let rates = data["rates"] as? [String: Any],
-                        let usd = rates["USD"] as? String,
-                        let doubleValue = Double(usd) as Double? else {
-
-                        completion(nil)
-                        return
-                    }
-
-                    completion(Decimal(doubleValue))
-                case .failure(_, let response, let error):
-                    print(response)
-                    print(error.localizedDescription)
-                    completion(nil)
-                }
-            }
-        }
     }
 
     public func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: Error?) -> Void)) {
@@ -204,14 +162,6 @@ public class EthereumAPIClient: NSObject {
     public func deregisterFromSwitchedNetworkPushNotifications(completion: ((Bool) -> Void)? = nil) {
         timestamp(switchedNetworkTeapot) { timestamp in
             self.deregisterFromPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
-        }
-    }
-
-    fileprivate func updateRate() {
-        getRate { rate in
-            if rate != nil {
-                Yap.sharedInstance.insert(object: rate, for: EthereumAPIClient.collectionKey)
-            }
         }
     }
 

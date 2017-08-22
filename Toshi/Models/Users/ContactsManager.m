@@ -93,9 +93,12 @@
         NSArray *contactsData = [self.yap retrieveObjectsIn:TokenUser.storedContactKey];
         for (NSData *contactData in contactsData) {
             NSDictionary<NSString *, id> *json = [NSJSONSerialization JSONObjectWithData:contactData options:0 error:0];
-            TokenUser *tokenContact = [[TokenUser alloc] initWithJson:json shouldSave:NO];
-            
-            [contacts addObject:tokenContact];
+
+            if (json[@"address"] != [[Cereal shared] address]) {
+                TokenUser *tokenContact = [[TokenUser alloc] initWithJson:json shouldSave:NO];
+
+                [contacts addObject:tokenContact];
+            }
         }
         
         _tokenContacts = contacts.copy;

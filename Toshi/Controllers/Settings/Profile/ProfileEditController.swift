@@ -81,6 +81,7 @@ open class ProfileEditController: OverlayController, Editable {
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
+        view.rowHeight = 44.0
         view.register(UINib(nibName: "InputCell", bundle: nil), forCellReuseIdentifier: String(describing: InputCell.self))
         view.layer.borderWidth = Theme.borderHeight
         view.layer.borderColor = Theme.borderColor.cgColor

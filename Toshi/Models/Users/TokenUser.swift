@@ -21,6 +21,7 @@ public extension NSNotification.Name {
     public static let currentUserUpdated = NSNotification.Name(rawValue: "currentUserUpdated")
     public static let userCreated = NSNotification.Name(rawValue: "userCreated")
     public static let userLoggedIn = NSNotification.Name(rawValue: "userLoggedIn")
+    public static let localCurrencyUpdated = NSNotification.Name(rawValue: "localCurrencyUpdated")
 }
 
 public typealias UserInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
@@ -40,24 +41,21 @@ public class TokenUser: NSObject, NSCoding {
         static let isPublic = "public"
         static let reputationScore = "reputation_score"
         static let averageRating = "average_rating"
+        static let localCurrency = "local_currency"
     }
 
     static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
     static let favoritesCollectionKey: String = "TokenContacts"
 
-    public static let storedUserKey = "StoredUser"
+    public static let legacyStoredUserKey = "StoredUser"
 
+    public static let currentLocalUserAddressKey = "currentLocalUserAddress"
     public static let storedContactKey = "storedContactKey"
+    public static let localUserSettingsKey = "localUserSettings"
 
     var category = ""
 
     var balance = NSDecimalNumber.zero
-
-    private(set) var verified: Bool = false {
-        didSet {
-            self.save()
-        }
-    }
 
     private(set) var name = ""
 
@@ -76,6 +74,17 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var isApp: Bool = false
     private(set) var reputationScore: Float?
     private(set) var averageRating: Float?
+
+    var localCurrency: String {
+        return userSettings[Constants.localCurrency] as? String ?? TokenUser.defaultCurrency
+    }
+
+    var verified: Bool {
+        return userSettings[Constants.verified] as? Bool ?? false
+    }
+
+    private var userSettings: [String: Any] = [:]
+    private(set) var cachedCurrencyLocale: Locale?
 
     fileprivate static var _current: TokenUser?
     fileprivate(set) static var current: TokenUser? {
@@ -98,6 +107,9 @@ public class TokenUser: NSObject, NSCoding {
             _current = newValue
             NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
         }
+    }
+    private static var defaultCurrency: String {
+        return Locale.current.currencyCode ?? "USD"
     }
 
     var isBlocked: Bool {
@@ -124,7 +136,6 @@ public class TokenUser: NSObject, NSCoding {
             Constants.name: self.name,
             Constants.avatar: self.avatarPath,
             Constants.isApp: self.isApp,
-            Constants.verified: self.verified,
             Constants.isPublic: self.isPublic
         ]
     }
@@ -168,7 +179,8 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     func updateVerificationState(_ verified: Bool) {
-        self.verified = verified
+        self.userSettings[Constants.verified] = verified
+        saveSettings()
     }
 
     func update(json: [String: Any], updateAvatar _: Bool = false, shouldSave: Bool = true) {
@@ -181,7 +193,6 @@ public class TokenUser: NSObject, NSCoding {
         about = json[Constants.about] as? String ?? about
         avatarPath = json[Constants.avatar] as? String ?? avatarPath
         isApp = json[Constants.isApp] as? Bool ?? isApp
-        verified = json[Constants.verified] as? Bool ?? verified
         reputationScore = json[Constants.reputationScore] as? Float ?? reputationScore
         averageRating = json[Constants.averageRating] as? Float ?? averageRating
 
@@ -213,10 +224,34 @@ public class TokenUser: NSObject, NSCoding {
         save()
     }
 
+    public func updateLocalCurrency(code: String? = nil, shouldSave: Bool = true) {
+        if let localCurrency = code {
+            userSettings[Constants.localCurrency] = localCurrency
+
+            adjustToLocalCurrency()
+
+            if shouldSave {
+                saveSettings()
+            }
+        }
+    }
+
     public static func createCurrentUser(with json: [String: Any]) {
-        guard let newUser = TokenUser(json: json) as TokenUser? else { return }
+        guard let newUser = TokenUser(json: json, shouldSave: false) as TokenUser? else { return }
+
         current = newUser
+
         Yap.sharedInstance.setupForNewUser(with: newUser.address)
+
+        let newUserSettings: [String: Any] = [
+            Constants.localCurrency: TokenUser.defaultCurrency,
+            Constants.verified: 0
+        ]
+
+        newUser.userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? newUserSettings
+        current?.saveSettings()
+        current?.adjustToLocalCurrency()
+
         NotificationCenter.default.post(name: .userCreated, object: nil)
     }
 
@@ -224,7 +259,7 @@ public class TokenUser: NSObject, NSCoding {
         guard current != nil else {
             current = TokenUser(json: json)
             NotificationCenter.default.post(name: .userCreated, object: nil)
-            
+
             return
         }
 
@@ -253,19 +288,36 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     private func save() {
-        if isCurrentUser {
-            Yap.sharedInstance.insert(object: JSONData, for: TokenUser.storedUserKey)
-        } else {
-            Yap.sharedInstance.insert(object: JSONData, for: address, in: TokenUser.storedContactKey)
-        }
+        Yap.sharedInstance.insert(object: JSONData, for: address, in: TokenUser.storedContactKey)
+    }
+
+    private func saveSettings() {
+        Yap.sharedInstance.insert(object: userSettings, for: address, in: TokenUser.localUserSettingsKey)
+    }
+
+    private func adjustToLocalCurrency() {
+        updateLocalCurrencyLocaleCache()
+
+        ExchangeRateClient.updateRate({ _ in
+            NotificationCenter.default.post(name: .localCurrencyUpdated, object: nil)
+        })
     }
 
     private static func retrieveCurrentUserFromStore() -> TokenUser? {
         var user: TokenUser?
-        
-        if _current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.storedUserKey) as? Data),
+
+        // migrate old user storage
+        if _current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.legacyStoredUserKey) as? Data) {
+            Yap.sharedInstance.insert(object: userData, for: Cereal.shared.address, in: TokenUser.storedContactKey)
+            Yap.sharedInstance.removeObject(for: TokenUser.legacyStoredUserKey)
+        }
+
+        if _current == nil,
+            let userData = (Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: TokenUser.storedContactKey) as? Data),
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
             var json = deserialised as? [String: Any] {
+
+            var userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? [:]
 
             // Because of payment address migration, we have to override the stored payment address.
             // Otherwise users will be sending payments to the wrong address.
@@ -273,9 +325,37 @@ public class TokenUser: NSObject, NSCoding {
                 json[Constants.paymentAddress] = Cereal.shared.paymentAddress
             }
 
-            user = TokenUser(json: json)
+            user = TokenUser(json: json, shouldSave: false)
+
+            // migrations
+            var shouldSaveMigration = false
+            if userSettings[Constants.verified] == nil {
+                if json[Constants.verified] != nil {
+                    userSettings[Constants.verified] = json[Constants.verified]
+                } else {
+                    userSettings[Constants.verified] = 0
+                }
+                shouldSaveMigration = true
+            }
+
+            if userSettings[Constants.localCurrency] == nil {
+                userSettings[Constants.localCurrency] = TokenUser.defaultCurrency
+                shouldSaveMigration = true
+            }
+
+            user?.userSettings = userSettings
+            if shouldSaveMigration {
+                user?.saveSettings()
+            }
+            user?.updateLocalCurrencyLocaleCache()
         }
 
         return user
+    }
+
+    private func updateLocalCurrencyLocaleCache() {
+        cachedCurrencyLocale = Locale.availableIdentifiers
+            .map { Locale(identifier: $0) }
+            .first(where: { self.localCurrency == $0.currencyCode })
     }
 }

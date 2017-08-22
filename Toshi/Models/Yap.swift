@@ -77,7 +77,8 @@ public final class Yap: NSObject, Singleton {
 
         createDBForCurrentUser()
 
-        self.insert(object: TokenUser.current?.JSONData, for: TokenUser.storedUserKey)
+        self.insert(object: address, for: TokenUser.currentLocalUserAddressKey)
+        self.insert(object: TokenUser.current?.JSONData, for: address, in: TokenUser.storedContactKey)
 
         createBackupDirectoryIfNeeded()
     }

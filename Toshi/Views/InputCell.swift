@@ -25,6 +25,7 @@ final class InputCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet weak var switchControl: UISwitch!
     @IBOutlet private(set) weak var titleLabel: UILabel!
+    @IBOutlet private(set) weak var titleWidthConstraint: NSLayoutConstraint?
 
     var updater: InputCellUpdater?
 
