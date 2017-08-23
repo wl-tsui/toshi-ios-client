@@ -343,7 +343,7 @@ open class FavoritesController: SweetTableController {
         }))
 
         addContactSheet.addAction(UIAlertAction(title: "Invite friends", style: .default, handler: { _ in
-            let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
+            let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
 
             Navigator.presentModally(shareController)
         }))
@@ -394,7 +394,7 @@ extension FavoritesController: Emptiable {
     }
 
     func buttonPressed(sender _: AnyObject) {
-        let shareController = UIActivityViewController(activityItems: ["Get Token, available for iOS and Android! (https://tokenbrowser.com)"], applicationActivities: [])
+        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
 
         Navigator.presentModally(shareController)
     }
