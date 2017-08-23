@@ -375,10 +375,12 @@ final class ChatController: OverlayController {
                     guard height > 0 else { return }
                     self.controlsViewHeightConstraint?.constant = height + (2 * ChatController.buttonMargin)
 
-                    UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseIn, .beginFromCurrentState], animations: {
+                    UIView.animate(withDuration: 0.5, delay: 0.5, options: [.curveEaseIn, .beginFromCurrentState], animations: {
                         self.controlsView.layoutIfNeeded()
-                    }) { _ in
-                        self.scrollToBottom(animated: true)
+                    }) { completed in
+                        if completed {
+                            self.scrollToBottom()
+                        }
                     }
 
                     self.controlsView.deselectButtons()
@@ -387,7 +389,7 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func adjustToLastMessage() {
-        guard let message = viewModel.messages.last as Message?, let sofaMessage = message.sofaWrapper as? SofaMessage else { return }
+        guard let message = viewModel.messages.first as Message?, let sofaMessage = message.sofaWrapper as? SofaMessage, sofaMessage.buttons.count > 0 else { return }
 
         self.buttons = sofaMessage.buttons
     }
@@ -395,7 +397,7 @@ final class ChatController: OverlayController {
     fileprivate func scrollToBottom(animated: Bool = true) {
         guard self.viewModel.visibleMessages.count > 0 else { return }
 
-        self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
     }
 
     fileprivate func adjustToPaymentState(_ state: TSInteraction.PaymentState, at indexPath: IndexPath) {
@@ -594,6 +596,12 @@ extension ChatController: UITableViewDataSource {
         return messages.count
     }
 
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == self.viewModel.messageModels.count - 1 {
+            self.viewModel.updateMessagesRange(from: indexPath)
+        }
+    }
+
     public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let message = viewModel.messageModels[indexPath.item]
@@ -736,7 +744,6 @@ extension ChatController: ChatViewModelOutput {
 
         UIView.performWithoutAnimation {
             self.tableView.reloadData()
-            self.scrollToBottom(animated: false)
         }
     }
 
@@ -898,6 +905,7 @@ extension ChatController: ChatsFloatingHeaderViewDelegate {
     func messagesFloatingView(_: ChatsFloatingHeaderView, didPressPayButton _: UIButton) {
         view.layoutIfNeeded()
         controlsViewHeightConstraint?.constant = 0.0
+        textInputView.inputField.resignFirstResponder()
 
         let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
         paymentController.delegate = self
