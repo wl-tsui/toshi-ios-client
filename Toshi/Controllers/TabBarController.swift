@@ -125,7 +125,9 @@ open class TabBarController: UITabBarController {
     }
 
     public func displayMessage(forAddress address: String, completion: ((Any?) -> Void)? = nil) {
-        selectedIndex = viewControllers!.index(of: messagingController)!
+        if let index = viewControllers?.index(of: messagingController) {
+            selectedIndex = index
+        }
 
         messagingController.openThread(withAddress: address, completion: completion)
     }

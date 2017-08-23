@@ -53,7 +53,7 @@ extension TSInteraction {
 
     public var paymentState: PaymentState {
         get {
-            return PaymentState(rawValue: paymentStateRaw)!
+            return PaymentState(rawValue: paymentStateRaw) ?? .none
         }
         set {
             paymentStateRaw = newValue.rawValue

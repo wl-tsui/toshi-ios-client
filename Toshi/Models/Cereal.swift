@@ -64,7 +64,8 @@ public class Cereal: NSObject {
     // restore from local user or create new
     public override init() {
         if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
-            mnemonic = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english)!
+            guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english) else { fatalError("Entropy has incorrect size or wordlist is not supported") }
+            mnemonic = mnemonicValue
         } else {
             var entropy = Data(count: entropyByteCount)
             // This creates the private key inside a block, result is of internal type ResultType.

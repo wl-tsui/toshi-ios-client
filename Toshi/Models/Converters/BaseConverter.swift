@@ -74,13 +74,9 @@ public struct BaseConverter {
 
         if !digits.isEmpty {
             for i in (0 ... (digits.count - 1)).reversed() {
-                let n = stringToInt(digits[i])
-
-                if n != nil {
-                    ary.append(n!)
-                } else {
-                    assert(false, "Invalid digit")
-                }
+                guard let digit = stringToInt(digits[i]) else { assert(false, "Invalid digit") }
+                
+                ary.append(digit)
             }
         }
 

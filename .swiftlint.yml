@@ -6,7 +6,6 @@ disabled_rules:
   - type_name # we should discuss if we want to enable this
   - identifier_name # we should discuss if we want to enable this
   - force_try # we should enable this, but needs refactoring
-  - force_unwrapping # we should enable this, but needs refactoring
   - function_parameter_count # we should discuss if we want to enable this
   - cyclomatic_complexity # we should enable this, but needs refactoring
   - todo # we should discuss if we want to enable this

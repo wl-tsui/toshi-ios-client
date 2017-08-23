@@ -71,7 +71,7 @@ public class EthereumAPIClient: NSObject {
                 "signature": transactionSignature
             ]
 
-            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
+            guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8) else { return }
             let hashedPayload = cereal.sha3WithWallet(string: payloadString)
 
             let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
@@ -189,7 +189,7 @@ public class EthereumAPIClient: NSObject {
         let address = cereal.address
 
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
-        let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
+        guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8) else { return }
         let hashedPayload = cereal.sha3WithID(string: payloadString)
         let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
@@ -231,7 +231,7 @@ public class EthereumAPIClient: NSObject {
 
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
 
-        let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8)!
+        guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8) else { return }
         let hashedPayload = cereal.sha3WithWallet(string: payloadString)
         let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 

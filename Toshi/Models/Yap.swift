@@ -108,7 +108,9 @@ public final class Yap: NSObject, Singleton {
             let keychain = KeychainSwift()
             keychain.synchronizable = false
 
-            return keychain.getData(UserDB.password)!
+            guard let userDatabasePassword = keychain.getData(UserDB.password) else { fatalError("No database password found in keychain") }
+
+            return userDatabasePassword
         }
 
         database = YapDatabase(path: UserDB.dbFilePath, options: options)
@@ -151,7 +153,7 @@ public final class Yap: NSObject, Singleton {
         deleteFileIfNeeded(at: UserDB.shmFilePath)
 
         let keychain = KeychainSwift()
-        let currentPassword = keychain.getData(UserDB.password)!
+        guard let currentPassword = keychain.getData(UserDB.password) else { fatalError("No database password found in keychain while database file exits") }
 
         keychain.set(currentPassword, forKey: user.address)
 

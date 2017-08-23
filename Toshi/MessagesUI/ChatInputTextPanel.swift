@@ -175,7 +175,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
         // Resign and become first responder to accept auto-correct suggestions
         let temp = UITextField()
         temp.isHidden = true
-        superview!.addSubview(temp)
+        superview?.addSubview(temp)
         temp.becomeFirstResponder()
         inputField.internalTextView.becomeFirstResponder()
         temp.removeFromSuperview()

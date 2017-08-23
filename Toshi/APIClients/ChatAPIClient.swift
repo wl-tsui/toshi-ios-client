@@ -60,7 +60,8 @@ public class ChatAPIClient: NSObject {
             let parameters = UserBootstrapParameter()
             let path = "/v1/accounts/bootstrap"
             let payload = parameters.payload
-            let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8)!
+
+            guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8) else { return }
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
             let signature = "0x\(cereal.signWithID(message: message))"

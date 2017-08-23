@@ -138,7 +138,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 let parameters = [
                     "payment_address": cereal.paymentAddress
                 ]
-                let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8)!
+                guard let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8) else { return }
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
                 let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
 
@@ -210,7 +210,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             let cereal = Cereal.shared
             let path = "/v1/user"
             let payload = try! JSONSerialization.data(withJSONObject: userDict, options: [])
-            let payloadString = String(data: payload, encoding: .utf8)!
+            guard let payloadString = String(data: payload, encoding: .utf8) else { return }
 
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
@@ -445,7 +445,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 "details": reason
             ]
             let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
-            let payloadString = String(data: payloadData, encoding: .utf8)!
+            guard let payloadString = String(data: payloadData, encoding: .utf8) else { return }
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 

@@ -120,7 +120,7 @@ class RatingsClient: NSObject {
             ]
 
             let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
-            let payloadString = String(data: payloadData, encoding: .utf8)!
+            guard let payloadString = String(data: payloadData, encoding: .utf8) else { return }
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 

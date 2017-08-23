@@ -210,8 +210,9 @@ open class FavoritesController: SweetTableController {
 
     @discardableResult
     fileprivate func registerTokenContactsDatabaseView() -> Bool {
+        guard let database = Yap.sharedInstance.database else { fatalError("couldn't instantiate the database") }
         // Check if it's already registered.
-        guard Yap.sharedInstance.database!.registeredExtension(TokenUser.viewExtensionName) == nil else { return true }
+        guard database.registeredExtension(TokenUser.viewExtensionName) == nil else { return true }
 
         let viewGrouping = YapDatabaseViewGrouping.withObjectBlock { (_, _, _, object) -> String? in
             if (object as? Data) != nil {
@@ -229,7 +230,7 @@ open class FavoritesController: SweetTableController {
 
         let databaseView = YapDatabaseView(grouping: viewGrouping, sorting: viewSorting, versionTag: "1", options: options)
 
-        return Yap.sharedInstance.database!.register(databaseView, withName: TokenUser.viewExtensionName)
+        return database.register(databaseView, withName: TokenUser.viewExtensionName)
     }
 
     fileprivate func displayContacts() {
