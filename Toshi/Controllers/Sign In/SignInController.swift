@@ -169,7 +169,7 @@ open class SignInController: UIViewController {
                 Cereal.shared = cereal
                 UserDefaults.standard.set(false, forKey: RequiresSignIn)
 
-                TokenUser.createCurrentUser(with: user.asDict)
+                TokenUser.createCurrentUser(with: user.dict)
                 TokenUser.current?.updateVerificationState(true)
 
                 ChatAPIClient.shared.registerUser()

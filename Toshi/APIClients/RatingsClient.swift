@@ -119,8 +119,15 @@ class RatingsClient: NSObject {
                 "review": review
             ]
 
-            let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
-            guard let payloadString = String(data: payloadData, encoding: .utf8) else { return }
+            guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+                let alert = UIAlertController(title: "Error", message: "Invalid payload, request could not be executed", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+
+                Navigator.presentModally(alert)
+                completion?()
+                return
+            }
+            
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 

@@ -23,8 +23,6 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
 
     private var teapot: Teapot
 
-    private var imageCache = try! Cache<UIImage>(name: "appImageCache")
-
     override init() {
         teapot = Teapot(baseURL: URL(string: TokenDirectoryServiceBaseURLPath)!)
     }

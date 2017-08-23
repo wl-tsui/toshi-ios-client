@@ -21,7 +21,13 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
 
     static let shared = AvatarManager()
 
-    private var imageCache = try! Cache<UIImage>(name: "imageCache")
+    private lazy var imageCache: Cache<UIImage> = {
+        do {
+            return try Cache<UIImage>(name: "imageCache")
+        } catch {
+            fatalError("Couldn't instantiate the image cache")
+        }
+    }()
 
     private var teapots = [String: Teapot]()
 
@@ -34,9 +40,7 @@ final class AvatarManager: NSObject, CacheExpiryDefault {
     }()
 
     func avatar(for path: String, completion: @escaping ((UIImage?, String?) -> Void)) {
-        let avatar = imageCache.object(forKey: path)
-
-        guard avatar != nil else {
+        guard let avatar = imageCache.object(forKey: path) else {
             downloadAvatar(path: path) { image in
                 completion(image, path)
             }

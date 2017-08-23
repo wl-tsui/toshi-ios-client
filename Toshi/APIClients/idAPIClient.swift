@@ -33,7 +33,13 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public var teapot: Teapot
 
-    private var contactCache = try! Cache<TokenUser>(name: "tokenContactCache")
+    private lazy var contactCache: Cache<TokenUser> = {
+        do {
+            return try Cache<TokenUser>(name: "tokenContactCache")
+        } catch {
+            fatalError("Couldn't instantiate the contact cache")
+        }
+    }()
 
     let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
 
@@ -67,7 +73,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         if let updatedContact = updatedContact {
 
                             DispatchQueue.main.async {
-                                Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: collectionKey)
+                                Yap.sharedInstance.insert(object: updatedContact.json, for: updatedContact.address, in: collectionKey)
                             }
                         }
 
@@ -85,7 +91,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         findContact(name: identifier) { updatedContact in
             if let updatedContact = updatedContact {
                 DispatchQueue.main.async {
-                    Yap.sharedInstance.insert(object: updatedContact.JSONData, for: updatedContact.address, in: TokenUser.storedContactKey)
+                    Yap.sharedInstance.insert(object: updatedContact.json, for: updatedContact.address, in: TokenUser.storedContactKey)
 
                     if updatedContact.address == Cereal.shared.address {
                         NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
@@ -121,14 +127,14 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
             return
         }
 
-        updateUser(migratedUser.asDict) { _, _ in }
+        updateUser(migratedUser.dict) { _, _ in }
     }
 
-    public func registerUserIfNeeded(_ success: @escaping ((UserRegisterStatus) -> Void)) {
+    public func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus, _ message: String?) -> Void)) {
         retrieveUser(username: Cereal.shared.address) { user in
 
             guard user == nil else {
-                success(.existing)
+                success(.existing, nil)
                 return
             }
 
@@ -138,7 +144,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 let parameters = [
                     "payment_address": cereal.paymentAddress
                 ]
-                guard let parametersString = String(data: try! JSONSerialization.data(withJSONObject: parameters, options: []), encoding: .utf8) else { return }
+
+                guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
+                    success(.failed, "Invalid payload, request could not be executed")
+                    return
+                }
+
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
                 let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
 
@@ -155,12 +166,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                             TokenUser.createCurrentUser(with: json)
 
-                            success(.registered)
+                            success(.registered, nil)
 
                         case .failure(let json, _, let error):
                             print(error)
                             print(json ?? "")
-                            success(.failed)
+                            success(.failed, nil)
                         }
                     }
                 }
@@ -209,8 +220,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let path = "/v1/user"
-            let payload = try! JSONSerialization.data(withJSONObject: userDict, options: [])
-            guard let payloadString = String(data: payload, encoding: .utf8) else { return }
+
+            guard let payload = try? JSONSerialization.data(withJSONObject: userDict, options: []), let payloadString = String(data: payload, encoding: .utf8) else {
+                completion(false, "Invalid payload, request could not be executed")
+                return
+            }
 
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
@@ -444,8 +458,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 "token_id": address,
                 "details": reason
             ]
-            let payloadData = try! JSONSerialization.data(withJSONObject: payload, options: [])
-            guard let payloadString = String(data: payloadData, encoding: .utf8) else { return }
+
+            guard let payloadData = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: payloadData, encoding: .utf8) else {
+                completion?(false, "Invalid payload, request could not be executed")
+                return
+            }
+
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 

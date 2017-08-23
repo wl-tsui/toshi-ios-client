@@ -110,7 +110,7 @@ public final class NetworkSwitcher {
     public func activateNetwork(_ network: Network?) {
         guard network?.rawValue != _switchedNetwork?.rawValue else { return }
 
-        deregisterFromActiveNetworkPushNotificationsIfNeeded { success in
+        deregisterFromActiveNetworkPushNotificationsIfNeeded { success, _ in
             if success {
                 self.switchedNetwork = network
             } else {
@@ -132,7 +132,7 @@ public final class NetworkSwitcher {
                 return
             }
 
-            registerForSwitchedNetworkPushNotifications { success in
+            registerForSwitchedNetworkPushNotifications { success, _ in
                 if success {
                     self.keychain.set(network.rawValue, forKey: NetworkInfo.ActiveNetwork)
 
@@ -156,24 +156,24 @@ public final class NetworkSwitcher {
         }
     }
 
-    fileprivate func registerForSwitchedNetworkPushNotifications(completion: @escaping ((Bool) -> Void)) {
-        EthereumAPIClient.shared.registerForSwitchedNetworkPushNotificationsIfNeeded { success in
-            completion(success)
+    fileprivate func registerForSwitchedNetworkPushNotifications(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
+        EthereumAPIClient.shared.registerForSwitchedNetworkPushNotificationsIfNeeded { success, _ in
+            completion(success, nil)
         }
     }
 
-    fileprivate func deregisterFromActiveNetworkPushNotificationsIfNeeded(completion: @escaping ((Bool) -> Void)) {
+    fileprivate func deregisterFromActiveNetworkPushNotificationsIfNeeded(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         guard let switchedNetwork = self.switchedNetwork as Network?, switchedNetwork.rawValue != self.defaultNetwork.rawValue else {
-            completion(true)
+            completion(true, nil)
             return
         }
         guard isDefaultNetworkActive == false && self.switchedNetwork != nil else {
-            completion(true)
+            completion(true, nil)
             return
         }
 
-        EthereumAPIClient.shared.deregisterFromSwitchedNetworkPushNotifications { success in
-            completion(success)
+        EthereumAPIClient.shared.deregisterFromSwitchedNetworkPushNotifications { success, _ in
+            completion(success, nil)
         }
     }
 

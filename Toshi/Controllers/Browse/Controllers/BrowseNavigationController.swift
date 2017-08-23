@@ -61,7 +61,7 @@ public class BrowseNavigationController: UINavigationController {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ContactController {
-            UserDefaults.standard.setValue(viewController.contact.JSONData, forKey: BrowseNavigationController.selectedAppKey)
+            UserDefaults.standard.setValue(viewController.contact.json, forKey: BrowseNavigationController.selectedAppKey)
         }
     }
 

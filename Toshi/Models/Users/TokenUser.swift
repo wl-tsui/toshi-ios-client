@@ -122,11 +122,15 @@ public class TokenUser: NSObject, NSCoding {
         return address == Cereal.shared.address
     }
 
-    public var JSONData: Data {
-        return try! JSONSerialization.data(withJSONObject: asDict, options: [])
+    public var json: Data {
+        do {
+            return try JSONSerialization.data(withJSONObject: dict, options: [])
+        } catch {
+            fatalError("Unable to create JSON from TokenUser dictionary")
+        }
     }
 
-    var asDict: [String: Any] {
+    var dict: [String: Any] {
         return [
             Constants.address: self.address,
             Constants.paymentAddress: self.paymentAddress,
@@ -175,7 +179,7 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     @objc(encodeWithCoder:) public func encode(with aCoder: NSCoder) {
-        aCoder.encode(JSONData, forKey: "jsonData")
+        aCoder.encode(json, forKey: "jsonData")
     }
 
     func updateVerificationState(_ verified: Bool) {
@@ -219,7 +223,7 @@ public class TokenUser: NSObject, NSCoding {
     func updatePublicState(to isPublic: Bool) {
         self.isPublic = isPublic
 
-        IDAPIClient.shared.updateUser(asDict) { _, _ in }
+        IDAPIClient.shared.updateUser(dict) { _, _ in }
 
         save()
     }
@@ -288,7 +292,7 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     private func save() {
-        Yap.sharedInstance.insert(object: JSONData, for: address, in: TokenUser.storedContactKey)
+        Yap.sharedInstance.insert(object: json, for: address, in: TokenUser.storedContactKey)
     }
 
     private func saveSettings() {

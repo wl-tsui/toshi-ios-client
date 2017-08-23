@@ -107,7 +107,7 @@ class MessageFetcherJob: NSObject {
             }
         }()
 
-        let envelopes = messageDicts.flatMap { buildEnvelope(messageDict: $0) } 
+        let envelopes = messageDicts.flatMap { buildEnvelope(messageDict: $0) }
 
         return (
             envelopes: envelopes,

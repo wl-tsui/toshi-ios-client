@@ -44,7 +44,13 @@ class MessagesTextCell: MessagesBasicCell {
         }
     }
 
-    fileprivate let usernameDetector = try! NSRegularExpression(pattern: " ?(@[a-zA-Z][a-zA-Z0-9_]{2,59}) ?", options: [.caseInsensitive, .useUnicodeWordBoundaries])
+    fileprivate lazy var usernameDetector: NSRegularExpression = {
+        do {
+            return try NSRegularExpression(pattern: " ?(@[a-zA-Z][a-zA-Z0-9_]{2,59}) ?", options: [.caseInsensitive, .useUnicodeWordBoundaries])
+        } catch {
+            fatalError("Couldn't instantiate usernameDetector, invalid pattern for regular expression")
+        }
+    }()
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")

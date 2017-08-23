@@ -71,9 +71,13 @@ public class EthereumAPIClient: NSObject {
                 "signature": transactionSignature
             ]
 
-            guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8) else { return }
-            let hashedPayload = cereal.sha3WithWallet(string: payloadString)
+            guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+                print("Invalid payload, request could not be executed")
+                completion(nil, nil)
+                return
+            }
 
+            let hashedPayload = cereal.sha3WithWallet(string: payloadString)
             let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headers: [String: String] = [
@@ -140,9 +144,9 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((Bool) -> Void)? = nil) {
+    public func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard NetworkSwitcher.shared.isDefaultNetworkActive == false else {
-            completion?(true)
+            completion?(true, nil)
             return
         }
 
@@ -159,7 +163,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func deregisterFromSwitchedNetworkPushNotifications(completion: ((Bool) -> Void)? = nil) {
+    public func deregisterFromSwitchedNetworkPushNotifications(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         timestamp(switchedNetworkTeapot) { timestamp in
             self.deregisterFromPushNotifications(timestamp, teapot: self.switchedNetworkTeapot, completion: completion)
         }
@@ -181,15 +185,19 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    fileprivate func registerForPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((Bool) -> Void)? = nil) {
+    fileprivate func registerForPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
         let cereal = Cereal.shared
         let path = "/v1/apn/register"
         let address = cereal.address
-
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
-        guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8) else { return }
+
+        guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+            completion?(false, "Invalid payload, request could not be executed")
+            return
+        }
+
         let hashedPayload = cereal.sha3WithID(string: payloadString)
         let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
@@ -207,22 +215,21 @@ public class EthereumAPIClient: NSObject {
                 case .success(let json, let response):
                     print(json ?? "")
                     print(response)
-
                     print("\n +++ Registered for :\(teapot.baseURL)")
 
-                    completion?(true)
+                    completion?(true, "json: \(json?.dictionary ?? [String: Any]()) response: \(response)")
                 case .failure(let json, let response, let error):
                     print(json ?? "")
                     print(response)
                     print(error)
 
-                    completion?(false)
+                    completion?(false, "json: \(json?.dictionary ?? [String: Any]()) response: \(response), error: \(error)")
                 }
             }
         }
     }
 
-    fileprivate func deregisterFromPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((Bool) -> Void)? = nil) {
+    fileprivate func deregisterFromPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
         let cereal = Cereal.shared
@@ -231,7 +238,11 @@ public class EthereumAPIClient: NSObject {
 
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
 
-        guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: params, options: []), encoding: .utf8) else { return }
+        guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+            completion?(false, "Invalid payload, request could not be executed")
+            return
+        }
+
         let hashedPayload = cereal.sha3WithWallet(string: payloadString)
         let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
@@ -252,13 +263,13 @@ public class EthereumAPIClient: NSObject {
 
                     print("\n --- DE-registered from :\(teapot.baseURL)")
 
-                    completion?(true)
+                    completion?(true, "json:\(json?.dictionary ?? [String: Any]()), response: \(response)")
                 case .failure(let json, let response, let error):
                     print(json ?? "")
                     print(response)
                     print(error)
 
-                    completion?(false)
+                    completion?(false, "json:\(json?.dictionary ?? [String: Any]()), response: \(response), error: \(error)")
                 }
             }
         }

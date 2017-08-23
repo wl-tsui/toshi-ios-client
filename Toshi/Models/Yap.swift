@@ -78,7 +78,7 @@ public final class Yap: NSObject, Singleton {
         createDBForCurrentUser()
 
         self.insert(object: address, for: TokenUser.currentLocalUserAddressKey)
-        self.insert(object: TokenUser.current?.JSONData, for: address, in: TokenUser.storedContactKey)
+        self.insert(object: TokenUser.current?.json, for: address, in: TokenUser.storedContactKey)
 
         createBackupDirectoryIfNeeded()
     }
@@ -116,8 +116,8 @@ public final class Yap: NSObject, Singleton {
         database = YapDatabase(path: UserDB.dbFilePath, options: options)
         
         let url = NSURL(fileURLWithPath: UserDB.dbFilePath)
-        try! url.setResourceValue(false, forKey: .isUbiquitousItemKey)
-        try! url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
+        try? url.setResourceValue(false, forKey: .isUbiquitousItemKey)
+        try? url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
 
         mainConnection = database?.newConnection()
     }

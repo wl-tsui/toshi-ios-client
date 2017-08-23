@@ -54,14 +54,18 @@ public class ChatAPIClient: NSObject {
         }
     }
 
-    public func registerUser(completion: ((Bool) -> Void)? = nil) {
+    public func registerUser(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let parameters = UserBootstrapParameter()
             let path = "/v1/accounts/bootstrap"
             let payload = parameters.payload
 
-            guard let payloadString = String(data: try! JSONSerialization.data(withJSONObject: payload, options: []), encoding: .utf8) else { return }
+            guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+                completion?(false, "Invalid payload, request could not be executed")
+                return
+            }
+            
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
             let signature = "0x\(cereal.signWithID(message: message))"
@@ -74,18 +78,18 @@ public class ChatAPIClient: NSObject {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
                         print("Could not register user. Status code \(response.statusCode)")
-
+                        completion?(false, "Could not register user. Status code \(response.statusCode)")
                         return
                     }
 
                     TSStorageManager.storeServerToken(parameters.password, signalingKey: parameters.signalingKey)
                     print("Successfully registered chat user with address: \(cereal.address)")
-                    completion?(true)
+                    completion?(true, nil)
                 case .failure(let json, let response, let error):
                     print(json ?? "")
                     print(response)
                     print(error)
-                    completion?(false)
+                    completion?(false, "response: \(response), error: \(error)")
                 }
             }
         }

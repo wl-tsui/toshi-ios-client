@@ -366,7 +366,7 @@ public class ContactController: UIViewController {
 
             updateButton()
         } else {
-            Yap.sharedInstance.insert(object: contact.JSONData, for: contact.address, in: TokenUser.favoritesCollectionKey)
+            Yap.sharedInstance.insert(object: contact.json, for: contact.address, in: TokenUser.favoritesCollectionKey)
             SoundPlayer.playSound(type: .addedContact)
             updateButton()
         }
