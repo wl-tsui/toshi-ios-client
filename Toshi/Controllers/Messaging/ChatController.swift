@@ -395,7 +395,7 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func scrollToBottom(animated: Bool = true) {
-        guard self.viewModel.visibleMessages.count > 0 else { return }
+        guard self.tableView.numberOfRows(inSection: 0) > 0 else { return }
 
         self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
     }
