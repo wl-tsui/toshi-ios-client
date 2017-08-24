@@ -4692,6 +4692,11 @@
 					};
 					149F9A5D1E72E29A00FB74AA = {
 						DevelopmentTeam = 29X3GG489T;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 					9F9238B01E24F1D2004BEEE0 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -4703,7 +4708,7 @@
 								enabled = 1;
 							};
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Keychain = {
 								enabled = 1;
