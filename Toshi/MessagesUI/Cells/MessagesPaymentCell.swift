@@ -74,13 +74,13 @@ class MessagesPaymentCell: MessagesBasicCell {
     private var textBottomConstraint: NSLayoutConstraint?
     private var statusBottomConstraint: NSLayoutConstraint?
     private var buttonBottomConstraint: NSLayoutConstraint?
-
+    
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         let verticalMargin: CGFloat = 10
         let horizontalMargin: CGFloat = 15

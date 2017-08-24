@@ -10,10 +10,10 @@ enum MessagePositionType {
 }
 
 /* Messages Basic Cell:
- This UITableViewCell is the base cell for the different
+ This UICollectionViewCell is the base cell for the different
  advanced cells used in messages. It provides the ground layout. */
 
-class MessagesBasicCell: UITableViewCell {
+class MessagesBasicCell: UICollectionViewCell {
 
     private let contentLayoutGuide = UILayoutGuide()
     private let leftLayoutGuide = UILayoutGuide()
@@ -82,12 +82,11 @@ class MessagesBasicCell: UITableViewCell {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         backgroundColor = nil
-        selectionStyle = .none
         contentView.autoresizingMask = [.flexibleHeight]
 
         /* Layout Guides:

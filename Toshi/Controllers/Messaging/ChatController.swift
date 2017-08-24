@@ -88,16 +88,22 @@ final class ChatController: OverlayController {
     fileprivate lazy var networkView: ActiveNetworkView = {
         self.defaultActiveNetworkView()
     }()
+    
+    private lazy var layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.estimatedItemSize = UICollectionViewFlowLayoutAutomaticSize
+        
+        return layout
+    }()
 
-    private(set) lazy var tableView: UITableView = {
-        let view = UITableView(frame: .zero, style: .plain)
+    private(set) lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Theme.viewBackgroundColor
-        view.estimatedRowHeight = 64.0
         view.scrollsToTop = false
         view.dataSource = self
         view.delegate = self
-        view.separatorStyle = .none
         view.keyboardDismissMode = .interactive
 
         view.register(MessagesImageCell.self)
@@ -182,10 +188,10 @@ final class ChatController: OverlayController {
         let topInset = ChatsFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
         let bottomInset = textInputHeight
 
-        // The tableview is inverted 180 degrees
+        // The collectionView is inverted 180 degrees
         // 10 + 2 hmm....?
-        tableView.contentInset = UIEdgeInsets(top: bottomInset + buttonsHeight + 10, left: 0, bottom: topInset + 2 + 10, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: bottomInset + buttonsHeight, left: 0, bottom: topInset + 2, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: bottomInset + buttonsHeight + 10, left: 0, bottom: topInset + 2 + 10, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: bottomInset + buttonsHeight, left: 0, bottom: topInset + 2, right: 0)
     }
 
     fileprivate func registerNotifications() {
@@ -207,7 +213,7 @@ final class ChatController: OverlayController {
 
         textInputView.delegate = self
 
-        self.tableView.transform = CGAffineTransform (scaleX: 1, y: -1)
+        collectionView.transform = CGAffineTransform (scaleX: 1, y: -1)
 
         controlsViewDelegateDatasource.controlsCollectionView = controlsView
         subcontrolsViewDelegateDatasource.subcontrolsCollectionView = subcontrolsView
@@ -268,16 +274,16 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func addSubviewsAndConstraints() {
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         view.addSubview(textInputView)
         view.addSubview(controlsView)
         view.addSubview(subcontrolsView)
         view.addSubview(ethereumPromptView)
 
-        tableView.top(to: view)
-        tableView.left(to: view)
-        tableView.bottom(to: textInputView)
-        tableView.right(to: view)
+        collectionView.top(to: view)
+        collectionView.left(to: view)
+        collectionView.bottom(to: textInputView)
+        collectionView.right(to: view)
 
         textInputView.left(to: view)
         textInputViewBottomConstraint = textInputView.bottom(to: view)
@@ -395,21 +401,22 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func scrollToBottom(animated: Bool = true) {
-        guard self.tableView.numberOfRows(inSection: 0) > 0 else { return }
+        guard collectionView.numberOfItems(inSection: 0) > 0 else { return }
 
-        self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
     }
 
     fileprivate func adjustToPaymentState(_ state: TSInteraction.PaymentState, at indexPath: IndexPath) {
-        guard let message = self.viewModel.messageModels[indexPath.row] as MessageModel?, message.type == .paymentRequest || message.type == .payment, let signalMessage = message.signalMessage as TSMessage? else { return }
+        guard let message = self.viewModel.messageModels[indexPath.item] as MessageModel?, message.type == .paymentRequest || message.type == .payment, let signalMessage = message.signalMessage as TSMessage? else { return }
 
         signalMessage.paymentState = state
         signalMessage.save()
 
-        (tableView.cellForRow(at: indexPath) as? MessagesPaymentCell)?.setPaymentState(signalMessage.paymentState, for: message.type)
-
-        tableView.beginUpdates()
-        tableView.endUpdates()
+        (collectionView.cellForItem(at: indexPath) as? MessagesPaymentCell)?.setPaymentState(signalMessage.paymentState, for: message.type)
+        
+        collectionView.performBatchUpdates({
+            // Calling this even when it's empty should animate the changes.
+        }, completion: nil)
     }
 
     fileprivate func image(for message: MessageModel) -> UIImage {
@@ -573,11 +580,11 @@ final class ChatController: OverlayController {
     }
 }
 
-extension ChatController: UITableViewDelegate {
-
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        if viewModel.messageModels[indexPath.row].type == .image {
+extension ChatController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if viewModel.messageModels[indexPath.item].type == .image {
 
             let controller = ImagesViewController(messages: viewModel.messageModels, initialIndexPath: indexPath)
             controller.transitioningDelegate = self
@@ -588,24 +595,23 @@ extension ChatController: UITableViewDelegate {
     }
 }
 
-extension ChatController: UITableViewDataSource {
-
-    public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+extension ChatController: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let messages = self.viewModel.messageModels as [MessageModel]? else { return 0 }
 
         return messages.count
     }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == self.viewModel.messageModels.count - 1 {
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == self.viewModel.messageModels.count - 1 {
             self.viewModel.updateMessagesRange(from: indexPath)
         }
     }
-
-    public func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let message = viewModel.messageModels[indexPath.item]
-        let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: message.reuseIdentifier, for: indexPath)
 
         if let cell = cell as? MessagesBasicCell {
 
@@ -640,20 +646,20 @@ extension ChatController: UITableViewDataSource {
             cell.messageText = message.text
         }
 
-        cell.transform = self.tableView.transform
+        cell.transform = collectionView.transform
 
         return cell
     }
 
     private func positionType(for indexPath: IndexPath) -> MessagePositionType {
 
-        guard let currentMessage = viewModel.messageModels.element(at: indexPath.row) else {
+        guard let currentMessage = viewModel.messageModels.element(at: indexPath.item) else {
             // there are no cells
             return .single
         }
 
-        guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else {
-            guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
+        guard let previousMessage = viewModel.messageModels.element(at: indexPath.item - 1) else {
+            guard let nextMessage = viewModel.messageModels.element(at: indexPath.item + 1) else {
                 // this is the first and only cell
                 return .single
             }
@@ -662,7 +668,7 @@ extension ChatController: UITableViewDataSource {
             return currentMessage.isOutgoing == nextMessage.isOutgoing ? .bottom : .single
         }
 
-        guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
+        guard let nextMessage = viewModel.messageModels.element(at: indexPath.item + 1) else {
             // this is the last cell
             return currentMessage.isOutgoing == previousMessage.isOutgoing ? .top : .single
         }
@@ -702,8 +708,8 @@ extension MessageModel {
 extension ChatController: MessagesPaymentCellDelegate {
 
     func approvePayment(for cell: MessagesPaymentCell) {
-        guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
-        guard let message = self.viewModel.messageModels.element(at: indexPath.row) as MessageModel? else { return }
+        guard let indexPath = collectionView.indexPath(for: cell) as IndexPath? else { return }
+        guard let message = self.viewModel.messageModels.element(at: indexPath.item) as MessageModel? else { return }
 
         adjustToPaymentState(.pendingConfirmation, at: indexPath)
 
@@ -721,7 +727,7 @@ extension ChatController: MessagesPaymentCellDelegate {
     }
 
     func declinePayment(for cell: MessagesPaymentCell) {
-        guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
+        guard let indexPath = collectionView.indexPath(for: cell) as IndexPath? else { return }
 
         adjustToPaymentState(.rejected, at: indexPath)
 
@@ -734,7 +740,7 @@ extension ChatController: MessagesPaymentCellDelegate {
 extension ChatController: ImagesViewControllerDismissDelegate {
 
     func imagesAreDismissed(from indexPath: IndexPath) {
-        tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+        collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
     }
 }
 
@@ -743,7 +749,7 @@ extension ChatController: ChatViewModelOutput {
         self.sendGreetingTriggerIfNeeded()
 
         UIView.performWithoutAnimation {
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 

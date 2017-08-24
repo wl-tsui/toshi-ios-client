@@ -56,10 +56,10 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         messagesViewController.view.layoutIfNeeded()
 
         if !isPresenting {
-            messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
+            messagesViewController.collectionView.scrollToItem(at: imagesViewController.currentIndexPath, at: .centeredVertically, animated: false)
         }
 
-        guard let cell = messagesViewController.tableView.cellForRow(at: imagesViewController.currentIndexPath) as? MessagesImageCell else { return nil }
+        guard let cell = messagesViewController.collectionView.cellForItem(at: imagesViewController.currentIndexPath) as? MessagesImageCell else { return nil }
 
         return cell.messageImageView
     }
@@ -69,7 +69,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         imagesViewController.view.layoutIfNeeded()
 
         if !isPresenting {
-            messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
+            messagesViewController.collectionView.scrollToItem(at: imagesViewController.currentIndexPath, at: .centeredVertically, animated: false)
         }
         
         guard let toCell = imagesViewController.collectionView.visibleCells.flatMap({ cell in cell as? ImageCell }).first(where: { imageCell in imageCell.frame.width != 0 }) else { return nil }
@@ -78,7 +78,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     }
     
     func cornerType(for messagesViewController: ChatController, at indexPath: IndexPath) -> MessagesCornerType? {
-        guard let cell = messagesViewController.tableView.cellForRow(at: indexPath) as? MessagesBasicCell else { return nil }
+        guard let cell = messagesViewController.collectionView.cellForItem(at: indexPath) as? MessagesBasicCell else { return nil }
         
         return cell.messagesCornerView.type
     }
@@ -86,7 +86,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
     func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: ChatController, _ imagesViewController: ImagesViewController) {
 
         if !isPresenting {
-            messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
+            messagesViewController.collectionView.scrollToItem(at: imagesViewController.currentIndexPath, at: .centeredVertically, animated: false)
         }
 
         guard let thumbnail = thumbnailImageView(for: messagesViewController, imagesViewController) else { return }

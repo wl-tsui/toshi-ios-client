@@ -51,13 +51,13 @@ class MessagesTextCell: MessagesBasicCell {
             fatalError("Couldn't instantiate usernameDetector, invalid pattern for regular expression")
         }
     }()
-
+    
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
         bubbleView.addSubview(textView)
         textView.edges(to: bubbleView, insets: UIEdgeInsets(top: 8, left: 12, bottom: -8, right: -12))
