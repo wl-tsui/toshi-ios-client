@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
       "size" : "20x20",
+      "idiom" : "iphone",
+      "filename" : "internal-40.png",
       "scale" : "2x"
     },
     {
@@ -44,13 +45,13 @@
     {
       "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "internal-60.png",
+      "filename" : "internal-57.png",
       "scale" : "1x"
     },
     {
       "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "internal-121.png",
+      "filename" : "internal-114.png",
       "scale" : "2x"
     },
     {
