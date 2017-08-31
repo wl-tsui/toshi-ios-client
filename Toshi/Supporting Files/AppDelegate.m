@@ -42,6 +42,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 @property (nonatomic, copy, readwrite) NSString *token;
 @property (nonatomic) NSString *voipToken;
 
+@property (nonatomic, assign) BOOL hasBeenActivated;
+
 @end
 
 @implementation AppDelegate
@@ -58,21 +60,12 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     // We should always use arc4random() instead of rand(), but we
     // still want to ensure that any third-party code that uses rand()
     // gets random values.
+
     srand((unsigned int)time(NULL));
-    [self verifyDBKeysAvailableBeforeBackgroundLaunch];
 
     [Fabric with:@[[Crashlytics class]]];
-    
+
     [self setupBasicAppearance];
-
-    if ([Yap isCurrentUserDataAccessible]) {
-
-        [TokenUser retrieveCurrentUser];
-
-        [self setupDB];
-    }
-
-    [self configureAndPresentWindow];
 
     return YES;
 }
@@ -296,8 +289,25 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     if (Yap.isCurrentUserDataAccessible == false) {
+        [self configureAndPresentWindow];
+        self.hasBeenActivated = YES;
+
         return;
     }
+
+    BOOL shouldProceedToDBSetup = !self.hasBeenActivated && ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground);
+    if (shouldProceedToDBSetup) {
+        if ([Yap isCurrentUserDataAccessible]) {
+
+            [TokenUser retrieveCurrentUser];
+
+            [self setupDB];
+        }
+
+        [self configureAndPresentWindow];
+    }
+
+    self.hasBeenActivated = YES;
 
     [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
         // We're double checking that the app is active, to be sure since we
@@ -358,16 +368,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     } completion:^(BOOL finished) {
         self.screenProtectionWindow.hidden = YES;
     }];
-}
-
-- (void)verifyDBKeysAvailableBeforeBackgroundLaunch {
-    if (UIApplication.sharedApplication.applicationState != UIApplicationStateBackground) {
-        return;
-    }
-
-    if (![TSStorageManager isDatabasePasswordAccessible]) {
-        exit(0);
-    }
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
