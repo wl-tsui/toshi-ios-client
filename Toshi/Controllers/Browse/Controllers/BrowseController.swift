@@ -174,7 +174,7 @@ class BrowseController: SearchableCollectionController {
                 Navigator.presentModally(alertController)
             }
 
-            self?.items[2] = users ?? []
+            self?.items[2] = users
             self?.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
             self?.collectionView.collectionViewLayout.invalidateLayout()
         }
@@ -186,7 +186,7 @@ class BrowseController: SearchableCollectionController {
                 Navigator.presentModally(alertController)
             }
 
-            self?.items[3] = users ?? []
+            self?.items[3] = users
             self?.collectionView.reloadItems(at: [IndexPath(item: 3, section: 0)])
             self?.collectionView.collectionViewLayout.invalidateLayout()
         }

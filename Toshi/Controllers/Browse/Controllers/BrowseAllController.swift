@@ -82,7 +82,7 @@ class BrowseAllController: UITableViewController {
                     Navigator.presentModally(alertController)
                 }
 
-                self?.searchResults = users ?? []
+                self?.searchResults = users
             }
         case .latestPublicUsers:
             IDAPIClient.shared.getLatestPublicUsers(limit: 100) { [weak self] users, error in
@@ -92,7 +92,7 @@ class BrowseAllController: UITableViewController {
                     Navigator.presentModally(alertController)
                 }
 
-                self?.searchResults = users ?? []
+                self?.searchResults = users
             }
         }
     }

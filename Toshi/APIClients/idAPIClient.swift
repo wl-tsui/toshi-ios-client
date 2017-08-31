@@ -51,6 +51,11 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
     public var baseURL: URL
 
+    convenience init(teapot: Teapot) {
+        self.init()
+        self.teapot = teapot
+    }
+
     private override init() {
         baseURL = URL(string: TokenIdServiceBaseURLPath)!
         teapot = Teapot(baseURL: baseURL)
@@ -109,7 +114,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
+    func fetchTimestamp(_ completion: @escaping ((_ timestamp: Int?, _ error: Error?) -> Void)) {
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/timestamp") { (result: NetworkResult) in
                 switch result {
@@ -119,8 +124,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         return
                     }
 
-                    completion(timestamp)
-                case .failure(_, let response, _):
+                    completion(timestamp, nil)
+                case .failure(_, let response, let error):
+                    completion(nil, error)
                     print(response)
                 }
             }
@@ -143,7 +149,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 return
             }
 
-            self.fetchTimestamp { timestamp in
+            self.fetchTimestamp { timestamp, error in
+                guard let timestamp = timestamp else {
+                    success(.failed, "Unable to fetch timestamp \(error)")
+                    return
+                }
+
                 let cereal = Cereal.shared
                 let path = "/v1/user"
                 let parameters = [
@@ -185,7 +196,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool) -> Void)) {
-        fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp, error in
+            guard let timestamp = timestamp else {
+                completion(false)
+                return
+            }
+
             let cereal = Cereal.shared
             let path = "/v1/user"
             let boundary = "teapot.boundary"
@@ -222,7 +238,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func updateUser(_ userDict: [String: Any], completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
-        fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp, error in
+            guard let timestamp = timestamp else {
+                completion(false, "Unable to fetch timestamp \(error)")
+                return
+            }
+
             let cereal = Cereal.shared
             let path = "/v1/user"
 
@@ -301,27 +322,6 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func findContact(name: String, completion: @escaping ((TokenUser?) -> Void)) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
-                var contact: TokenUser?
-
-                switch result {
-                case .success(let json, _):
-                    guard let json = json?.dictionary else {
-                        completion(nil)
-                        return
-                    }
-
-                    contact = TokenUser(json: json)
-                    NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
-                case .failure(_, _, let error):
-                    print(error.localizedDescription)
-                }
-
-                completion(contact)
-            }
-        }
-
         contactCache.setObject(forKey: name, cacheBlock: { success, failure in
 
             DispatchQueue.global(qos: .userInitiated).async {
@@ -379,7 +379,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
+    public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
 
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/user?public=true&top=true&recent=false&limit=\(limit)") { (result: NetworkResult) in
@@ -402,7 +402,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    public func getLatestPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
+    public func getLatestPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
 
         DispatchQueue.global(qos: .userInitiated).async {
             self.teapot.get("/v1/search/user?public=true&top=false&recent=true&limit=\(limit)") { (result: NetworkResult) in
@@ -426,7 +426,12 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     public func reportUser(address: String, reason: String = "", completion: ((_ success: Bool, _ message: String) -> Void)? = nil) {
-        fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp, error in
+            guard let timestamp = timestamp else {
+                completion?(false, "Unable to fetch timestamp \(error)")
+                return
+            }
+
             let cereal = Cereal.shared
             let path = "/v1/report"
 
@@ -469,10 +474,15 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    public func login(login_token: String, completion: ((_ success: Bool, _ message: String) -> Void)? = nil) {
-        fetchTimestamp { timestamp in
+    public func adminLogin(loginToken: String, completion: ((_ success: Bool, _ message: String) -> Void)? = nil) {
+        fetchTimestamp { timestamp, error in
+            guard let timestamp = timestamp else {
+                completion?(false, "Unable to fetch timestamp \(error)")
+                return
+            }
+
             let cereal = Cereal.shared
-            let path = "/v1/login/\(login_token)"
+            let path = "/v1/login/\(loginToken)"
 
             let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
 

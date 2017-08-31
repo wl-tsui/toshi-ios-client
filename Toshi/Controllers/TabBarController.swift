@@ -199,7 +199,7 @@ extension TabBarController: ScannerViewControllerDelegate {
         if let intent = QRCodeIntent(result: result) {
             switch intent {
             case .webSignIn(let loginToken):
-                idAPIClient.login(login_token: loginToken) { [weak self] _, _ in
+                idAPIClient.adminLogin(loginToken: loginToken) {[weak self] _, _ in
                     SoundPlayer.playSound(type: .scanned)
                     self?.dismiss(animated: true)
                 }
