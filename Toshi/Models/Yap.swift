@@ -58,6 +58,7 @@ public final class Yap: NSObject, Singleton {
 
         if Yap.isCurrentUserDataAccessible {
             createDBForCurrentUser()
+            IDAPIClient.shared.updateContacts()
         }
     }
 
@@ -170,8 +171,10 @@ public final class Yap: NSObject, Singleton {
     ///   - collection: Optional. The name of the collection the object belongs to. Helps with organisation.
     ///   - metadata: Optional. Any serialisable object. Could be a related object, a description, a timestamp, a dictionary, and so on.
     public final func insert(object: Any?, for key: String, in collection: String? = nil, with metadata: Any? = nil) {
-        mainConnection?.asyncReadWrite { transaction in
-            transaction.setObject(object, forKey: key, inCollection: collection, withMetadata: metadata)
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.mainConnection?.asyncReadWrite { transaction in
+                transaction.setObject(object, forKey: key, inCollection: collection, withMetadata: metadata)
+            }
         }
     }
 

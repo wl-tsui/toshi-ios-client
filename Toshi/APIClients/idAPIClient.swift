@@ -41,7 +41,13 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }()
 
-    let contactUpdateQueue = DispatchQueue(label: "token.updateContactsQueue")
+    private lazy var updateOperationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 2 //we update collections under "storedContactKey" and "favoritesCollectionKey" concurrently
+        queue.name = "Update contacts queue"
+
+        return queue
+    }()
 
     public var baseURL: URL
 
@@ -55,36 +61,34 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     /// We use a background queue and a semaphore to ensure we only update the UI
     /// once all the contacts have been processed.
     func updateContacts() {
+        updateOperationQueue.cancelAllOperations()
+
         updateContacts(for: TokenUser.storedContactKey)
         updateContacts(for: TokenUser.favoritesCollectionKey)
     }
 
     private func updateContacts(for collectionKey: String) {
-        contactUpdateQueue.async {
+        let operation = BlockOperation()
+        operation.addExecutionBlock { [weak self] in
             guard let contactsData = Yap.sharedInstance.retrieveObjects(in: collectionKey) as? [Data] else { return }
-            let semaphore = DispatchSemaphore(value: 0)
 
             for contactData in contactsData {
                 guard let dictionary = try? JSONSerialization.jsonObject(with: contactData, options: []) else { continue }
 
                 if let dictionary = dictionary as? [String: Any] {
                     let tokenContact = TokenUser(json: dictionary)
-                    self.findContact(name: tokenContact.address) { updatedContact in
-                        if let updatedContact = updatedContact {
+                    self?.findContact(name: tokenContact.address) { updatedContact in
 
-                            DispatchQueue.main.async {
-                                Yap.sharedInstance.insert(object: updatedContact.json, for: updatedContact.address, in: collectionKey)
-                            }
+                        if let updatedContact = updatedContact {
+                            Yap.sharedInstance.insert(object: updatedContact.json, for: updatedContact.address, in: collectionKey)
                         }
 
-                        semaphore.signal()
                     }
-                    // calls to `wait()` need to be balanced with calls to `signal()`
-                    // remember to call it _after_ the code we need to run asynchronously.
-                    _ = semaphore.wait(timeout: .distantFuture)
                 }
             }
         }
+
+        updateOperationQueue.addOperation(operation)
     }
 
     func updateContact(with identifier: String) {
@@ -97,8 +101,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
                     }
 
+                    guard identifier != Cereal.shared.address else { return }
                     guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                    appDelegate.contactsManager.refreshContacts()
+                    appDelegate.contactsManager.refreshContact(with: identifier)
                 }
             }
         }
@@ -250,35 +255,6 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                         let message = errors?.first?["message"] as? String
                         completion(false, message)
                     }
-                }
-            }
-        }
-    }
-
-    /// Used to retrieve server-side contact data. For the current user, see retrieveUser(username: completion:)
-    ///
-    /// - Parameters:
-    ///   - username: username or id address
-    ///   - completion: called on completion
-    public func retrieveContact(username: String, completion: @escaping ((TokenUser?) -> Void)) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
-                switch result {
-                case .success(let json, _):
-                    // we know it's a dictionary for this API
-                    guard let json = json?.dictionary else {
-                        completion(nil)
-                        return
-                    }
-
-                    let contact = TokenUser(json: json)
-
-                    completion(contact)
-                case .failure(let json, _, let error):
-                    print(error.localizedDescription)
-                    print(json?.dictionary ?? "")
-
-                    completion(nil)
                 }
             }
         }

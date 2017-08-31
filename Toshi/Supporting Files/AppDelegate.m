@@ -53,8 +53,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
     [OWSSignalService setBaseURLPath:tokenChatServiceBaseURL];
 
-    [[IDAPIClient shared] updateContacts];
-
     // Set the seed the generator for rand().
     //
     // We should always use arc4random() instead of rand(), but we
@@ -137,7 +135,10 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)signOutUser
 {
+    __weak typeof(self)weakSelf = self;
     [TSAccountManager unregisterTextSecureWithSuccess:^{
+
+        typeof(self)strongSelf = weakSelf;
 
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidSignOut" object:nil];
         [AvatarManager.shared cleanCache];
@@ -150,6 +151,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [[NSUserDefaults standardUserDefaults] synchronize];
 
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+
+        [strongSelf.contactsManager refreshContacts];
 
          exit(0);
     } failure:^(NSError *error) {
@@ -195,6 +198,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)didCreateUser {
+    [self.contactsManager refreshContacts];
+
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
     [[NSUserDefaults standardUserDefaults] synchronize];
     

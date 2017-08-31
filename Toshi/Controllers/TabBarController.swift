@@ -156,11 +156,11 @@ open class TabBarController: UITabBarController {
         if url.user == "username" {
             guard let username = url.host else { return }
 
-            idAPIClient.retrieveContact(username: username) { contact in
+            idAPIClient.retrieveUser(username: username) { [weak self] contact in
                 guard let contact = contact else { return }
 
                 let contactController = ContactController(contact: contact)
-                (self.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
+                (self?.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
             }
         }
     }
@@ -199,9 +199,9 @@ extension TabBarController: ScannerViewControllerDelegate {
         if let intent = QRCodeIntent(result: result) {
             switch intent {
             case .webSignIn(let loginToken):
-                idAPIClient.login(login_token: loginToken) { _, _ in
+                idAPIClient.login(login_token: loginToken) { [weak self] _, _ in
                     SoundPlayer.playSound(type: .scanned)
-                    self.dismiss(animated: true)
+                    self?.dismiss(animated: true)
                 }
             case .paymentRequest(let weiValue, let address, let username, _):
                 if let username = username {
@@ -229,14 +229,14 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     private func proceedToPayment(username: String, weiValue: String?) {
-        idAPIClient.retrieveContact(username: username) { contact in
+        idAPIClient.retrieveUser(username: username) { [weak self] contact in
             if let contact = contact as TokenUser? {
                 var parameters = ["from": Cereal.shared.paymentAddress, "to": contact.paymentAddress]
                 parameters["value"] = weiValue
 
-                self.proceedToPayment(userInfo: contact.userInfo, parameters: parameters)
+                self?.proceedToPayment(userInfo: contact.userInfo, parameters: parameters)
             } else {
-                self.scannerController.startScanning()
+                self?.scannerController.startScanning()
             }
         }
     }
@@ -252,19 +252,19 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     private func viewContact(with contactName: String) {
-        idAPIClient.retrieveContact(username: contactName) { contact in
+        idAPIClient.retrieveUser(username: contactName) { [weak self] contact in
             guard let contact = contact else {
-                self.scannerController.startScanning()
+                self?.scannerController.startScanning()
 
                 return
             }
 
             SoundPlayer.playSound(type: .scanned)
 
-            self.dismiss(animated: true) {
-                self.switch(to: .favorites)
+            self?.dismiss(animated: true) {
+                self?.switch(to: .favorites)
                 let contactController = ContactController(contact: contact)
-                self.favoritesController.pushViewController(contactController, animated: true)
+                self?.favoritesController.pushViewController(contactController, animated: true)
             }
         }
     }
