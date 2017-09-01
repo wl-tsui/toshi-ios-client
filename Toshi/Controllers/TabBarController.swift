@@ -73,10 +73,7 @@ open class TabBarController: UITabBarController {
         fatalError()
     }
 
-    open override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // TODO: Refactor all this navigation controllers subclasses into one, they have similar code
+    public func setupControllers() {
         browseController = BrowseNavigationController(rootViewController: BrowseController())
         favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
 
@@ -100,8 +97,8 @@ open class TabBarController: UITabBarController {
         ]
 
         view.tintColor = Theme.tintColor
-
         view.backgroundColor = Theme.viewBackgroundColor
+
         tabBar.barTintColor = Theme.viewBackgroundColor
         tabBar.unselectedItemTintColor = Theme.unselectedItemTintColor
 

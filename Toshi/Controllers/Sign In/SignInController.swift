@@ -184,4 +184,8 @@ open class SignInController: UIViewController {
             }
         }
     }
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
 }

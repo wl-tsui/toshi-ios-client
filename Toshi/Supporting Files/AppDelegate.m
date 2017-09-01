@@ -102,7 +102,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 - (void)configureAndPresentWindow {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [Theme viewBackgroundColor];
-    self.window.rootViewController = [[TabBarController alloc] init];
+    TabBarController *tabBarController = [[TabBarController alloc] init];
+    self.window.rootViewController = tabBarController;
 
     [self.window makeKeyAndVisible];
 
@@ -111,6 +112,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [[NSUserDefaults standardUserDefaults] synchronize];
 
         [self presentSplash];
+    } else {
+        [tabBarController setupControllers];
     }
 }
 
@@ -157,6 +160,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)createNewUser
 {
+    [[Navigator tabbarController] setupControllers];
+    
     __weak typeof(self)weakSelf = self;
     [[IDAPIClient shared] registerUserIfNeeded:^(UserRegisterStatus status, NSString *message){
 
@@ -180,6 +185,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 {
     [self showNetworkAlertIfNeeded];
     [self setupDB];
+
+    [[Navigator tabbarController] setupControllers];
 }
 
 - (void)setupDB
@@ -201,8 +208,15 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)presentSplash
 {
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"launch-screen"]];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.userInteractionEnabled = YES;
+    [self.window addSubview:imageView];
+
     SplashNavigationController *splashNavigationController = [[SplashNavigationController alloc] init];
-    [self.window.rootViewController presentViewController:splashNavigationController animated:NO completion:nil];
+    [self.window.rootViewController presentViewController:splashNavigationController animated:NO completion:^{
+        [imageView removeFromSuperview];
+    }];
 }
 
 - (void)setupBasicAppearance {
@@ -308,7 +322,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible]) {
+    if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible] && !self.hasBeenActivated) {
         [self configureAndPresentWindow];
         self.hasBeenActivated = YES;
 
@@ -389,6 +403,10 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)deactivateScreenProtection
 {
+    if (self.screenProtectionWindow.alpha == 0) {
+        return;
+    }
+
     [UIView animateWithDuration:0.3 animations:^{
         self.screenProtectionWindow.alpha = 0;
     } completion:^(BOOL finished) {
