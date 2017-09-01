@@ -84,7 +84,7 @@ class RatingsClient: NSObject {
     public var baseURL: URL
 
     private override init() {
-        baseURL = URL(string: TokenRatingsServiceBaseURLPath)!
+        baseURL = URL(string: ToshiRatingsServiceBaseURLPath)!
         teapot = Teapot(baseURL: baseURL)
 
         super.init()

@@ -57,7 +57,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     }
 
     private override init() {
-        baseURL = URL(string: TokenIdServiceBaseURLPath)!
+        baseURL = URL(string: ToshiIdServiceBaseURLPath)!
         teapot = Teapot(baseURL: baseURL)
 
         super.init()

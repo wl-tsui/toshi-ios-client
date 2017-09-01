@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-let ToshiRatingsServiceBaseURLPath = "https://reputation.internal.service.toshi.org"
-let ToshiIdServiceBaseURLPath = "https://identity.internal.service.toshi.org"
-let ToshiEthereumServiceBaseURLPath = "https://ethereum.internal.service.toshi.org"
-let ToshiExchangeRateServiceBaseURLPath = "https://exchange.internal.service.toshi.org"
-let ToshiChatServiceBaseURLPath = "https://chat.internal.service.toshi.org"
+let ToshiRatingsServiceBaseURLPath = "https://reputation.development.service.toshi.org"
+let ToshiIdServiceBaseURLPath = "https://identity.development.service.toshi.org"
+let ToshiEthereumServiceBaseURLPath = "https://ethereum.development.service.toshi.org"
+let ToshiExchangeRateServiceBaseURLPath = "https://exchange.development.service.toshi.org"
+let ToshiChatServiceBaseURLBath = "https://chat.development.service.toshi.org"
 let ToshiWebviewRPCURLPath = "https://propsten.infura.io"

@@ -29,7 +29,7 @@ class SOFAWebController: UIViewController {
         return EthereumAPIClient.shared
     }
 
-    fileprivate let rcpUrl = "https://propsten.infura.io/"
+    fileprivate let rcpUrl = ToshiWebviewRPCURLPath
 
     fileprivate var callbackId = ""
 

@@ -112,6 +112,8 @@
 		2B44A13C1F4AED1200B9C760 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
 		2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
+		2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */; };
+		2B4BCD5B1F599BEA00F9E609 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC8B1F278677000D2A58 /* token.cer */; };
 		2B695CBA1EF9B9A80025119B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
 		2BAB90A71EC1194B005D98C6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A01EC1194B005D98C6 /* Accelerate.framework */; };
 		2BAB90A81EC1194B005D98C6 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A11EC1194B005D98C6 /* AudioToolbox.framework */; };
@@ -144,7 +146,6 @@
 		2BC85F7F1F0F946600BCB171 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC85F7E1F0F946600BCB171 /* InputCell.swift */; };
 		2BC85F801F0F946600BCB171 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC85F7E1F0F946600BCB171 /* InputCell.swift */; };
 		2BD0AC8C1F278677000D2A58 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC8B1F278677000D2A58 /* token.cer */; };
-		2BD0AC8D1F27867B000D2A58 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC891F27866A000D2A58 /* token.cer */; };
 		2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
@@ -1520,7 +1521,6 @@
 		A9603EA51F4DABDC00BF57B1 /* OverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7BDA1EEA8B4400FB5361 /* OverlayController.m */; };
 		A9603EA61F4DABDC00BF57B1 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
 		A9603EA71F4DABDC00BF57B1 /* PhotoPaintTextEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7C6F1EEA8B4400FB5361 /* PhotoPaintTextEntity.m */; };
-		A9603EA81F4DABDC00BF57B1 /* DistributionTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */; };
 		A9603EA91F4DABDC00BF57B1 /* MediaAssetsMomentsSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7DED1EEA8B4400FB5361 /* MediaAssetsMomentsSectionHeader.m */; };
 		A9603EAA1F4DABDC00BF57B1 /* PhotoTextEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7E9E1EEA8B4500FB5361 /* PhotoTextEntityView.m */; };
 		A9603EAB1F4DABDC00BF57B1 /* StaticBackdropImageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7DA11EEA8B4400FB5361 /* StaticBackdropImageData.m */; };
@@ -1940,6 +1940,7 @@
 		2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditConfigurator.swift; sourceTree = "<group>"; };
 		2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClient.swift; sourceTree = "<group>"; };
 		2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProfileEditItem .swift"; sourceTree = "<group>"; };
+		2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionDevTokenURLPaths.swift; sourceTree = "<group>"; };
 		2BAB90A01EC1194B005D98C6 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		2BAB90A11EC1194B005D98C6 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2BAB90A21EC1194B005D98C6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1966,7 +1967,6 @@
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BC85F7B1F0F939C00BCB171 /* InputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputCell.xib; sourceTree = "<group>"; };
 		2BC85F7E1F0F946600BCB171 /* InputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCell.swift; sourceTree = "<group>"; };
-		2BD0AC891F27866A000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = token.cer; path = "Certificate(dev)/token.cer"; sourceTree = "<group>"; };
 		2BD0AC8B1F278677000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; name = token.cer; path = "Certificate(dis)/token.cer"; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
 		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
@@ -3239,14 +3239,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		2BD0AC871F278609000D2A58 /* Certificate(dev) */ = {
-			isa = PBXGroup;
-			children = (
-				2BD0AC891F27866A000D2A58 /* token.cer */,
-			);
-			name = "Certificate(dev)";
-			sourceTree = "<group>";
-		};
 		2BD0AC881F278619000D2A58 /* Certificate(dis) */ = {
 			isa = PBXGroup;
 			children = (
@@ -4193,13 +4185,13 @@
 			isa = PBXGroup;
 			children = (
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
-				2BD0AC871F278609000D2A58 /* Certificate(dev) */,
 				2BD0AC881F278619000D2A58 /* Certificate(dis) */,
 				9F9238C51E24F1D2004BEEE0 /* Development.plist */,
 				14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */,
+				14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */,
+				2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */,
 				142709A11E531A6100BF964B /* Distribution.plist */,
 				A9603F9C1F4DB8C100BF57B1 /* DistributionDev.plist */,
-				14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */,
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
 				9FAACCB41E30F24100FB871D /* Localizable.strings */,
 				9FAACCD81E31120600FB871D /* SF-UI-Display */,
@@ -4769,6 +4761,7 @@
 				TargetAttributes = {
 					14147EA01E8119F0006BD47B = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 29X3GG489T;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 9F9238B01E24F1D2004BEEE0;
 					};
@@ -4924,6 +4917,7 @@
 				9FAACD031E31120600FB871D /* SF-UI-Text-RegularItalic.otf in Resources */,
 				9FAACD021E31120600FB871D /* SF-UI-Text-Regular.otf in Resources */,
 				9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */,
+				2B4BCD5B1F599BEA00F9E609 /* token.cer in Resources */,
 				9FAACD051E31120600FB871D /* SF-UI-Text-SemiboldItalic.otf in Resources */,
 				9FAACCF31E31120600FB871D /* SF-UI-Display-Heavy.otf in Resources */,
 				9F78D9DE1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
@@ -4933,7 +4927,6 @@
 				9FA12BF41E66CA42003705F6 /* messageReceived.m4a in Resources */,
 				9FAACCFF1E31120600FB871D /* SF-UI-Text-LightItalic.otf in Resources */,
 				9FAACCFE1E31120600FB871D /* SF-UI-Text-Light.otf in Resources */,
-				2BD0AC8D1F27867B000D2A58 /* token.cer in Resources */,
 				9FAACCF71E31120600FB871D /* SF-UI-Display-Semibold.otf in Resources */,
 				9FEFEF641E66CE0000948277 /* scan.m4a in Resources */,
 				9FA12BF01E65D043003705F6 /* messageSent.m4a in Resources */,
@@ -6760,7 +6753,6 @@
 				A9603EA51F4DABDC00BF57B1 /* OverlayController.m in Sources */,
 				A9603EA61F4DABDC00BF57B1 /* AvatarImageView.swift in Sources */,
 				A9603EA71F4DABDC00BF57B1 /* PhotoPaintTextEntity.m in Sources */,
-				A9603EA81F4DABDC00BF57B1 /* DistributionTokenURLPaths.swift in Sources */,
 				A9603EA91F4DABDC00BF57B1 /* MediaAssetsMomentsSectionHeader.m in Sources */,
 				A9603EAA1F4DABDC00BF57B1 /* PhotoTextEntityView.m in Sources */,
 				A9603EAB1F4DABDC00BF57B1 /* StaticBackdropImageData.m in Sources */,
@@ -6842,6 +6834,7 @@
 				A9603EF71F4DABDC00BF57B1 /* main.m in Sources */,
 				A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */,
 				A9603EF91F4DABDC00BF57B1 /* GPUImageFramebufferCache.m in Sources */,
+				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,
 				A9603EFA1F4DABDC00BF57B1 /* ImageManager.m in Sources */,
 				A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */,
 				A9603EFC1F4DABDC00BF57B1 /* ModernGalleryVideoPlayerView.m in Sources */,
@@ -6935,6 +6928,7 @@
 			baseConfigurationReference = 3F0DBA781E2F9F3F471A6BAD /* Pods-CocoaPods-Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -6957,6 +6951,7 @@
 			baseConfigurationReference = F878FE03459983FE633C60EF /* Pods-CocoaPods-Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 29X3GG489T;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
