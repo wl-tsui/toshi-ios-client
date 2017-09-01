@@ -106,7 +106,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     [self.window makeKeyAndVisible];
 
-    if ([Yap isCurrentUserDataAccessible] == false) {
+    if ([Yap isUserDatabaseFileAccessible] == false) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
         [[NSUserDefaults standardUserDefaults] synchronize];
 
@@ -287,8 +287,28 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    if (Yap.isCurrentUserDataAccessible == false) {
+- (BOOL)__tryToOpenDB
+{
+    if ([Yap isUserDatabaseFileAccessible]) {
+
+        [TokenUser retrieveCurrentUser];
+
+        [self setupDB];
+
+        return YES;
+    }
+
+    if ([Yap isUserDatabasePasswordAccessible]) {
+        CLS_LOG(@"User database file not accessible while password present in the keychain");
+        return NO;
+    }
+
+    return YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible]) {
         [self configureAndPresentWindow];
         self.hasBeenActivated = YES;
 
@@ -297,14 +317,20 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     BOOL shouldProceedToDBSetup = !self.hasBeenActivated && ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground);
     if (shouldProceedToDBSetup) {
-        if ([Yap isCurrentUserDataAccessible]) {
 
-            [TokenUser retrieveCurrentUser];
+        if ([self __tryToOpenDB]) {
+            [self configureAndPresentWindow];
+        } else {
 
-            [self setupDB];
+            // There might be a case when filesystem state is weird and it doesn't return true results, saying file is not present even if it is.
+            // to determine this we might check keychain for database password being there
+            // in this case we want to wait a bit and try to open file again
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                if ([self __tryToOpenDB]) {
+                    [self configureAndPresentWindow];
+                }
+            });
         }
-
-        [self configureAndPresentWindow];
     }
 
     self.hasBeenActivated = YES;
