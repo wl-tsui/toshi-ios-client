@@ -1827,11 +1827,14 @@
 		D197B80A67FA2271BE1C9621 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197B927571B551C2EBD3FE7 /* retrieveUser.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B69697F2A5B4F3BEF380 /* retrieveUser.json */; };
+		D197B93C624C3E8D1F43B232 /* getCurrencies.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B175422C9602CE00CF65 /* getCurrencies.json */; };
 		D197B968EE5E2CE52CC92F1D /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B9D646686EF7FE2D78B8 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
+		D197B9DDD90826832295B645 /* getRate.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B079DCC1F4C2498E14C7 /* getRate.json */; };
 		D197B9EB251B4870C2B93BCD /* searchContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B86AE2B082254100761E /* searchContacts.json */; };
 		D197BA0569377AF2E56C7393 /* getFeaturedApps.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B86A198E11D1255A9721 /* getFeaturedApps.json */; };
 		D197BA6E5DC09E84D524D1A2 /* getBalance.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B003D276C7AD76B6A223 /* getBalance.json */; };
+		D197BB5265BB1DA3032B68AA /* ExchangeRateAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */; };
 		D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197BD179C71B127A7315785 /* IDAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BF87696253A90F28E651 /* IDAPIClientTests.swift */; };
 		D197BD8E4D43B3EFF276694E /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */; };
@@ -2918,8 +2921,10 @@
 		D197B003D276C7AD76B6A223 /* getBalance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getBalance.json; sourceTree = "<group>"; };
 		D197B00DD27312EDFE1B9ECB /* AppsAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsAPIClientTests.swift; sourceTree = "<group>"; };
 		D197B06C962A9EC5993916F9 /* getTopRatedApps.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getTopRatedApps.json; sourceTree = "<group>"; };
+		D197B079DCC1F4C2498E14C7 /* getRate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getRate.json; sourceTree = "<group>"; };
 		D197B12C40488CB1523BB212 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
 		D197B1451DB719E76A084950 /* timestamp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = timestamp.json; sourceTree = "<group>"; };
+		D197B175422C9602CE00CF65 /* getCurrencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getCurrencies.json; sourceTree = "<group>"; };
 		D197B29F0030A48233E69AD9 /* nonExistingUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nonExistingUser.json; sourceTree = "<group>"; };
 		D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAPIClientTests.swift; sourceTree = "<group>"; };
 		D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "YapDatabaseViewConnection+Additions.swift"; sourceTree = "<group>"; };
@@ -2937,6 +2942,7 @@
 		D197BC29CA8C5D37D1FA122F /* TestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAppDelegate.h; sourceTree = "<group>"; };
 		D197BC49D6434651AD1AB12D /* getTopRatedPublicUsers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getTopRatedPublicUsers.json; sourceTree = "<group>"; };
 		D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAppDelegate.m; sourceTree = "<group>"; };
+		D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClientTests.swift; sourceTree = "<group>"; };
 		D197BF349118AC9D1FE859C4 /* search.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = search.json; sourceTree = "<group>"; };
 		D197BF87696253A90F28E651 /* IDAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDAPIClientTests.swift; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -3133,6 +3139,7 @@
 				D197B00DD27312EDFE1B9ECB /* AppsAPIClientTests.swift */,
 				D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */,
 				D197BF87696253A90F28E651 /* IDAPIClientTests.swift */,
+				D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -4616,6 +4623,7 @@
 				D197B51174AC53CDB04F5EE4 /* EthereumAPIClient */,
 				D197B5F1BAE4D188FD9C6BE8 /* IDAPIClient */,
 				D197B1451DB719E76A084950 /* timestamp.json */,
+				D197BC7D9EB5F21D89994F25 /* ExchangeRateAPIClient */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -4642,6 +4650,15 @@
 				D197B29F0030A48233E69AD9 /* nonExistingUser.json */,
 			);
 			path = IDAPIClient;
+			sourceTree = "<group>";
+		};
+		D197BC7D9EB5F21D89994F25 /* ExchangeRateAPIClient */ = {
+			isa = PBXGroup;
+			children = (
+				D197B079DCC1F4C2498E14C7 /* getRate.json */,
+				D197B175422C9602CE00CF65 /* getCurrencies.json */,
+			);
+			path = ExchangeRateAPIClient;
 			sourceTree = "<group>";
 		};
 		E1A95D581E6F031F002762DA /* Views */ = {
@@ -4839,6 +4856,8 @@
 				D197B57C1E5ECC5B8C071A0E /* getLatestPublicUsers.json in Resources */,
 				D197B927571B551C2EBD3FE7 /* retrieveUser.json in Resources */,
 				D197B7D0B9EE0D87ADD7058A /* nonExistingUser.json in Resources */,
+				D197B9DDD90826832295B645 /* getRate.json in Resources */,
+				D197B93C624C3E8D1F43B232 /* getCurrencies.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5345,6 +5364,7 @@
 				D197BE71058CA3432F48BF1C /* AppsAPIClientTests.swift in Sources */,
 				D197B35BF9744D2F37972747 /* EthereumAPIClientTests.swift in Sources */,
 				D197BD179C71B127A7315785 /* IDAPIClientTests.swift in Sources */,
+				D197BB5265BB1DA3032B68AA /* ExchangeRateAPIClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
