@@ -1807,6 +1807,8 @@
 		ADA43FF3BB04BEDF54DF5CCC /* libPods-CocoaPods-Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24AC0CEAA51D7F8A19F246E9 /* libPods-CocoaPods-Tests.a */; };
 		C1128E2CDD482DB9BE1BF5A3 /* libPods-CocoaPods-Distribution.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E67E3F2BFB7B0171BF61B30 /* libPods-CocoaPods-Distribution.a */; };
 		D197B11DD70DB5696FFC4FD2 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
+		D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */; };
+		D197B131174892CEFFA01276 /* apps?top=true&recent=false&limit=10.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BEA1C52A2DEC77F45D34 /* apps?top=true&recent=false&limit=10.json */; };
 		D197B12668721515F3F87A31 /* search.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BF349118AC9D1FE859C4 /* search.json */; };
 		D197B1B3CDE47BDF904EC7DA /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B12C40488CB1523BB212 /* user.json */; };
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
@@ -2932,6 +2934,7 @@
 		D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINotificationName+Additions.swift"; sourceTree = "<group>"; };
 		D197B69697F2A5B4F3BEF380 /* retrieveUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = retrieveUser.json; sourceTree = "<group>"; };
 		D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveNetworkView.swift; sourceTree = "<group>"; };
+		D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumConverterTests.swift; sourceTree = "<group>"; };
 		D197B707B59B3F92F8A4B3EC /* getLatestPublicUsers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getLatestPublicUsers.json; sourceTree = "<group>"; };
 		D197B86A198E11D1255A9721 /* getFeaturedApps.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getFeaturedApps.json; sourceTree = "<group>"; };
 		D197B86AE2B082254100761E /* searchContacts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchContacts.json; sourceTree = "<group>"; };
@@ -3133,6 +3136,9 @@
 			isa = PBXGroup;
 			children = (
 				D197B18BC61D2FA9F500E49F /* Mocks */,
+				84FFE1E71F3C7F39008CEEF2 /* EthereumAddressTests.swift */,
+				84C459011F41B7AA00D534B8 /* QRCodeIntentTests.swift */,
+				D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */,
 				D197B00DD27312EDFE1B9ECB /* AppsAPIClientTests.swift */,
 				D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */,
 				84FFE1E71F3C7F39008CEEF2 /* EthereumAddressTests.swift */,
@@ -5363,6 +5369,7 @@
 				D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */,
 				2B44A13C1F4AED1200B9C760 /* ExchangeRateAPIClient.swift in Sources */,
 				D197BD8E4D43B3EFF276694E /* TestAppDelegate.m in Sources */,
+				D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */,
 				D197BE71058CA3432F48BF1C /* AppsAPIClientTests.swift in Sources */,
 				D197B35BF9744D2F37972747 /* EthereumAPIClientTests.swift in Sources */,
 				D197BD179C71B127A7315785 /* IDAPIClientTests.swift in Sources */,
