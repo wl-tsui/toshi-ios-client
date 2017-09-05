@@ -4744,9 +4744,9 @@
 			productReference = 149F9AEE1E72E29A00FB74AA /* Toshi.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9F9238B01E24F1D2004BEEE0 /* Development */ = {
+		9F9238B01E24F1D2004BEEE0 /* Debug */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Development" */;
+			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Debug" */;
 			buildPhases = (
 				9161EAA9841A652C8694C335 /* [CP] Check Pods Manifest.lock */,
 				9F9238AD1E24F1D2004BEEE0 /* Sources */,
@@ -4762,14 +4762,14 @@
 			);
 			dependencies = (
 			);
-			name = Development;
+			name = Debug;
 			productName = Token;
 			productReference = 9F9238B11E24F1D2004BEEE0 /* Toshi.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A9603D371F4DABDC00BF57B1 /* DistributionDev */ = {
+		A9603D371F4DABDC00BF57B1 /* Development */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A9603F911F4DABDC00BF57B1 /* Build configuration list for PBXNativeTarget "DistributionDev" */;
+			buildConfigurationList = A9603F911F4DABDC00BF57B1 /* Build configuration list for PBXNativeTarget "Development" */;
 			buildPhases = (
 				A9603D381F4DABDC00BF57B1 /* [CP] Check Pods Manifest.lock */,
 				A9603D391F4DABDC00BF57B1 /* Sources */,
@@ -4785,7 +4785,7 @@
 			);
 			dependencies = (
 			);
-			name = DistributionDev;
+			name = Development;
 			productName = Token;
 			productReference = A9603F951F4DABDC00BF57B1 /* Toshi.app */;
 			productType = "com.apple.product-type.application";
@@ -4853,8 +4853,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9F9238B01E24F1D2004BEEE0 /* Development */,
-				A9603D371F4DABDC00BF57B1 /* DistributionDev */,
+				9F9238B01E24F1D2004BEEE0 /* Debug */,
+				A9603D371F4DABDC00BF57B1 /* Development */,
 				149F9A5D1E72E29A00FB74AA /* Distribution */,
 				14147EA01E8119F0006BD47B /* Tests */,
 			);
@@ -6957,7 +6957,7 @@
 /* Begin PBXTargetDependency section */
 		E60A52AE1F28E3920032CAC0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9F9238B01E24F1D2004BEEE0 /* Development */;
+			target = 9F9238B01E24F1D2004BEEE0 /* Debug */;
 			targetProxy = E60A52AD1F28E3920032CAC0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -7236,7 +7236,7 @@
 					RevealServer,
 				);
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100 -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.debug;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7280,7 +7280,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.debug;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7323,7 +7323,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.developers;
+				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.development;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7367,7 +7367,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = com.bakkenbaeck.token.developers;
+				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.development;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7409,7 +7409,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Development" */ = {
+		9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Debug" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9F9238C91E24F1D2004BEEE0 /* Debug */,
@@ -7418,7 +7418,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A9603F911F4DABDC00BF57B1 /* Build configuration list for PBXNativeTarget "DistributionDev" */ = {
+		A9603F911F4DABDC00BF57B1 /* Build configuration list for PBXNativeTarget "Development" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A9603F921F4DABDC00BF57B1 /* Debug */,
