@@ -142,8 +142,11 @@ final class ChatsInteractor: NSObject {
                 self?.output?.didFinishRequest()
 
                 if let error = error as Error? {
-                    self?.output?.didCatchError(error)
-                    completion?(false)
+                    
+                    DispatchQueue.main.async {
+                        self?.output?.didCatchError(error)
+                        completion?(false)
+                    }
 
                 } else if let json = json?.dictionary {
                     guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
@@ -152,7 +155,9 @@ final class ChatsInteractor: NSObject {
                     let payment = SofaPayment(txHash: txHash, valueHex: value)
                     self?.sendMessage(sofaWrapper: payment)
 
-                    completion?(true)
+                    DispatchQueue.main.async {
+                        completion?(true)
+                    }
                 }
             }
         }
