@@ -216,14 +216,6 @@ final class ChatController: OverlayController {
         setupActivityIndicator()
         setupActiveNetworkView(hidden: true)
 
-        viewModel.fetchAndUpdateBalance { [weak self] balance, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            } else {
-                self?.set(balance: balance)
-            }
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -246,6 +238,7 @@ final class ChatController: OverlayController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
 
         updateContentInset()
+        updateBalance()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -265,6 +258,17 @@ final class ChatController: OverlayController {
 
         viewModel.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
+    }
+
+    fileprivate func updateBalance() {
+        viewModel.fetchAndUpdateBalance { [weak self] balance, error in
+            if let error = error {
+                let alertController = UIAlertController.errorAlert(error as NSError)
+                Navigator.presentModally(alertController)
+            } else {
+                self?.set(balance: balance)
+            }
+        }
     }
 
     fileprivate func addSubviewsAndConstraints() {
@@ -302,7 +306,11 @@ final class ChatController: OverlayController {
 
     func sendPayment(with parameters: [String: Any]) {
         showActivityIndicator()
-        viewModel.interactor.sendPayment(with: parameters)
+        viewModel.interactor.sendPayment(with: parameters) { [weak self] success in
+            if success {
+                self?.updateBalance()
+            }
+        }
     }
 
     func keyboardWillShow() {
@@ -581,11 +589,13 @@ final class ChatController: OverlayController {
         
         showActivityIndicator()
         
-        viewModel.interactor.sendPayment(in: paymentRequest.value) { [weak self] (success: Bool) in
+        viewModel.interactor.sendPayment(in: paymentRequest.value) { [weak self] success in
             let state: TSInteraction.PaymentState = success ? .approved : .failed
             self?.adjustToPaymentState(state, at: indexPath)
             DispatchQueue.main.asyncAfter(seconds: 2.0) {
                 self?.hideActiveNetworkViewIfNeeded()
+
+                self?.updateBalance()
             }
         }
     }
@@ -597,7 +607,6 @@ final class ChatController: OverlayController {
             self.hideActiveNetworkViewIfNeeded()
         }
     }
-    
 }
 
 extension ChatController: UITableViewDelegate {
@@ -964,7 +973,11 @@ extension ChatController: PaymentControllerDelegate {
 
         case .send:
             showActivityIndicator()
-            viewModel.interactor.sendPayment(in: valueInWei)
+            viewModel.interactor.sendPayment(in: valueInWei, completion: { [weak self] success in
+                if success {
+                    self?.updateBalance()
+                }
+            })
         }
     }
 }
