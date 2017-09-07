@@ -40,8 +40,6 @@ final class ChatViewModel {
 
         countAllMessages()
 
-        loadNextChunk(notifiesAboutLastMessage: true)
-
         registerNotifications()
 
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -117,6 +115,10 @@ final class ChatViewModel {
         }
     }
 
+    func loadFirstMessages() {
+        loadNextChunk(notifiesAboutLastMessage: true)
+    }
+
     func visibleMessage(at index: Int) -> Message {
         return visibleMessages[index]
     }
@@ -180,7 +182,12 @@ final class ChatViewModel {
     fileprivate func loadNextChunk(notifiesAboutLastMessage: Bool = false) {
         let nextChunkSize = self.nextChunkSize()
 
-        guard let rangeOptions = YapDatabaseViewRangeOptions.flexibleRange(withLength: nextChunkSize, offset: loadedMessagesCount, from: .end) as YapDatabaseViewRangeOptions? else { return }
+        guard let rangeOptions = YapDatabaseViewRangeOptions.flexibleRange(withLength: nextChunkSize, offset: loadedMessagesCount, from: .end) as YapDatabaseViewRangeOptions? else {
+            self.output?.didReload()
+            
+            return
+        }
+
         self.loadedMappings.setRangeOptions(rangeOptions, forGroup: self.thread.uniqueId)
 
         self.loadMessages(notifiesAboutLastMessage: notifiesAboutLastMessage)

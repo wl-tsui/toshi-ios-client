@@ -223,6 +223,8 @@ final class ChatController: OverlayController {
 
         isVisible = true
 
+        viewModel.loadFirstMessages()
+
         viewModel.reloadDraft { [weak self] placeholder in
             self?.textInputView.text = placeholder
         }
