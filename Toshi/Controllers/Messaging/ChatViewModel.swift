@@ -24,6 +24,7 @@ enum DisplayState {
 
 protocol ChatViewModelOutput: ChatInteractorOutput {
     func didReload()
+    func didRequireGreetingIfNeeded()
     func didRequireKeyboardVisibilityUpdate(_ sofaMessage: SofaMessage)
     func didReceiveLastMessage()
 }
@@ -183,7 +184,7 @@ final class ChatViewModel {
         let nextChunkSize = self.nextChunkSize()
 
         guard let rangeOptions = YapDatabaseViewRangeOptions.flexibleRange(withLength: nextChunkSize, offset: loadedMessagesCount, from: .end) as YapDatabaseViewRangeOptions? else {
-            self.output?.didReload()
+            self.output?.didRequireGreetingIfNeeded()
             
             return
         }

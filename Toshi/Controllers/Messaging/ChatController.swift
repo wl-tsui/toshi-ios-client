@@ -779,9 +779,12 @@ extension ChatController: ImagesViewControllerDismissDelegate {
 }
 
 extension ChatController: ChatViewModelOutput {
-    func didReload() {
-        self.sendGreetingTriggerIfNeeded()
 
+    func didRequireGreetingIfNeeded() {
+        self.sendGreetingTriggerIfNeeded()
+    }
+
+    func didReload() {
         UIView.performWithoutAnimation {
             self.tableView.reloadData()
         }
