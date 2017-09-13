@@ -17,9 +17,13 @@ import Foundation
 import Teapot
 import AwesomeCache
 
-final class AvatarManager: NSObject, CacheExpiryDefault {
+final class AvatarManager: NSObject {
 
     static let shared = AvatarManager()
+
+    internal lazy var cacheExpiry: CacheExpiry = {
+        return .never
+    }()
 
     private lazy var imageCache: Cache<UIImage> = {
         do {
