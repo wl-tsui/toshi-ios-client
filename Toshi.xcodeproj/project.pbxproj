@@ -4832,7 +4832,7 @@
 						};
 					};
 					A9603D371F4DABDC00BF57B1 = {
-						DevelopmentTeam = BH32JXCQWU;
+						DevelopmentTeam = 3TAZ984YN3;
 					};
 				};
 			};
@@ -7292,7 +7292,7 @@
 				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = YES;
-				DEVELOPMENT_TEAM = BH32JXCQWU;
+				DEVELOPMENT_TEAM = 3TAZ984YN3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7316,7 +7316,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.development;
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.toshi.enterprise;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7336,7 +7336,7 @@
 				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = NO;
-				DEVELOPMENT_TEAM = BH32JXCQWU;
+				DEVELOPMENT_TEAM = 3TAZ984YN3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7360,7 +7360,7 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
-				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.development;
+				PRODUCT_BUNDLE_IDENTIFIER = no.bakkenbaeck.toshi.enterprise;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
