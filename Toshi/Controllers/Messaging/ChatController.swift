@@ -852,10 +852,10 @@ extension ChatController: ChatViewModelOutput {
 
 extension ChatController: ChatInteractorOutput {
 
-    func didCatchError(_ error: Error) {
+    func didCatchError(_ message: String) {
         hideActivityIndicator()
 
-        let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error.localizedDescription)
+        let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
         Navigator.presentModally(alert)
     }
 
