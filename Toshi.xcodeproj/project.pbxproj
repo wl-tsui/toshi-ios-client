@@ -1136,6 +1136,7 @@
 		A91629141F3C6614008A7F36 /* PaymentAddressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A916290C1F3B5828008A7F36 /* PaymentAddressController.swift */; };
 		A91629161F3C7CFD008A7F36 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* Payment.swift */; };
 		A91629171F3C85D6008A7F36 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* Payment.swift */; };
+		A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
 		A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9181D211EDD8154005B63F6 /* RoundIconButton.swift */; };
 		A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCA1F2203DD00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
@@ -1769,6 +1770,8 @@
 		A9AC74141E78231A00365029 /* PassphraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* PassphraseView.swift */; };
 		A9AC74171E78277700365029 /* PassphraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* PassphraseWordView.swift */; };
 		A9AC74181E78277700365029 /* PassphraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* PassphraseWordView.swift */; };
+		A9AFDD481F5FF80500C0A256 /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
+		A9AFDD491F5FF80600C0A256 /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
 		A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
 		A9BA6B7B1EF7D582007C3206 /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
 		A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
@@ -2875,6 +2878,7 @@
 		A916290E1F3C3A02008A7F36 /* PaymentAddressInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentAddressInputView.swift; sourceTree = "<group>"; };
 		A91629101F3C64FE008A7F36 /* PaymentNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentNavigationController.swift; sourceTree = "<group>"; };
 		A91629151F3C7CFD008A7F36 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		A9180FB01F5452A000DC668E /* MessagesErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesErrorView.swift; sourceTree = "<group>"; };
 		A9181D211EDD8154005B63F6 /* RoundIconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundIconButton.swift; sourceTree = "<group>"; };
 		A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdvancedSettings.storyboard; sourceTree = "<group>"; };
 		A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsController.swift; sourceTree = "<group>"; };
@@ -4590,6 +4594,7 @@
 				A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */,
 				A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */,
 				A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */,
+				A9180FB01F5452A000DC668E /* MessagesErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5598,6 +5603,7 @@
 				A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */,
 				9F4D7F191EEA8B4500FB5361 /* PaintShader.m in Sources */,
 				9F4D81691EEA8B4600FB5361 /* PhotoPaintSettingsWrapperView.m in Sources */,
+				A9AFDD491F5FF80600C0A256 /* MessagesErrorView.swift in Sources */,
 				9F4D80251EEA8B4500FB5361 /* UIControl+HitTestEdgeInsets.m in Sources */,
 				149F9A761E72E29A00FB74AA /* ContactsManager.m in Sources */,
 				9F4D80051EEA8B4500FB5361 /* PSKeyValueCoder.m in Sources */,
@@ -6288,6 +6294,7 @@
 				A90E5A291F03CE0400DAA501 /* BrowseAppCell.swift in Sources */,
 				2BE66A0C1EF910B6007A7130 /* Editable.swift in Sources */,
 				9F4D80E21EEA8B4500FB5361 /* MediaPickerPhotoStripView.m in Sources */,
+				A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */,
 				A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */,
 				9F4D7EE41EEA8B4500FB5361 /* TGMediaAvatarEditorTransition.m in Sources */,
 				9F4D801E1EEA8B4500FB5361 /* TransitionLayout.m in Sources */,
@@ -6636,6 +6643,7 @@
 				A9603E041F4DABDC00BF57B1 /* Collection+Additions.swift in Sources */,
 				A9603E051F4DABDC00BF57B1 /* PaintShader.m in Sources */,
 				A9603E061F4DABDC00BF57B1 /* PhotoPaintSettingsWrapperView.m in Sources */,
+				A9AFDD481F5FF80500C0A256 /* MessagesErrorView.swift in Sources */,
 				A9603E071F4DABDC00BF57B1 /* UIControl+HitTestEdgeInsets.m in Sources */,
 				A9603E081F4DABDC00BF57B1 /* ContactsManager.m in Sources */,
 				A9603E091F4DABDC00BF57B1 /* PSKeyValueCoder.m in Sources */,
@@ -7020,7 +7028,7 @@
 				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BH32JXCQWU;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7063,7 +7071,7 @@
 				CODE_SIGN_ENTITLEMENTS = Toshi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BH32JXCQWU;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

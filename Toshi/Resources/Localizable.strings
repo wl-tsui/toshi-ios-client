@@ -19,6 +19,10 @@
 /* Messages */
 "messages_payment_approve" = "Approve";
 "messages_payment_decline" = "Decline";
+"messages_sent_error" = "Not delivered Tap to retry";
+"messages_sent_error_action_delete" = "Delete";
+"messages_sent_error_action_resend" = "Resend";
+"messages_sent_error_action_cancel" = "Cancel";
 
 /* Balance */
 "balance-navigation-title" = "Balance";

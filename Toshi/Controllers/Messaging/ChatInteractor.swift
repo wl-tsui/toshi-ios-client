@@ -52,16 +52,20 @@ final class ChatsInteractor: NSObject {
 
     fileprivate var messageSender: MessageSender?
 
-    func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: ((Bool) -> Void)? = nil) {
-        DispatchQueue.main.async {
-            let timestamp = NSDate.ows_millisecondsSince1970(for: date)
-            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
+    func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: @escaping ((Bool) -> Void) = { Bool in }) {
+        let timestamp = NSDate.ows_millisecondsSince1970(for: date)
+        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
 
-            self.messageSender?.send(outgoingMessage, success: {
-                completion?(true)
+        self.send(outgoingMessage, completion: completion)
+    }
+
+    func send(_ signalMessage: TSOutgoingMessage, completion: @escaping ((Bool) -> Void) = { Bool in }) {
+        DispatchQueue.main.async {
+            self.messageSender?.send(signalMessage, success: {
+                completion(true)
                 print("message sent")
             }, failure: { error in
-                completion?(false)
+                completion(false)
                 print(error)
             })
         }
