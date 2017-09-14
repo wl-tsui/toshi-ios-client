@@ -122,9 +122,11 @@ final class ChatsInteractor: NSObject {
         }
     }
 
-    func fetchAndUpdateBalance(completion: @escaping ((NSDecimalNumber, Error?) -> Void)) {
-        etherAPIClient.getBalance(address: Cereal.shared.paymentAddress) { balance, error in
-            completion(balance, error)
+    func fetchAndUpdateBalance(cachedCompletion: @escaping BalanceCompletion, fetchedCompletion: @escaping BalanceCompletion) {
+        etherAPIClient.getBalance(cachedBalanceCompletion: { cachedBalance, _ in
+            cachedCompletion(cachedBalance, nil)
+        }) { fetchedBalance, error in
+            fetchedCompletion(fetchedBalance, error)
         }
     }
 

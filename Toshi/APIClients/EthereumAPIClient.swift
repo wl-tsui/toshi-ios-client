@@ -15,6 +15,9 @@
 
 import Foundation
 import Teapot
+import AwesomeCache
+
+public typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: Error?) -> Void)
 
 public class EthereumAPIClient: NSObject {
 
@@ -35,6 +38,15 @@ public class EthereumAPIClient: NSObject {
     fileprivate static var teapotUrl: String {
         return NetworkSwitcher.shared.activeNetworkBaseUrl
     }
+
+    fileprivate static let CachedBalanceKey = "CachedBalanceKey"
+    fileprivate lazy var cache: Cache<NSDecimalNumber> = {
+        do {
+            return try Cache<NSDecimalNumber>(name: "balanceCache")
+        } catch {
+            fatalError("Couldn't instantiate the balance cache")
+        }
+    }()
 
     convenience init(mockTeapot: MockTeapot) {
         self.init()
@@ -99,7 +111,7 @@ public class EthereumAPIClient: NSObject {
                     switch result {
                     case .success(let json, _):
                         completion(true, json, nil)
-                    case .failure(let json, let response, let error):
+                    case .failure(let json, _, let error):
                         guard let jsonError = (json?.dictionary?["errors"] as? [[String: Any]])?.first else {
                             completion(false, nil, error.localizedDescription)
                             return
@@ -112,17 +124,20 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func getBalance(address: String, completion: @escaping ((_ balance: NSDecimalNumber, _ error: Error?) -> Void)) {
+    public func getBalance(address: String = Cereal.shared.paymentAddress, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
 
-        self.activeTeapot.get("/v1/balance/\(address)") { (result: NetworkResult) in
+        let cachedBalance: NSDecimalNumber = self.cache.object(forKey: EthereumAPIClient.CachedBalanceKey) ?? .zero
+        cachedBalanceCompletion(cachedBalance, nil)
+
+        self.activeTeapot.get("/v1/balance/\(address)") { [weak self] (result: NetworkResult) in
             var balance: NSDecimalNumber = .zero
             var resultError: Error?
 
             switch result {
             case .success(let json, let response):
                 let error = NSError(domain: "", code: -1, userInfo: [NSLocalizedFailureReasonErrorKey: "Could not fetch balance."])
-                guard response.statusCode == 200 else { completion(0, error); return }
-                guard let json = json?.dictionary else { completion(0, error); return }
+                guard response.statusCode == 200 else { fetchedBalanceCompletion(0, error); return }
+                guard let json = json?.dictionary else { fetchedBalanceCompletion(0, error); return }
 
                 let unconfirmedBalanceString = json["unconfirmed_balance"] as? String ?? "0"
                 let unconfirmedBalance = NSDecimalNumber(hexadecimalString: unconfirmedBalanceString)
@@ -130,16 +145,16 @@ public class EthereumAPIClient: NSObject {
                 TokenUser.current?.balance = unconfirmedBalance
                 balance = unconfirmedBalance
 
-            case .failure(let json, _, let error):
+            case .failure(_, _, let error):
                 resultError = error
                 print(error)
             }
 
             DispatchQueue.main.async {
-                completion(balance, resultError)
+                self?.cache.setObject(balance, forKey: EthereumAPIClient.CachedBalanceKey)
+                fetchedBalanceCompletion(balance, resultError)
             }
         }
-
     }
 
     public func registerForMainNetworkPushNotifications() {

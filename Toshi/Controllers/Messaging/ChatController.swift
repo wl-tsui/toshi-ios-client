@@ -263,12 +263,16 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func updateBalance() {
-        viewModel.fetchAndUpdateBalance { [weak self] balance, error in
+
+        viewModel.fetchAndUpdateBalance(cachedCompletion: { [weak self] cachedBalance, _ in
+            self?.set(balance: cachedBalance)
+
+        }) { [weak self] fetchedBalance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             } else {
-                self?.set(balance: balance)
+                self?.set(balance: fetchedBalance)
             }
         }
     }

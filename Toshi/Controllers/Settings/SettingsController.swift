@@ -172,12 +172,15 @@ open class SettingsController: UIViewController {
     }
 
     fileprivate func fetchAndUpdateBalance() {
-        self.ethereumAPIClient.getBalance(address: Cereal.shared.paymentAddress) { [weak self] balance, error in
+
+        self.ethereumAPIClient.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, _ in
+            self?.balance = cachedBalance
+        }) { [weak self] fetchedBalance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             } else {
-                self?.balance = balance
+                self?.balance = fetchedBalance
             }
         }
     }

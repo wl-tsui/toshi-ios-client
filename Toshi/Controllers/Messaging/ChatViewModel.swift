@@ -304,8 +304,8 @@ final class ChatViewModel {
         }
     }
 
-    func fetchAndUpdateBalance(completion: @escaping ((NSDecimalNumber, Error?) -> Void)) {
-        interactor.fetchAndUpdateBalance(completion: completion)
+    func fetchAndUpdateBalance(cachedCompletion: @escaping BalanceCompletion, fetchedCompletion: @escaping BalanceCompletion) {
+        interactor.fetchAndUpdateBalance(cachedCompletion: cachedCompletion, fetchedCompletion: fetchedCompletion)
     }
 
     fileprivate func countAllMessages() {
