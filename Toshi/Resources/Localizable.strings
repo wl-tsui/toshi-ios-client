@@ -141,3 +141,11 @@
 
 "report_feedback_alert_title" = "Thanks";
 "report_feedback_alert_message" = "Your feedback is important in helping us keep the Token community safe.";
+
+/* Accept Terms Alert */
+"accept_terms_title" = "Accept Terms";
+"accept_terms_text" = "By creating an acount, you agree to the Toshi Terms of Service and Privacy Policy.";
+"accept_terms_action_read" = "Read Terms";
+"accept_terms_action_cancel" = "Cancel";
+"accept_terms_action_agree" = "Agree";
+

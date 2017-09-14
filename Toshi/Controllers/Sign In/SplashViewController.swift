@@ -16,6 +16,7 @@
 import Foundation
 import UIKit
 import SweetUIKit
+import SafariServices
 
 let logoTopSpace: CGFloat = 100.0
 let logoSize: CGFloat = 54.0
@@ -133,11 +134,45 @@ final class SplashViewController: UIViewController {
     }
 
     @objc private func newAccountPressed(_: UIButton) {
-        (UIApplication.shared.delegate as? AppDelegate)?.createNewUser()
-        dismiss(animated: true, completion: nil)
+        showAcceptTermsAlert()
     }
     
     open override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    fileprivate func showAcceptTermsAlert() {
+        
+        let alert = UIAlertController(title: Localized("accept_terms_title"), message: Localized("accept_terms_text"), preferredStyle: .alert)
+        
+        let read = UIAlertAction(title: Localized("accept_terms_action_read"), style: .cancel) { [weak self] _ in
+            guard let url = URL(string: "http://www.toshi.org/terms-of-service/") else { return }
+            let controller = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+            controller.delegate = self
+            controller.preferredControlTintColor = Theme.tintColor
+            self?.present(controller, animated: true, completion: nil)
+        }
+        
+        let cancel = UIAlertAction(title: Localized("accept_terms_action_cancel"), style: .cancel) { _ in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        let agree = UIAlertAction(title: Localized("accept_terms_action_agree"), style: .default) { [weak self] _ in
+            (UIApplication.shared.delegate as? AppDelegate)?.createNewUser()
+            self?.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(read)
+        alert.addAction(cancel)
+        alert.addAction(agree)
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
+
+extension SplashViewController: SFSafariViewControllerDelegate {
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        showAcceptTermsAlert()
     }
 }
