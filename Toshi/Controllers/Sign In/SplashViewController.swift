@@ -145,7 +145,7 @@ final class SplashViewController: UIViewController {
         
         let alert = UIAlertController(title: Localized("accept_terms_title"), message: Localized("accept_terms_text"), preferredStyle: .alert)
         
-        let read = UIAlertAction(title: Localized("accept_terms_action_read"), style: .cancel) { [weak self] _ in
+        let read = UIAlertAction(title: Localized("accept_terms_action_read"), style: .default) { [weak self] _ in
             guard let url = URL(string: "http://www.toshi.org/terms-of-service/") else { return }
             let controller = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             controller.delegate = self
@@ -153,11 +153,11 @@ final class SplashViewController: UIViewController {
             self?.present(controller, animated: true, completion: nil)
         }
         
-        let cancel = UIAlertAction(title: Localized("accept_terms_action_cancel"), style: .cancel) { _ in
+        let cancel = UIAlertAction(title: Localized("accept_terms_action_cancel"), style: .default) { _ in
             alert.dismiss(animated: true, completion: nil)
         }
         
-        let agree = UIAlertAction(title: Localized("accept_terms_action_agree"), style: .default) { [weak self] _ in
+        let agree = UIAlertAction(title: Localized("accept_terms_action_agree"), style: .cancel) { [weak self] _ in
             (UIApplication.shared.delegate as? AppDelegate)?.createNewUser()
             self?.dismiss(animated: true, completion: nil)
         }
