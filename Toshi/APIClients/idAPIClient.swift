@@ -277,9 +277,9 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
 
                     TokenUser.current?.update(json: json)
                     succeeded = true
-                case .failure(let json, _, _):
+                case .failure(let json, _, let error):
                     let errors = json?.dictionary?["errors"] as? [[String: Any]]
-                    errorMessage = (errors?.first?["message"] as? String) ?? ""
+                    errorMessage = (errors?.first?["message"] as? String) ?? error.localizedDescription
                 }
 
                 DispatchQueue.main.async {
@@ -487,7 +487,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     succeeded = true
                 case .failure(let json, _, _):
                     let errors = json?.dictionary?["errors"] as? [[String: Any]]
-                    errorMessage = (errors?.first?["message"] as? String) ?? ""
+                    errorMessage = (errors?.first?["message"] as? String) ?? Localized("request_generic_error")
                 }
 
                 DispatchQueue.main.async {
@@ -519,14 +519,14 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
                         print("Invalid response - Login")
-                        completion(false, "Something went wrong")
+                        completion(false, Localized("request_generic_error"))
                         return
                     }
 
                     succeeded = true
                 case .failure(let json, _, _):
                     let errors = json?.dictionary?["errors"] as? [[String: Any]]
-                    errorMessage = (errors?.first?["message"] as? String) ?? ""
+                    errorMessage = (errors?.first?["message"] as? String) ?? Localized("request_generic_error")
                 }
 
                 DispatchQueue.main.async {
