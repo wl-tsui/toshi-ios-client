@@ -260,17 +260,6 @@ public class TokenUser: NSObject, NSCoding {
         NotificationCenter.default.post(name: .userCreated, object: nil)
     }
 
-    public static func createOrUpdateCurrentUser(with json: [String: Any]) {
-        guard current != nil else {
-            current = TokenUser(json: json)
-            NotificationCenter.default.post(name: .userCreated, object: nil)
-
-            return
-        }
-
-        current?.update(json: json)
-    }
-
     public static func retrieveCurrentUser() {
         current = retrieveCurrentUserFromStore()
 

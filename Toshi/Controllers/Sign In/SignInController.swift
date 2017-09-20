@@ -163,13 +163,17 @@ open class SignInController: UIViewController {
             return
         }
 
+        Cereal.shared = cereal
+
         let idClient = IDAPIClient.shared
         idClient.retrieveUser(username: cereal.address) { [weak self] user in
             if let user = user {
-                Cereal.shared = cereal
+                
                 UserDefaults.standard.set(false, forKey: RequiresSignIn)
 
                 TokenUser.createCurrentUser(with: user.dict)
+                idClient.migrateCurrentUserIfNeeded()
+
                 TokenUser.current?.updateVerificationState(true)
 
                 ChatAPIClient.shared.registerUser()

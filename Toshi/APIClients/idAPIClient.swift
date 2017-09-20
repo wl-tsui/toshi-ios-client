@@ -133,12 +133,15 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    public func updateUserIfNeeded(_ user: TokenUser) {
-        guard let migratedUser = TokenUser.current, user.paymentAddress != migratedUser.paymentAddress else {
+    public func migrateCurrentUserIfNeeded() {
+        guard let user = TokenUser.current, user.paymentAddress != Cereal.shared.paymentAddress else {
             return
         }
 
-        updateUser(migratedUser.dict) { _, _ in }
+        var userDict = user.dict
+        userDict[TokenUser.Constants.paymentAddress] = Cereal.shared.paymentAddress
+
+        updateUser(userDict) { _, _ in }
     }
 
     public func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus, _ message: String?) -> Void)) {
@@ -307,7 +310,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
                     return
                 }
 
-                if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address {
+                if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address, TokenUser.current != nil {
                     TokenUser.current?.update(json: json)
                     resultUser = TokenUser.current
                 } else {
