@@ -44,6 +44,10 @@ class BalanceController: UIViewController {
         tableView.edges(to: view)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         fetchAndUpdateBalance()
     }
 

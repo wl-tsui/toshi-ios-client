@@ -26,11 +26,13 @@ enum NetworkInfo {
 
     struct Label {
 
-        static let RopstenTestNetwork = Localized("Ropsten Test Network")
-        static let ToshiTestNetwork = Localized("Toshi Test Network")
+        static let MainNet = Localized("mainnet-title")
+        static let RopstenTestNetwork = Localized("ropsten-test-network-title")
+        static let ToshiTestNetwork = Localized("toshi-test-network-title")
     }
 
     struct Path {
+        static let MainNet = "https://ethereum.service.toshi.org"
         static let RopstenTestNetwork = "https://ethereum.development.service.toshi.org"
         static let ToshiTestNetwork = "https://ethereum.internal.service.toshi.org"
     }
@@ -39,11 +41,14 @@ enum NetworkInfo {
 public enum Network: String {
     public typealias RawValue = String
 
+    case mainNet = "1"
     case ropstenTestNetwork = "3"
     case toshiTestNetwork = "116"
 
     var baseURL: String {
         switch self {
+        case .mainNet:
+            return NetworkInfo.Path.MainNet
         case .ropstenTestNetwork:
             return NetworkInfo.Path.RopstenTestNetwork
         case .toshiTestNetwork:
@@ -53,6 +58,8 @@ public enum Network: String {
 
     var label: String {
         switch self {
+        case .mainNet:
+            return NetworkInfo.Label.MainNet
         case .ropstenTestNetwork:
             return NetworkInfo.Label.RopstenTestNetwork
         case .toshiTestNetwork:
@@ -180,8 +187,10 @@ public final class NetworkSwitcher {
     fileprivate var defaultNetwork: Network {
         #if DEBUG
             return .toshiTestNetwork
-        #else
+        #elseif TOSHIDEV
             return .ropstenTestNetwork
+        #else
+            return .mainNet
         #endif
     }
 
