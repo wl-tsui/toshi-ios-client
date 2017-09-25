@@ -333,7 +333,6 @@ static void initializeMediaAssetsDateUtils()
 //    }
 //    else
     {
-        int dayDiff = timeinfo_start.tm_yday - timeinfo_now.tm_yday;
         
 //        if (dayDiff < -7)
 //        {

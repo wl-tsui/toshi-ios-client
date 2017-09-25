@@ -75,8 +75,8 @@ class AlertController: ModalPresentable {
         reviewContainer.setNeedsLayout()
         reviewContainer.layoutIfNeeded()
 
-        contentView.setNeedsLayout()
-        contentView.layoutIfNeeded()
+        visualEffectView.setNeedsLayout()
+        visualEffectView.layoutIfNeeded()
 
         view.setNeedsLayout()
         view.layoutIfNeeded()
@@ -88,27 +88,27 @@ class AlertController: ModalPresentable {
         view.backgroundColor = UIColor(white: 0.6, alpha: 0.7)
 
         view.addSubview(background)
-        view.addSubview(contentView)
+        view.addSubview(visualEffectView)
 
-        contentView.backgroundColor = Theme.lightGreyTextColor
+        visualEffectView.backgroundColor = Theme.lightGreyTextColor
 
-        contentView.addSubview(actionsStackView)
-        contentView.addSubview(reviewContainer)
+        visualEffectView.addSubview(actionsStackView)
+        visualEffectView.addSubview(reviewContainer)
 
-        reviewContainer.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        reviewContainer.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        reviewContainer.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        reviewContainer.topAnchor.constraint(equalTo: visualEffectView.topAnchor).isActive = true
+        reviewContainer.leftAnchor.constraint(equalTo: visualEffectView.leftAnchor).isActive = true
+        reviewContainer.rightAnchor.constraint(equalTo: visualEffectView.rightAnchor).isActive = true
 
         actionsStackView.topAnchor.constraint(equalTo: reviewContainer.bottomAnchor, constant: 1.0).isActive = true
-        actionsStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        actionsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        actionsStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        actionsStackView.leftAnchor.constraint(equalTo: visualEffectView.leftAnchor).isActive = true
+        actionsStackView.bottomAnchor.constraint(equalTo: visualEffectView.bottomAnchor).isActive = true
+        actionsStackView.rightAnchor.constraint(equalTo: visualEffectView.rightAnchor).isActive = true
 
         background.fillSuperview()
 
-        contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalToConstant: PaymentConfirmationController.contentWidth).isActive = true
+        visualEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        visualEffectView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        visualEffectView.widthAnchor.constraint(equalToConstant: PaymentConfirmationController.contentWidth).isActive = true
 
         background.addGestureRecognizer(tapGesture)
     }
@@ -120,14 +120,14 @@ class AlertController: ModalPresentable {
         return gestureRecognizer
     }()
 
-    func tap(_ gesture: UITapGestureRecognizer) {
+    @objc func tap(_ gesture: UITapGestureRecognizer) {
         if gesture.state == .recognized {
             dismiss(animated: true)
         }
     }
 
     fileprivate lazy var contentViewVerticalCenter: NSLayoutConstraint = {
-        self.contentView.centerYAnchor.constraint(equalTo: self.background.centerYAnchor)
+        self.visualEffectView.centerYAnchor.constraint(equalTo: self.background.centerYAnchor)
     }()
 
     private func setupActionsButtons() {

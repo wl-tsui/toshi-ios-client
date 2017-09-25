@@ -36,7 +36,7 @@ typedef enum {
 extern "C" {
 #endif
 
-ActionStage *ActionStageInstance();
+ActionStage *ActionStageInstance(void);
     
 #ifdef __cplusplus
 }

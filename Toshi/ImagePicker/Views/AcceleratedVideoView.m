@@ -33,7 +33,7 @@
     NSUInteger _fillFrames;
     NSTimeInterval _previousFrameTimestamp;
     
-    TGAcceleratedVideoFrame *(^_requestFrame)();
+    TGAcceleratedVideoFrame *(^_requestFrame)(void);
     void (^_drawFrame)(TGAcceleratedVideoFrame *videoFrame, int32_t sessionId);
     
     NSMutableArray *_frames;
@@ -63,7 +63,7 @@
     return self;
 }
 
-- (void)dispatch:(void (^)())block {
+- (void)dispatch:(void (^)(void))block {
     [_queue dispatch:block];
 }
 

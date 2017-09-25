@@ -20,7 +20,7 @@
 
 @protocol ModernGalleryInterfaceView <NSObject>
 
-- (void)setClosePressed:(void (^)())closePressed;
+- (void)setClosePressed:(void (^)(void))closePressed;
 - (void)setScrollViewOffsetRequested:(void (^)(CGFloat offset))scrollViewOffsetRequested;
 
 - (void)itemFocused:(id<ModernGalleryItem>)item itemView:(ModernGalleryItemView *)itemView;

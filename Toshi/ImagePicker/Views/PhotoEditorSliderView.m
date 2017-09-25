@@ -71,10 +71,10 @@ const CGFloat PhotoEditorSliderViewInternalMargin = 14.0f / 2.0f;
         _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         _tapGestureRecognizer.enabled = false;
         [self addGestureRecognizer:_tapGestureRecognizer];
-        
-        if (iosMajorVersion() >= 10)
-            _feedbackGenerator = [[UISelectionFeedbackGenerator alloc] init];
+
+        _feedbackGenerator = [[UISelectionFeedbackGenerator alloc] init];
     }
+    
     return self;
 }
 

@@ -67,18 +67,7 @@
 
 - (void)loadViewIfNeeded
 {
-    if (iosMajorVersion() >= 9)
-    {
-        [super loadViewIfNeeded];
-    }
-    else
-    {
-        if (![self isViewLoaded])
-        {
-            [self loadView];
-            [self viewDidLoad];
-        }
-    }
+    [super loadViewIfNeeded];
 }
 
 - (void)viewDidLoad

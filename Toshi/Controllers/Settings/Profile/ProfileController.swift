@@ -48,8 +48,8 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var editProfileButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.regular(size: 17), NSForegroundColorAttributeName: Theme.tintColor]), for: .normal)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [NSFontAttributeName: Theme.regular(size: 17), NSForegroundColorAttributeName: Theme.lightGreyTextColor]), for: .highlighted)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.regular(size: 17), .foregroundColor: Theme.tintColor]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.regular(size: 17), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
 
         return view
@@ -225,12 +225,12 @@ open class ProfileController: UIViewController {
         nameContainer.leftToRight(of: avatarImageView, offset: margin)
         nameContainer.right(to: contentBackgroundView, offset: -margin)
 
-        nameLabel.height(25, relation: .equalOrGreater, priority: .high)
+        nameLabel.height(25, relation: .equalOrGreater, priority: .defaultHigh)
         nameLabel.top(to: nameContainer)
         nameLabel.left(to: nameContainer)
         nameLabel.right(to: nameContainer)
 
-        usernameLabel.height(25, relation: .equalOrGreater, priority: .high)
+        usernameLabel.height(25, relation: .equalOrGreater, priority: .defaultHigh)
         usernameLabel.topToBottom(of: nameLabel, offset: margin)
         usernameLabel.left(to: nameContainer)
         usernameLabel.bottom(to: nameContainer)

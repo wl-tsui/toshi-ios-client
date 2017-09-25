@@ -295,9 +295,6 @@
 
 - (void)_requestSystemPictureInPictureMode
 {
-    if (iosMajorVersion() < 9 || !TGIsPad() || ![AVPictureInPictureController isPictureInPictureSupported])
-        return;
-    
     if ([_systemPIPController isPictureInPicturePossible])
         [_systemPIPController startPictureInPicture];
 }

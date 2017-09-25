@@ -138,9 +138,6 @@ NSString *const PGCameraAdjustingFocusKey = @"adjustingFocus";
 
 - (void)handleInterrupted:(NSNotification *)notification
 {
-    if (iosMajorVersion() < 9)
-        return;
-    
     AVCaptureSessionInterruptionReason reason = [notification.userInfo[AVCaptureSessionInterruptionReasonKey] integerValue];
     TGLog(@"WARNING: Camera was interrupted with reason %d", reason);
     if (self.captureInterrupted != nil)

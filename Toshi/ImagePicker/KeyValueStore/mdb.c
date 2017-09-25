@@ -1796,7 +1796,7 @@ mdb_page_alloc(MDB_cursor *mc, int num, MDB_page **mp)
 	pgno_t pgno, *mop = env->me_pghead;
 	unsigned i, j, k, mop_len = mop ? mop[0] : 0, n2 = num-1;
 	MDB_page *np;
-	txnid_t oldest = 0, last;
+    txnid_t oldest = 0, last = 0;
 	MDB_cursor_op op;
 	MDB_cursor m2;
 

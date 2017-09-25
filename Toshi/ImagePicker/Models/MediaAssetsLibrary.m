@@ -167,13 +167,7 @@ NSInteger MediaAssetGroupComparator(MediaAssetGroup *group1, MediaAssetGroup *gr
 
 + (bool)usesPhotoFramework
 {
-    static dispatch_once_t onceToken;
-    static bool usesPhotosFramework = false;
-    dispatch_once(&onceToken, ^
-    {
-        usesPhotosFramework = (iosMajorVersion() >= 8.0);
-    });
-    return usesPhotosFramework;
+    return true;
 }
 
 @end

@@ -122,7 +122,7 @@ class BrowseCell: UICollectionViewCell {
         divider.bottom(to: contentView)
     }
 
-    func seeAllButtonTapped(_: UIButton) {
+    @objc func seeAllButtonTapped(_: UIButton) {
         guard let contentSection = contentSection else { return }
 
         selectionDelegate?.seeAll(for: contentSection)

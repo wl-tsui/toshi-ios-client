@@ -205,7 +205,7 @@
                 {
                     if (animated)
                     {
-                        if (iosMajorVersion() >= 7 && strongSelf.shouldAnimateStatusBarStyleTransition)
+                        if (strongSelf.shouldAnimateStatusBarStyleTransition)
                         {
                             [strongSelf animateStatusBarTransition:0.2];
                             strongSelf->_statusBarStyle = strongSelf->_defaultStatusBarStyle;
@@ -227,11 +227,8 @@
                     }
                     else
                     {
-                        if (iosMajorVersion() >= 7)
-                        {
-                            strongSelf->_statusBarStyle = strongSelf->_defaultStatusBarStyle;
-                            [strongSelf setNeedsStatusBarAppearanceUpdate];
-                        }
+                        strongSelf->_statusBarStyle = strongSelf->_defaultStatusBarStyle;
+                        [strongSelf setNeedsStatusBarAppearanceUpdate];
                         
                         [strongSelf dismiss];
                     }
@@ -459,7 +456,7 @@
                 }
                 else
                 {
-                    if (iosMajorVersion() >= 7 && strongSelf.shouldAnimateStatusBarStyleTransition)
+                    if (strongSelf.shouldAnimateStatusBarStyleTransition)
                     {
                         [strongSelf animateStatusBarTransition:0.2];
                         strongSelf->_statusBarStyle = strongSelf->_defaultStatusBarStyle;
@@ -1025,7 +1022,7 @@ static CGFloat transformRotation(CGAffineTransform transform)
     
     TG_TIMESTAMP_MEASURE(out)
     
-    if (iosMajorVersion() >= 7 && self.shouldAnimateStatusBarStyleTransition)
+    if (self.shouldAnimateStatusBarStyleTransition)
     {
         [self animateStatusBarTransition:0.2];
         self->_statusBarStyle = _defaultStatusBarStyle;
@@ -1580,7 +1577,7 @@ static CGFloat transformRotation(CGAffineTransform transform)
 
 - (void)animateStatusBarTransition:(NSTimeInterval)duration
 {
-    if (iosMajorVersion() >= 7 && self.shouldAnimateStatusBarStyleTransition)
+    if (self.shouldAnimateStatusBarStyleTransition)
     {
         [Hacks animateApplicationStatusBarStyleTransitionWithDuration:duration];
     }

@@ -86,7 +86,7 @@ class PaymentAddressInputView: UIView {
         bottomDivider.height(Theme.borderHeight)
     }
 
-    func qrButtonTapped(_ button: UIButton) {
+    @objc func qrButtonTapped(_ button: UIButton) {
         delegate?.didRequestScanner()
     }
 }

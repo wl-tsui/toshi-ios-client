@@ -263,7 +263,7 @@
     if (subtypes & PHAssetMediaSubtypePhotoHDR)
         result |= MediaAssetSubtypePhotoHDR;
     
-    if (iosMajorVersion() >= 9 && subtypes & PHAssetMediaSubtypePhotoScreenshot)
+    if (subtypes & PHAssetMediaSubtypePhotoScreenshot)
         result |= MediaAssetSubtypePhotoScreenshot;
     
     if (subtypes & PHAssetMediaSubtypeVideoStreamed)

@@ -65,7 +65,7 @@
     SMetaDisposable *_itemAvailabilityDisposable;
     SMetaDisposable *_itemSelectedDisposable;
     
-    void (^_closePressed)();
+    void (^_closePressed)(void);
     void (^_scrollViewOffsetRequested)(CGFloat offset);
 }
 @end
@@ -264,7 +264,7 @@
     _captionMixin.suggestionContext = suggestionContext;
 }
 
-- (void)setClosePressed:(void (^)())closePressed
+- (void)setClosePressed:(void (^)(void))closePressed
 {
     _closePressed = [closePressed copy];
 }
@@ -427,11 +427,6 @@
     
     if (!self.hasCaptions)
         tabs &= ~PhotoEditorCaptionTab;
-    
-    if (iosMajorVersion() < 7)
-    {
-        tabs &= ~ PhotoEditorToolsTab;
-    }
     
     [_portraitToolbarView setToolbarTabs:tabs animated:animated];
     [_landscapeToolbarView setToolbarTabs:tabs animated:animated];

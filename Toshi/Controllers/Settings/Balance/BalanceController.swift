@@ -16,6 +16,7 @@ class BalanceController: UIViewController {
         view.dataSource = self
         view.delegate = self
         view.separatorStyle = .singleLine
+        view.rowHeight = 44.0
 
         view.register(UITableViewCell.self, forCellReuseIdentifier: self.reuseIdentifier)
         view.registerNib(InputCell.self)
@@ -111,15 +112,13 @@ extension BalanceController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.selectionStyle = .none
+
+        let cell: UITableViewCell
 
         switch indexPath.row {
         case 0:
-            if let balance = balance {
-               let cell = tableView.dequeue(InputCell.self, for: indexPath)
-                cell.selectionStyle = .none
-
+            cell = tableView.dequeue(InputCell.self, for: indexPath)
+            if let balance = balance, let cell = cell as? InputCell {
                 let ethereumValueString = EthereumConverter.ethereumValueString(forWei: balance)
                 let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: balance, exchangeRate: ExchangeRateClient.exchangeRate)
 
@@ -130,20 +129,23 @@ extension BalanceController: UITableViewDataSource {
                 cell.switchControl.isHidden = true
 
                 cell.titleWidthConstraint?.isActive = false
-                cell.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+                cell.titleLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
             }
         case 1:
+            cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             cell.textLabel?.text = Localized("balance-action-send")
             cell.textLabel?.textColor = Theme.tintColor
             cell.textLabel?.font = Theme.regular(size: 17)
         case 2:
+            cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             cell.textLabel?.text = Localized("balance-action-deposit")
             cell.textLabel?.textColor = Theme.tintColor
             cell.textLabel?.font = Theme.regular(size: 17)
         default:
-            break
+            cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         }
 
+        cell.selectionStyle = .none
         return cell
     }
 }

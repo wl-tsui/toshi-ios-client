@@ -56,7 +56,7 @@ extension Theme {
         return UIColor(hex: "F3F3F3")
     }
 
-    public static var tintColor: UIColor {
+    @objc public static var tintColor: UIColor {
         #if TOSHIDEV
             return UIColor(hex: "007AFF")
         #else
@@ -68,7 +68,7 @@ extension Theme {
         return UIColor(hex: "FF6D6D72")
     }
 
-    public static var viewBackgroundColor: UIColor {
+    @objc public static var viewBackgroundColor: UIColor {
         return .white
     }
 
@@ -84,11 +84,11 @@ extension Theme {
         return UIColor(hex: "F1F1F1")
     }
 
-    public static var navigationTitleTextColor: UIColor {
+    @objc public static var navigationTitleTextColor: UIColor {
         return .black
     }
 
-    public static var navigationBarColor: UIColor {
+    @objc public static var navigationBarColor: UIColor {
         return UIColor(hex: "FBFAFB")
     }
 
@@ -146,22 +146,22 @@ extension Theme {
     }
 
     static func light(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
+        return UIFont(name: "SFUIText-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .light)
     }
 
-    static func regular(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
+    @objc static func regular(size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .regular)
     }
 
     static func semibold(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
+        return UIFont(name: "SFUIText-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .semibold)
     }
 
-    static func bold(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightBold)
+    @objc static func bold(size: CGFloat) -> UIFont {
+        return UIFont(name: "SFUIText-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .bold)
     }
 
     static func medium(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: UIFontWeightMedium)
+        return UIFont(name: "SFUIText-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .medium)
     }
 }

@@ -239,4 +239,6 @@
     return [[[self class] alloc] initWithDefinition:definition];
 }
 
+@synthesize stringValue;
+
 @end

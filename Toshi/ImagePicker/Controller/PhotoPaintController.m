@@ -1043,15 +1043,8 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
     
     _scrollView.userInteractionEnabled = true;
     _contentWrapperView.userInteractionEnabled = true;
-    
-    if (iosMajorVersion() >= 7)
-    {
-        [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.8f initialSpringVelocity:0.0f options:kNilOptions animations:changeBlock completion:nil];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.35 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:changeBlock completion:nil];
-    }
+
+    [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.8f initialSpringVelocity:0.0f options:kNilOptions animations:changeBlock completion:nil];
     
     [self setInterfaceHidden:true animated:true];
 }
@@ -1097,14 +1090,7 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
         }
     };
     
-    if (iosMajorVersion() >= 7)
-    {
-        [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.8f initialSpringVelocity:0.0f options:kNilOptions animations:changeBlock completion:completionBlock];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.35 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:changeBlock completion:completionBlock];
-    }
+    [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.8f initialSpringVelocity:0.0f options:kNilOptions animations:changeBlock completion:completionBlock];
     
     [self setInterfaceHidden:false animated:true];
     
@@ -1474,7 +1460,7 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
 - (CGRect)_targetFrameForTransitionInFromFrame:(CGRect)fromFrame
 {
     CGSize referenceSize = [self referenceViewSize];
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         orientation = UIInterfaceOrientationPortrait;
@@ -1576,9 +1562,7 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
     PhotoEditorPreviewView *previewView = self.previewView;
     [previewView prepareForTransitionOut];
     
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-        orientation = UIInterfaceOrientationPortrait;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     
     CGRect containerFrame = [PhotoPaintController photoContainerFrameForParentViewFrame:self.view.frame toolbarLandscapeSize:self.toolbarLandscapeSize orientation:orientation panelSize:PhotoPaintTopPanelSize + PhotoPaintBottomPanelSize];
     CGRect referenceFrame = CGRectMake(0, 0, self.photoEditor.rotatedCropSize.width, self.photoEditor.rotatedCropSize.height);
@@ -1965,7 +1949,7 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
 
 - (void)keyboardHeightChangedTo:(CGFloat)height duration:(NSTimeInterval)duration curve:(NSInteger)curve
 {
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ([self inFormSheet] || [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         orientation = UIInterfaceOrientationPortrait;
     
@@ -2024,7 +2008,7 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
         
         [strongSelf->_player play];
         
-        [strongSelf updateLayout:strongSelf.interfaceOrientation];
+        [strongSelf updateLayout:[[UIApplication sharedApplication] statusBarOrientation]];
     }]];
 }
 
@@ -2220,7 +2204,6 @@ const CGSize PhotoPaintingMaxSize = { 1600.0f, 1600.0f };
     }
     
     CGRect faceBounds = [PaintFaceUtils transposeRect:face.bounds paintingSize:_painting.size originalSize:_photoEditor.originalSize];
-    CGFloat minDistance = faceBounds.size.width * 1.1;
     
 //    for (PhotoStickerEntityView *view in _entitiesContainerView.subviews)
 //    {

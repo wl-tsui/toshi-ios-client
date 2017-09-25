@@ -63,8 +63,8 @@ open class RatingView: UIView {
             self.backgroundStars.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.backgroundStars.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.backgroundStars.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.backgroundStars.widthAnchor.constraint(equalToConstant: self.starSize * CGFloat(numberOfStars)).priority(.high),
-            self.backgroundStars.heightAnchor.constraint(equalToConstant: self.starSize).priority(.high)
+            self.backgroundStars.widthAnchor.constraint(equalToConstant: self.starSize * CGFloat(numberOfStars)).priority(.defaultHigh),
+            self.backgroundStars.heightAnchor.constraint(equalToConstant: self.starSize).priority(.defaultHigh)
         ])
 
         addSubview(ratingStars)

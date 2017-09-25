@@ -30,7 +30,7 @@ class MessagesTextCell: MessagesBasicCell {
         view.textContainerInset = .zero
         view.textContainer.lineFragmentPadding = 0
         view.textContainer.maximumNumberOfLines = 0
-        view.linkTextAttributes = [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        view.linkTextAttributes = [NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue]
 
         return view
     }()
@@ -74,9 +74,9 @@ class MessagesTextCell: MessagesBasicCell {
         if let text = textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
             let range = NSRange(location: 0, length: text.string.length)
 
-            text.removeAttribute(NSLinkAttributeName, range: range)
-            text.removeAttribute(NSForegroundColorAttributeName, range: range)
-            text.removeAttribute(NSUnderlineStyleAttributeName, range: range)
+            text.removeAttribute(.link, range: range)
+            text.removeAttribute(.foregroundColor, range: range)
+            text.removeAttribute(.underlineStyle, range: range)
 
             textView.attributedText = text
         }
@@ -96,13 +96,13 @@ class MessagesTextCell: MessagesBasicCell {
                 guard let strongSelf = self else { return }
 
                 if let result = result {
-                    let attributes: [String: Any] = [
-                        NSLinkAttributeName: "toshi://username:\((text.string as NSString).substring(with: result.rangeAt(1)))",
-                        NSForegroundColorAttributeName: (strongSelf.isOutGoing ? Theme.lightTextColor : Theme.tintColor),
-                        NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue
+                    let attributes: [NSAttributedStringKey: Any] = [
+                        .link: "toshi://username:\((text.string as NSString).substring(with: result.range(at: 1)))",
+                        .foregroundColor: (strongSelf.isOutGoing ? Theme.lightTextColor : Theme.tintColor),
+                        .underlineStyle: NSUnderlineStyle.styleSingle.rawValue
                     ]
 
-                    text.addAttributes(attributes, range: result.rangeAt(1))
+                    text.addAttributes(attributes, range: result.range(at: 1))
                 }
             }
 

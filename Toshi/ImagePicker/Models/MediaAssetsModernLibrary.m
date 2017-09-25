@@ -90,43 +90,28 @@
 {
     MediaAssetType assetType = self.assetType;
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
-    {
-        PHFetchOptions *options = [PHFetchOptions new];
-        
-        if (iosMajorVersion() == 8 && iosMinorVersion() < 1)
-        {
-            PHFetchResult *fetchResult = nil;
-            
-            if (assetType == MediaAssetAnyType)
-                fetchResult = [PHAsset fetchAssetsWithOptions:options];
-            else
-                fetchResult = [PHAsset fetchAssetsWithMediaType:[MediaAsset assetMediaTypeForAssetType:assetType] options:options];
-            
-            [subscriber putNext:[[MediaAssetGroup alloc] initWithPHFetchResult:fetchResult]];
-            [subscriber putCompletion];
-        }
-        else
-        {
-            PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
-            PHAssetCollection *assetCollection = fetchResult.firstObject;
-            
-            if (assetCollection != nil)
             {
-                if (assetType != MediaAssetAnyType)
-                    options.predicate = [NSPredicate predicateWithFormat:@"mediaType = %i", [MediaAsset assetMediaTypeForAssetType:assetType]];
+                PHFetchOptions *options = [PHFetchOptions new];
                 
-                PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
+                PHFetchResult *fetchResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
+                PHAssetCollection *assetCollection = fetchResult.firstObject;
                 
-                [subscriber putNext:[[MediaAssetGroup alloc] initWithPHAssetCollection:assetCollection fetchResult:assetsFetchResult]];
-                [subscriber putCompletion];
-            }
-            else
-            {
-                [subscriber putError:nil];
-            }
-        }
-        
-        return nil;
+                if (assetCollection != nil)
+                {
+                    if (assetType != MediaAssetAnyType)
+                        options.predicate = [NSPredicate predicateWithFormat:@"mediaType = %i", [MediaAsset assetMediaTypeForAssetType:assetType]];
+                    
+                    PHFetchResult *assetsFetchResult = [PHAsset fetchAssetsInAssetCollection:assetCollection options:options];
+                    
+                    [subscriber putNext:[[MediaAssetGroup alloc] initWithPHAssetCollection:assetCollection fetchResult:assetsFetchResult]];
+                    [subscriber putCompletion];
+                }
+                else
+                {
+                    [subscriber putError:nil];
+                }
+                
+                return nil;
     }];
 }
 

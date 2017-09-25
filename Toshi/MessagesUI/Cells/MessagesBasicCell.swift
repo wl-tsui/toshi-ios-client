@@ -61,16 +61,16 @@ class MessagesBasicCell: UITableViewCell {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .right
 
-        let attributes: [String: Any] = [
-            NSFontAttributeName: Theme.regular(size: 13),
-            NSForegroundColorAttributeName: Theme.errorColor,
-            NSParagraphStyleAttributeName: paragraphStyle
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: Theme.regular(size: 13),
+            .foregroundColor: Theme.errorColor,
+            .paragraphStyle: paragraphStyle
         ]
 
-        let boldAttributes: [String: Any] = [
-            NSFontAttributeName: Theme.semibold(size: 13),
-            NSForegroundColorAttributeName: Theme.errorColor,
-            NSParagraphStyleAttributeName: paragraphStyle
+        let boldAttributes: [NSAttributedStringKey: Any] = [
+            .font: Theme.semibold(size: 13),
+            .foregroundColor: Theme.errorColor,
+            .paragraphStyle: paragraphStyle
         ]
 
         let attributedString = NSMutableAttributedString(string: Localized("messages_sent_error"), attributes: attributes)

@@ -42,10 +42,10 @@ class Footnote: UIView {
         paragraphStyle.lineSpacing = 2
         paragraphStyle.paragraphSpacing = 5
 
-        let attributes: [String: Any] = [
-            NSFontAttributeName: Theme.regular(size: 13),
-            NSForegroundColorAttributeName: Theme.greyTextColor,
-            NSParagraphStyleAttributeName: paragraphStyle
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: Theme.regular(size: 13),
+            .foregroundColor: Theme.greyTextColor,
+            .paragraphStyle: paragraphStyle
         ]
 
         textLabel.attributedText = NSMutableAttributedString(string: text, attributes: attributes)

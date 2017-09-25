@@ -119,9 +119,6 @@
             {
                 [strongSelf setProgressVisible:false value:1.0f animated:true];
                 
-                MediaAssetImageData *data = (MediaAssetImageData *)next;
-               // [strongSelf _playWithData:data.imageData];
-                
                 strongSelf->_imageAvailable = true;
                 if (strongSelf->_currentAvailabilityObserver != nil)
                     strongSelf->_currentAvailabilityObserver(true);

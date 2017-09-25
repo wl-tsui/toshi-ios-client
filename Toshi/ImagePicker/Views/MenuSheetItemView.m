@@ -63,11 +63,11 @@
     if (animated)
     {
         UIViewAnimationOptions options = UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionLayoutSubviews;
-        if (iosMajorVersion() >= 7)
-            options = options | (7 << 16);
+
+        options = options | (7 << 16);
         
         [UIView animateWithDuration:0.3 delay:0.0 options:options animations:^
-        {
+         {
             [self requestMenuLayoutUpdate];
         } completion:nil];
     }

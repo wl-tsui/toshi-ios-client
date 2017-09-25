@@ -397,32 +397,9 @@
         return;
     
     _checked3dTouch = true;
-    if (iosMajorVersion() >= 9)
-    {
-        if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
-            [self registerForPreviewingWithDelegate:(id)self sourceView:self.view];
-    }
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
+        [self registerForPreviewingWithDelegate:(id)self sourceView:self.view];
 }
-
-//- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
-//{
-//    CGPoint point = [self.view convertPoint:location toView:_collectionView];
-//    NSIndexPath *indexPath = [_collectionView indexPathForItemAtPoint:point];
-//    if (indexPath == nil)
-//        return nil;
-//    
-//    [self _cancelSelectionGestureRecognizer];
-//    
-//    CGRect cellFrame = [_collectionView.collectionViewLayout layoutAttributesForItemAtIndexPath:indexPath].frame;
-//    previewingContext.sourceRect = [self.view convertRect:cellFrame fromView:_collectionView];
-//    
-//    MediaAsset *asset = nil;
-//    _previewGalleryMixin = [self galleryMixinForIndexPath:indexPath previewMode:true outAsset:&asset];
-//    UIViewController *controller = [_previewGalleryMixin galleryController];
-//    controller.preferredContentSize = TGFitSize(asset.dimensions, self.view.frame.size);
-//    [_previewGalleryMixin setPreviewMode];
-//    return controller;
-//}
 
 - (void)previewingContext:(id<UIViewControllerPreviewing>)__unused previewingContext commitViewController:(UIViewController *)__unused viewControllerToCommit
 {

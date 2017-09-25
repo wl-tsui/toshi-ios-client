@@ -302,7 +302,7 @@ extension SettingsController: UITableViewDataSource {
                 cell.switchControl.isHidden = true
 
                 cell.titleWidthConstraint?.isActive = false
-                cell.titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+                cell.titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
                 
                 cell.accessoryType = .disclosureIndicator
             }

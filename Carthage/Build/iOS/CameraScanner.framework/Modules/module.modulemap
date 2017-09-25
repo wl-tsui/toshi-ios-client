@@ -1,3 +1,4 @@
 framework module CameraScanner {
     header "CameraScanner-Swift.h"
+    requires objc
 }

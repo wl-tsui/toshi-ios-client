@@ -160,53 +160,15 @@ const CGFloat PhotoBrushSettingsItemHeight = 44.0f;
 - (void)setInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _interfaceOrientation = interfaceOrientation;
-    
-    switch (self.interfaceOrientation)
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        {
-            _backgroundView.image = [PhotoPaintSettingsView landscapeLeftBackgroundImage];
-        }
-            break;
-            
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            _backgroundView.image = [PhotoPaintSettingsView landscapeRightBackgroundImage];
-        }
-            break;
-            
-        default:
-        {
-            _backgroundView.image = [PhotoPaintSettingsView portraitBackgroundImage];
-        }
-            break;
-    }
+
+    _backgroundView.image = [PhotoPaintSettingsView portraitBackgroundImage];
     
     [self setNeedsLayout];
 }
 
 - (void)layoutSubviews
 {
-    switch (self.interfaceOrientation)
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        {
-            _backgroundView.frame = CGRectMake(PhotoBrushSettingsViewMargin - 13.0f, PhotoBrushSettingsViewMargin, self.frame.size.width - PhotoBrushSettingsViewMargin * 2 + 13.0f, self.frame.size.height - PhotoBrushSettingsViewMargin * 2);
-        }
-            break;
-            
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            _backgroundView.frame = CGRectMake(PhotoBrushSettingsViewMargin, PhotoBrushSettingsViewMargin, self.frame.size.width - PhotoBrushSettingsViewMargin * 2 + 13.0f, self.frame.size.height - PhotoBrushSettingsViewMargin * 2);
-        }
-            break;
-            
-        default:
-        {
-            _backgroundView.frame = CGRectMake(PhotoBrushSettingsViewMargin, PhotoBrushSettingsViewMargin, self.frame.size.width - PhotoBrushSettingsViewMargin * 2, self.frame.size.height - PhotoBrushSettingsViewMargin * 2 + 13.0f);
-        }
-            break;
-    }
+    _backgroundView.frame = CGRectMake(PhotoBrushSettingsViewMargin, PhotoBrushSettingsViewMargin, self.frame.size.width - PhotoBrushSettingsViewMargin * 2, self.frame.size.height - PhotoBrushSettingsViewMargin * 2 + 13.0f);
     
     CGFloat thickness = TGScreenPixel;
     

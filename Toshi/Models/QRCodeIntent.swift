@@ -18,13 +18,13 @@ public enum QRCodeIntent {
                 self = .addressInput(address: address.normalized)
             }
         } else if let match = result.firstMatch(pattern: QRCodeIntent.webSignInPattern) {
-            let loginToken = (result as NSString).substring(with: match.rangeAt(1))
+            let loginToken = (result as NSString).substring(with: match.range(at: 1))
             self = .webSignIn(loginToken: loginToken)
         } else if let match = result.firstMatch(pattern: QRCodeIntent.addContactPattern) {
-            let username = (result as NSString).substring(with: match.rangeAt(1))
+            let username = (result as NSString).substring(with: match.range(at: 1))
             self = .addContact(username: username)
         } else if let match = result.firstMatch(pattern: QRCodeIntent.paymentRequestPattern) {
-            let username = (result as NSString).substring(with: match.rangeAt(1))
+            let username = (result as NSString).substring(with: match.range(at: 1))
             guard let metadata = PaymentRequestMetadata(with: result) else { return nil }
             self = .paymentRequest(weiValue: metadata.weiValue, address: nil, username: username, memo: metadata.memo)
         } else {

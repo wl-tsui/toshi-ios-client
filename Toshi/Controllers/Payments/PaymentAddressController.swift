@@ -92,7 +92,7 @@ class PaymentAddressController: UIViewController {
         addressInputView.addressTextField.resignFirstResponder()
     }
 
-    func sendBarButtonTapped(_ item: UIBarButtonItem) {
+    @objc func sendBarButtonTapped(_ item: UIBarButtonItem) {
         sendPayment()
     }
 

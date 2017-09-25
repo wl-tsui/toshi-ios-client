@@ -605,8 +605,7 @@ const CGFloat CameraFlashControlHeight = 44.0f;
 {
     CGSize size = title.size;
     CGFloat width = CGCeil(size.width);
-    if (iosMajorVersion() < 7)
-        width += 2;
+   
     return CGSizeMake(width, 20);
 }
 

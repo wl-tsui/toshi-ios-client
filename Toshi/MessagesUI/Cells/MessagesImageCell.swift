@@ -20,7 +20,7 @@ class MessagesImageCell: MessagesBasicCell {
             let aspectRatio: CGFloat = messageImage.size.height / messageImage.size.width
 
             heightConstraint?.isActive = false
-            heightConstraint = messageImageView.height(to: messageImageView, messageImageView.widthAnchor, multiplier: aspectRatio, priority: .high)
+            heightConstraint = messageImageView.height(to: messageImageView, messageImageView.widthAnchor, multiplier: aspectRatio, priority: .defaultHigh)
         }
     }
 

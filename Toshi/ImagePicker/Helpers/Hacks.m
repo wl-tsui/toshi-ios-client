@@ -165,21 +165,8 @@ void InjectInstanceMethodFromAnotherClass(Class toClass, Class fromClass, SEL fr
 {
     SwizzleClassMethod([UIView class], @selector(setAnimationDuration:), @selector(telegraph_setAnimationDuration:));
     SwizzleClassMethod([UIView class], @selector(animateWithDuration:delay:options:animations:completion:), @selector(telegraph_animateWithDuration:delay:options:animations:completion:));
-    
-    if (iosMajorVersion() >= 7)
-    {
-        if (iosMajorVersion() >= 8)
-        {
-            SwizzleClassMethod([UIView class], @selector(performWithoutAnimation:), @selector(TG_performWithoutAnimation_maybeNot:));
-        }
-    }
-    else
-    {
-        InjectClassMethodFromAnotherClass(object_getClass([UIView class]), object_getClass([UIView class]), @selector(TG_performWithoutAnimation:), @selector(performWithoutAnimation:));
-        InjectInstanceMethodFromAnotherClass([UIView class], [UIView class], @selector(TG_snapshotViewAfterScreenUpdates:), @selector(snapshotViewAfterScreenUpdates:));
-    }
-    
-   // [TGRTL doMagic];
+
+    SwizzleClassMethod([UIView class], @selector(performWithoutAnimation:), @selector(TG_performWithoutAnimation_maybeNot:));
 }
 
 + (void)setAnimationDurationFactor:(float)factor
@@ -201,9 +188,6 @@ void InjectInstanceMethodFromAnotherClass(Class toClass, Class fromClass, SEL fr
     static SEL selector = NULL;
     if (selector == NULL)
     {
-        NSString *str1 = @"rs`str";
-        NSString *str2 = @"A`qVhmcnv";
-        
         //selector = NSSelectorFromString([[NSString alloc] initWithFormat:@"%@%@", TGEncodeText(str1, 1), TGEncodeText(str2, 1)]);
     }
     
@@ -324,12 +308,12 @@ static UIView *findStatusBarView()
     return nil;
 }
 
-+ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation duration:(NSTimeInterval)duration completion:(void (^)())completion
++ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation duration:(NSTimeInterval)duration completion:(void (^)(void))completion
 {
     [self animateApplicationStatusBarAppearance:statusBarAnimation delay:0.0 duration:duration completion:completion];
 }
 
-+ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation delay:(NSTimeInterval)delay duration:(NSTimeInterval)duration completion:(void (^)())completion
++ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation delay:(NSTimeInterval)delay duration:(NSTimeInterval)duration completion:(void (^)(void))completion
 {
     UIView *view = findStatusBarView();
         
@@ -596,13 +580,9 @@ static bool keyboardHidden = true;
     static Class keyboardWindowClass = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
-    {
-        if (iosMajorVersion() >= 9) {
-            keyboardWindowClass = NSClassFromString(TGEncodeText(@"VJSfnpufLfzcpbseXjoepx", -1));
-        } else {
-            keyboardWindowClass = NSClassFromString(TGEncodeText(@"VJUfyuFggfdutXjoepx", -1));
-        }
-    });
+                  {
+                      keyboardWindowClass = NSClassFromString(TGEncodeText(@"VJSfnpufLfzcpbseXjoepx", -1));
+                  });
     
     for (UIWindow *window in [[UIApplication sharedApplication] windows])
     {

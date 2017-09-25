@@ -59,32 +59,12 @@ const NSTimeInterval CameraMinimumClipDuration = 4.0f;
 
 @implementation CameraControllerWindow
 
-static CGPoint CameraControllerClampPointToScreenSize(__unused id self, __unused SEL _cmd, CGPoint point)
-{
-    CGSize screenSize = TGScreenSize();
-    return CGPointMake(MAX(0, MIN(point.x, screenSize.width)), MAX(0, MIN(point.y, screenSize.height)));
-}
-
 + (void)initialize
 {
     static bool initialized = false;
     if (!initialized)
     {
         initialized = true;
-        
-//        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone && (iosMajorVersion() > 8 || (iosMajorVersion() == 8 && iosMinorVersion() >= 3)))
-//        {
-//            FreedomDecoration instanceDecorations[] =
-//            {
-//                { .name = 0x4ea0b831U,
-//                    .imp = (IMP)&CameraControllerClampPointToScreenSize,
-//                    .newIdentifier = FreedomIdentifierEmpty,
-//                    .newEncoding = FreedomIdentifierEmpty
-//                }
-//            };
-//            
-//            freedomClassAutoDecorate(0x913b3af6, NULL, 0, instanceDecorations, sizeof(instanceDecorations) / sizeof(instanceDecorations[0]));
-//        }
     }
 }
 
@@ -1509,7 +1489,7 @@ static CGPoint CameraControllerClampPointToScreenSize(__unused id self, __unused
     }];
 }
 
-- (void)simpleTransitionOutWithVelocity:(CGFloat)velocity completion:(void (^)())completion
+- (void)simpleTransitionOutWithVelocity:(CGFloat)velocity completion:(void (^)(void))completion
 {
     self.view.userInteractionEnabled = false;
     

@@ -51,8 +51,7 @@ typedef struct {
         _maximumZoomScale = 10.0f;
         
         _wrapperView = [[UIView alloc] initWithFrame:CGRectZero];
-        if (iosMajorVersion() >= 7)
-            _wrapperView.layer.allowsEdgeAntialiasing = true;
+        _wrapperView.layer.allowsEdgeAntialiasing = true;
         [self addSubview:_wrapperView];
         
         _pressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlePress:)];

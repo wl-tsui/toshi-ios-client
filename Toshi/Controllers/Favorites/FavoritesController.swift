@@ -60,18 +60,24 @@ open class FavoritesController: SweetTableController {
     fileprivate lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchResultsUpdater = self
+
         controller.dimsBackgroundDuringPresentation = false
         controller.hidesNavigationBarDuringPresentation = false
-
+        
         controller.searchBar.delegate = self
         controller.searchBar.barTintColor = Theme.viewBackgroundColor
         controller.searchBar.tintColor = Theme.tintColor
-        controller.searchBar.searchBarStyle = .minimal
-        controller.searchBar.backgroundColor = Theme.viewBackgroundColor
+
         controller.searchBar.placeholder = "Search by username"
 
-        controller.searchBar.layer.borderWidth = 1.0 / UIScreen.main.scale
-        controller.searchBar.layer.borderColor = Theme.borderColor.cgColor
+        guard #available(iOS 11.0, *) else {
+            controller.searchBar.searchBarStyle = .minimal
+            controller.searchBar.backgroundColor = Theme.viewBackgroundColor
+            controller.searchBar.layer.borderWidth = 1.0 / UIScreen.main.scale
+            controller.searchBar.layer.borderColor = Theme.borderColor.cgColor
+
+            return controller
+        }
 
         let searchField = controller.searchBar.value(forKey: "searchField") as? UITextField
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor
@@ -132,7 +138,13 @@ open class FavoritesController: SweetTableController {
 
         tableView.backgroundColor = Theme.viewBackgroundColor
         tableView.separatorStyle = .none
-        tableView.tableHeaderView = searchController.searchBar
+
+        if #available(iOS 11.0, *) {
+            self.navigationItem.searchController = searchController
+            self.navigationItem.hidesSearchBarWhenScrolling = false
+        } else {
+            tableView.tableHeaderView = searchController.searchBar
+        }
 
         navigationItem.rightBarButtonItem = addButton
 
@@ -393,7 +405,7 @@ extension FavoritesController: Emptiable {
         return true
     }
 
-    func buttonPressed(sender _: AnyObject) {
+    @objc func buttonPressed(sender _: AnyObject) {
         let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
 
         Navigator.presentModally(shareController)

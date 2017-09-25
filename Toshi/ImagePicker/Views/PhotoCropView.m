@@ -111,14 +111,11 @@ const CGFloat PhotoCropViewOverscreenSize = 1000;
                 strongSelf.croppingChanged();
         };
         [_areaWrapperView addSubview:_scrollView];
-        
-        if (iosMajorVersion() >= 9)
-        {
-            _blurView = [[UIVisualEffectView alloc] initWithEffect:[BlurEffect cropBlurEffect]];
-            _blurView.alpha = 0.0f;
-            _blurView.userInteractionEnabled = false;
-            [_areaWrapperView addSubview:_blurView];
-        }
+
+        _blurView = [[UIVisualEffectView alloc] initWithEffect:[BlurEffect cropBlurEffect]];
+        _blurView.alpha = 0.0f;
+        _blurView.userInteractionEnabled = false;
+        [_areaWrapperView addSubview:_blurView];
         
         _overlayWrapperView = [[UIView alloc] initWithFrame:CGRectZero];
         _overlayWrapperView.userInteractionEnabled = false;
@@ -464,7 +461,7 @@ const CGFloat PhotoCropViewOverscreenSize = 1000;
 
 - (void)showBackdropViewAnimated:(bool)animated
 {
-    if (iosMajorVersion() < 9 || _imageView.image == nil)
+    if (_imageView.image == nil)
         return;
     
     UIView *superview = self.superview.superview;
@@ -489,9 +486,6 @@ const CGFloat PhotoCropViewOverscreenSize = 1000;
 
 - (void)resetBackdropViewsAnimated:(bool)animated
 {
-    if (iosMajorVersion() < 9)
-        return;
-    
     if (animated)
     {
         if (_blurView.alpha == 0)
@@ -1079,7 +1073,7 @@ const CGFloat PhotoCropViewOverscreenSize = 1000;
     {
         [self setup];
     }
-    else if (_previousInterfaceOrientation != self.interfaceOrientation)
+    else if (_previousInterfaceOrientation != [[UIApplication sharedApplication] statusBarOrientation])
     {
         bool performedConfirm = false;
         if (_confirmTimer != nil)
@@ -1113,7 +1107,7 @@ const CGFloat PhotoCropViewOverscreenSize = 1000;
             [self _zoomToCropRectWithFrame:_scrollView.bounds animated:false completion:nil];
     }
     
-    _previousInterfaceOrientation = self.interfaceOrientation;
+    _previousInterfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 }
 
 - (void)_layoutRotationView
@@ -1156,27 +1150,8 @@ const CGFloat PhotoCropViewOverscreenSize = 1000;
     
     areaFrame.origin = areaOrigin;
     areaFrame.size = areaSize;
-    
-    switch (self.interfaceOrientation)
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        {
-            rotationViewFrame = CGRectMake(wrapperFrame.origin.x - 100, wrapperFrame.origin.y + areaFrame.origin.y + (areaFrame.size.height - self.frame.size.height) / 2, 100, self.frame.size.height);
-        }
-            break;
-            
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            rotationViewFrame = CGRectMake(wrapperFrame.origin.x + areaFrame.origin.x + areaFrame.size.width, wrapperFrame.origin.y + areaFrame.origin.y + (areaFrame.size.height - self.frame.size.height) / 2, 100, self.frame.size.height);
-        }
-            break;
-            
-        default:
-        {
-            rotationViewFrame = CGRectMake(wrapperFrame.origin.x + areaFrame.origin.x + (areaFrame.size.width - self.frame.size.width) / 2, wrapperFrame.origin.y + areaFrame.origin.y + areaFrame.size.height, self.frame.size.width, 100);
-        }
-            break;
-    }
+
+    rotationViewFrame = CGRectMake(wrapperFrame.origin.x + areaFrame.origin.x + (areaFrame.size.width - self.frame.size.width) / 2, wrapperFrame.origin.y + areaFrame.origin.y + areaFrame.size.height, self.frame.size.width, 100);
     
     if (animated)
     {

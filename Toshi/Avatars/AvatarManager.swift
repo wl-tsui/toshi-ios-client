@@ -19,7 +19,7 @@ import AwesomeCache
 
 final class AvatarManager: NSObject {
 
-    static let shared = AvatarManager()
+    @objc static let shared = AvatarManager()
 
     internal lazy var cacheExpiry: CacheExpiry = {
         return .never
@@ -54,7 +54,7 @@ final class AvatarManager: NSObject {
         completion(avatar, path)
     }
 
-    func cachedAvatar(for path: String) -> UIImage? {
+    @objc func cachedAvatar(for path: String) -> UIImage? {
         return imageCache.object(forKey: path)
     }
 
@@ -62,18 +62,19 @@ final class AvatarManager: NSObject {
         imageCache.removeObject(forKey: path)
     }
 
-    func cleanCache() {
+    @objc func cleanCache() {
         imageCache.removeAllObjects()
     }
 
-    func startDownloadContactsAvatars() {
+    @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
+
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let contactsManager = appDelegate.contactsManager as ContactsManager? else { return }
 
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let contactsManager = appDelegate.contactsManager as ContactsManager? else { return }
 
-            let avatarPaths = contactsManager.tokenContacts.flatMap { contact in
+            let avatarPaths: [String] = contactsManager.tokenContacts.flatMap { contact in
                 contact.avatarPath as String
             }
 

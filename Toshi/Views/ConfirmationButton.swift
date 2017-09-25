@@ -181,7 +181,7 @@ class ConfirmationButton: UIControl {
             self.spacingContainers[1].rightAnchor.constraint(equalTo: self.horizontalContainers[0].rightAnchor),
             self.spacingContainers[1].bottomAnchor.constraint(equalTo: self.horizontalContainers[0].bottomAnchor),
             self.spacingContainers[1].widthAnchor.constraint(greaterThanOrEqualToConstant: self.margin),
-            self.spacingContainers[1].widthAnchor.constraint(equalTo: self.spacingContainers[0].widthAnchor).priority(.high),
+            self.spacingContainers[1].widthAnchor.constraint(equalTo: self.spacingContainers[0].widthAnchor).priority(.defaultHigh),
 
             self.titleLabel.topAnchor.constraint(equalTo: self.horizontalContainers[0].topAnchor),
             self.titleLabel.leftAnchor.constraint(equalTo: self.spacingContainers[0].rightAnchor),
@@ -197,7 +197,7 @@ class ConfirmationButton: UIControl {
             self.spacingContainers[3].rightAnchor.constraint(equalTo: self.horizontalContainers[1].rightAnchor),
             self.spacingContainers[3].bottomAnchor.constraint(equalTo: self.horizontalContainers[1].bottomAnchor),
             self.spacingContainers[3].widthAnchor.constraint(greaterThanOrEqualToConstant: self.margin),
-            self.spacingContainers[3].widthAnchor.constraint(equalTo: self.spacingContainers[2].widthAnchor).priority(.high),
+            self.spacingContainers[3].widthAnchor.constraint(equalTo: self.spacingContainers[2].widthAnchor).priority(.defaultHigh),
 
             self.confirmationLabel.topAnchor.constraint(equalTo: self.horizontalContainers[1].topAnchor),
             self.confirmationLabel.leftAnchor.constraint(equalTo: self.spacingContainers[2].rightAnchor),

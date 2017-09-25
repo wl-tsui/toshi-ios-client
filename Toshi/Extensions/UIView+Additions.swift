@@ -39,9 +39,9 @@ public extension UIView {
 
     func prepareForSuperview() {
         translatesAutoresizingMaskIntoConstraints = false
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        setContentCompressionResistancePriority(.required, for: .vertical)
+        setContentCompressionResistancePriority(.required, for: .horizontal)
+        setContentHuggingPriority(.required, for: .vertical)
+        setContentHuggingPriority(.required, for: .horizontal)
     }
 }

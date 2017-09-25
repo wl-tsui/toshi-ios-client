@@ -31,11 +31,11 @@
 
 @property (nonatomic, copy) void (^itemsUpdated)(id<ModernGalleryItem>);
 @property (nonatomic, copy) void (^focusOnItem)(id<ModernGalleryItem>);
-@property (nonatomic, copy) UIView *(^actionSheetView)();
-@property (nonatomic, copy) UIViewController *(^viewControllerForModalPresentation)();
+@property (nonatomic, copy) UIView *(^actionSheetView)(void);
+@property (nonatomic, copy) UIViewController *(^viewControllerForModalPresentation)(void);
 @property (nonatomic, copy) void (^dismiss)(bool, bool);
-@property (nonatomic, copy) void (^dismissWhenReady)();
-@property (nonatomic, copy) NSArray *(^visibleItems)();
+@property (nonatomic, copy) void (^dismissWhenReady)(void);
+@property (nonatomic, copy) NSArray *(^visibleItems)(void);
 
 - (void)_transitionCompleted;
 - (void)_replaceItems:(NSArray *)items focusingOnItem:(id<ModernGalleryItem>)item;

@@ -22,8 +22,8 @@ import Teapot
     case existing = 0, registered, failed
 }
 
-public class IDAPIClient: NSObject, CacheExpiryDefault {
-    public static let shared: IDAPIClient = IDAPIClient()
+@objc public class IDAPIClient: NSObject, CacheExpiryDefault {
+    @objc public static let shared: IDAPIClient = IDAPIClient()
 
     public static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
 
@@ -144,7 +144,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
         updateUser(userDict) { _, _ in }
     }
 
-    public func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus, _ message: String?) -> Void)) {
+    @objc public func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus, _ message: String?) -> Void)) {
         retrieveUser(username: Cereal.shared.address) { user in
 
             guard user == nil else {
@@ -297,7 +297,7 @@ public class IDAPIClient: NSObject, CacheExpiryDefault {
     /// - Parameters:
     ///   - username: username of id address
     ///   - completion: called on completion
-    public func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
+    @objc public func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
 
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             var resultUser: TokenUser?

@@ -61,7 +61,7 @@
         self.backgroundColor = [UIColor blackColor];
         self.clipsToBounds = true;
         
-        if (false && iosMajorVersion() >= 8)
+        if (false)
             _wrapperView = [[CameraPreviewLayerWrapperView alloc] init];
         else
             _wrapperView = [[CameraLegacyPreviewLayerWrapperView alloc] init];
@@ -236,9 +236,6 @@
 
 - (void)beginResetTransitionAnimated:(bool)animated
 {
-    if (iosMajorVersion() < 7)
-        return;
-    
     [_snapshotView removeFromSuperview];
     
     _snapshotView = [_wrapperView snapshotViewAfterScreenUpdates:false];
@@ -257,9 +254,6 @@
 
 - (void)endResetTransitionAnimated:(bool)animated
 {
-    if (iosMajorVersion() < 7)
-        return;
-    
     if (animated)
     {
         UIView *snapshotView = _snapshotView;

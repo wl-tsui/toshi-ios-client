@@ -77,7 +77,7 @@
                 self.didClose();
         };
         
-        UIViewAnimationOptions options = (iosMajorVersion() >= 7) ? 7 << 16 : UIViewAnimationOptionCurveEaseInOut;
+        UIViewAnimationOptions options = 7 << 16;
         [UIView animateWithDuration:0.3 delay:0.0 options:options animations:changeBlock completion:completionBlock];
     }
     else

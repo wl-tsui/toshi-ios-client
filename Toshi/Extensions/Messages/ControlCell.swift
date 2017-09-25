@@ -104,7 +104,7 @@ class ControlCell: UICollectionViewCell {
         fatalError()
     }
 
-    func didTapButton() {
+    @objc func didTapButton() {
         let wasSelected = button.isSelected
         delegate?.didTapButton(for: self)
         button.isSelected = !wasSelected

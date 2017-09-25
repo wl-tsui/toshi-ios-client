@@ -21,10 +21,10 @@
 extern "C" {
 #endif
     
-UIColor *TGAccentColor();
-UIColor *TGDestructiveAccentColor();
-UIColor *TGSelectionColor();
-UIColor *TGSeparatorColor();
+UIColor *TGAccentColor(void);
+UIColor *TGDestructiveAccentColor(void);
+UIColor *TGSelectionColor(void);
+UIColor *TGSeparatorColor(void);
 
 UIColor *ColorWithHex(int hex);
 UIColor *ColorWithHexAndAlpha(int hex, CGFloat alpha);

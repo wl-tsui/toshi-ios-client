@@ -282,11 +282,8 @@
         tabs |= PhotoEditorCaptionTab;
     
     tabs |= PhotoEditorCropTab;
-    
-    if (iosMajorVersion() >= 7)
-    {
-        tabs |= PhotoEditorToolsTab;
-    }
+
+    tabs |= PhotoEditorToolsTab;
     
     _portraitToolbarView = [[PhotoToolbarView alloc] initWithBackButtonTitle:_backButtonTitle doneButtonTitle:TGLocalized(@"Send") accentedDone:false solidBackground:false];
     [_portraitToolbarView setToolbarTabs:tabs animated:false];
@@ -414,7 +411,7 @@
     
     self.view.backgroundColor = [UIColor blackColor];
     
-    CGSize referenceSize = [self referenceViewSizeForOrientation:self.interfaceOrientation];
+    CGSize referenceSize = [self referenceViewSizeForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     CGRect referenceFrame = CGRectZero;
     if (self.beginTransitionIn != nil)
         referenceFrame = self.beginTransitionIn();
@@ -463,38 +460,12 @@
     [self.view addSubview:_imageView];
     _imageView.frame = frame;
     
-    CGSize referenceSize = [self referenceViewSizeForOrientation:self.interfaceOrientation];
+    CGSize referenceSize = [self referenceViewSizeForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     CGRect referenceFrame = _imageView.frame;
-    
-    if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-        referenceFrame = CGRectMake(referenceSize.height - referenceFrame.size.height - referenceFrame.origin.y,
-                                    referenceFrame.origin.x,
-                                    referenceFrame.size.height, referenceFrame.size.width);
-    }
-    else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        referenceFrame = CGRectMake(referenceFrame.origin.y,
-                                    referenceSize.width - referenceFrame.size.width - referenceFrame.origin.x,
-                                    referenceFrame.size.height, referenceFrame.size.width);
-    }
     
     CGRect targetFrame = CGRectZero;
     if (self.beginTransitionOut != nil)
         targetFrame = self.beginTransitionOut(referenceFrame);
-    
-    if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-        targetFrame = CGRectMake(referenceSize.width - targetFrame.size.height - targetFrame.origin.y,
-                                 targetFrame.origin.x,
-                                 targetFrame.size.height, targetFrame.size.width);
-    }
-    else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        targetFrame = CGRectMake(targetFrame.origin.y,
-                                 referenceSize.height - targetFrame.size.width - targetFrame.origin.x,
-                                 targetFrame.size.height, targetFrame.size.width);
-    }
     
     CGFloat referenceAspectRatio = referenceFrame.size.width / referenceFrame.size.height;
     CGFloat targetAspectRatio = targetFrame.size.width / targetFrame.size.height;
@@ -736,11 +707,8 @@
         *referenceFrame = refFrame;
         
         [strongSelf reset];
-        
-        if (iosMajorVersion() >= 7)
-            [strongSelf setNeedsStatusBarAppearanceUpdate];
-        else
-            [[UIApplication sharedApplication] setStatusBarHidden:true];
+
+        [strongSelf setNeedsStatusBarAppearanceUpdate];
         
         return referenceView;
     };
@@ -771,10 +739,7 @@
         strongSelf->_imageView.hidden = false;
         strongSelf->_temporaryRepView.hidden = false;
         
-        if (iosMajorVersion() >= 7)
-            [strongSelf setNeedsStatusBarAppearanceUpdate];
-        else
-            [[UIApplication sharedApplication] setStatusBarHidden:false];
+        [strongSelf setNeedsStatusBarAppearanceUpdate];
     };
     
     controller.requestThumbnailImage = ^(id<MediaEditableItem> editableItem)

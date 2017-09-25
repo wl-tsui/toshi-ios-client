@@ -26,7 +26,7 @@
 
 @property (nonatomic, strong, readonly) UIView *toolbarView;
 @property (nonatomic, strong, readonly) UIView *navigationBarView;
-@property (nonatomic, copy) void (^closePressed)();
+@property (nonatomic, copy) void (^closePressed)(void);
 
 @end
 
@@ -37,7 +37,7 @@
     self = [super initWithFrame:frame];
     if (self != nil)
     {
-        if (iosMajorVersion() >= 7 && [ViewController isWidescreen] && [CMMotionActivityManager isActivityAvailable])
+        if ([ViewController isWidescreen] && [CMMotionActivityManager isActivityAvailable])
         {
             UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             activityIndicator.alpha = 0.02f;

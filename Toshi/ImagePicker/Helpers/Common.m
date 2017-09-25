@@ -28,7 +28,7 @@ int cpuCoreCount()
 
 bool hasModernCpu()
 {
-    return iosMajorVersion() >= 7 && [CMMotionActivityManager isActivityAvailable];
+    return [CMMotionActivityManager isActivityAvailable];
 }
 
 int deviceMemorySize()
@@ -139,26 +139,7 @@ CFAbsoluteTime MTAbsoluteSystemTime()
 
 UIUserInterfaceSizeClass CurrentSizeClass()
 {
-    UIUserInterfaceSizeClass sizeClass = UIUserInterfaceSizeClassUnspecified;
-    if (iosMajorVersion() >= 8)
-    {
-        sizeClass = UIUserInterfaceSizeClassCompact;
-    }
-    else
-    {
-        switch ([UIDevice currentDevice].userInterfaceIdiom)
-        {
-            case UIUserInterfaceIdiomPad:
-                sizeClass = UIUserInterfaceSizeClassRegular;
-                break;
-                
-            default:
-                sizeClass = UIUserInterfaceSizeClassCompact;
-                break;
-        }
-    }
-    
-    return sizeClass;
+    return UIUserInterfaceSizeClassCompact;
 }
 
 int iosMinorVersion()

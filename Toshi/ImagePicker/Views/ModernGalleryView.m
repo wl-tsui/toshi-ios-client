@@ -302,7 +302,7 @@ static const CGFloat swipeDistanceThreshold = 128.0f;
     }
 }
 
-- (void)simpleTransitionOutWithVelocity:(CGFloat)velocity completion:(void (^)())completion
+- (void)simpleTransitionOutWithVelocity:(CGFloat)velocity completion:(void (^)(void))completion
 {
     const CGFloat minVelocity = 2000.0f;
     if (ABS(velocity) < minVelocity)

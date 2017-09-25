@@ -121,19 +121,7 @@ const CGFloat PhotoCropRotationViewMaximumAngle = 45;
         {
             CGFloat translation = 0;
             
-            switch (self.interfaceOrientation)
-            {
-                case UIInterfaceOrientationLandscapeLeft:
-                    translation = [gestureRecognizer translationInView:self].y;
-                    break;
-                case UIInterfaceOrientationLandscapeRight:
-                    translation = [gestureRecognizer translationInView:self].y * -1;
-                    break;
-                    
-                default:
-                    translation = [gestureRecognizer translationInView:self].x;
-                    break;
-            }
+            translation = [gestureRecognizer translationInView:self].x;
             
             CGFloat angleInDegrees = TGRadiansToDegrees(_angle);
             CGFloat newAngleInDegrees = MIN(PhotoCropRotationViewMaximumAngle, MAX(-PhotoCropRotationViewMaximumAngle, angleInDegrees - translation / (CGFloat)M_PI / 1.15f));
@@ -281,40 +269,13 @@ const CGFloat PhotoCropRotationViewMaximumAngle = 45;
 - (void)layoutSubviews
 {
     [UIView performWithoutAnimation:^
-    {
-        switch (self.interfaceOrientation)
-        {
-            case UIInterfaceOrientationLandscapeLeft:
-            {
-                _wheelView.image = [UIImage imageNamed:@"PhotoEditorRotationWheelLeft"];
-                _wheelView.center = CGPointMake(52 + 200, self.frame.size.height / 2);
+     {
+         _wheelView.image = [UIImage imageNamed:@"PhotoEditorRotationWheel"];
+         _wheelView.center = CGPointMake(self.frame.size.width / 2, -152);
 
-                _needleView.frame = CGRectMake(43, (self.frame.size.height - 10) / 2, 10, 10);
-                _needleView.transform = CGAffineTransformMakeRotation((CGFloat)M_PI_2);
-            }
-                break;
-                
-            case UIInterfaceOrientationLandscapeRight:
-            {
-                _wheelView.image = [UIImage imageNamed:@"PhotoEditorRotationWheelRight"];
-                _wheelView.center = CGPointMake(-152, self.frame.size.height / 2);
-                
-                _needleView.frame = CGRectMake(self.frame.size.width - 53, (self.frame.size.height - 10) / 2, 10, 10);
-                _needleView.transform = CGAffineTransformMakeRotation(-(CGFloat)M_PI_2);
-            }
-                break;
-                
-            default:
-            {
-                _wheelView.image = [UIImage imageNamed:@"PhotoEditorRotationWheel"];
-                _wheelView.center = CGPointMake(self.frame.size.width / 2, -152);
-                
-                _needleView.frame = CGRectMake((self.frame.size.width - 10) / 2, 47, 10, 10);
-                _needleView.transform = CGAffineTransformIdentity;
-            }
-                break;
-        }
-    }];
+         _needleView.frame = CGRectMake((self.frame.size.width - 10) / 2, 47, 10, 10);
+         _needleView.transform = CGAffineTransformIdentity;
+     }];
     
     _wheelView.transform = CGAffineTransformMakeRotation(_angle);
 }

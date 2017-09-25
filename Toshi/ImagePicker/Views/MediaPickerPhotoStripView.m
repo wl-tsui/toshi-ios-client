@@ -132,7 +132,7 @@ const CGSize MediaPickerSelectedPhotosViewArrowSize = { 19, 8.5f };
             [UIView animateWithDuration:0.3f
                              animations:^
             {
-                [self _layoutCollectionViewForOrientation:self.interfaceOrientation];
+                [self _layoutCollectionViewForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
             }];
             
             if (_collectionViewLayout.scrollDirection == UICollectionViewScrollDirectionHorizontal)
@@ -157,7 +157,7 @@ const CGSize MediaPickerSelectedPhotosViewArrowSize = { 19, 8.5f };
     [UIView animateWithDuration:0.3f
                      animations:^
     {
-        [self _layoutCollectionViewForOrientation:self.interfaceOrientation];
+        [self _layoutCollectionViewForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
         
         NSInteger itemsCount = [self collectionView:_collectionView numberOfItemsInSection:0];
         if (itemsCount > 0 && itemsCount < 4)
@@ -203,21 +203,10 @@ const CGSize MediaPickerSelectedPhotosViewArrowSize = { 19, 8.5f };
             centerAnimation.springSpeed = 12;
             centerAnimation.springBounciness = 7;
             centerAnimation.fromValue = [NSValue valueWithCGPoint:_wrapperView.center];
-            if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
-            {
-                centerAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.frame.size.width / 2,
-                                                                                self.frame.size.height / 2 + self.frame.size.height / 3)];
-            }
-            else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-            {
-                centerAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.frame.size.width / 2 - self.frame.size.width / 3,
-                                                                                self.frame.size.height / 2)];
-            }
-            else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-            {
-                centerAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.frame.size.width / 2 + self.frame.size.width / 3,
-                                                                                self.frame.size.height / 2)];
-            }
+
+            centerAnimation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.frame.size.width / 2,
+                                                                            self.frame.size.height / 2 + self.frame.size.height / 3)];
+
             [_wrapperView pop_addAnimation:centerAnimation forKey:@"hide_center"];
         }
         else
@@ -249,21 +238,8 @@ const CGSize MediaPickerSelectedPhotosViewArrowSize = { 19, 8.5f };
         
         if (hidden)
         {
-            if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
-            {
-                _wrapperView.center = CGPointMake(self.frame.size.width / 2,
-                                                  self.frame.size.height / 2 + self.frame.size.height / 3);
-            }
-            else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-            {
-                _wrapperView.center = CGPointMake(self.frame.size.width / 2 - self.frame.size.width / 3,
-                                                  self.frame.size.height / 2);
-            }
-            else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-            {
-                _wrapperView.center = CGPointMake(self.frame.size.width / 2 + self.frame.size.width / 3,
-                                                  self.frame.size.height / 2);
-            }
+            _wrapperView.center = CGPointMake(self.frame.size.width / 2,
+                                              self.frame.size.height / 2 + self.frame.size.height / 3);
         }
         else
         {
@@ -429,51 +405,20 @@ const CGSize MediaPickerSelectedPhotosViewArrowSize = { 19, 8.5f };
 - (void)layoutSubviews
 {
     [UIView performWithoutAnimation:^
-    {
-        [self _layoutCollectionViewForOrientation:self.interfaceOrientation];
-        
-        switch (self.interfaceOrientation)
-        {
-            case UIInterfaceOrientationLandscapeLeft:
-            {
-                _collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-                [_collectionViewLayout invalidateLayout];
-                
-                _arrowView.transform = CGAffineTransformMakeRotation((CGFloat)-M_PI_2);
-                _arrowView.frame = CGRectMake(-MediaPickerSelectedPhotosViewArrowSize.height,
-                                              18.5f,
-                                              MediaPickerSelectedPhotosViewArrowSize.height,
-                                              MediaPickerSelectedPhotosViewArrowSize.width);
-            }
-                break;
-                
-            case UIInterfaceOrientationLandscapeRight:
-            {
-                _collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-                [_collectionViewLayout invalidateLayout];
-                
-                _arrowView.transform = CGAffineTransformMakeRotation((CGFloat)M_PI_2);
-                _arrowView.frame = CGRectMake(self.frame.size.width,
-                                              18.5f,
-                                              MediaPickerSelectedPhotosViewArrowSize.height,
-                                              MediaPickerSelectedPhotosViewArrowSize.width);
-            }
-                break;
-                
-            default:
-            {
-                _collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-                [_collectionViewLayout invalidateLayout];
-                
-                _arrowView.transform = CGAffineTransformMakeRotation((CGFloat)M_PI);
-                _arrowView.frame = CGRectMake(self.frame.size.width - MediaPickerSelectedPhotosViewArrowSize.width - 18.5f,
-                                              self.frame.size.height,
-                                              MediaPickerSelectedPhotosViewArrowSize.width,
-                                              MediaPickerSelectedPhotosViewArrowSize.height);
-            }
-                break;
-        }
-    }];
+     {
+         [self _layoutCollectionViewForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+
+
+         _collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+         [_collectionViewLayout invalidateLayout];
+
+         _arrowView.transform = CGAffineTransformMakeRotation((CGFloat)M_PI);
+         _arrowView.frame = CGRectMake(self.frame.size.width - MediaPickerSelectedPhotosViewArrowSize.width - 18.5f,
+                                       self.frame.size.height,
+                                       MediaPickerSelectedPhotosViewArrowSize.width,
+                                       MediaPickerSelectedPhotosViewArrowSize.height);
+
+     }];
 }
 
 - (void)_layoutCollectionViewForOrientation:(UIInterfaceOrientation)orientation

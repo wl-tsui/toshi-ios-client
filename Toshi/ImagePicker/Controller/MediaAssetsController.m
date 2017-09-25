@@ -276,7 +276,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (_intent == MediaAssetsControllerIntentSendFile && self.shouldShowFileTipIfNeeded && iosMajorVersion() >= 7)
+    if (_intent == MediaAssetsControllerIntentSendFile && self.shouldShowFileTipIfNeeded)
     {
         if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"didShowDocumentPickerTip_v2"] boolValue])
         {

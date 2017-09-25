@@ -17,7 +17,7 @@ import Foundation
 import KeychainSwift
 
 public extension NSNotification.Name {
-    public static let SwitchedNetworkChanged = NSNotification.Name(rawValue: "UserDidSwitchedNetworkChangedSignOut")
+    public static let SwitchedNetworkChanged = NSNotification.Name(rawValue: "SwitchedNetworkChanged")
 }
 
 enum NetworkInfo {

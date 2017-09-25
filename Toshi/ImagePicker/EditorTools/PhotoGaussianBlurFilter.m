@@ -1,4 +1,4 @@
-#import "PhotoGaussianBlurFIlter.h"
+#import "PhotoGaussianBlurFilter.h"
 
 #import "PhotoProcessPass.h"
 

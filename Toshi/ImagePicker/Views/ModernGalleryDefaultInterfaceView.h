@@ -19,7 +19,7 @@
 
 @interface ModernGalleryDefaultInterfaceView : UIView <ModernGalleryInterfaceView>
 
-- (void)setClosePressed:(void (^)())closePressed;
+- (void)setClosePressed:(void (^)(void))closePressed;
 
 - (void)addItemHeaderView:(UIView *)itemHeaderView;
 - (void)removeItemHeaderView:(UIView *)itemHeaderView;

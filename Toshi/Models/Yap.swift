@@ -44,16 +44,16 @@ fileprivate struct UserDB {
 }
 
 public final class Yap: NSObject, Singleton {
-    var database: YapDatabase?
+    @objc var database: YapDatabase?
 
     public var mainConnection: YapDatabaseConnection?
 
-    public static let sharedInstance = Yap()
-    public static var isUserDatabaseFileAccessible: Bool {
+    @objc public static let sharedInstance = Yap()
+    @objc public static var isUserDatabaseFileAccessible: Bool {
         return FileManager.default.fileExists(atPath: UserDB.dbFilePath)
     }
 
-    public static var isUserDatabasePasswordAccessible: Bool {
+    @objc public static var isUserDatabasePasswordAccessible: Bool {
         return UserDefaults.standard.bool(forKey: UserDB.password)
     }
 
@@ -89,7 +89,7 @@ public final class Yap: NSObject, Singleton {
         createBackupDirectoryIfNeeded()
     }
 
-    public func wipeStorage() {
+    @objc public func wipeStorage() {
         if TokenUser.current?.verified == false {
             KeychainSwift().delete(UserDB.password)
             UserDefaults.standard.removeObject(forKey: UserDB.password)
@@ -216,7 +216,7 @@ public final class Yap: NSObject, Singleton {
     /// - Parameters:
     ///   - collection: The name of the collection to be retrieved.
     /// - Returns: The stored objects inside the collection.
-    public final func retrieveObjects(in collection: String) -> [Any] {
+    @objc public final func retrieveObjects(in collection: String) -> [Any] {
         var objects = [Any]()
 
         mainConnection?.read { transaction in

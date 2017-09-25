@@ -30,14 +30,14 @@ class MessageFetcherJob: NSObject {
 
     var runPromises = [Double: Promise<Void>]()
 
-    init(messagesManager: TSMessagesManager, messageSender: MessageSender, networkManager: TSNetworkManager, signalService: OWSSignalService) {
+    @objc init(messagesManager: TSMessagesManager, messageSender: MessageSender, networkManager: TSNetworkManager, signalService: OWSSignalService) {
         self.messagesManager = messagesManager
         self.networkManager = networkManager
         self.messageSender = messageSender
         self.signalService = signalService
     }
 
-    func runAsync() {
+    @objc func runAsync() {
         NSLog("\(TAG) \(#function)")
         guard signalService.isCensorshipCircumventionActive else {
             NSLog("\(TAG) delegating message fetching to SocketManager since we're using normal transport.")

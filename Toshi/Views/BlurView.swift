@@ -38,7 +38,7 @@ class BlurView: UIVisualEffectView {
     }
 
     private func addSubviewsAndConstraints() {
-        addSubview(dimmingView)
-        dimmingView.edges(to: self)
+        self.contentView.addSubview(dimmingView)
+        dimmingView.edges(to: self.contentView)
     }
 }

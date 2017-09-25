@@ -29,11 +29,11 @@ public class Navigator: NSObject {
         return window?.rootViewController
     }
 
-    public static var tabbarController: TabBarController? {
+    @objc public static var tabbarController: TabBarController? {
         return window?.rootViewController as? TabBarController
     }
 
-    public static var topViewController: UIViewController? {
+    @objc public static var topViewController: UIViewController? {
         var topViewController = topNonModalViewController
 
         while topViewController?.presentedViewController != nil {
@@ -43,7 +43,7 @@ public class Navigator: NSObject {
         return topViewController
     }
 
-    public static var topNonModalViewController: UIViewController? {
+     public static var topNonModalViewController: UIViewController? {
         return tabbarController?.currentNavigationController?.topViewController
     }
 
@@ -67,7 +67,7 @@ public class Navigator: NSObject {
         parentViewController?.present(viewController, animated: true, completion: nil)
     }
 
-    public static func presentAddressChangeAlertIfNeeded() {
+    @objc public static func presentAddressChangeAlertIfNeeded() {
         guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -82,13 +82,13 @@ public class Navigator: NSObject {
         }
     }
 
-    public static func presentModally(_ controller: UIViewController) {
+    @objc public static func presentModally(_ controller: UIViewController) {
         present(controller, from: topViewController, animated: true)
     }
 
     // Navigation assumes the following structure:
     // TabBar controller contains a messages controller. Messages controller lists chats, and pushes threads.
-    public static func navigate(to threadIdentifier: String, animated: Bool) {
+    @objc public static func navigate(to threadIdentifier: String, animated: Bool) {
         // make sure we don't do UI stuff in a background thread
         DispatchQueue.main.async {
             // get tab controller
@@ -104,7 +104,7 @@ public class Navigator: NSObject {
         }
     }
 
-    public static func openThread(_ thread: TSThread, animated: Bool) {
+    @objc public static func openThread(_ thread: TSThread, animated: Bool) {
         guard let tabController = UIApplication.shared.delegate?.window??.rootViewController as? TabBarController else { return }
 
         if tabController.presentedViewController != nil {

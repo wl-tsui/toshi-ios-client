@@ -19,7 +19,7 @@ class SearchResultCell: UITableViewCell {
 
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        view.setContentHuggingPriority(.required, for: .horizontal)
         view.textColor = Theme.darkTextColor
         view.font = Theme.semibold(size: 15)
 
@@ -28,8 +28,8 @@ class SearchResultCell: UITableViewCell {
 
     lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = Theme.greyTextColor
         view.font = Theme.regular(size: 14)
 

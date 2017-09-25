@@ -268,7 +268,7 @@
     if (_intent & PhotoEditorControllerWebIntent)
         [self updateDoneButtonEnabled:false animated:false];
     
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         orientation = UIInterfaceOrientationPortrait;
     
@@ -778,22 +778,6 @@
     {
         if (self.beginTransitionIn != nil)
             transitionReferenceView = self.beginTransitionIn(&transitionReferenceFrame, &transitionParentView);
-        
-        if ([self presentedFromCamera] && [self presentedForAvatarCreation])
-        {
-            if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-            {
-                transitionReferenceFrame = CGRectMake(self.view.frame.size.width - transitionReferenceFrame.size.height - transitionReferenceFrame.origin.y,
-                                                      transitionReferenceFrame.origin.x,
-                                                      transitionReferenceFrame.size.height, transitionReferenceFrame.size.width);
-            }
-            else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-            {
-                transitionReferenceFrame = CGRectMake(transitionReferenceFrame.origin.y,
-                                                      self.view.frame.size.height - transitionReferenceFrame.size.width - transitionReferenceFrame.origin.x,
-                                                      transitionReferenceFrame.size.height, transitionReferenceFrame.size.width);
-            }
-        }
         
         snapshotImage = _screenImage;
     }
@@ -1375,20 +1359,12 @@
         if (strongSelf == nil)
             return;
         
-        UIInterfaceOrientation orientation = strongSelf.interfaceOrientation;
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         if ([strongSelf inFormSheet])
             orientation = UIInterfaceOrientationPortrait;
         
-        if (UIInterfaceOrientationIsPortrait(orientation))
-        {
-            [strongSelf->_portraitToolbarView transitionOutAnimated:true];
-            [strongSelf->_landscapeToolbarView transitionOutAnimated:false];
-        }
-        else
-        {
-            [strongSelf->_portraitToolbarView transitionOutAnimated:false];
-            [strongSelf->_landscapeToolbarView transitionOutAnimated:true];
-        }
+        [strongSelf->_portraitToolbarView transitionOutAnimated:true];
+        [strongSelf->_landscapeToolbarView transitionOutAnimated:false];
     };
     _currentTabController.beginItemTransitionOut = ^
     {
@@ -1396,7 +1372,7 @@
         if (strongSelf == nil)
             return;
         
-        UIInterfaceOrientation orientation = strongSelf.interfaceOrientation;
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
         if ([strongSelf inFormSheet])
             orientation = UIInterfaceOrientationPortrait;
         
@@ -1642,12 +1618,10 @@
             __strong PhotoEditorController *strongSelf = weakSelf;
             if (strongSelf == nil)
                 return CGRectZero;
-            
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-                return [strongSelf.view convertRect:strongSelf->_portraitToolbarView.cancelButtonFrame fromView:strongSelf->_portraitToolbarView];
-            else
-                return [strongSelf.view convertRect:strongSelf->_landscapeToolbarView.cancelButtonFrame fromView:strongSelf->_landscapeToolbarView];
+
+            return [strongSelf.view convertRect:strongSelf->_portraitToolbarView.cancelButtonFrame fromView:strongSelf->_portraitToolbarView];
         };
+        
         [controller presentInViewController:self sourceView:self.view animated:true];
     }
     else
@@ -1911,9 +1885,6 @@
 
 - (bool)inFormSheet
 {
-    if (iosMajorVersion() < 9)
-        return [super inFormSheet];
-    
     UIUserInterfaceSizeClass sizeClass = [UIApplication sharedApplication].delegate.window.rootViewController.traitCollection.horizontalSizeClass;
     if (sizeClass == UIUserInterfaceSizeClassCompact)
         return false;
@@ -2054,10 +2025,10 @@
     static dispatch_once_t onceToken;
     static PhotoEditorTab avatarTabs = PhotoEditorNoneTab;
     dispatch_once(&onceToken, ^
-    {
-        if (iosMajorVersion() >= 7)
-            avatarTabs = PhotoEditorCropTab | PhotoEditorToolsTab;
-    });
+                  {
+                      avatarTabs = PhotoEditorCropTab | PhotoEditorToolsTab;
+                  });
+    
     return avatarTabs;
 }
 

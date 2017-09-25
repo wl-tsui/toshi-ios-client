@@ -96,12 +96,12 @@ class PassphraseCopyController: UIViewController {
         ])
     }
 
-    func proceed(_: ActionButton) {
+    @objc func proceed(_: ActionButton) {
         let controller = PassphraseVerifyController()
         navigationController?.pushViewController(controller, animated: true)
     }
 
-    func copyToClipBoard(_ button: ConfirmationButton) {
+    @objc func copyToClipBoard(_ button: ConfirmationButton) {
 
         UIPasteboard.general.string = Cereal().mnemonic.words.joined(separator: " ")
 

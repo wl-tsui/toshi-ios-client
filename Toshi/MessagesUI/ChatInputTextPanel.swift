@@ -165,13 +165,13 @@ class ChatInputTextPanel: NOCChatInputPanel {
         return nil
     }
 
-    func attach(_: ActionButton) {
+    @objc func attach(_: ActionButton) {
         if let delegate = self.delegate as? ChatInputTextPanelDelegate {
             delegate.inputTextPanelRequestSendAttachment(self)
         }
     }
 
-    func send(_: ActionButton) {
+    @objc func send(_: ActionButton) {
         // Resign and become first responder to accept auto-correct suggestions
         let temp = UITextField()
         temp.isHidden = true

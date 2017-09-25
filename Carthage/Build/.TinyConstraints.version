@@ -1,8 +1,8 @@
 {
-  "commitish" : "42513def02c9958d32b7fe315a19f4e5f3aee202",
+  "commitish" : "31ec7fdd0129777c294434f4741123d8e271776d",
   "iOS" : [
     {
-      "hash" : "3056bd5a68d07efb0009818e6c55f29c2c3450a0210b5d61582c3d47e8c1032e",
+      "hash" : "8b8b848bdee1f115d6767b7d39eeae920bc6075d078e570f773437a714cebac7",
       "name" : "TinyConstraints"
     }
   ]

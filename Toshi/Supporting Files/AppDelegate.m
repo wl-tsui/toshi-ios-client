@@ -76,21 +76,16 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
                   {
-                      if (iosMajorVersion() >= 8)
+                      NSString *groupName = [@"group." stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]];
+
+                      NSURL *groupURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:groupName];
+                      if (groupURL != nil)
                       {
-                          NSString *groupName = [@"group." stringByAppendingString:[[NSBundle mainBundle] bundleIdentifier]];
-                          
-                          NSURL *groupURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:groupName];
-                          if (groupURL != nil)
-                          {
-                              NSString *documentsPath = [[groupURL path] stringByAppendingPathComponent:@"Documents"];
-                              
-                              [[NSFileManager defaultManager] createDirectoryAtPath:documentsPath withIntermediateDirectories:true attributes:nil error:NULL];
-                              
-                              path = documentsPath;
-                          }
-                          else
-                              path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0];
+                          NSString *documentsPath = [[groupURL path] stringByAppendingPathComponent:@"Documents"];
+
+                          [[NSFileManager defaultManager] createDirectoryAtPath:documentsPath withIntermediateDirectories:true attributes:nil error:NULL];
+
+                          path = documentsPath;
                       }
                       else
                           path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true)[0];
@@ -151,9 +146,10 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
         [strongSelf.contactsManager refreshContacts];
 
-         exit(0);
+        exit(0);
     } failure:^(NSError *error) {
-        UIAlertController *alert = [UIAlertController dismissableAlertWithTitle:@"Could not sign out" message:@"Error attempting to unregister from chat service. Our engineers are looking into it."];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign-out-failure-title", nil) message:NSLocalizedString(@"sign-out-failure-message", nil) preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alert-ok-action-title", nil) style:UIAlertActionStyleCancel handler:nil]];
 
         [Navigator presentModally:alert];
     }];
@@ -469,7 +465,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         if (error){
             @throw error.localizedDescription;
         } else if (granted) {
-            [[UIApplication sharedApplication] registerForRemoteNotifications];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            });
         }
     }];
 
@@ -514,7 +512,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }];
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
     NSString *identifier = response.notification.request.content.threadIdentifier;
     [Navigator navigateTo:identifier animated:YES];
 

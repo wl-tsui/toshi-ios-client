@@ -54,8 +54,8 @@ CGFloat TGRubberBandDistance(CGFloat offset, CGFloat dimension);
 bool _CGPointEqualToPointWithEpsilon(CGPoint point1, CGPoint point2, CGFloat epsilon);
 bool _CGRectEqualToRectWithEpsilon(CGRect rect1, CGRect rect2, CGFloat epsilon);
     
-CGSize PhotoThumbnailSizeForCurrentScreen();
-CGSize PhotoEditorScreenImageMaxSize();
+CGSize PhotoThumbnailSizeForCurrentScreen(void);
+CGSize PhotoEditorScreenImageMaxSize(void);
     
 extern const CGSize PhotoEditorResultImageMaxSize;
     

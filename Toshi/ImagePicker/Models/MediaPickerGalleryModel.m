@@ -356,11 +356,8 @@
         
         if (referenceView.superview == nil)
             *parentView = referenceParentView;
-        
-        if (iosMajorVersion() >= 7)
-            [strongSelf.controller setNeedsStatusBarAppearanceUpdate];
-        else
-            [[UIApplication sharedApplication] setStatusBarHidden:true];
+
+        [strongSelf.controller setNeedsStatusBarAppearanceUpdate];
         
         return referenceView;
     };
@@ -418,11 +415,8 @@
         UIView *referenceView = [strongSelf referenceViewForItem:item frame:NULL];
         if ([referenceView isKindOfClass:[MediaPickerGalleryVideoItemView class]])
             [(MediaPickerGalleryVideoItemView *)referenceView setPlayButtonHidden:false animated:true];
-        
-        if (iosMajorVersion() >= 7)
-            [strongSelf.controller setNeedsStatusBarAppearanceUpdate];
-        else
-            [[UIApplication sharedApplication] setStatusBarHidden:false];
+
+        [strongSelf.controller setNeedsStatusBarAppearanceUpdate];
     };
     
     controller.requestThumbnailImage = ^SSignal *(id<MediaEditableItem> editableItem)

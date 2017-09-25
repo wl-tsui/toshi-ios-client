@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong, readonly) NSString *filename;
 
-- (instancetype)initWithFilename:(NSString *)filename NS_SWIFT_NAME(init(fileName: String?));
+- (instancetype)initWithFilename:(NSString *)filename
+__attribute__((swift_name("init(fileName: String?)")));
 
 @end

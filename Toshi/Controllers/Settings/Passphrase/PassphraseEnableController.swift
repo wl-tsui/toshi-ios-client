@@ -91,16 +91,16 @@ class PassphraseEnableController: UIViewController {
         }
     }
     
-    func dismiss(_ item: UIBarButtonItem) {
+    @objc func dismiss(_ item: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 
-    func checked(_ checkboxControl: CheckboxControl) {
+    @objc func checked(_ checkboxControl: CheckboxControl) {
         checkboxControl.checkbox.checked = !checkboxControl.checkbox.checked
         actionButton.isEnabled = checkboxControl.checkbox.checked
     }
     
-    func proceed(_: ActionButton) {
+    @objc func proceed(_: ActionButton) {
         let controller = PassphraseCopyController()
         navigationController?.pushViewController(controller, animated: true)
     }

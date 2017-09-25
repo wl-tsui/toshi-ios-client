@@ -41,6 +41,10 @@ public class FavoritesNavigationController: UINavigationController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 11.0, *) {
+            self.navigationBar.prefersLargeTitles = true
+        }
     }
 
     public override func popViewController(animated: Bool) -> UIViewController? {

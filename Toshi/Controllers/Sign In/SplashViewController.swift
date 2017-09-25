@@ -64,7 +64,7 @@ final class SplashViewController: UIViewController {
         paragraphStyle.alignment = .center
 
         let attrString = NSMutableAttributedString(string: "A browser for the Ethereum network\nthat provides universal access to\nfinancial services")
-        attrString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: attrString.length))
+        attrString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attrString.length))
 
         label.attributedText = attrString
 

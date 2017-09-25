@@ -1236,8 +1236,7 @@
 
 - (void)_mutePlayer:(bool)mute
 {
-    if (iosMajorVersion() >= 7)
-        _player.muted = mute;
+    _player.muted = mute;
 }
 
 - (void)updateEditAdjusments

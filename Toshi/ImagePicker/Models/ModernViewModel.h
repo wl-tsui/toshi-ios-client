@@ -42,7 +42,7 @@
 
 @property (nonatomic, strong, readonly) NSArray *submodels;
 
-@property (nonatomic, copy) void (^unbindAction)();
+@property (nonatomic, copy) void (^unbindAction)(void);
 
 - (bool)hasNoView;
 - (void)setHasNoView:(bool)hasNoView;

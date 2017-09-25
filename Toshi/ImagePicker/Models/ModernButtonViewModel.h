@@ -17,7 +17,7 @@
 
 @interface ModernButtonViewModel : ModernViewModel
 
-@property (nonatomic, copy) void (^pressed)();
+@property (nonatomic, copy) void (^pressed)(void);
 
 @property (nonatomic, strong) UIImage *supplementaryIcon;
 @property (nonatomic, strong) UIImage *backgroundImage;

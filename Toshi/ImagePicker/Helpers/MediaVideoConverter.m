@@ -445,7 +445,6 @@
         return [SSignal single:nil];
     
     NSURL *fileUrl = nil;
-    NSData *timingData = nil;
     
     if ([avAsset isKindOfClass:[AVURLAsset class]])
     {

@@ -230,23 +230,20 @@ static UIImage *pagerLeftButtonHighlightedImage() {
         _arrowTopView = [[UIImageView alloc] init];
         _arrowTopView.frame = CGRectMake(0.0f, 0.0f, 20.0f, 12.0f);
         [self addSubview:_arrowTopView];
-        
-        //_arrowBottomView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"MenuArrowBottom.png"] highlightedImage:[UIImage imageNamed:@"MenuArrowBottom_Highlighted.png"]];
+
         _arrowBottomView = [[UIImageView alloc] init];
         _arrowBottomView.frame = CGRectMake(0.0f, 0.0f, 20.0f, 14.5f);
         [self addSubview:_arrowBottomView];
         
         _buttonContainerContainer = [[UIView alloc] init];
-        
-        if (iosMajorVersion() >= 8) {
-            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
-            effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-            effectView.frame = CGRectMake(0.0f, -20.0f, 0.0f, 40.0f);
-            [_buttonContainerContainer addSubview:effectView];
-        }
+
+        UIVisualEffectView *containerEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        containerEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        containerEffectView.frame = CGRectMake(0.0f, -20.0f, 0.0f, 40.0f);
+        [_buttonContainerContainer addSubview:containerEffectView];
         
         UIView *effectView = [[UIView alloc] init];
-        effectView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:iosMajorVersion() >= 8 ? 0.8f : 0.9f];
+        effectView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8f];
         effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         effectView.frame = CGRectMake(0.0f, -20.0f, 0.0f, 40.0f);
         [_buttonContainerContainer addSubview:effectView];
@@ -919,15 +916,9 @@ static UIImage *pagerLeftButtonHighlightedImage() {
     }
     
     if (ABS(targetOffset - _buttonContainer.contentOffset.x) > FLT_EPSILON) {
-        if (iosMajorVersion() >= 7) {
-            [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.8f initialSpringVelocity:0.0f options:0 animations:^{
-                _buttonContainer.contentOffset = CGPointMake(targetOffset, 0.0f);
-            } completion:nil];
-        } else {
-            [UIView animateWithDuration:0.2 animations:^{
-                _buttonContainer.contentOffset = CGPointMake(targetOffset, 0.0f);
-            }];
-        }
+        [UIView animateWithDuration:0.4 delay:0.0 usingSpringWithDamping:0.8f initialSpringVelocity:0.0f options:0 animations:^{
+            _buttonContainer.contentOffset = CGPointMake(targetOffset, 0.0f);
+        } completion:nil];
     }
 }
 

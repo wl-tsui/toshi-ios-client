@@ -295,7 +295,7 @@ class PassphraseView: UIView {
         }
     }
 
-    func toggleAddedState(for wordView: PassphraseWordView) {
+    @objc func toggleAddedState(for wordView: PassphraseWordView) {
         wordView.isAddedForVerification = !wordView.isAddedForVerification
 
         if wordView.isAddedForVerification {

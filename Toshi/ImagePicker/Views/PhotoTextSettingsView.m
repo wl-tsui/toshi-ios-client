@@ -173,57 +173,17 @@ const CGFloat PhotoTextSettingsItemHeight = 44.0f;
 - (void)setInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     _interfaceOrientation = interfaceOrientation;
-    
-    switch (self.interfaceOrientation)
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        {
-            _backgroundView.image = [PhotoPaintSettingsView landscapeLeftBackgroundImage];
-        }
-            break;
-            
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            _backgroundView.image = [PhotoPaintSettingsView landscapeRightBackgroundImage];
-        }
-            break;
-            
-        default:
-        {
-            _backgroundView.image = [PhotoPaintSettingsView portraitBackgroundImage];
-        }
-            break;
-    }
+
+    _backgroundView.image = [PhotoPaintSettingsView portraitBackgroundImage];
     
     [self setNeedsLayout];
 }
 
 - (void)layoutSubviews
 {
-    switch (self.interfaceOrientation)
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        {
-            _backgroundView.image = [TGTintedImage([UIImage imageNamed:@"PaintPopupLandscapeLeftBackground"], UIColorRGB(0xf7f7f7)) resizableImageWithCapInsets:UIEdgeInsetsMake(32.0f, 32.0f, 32.0f, 32.0f)];
-            _backgroundView.frame = CGRectMake(PhotoTextSettingsViewMargin - 13.0f, PhotoTextSettingsViewMargin, self.frame.size.width - PhotoTextSettingsViewMargin * 2 + 13.0f, self.frame.size.height - PhotoTextSettingsViewMargin * 2);
-        }
-            break;
-            
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            _backgroundView.image = [TGTintedImage([UIImage imageNamed:@"PaintPopupLandscapeRightBackground"], UIColorRGB(0xf7f7f7)) resizableImageWithCapInsets:UIEdgeInsetsMake(32.0f, 32.0f, 32.0f, 32.0f)];
-            _backgroundView.frame = CGRectMake(PhotoTextSettingsViewMargin, PhotoTextSettingsViewMargin, self.frame.size.width - PhotoTextSettingsViewMargin * 2 + 13.0f, self.frame.size.height - PhotoTextSettingsViewMargin * 2);
-        }
-            break;
-            
-        default:
-        {
-            _backgroundView.image = [TGTintedImage([UIImage imageNamed:@"PaintPopupPortraitBackground"], UIColorRGB(0xf7f7f7)) resizableImageWithCapInsets:UIEdgeInsetsMake(32.0f, 32.0f, 32.0f, 32.0f)];
-            _backgroundView.frame = CGRectMake(PhotoTextSettingsViewMargin, PhotoTextSettingsViewMargin, self.frame.size.width - PhotoTextSettingsViewMargin * 2, self.frame.size.height - PhotoTextSettingsViewMargin * 2 + 13.0f);
-        }
-            break;
-    }
-
+    _backgroundView.image = [TGTintedImage([UIImage imageNamed:@"PaintPopupPortraitBackground"], UIColorRGB(0xf7f7f7)) resizableImageWithCapInsets:UIEdgeInsetsMake(32.0f, 32.0f, 32.0f, 32.0f)];
+    _backgroundView.frame = CGRectMake(PhotoTextSettingsViewMargin, PhotoTextSettingsViewMargin, self.frame.size.width - PhotoTextSettingsViewMargin * 2, self.frame.size.height - PhotoTextSettingsViewMargin * 2 + 13.0f);
+    
     CGFloat thickness = TGScreenPixel;
     
     [_fontViews enumerateObjectsUsingBlock:^(ModernButton *view, NSUInteger index, __unused BOOL *stop)

@@ -397,14 +397,11 @@
 
 - (void)transitionIn
 {
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        _portraitToolControlView.layer.shouldRasterize = true;
-    else
-        _landscapeToolControlView.layer.shouldRasterize = true;
+    _portraitToolControlView.layer.shouldRasterize = true;
     
     CGRect targetFrame;
     CGRect toolTargetFrame;
-    switch (self.interfaceOrientation)
+    switch ([[UIApplication sharedApplication] statusBarOrientation])
     {
         case UIInterfaceOrientationLandscapeLeft:
         {
@@ -435,14 +432,8 @@
     
     void (^animationBlock)(void) = ^
     {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-            _portraitButtonsView.frame = targetFrame;
-            _portraitToolsWrapperView.frame = toolTargetFrame;
-        }
-        else {
-            _landscapeButtonsView.frame = targetFrame;
-            _landscapeToolsWrapperView.frame = toolTargetFrame;
-        }
+        _portraitButtonsView.frame = targetFrame;
+        _portraitToolsWrapperView.frame = toolTargetFrame;
     };
     
     [UIView animateWithDuration:0.3f animations:^
@@ -460,10 +451,7 @@
     if ([_editorItem.identifier isEqualToString:@"enhance"])
         [self _applyDefaultEnhanceIfNeeded];
     
-    if (iosMajorVersion() >= 7)
-        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:nil];
-    else
-        [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionAllowUserInteraction animations:animationBlock completion:nil];
+    [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:nil];
     
     if (self.beginTransitionIn != nil)
         self.beginTransitionIn();
@@ -487,10 +475,7 @@
     
     [_initialPreviewSuperview addSubview:self.previewView];
     
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        _portraitToolControlView.layer.shouldRasterize = true;
-    else
-        _landscapeToolControlView.layer.shouldRasterize = true;
+    _portraitToolControlView.layer.shouldRasterize = true;
     
     [_toolAreaView.superview bringSubviewToFront:_toolAreaView];
     
@@ -510,25 +495,7 @@
     
     void (^animationBlock)(void) = ^
     {
-        switch (self.interfaceOrientation)
-        {
-            case UIInterfaceOrientationLandscapeLeft:
-            {
-                _landscapeButtonsView.frame = CGRectOffset(_landscapeButtonsView.frame, -_landscapeButtonsView.frame.size.width, 0);
-            }
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-            {
-                _landscapeButtonsView.frame = CGRectOffset(_landscapeButtonsView.frame, _landscapeButtonsView.frame.size.width, 0);
-            }
-                break;
-                
-            default:
-            {
-                _portraitButtonsView.frame = CGRectOffset(_portraitButtonsView.frame, 0, _portraitButtonsView.frame.size.height);
-            }
-                break;
-        }
+        _portraitButtonsView.frame = CGRectOffset(_portraitButtonsView.frame, 0, _portraitButtonsView.frame.size.height);
     };
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -546,15 +513,8 @@
         _landscapeToolsWrapperView.hidden = true;
     else
         _portraitToolsWrapperView.hidden = true;
-    
-    if (iosMajorVersion() >= 7)
-    {
-        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:nil];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionAllowUserInteraction animations:animationBlock completion:nil];
-    }
+
+    [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:nil];
 }
 
 #pragma mark - Layout

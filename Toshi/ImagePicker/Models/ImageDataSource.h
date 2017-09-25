@@ -20,7 +20,7 @@
 + (void)registerDataSource:(ImageDataSource *)dataSource;
 + (void)enumerateDataSources:(bool (^)(ImageDataSource *dataSource))handler;
 
-+ (void)enqueueImageProcessingBlock:(void (^)())imageProcessingBlock;
++ (void)enqueueImageProcessingBlock:(void (^)(void))imageProcessingBlock;
 
 - (bool)canHandleUri:(NSString *)uri;
 - (bool)canHandleAttributeUri:(NSString *)uri;

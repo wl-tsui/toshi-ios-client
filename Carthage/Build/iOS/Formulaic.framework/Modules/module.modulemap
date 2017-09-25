@@ -7,4 +7,5 @@ framework module Formulaic {
 
 module Formulaic.Swift {
     header "Formulaic-Swift.h"
+    requires objc
 }

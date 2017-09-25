@@ -40,10 +40,10 @@ typedef enum {
  
 @property (nonatomic, copy) void (^itemFocused)(id<ModernGalleryItem>);
 @property (nonatomic, copy) UIView *(^beginTransitionIn)(id<ModernGalleryItem>, ModernGalleryItemView *);
-@property (nonatomic, copy) void (^startedTransitionIn)();
+@property (nonatomic, copy) void (^startedTransitionIn)(void);
 @property (nonatomic, copy) void (^finishedTransitionIn)(id<ModernGalleryItem>, ModernGalleryItemView *);
 @property (nonatomic, copy) UIView *(^beginTransitionOut)(id<ModernGalleryItem>, ModernGalleryItemView *);
-@property (nonatomic, copy) void (^completedTransitionOut)();
+@property (nonatomic, copy) void (^completedTransitionOut)(void);
 
 - (NSArray *)visibleItemViews;
 - (ModernGalleryItemView *)itemViewForItem:(id<ModernGalleryItem>)item;

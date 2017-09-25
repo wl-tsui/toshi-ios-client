@@ -261,52 +261,19 @@ const NSTimeInterval PhotoQualityPreviewDuration = 15.0f;
 
 - (void)transitionIn
 {
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
-        _portraitToolControlView.layer.shouldRasterize = true;
-    else
-        _landscapeToolControlView.layer.shouldRasterize = true;
+    _portraitToolControlView.layer.shouldRasterize = true;
     
     CGRect targetFrame;
     CGRect toolTargetFrame;
-    switch (self.interfaceOrientation)
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        {
-            targetFrame = _landscapeButtonsView.frame;
-            _landscapeButtonsView.frame = CGRectOffset(_landscapeButtonsView.frame, -_landscapeButtonsView.frame.size.width, 0);
-            toolTargetFrame = _landscapeToolsWrapperView.frame;
-            _landscapeToolsWrapperView.frame = CGRectOffset(_landscapeToolsWrapperView.frame, -_landscapeToolsWrapperView.frame.size.width / 2 - 20, 0);
-        }
-            break;
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            targetFrame = _landscapeButtonsView.frame;
-            _landscapeButtonsView.frame = CGRectOffset(_landscapeButtonsView.frame, _landscapeButtonsView.frame.size.width, 0);
-            toolTargetFrame = _landscapeToolsWrapperView.frame;
-            _landscapeToolsWrapperView.frame = CGRectOffset(_landscapeToolsWrapperView.frame, _landscapeToolsWrapperView.frame.size.width / 2 + 20, 0);
-        }
-            break;
-            
-        default:
-        {
-            targetFrame = _portraitButtonsView.frame;
-            _portraitButtonsView.frame = CGRectOffset(_portraitButtonsView.frame, 0, _portraitButtonsView.frame.size.height);
-            toolTargetFrame = _portraitToolsWrapperView.frame;
-            _portraitToolsWrapperView.frame = CGRectOffset(_portraitToolsWrapperView.frame, 0, _portraitToolsWrapperView.frame.size.height / 2 + 20);
-        }
-            break;
-    }
+    targetFrame = _portraitButtonsView.frame;
+    _portraitButtonsView.frame = CGRectOffset(_portraitButtonsView.frame, 0, _portraitButtonsView.frame.size.height);
+    toolTargetFrame = _portraitToolsWrapperView.frame;
+    _portraitToolsWrapperView.frame = CGRectOffset(_portraitToolsWrapperView.frame, 0, _portraitToolsWrapperView.frame.size.height / 2 + 20);
     
     void (^animationBlock)(void) = ^
     {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-            _portraitButtonsView.frame = targetFrame;
-            _portraitToolsWrapperView.frame = toolTargetFrame;
-        }
-        else {
-            _landscapeButtonsView.frame = targetFrame;
-            _landscapeToolsWrapperView.frame = toolTargetFrame;
-        }
+        _portraitButtonsView.frame = targetFrame;
+        _portraitToolsWrapperView.frame = toolTargetFrame;
     };
     
     [UIView animateWithDuration:0.3f animations:^
@@ -321,10 +288,7 @@ const NSTimeInterval PhotoQualityPreviewDuration = 15.0f;
         }
     }];
 
-    if (iosMajorVersion() >= 7)
-        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:nil];
-    else
-        [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionAllowUserInteraction animations:animationBlock completion:nil];
+    [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:nil];
 }
 
 - (void)_animatePreviewViewTransitionOutToFrame:(CGRect)targetFrame saving:(bool)saving parentView:(UIView *)__unused parentView completion:(void (^)(void))completion
@@ -343,11 +307,8 @@ const NSTimeInterval PhotoQualityPreviewDuration = 15.0f;
     _wrapperView.backgroundColor = [UIColor clearColor];
     
     [_initialPreviewSuperview addSubview:self.previewView];
-    
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+
         _portraitToolControlView.layer.shouldRasterize = true;
-    else
-        _landscapeToolControlView.layer.shouldRasterize = true;
     
     [UIView animateWithDuration:0.3f animations:^
     {
@@ -359,37 +320,10 @@ const NSTimeInterval PhotoQualityPreviewDuration = 15.0f;
     
     void (^animationBlock)(void) = ^
     {
-        switch (self.interfaceOrientation)
-        {
-            case UIInterfaceOrientationLandscapeLeft:
-            {
-                _landscapeButtonsView.frame = CGRectOffset(_landscapeButtonsView.frame, -_landscapeButtonsView.frame.size.width, 0);
-            }
-                break;
-            case UIInterfaceOrientationLandscapeRight:
-            {
-                _landscapeButtonsView.frame = CGRectOffset(_landscapeButtonsView.frame, _landscapeButtonsView.frame.size.width, 0);
-            }
-                break;
-                
-            default:
-            {
-                _portraitButtonsView.frame = CGRectOffset(_portraitButtonsView.frame, 0, _portraitButtonsView.frame.size.height);
-            }
-                break;
-        }
+        _portraitButtonsView.frame = CGRectOffset(_portraitButtonsView.frame, 0, _portraitButtonsView.frame.size.height);
     };
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-//    if ([self inFormSheet] || [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-//    {
-        orientation = UIInterfaceOrientationPortrait;
-//    }
-//    else if ([self.presentingViewController isKindOfClass:[TGNavigationController class]] &&
-//             [(TGNavigationController *)self.presentingViewController presentationStyle] == TGNavigationControllerPresentationStyleInFormSheet)
-//    {
-//        orientation = UIInterfaceOrientationPortrait;
-//    }
     
     if (UIInterfaceOrientationIsPortrait(orientation))
         _landscapeToolsWrapperView.hidden = true;
@@ -400,15 +334,8 @@ const NSTimeInterval PhotoQualityPreviewDuration = 15.0f;
     {
         completion();
     };
-    
-    if (iosMajorVersion() >= 7)
-    {
-        [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:finishedBlock];
-    }
-    else
-    {
-        [UIView animateWithDuration:0.3f delay:0.0f options:UIViewAnimationOptionAllowUserInteraction animations:animationBlock completion:finishedBlock];
-    }
+
+    [UIView animateWithDuration:0.4f delay:0.0f usingSpringWithDamping:1.0f initialSpringVelocity:0.0f options:UIViewAnimationOptionCurveLinear animations:animationBlock completion:finishedBlock];
     
     UIView *previewView = _videoView ?: self.previewView;
     UIView *snapshotView = nil;
@@ -708,7 +635,7 @@ const NSTimeInterval PhotoQualityPreviewDuration = 15.0f;
             
             [strongSelf->_player play];
             
-            [strongSelf updateLayout:strongSelf.interfaceOrientation];
+            [strongSelf updateLayout:[[UIApplication sharedApplication] statusBarOrientation]];
             
             strongSelf->_overlayView.hidden = true;
             [strongSelf->_overlayView setProgress:0.03f cancelEnabled:false animated:true];

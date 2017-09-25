@@ -404,8 +404,6 @@ static std::set<int> autorotationLockIds;
     self.autoManageStatusBarBackground = true;
     __block bool initializedSizeClass = false;
     _currentSizeClass = UIUserInterfaceSizeClassCompact;
-    
-    __weak ViewController *weakSelf = self;
 
     initializedSizeClass = true;
     
@@ -486,7 +484,7 @@ static std::set<int> autorotationLockIds;
 
 + (int)preferredAnimationCurve
 {
-    return iosMajorVersion() >= 7 ? 7 : 0;
+    return 7;
 }
 
 - (CGSize)referenceViewSizeForOrientation:(UIInterfaceOrientation)orientation
@@ -544,8 +542,6 @@ static std::set<int> autorotationLockIds;
         _viewControllerStatusBarBackgroundView.layer.zPosition = 1000;
         _viewControllerStatusBarBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _viewControllerStatusBarBackgroundView.backgroundColor = [UIColor blackColor];
-        if (iosMajorVersion() < 7)
-            [self.view addSubview:_viewControllerStatusBarBackgroundView];
     }
     
     [super viewDidLoad];
@@ -556,16 +552,10 @@ static std::set<int> autorotationLockIds;
     _viewControllerIsAnimatingAppearanceTransition = true;
     _viewControllerIsAppearing = true;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && iosMajorVersion() < 7)
-    {
-        CGSize size = CGSizeMake(320, 491);
-        self.contentSizeForViewInPopover = size;
-    }
     
+    [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] force:false notify:true];
     
-    [self _updateControllerInsetForOrientation:self.interfaceOrientation force:false notify:true];
-    
-    [self adjustToInterfaceOrientation:self.interfaceOrientation];
+    [self adjustToInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [super viewWillAppear:animated];
 }
@@ -632,7 +622,7 @@ static std::set<int> autorotationLockIds;
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {   
     _viewControllerIsChangingInterfaceOrientation = true;
-    _viewControllerRotatingFromOrientation = self.interfaceOrientation;
+    _viewControllerRotatingFromOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     _currentSizeChangeDuration = duration;
     
     if (_adjustControllerInsetWhenStartingRotation)
@@ -702,11 +692,11 @@ static std::set<int> autorotationLockIds;
         CGFloat statusBarHeight = MAX(minStatusBarHeight, MIN(statusBarFrame.size.width, statusBarFrame.size.height));
         statusBarHeight = MIN(40.0f, statusBarHeight + _additionalStatusBarHeight);
         
-        CGFloat keyboardHeight = [self _currentKeyboardHeight:self.interfaceOrientation];
+        CGFloat keyboardHeight = [self _currentKeyboardHeight:[[UIApplication sharedApplication] statusBarOrientation]];
         
         [UIView animateWithDuration:0.35 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^
         {
-            [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+            [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
         } completion:nil];
     }
 }
@@ -744,14 +734,14 @@ static std::set<int> autorotationLockIds;
         {
             [UIView performWithoutAnimation:^
             {
-                [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+                [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
             }];
         }
         else
         {
             [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^
             {
-                [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+                [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
             } completion:nil];
         }
     }
@@ -774,14 +764,14 @@ static std::set<int> autorotationLockIds;
         {
             [UIView performWithoutAnimation:^
             {
-                [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+                [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
             }];
         }
         else
         {
             [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^
             {
-                [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+                [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
             } completion:nil];
         }
     }
@@ -825,14 +815,8 @@ static std::set<int> autorotationLockIds;
 
 - (void)setNeedsStatusBarAppearanceUpdate
 {
-    if (iosMajorVersion() < 7)
-        return;
-    
     [super setNeedsStatusBarAppearanceUpdate];
-    
-    if (iosMajorVersion() < 8)
-        return;
-    
+
     UIWindow *lastWindow = [UIApplication sharedApplication].windows.lastObject;
     if (lastWindow != self.view.window && [lastWindow isKindOfClass:[OverlayControllerWindow class]])
     {
@@ -869,9 +853,9 @@ static std::set<int> autorotationLockIds;
     _additionalNavigationBarHeight = additionalNavigationBarHeight;
     
     CGFloat statusBarHeight = [self _currentStatusBarHeight];
-    CGFloat keyboardHeight = [self _currentKeyboardHeight:self.interfaceOrientation];
+    CGFloat keyboardHeight = [self _currentKeyboardHeight:[[UIApplication sharedApplication] statusBarOrientation]];
     
-    [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+    [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
 }
 
 - (void)setAdditionalStatusBarHeight:(CGFloat)additionalStatusBarHeight
@@ -879,9 +863,9 @@ static std::set<int> autorotationLockIds;
     _additionalStatusBarHeight = additionalStatusBarHeight;
     
     CGFloat statusBarHeight = [self _currentStatusBarHeight];
-    CGFloat keyboardHeight = [self _currentKeyboardHeight:self.interfaceOrientation];
+    CGFloat keyboardHeight = [self _currentKeyboardHeight:[[UIApplication sharedApplication] statusBarOrientation]];
     
-    [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+    [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
 }
 
 - (void)setExplicitTableInset:(UIEdgeInsets)explicitTableInset scrollIndicatorInset:(UIEdgeInsets)scrollIndicatorInset
@@ -890,20 +874,20 @@ static std::set<int> autorotationLockIds;
     _explicitScrollIndicatorInset = scrollIndicatorInset;
     
     CGFloat statusBarHeight = [self _currentStatusBarHeight];
-    CGFloat keyboardHeight = [self _currentKeyboardHeight:self.interfaceOrientation];
+    CGFloat keyboardHeight = [self _currentKeyboardHeight:[[UIApplication sharedApplication] statusBarOrientation]];
     
-    [self _updateControllerInsetForOrientation:self.interfaceOrientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
+    [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:false notify:true];
 }
 
 - (bool)_updateControllerInset:(bool)force
 {
-    return [self _updateControllerInsetForOrientation:self.interfaceOrientation force:force notify:true];
+    return [self _updateControllerInsetForOrientation:[[UIApplication sharedApplication] statusBarOrientation] force:force notify:true];
 }
 
 - (bool)_updateControllerInsetForOrientation:(UIInterfaceOrientation)orientation force:(bool)force notify:(bool)notify
 {
     CGFloat statusBarHeight = [self _currentStatusBarHeight];
-    CGFloat keyboardHeight = [self _currentKeyboardHeight:self.interfaceOrientation];
+    CGFloat keyboardHeight = [self _currentKeyboardHeight:[[UIApplication sharedApplication] statusBarOrientation]];
     
     return [self _updateControllerInsetForOrientation:orientation statusBarHeight:statusBarHeight keyboardHeight:keyboardHeight force:(bool)force notify:notify];
 }
@@ -1049,10 +1033,10 @@ static std::set<int> autorotationLockIds;
         {
             if (navigationBarHidden != self.navigationController.navigationBarHidden)
             {
-                CGFloat barHeight = [self navigationBarHeightForInterfaceOrientation:self.interfaceOrientation];
-                CGFloat statusBarHeight = [Hacks statusBarHeightForOrientation:self.interfaceOrientation];
+                CGFloat barHeight = [self navigationBarHeightForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+                CGFloat statusBarHeight = [Hacks statusBarHeightForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
                 
-                CGSize screenSize = [ViewController screenSizeForInterfaceOrientation:self.interfaceOrientation];
+                CGSize screenSize = [ViewController screenSizeForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
                 
                 if (!navigationBarHidden)
                 {
@@ -1174,12 +1158,12 @@ static std::set<int> autorotationLockIds;
 
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)())completion
 {
-    if (TGIsPad() && iosMajorVersion() >= 7)
+    if (TGIsPad())
         viewControllerToPresent.preferredContentSize = [self.navigationController preferredContentSize];
     
     
     
-    if (iosMajorVersion() >= 8 && self.presentedViewController != nil && [self.presentedViewController isKindOfClass:[UIAlertController class]])
+    if (self.presentedViewController != nil && [self.presentedViewController isKindOfClass:[UIAlertController class]])
     {
         dispatch_async(dispatch_get_main_queue(), ^
         {

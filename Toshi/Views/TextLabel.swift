@@ -25,10 +25,10 @@ class TextLabel: UILabel {
         paragraphStyle.lineSpacing = 2.5
         paragraphStyle.paragraphSpacing = -4
 
-        let attributes: [String: Any] = [
-            NSFontAttributeName: Theme.regular(size: 16),
-            NSForegroundColorAttributeName: Theme.darkTextColor,
-            NSParagraphStyleAttributeName: paragraphStyle
+        let attributes: [NSAttributedStringKey: Any] = [
+            .font: Theme.regular(size: 16),
+            .foregroundColor: Theme.darkTextColor,
+            .paragraphStyle: paragraphStyle
         ]
 
         attributedText = NSMutableAttributedString(string: text, attributes: attributes)

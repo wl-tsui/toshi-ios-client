@@ -58,8 +58,8 @@ class BrowseController: SearchableCollectionController {
         return view
     }()
 
-    fileprivate lazy var openButtonAttributes: [String: Any] = {
-        return [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 14)]
+    fileprivate lazy var openButtonAttributes: [NSAttributedStringKey: Any] = {
+        return [.foregroundColor: Theme.tintColor, .font: Theme.regular(size: 14)]
     }()
 
     fileprivate var openURLButtonTopAnchor: NSLayoutConstraint!
@@ -94,6 +94,11 @@ class BrowseController: SearchableCollectionController {
 
         let searchField = searchBar.value(forKey: "searchField") as? UITextField
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor
+        
+        let navigationItem = UINavigationItem()
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = self.searchController
+        }
 
         addSubviewsAndConstraints()
     }

@@ -38,7 +38,7 @@ typedef enum {
 
 + (AudioSessionManager *)instance;
 
-- (id<SDisposable>)requestSessionWithType:(AudioSessionType)type interrupted:(void (^)())interrupted;
+- (id<SDisposable>)requestSessionWithType:(AudioSessionType)type interrupted:(void (^)(void))interrupted;
 - (void)cancelCurrentSession;
 + (SSignal *)routeChange;
 

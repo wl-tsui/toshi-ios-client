@@ -62,7 +62,7 @@ open class ProfileEditController: OverlayController, Editable {
     fileprivate lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
-        let title = NSAttributedString(string: Localized("Change profile photo"), attributes: [NSForegroundColorAttributeName: Theme.tintColor, NSFontAttributeName: Theme.regular(size: 16)])
+        let title = NSAttributedString(string: Localized("Change profile photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.regular(size: 16)])
         view.setAttributedTitle(title, for: .normal)
         view.addTarget(self, action: #selector(updateAvatar), for: .touchUpInside)
 
@@ -114,8 +114,8 @@ open class ProfileEditController: OverlayController, Editable {
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([NSFontAttributeName: Theme.bold(size: 17.0),
-                                                                   NSForegroundColorAttributeName: Theme.tintColor], for: .normal)
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0),
+                                                                   .foregroundColor: Theme.tintColor], for: .normal)
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -185,7 +185,7 @@ open class ProfileEditController: OverlayController, Editable {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
-    func updateAvatar() {
+    @objc func updateAvatar() {
         menuSheetController = MenuSheetController()
         menuSheetController?.dismissesByOutsideTap = true
         menuSheetController?.hasSwipeGesture = true
@@ -333,11 +333,11 @@ open class ProfileEditController: OverlayController, Editable {
         }
     }
 
-    func cancelAndDismiss() {
+    @objc func cancelAndDismiss() {
         navigationController?.popViewController(animated: true)
     }
 
-    func saveAndDismiss() {
+    @objc func saveAndDismiss() {
         guard let user = TokenUser.current else { return }
 
         var username = ""

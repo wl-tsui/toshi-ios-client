@@ -80,7 +80,7 @@ open class SignInController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
-    func tap(_: UITapGestureRecognizer) {
+    @objc func tap(_: UITapGestureRecognizer) {
         usernameField.textField.resignFirstResponder()
         passwordField.textField.resignFirstResponder()
     }
@@ -130,7 +130,7 @@ open class SignInController: UIViewController {
             self.passwordField.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
             self.passwordField.heightAnchor.constraint(equalToConstant: InputField.height),
 
-            self.usernameField.titleLabel.widthAnchor.constraint(equalTo: self.passwordField.titleLabel.widthAnchor).priority(.high),
+            self.usernameField.titleLabel.widthAnchor.constraint(equalTo: self.passwordField.titleLabel.widthAnchor).priority(.defaultHigh),
 
             self.footnote.topAnchor.constraint(equalTo: self.passwordField.bottomAnchor, constant: 10),
             self.footnote.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: margin),
@@ -143,7 +143,7 @@ open class SignInController: UIViewController {
         ])
     }
 
-    func signInWithPasshphrase() {
+    @objc func signInWithPasshphrase() {
         guard let passphrase = self.passwordField.textField.text?.lowercased() else {
             return
         }

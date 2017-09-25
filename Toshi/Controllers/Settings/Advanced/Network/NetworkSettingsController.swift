@@ -50,7 +50,7 @@ class NetworkSettingsController: UIViewController {
         setupActivityIndicator()
     }
 
-    func activeNetworkChanged(_: Notification) {
+    @objc func activeNetworkChanged(_: Notification) {
         DispatchQueue.main.async {
             self.hideActivityIndicator()
             self.tableView.reloadData()

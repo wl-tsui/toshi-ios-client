@@ -20,6 +20,6 @@
 
 @property (nonatomic) CGPoint toContentOffset;
 @property (nonatomic, strong) void(^progressChanged)(CGFloat progress);
-@property (nonatomic, strong) void(^transitionAlmostFinished)();
+@property (nonatomic, strong) void(^transitionAlmostFinished)(void);
 
 @end

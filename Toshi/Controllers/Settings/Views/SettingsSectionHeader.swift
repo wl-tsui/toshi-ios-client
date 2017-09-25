@@ -38,8 +38,8 @@ class SettingsSectionHeader: UIView {
     lazy var errorImage: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
         view.image = #imageLiteral(resourceName: "error")
-        view.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        view.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        view.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
         return view
     }()

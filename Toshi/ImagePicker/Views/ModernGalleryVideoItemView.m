@@ -271,7 +271,7 @@
 
 - (void)stopForOutTransition
 {
-    if (_player != nil && _videoView != nil && iosMajorVersion() >= 8)
+    if (_player != nil && _videoView != nil)
     {
         [_player pause];
         

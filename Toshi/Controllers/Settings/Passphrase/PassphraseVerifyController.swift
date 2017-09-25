@@ -127,14 +127,14 @@ class PassphraseVerifyController: UIViewController {
 
             self.shuffledPassphraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
             self.shuffledPassphraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
-            self.shuffledPassphraseView.heightAnchor.constraint(equalTo: self.verifyPassphraseView.heightAnchor).priority(.high),
+            self.shuffledPassphraseView.heightAnchor.constraint(equalTo: self.verifyPassphraseView.heightAnchor).priority(.defaultHigh),
 
             self.guides[4].topAnchor.constraint(equalTo: self.shuffledPassphraseView.bottomAnchor),
             self.guides[4].leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.guides[4].bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.guides[4].rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
-            self.guides[0].heightAnchor.constraint(equalToConstant: self.margin).priority(.high),
+            self.guides[0].heightAnchor.constraint(equalToConstant: self.margin).priority(.defaultHigh),
             self.guides[1].heightAnchor.constraint(equalTo: self.guides[0].heightAnchor, multiplier: 0.5),
             self.guides[2].heightAnchor.constraint(equalTo: self.guides[0].heightAnchor),
             self.guides[3].heightAnchor.constraint(equalTo: self.guides[2].heightAnchor),

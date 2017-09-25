@@ -78,16 +78,16 @@ class ChatCell: UITableViewCell {
         }
     }
 
-    lazy var messageAttributes: [String: Any] = {
+    lazy var messageAttributes: [NSAttributedStringKey: Any] = {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 2.5
         paragraphStyle.paragraphSpacing = -4
         paragraphStyle.lineBreakMode = .byTruncatingTail
 
         return [
-            NSFontAttributeName: Theme.regular(size: 15),
-            NSForegroundColorAttributeName: Theme.greyTextColor,
-            NSParagraphStyleAttributeName: paragraphStyle
+            .font: Theme.regular(size: 15),
+            .foregroundColor: Theme.greyTextColor,
+            .paragraphStyle: paragraphStyle
         ]
     }()
 

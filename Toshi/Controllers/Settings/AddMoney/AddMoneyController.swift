@@ -61,7 +61,7 @@ class AddMoneyController: UIViewController {
         stackView.width(to: scrollView)
     }
     
-    func copyToClipBoard(_ button: ConfirmationButton) {
+    @objc func copyToClipBoard(_ button: ConfirmationButton) {
         UIPasteboard.general.string = Cereal.shared.paymentAddress
 
         DispatchQueue.main.asyncAfter(seconds: 0.1) {

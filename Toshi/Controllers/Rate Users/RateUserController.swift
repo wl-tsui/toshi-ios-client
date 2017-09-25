@@ -121,7 +121,7 @@ class RateUserController: ModalPresentable {
         return gestureRecognizer
     }()
 
-    func tap(_: UITapGestureRecognizer) {
+    @objc func tap(_: UITapGestureRecognizer) {
 
         if inputField.internalTextView.isFirstResponder {
             inputField.internalTextView.resignFirstResponder()
@@ -130,7 +130,7 @@ class RateUserController: ModalPresentable {
         }
     }
 
-    func press(_ gestureRecognizer: UITapGestureRecognizer) {
+    @objc func press(_ gestureRecognizer: UITapGestureRecognizer) {
 
         let locationInView = gestureRecognizer.location(in: gestureRecognizer.view)
         let margin = (RateUserController.contentWidth - ratingView.frame.width) / 2
@@ -160,7 +160,7 @@ class RateUserController: ModalPresentable {
     }()
 
     fileprivate lazy var contentViewVerticalCenter: NSLayoutConstraint = {
-        self.contentView.centerYAnchor.constraint(equalTo: self.background.centerYAnchor)
+        self.visualEffectView.centerYAnchor.constraint(equalTo: self.background.centerYAnchor)
     }()
 
     private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
@@ -201,12 +201,12 @@ class RateUserController: ModalPresentable {
         fatalError()
     }
 
-    func cancel(_: ActionButton) {
+    @objc func cancel(_: ActionButton) {
         inputField.internalTextView.resignFirstResponder()
         dismiss(animated: true)
     }
 
-    func submit(_: ActionButton) {
+    @objc func submit(_: ActionButton) {
         delegate?.didRate(user, rating: Int(rating), review: review)
     }
 
@@ -214,20 +214,20 @@ class RateUserController: ModalPresentable {
         super.viewDidLoad()
 
         view.addSubview(background)
-        view.addSubview(contentView)
+        view.addSubview(visualEffectView)
 
-        contentView.addSubview(reviewContainer)
+        visualEffectView.contentView.addSubview(reviewContainer)
         reviewContainer.addSubview(titleLabel)
         reviewContainer.addSubview(textLabel)
         reviewContainer.addSubview(ratingView)
 
-        contentView.addSubview(inputField)
-        contentView.addSubview(dividers[0])
-        contentView.addSubview(cancelButton)
-        contentView.addSubview(dividers[1])
-        contentView.addSubview(submitButton)
+        visualEffectView.contentView.addSubview(inputField)
+        visualEffectView.contentView.addSubview(dividers[0])
+        visualEffectView.contentView.addSubview(cancelButton)
+        visualEffectView.contentView.addSubview(dividers[1])
+        visualEffectView.contentView.addSubview(submitButton)
 
-        contentView.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.7)
+        visualEffectView.backgroundColor = Theme.viewBackgroundColor.withAlphaComponent(0.7)
 
         dividers[0].backgroundColor = Theme.greyTextColor
         dividers[1].backgroundColor = Theme.greyTextColor
@@ -238,13 +238,13 @@ class RateUserController: ModalPresentable {
             self.background.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.background.rightAnchor.constraint(equalTo: self.view.rightAnchor),
 
-            self.contentView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.contentView.widthAnchor.constraint(equalToConstant: RateUserController.contentWidth),
+            self.visualEffectView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.visualEffectView.widthAnchor.constraint(equalToConstant: RateUserController.contentWidth),
             self.contentViewVerticalCenter,
 
-            self.reviewContainer.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.reviewContainer.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.reviewContainer.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            self.reviewContainer.topAnchor.constraint(equalTo: self.visualEffectView.contentView.topAnchor),
+            self.reviewContainer.leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
+            self.reviewContainer.rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
 
             self.titleLabel.topAnchor.constraint(equalTo: self.reviewContainer.topAnchor, constant: 20),
             self.titleLabel.leftAnchor.constraint(equalTo: self.reviewContainer.leftAnchor, constant: 40),
@@ -259,40 +259,40 @@ class RateUserController: ModalPresentable {
             self.ratingView.bottomAnchor.constraint(equalTo: self.reviewContainer.bottomAnchor, constant: -10),
 
             self.inputField.topAnchor.constraint(equalTo: self.reviewContainer.bottomAnchor, constant: 10),
-            self.inputField.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 20),
-            self.inputField.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -20),
+            self.inputField.leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor, constant: 20),
+            self.inputField.rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor, constant: -20),
             self.inputFieldHeight,
 
             self.dividers[0].topAnchor.constraint(equalTo: self.inputField.bottomAnchor, constant: 20),
-            self.dividers[0].leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.dividers[0].rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            self.dividers[0].leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
+            self.dividers[0].rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
             self.dividers[0].heightAnchor.constraint(equalToConstant: Theme.borderHeight),
 
             self.cancelButton.topAnchor.constraint(equalTo: self.dividers[0].bottomAnchor),
-            self.cancelButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.cancelButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            self.cancelButton.leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
+            self.cancelButton.rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
 
             self.dividers[1].topAnchor.constraint(equalTo: self.cancelButton.bottomAnchor),
-            self.dividers[1].leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.dividers[1].rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
+            self.dividers[1].leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
+            self.dividers[1].rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
             self.dividers[1].heightAnchor.constraint(equalToConstant: Theme.borderHeight),
 
             self.submitButton.topAnchor.constraint(equalTo: self.dividers[1].bottomAnchor),
-            self.submitButton.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
-            self.submitButton.rightAnchor.constraint(equalTo: self.contentView.rightAnchor),
-            self.submitButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            self.submitButton.leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
+            self.submitButton.rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
+            self.submitButton.bottomAnchor.constraint(equalTo: self.visualEffectView.contentView.bottomAnchor)
         ])
 
         background.addGestureRecognizer(tapGesture)
         reviewContainer.addGestureRecognizer(pressGesture)
     }
 
-    fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
+    @objc fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
         let info = KeyboardInfo(notification.userInfo)
         keyboardHeight = info.endFrame.height
     }
 
-    fileprivate dynamic func keyboardWillHide(_: Notification) {
+    @objc fileprivate dynamic func keyboardWillHide(_: Notification) {
         keyboardHeight = 0
     }
 }

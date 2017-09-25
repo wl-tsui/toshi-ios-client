@@ -44,7 +44,7 @@ typedef struct {
     int bit;
 } FreedomBitfield;
     
-void freedomInit();
+void freedomInit(void);
 
 Class freedomClass(uint32_t name);
 Class freedomMakeClass(Class superclass, Class subclass);

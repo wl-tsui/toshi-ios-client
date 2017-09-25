@@ -28,9 +28,6 @@
         [parentController.associatedWindowStack addObject:self];
         
         _contentController = contentController;
-        
-        if (iosMajorVersion() < 9)
-            [self createControllerIfNeeded];
     }
     return self;
 }
@@ -87,39 +84,18 @@
 
 - (void)showAnimated:(bool)animated
 {
-    if (iosMajorVersion() >= 9)
-    {
-        UIUserInterfaceSizeClass sizeClass = [UIApplication sharedApplication].delegate.window.rootViewController.traitCollection.horizontalSizeClass;
+    UIUserInterfaceSizeClass sizeClass = [UIApplication sharedApplication].delegate.window.rootViewController.traitCollection.horizontalSizeClass;
 
-        if (sizeClass == UIUserInterfaceSizeClassCompact)
-        {
-            [self updateSizeClass:sizeClass animated:true];
-        }
-        else
-        {
-            [self createControllerIfNeeded];
-            
-            self.hidden = false;
-            
-            if (animated)
-                [[self controller] animateInWithCompletion:nil];
-        }
-        
-        __weak OverlayFormsheetWindow *weakSelf = self;
-//        _sizeClassDisposable = [[SMetaDisposable alloc] init];
-//        [_sizeClassDisposable setDisposable:CurrentSizeClass() startWithNext:^(NSNumber *next)
-//        {
-//            __strong OverlayFormsheetWindow *strongSelf = weakSelf;
-//            if (strongSelf == nil)
-//                return;
-//            
-//            [strongSelf updateSizeClass:next.integerValue animated:false];
-//        }]];
+    if (sizeClass == UIUserInterfaceSizeClassCompact)
+    {
+        [self updateSizeClass:sizeClass animated:true];
     }
     else
     {
+        [self createControllerIfNeeded];
+
         self.hidden = false;
-        
+
         if (animated)
             [[self controller] animateInWithCompletion:nil];
     }

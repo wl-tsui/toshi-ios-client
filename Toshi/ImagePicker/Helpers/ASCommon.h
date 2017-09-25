@@ -30,11 +30,11 @@ extern "C" {
 #endif
 
 void TGLogSetEnabled(bool enabled);
-bool TGLogEnabled();
+bool TGLogEnabled(void);
 void TGLog(NSString *format, ...);
 void TGLogv(NSString *format, va_list args);
 
-void TGLogSynchronize();
+void TGLogSynchronize(void);
 NSArray *TGGetLogFilePaths(int count);
     
 #ifdef __cplusplus

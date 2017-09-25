@@ -5,7 +5,7 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
 
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
 
         return ceil(boundingBox.height)
     }
@@ -54,7 +54,7 @@ extension String {
     var emojiVisibleLength: Int {
         var count = 0
 
-        enumerateSubstrings(in: startIndex ..< endIndex, options: .byComposedCharacterSequences) { _ in
+        enumerateSubstrings(in: startIndex ..< endIndex, options: .byComposedCharacterSequences) { _, _, _, _  in
             count += 1
         }
 

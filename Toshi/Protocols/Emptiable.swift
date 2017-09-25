@@ -48,8 +48,8 @@ extension Emptiable where Self: UIViewController {
         let sourceView = self.sourceView()
 
         let containerView = UIView(withAutoLayout: true)
-        containerView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        containerView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        containerView.setContentHuggingPriority(.required, for: .vertical)
+        containerView.setContentCompressionResistancePriority(.required, for: .vertical)
 
         let titleLabel = self.label(with: Theme.medium(size: 20.0))
         let descriptionLabel = self.label(with: Theme.regular(size: 16.0))
@@ -94,7 +94,7 @@ extension Emptiable where Self: UIViewController {
 
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 3
-        attributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
+        attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
 
         descriptionLabel.attributedText = attributedString
     }
@@ -129,10 +129,10 @@ extension Emptiable where Self: UIViewController {
         label.textAlignment = .center
         label.font = font
 
-        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        label.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
-        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
 
         return label
     }

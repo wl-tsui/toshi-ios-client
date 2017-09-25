@@ -374,7 +374,7 @@ NSString * const PhotoCropOriginalAspectRatio = @"original";
 {
     CGSize referenceSize = [self referenceViewSize];
     
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         orientation = UIInterfaceOrientationPortrait;
     

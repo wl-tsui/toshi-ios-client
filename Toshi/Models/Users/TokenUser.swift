@@ -44,32 +44,32 @@ public class TokenUser: NSObject, NSCoding {
         static let localCurrency = "local_currency"
     }
 
-    static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
+    @objc static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
     static let favoritesCollectionKey: String = "TokenContacts"
 
     public static let legacyStoredUserKey = "StoredUser"
 
     public static let currentLocalUserAddressKey = "currentLocalUserAddress"
-    public static let storedContactKey = "storedContactKey"
+    @objc public static let storedContactKey = "storedContactKey"
     public static let localUserSettingsKey = "localUserSettings"
 
     var category = ""
 
     var balance = NSDecimalNumber.zero
 
-    private(set) var name = ""
+    @objc private(set) var name = ""
 
     var displayUsername: String {
         return "@\(username)"
     }
-    private(set) var username = ""
+    @objc private(set) var username = ""
     private(set) var about = ""
     private(set) var location = ""
-    private(set) var avatarPath = ""
+    @objc private(set) var avatarPath = ""
 
     private(set) var isPublic = false
 
-    private(set) var address = ""
+    @objc private(set) var address = ""
     private(set) var paymentAddress = ""
     private(set) var isApp: Bool = false
     private(set) var reputationScore: Float?
@@ -87,7 +87,7 @@ public class TokenUser: NSObject, NSCoding {
     private(set) var cachedCurrencyLocale: Locale?
 
     fileprivate static var _current: TokenUser?
-    fileprivate(set) static var current: TokenUser? {
+    @objc fileprivate(set) static var current: TokenUser? {
         get {
             if _current == nil {
                 _current = retrieveCurrentUserFromStore()
@@ -164,7 +164,7 @@ public class TokenUser: NSObject, NSCoding {
         return TokenUser(json: json, shouldSave: shouldUpdate)
     }
 
-    public init(json: [String: Any], shouldSave: Bool = true) {
+    @objc public init(json: [String: Any], shouldSave: Bool = true) {
         super.init()
 
         update(json: json, updateAvatar: true, shouldSave: shouldSave)
@@ -260,7 +260,7 @@ public class TokenUser: NSObject, NSCoding {
         NotificationCenter.default.post(name: .userCreated, object: nil)
     }
 
-    public static func retrieveCurrentUser() {
+    @objc public static func retrieveCurrentUser() {
         current = retrieveCurrentUserFromStore()
 
         NotificationCenter.default.post(name: .userCreated, object: nil)

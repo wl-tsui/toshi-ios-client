@@ -25,9 +25,9 @@ int32_t murMurHashBytes32(void *bytes, int length);
 int32_t phoneMatchHash(NSString *phone);
     
 bool TGIsRTL();
-bool TGIsArabic();
-bool TGIsKorean();
-bool TGIsLocaleArabic();
+bool TGIsArabic(void);
+bool TGIsKorean(void);
+bool TGIsLocaleArabic(void);
     
 #ifdef __cplusplus
 }

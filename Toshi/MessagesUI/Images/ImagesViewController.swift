@@ -39,20 +39,6 @@ class ImagesViewController: UIViewController {
         return view
     }()
 
-    lazy var navigationBar: UINavigationBar = {
-        let view = UINavigationBar()
-        view.barStyle = .default
-
-        return view
-    }()
-
-    lazy var separatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.borderColor
-
-        return view
-    }()
-
     private lazy var doneButton: UIBarButtonItem = {
         let view = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(done(_:)))
         view.tintColor = Theme.tintColor
@@ -77,26 +63,11 @@ class ImagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(navigationBar)
-        navigationBar.top(to: view)
-        navigationBar.left(to: view)
-        navigationBar.right(to: view)
-        navigationBar.height(64)
-
-        navigationBar.addSubview(separatorView)
-        separatorView.bottom(to: navigationBar)
-        separatorView.left(to: navigationBar)
-        separatorView.right(to: navigationBar)
-        separatorView.height(Theme.borderHeight)
-
         view.addSubview(collectionView)
-        collectionView.topToBottom(of: navigationBar)
+        collectionView.top(to: view)
         collectionView.left(to: view)
         collectionView.bottom(to: view)
         collectionView.right(to: view)
-
-        navigationBar.setItems([UINavigationItem(title: self.title ?? "")], animated: false)
-        navigationBar.topItem?.leftBarButtonItem = doneButton
 
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(_:)))
         panGestureRecognizer.delegate = self
@@ -120,13 +91,13 @@ class ImagesViewController: UIViewController {
         dismissDelegate?.imagesAreDismissed(from: currentIndexPath)
     }
 
-    func done(_: UIBarButtonItem) {
+    @objc func done(_: UIBarButtonItem) {
         dismissDelegate?.imagesAreDismissed(from: currentIndexPath)
 
         dismiss(animated: true, completion: nil)
     }
 
-    func pan(_ gestureRecognizer: UIPanGestureRecognizer) {
+    @objc func pan(_ gestureRecognizer: UIPanGestureRecognizer) {
 
         switch gestureRecognizer.state {
         case .began:

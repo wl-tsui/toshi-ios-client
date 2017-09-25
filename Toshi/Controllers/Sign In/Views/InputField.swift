@@ -45,8 +45,8 @@ class InputField: UIView {
         view.textColor = Theme.greyTextColor
         view.textAlignment = .left
 
-        view.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        view.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
         return view
     }()
@@ -124,7 +124,7 @@ class InputField: UIView {
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
     }
 
-    func tap(_: UITapGestureRecognizer) {
+    @objc func tap(_: UITapGestureRecognizer) {
         textField.becomeFirstResponder()
     }
 }

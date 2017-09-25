@@ -197,7 +197,7 @@ static NSData *vertexShaderSource() {
 - (instancetype)initWithPath:(NSString *)path frameReady:(void (^)(VTAcceleratedVideoFrame *))frameReady {
     self = [super init];
     if (self != nil) {
-        _useVT = iosMajorVersion() >= 8;
+        _useVT = true;
 #if TARGET_IPHONE_SIMULATOR
         _useVT = false;
 #endif
@@ -241,7 +241,7 @@ static NSData *vertexShaderSource() {
     }
 }
 
-- (void)dispatch:(void (^)())block {
+- (void)dispatch:(void (^)(void))block {
     [_queue dispatch:block];
 }
 
@@ -400,7 +400,7 @@ static void VTPlayerDecompressionOutputCallback(void *decompressionOutputRefCon,
                 }
                 if (_output != nil) {
                     _output.alwaysCopiesSampleData = false;
-                    if (false && iosMajorVersion() >= 8) {
+                    if (false) {
                         _output.supportsRandomAccess = true;
                     }
                     
@@ -493,7 +493,7 @@ static void VTPlayerDecompressionOutputCallback(void *decompressionOutputRefCon,
                 if (earliestFrame != nil){
                     return earliestFrame;
                 } else {
-                    if (false && iosMajorVersion() >= 8) {
+                    if (false) {
                         [_output resetForReadingTimeRanges:@[[NSValue valueWithCMTimeRange:_timeRange]]];
                     } else {
                         [_reader cancelReading];
@@ -733,17 +733,15 @@ static NSMutableDictionary *queueItemsByPath() {
     GLint length = (GLint)source.length;
     glShaderSource(shader, 1, &bytes, &length);
     glCompileShader(shader);
-    
-    if (iosMajorVersion() >= 7) {
-        GLsizei logLength = 0;
-        glGetShaderInfoLog(shader, 0, &logLength, NULL);
-        if (logLength != 0) {
-            GLchar *log = malloc(logLength);
-            glGetShaderInfoLog(shader, logLength, &logLength, log);
-            NSString *logString = [[NSString alloc] initWithBytes:log length:logLength encoding:NSUTF8StringEncoding];
-            TGLog(@"Shader compile log: %@", logString);
-            free(log);
-        }
+
+    GLsizei logLength = 0;
+    glGetShaderInfoLog(shader, 0, &logLength, NULL);
+    if (logLength != 0) {
+        GLchar *log = malloc(logLength);
+        glGetShaderInfoLog(shader, logLength, &logLength, log);
+        NSString *logString = [[NSString alloc] initWithBytes:log length:logLength encoding:NSUTF8StringEncoding];
+        TGLog(@"Shader compile log: %@", logString);
+        free(log);
     }
     
     if (outShader != NULL) {

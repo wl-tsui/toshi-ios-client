@@ -7,4 +7,5 @@ framework module SweetSwift {
 
 module SweetSwift.Swift {
     header "SweetSwift-Swift.h"
+    requires objc
 }

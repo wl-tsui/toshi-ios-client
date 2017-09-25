@@ -42,25 +42,25 @@ extern int TGLocalizedStaticVersion;
 #ifdef __cplusplus
 extern "C" {
 #endif
-int cpuCoreCount();
-bool hasModernCpu();
-int deviceMemorySize();
+int cpuCoreCount(void);
+bool hasModernCpu(void);
+int deviceMemorySize(void);
     
 void TGSetLocalizationFromFile(NSString *filePath);
-bool TGIsCustomLocalizationActive();
-void TGResetLocalization();
+bool TGIsCustomLocalizationActive(void);
+void TGResetLocalization(void);
 NSString *TGLocalized(NSString *s);
 
 bool TGObjectCompare(id obj1, id obj2);
 bool StringCompare(NSString *s1, NSString *s2);
     
-NSTimeInterval TGCurrentSystemTime();
+NSTimeInterval TGCurrentSystemTime(void);
 
 NSString *StringMD5(NSString *string);
-UIUserInterfaceSizeClass CurrentSizeClass();
+UIUserInterfaceSizeClass CurrentSizeClass(void);
     
-int iosMajorVersion();
-int iosMinorVersion();
+int iosMajorVersion(void);
+int iosMinorVersion(void);
     
 void printMemoryUsage(NSString *tag);
     
@@ -70,7 +70,7 @@ NSString *TGEncodeText(NSString *string, int key);
 void DispatchOnMainThread(dispatch_block_t block);
 void DispatchAfter(double delay, dispatch_queue_t queue, dispatch_block_t block);
     
-    CFAbsoluteTime MTAbsoluteSystemTime();
+    CFAbsoluteTime MTAbsoluteSystemTime(void);
     
 #ifdef __cplusplus
 }

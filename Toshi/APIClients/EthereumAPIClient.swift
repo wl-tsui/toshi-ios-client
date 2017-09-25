@@ -21,7 +21,7 @@ public typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: Erro
 
 public class EthereumAPIClient: NSObject {
 
-    static let shared: EthereumAPIClient = EthereumAPIClient()
+    @objc static let shared: EthereumAPIClient = EthereumAPIClient()
 
     fileprivate var mainTeapot: Teapot
 
@@ -157,14 +157,14 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func registerForMainNetworkPushNotifications() {
+    @objc public func registerForMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
-            self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _ in }
+            self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _, _ in }
         }
     }
 
-    public func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
+    @objc public func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard NetworkSwitcher.shared.isDefaultNetworkActive == false else {
             completion?(true, nil)
             return
@@ -178,7 +178,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func deregisterFromMainNetworkPushNotifications() {
+    @objc public func deregisterFromMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
             self.deregisterFromPushNotifications(timestamp, teapot: self.mainTeapot)

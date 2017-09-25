@@ -49,17 +49,17 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
     func present(with context: UIViewControllerContextTransitioning) {
         guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.to) as? ModalPresentable else { return }
-        controller.contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        controller.contentView.alpha = 0.5
+        controller.visualEffectView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        controller.visualEffectView.alpha = 0.5
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
-            controller.contentView.alpha = 1
+            controller.visualEffectView.alpha = 1
         }) { didComplete in
             context.completeTransition(didComplete)
         }
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 20, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
-            controller.contentView.transform = .identity
+            controller.visualEffectView.transform = .identity
         }, completion: nil)
     }
 
@@ -67,8 +67,8 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
         guard let controller = context.viewController(forKey: UITransitionContextViewControllerKey.from) as? ModalPresentable else { return }
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeInFromCurrentStateWithUserInteraction, animations: {
-            controller.contentView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            controller.contentView.alpha = 0
+            controller.visualEffectView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            controller.visualEffectView.alpha = 0
         }) { didComplete in
             context.completeTransition(didComplete)
         }

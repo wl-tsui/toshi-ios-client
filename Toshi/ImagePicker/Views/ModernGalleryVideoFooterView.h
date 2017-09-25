@@ -17,8 +17,8 @@
 
 @interface ModernGalleryVideoFooterView : UIView
 
-@property (nonatomic, copy) void (^playPressed)();
-@property (nonatomic, copy) void (^pausePressed)();
+@property (nonatomic, copy) void (^playPressed)(void);
+@property (nonatomic, copy) void (^pausePressed)(void);
 
 @property (nonatomic) bool isPlaying;
 

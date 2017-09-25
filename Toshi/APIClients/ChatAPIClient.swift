@@ -19,7 +19,7 @@ import SweetFoundation
 
 public class ChatAPIClient: NSObject {
 
-    static let shared: ChatAPIClient = ChatAPIClient()
+    @objc static let shared: ChatAPIClient = ChatAPIClient()
 
     public var teapot: Teapot
 
@@ -54,7 +54,7 @@ public class ChatAPIClient: NSObject {
         }
     }
 
-    public func registerUser(completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
+    @objc public func registerUser(completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
         fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let parameters = UserBootstrapParameter()

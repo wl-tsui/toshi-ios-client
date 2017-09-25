@@ -22,18 +22,18 @@ enum Mode: Int {
     var remoteModePriority: UILayoutPriority {
         switch self {
         case .localUser:
-            return UILayoutPriorityDefaultLow
+            return .defaultLow
         case .remoteUser:
-            return UILayoutPriorityDefaultHigh
+            return .defaultHigh
         }
     }
 
     var localModePriority: UILayoutPriority {
         switch self {
         case .remoteUser:
-            return UILayoutPriorityDefaultLow
+            return .defaultLow
         case .localUser:
-            return UILayoutPriorityDefaultHigh
+            return .defaultHigh
         }
     }
 }

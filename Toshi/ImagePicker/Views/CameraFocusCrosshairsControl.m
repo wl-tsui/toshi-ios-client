@@ -71,40 +71,8 @@
         _autoFocusIndicator.image = [UIImage imageNamed:@"CameraAutoFocusCrosshairs"];
         _autoFocusIndicator.alpha = 0.0f;
         [_wrapperView addSubview:_autoFocusIndicator];
-        
-        if (iosMajorVersion() >= 8)
-        {
-            _exposureWrapperView = [[UIView alloc] initWithFrame:_focusIndicatorView.bounds];
-            [_focusIndicatorView addSubview:_exposureWrapperView];
-            
-            _exposureClipView = [[UIView alloc] initWithFrame:CGRectMake(45 + _focusIndicatorImageView.frame.size.width + 5, 45 + (_focusIndicatorImageView.frame.size.height - 144) / 2, 25, 144)];
-            _exposureClipView.clipsToBounds = true;
-            [_exposureWrapperView addSubview:_exposureClipView];
-            
-            _exposureIndicatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 25, 144)];
-            [_exposureClipView addSubview:_exposureIndicatorView];
-            
-            _exposureIconView = [[UIImageView alloc] initWithFrame:CGRectMake(-1, 59.5f, 25, 25)];
-            _exposureIconView.image = [UIImage imageNamed:@"CameraExposureIcon"];
-            [_exposureIndicatorView addSubview:_exposureIconView];
-            
-            _exposureTopLine = [[UIView alloc] initWithFrame:CGRectMake(11, _exposureIconView.frame.origin.y - 3 - _exposureIndicatorView.frame.size.height, 1, _exposureIndicatorView.frame.size.height)];
-            _exposureTopLine.alpha = 0.0f;
-            _exposureTopLine.backgroundColor = [CameraInterfaceAssets accentColor];
-            [_exposureIndicatorView addSubview:_exposureTopLine];
-            
-            _exposureBottomLine = [[UIView alloc] initWithFrame:CGRectMake(11, _exposureIconView.frame.origin.y + _exposureIconView.frame.size.height + 3, 1, _exposureIndicatorView.frame.size.height)];
-            _exposureBottomLine.alpha = 0.0f;
-            _exposureBottomLine.backgroundColor = [CameraInterfaceAssets accentColor];
-            [_exposureIndicatorView addSubview:_exposureBottomLine];
-            
-            _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-            [_focusIndicatorView addGestureRecognizer:_panGestureRecognizer];
-        }
-        else
-        {
-            _hideOnStop = true;
-        }
+
+        _hideOnStop = true;
     }
     
     return self;

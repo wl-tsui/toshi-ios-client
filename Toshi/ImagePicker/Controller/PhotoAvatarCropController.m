@@ -367,43 +367,11 @@ const CGFloat PhotoAvatarCropButtonsWrapperSize = 61.0f;
     [_wrapperView insertSubview:snapshotView belowSubview:_cropView];
     
     [self transitionOutSwitching:false completion:nil];
-
-    if (self.intent & PhotoEditorControllerFromCameraIntent && self.intent & PhotoEditorControllerAvatarIntent)
-    {        
-        if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-        {
-            referenceFrame = CGRectMake(referenceSize.height - referenceFrame.size.height - referenceFrame.origin.y,
-                                        referenceSize.width - referenceFrame.size.width - referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-        else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-        {
-            referenceFrame = CGRectMake(referenceFrame.origin.y,
-                                        referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-    }
     
     UIView *referenceView = nil;
     UIView *parentView = nil;
     if (self.beginTransitionOut != nil)
         referenceView = self.beginTransitionOut(&referenceFrame, &parentView);
-    
-    if (self.intent & PhotoEditorControllerFromCameraIntent && self.intent & PhotoEditorControllerAvatarIntent)
-    {
-        if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-        {
-            referenceFrame = CGRectMake(referenceSize.width - referenceFrame.size.height - referenceFrame.origin.y,
-                                        referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-        else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-        {
-            referenceFrame = CGRectMake(referenceFrame.origin.y,
-                                        referenceSize.height - referenceFrame.size.width - referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-    }
     
     POPSpringAnimation *animation = [PhotoEditorAnimation prepareTransitionAnimationForPropertyNamed:kPOPViewFrame];
     animation.fromValue = [NSValue valueWithCGRect:snapshotView.frame];
@@ -428,7 +396,7 @@ const CGFloat PhotoAvatarCropButtonsWrapperSize = 61.0f;
 - (CGRect)_targetFrameForTransitionInFromFrame:(CGRect)fromFrame
 {
     CGSize referenceSize = [self referenceViewSize];
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     
     if ([self inFormSheet] || [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
         orientation = UIInterfaceOrientationPortrait;

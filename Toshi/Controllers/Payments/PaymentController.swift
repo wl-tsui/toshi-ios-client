@@ -172,11 +172,11 @@ class PaymentController: UIViewController {
         setupActiveNetworkView()
     }
     
-    func cancelItemTapped(_ item: UIBarButtonItem) {
+    @objc func cancelItemTapped(_ item: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
     
-    func continueItemTapped(_ item: UIBarButtonItem) {
+    @objc func continueItemTapped(_ item: UIBarButtonItem) {
         delegate?.paymentControllerFinished(with: valueInWei, for: self)
     }
     

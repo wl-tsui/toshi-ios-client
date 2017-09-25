@@ -180,9 +180,6 @@
     if (self.previewOutput == nil)
         return;
     
-    if (iosMajorVersion() < 7)
-        animated = false;
-    
     if (_processing && completion == nil)
     {
         _needsReprocessing = true;

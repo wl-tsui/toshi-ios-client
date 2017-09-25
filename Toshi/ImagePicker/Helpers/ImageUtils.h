@@ -85,15 +85,15 @@ CGFloat TGRetinaFloor(CGFloat value);
 CGFloat TGRetinaCeil(CGFloat value);
 CGFloat TGScreenPixelFloor(CGFloat value);
     
-bool TGIsRetina();
-CGFloat TGScreenScaling();
-bool TGIsPad();
+bool TGIsRetina(void);
+CGFloat TGScreenScaling(void);
+bool TGIsPad(void);
     
-CGFloat TGSeparatorHeight();
+CGFloat TGSeparatorHeight(void);
 
     
-CGSize TGScreenSize();
-CGSize TGNativeScreenSize();
+CGSize TGScreenSize(void);
+CGSize TGNativeScreenSize(void);
     
 extern CGFloat TGRetinaPixel;
 extern CGFloat TGScreenPixel;

@@ -57,10 +57,8 @@ const CGFloat PhotoCounterButtonMaskFade = 18;
         [_wrapperView addSubview:_crossIconView];
         
         CGFloat maskWidth = 50.0f;
-        if (iosMajorVersion() >= 7)
-            maskWidth += CGCeil([TGLocalized(@"Processing") sizeWithAttributes:@{ NSFontAttributeName:TGSystemFontOfSize(16) }].width);
-        else
-            maskWidth += CGCeil([TGLocalized(@"Processing") sizeWithFont:TGSystemFontOfSize(16)].width);
+        
+        maskWidth += CGCeil([TGLocalized(@"Processing") sizeWithAttributes:@{ NSFontAttributeName:TGSystemFontOfSize(16) }].width);
         
         _processingMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maskWidth, 38)];
         [_wrapperView addSubview:_processingMaskView];

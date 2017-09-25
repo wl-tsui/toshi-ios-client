@@ -8,7 +8,7 @@ class ImageCell: UICollectionViewCell {
     lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
+        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
         return view
     }()

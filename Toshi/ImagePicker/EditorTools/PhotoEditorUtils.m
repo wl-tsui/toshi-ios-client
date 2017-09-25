@@ -139,27 +139,13 @@ CGImageRef PhotoLanczosResize(UIImage *image, CGSize targetSize)
 UIImage *PhotoEditorFitImage(UIImage *image, CGSize maxSize)
 {
     CGSize fittedImageSize = TGFitSize(image.size, maxSize);
-    
-    if (iosMajorVersion() >= 7)
-    {
-        CGImageRef imageRef = PhotoLanczosResize(image, fittedImageSize);
-        
-        UIImage *resizedImage = [[UIImage alloc] initWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
-        CGImageRelease(imageRef);
-        
-        return resizedImage;
-    }
-    else
-    {
-        UIGraphicsBeginImageContextWithOptions(fittedImageSize, true, 1.0f);
-        
-        [image drawInRect:CGRectMake(0, 0, fittedImageSize.width, fittedImageSize.height)];
-        
-        UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        return resizedImage;
-    }
+
+    CGImageRef imageRef = PhotoLanczosResize(image, fittedImageSize);
+
+    UIImage *resizedImage = [[UIImage alloc] initWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
+    CGImageRelease(imageRef);
+
+    return resizedImage;
 }
 
 UIImage *PhotoEditorLegacyCrop(UIImage *image, UIImage *paintingImage, UIImageOrientation orientation, CGFloat rotation, CGRect rect, bool mirrored, CGSize maxSize, bool shouldResize)
@@ -209,9 +195,6 @@ UIImage *PhotoEditorCrop(UIImage *inputImage, UIImage *paintingImage, UIImageOri
 
 UIImage *PhotoEditorVideoCrop(UIImage *inputImage, UIImage *paintingImage, UIImageOrientation orientation, CGFloat rotation, CGRect rect, bool mirrored, CGSize maxSize, CGSize originalSize, bool shouldResize, bool useImageSize)
 {
-    if (iosMajorVersion() < 7)
-        return PhotoEditorLegacyCrop(inputImage, paintingImage, orientation, rotation, rect, mirrored, maxSize, shouldResize);
-    
     if (useImageSize)
     {
         CGFloat ratio = inputImage.size.width / originalSize.width;

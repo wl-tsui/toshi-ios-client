@@ -50,8 +50,8 @@ typedef enum {
 
 + (CGFloat)applicationStatusBarOffset;
 + (void)setApplicationStatusBarOffset:(CGFloat)offset;
-+ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation delay:(NSTimeInterval)delay duration:(NSTimeInterval)duration completion:(void (^)())completion;
-+ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation duration:(NSTimeInterval)duration completion:(void (^)())completion;
++ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation delay:(NSTimeInterval)delay duration:(NSTimeInterval)duration completion:(void (^)(void))completion;
++ (void)animateApplicationStatusBarAppearance:(int)statusBarAnimation duration:(NSTimeInterval)duration completion:(void (^)(void))completion;
 + (void)animateApplicationStatusBarStyleTransitionWithDuration:(NSTimeInterval)duration;
 + (CGFloat)statusBarHeightForOrientation:(UIInterfaceOrientation)orientation;
 
@@ -69,7 +69,7 @@ typedef enum {
 extern "C" {
 #endif
 
-CGFloat TGAnimationSpeedFactor();
+CGFloat TGAnimationSpeedFactor(void);
 
 #ifdef __cplusplus
 }

@@ -30,9 +30,9 @@
 
 @property (nonatomic, copy) void (^itemFocused)(MediaPickerGalleryItem *);
 
-@property (nonatomic, copy) void (^willTransitionIn)();
-@property (nonatomic, copy) void (^willTransitionOut)();
-@property (nonatomic, copy) void (^didTransitionOut)();
+@property (nonatomic, copy) void (^willTransitionIn)(void);
+@property (nonatomic, copy) void (^willTransitionOut)(void);
+@property (nonatomic, copy) void (^didTransitionOut)(void);
 @property (nonatomic, copy) UIView *(^referenceViewForItem)(MediaPickerGalleryItem *);
 
 @property (nonatomic, copy) void (^completeWithItem)(MediaPickerGalleryItem *item);

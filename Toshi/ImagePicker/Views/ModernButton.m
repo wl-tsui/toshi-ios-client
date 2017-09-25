@@ -222,10 +222,7 @@
 {
     _titleColor = color;
     
-    if (iosMajorVersion() >= 7)
-        [self setTintColor:color];
-    else
-        [self setTitleColor:color forState:UIControlStateNormal];
+    [self setTintColor:color];
     
     if (_modernHighlight && _highlightImage == nil && _highlightBackgroundColor == nil)
     {

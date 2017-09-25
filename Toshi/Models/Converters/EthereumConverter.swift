@@ -109,7 +109,7 @@ struct EthereumConverter {
     ///   - width: the width of the label, to adjust alignment.
     ///   - attributes: the attributes of the label, to copy them on the attributed string.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat, attributes: [String: Any]? = nil) -> NSAttributedString {
+    public static func balanceSparseAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, width: CGFloat, attributes: [NSAttributedStringKey: Any]? = nil) -> NSAttributedString {
         let attributedString = balanceAttributedString(forWei: balance, exchangeRate: exchangeRate, attributes: attributes)
         guard let mutableAttributedString = attributedString.mutableCopy() as? NSMutableAttributedString else { return attributedString }
 
@@ -119,7 +119,7 @@ struct EthereumConverter {
         paragraph.alignment = .left
         let nextTabStop = NSTextTab(textAlignment: .right, location: width, options: [:])
         paragraph.tabStops = [nextTabStop]
-        mutableAttributedString.addAttribute(NSParagraphStyleAttributeName, value: paragraph, range: range)
+        mutableAttributedString.addAttribute(.paragraphStyle, value: paragraph, range: range)
 
         return mutableAttributedString
     }
@@ -132,19 +132,19 @@ struct EthereumConverter {
     ///   - balance: the value in wei
     ///   - attributes: the attributes of the label, to copy them on the attributed string.
     /// - Returns: the attributed string to be displayed.
-    public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, attributes: [String: Any]? = nil) -> NSAttributedString {
+    public static func balanceAttributedString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, attributes: [NSAttributedStringKey: Any]? = nil) -> NSAttributedString {
 
         let fiatText = fiatValueStringWithCode(forWei: balance, exchangeRate: exchangeRate)
         let etherText = ethereumValueString(forWei: balance)
-
+        
         let fiatTextFull = fiatText + "\t"
         let text = fiatTextFull + etherText
         let etherRange = (text as NSString).range(of: etherText)
         let fiatRange = (text as NSString).range(of: fiatTextFull)
 
-        let attributedString = NSMutableAttributedString(string: text, attributes: attributes ?? [NSFontAttributeName: Theme.medium(size: 15)])
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.greyTextColor, range: etherRange)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: Theme.darkTextColor, range: fiatRange)
+        let attributedString = NSMutableAttributedString(string: text, attributes: attributes ?? [.font: Theme.medium(size: 15)])
+        attributedString.addAttribute(.foregroundColor, value: Theme.greyTextColor, range: etherRange)
+        attributedString.addAttribute(.foregroundColor, value: Theme.darkTextColor, range: fiatRange)
 
         return attributedString
     }

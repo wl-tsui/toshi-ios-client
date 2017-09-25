@@ -107,8 +107,7 @@ typedef enum
         self.view.frame = [UIScreen mainScreen].bounds;
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
-    
-    __weak MenuSheetController *weakSelf = self;
+
     _sizeClassDisposable = [[SMetaDisposable alloc] init];
 //    [_sizeClassDisposable setDisposable:[[CurrentSizeClass() startWithNext:^(NSNumber *next)
 //    {
@@ -187,15 +186,8 @@ typedef enum
         {
             [snapshotView removeFromSuperview];
         };
-        
-        if (iosMajorVersion() >= 7)
-        {
-            [UIView animateWithDuration:0.25 delay:0.0 usingSpringWithDamping:1.5 initialSpringVelocity:0.0 options:UIViewAnimationOptionCurveLinear animations:changeBlock completion:completionBlock];
-        }
-        else
-        {
-            [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:changeBlock completion:completionBlock];
-        }
+
+        [UIView animateWithDuration:0.25 delay:0.0 usingSpringWithDamping:1.5 initialSpringVelocity:0.0 options:UIViewAnimationOptionCurveLinear animations:changeBlock completion:completionBlock];
         
         _sheetView = [[MenuSheetView alloc] initWithItemViews:itemViews sizeClass:sizeClass];
         _sheetView.menuRelayout = menuRelayout;
@@ -319,46 +311,26 @@ typedef enum
 {
     if (_sourceView == nil && self.barButtonItem == nil)
         return;
-    
-    if (iosMajorVersion() >= 8)
+
+    [controller presentViewController:self animated:false completion:nil];
+    if (self.popoverPresentationController == nil)
+        return;
+
+    self.popoverPresentationController.backgroundColor = [UIColor whiteColor];
+    self.popoverPresentationController.delegate = self;
+    self.popoverPresentationController.permittedArrowDirections = self.permittedArrowDirections;
+
+    if (self.barButtonItem != nil)
     {
-        [controller presentViewController:self animated:false completion:nil];
-        if (self.popoverPresentationController == nil)
-            return;
-        
-        self.popoverPresentationController.backgroundColor = [UIColor whiteColor];
-        self.popoverPresentationController.delegate = self;
-        self.popoverPresentationController.permittedArrowDirections = self.permittedArrowDirections;
-        
-        if (self.barButtonItem != nil)
-        {
-            self.popoverPresentationController.barButtonItem = self.barButtonItem;
-        }
-        else
-        {
-            self.popoverPresentationController.sourceView = _sourceView;
-            CGRect sourceRect = _sourceView.bounds;
-            if (self.sourceRect != nil)
-                sourceRect = self.sourceRect();
-            self.popoverPresentationController.sourceRect = sourceRect;
-        }
+        self.popoverPresentationController.barButtonItem = self.barButtonItem;
     }
     else
     {
-        _popoverController = [[UIPopoverController alloc] initWithContentViewController:self];
-        
-        if (self.barButtonItem != nil)
-        {
-            [_popoverController presentPopoverFromBarButtonItem:self.barButtonItem permittedArrowDirections:self.permittedArrowDirections animated:false];
-        }
-        else
-        {
-            CGRect sourceRect = _sourceView.bounds;
-            if (self.sourceRect != nil)
-                sourceRect = self.sourceRect();
-            
-            [_popoverController presentPopoverFromRect:sourceRect inView:self.sourceView permittedArrowDirections:self.permittedArrowDirections animated:false];
-        }
+        self.popoverPresentationController.sourceView = _sourceView;
+        CGRect sourceRect = _sourceView.bounds;
+        if (self.sourceRect != nil)
+            sourceRect = self.sourceRect();
+        self.popoverPresentationController.sourceRect = sourceRect;
     }
 }
 
@@ -409,9 +381,6 @@ typedef enum
         
         _dimView.alpha = 0.0f;
         [self setDimViewHidden:false animated:animated];
-        
-//        if (iosMajorVersion() >= 7 && [viewController isKindOfClass:[TGNavigationController class]])
-//            ((TGNavigationController *)viewController).interactivePopGestureRecognizer.enabled = false;
         
         if (animated)
         {
@@ -476,9 +445,6 @@ typedef enum
     
     if (compact)
     {
-//        if (iosMajorVersion() >= 7 && [self.parentViewController isKindOfClass:[TGNavigationController class]])
-//            ((TGNavigationController *)self.parentViewController).interactivePopGestureRecognizer.enabled = true;
-        
         [_sheetView menuWillDisappearAnimated:animated];
         [self setDimViewHidden:true animated:animated];
         if (animated)
@@ -561,8 +527,7 @@ typedef enum
     if (type == MenuSheetAnimationPresent)
     {
         UIViewAnimationOptions options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent;
-        if (iosMajorVersion() >= 7)
-            options |= 7 << 16;
+
         [UIView animateWithDuration:0.3 delay:0.0 options:options animations:changeBlock completion:completionBlock];
     }
     else
@@ -570,15 +535,8 @@ typedef enum
         CGFloat duration = 0.25;
         if (type == MenuSheetAnimationFastDismiss)
             duration = 0.2;
-        
-        if (iosMajorVersion() >= 7)
-        {
-            [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:1.5 initialSpringVelocity:animationVelocity options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowAnimatedContent animations:changeBlock completion:completionBlock];
-        }
-        else
-        {
-            [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowAnimatedContent animations:changeBlock completion:completionBlock];
-        }
+
+        [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:1.5 initialSpringVelocity:animationVelocity options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowAnimatedContent animations:changeBlock completion:completionBlock];
     }
 }
 
@@ -780,9 +738,6 @@ typedef enum
                 [self removeFromParentViewController];
                 
                 [self _presentPopoverInController:_parentController];
-                
-//                if (iosMajorVersion() >= 7 && [_parentController isKindOfClass:[TGNavigationController class]])
-//                    ((TGNavigationController *)_parentController).interactivePopGestureRecognizer.enabled = true;
             }
                 break;
                 
@@ -797,9 +752,6 @@ typedef enum
                     [_parentController addChildViewController:self];
                     [_parentController.view addSubview:self.view];
                     [self.view setNeedsLayout];
-                    
-//                    if (iosMajorVersion() >= 7 && [_parentController isKindOfClass:[TGNavigationController class]])
-//                        ((TGNavigationController *)_parentController).interactivePopGestureRecognizer.enabled = false;
                 }];
             }
                 break;
@@ -818,8 +770,8 @@ typedef enum
         _sheetView.menuWidth = MenuSheetPadMenuWidth;
         
         CGSize menuSize = _sheetView.menuSize;
-        if (iosMajorVersion() >= 7)
-            self.preferredContentSize = menuSize;
+
+        self.preferredContentSize = menuSize;
         _sheetView.frame = CGRectMake(0, 0, menuSize.width, self.view.frame.size.height);
         _containerView.frame = _sheetView.bounds;
         _dimView.frame = CGRectZero;
@@ -937,7 +889,7 @@ typedef enum
 
 - (void)setup3DTouch
 {
-    if (iosMajorVersion() >= 9 && self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable)
     {
         for (MenuSheetItemView *itemView in _sheetView.itemViews)
         {

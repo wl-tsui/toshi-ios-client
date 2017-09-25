@@ -65,7 +65,7 @@
     }
 }
 
-- (id<SDisposable>)requestSessionWithType:(AudioSessionType)type interrupted:(void (^)())interrupted
+- (id<SDisposable>)requestSessionWithType:(AudioSessionType)type interrupted:(void (^)(void))interrupted
 {
     NSArray *interruptedToInvoke = nil;
     id<SDisposable> result = nil;
@@ -138,7 +138,7 @@
     }
     pthread_mutex_unlock(&_mutex);
     
-    for (void (^f)() in interruptedToInvoke)
+    for (void (^f)(void) in interruptedToInvoke)
     {
         f();
     }

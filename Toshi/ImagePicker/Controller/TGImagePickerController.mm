@@ -50,9 +50,6 @@ void sharedAssetsLibraryRetain()
             sharedLibraryRetainCount = 1;
             sharedLibrary = [[ALAssetsLibrary alloc] init];
             
-            if (iosMajorVersion() == 5)
-                [sharedLibrary writeImageToSavedPhotosAlbum:nil metadata:nil completionBlock:^(__unused NSURL *assetURL, __unused NSError *error) { }];
-            
             [sharedLibrary enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop)
             {
                 if (group != nil)

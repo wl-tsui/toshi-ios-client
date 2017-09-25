@@ -124,7 +124,7 @@ open class ChatsController: SweetTableController {
         NotificationCenter.default.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
-    func yapDatabaseDidChange(notification _: NSNotification) {
+    @objc func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
@@ -270,10 +270,10 @@ extension ChatsController: Emptiable {
     }
 
     func isScrollable() -> Bool {
-        return true
+        return false
     }
 
-    func buttonPressed(sender _: AnyObject) {
+    @objc func buttonPressed(sender _: AnyObject) {
         let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://toshi.org)"], applicationActivities: [])
 
         Navigator.presentModally(shareController)

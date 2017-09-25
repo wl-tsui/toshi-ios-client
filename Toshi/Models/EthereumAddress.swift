@@ -28,11 +28,11 @@ public struct EthereumAddress {
 
         switch format {
         case .ethereumHex, .hex, .unprefixedHex:
-            let address = (input as NSString).substring(with: match.rangeAt(1))
+            let address = (input as NSString).substring(with: match.range(at: 1))
             normalized = "0x" + address.lowercased()
         case .icap:
             guard match.numberOfRanges == 3 else { return nil }
-            let accountIdentifier = (input as NSString).substring(with: match.rangeAt(2))
+            let accountIdentifier = (input as NSString).substring(with: match.range(at: 2))
             guard let address = accountIdentifier.base36to16() else { return nil }
             normalized = "0x" + address.lowercased()
         }

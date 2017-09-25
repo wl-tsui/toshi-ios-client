@@ -70,6 +70,8 @@ final class ChatController: OverlayController {
     fileprivate lazy var avatarImageView: AvatarImageView = {
         let avatar = AvatarImageView(image: UIImage())
         avatar.bounds.size = CGSize(width: 34, height: 34)
+        avatar.set(height: 34.0)
+        avatar.set(width: 34.0)
         avatar.isUserInteractionEnabled = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.showContactProfile))
@@ -239,6 +241,10 @@ final class ChatController: OverlayController {
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
 
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = false
+        }
+
         updateContentInset()
         updateBalance()
     }
@@ -260,6 +266,10 @@ final class ChatController: OverlayController {
 
         viewModel.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
+
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
     }
 
     fileprivate func updateBalance() {
@@ -319,13 +329,13 @@ final class ChatController: OverlayController {
         }
     }
 
-    func keyboardWillShow() {
+    @objc func keyboardWillShow() {
         if textInputView.inputField.isFirstResponder() == true {
             scrollToBottom(animated: false)
         }
     }
 
-    func keyboardDidHide() {
+    @objc func keyboardDidHide() {
         becomeFirstResponder()
     }
 
@@ -532,8 +542,8 @@ final class ChatController: OverlayController {
     }
 
     fileprivate func checkMicrophoneAccess() {
-        if AVAudioSession.sharedInstance().recordPermission().contains(.undetermined) {
-
+        if AVAudioSession.sharedInstance().recordPermission() == .undetermined {
+            
             AVAudioSession.sharedInstance().requestRecordPermission { _ in
             }
         }

@@ -73,7 +73,7 @@ open class Message: NSObject, NOCChatItem {
     public var title: String? {
         set {
             if let string = newValue {
-                attributedTitle = NSAttributedString(string: string, attributes: [NSFontAttributeName: Theme.semibold(size: 15), NSForegroundColorAttributeName: Theme.incomingMessageTextColor])
+                attributedTitle = NSAttributedString(string: string, attributes: [.font: Theme.semibold(size: 15), .foregroundColor: Theme.incomingMessageTextColor])
             } else {
                 attributedTitle = nil
             }
@@ -86,7 +86,7 @@ open class Message: NSObject, NOCChatItem {
     public var subtitle: String? {
         set {
             if let string = newValue {
-                attributedSubtitle = NSAttributedString(string: string, attributes: [NSFontAttributeName: Theme.regular(size: 15), NSForegroundColorAttributeName: Theme.incomingMessageTextColor])
+                attributedSubtitle = NSAttributedString(string: string, attributes: [.font: Theme.regular(size: 15), .foregroundColor: Theme.incomingMessageTextColor])
             } else {
                 attributedSubtitle = nil
             }

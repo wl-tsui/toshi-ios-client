@@ -7,4 +7,5 @@ framework module EtherealCereal {
 
 module EtherealCereal.Swift {
     header "EtherealCereal-Swift.h"
+    requires objc
 }

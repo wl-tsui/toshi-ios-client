@@ -118,9 +118,9 @@ class MessagesPaymentCell: MessagesBasicCell {
         declineButton.right(to: bubbleView)
         declineButton.height(50)
 
-        textBottomConstraint = messageLabel.bottom(to: bubbleView, offset: -verticalMargin, priority: .high)
-        statusBottomConstraint = statusLabel.bottom(to: bubbleView, offset: -verticalMargin, priority: .high, isActive: false)
-        buttonBottomConstraint = declineButton.bottom(to: bubbleView, priority: .high, isActive: false)
+        textBottomConstraint = messageLabel.bottom(to: bubbleView, offset: -verticalMargin, priority: .defaultHigh)
+        statusBottomConstraint = statusLabel.bottom(to: bubbleView, offset: -verticalMargin, priority: .defaultHigh, isActive: false)
+        buttonBottomConstraint = declineButton.bottom(to: bubbleView, priority: .defaultHigh, isActive: false)
     }
 
     func setPaymentState(_ state: TSInteraction.PaymentState, for type: MessageType) {
@@ -164,11 +164,11 @@ class MessagesPaymentCell: MessagesBasicCell {
         setPaymentState(.none, for: .payment)
     }
 
-    func approvePayment(_: IconLabelButton) {
+    @objc func approvePayment(_: IconLabelButton) {
         selectionDelegate?.approvePayment(for: self)
     }
 
-    func declinePayment(_: IconLabelButton) {
+    @objc func declinePayment(_: IconLabelButton) {
         selectionDelegate?.declinePayment(for: self)
     }
 }

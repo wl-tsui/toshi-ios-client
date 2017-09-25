@@ -32,7 +32,7 @@ let paymentStatusMap = [
 
 class EthereumNotificationHandler: NSObject {
 
-    public static func handlePayment(_ userInfo: [String: Any], completion: @escaping ((_ state: UIBackgroundFetchResult) -> Void)) {
+    @objc public static func handlePayment(_ userInfo: [String: Any], completion: @escaping ((_ state: UIBackgroundFetchResult) -> Void)) {
         if userInfo["type"] as? String == "signal_message" { return }
 
         guard let body = userInfo["sofa"] as? String else {

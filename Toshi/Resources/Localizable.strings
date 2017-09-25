@@ -124,6 +124,8 @@
 "network-alert-title" = "Be aware!";
 "network-alert-text" = "Toshi is not an appropriate wallet for storage of large sums of ETH.";
 "alert-ok-action-title" = "OK";
+"sign-out-failure-title" = "Could not sign out";
+"sign-out-failure-message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
 
 /* Block user Alerts */
 "cancel_action" = "Cancel";

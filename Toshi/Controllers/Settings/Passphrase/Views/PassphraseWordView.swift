@@ -83,7 +83,7 @@ class PassphraseWordView: UIControl {
             self.wordLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.wordLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
 
-            self.heightAnchor.constraint(equalToConstant: PassphraseWordView.height).priority(.high)
+            self.heightAnchor.constraint(equalToConstant: PassphraseWordView.height).priority(.defaultHigh)
         ])
 
         setNeedsLayout()

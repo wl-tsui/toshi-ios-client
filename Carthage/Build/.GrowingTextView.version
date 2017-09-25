@@ -2,7 +2,7 @@
   "commitish" : "9f2b44246bba060f7e3ca1e10c2d59dd6d3fbae5",
   "iOS" : [
     {
-      "hash" : "c0311c502f143ccfccd4f0ed73a62c574d89cf50a98fda77daa28ed089c4793f",
+      "hash" : "48426d3320838ae292ae272c5946aee1b96192cd8531822f59fc246ae353affe",
       "name" : "HPGrowingTextView"
     }
   ]

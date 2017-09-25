@@ -32,8 +32,8 @@ class ProfileItemCell: UITableViewCell {
         view.textColor = Theme.darkTextColor
         view.font = Theme.semibold(size: 15)
 
-        view.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        view.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        view.setContentHuggingPriority(.required, for: .horizontal)
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         return view
     }()
@@ -94,7 +94,7 @@ class ProfileItemCell: UITableViewCell {
 
 extension ProfileItemCell: UITextFieldDelegate {
 
-    func textFieldDidChange() {
+    @objc func textFieldDidChange() {
         self.formItem?.updateValue(to: self.itemTextField.text, userInitiated: true)
     }
 }

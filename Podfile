@@ -20,6 +20,10 @@ abstract_target 'CocoaPods' do
 
   end
 
+  target 'Debug' do
+
+  end
+
   target 'Tests' do
 	
   end

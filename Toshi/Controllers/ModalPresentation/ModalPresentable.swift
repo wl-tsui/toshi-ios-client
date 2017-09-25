@@ -25,7 +25,7 @@ class ModalPresentable: UIViewController {
         return view
     }()
 
-    lazy var contentView: UIVisualEffectView = {
+    lazy var visualEffectView: UIVisualEffectView = {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.white

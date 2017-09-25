@@ -73,7 +73,7 @@ open class TabBarController: UITabBarController {
         fatalError()
     }
 
-    public func setupControllers() {
+    @objc public func setupControllers() {
         browseController = BrowseNavigationController(rootViewController: BrowseController())
         favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
 
@@ -149,7 +149,7 @@ open class TabBarController: UITabBarController {
         Navigator.presentModally(scannerController)
     }
 
-    public func openDeepLinkURL(_ url: URL) {
+    @objc public func openDeepLinkURL(_ url: URL) {
         if url.user == "username" {
             guard let username = url.host else { return }
 

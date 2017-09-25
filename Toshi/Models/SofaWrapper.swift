@@ -16,13 +16,13 @@
 import Foundation
 
 @objc public class SofaTypes: NSObject {
-    static let none = SofaType.none.rawValue
-    static let message = SofaType.message.rawValue
-    static let command = SofaType.command.rawValue
-    static let initialRequest = SofaType.initialRequest.rawValue
-    static let initialResponse = SofaType.initialResponse.rawValue
-    static let paymentRequest = SofaType.paymentRequest.rawValue
-    static let payment = SofaType.payment.rawValue
+    @objc static let none = SofaType.none.rawValue
+    @objc static let message = SofaType.message.rawValue
+    @objc static let command = SofaType.command.rawValue
+    @objc static let initialRequest = SofaType.initialRequest.rawValue
+    @objc static let initialResponse = SofaType.initialResponse.rawValue
+    @objc static let paymentRequest = SofaType.paymentRequest.rawValue
+    @objc static let payment = SofaType.payment.rawValue
 }
 
 public enum SofaType: String {

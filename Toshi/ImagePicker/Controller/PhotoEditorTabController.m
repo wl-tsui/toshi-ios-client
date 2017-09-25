@@ -190,43 +190,11 @@ const CGFloat PhotoEditorToolbarSize = 44.0f;
     
     CGSize referenceSize = [self referenceViewSize];
     
-    if (self.intent & PhotoEditorControllerFromCameraIntent && self.intent & PhotoEditorControllerAvatarIntent)
-    {
-        if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-        {
-            referenceFrame = CGRectMake(referenceSize.height - referenceFrame.size.height - referenceFrame.origin.y,
-                                        referenceSize.width - referenceFrame.size.width - referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-        else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-        {
-            referenceFrame = CGRectMake(referenceFrame.origin.y,
-                                        referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-    }
-    
     if (self.beginTransitionOut != nil)
         referenceView = self.beginTransitionOut(&referenceFrame, &parentView);
     
     if (parentView == nil)
         parentView = referenceView.superview.superview;
-    
-    if (self.intent & PhotoEditorControllerFromCameraIntent && self.intent & PhotoEditorControllerAvatarIntent)
-    {
-        if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-        {
-            referenceFrame = CGRectMake(referenceSize.width - referenceFrame.size.height - referenceFrame.origin.y,
-                                        referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-        else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-        {
-            referenceFrame = CGRectMake(referenceFrame.origin.y,
-                                        referenceSize.height - referenceFrame.size.width - referenceFrame.origin.x,
-                                        referenceFrame.size.height, referenceFrame.size.width);
-        }
-    }
     
     if (saving)
     {
@@ -319,10 +287,7 @@ const CGFloat PhotoEditorToolbarSize = 44.0f;
 - (CGRect)_targetFrameForTransitionInFromFrame:(CGRect)fromFrame
 {
     CGSize referenceSize = [self referenceViewSize];
-    UIInterfaceOrientation orientation = self.interfaceOrientation;
-    
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-        orientation = UIInterfaceOrientationPortrait;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     
     CGRect containerFrame = [PhotoEditorTabController photoContainerFrameForParentViewFrame:CGRectMake(0, 0, referenceSize.width, referenceSize.height) toolbarLandscapeSize:self.toolbarLandscapeSize orientation:orientation panelSize:PhotoEditorPanelSize];
     CGSize fittedSize = ScaleToSize(fromFrame.size, containerFrame.size);

@@ -136,9 +136,6 @@
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
-    if (iosMajorVersion() < 8 && !self.hidden)
-        return true;
-    
     return [super pointInside:point withEvent:event];
 }
 

@@ -1,8 +1,8 @@
 {
-  "commitish" : "cc5fad73d0a3115a5fbc501ecc3ac673ea9abe43",
+  "commitish" : "b8ef43a3561ee05e743ca15d884805fe08f72a13",
   "iOS" : [
     {
-      "hash" : "1a74d2a1a6015a71928edafd6c689b143170f38724002393745129256d3fd47a",
+      "hash" : "3eb1e20833b077b2c6570949dc17e478d32b26704de2e16cd3fd2e52bdef9a45",
       "name" : "SweetUIKit"
     }
   ]
