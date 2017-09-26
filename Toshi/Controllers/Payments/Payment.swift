@@ -22,7 +22,9 @@ class PaymentManager {
             guard let transaction = transaction as String? else {
                 
                 if let error = error {
-                    self?.showPaymentFailedMessage(for: error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self?.showPaymentFailedMessage(for: error.localizedDescription)
+                    }
                 }
                 
                 return
@@ -31,12 +33,15 @@ class PaymentManager {
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
             EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, message in
-                guard success else {
-                    self?.showPaymentFailedMessage(for: message ?? "Something went wrong")
-                    return
-                }
 
-                self?.showPaymentSucceededMessage(completion)
+                DispatchQueue.main.async {
+                    guard success else {
+                        self?.showPaymentFailedMessage(for: message ?? "Something went wrong")
+                        return
+                    }
+
+                    self?.showPaymentSucceededMessage(completion)
+                }
             }
         }
     }
