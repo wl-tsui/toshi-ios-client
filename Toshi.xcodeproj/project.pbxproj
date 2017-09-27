@@ -98,6 +98,9 @@
 		2B10A3FD1F082C9300E0F7DC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */; };
 		2B10A3FF1F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
 		2B10A4001F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
+		2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
+		2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
+		2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		2B35F2C01EF93320006A0FD0 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2B369E371EE59958002A44A3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7E5DA11E4C982300543296 /* Message.swift */; };
@@ -158,6 +161,9 @@
 		2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */; };
 		2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
 		2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
+		2BDBB5791F7B832700A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
+		2BDBB57A1F7B832A00A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
+		2BDBB57B1F7B832A00A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
 		2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0C1EF910B6007A7130 /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
@@ -1938,6 +1944,7 @@
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
+		2B20BBDE1F7A53A400844315 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsProfileCell.xib; sourceTree = "<group>"; };
 		2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsProfileCell.swift; sourceTree = "<group>"; };
@@ -1976,6 +1983,7 @@
 		2BD0AC8B1F278677000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
 		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
+		2BDBB5781F7B832300A0ECA0 /* APIKeys */ = {isa = PBXFileReference; lastKnownFileType = folder; path = APIKeys; sourceTree = "<group>"; };
 		2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Keyboard.swift"; sourceTree = "<group>"; };
 		2BE66A0B1EF910B6007A7130 /* Editable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
 		2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarManager.swift; sourceTree = "<group>"; };
@@ -3254,6 +3262,14 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		2B20BBDC1F7A537100844315 /* APIKeys */ = {
+			isa = PBXGroup;
+			children = (
+				2B20BBDE1F7A53A400844315 /* APIKeys.swift */,
+			);
+			path = APIKeys;
+			sourceTree = "<group>";
+		};
 		2B4794181F1E069500AC3EB4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -4214,6 +4230,7 @@
 				9FAACCE21E31120600FB871D /* SF-UI-Text */,
 				9FA12BEA1E65CF59003705F6 /* Sounds */,
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
+				2BDBB5781F7B832300A0ECA0 /* APIKeys */,
 				9F9238C51E24F1D2004BEEE0 /* Development.plist */,
 				14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */,
 				142709A11E531A6100BF964B /* Distribution.plist */,
@@ -4386,6 +4403,7 @@
 		9FC72A3B1E251ABE00EF1141 /* APIClients */ = {
 			isa = PBXGroup;
 			children = (
+				2B20BBDC1F7A537100844315 /* APIKeys */,
 				143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */,
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
 				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
@@ -4896,6 +4914,7 @@
 			files = (
 				84C195301ECF05C100B9512F /* sofa-web3.js in Resources */,
 				149F9AC51E72E29A00FB74AA /* SF-UI-Text-Semibold.otf in Resources */,
+				2BDBB57B1F7B832A00A0ECA0 /* APIKeys in Resources */,
 				149F9AC61E72E29A00FB74AA /* SF-UI-Display-Black.otf in Resources */,
 				149F9AC71E72E29A00FB74AA /* SF-UI-Text-MediumItalic.otf in Resources */,
 				149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */,
@@ -4943,6 +4962,7 @@
 			files = (
 				84C1952F1ECF05C100B9512F /* sofa-web3.js in Resources */,
 				9FAACD041E31120600FB871D /* SF-UI-Text-Semibold.otf in Resources */,
+				2BDBB5791F7B832700A0ECA0 /* APIKeys in Resources */,
 				9FAACCF11E31120600FB871D /* SF-UI-Display-Black.otf in Resources */,
 				9FAACD011E31120600FB871D /* SF-UI-Text-MediumItalic.otf in Resources */,
 				9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */,
@@ -4990,6 +5010,7 @@
 			files = (
 				A9603F651F4DABDC00BF57B1 /* sofa-web3.js in Resources */,
 				A9603F661F4DABDC00BF57B1 /* SF-UI-Text-Semibold.otf in Resources */,
+				2BDBB57A1F7B832A00A0ECA0 /* APIKeys in Resources */,
 				A9603F671F4DABDC00BF57B1 /* SF-UI-Display-Black.otf in Resources */,
 				A9603F681F4DABDC00BF57B1 /* SF-UI-Text-MediumItalic.otf in Resources */,
 				A9603F691F4DABDC00BF57B1 /* SF-UI-Text-UltrathinItalic.otf in Resources */,
@@ -5469,6 +5490,7 @@
 				9F4D80FF1EEA8B4500FB5361 /* ModernButtonView.m in Sources */,
 				9F4D803F1EEA8B4500FB5361 /* DataResource.m in Sources */,
 				9F4D80391EEA8B4500FB5361 /* PSLMDBTable.m in Sources */,
+				2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */,
 				9F4D7F291EEA8B4500FB5361 /* PhotoBlurPass.m in Sources */,
 				9F4D80A11EEA8B4500FB5361 /* CameraPreviewView.m in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
@@ -5988,6 +6010,7 @@
 				9F4D809A1EEA8B4500FB5361 /* CameraMainPhoneView.m in Sources */,
 				9F4D80201EEA8B4500FB5361 /* UICollectionView+Transitioning.m in Sources */,
 				9F4D800A1EEA8B4500FB5361 /* SGraphListNode.m in Sources */,
+				2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */,
 				9F4D7FC81EEA8B4500FB5361 /* ImageManagerTask.m in Sources */,
 				9F4D812E1EEA8B4600FB5361 /* PhotoBrushSettingsView.m in Sources */,
 				9F4D80E81EEA8B4500FB5361 /* MenuSheetButtonItemView.m in Sources */,
@@ -6507,6 +6530,7 @@
 				A9603D791F4DABDC00BF57B1 /* ModernButtonView.m in Sources */,
 				A9603D7A1F4DABDC00BF57B1 /* DataResource.m in Sources */,
 				A9603D7B1F4DABDC00BF57B1 /* PSLMDBTable.m in Sources */,
+				2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */,
 				A9603D7C1F4DABDC00BF57B1 /* PhotoBlurPass.m in Sources */,
 				A9603D7D1F4DABDC00BF57B1 /* CameraPreviewView.m in Sources */,
 				A9603D7E1F4DABDC00BF57B1 /* SignalNotificationHandler.swift in Sources */,

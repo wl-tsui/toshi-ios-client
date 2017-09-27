@@ -23,9 +23,6 @@
 #import <AxolotlKit/SessionCipher.h>
 #import "Common.h"
 
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
-
 NSString *const LaunchedBefore = @"LaunchedBefore";
 NSString *const RequiresSignIn = @"RequiresSignIn";
 
@@ -63,7 +60,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     srand((unsigned int)time(NULL));
 
-    [Fabric with:@[[Crashlytics class]]];
+    [APIKeysManager setup];
 
     [self setupBasicAppearance];
 

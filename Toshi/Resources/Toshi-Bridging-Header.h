@@ -75,6 +75,9 @@
 #import <AxolotlKit/SignedPreKeyRecord.h>
 #import <AxolotlKit/NSData+keyVersionByte.h>
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #import <Mantle/MTLModel.h>
 
 #import <Curve25519.h>

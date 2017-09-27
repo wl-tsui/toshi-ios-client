@@ -35,3 +35,5 @@ Carthage/Build/watchOS
 
 #AppCode
 /.idea
+
+Toshi/Resources/APIKeys/APIKeys.plist
