@@ -1125,6 +1125,8 @@
 		9FF957A01EEEB7BA00DDCBD8 /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8081EB36A7F002D0293 /* ImagePicker.framework */; };
 		9FF957A11EEEB7BA00DDCBD8 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; };
 		9FF957A21EEEB86800DDCBD8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F7D05271E37961D00FF55B9 /* UIKit.framework */; };
+		A90661D41F79083A00D408E1 /* passwords-library.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9207AF61F6A8088003B79BF /* passwords-library.txt */; };
+		A90661D51F79083A00D408E1 /* passwords-library.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9207AF61F6A8088003B79BF /* passwords-library.txt */; };
 		A90E5A271F03BBAB00DAA501 /* BrowseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5A261F03BBAB00DAA501 /* BrowseCell.swift */; };
 		A90E5A291F03CE0400DAA501 /* BrowseAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5A281F03CE0400DAA501 /* BrowseAppCell.swift */; };
 		A90E5A2A1F03D0CF00DAA501 /* BrowseAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5A281F03CE0400DAA501 /* BrowseAppCell.swift */; };
@@ -1160,6 +1162,7 @@
 		A9202E6E1ED850220036E9B7 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4C1ED84F6A0036E9B7 /* ImagesViewController.swift */; };
 		A9202E701ED850270036E9B7 /* ImagesViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4E1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift */; };
 		A9202E721ED854010036E9B7 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */; };
+		A9207AF71F6A8088003B79BF /* passwords-library.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9207AF61F6A8088003B79BF /* passwords-library.txt */; };
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
@@ -1335,7 +1338,6 @@
 		A9603DE31F4DABDC00BF57B1 /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7E1F1EEA8B4400FB5361 /* MenuView.m */; };
 		A9603DE41F4DABDC00BF57B1 /* MessageImageViewOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7E231EEA8B4400FB5361 /* MessageImageViewOverlayView.m */; };
 		A9603DE51F4DABDC00BF57B1 /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7CC71EEA8B4400FB5361 /* FileUtils.m */; };
-		A9603DE61F4DABDC00BF57B1 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC71E8282D000160637 /* SignInController.swift */; };
 		A9603DE71F4DABDC00BF57B1 /* MediaAssetsMomentsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7DEB1EEA8B4400FB5361 /* MediaAssetsMomentsCollectionView.m */; };
 		A9603DE81F4DABDC00BF57B1 /* BlurEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7C031EEA8B4400FB5361 /* BlurEffect.m */; };
 		A9603DE91F4DABDC00BF57B1 /* ImagePickerCellCheckButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F4D7DDF1EEA8B4400FB5361 /* ImagePickerCellCheckButton.m */; };
@@ -1799,14 +1801,36 @@
 		A9E1DCE01F1E2777001A4ABE /* IconLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */; };
 		A9E1DCE11F1E277A001A4ABE /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */; };
 		A9E1DCE51F1E5C64001A4ABE /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
+		A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */; };
+		A9E691BF1F7A496800317DB1 /* SignInCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B71F7A496600317DB1 /* SignInCell.swift */; };
+		A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
+		A9E691C11F7A496800317DB1 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B91F7A496700317DB1 /* SignInView.swift */; };
+		A9E691C21F7A496800317DB1 /* SignInFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BA1F7A496700317DB1 /* SignInFooterView.swift */; };
+		A9E691C31F7A496800317DB1 /* DeletableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */; };
+		A9E691C41F7A496800317DB1 /* SignInExplanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */; };
+		A9E691C51F7A496800317DB1 /* SignInLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BD1F7A496800317DB1 /* SignInLayout.swift */; };
+		A9E691C61F7A499B00317DB1 /* DeletableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */; };
+		A9E691C71F7A499B00317DB1 /* DeletableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */; };
+		A9E691C81F7A49A100317DB1 /* SignInCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B71F7A496600317DB1 /* SignInCell.swift */; };
+		A9E691C91F7A49A100317DB1 /* SignInCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B71F7A496600317DB1 /* SignInCell.swift */; };
+		A9E691CA1F7A49A700317DB1 /* SignInExplanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */; };
+		A9E691CB1F7A49A700317DB1 /* SignInExplanation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */; };
+		A9E691CC1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BA1F7A496700317DB1 /* SignInFooterView.swift */; };
+		A9E691CD1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BA1F7A496700317DB1 /* SignInFooterView.swift */; };
+		A9E691CE1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */; };
+		A9E691CF1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */; };
+		A9E691D01F7A49B100317DB1 /* SignInLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BD1F7A496800317DB1 /* SignInLayout.swift */; };
+		A9E691D11F7A49B100317DB1 /* SignInLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691BD1F7A496800317DB1 /* SignInLayout.swift */; };
+		A9E691D21F7A49B800317DB1 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B91F7A496700317DB1 /* SignInView.swift */; };
+		A9E691D31F7A49B800317DB1 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B91F7A496700317DB1 /* SignInView.swift */; };
+		A9E691D41F7A49BB00317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
+		A9E691D51F7A49BC00317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
 		A9E777531F2A0BC700FB18F1 /* OpenURLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E777521F2A0BC700FB18F1 /* OpenURLButton.swift */; };
 		A9E777541F2A1F1200FB18F1 /* OpenURLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E777521F2A0BC700FB18F1 /* OpenURLButton.swift */; };
-		A9ED6CC81E8282D000160637 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC71E8282D000160637 /* SignInController.swift */; };
 		A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
-		A9ED6CD21E84014500160637 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CC71E8282D000160637 /* SignInController.swift */; };
 		A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CD51E85291600160637 /* KeyboardInfo.swift */; };
 		A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
@@ -2894,6 +2918,7 @@
 		A9202E561ED84F6A0036E9B7 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		A9202E571ED84F6A0036E9B7 /* MessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputTextPanel.swift; sourceTree = "<group>"; };
+		A9207AF61F6A8088003B79BF /* passwords-library.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "passwords-library.txt"; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
 		A9603F951F4DABDC00BF57B1 /* Toshi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toshi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2920,8 +2945,15 @@
 		A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconLabelButton.swift; sourceTree = "<group>"; };
 		A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
 		A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesStatusCell.swift; sourceTree = "<group>"; };
+		A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInHeaderView.swift; sourceTree = "<group>"; };
+		A9E691B71F7A496600317DB1 /* SignInCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInCell.swift; sourceTree = "<group>"; };
+		A9E691B81F7A496700317DB1 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		A9E691B91F7A496700317DB1 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		A9E691BA1F7A496700317DB1 /* SignInFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInFooterView.swift; sourceTree = "<group>"; };
+		A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletableTextField.swift; sourceTree = "<group>"; };
+		A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInExplanation.swift; sourceTree = "<group>"; };
+		A9E691BD1F7A496800317DB1 /* SignInLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInLayout.swift; sourceTree = "<group>"; };
 		A9E777521F2A0BC700FB18F1 /* OpenURLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLButton.swift; sourceTree = "<group>"; };
-		A9ED6CC71E8282D000160637 /* SignInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		A9ED6CCC1E82B57E00160637 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		A9ED6CCF1E83CD8400160637 /* Footnote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Footnote.swift; sourceTree = "<group>"; };
 		A9ED6CD51E85291600160637 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
@@ -4225,11 +4257,8 @@
 		9F9238CC1E24F3D9004BEEE0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2BD0AC881F278619000D2A58 /* Certificate(dis) */,
-				9FAACCD81E31120600FB871D /* SF-UI-Display */,
-				9FAACCE21E31120600FB871D /* SF-UI-Text */,
-				9FA12BEA1E65CF59003705F6 /* Sounds */,
 				9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */,
+				2BD0AC881F278619000D2A58 /* Certificate(dis) */,
 				2BDBB5781F7B832300A0ECA0 /* APIKeys */,
 				9F9238C51E24F1D2004BEEE0 /* Development.plist */,
 				14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */,
@@ -4238,7 +4267,11 @@
 				2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */,
 				14E4D8D11E72CB7500389DF9 /* DistributionTokenURLPaths.swift */,
 				9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */,
+				A9207AF51F6A8088003B79BF /* Libraries */,
 				9FAACCB41E30F24100FB871D /* Localizable.strings */,
+				9FAACCD81E31120600FB871D /* SF-UI-Display */,
+				9FAACCE21E31120600FB871D /* SF-UI-Text */,
+				9FA12BEA1E65CF59003705F6 /* Sounds */,
 				9F9238D01E24F402004BEEE0 /* Toshi-Bridging-Header.h */,
 			);
 			path = Resources;
@@ -4558,6 +4591,14 @@
 			path = Objects;
 			sourceTree = "<group>";
 		};
+		A9207AF51F6A8088003B79BF /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				A9207AF61F6A8088003B79BF /* passwords-library.txt */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
 		A98A29CD1E923784003BBE8E /* Rate Users */ = {
 			isa = PBXGroup;
 			children = (
@@ -4625,7 +4666,14 @@
 			children = (
 				A9ED6CCB1E82B56D00160637 /* Views */,
 				E6B857791F25F3D700979650 /* AddressChangeAlertController.swift */,
-				A9ED6CC71E8282D000160637 /* SignInController.swift */,
+				A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */,
+				A9E691B71F7A496600317DB1 /* SignInCell.swift */,
+				A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */,
+				A9E691BA1F7A496700317DB1 /* SignInFooterView.swift */,
+				A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */,
+				A9E691BD1F7A496800317DB1 /* SignInLayout.swift */,
+				A9E691B91F7A496700317DB1 /* SignInView.swift */,
+				A9E691B81F7A496700317DB1 /* SignInViewController.swift */,
 				2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */,
 				2BB842781EDD91F70044BDAB /* SplashViewController.swift */,
 			);
@@ -4920,6 +4968,7 @@
 				149F9AC91E72E29A00FB74AA /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */,
 				149F9ACB1E72E29A00FB74AA /* SF-UI-Display-Regular.otf in Resources */,
+				A90661D51F79083A00D408E1 /* passwords-library.txt in Resources */,
 				149F9ACC1E72E29A00FB74AA /* SF-UI-Display-Light.otf in Resources */,
 				149F9ACD1E72E29A00FB74AA /* SF-UI-Display-Ultralight.otf in Resources */,
 				A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */,
@@ -4968,6 +5017,7 @@
 				9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */,
 				9FAACD071E31120600FB871D /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				9FAACCF61E31120600FB871D /* SF-UI-Display-Regular.otf in Resources */,
+				A9207AF71F6A8088003B79BF /* passwords-library.txt in Resources */,
 				9FAACCF41E31120600FB871D /* SF-UI-Display-Light.otf in Resources */,
 				9FAACCF91E31120600FB871D /* SF-UI-Display-Ultralight.otf in Resources */,
 				A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */,
@@ -5016,6 +5066,7 @@
 				A9603F691F4DABDC00BF57B1 /* SF-UI-Text-UltrathinItalic.otf in Resources */,
 				A9603F6A1F4DABDC00BF57B1 /* messageSent.m4a in Resources */,
 				A9603F6B1F4DABDC00BF57B1 /* SF-UI-Display-Regular.otf in Resources */,
+				A90661D41F79083A00D408E1 /* passwords-library.txt in Resources */,
 				A9603F6C1F4DABDC00BF57B1 /* SF-UI-Display-Light.otf in Resources */,
 				A9603F6D1F4DABDC00BF57B1 /* SF-UI-Display-Ultralight.otf in Resources */,
 				A9603F6E1F4DABDC00BF57B1 /* AdvancedSettings.storyboard in Resources */,
@@ -5433,6 +5484,7 @@
 				2B3DF3621F4721EB00A869A3 /* SettingsProfileCell.swift in Sources */,
 				9F4D7FE71EEA8B4500FB5361 /* MediaVideoConverter.m in Sources */,
 				9F4D7F4B1EEA8B4500FB5361 /* PhotoHistogramGenerator.m in Sources */,
+				A9E691CB1F7A49A700317DB1 /* SignInExplanation.swift in Sources */,
 				84FFE1EC1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
 				9F4D7F7B1EEA8B4500FB5361 /* ASActor.m in Sources */,
 				9F4D7F851EEA8B4500FB5361 /* AudioWaveform.m in Sources */,
@@ -5597,7 +5649,6 @@
 				9F4D80F51EEA8B4500FB5361 /* MenuView.m in Sources */,
 				9F4D80F91EEA8B4500FB5361 /* MessageImageViewOverlayView.m in Sources */,
 				9F4D7FAD1EEA8B4500FB5361 /* FileUtils.m in Sources */,
-				A9ED6CD21E84014500160637 /* SignInController.swift in Sources */,
 				9F4D80C11EEA8B4500FB5361 /* MediaAssetsMomentsCollectionView.m in Sources */,
 				9F4D7EED1EEA8B4500FB5361 /* BlurEffect.m in Sources */,
 				9F4D80B51EEA8B4500FB5361 /* ImagePickerCellCheckButton.m in Sources */,
@@ -5653,6 +5704,7 @@
 				8446632C1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
 				9F4D7F511EEA8B4500FB5361 /* PhotoPaintColorPicker.m in Sources */,
 				9F4D80D91EEA8B4500FB5361 /* MediaPickerGalleryVideoItemView.m in Sources */,
+				A9E691CD1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
 				9F54A7241E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				9F4D801D1EEA8B4500FB5361 /* TimerTarget.m in Sources */,
 				2BE6FB101EFC0CC500B0B848 /* AvatarManager.swift in Sources */,
@@ -5707,6 +5759,7 @@
 				9F4D7F751EEA8B4500FB5361 /* AccessChecker.m in Sources */,
 				A91629141F3C6614008A7F36 /* PaymentAddressController.swift in Sources */,
 				9F4D81471EEA8B4600FB5361 /* PhotoEditorCurvesHistogramView.m in Sources */,
+				A9E691D11F7A49B100317DB1 /* SignInLayout.swift in Sources */,
 				149F9A831E72E29A00FB74AA /* ChatsFloatingHeaderView.swift in Sources */,
 				9F4D80AB1EEA8B4500FB5361 /* CheckButtonView.m in Sources */,
 				9F4D80831EEA8B4500FB5361 /* AttachmentCameraCell.m in Sources */,
@@ -5762,6 +5815,7 @@
 				2B10A4001F082CAC00E0F7DC /* ChatInteractor.swift in Sources */,
 				A9BF33B31E76F8D0009A51AA /* PassphraseEnableController.swift in Sources */,
 				9F4D7F391EEA8B4500FB5361 /* PhotoEditorValues.m in Sources */,
+				A9E691C91F7A49A100317DB1 /* SignInCell.swift in Sources */,
 				9F4D7EFB1EEA8B4500FB5361 /* GrainTool.m in Sources */,
 				9F4D7F211EEA8B4500FB5361 /* PaintSwatch.m in Sources */,
 				9F4D80631EEA8B4500FB5361 /* MediaPickerGalleryPhotoItem.m in Sources */,
@@ -5808,6 +5862,8 @@
 				2B002D901F17BA1800D92240 /* NetworkSwitcher.swift in Sources */,
 				9F4D81411EEA8B4600FB5361 /* PhotoEditorBlurView.m in Sources */,
 				9F4D7F091EEA8B4500FB5361 /* PaintEllipticalBrush.m in Sources */,
+				A9E691D31F7A49B800317DB1 /* SignInView.swift in Sources */,
+				A9E691C71F7A499B00317DB1 /* DeletableTextField.swift in Sources */,
 				149F9A921E72E29A00FB74AA /* ChatAPIClient.swift in Sources */,
 				9F4D7EEB1EEA8B4500FB5361 /* ViewController.mm in Sources */,
 				9F4D80DD1EEA8B4500FB5361 /* MediaPickerGalleryVideoTrimView.m in Sources */,
@@ -5815,6 +5871,7 @@
 				9F4D81611EEA8B4600FB5361 /* PhotoPaintActionsView.m in Sources */,
 				149F9A931E72E29A00FB74AA /* Cereal.swift in Sources */,
 				9F4D80731EEA8B4500FB5361 /* ModernGalleryVideoPlayerState.m in Sources */,
+				A9E691D51F7A49BC00317DB1 /* SignInViewController.swift in Sources */,
 				9F4D812D1EEA8B4600FB5361 /* PhotoAvatarCropView.m in Sources */,
 				9F4D7EC91EEA8B4500FB5361 /* OverlayFormsheetController.m in Sources */,
 				9F4D7EF11EEA8B4500FB5361 /* ContrastTool.m in Sources */,
@@ -5927,6 +5984,7 @@
 				A963D5311F288E8900297FDF /* MessagesCornerView.swift in Sources */,
 				9F4D80451EEA8B4500FB5361 /* ImageMediaAttachment.m in Sources */,
 				9F4D807D1EEA8B4500FB5361 /* VideoMediaAttachment.m in Sources */,
+				A9E691CF1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */,
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
 				9F4D7F271EEA8B4500FB5361 /* PaintUtils.m in Sources */,
 				A90E5A2A1F03D0CF00DAA501 /* BrowseAppCell.swift in Sources */,
@@ -6104,6 +6162,7 @@
 				9F4D7F5A1EEA8B4500FB5361 /* PhotoSharpenPass.m in Sources */,
 				9F4D81421EEA8B4600FB5361 /* PhotoEditorButton.m in Sources */,
 				A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */,
+				A9E691C21F7A496800317DB1 /* SignInFooterView.swift in Sources */,
 				9F4D7F9C1EEA8B4500FB5361 /* DocumentAttributeFilename.m in Sources */,
 				9F4D80801EEA8B4500FB5361 /* AttachmentAssetCell.m in Sources */,
 				9F4D810E1EEA8B4500FB5361 /* ModernGalleryScrollView.m in Sources */,
@@ -6133,6 +6192,7 @@
 				9F4D7FA61EEA8B4500FB5361 /* EMImage.m in Sources */,
 				9F4D7F361EEA8B4500FB5361 /* PhotoEditorUtils.m in Sources */,
 				9F4D7F6E1EEA8B4500FB5361 /* VideoEditAdjustments.m in Sources */,
+				A9E691C41F7A496800317DB1 /* SignInExplanation.swift in Sources */,
 				9F4D7F3E1EEA8B4500FB5361 /* PhotoEnhanceLUTGenerator.m in Sources */,
 				9F4D7FB01EEA8B4500FB5361 /* Freedom.mm in Sources */,
 				84FFE1EB1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
@@ -6141,6 +6201,7 @@
 				9F4D7F181EEA8B4500FB5361 /* PaintShader.m in Sources */,
 				9F4D7EBA1EEA8B4500FB5361 /* MediaAssetsPickerController.m in Sources */,
 				9F4D80A01EEA8B4500FB5361 /* CameraPreviewView.m in Sources */,
+				A9E691C51F7A496800317DB1 /* SignInLayout.swift in Sources */,
 				9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */,
 				9F4D81521EEA8B4600FB5361 /* PhotoEditorSliderView.m in Sources */,
 				9F4D809C1EEA8B4500FB5361 /* CameraMainView.m in Sources */,
@@ -6169,6 +6230,7 @@
 				9F4D80DA1EEA8B4500FB5361 /* MediaPickerGalleryVideoScrubberThumbnailView.m in Sources */,
 				9F4D80321EEA8B4500FB5361 /* PSLMDBKeyValueCursor.m in Sources */,
 				9F4D81761EEA8B4600FB5361 /* SharedMediaSectionHeader.m in Sources */,
+				A9E691C11F7A496800317DB1 /* SignInView.swift in Sources */,
 				9F4D80D21EEA8B4500FB5361 /* MediaPickerGalleryGifItemView.m in Sources */,
 				9F4D7F701EEA8B4500FB5361 /* VignetteTool.m in Sources */,
 				9F4D81561EEA8B4600FB5361 /* PhotoEditorTintToolView.m in Sources */,
@@ -6209,6 +6271,7 @@
 				9F4D7EE61EEA8B4500FB5361 /* TGMediaAvatarMenuMixin.m in Sources */,
 				9F4D7FF21EEA8B4500FB5361 /* ModernViewStorage.m in Sources */,
 				9F4D80D41EEA8B4500FB5361 /* MediaPickerGalleryInterfaceView.m in Sources */,
+				A9E691C31F7A496800317DB1 /* DeletableTextField.swift in Sources */,
 				9F4D80361EEA8B4500FB5361 /* PSLMDBKeyValueStore.m in Sources */,
 				848D82221F23D50900BBFA66 /* NetworkSettingsController.swift in Sources */,
 				9F4D7F381EEA8B4500FB5361 /* PhotoEditorValues.m in Sources */,
@@ -6281,6 +6344,7 @@
 				9F4D80EC1EEA8B4500FB5361 /* MenuSheetDimView.m in Sources */,
 				9F4D81301EEA8B4600FB5361 /* PhotoCropAreaView.m in Sources */,
 				9F4D81061EEA8B4500FB5361 /* ModernGalleryImageItemContainerView.m in Sources */,
+				A9E691BF1F7A496800317DB1 /* SignInCell.swift in Sources */,
 				9F4D803C1EEA8B4500FB5361 /* AVURLAsset+MediaItem.m in Sources */,
 				9F4D80461EEA8B4500FB5361 /* MediaAsset+MediaEditableItem.m in Sources */,
 				A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */,
@@ -6358,6 +6422,7 @@
 				9F4D81081EEA8B4500FB5361 /* ModernGalleryImageItemImageView.m in Sources */,
 				9F4D7F2E1EEA8B4500FB5361 /* PhotoEditor.m in Sources */,
 				9F4D800C1EEA8B4500FB5361 /* SGraphNode.m in Sources */,
+				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
 				9F4D7EF81EEA8B4500FB5361 /* FadeTool.m in Sources */,
 				9F4D81541EEA8B4600FB5361 /* PhotoEditorTintSwatchView.m in Sources */,
@@ -6365,6 +6430,7 @@
 				9F4D7FCE1EEA8B4500FB5361 /* JNWSpringAnimation.m in Sources */,
 				9F4D80EE1EEA8B4500FB5361 /* MenuSheetItemView.m in Sources */,
 				A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */,
+				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
 				9F4D7FD21EEA8B4500FB5361 /* MediaAssetImageSignals.m in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9F4D7F981EEA8B4500FB5361 /* DocumentAttributeAnimated.m in Sources */,
@@ -6436,7 +6502,6 @@
 				9F4D7F321EEA8B4500FB5361 /* PhotoEditorInterfaceAssets.m in Sources */,
 				9F4D7F741EEA8B4500FB5361 /* AccessChecker.m in Sources */,
 				9F21E0631E546A03000E90C6 /* PaymentController.swift in Sources */,
-				A9ED6CC81E8282D000160637 /* SignInController.swift in Sources */,
 				9F4D811A1EEA8B4600FB5361 /* ModernGalleryVideoView.m in Sources */,
 				9F4D81501EEA8B4600FB5361 /* PhotoEditorRadialBlurView.m in Sources */,
 				9F4D7F901EEA8B4500FB5361 /* CameraShotMetadata.m in Sources */,
@@ -6473,6 +6538,7 @@
 				A9603D401F4DABDC00BF57B1 /* SettingsProfileCell.swift in Sources */,
 				A9603D411F4DABDC00BF57B1 /* MediaVideoConverter.m in Sources */,
 				A9603D421F4DABDC00BF57B1 /* PhotoHistogramGenerator.m in Sources */,
+				A9E691CA1F7A49A700317DB1 /* SignInExplanation.swift in Sources */,
 				A9603D431F4DABDC00BF57B1 /* QRCodeIntent.swift in Sources */,
 				A9603D441F4DABDC00BF57B1 /* ASActor.m in Sources */,
 				A9603D451F4DABDC00BF57B1 /* AudioWaveform.m in Sources */,
@@ -6637,7 +6703,6 @@
 				A9603DE31F4DABDC00BF57B1 /* MenuView.m in Sources */,
 				A9603DE41F4DABDC00BF57B1 /* MessageImageViewOverlayView.m in Sources */,
 				A9603DE51F4DABDC00BF57B1 /* FileUtils.m in Sources */,
-				A9603DE61F4DABDC00BF57B1 /* SignInController.swift in Sources */,
 				A9603DE71F4DABDC00BF57B1 /* MediaAssetsMomentsCollectionView.m in Sources */,
 				A9603DE81F4DABDC00BF57B1 /* BlurEffect.m in Sources */,
 				A9603DE91F4DABDC00BF57B1 /* ImagePickerCellCheckButton.m in Sources */,
@@ -6693,6 +6758,7 @@
 				A9603E1A1F4DABDC00BF57B1 /* PaymentRequestMetadata.swift in Sources */,
 				A9603E1B1F4DABDC00BF57B1 /* PhotoPaintColorPicker.m in Sources */,
 				A9603E1C1F4DABDC00BF57B1 /* MediaPickerGalleryVideoItemView.m in Sources */,
+				A9E691CC1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
 				A9603E1D1F4DABDC00BF57B1 /* RatingsClient.swift in Sources */,
 				A9603E1E1F4DABDC00BF57B1 /* TimerTarget.m in Sources */,
 				A9603E1F1F4DABDC00BF57B1 /* AvatarManager.swift in Sources */,
@@ -6747,6 +6813,7 @@
 				A9603E501F4DABDC00BF57B1 /* AccessChecker.m in Sources */,
 				A9603E511F4DABDC00BF57B1 /* PaymentAddressController.swift in Sources */,
 				A9603E521F4DABDC00BF57B1 /* PhotoEditorCurvesHistogramView.m in Sources */,
+				A9E691D01F7A49B100317DB1 /* SignInLayout.swift in Sources */,
 				A9603E531F4DABDC00BF57B1 /* ChatsFloatingHeaderView.swift in Sources */,
 				A9603E541F4DABDC00BF57B1 /* CheckButtonView.m in Sources */,
 				A9603E551F4DABDC00BF57B1 /* AttachmentCameraCell.m in Sources */,
@@ -6802,6 +6869,7 @@
 				A9603E871F4DABDC00BF57B1 /* ChatInteractor.swift in Sources */,
 				A9603E881F4DABDC00BF57B1 /* PassphraseEnableController.swift in Sources */,
 				A9603E891F4DABDC00BF57B1 /* PhotoEditorValues.m in Sources */,
+				A9E691C81F7A49A100317DB1 /* SignInCell.swift in Sources */,
 				A9603E8A1F4DABDC00BF57B1 /* GrainTool.m in Sources */,
 				A9603E8B1F4DABDC00BF57B1 /* PaintSwatch.m in Sources */,
 				A9603E8C1F4DABDC00BF57B1 /* MediaPickerGalleryPhotoItem.m in Sources */,
@@ -6848,6 +6916,8 @@
 				A9603EB61F4DABDC00BF57B1 /* PhotoEditorBlurView.m in Sources */,
 				A9603EB71F4DABDC00BF57B1 /* PaintEllipticalBrush.m in Sources */,
 				A9603EB81F4DABDC00BF57B1 /* ChatAPIClient.swift in Sources */,
+				A9E691D21F7A49B800317DB1 /* SignInView.swift in Sources */,
+				A9E691C61F7A499B00317DB1 /* DeletableTextField.swift in Sources */,
 				A9603EB91F4DABDC00BF57B1 /* ViewController.mm in Sources */,
 				A9603EBA1F4DABDC00BF57B1 /* MediaPickerGalleryVideoTrimView.m in Sources */,
 				A9603EBB1F4DABDC00BF57B1 /* Common.m in Sources */,
@@ -6855,6 +6925,7 @@
 				A9603EBD1F4DABDC00BF57B1 /* Cereal.swift in Sources */,
 				A9603EBE1F4DABDC00BF57B1 /* ModernGalleryVideoPlayerState.m in Sources */,
 				A9603EBF1F4DABDC00BF57B1 /* PhotoAvatarCropView.m in Sources */,
+				A9E691D41F7A49BB00317DB1 /* SignInViewController.swift in Sources */,
 				A9603EC01F4DABDC00BF57B1 /* OverlayFormsheetController.m in Sources */,
 				A9603EC11F4DABDC00BF57B1 /* ContrastTool.m in Sources */,
 				A9603EC21F4DABDC00BF57B1 /* MemoryImageCache.m in Sources */,
@@ -6967,6 +7038,7 @@
 				A9603F2C1F4DABDC00BF57B1 /* MessagesCornerView.swift in Sources */,
 				A9603F2D1F4DABDC00BF57B1 /* ImageMediaAttachment.m in Sources */,
 				A9603F2E1F4DABDC00BF57B1 /* VideoMediaAttachment.m in Sources */,
+				A9E691CE1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */,
 				A9603F2F1F4DABDC00BF57B1 /* ContactActionView.swift in Sources */,
 				A9603F301F4DABDC00BF57B1 /* PaintUtils.m in Sources */,
 				A9603F311F4DABDC00BF57B1 /* BrowseAppCell.swift in Sources */,
@@ -7085,7 +7157,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7129,7 +7200,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7277,14 +7347,13 @@
 					"-framework",
 					RevealServer,
 				);
-				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100 -D DEBUG";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=200 -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = org.toshi.debug;
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7329,7 +7398,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7374,7 +7442,6 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TOSHIDEV;
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -7419,7 +7486,6 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TOSHIDEV;
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

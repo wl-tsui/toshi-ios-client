@@ -19,11 +19,24 @@ public class SplashNavigationController: UINavigationController {
 
     convenience init() {
         self.init(rootViewController: SplashViewController())
-        title = "Sign in"
     }
-
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setNavigationBarHidden(true, animated: false)
+        
+        navigationBar.barStyle = .default
+        navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+        navigationBar.shadowImage = UIImage()
+        
+        let titleTextAttributes: [NSAttributedStringKey: Any] = [
+            .font: Theme.regular(size: 17),
+            .foregroundColor: Theme.darkTextColor
+        ]
+        
+        navigationBar.titleTextAttributes = titleTextAttributes
+    }
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return viewControllers.count == 1 ? .lightContent : .default
     }
 }

@@ -129,16 +129,12 @@ final class SplashViewController: UIViewController {
     }
 
     @objc private func signinPressed(_: UIButton) {
-        let controller = SignInController()
+        let controller = SignInViewController()
         Navigator.push(controller, from: self)
     }
 
     @objc private func newAccountPressed(_: UIButton) {
         showAcceptTermsAlert()
-    }
-    
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
     }
     
     fileprivate func showAcceptTermsAlert() {

@@ -155,3 +155,15 @@
 "accept_terms_action_cancel" = "Cancel";
 "accept_terms_action_agree" = "Agree";
 
+/* Passphrase Sign In */
+"passphrase_sign_in_title" = "Sign in with your Passphrase";
+"passphrase_sign_in_button" = "Sign in";
+"passphrase_sign_in_button_placeholder" = "%i more words";
+"passphrase_sign_in_button_placeholder_singular" = "%i more word";
+"passphrase_sign_in_error" = "%i of the words you typed do not exist in passphrases.";
+"passphrase_sign_in_error_singular" = "%i word you typed does not exist in passphrases.";
+"passphrase_sign_in_explanation_title" = "How does it work?";
+"passphrase_sign_in_placeholder" = "Enter your Passphrase...";
+"passphrase_sign_in_ellipsis" = "...";
+"passphrase_sign_in_explanation_title" = "How does it work?";
+"passphrase_sign_in_explanation_text" = "To sign in to Toshi you need to enter the Passphrase that has been given to you when you secured your account. The Passphrase consists out of 12 words and is used to secure and identify your account.\n\nYour account is stored anonymously on the Ethereum blockchain, this means we don't have acces to your data. The 12-word Passphrase is the only way to Sign in to your account. If you lost the Passphrase or have not properly finished the setup there is no way to recover your account. ";

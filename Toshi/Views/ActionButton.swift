@@ -106,7 +106,7 @@ class ActionButton: UIControl {
 
     lazy var background: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.layer.cornerRadius = 4
+        view.layer.cornerRadius = 8
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
         view.layer.borderWidth = Theme.borderHeight
