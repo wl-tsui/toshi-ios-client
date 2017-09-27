@@ -65,6 +65,12 @@
       "idiom" : "iphone",
       "filename" : "dev-180.png",
       "scale" : "3x"
+    },
+    {
+      "size" : "1024x1024",
+      "idiom" : "ios-marketing",
+      "filename" : "dev-1024.png",
+      "scale" : "1x"
     }
   ],
   "info" : {
