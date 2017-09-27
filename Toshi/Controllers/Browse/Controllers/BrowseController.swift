@@ -123,6 +123,8 @@ class BrowseController: SearchableCollectionController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        preferLargeTitleIfPossible(true)
+
         loadItems()
 
         collectionView.collectionViewLayout.invalidateLayout()

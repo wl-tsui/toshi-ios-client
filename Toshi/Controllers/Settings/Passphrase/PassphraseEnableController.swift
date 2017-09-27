@@ -84,7 +84,9 @@ class PassphraseEnableController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
+        preferLargeTitleIfPossible(false)
+
         if isPresentedModally {
             let item = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss(_:)))
             navigationItem.setLeftBarButtonItems([item], animated: true)

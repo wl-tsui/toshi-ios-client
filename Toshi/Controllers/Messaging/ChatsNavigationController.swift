@@ -58,8 +58,6 @@ public class ChatsNavigationController: UINavigationController {
             backgroundBlur.edges(to: navigationBar, insets: UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0))
             return
         }
-
-        self.navigationBar.prefersLargeTitles = true
     }
     
     public override func viewDidLayoutSubviews() {

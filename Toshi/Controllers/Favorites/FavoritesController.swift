@@ -169,6 +169,8 @@ open class FavoritesController: SweetTableController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        preferLargeTitleIfPossible(true)
+
         tableView.reloadData()
         showOrHideEmptyState()
     }

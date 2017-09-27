@@ -76,6 +76,12 @@ class PassphraseVerifyController: UIViewController {
         addSubviewsAndConstraints()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(false)
+    }
+
     func addSubviewsAndConstraints() {
         view.addSubview(titleLabel)
         view.addSubview(textLabel)

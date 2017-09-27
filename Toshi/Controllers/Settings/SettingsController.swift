@@ -156,6 +156,8 @@ open class SettingsController: UIViewController {
 
         IDAPIClient.shared.updateContact(with: Cereal.shared.address)
         self.fetchAndUpdateBalance()
+
+        preferLargeTitleIfPossible(true)
     }
 
     @objc private func updateUI() {

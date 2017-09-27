@@ -39,14 +39,6 @@ public class FavoritesNavigationController: UINavigationController {
         fatalError("")
     }
 
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-
-        if #available(iOS 11.0, *) {
-            self.navigationBar.prefersLargeTitles = true
-        }
-    }
-
     public override func popViewController(animated: Bool) -> UIViewController? {
         UserDefaults.standard.removeObject(forKey: FavoritesNavigationController.selectedContactKey)
         return super.popViewController(animated: animated)

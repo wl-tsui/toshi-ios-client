@@ -49,7 +49,10 @@ class BalanceController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         fetchAndUpdateBalance()
+
+        preferLargeTitleIfPossible(false)
     }
 
     private func showSecurityAlert() {

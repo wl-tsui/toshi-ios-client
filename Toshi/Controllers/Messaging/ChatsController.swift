@@ -99,6 +99,8 @@ open class ChatsController: SweetTableController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(true)
         tabBarController?.tabBar.isHidden = false
     }
 

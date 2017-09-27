@@ -152,6 +152,9 @@
 		2BC4C07F1EF3ED4700F99CE2 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
 		2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
+		2BC7CA2A1F7BA6D000033E35 /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */; };
+		2BC7CA2B1F7BA6D100033E35 /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */; };
+		2BC7CA2C1F7BA6D200033E35 /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */; };
 		2BC85F7C1F0F939C00BCB171 /* InputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC85F7B1F0F939C00BCB171 /* InputCell.xib */; };
 		2BC85F7D1F0F939C00BCB171 /* InputCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC85F7B1F0F939C00BCB171 /* InputCell.xib */; };
 		2BC85F7F1F0F946600BCB171 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC85F7E1F0F946600BCB171 /* InputCell.swift */; };
@@ -2002,12 +2005,14 @@
 		2BC4084D1EF186000044C242 /* PaymentPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentPresentable.swift; sourceTree = "<group>"; };
 		2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicating.swift; sourceTree = "<group>"; };
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
+		2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		2BC85F7B1F0F939C00BCB171 /* InputCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InputCell.xib; sourceTree = "<group>"; };
 		2BC85F7E1F0F946600BCB171 /* InputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputCell.swift; sourceTree = "<group>"; };
 		2BD0AC8B1F278677000D2A58 /* token.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = token.cer; sourceTree = "<group>"; };
 		2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashNavigationController.swift; sourceTree = "<group>"; };
 		2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IndexPath+Additions.swift"; sourceTree = "<group>"; };
 		2BDBB5781F7B832300A0ECA0 /* APIKeys */ = {isa = PBXFileReference; lastKnownFileType = folder; path = APIKeys; sourceTree = "<group>"; };
+		2BDBB5801F7B9C2000A0ECA0 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Keyboard.swift"; sourceTree = "<group>"; };
 		2BE66A0B1EF910B6007A7130 /* Editable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
 		2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarManager.swift; sourceTree = "<group>"; };
@@ -3290,6 +3295,7 @@
 			children = (
 				2F1B2E5A8052289054B2DCDD /* libPods-CocoaPods-Development.a */,
 				7E67E3F2BFB7B0171BF61B30 /* libPods-CocoaPods-Distribution.a */,
+				2BDBB5801F7B9C2000A0ECA0 /* UIViewController+NavigationBar.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -4418,6 +4424,7 @@
 				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
 				D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */,
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
+				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
 			);
@@ -5500,6 +5507,7 @@
 				9F4D7FC11EEA8B4500FB5361 /* GPUImageOutput.m in Sources */,
 				9F4D802F1EEA8B4500FB5361 /* mdb.c in Sources */,
 				9F4D80F31EEA8B4500FB5361 /* MenuSheetView.m in Sources */,
+				2BC7CA2A1F7BA6D000033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				9F4D815F1EEA8B4600FB5361 /* PhotoFilterCell.m in Sources */,
 				9F4D812B1EEA8B4600FB5361 /* PaintPanGestureRecognizer.m in Sources */,
 				9F4D80611EEA8B4500FB5361 /* MediaPickerGalleryModel.m in Sources */,
@@ -6026,6 +6034,7 @@
 				9F4D7ECC1EEA8B4500FB5361 /* PhotoAvatarCropController.m in Sources */,
 				9F4D80721EEA8B4500FB5361 /* ModernGalleryVideoPlayerState.m in Sources */,
 				A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */,
+				2BC7CA2C1F7BA6D200033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				9F4D7EE01EEA8B4500FB5361 /* TGActionSheet.m in Sources */,
 				9F4D81121EEA8B4600FB5361 /* ModernGalleryVideoContentView.m in Sources */,
 				9F4D80B41EEA8B4500FB5361 /* ImagePickerCellCheckButton.m in Sources */,
@@ -6554,6 +6563,7 @@
 				A9603D4F1F4DABDC00BF57B1 /* GPUImageOutput.m in Sources */,
 				A9603D501F4DABDC00BF57B1 /* mdb.c in Sources */,
 				A9603D511F4DABDC00BF57B1 /* MenuSheetView.m in Sources */,
+				2BC7CA2B1F7BA6D100033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				A9603D521F4DABDC00BF57B1 /* PhotoFilterCell.m in Sources */,
 				A9603D531F4DABDC00BF57B1 /* PaintPanGestureRecognizer.m in Sources */,
 				A9603D541F4DABDC00BF57B1 /* MediaPickerGalleryModel.m in Sources */,

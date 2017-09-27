@@ -96,6 +96,12 @@ class PassphraseCopyController: UIViewController {
         ])
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(false)
+    }
+
     @objc func proceed(_: ActionButton) {
         let controller = PassphraseVerifyController()
         navigationController?.pushViewController(controller, animated: true)

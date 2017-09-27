@@ -37,6 +37,8 @@ final class CurrencyPicker: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        preferLargeTitleIfPossible(false)
+
         ExchangeRateClient.getCurrencies { [weak self] results in
             guard let strongSelf = self as CurrencyPicker? else { return }
 

@@ -201,6 +201,8 @@ public class ContactController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        preferLargeTitleIfPossible(false)
+
         if contact.name.isEmpty {
             usernameLabel.text = nil
             nameLabel.text = contact.displayUsername
@@ -221,17 +223,12 @@ public class ContactController: UIViewController {
         }
 
         updateButton()
-
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
-        }
     }
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
+
+        preferLargeTitleIfPossible(true)
     }
 
     public override func viewDidLayoutSubviews() {

@@ -85,6 +85,12 @@ class QRCodeController: UIViewController {
         usernameLabel.left(to: view, offset: 16)
         usernameLabel.right(to: view, offset: -16)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(false)
+    }
 }
 
 extension QRCodeController: UIToolbarDelegate {

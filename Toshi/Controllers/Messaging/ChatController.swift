@@ -223,6 +223,8 @@ final class ChatController: OverlayController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        preferLargeTitleIfPossible(false)
+
         isVisible = true
 
         viewModel.loadFirstMessages()
@@ -240,10 +242,6 @@ final class ChatController: OverlayController {
         }
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
-
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = false
-        }
 
         updateContentInset()
         updateBalance()
@@ -267,9 +265,7 @@ final class ChatController: OverlayController {
         viewModel.thread.markAllAsRead()
         SignalNotificationManager.updateApplicationBadgeNumber()
 
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
+        preferLargeTitleIfPossible(true)
     }
 
     fileprivate func updateBalance() {

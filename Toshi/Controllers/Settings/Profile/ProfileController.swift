@@ -171,6 +171,8 @@ open class ProfileController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        preferLargeTitleIfPossible(false)
+
         if let name = TokenUser.current?.name, !name.isEmpty, let username = TokenUser.current?.displayUsername {
             nameLabel.text = name
             usernameLabel.text = username
