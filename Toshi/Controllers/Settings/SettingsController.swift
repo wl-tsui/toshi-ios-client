@@ -299,7 +299,6 @@ extension SettingsController: UITableViewDataSource {
 
                 cell.titleLabel.text = fiatValueString
                 cell.textField.text = ethereumValueString
-                cell.textField.textAlignment = .right
                 cell.textField.isUserInteractionEnabled = false
                 cell.switchControl.isHidden = true
 
