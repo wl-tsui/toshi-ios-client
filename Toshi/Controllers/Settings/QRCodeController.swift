@@ -30,9 +30,9 @@ class QRCodeController: UIViewController {
 
     private lazy var qrCodeImageView: UIImageView = UIImageView()
 
-    private lazy var nameLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.light(size: 35)
+        view.font = Theme.medium(size: 20)
         view.textAlignment = .center
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.3
@@ -40,12 +40,13 @@ class QRCodeController: UIViewController {
         return view
     }()
 
-    private lazy var usernameLabel: UILabel = {
+    private lazy var subtitleLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.regular(size: 17)
         view.textAlignment = .center
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.6
+        view.numberOfLines = 2
 
         return view
     }()
@@ -53,11 +54,11 @@ class QRCodeController: UIViewController {
     convenience init(for username: String, name: String) {
         self.init(nibName: nil, bundle: nil)
 
-        title = "My QR Code"
+        title = Localized("profile_qr_code_title")
 
         qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
-        usernameLabel.text = username
-        nameLabel.text = name
+        titleLabel.text = Localized("profile_qr_code_title")
+        subtitleLabel.text = Localized("profile_qr_code_subtitle")
     }
 
     override func viewDidLoad() {
@@ -65,8 +66,8 @@ class QRCodeController: UIViewController {
 
         view.backgroundColor = Theme.settingsBackgroundColor
         view.addSubview(qrCodeImageView)
-        view.addSubview(nameLabel)
-        view.addSubview(usernameLabel)
+        view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
 
         let top = navigationController?.navigationBar.frame.height ?? 0
 
@@ -75,15 +76,15 @@ class QRCodeController: UIViewController {
         qrCodeImageView.centerX(to: view)
         qrCodeImageView.centerY(to: view, offset: -top)
 
-        nameLabel.height(42)
-        nameLabel.topToBottom(of: qrCodeImageView, offset: 16)
-        nameLabel.left(to: view, offset: 16)
-        nameLabel.right(to: view, offset: -16)
+        titleLabel.height(42)
+        titleLabel.topToBottom(of: qrCodeImageView, offset: 10)
+        titleLabel.left(to: view, offset: 27)
+        titleLabel.right(to: view, offset: -27)
 
-        usernameLabel.height(24)
-        usernameLabel.topToBottom(of: nameLabel, offset: 6)
-        usernameLabel.left(to: view, offset: 16)
-        usernameLabel.right(to: view, offset: -16)
+        subtitleLabel.height(48)
+        subtitleLabel.topToBottom(of: titleLabel, offset: 10)
+        subtitleLabel.left(to: view, offset: 27)
+        subtitleLabel.right(to: view, offset: -27)
     }
 
     override func viewWillAppear(_ animated: Bool) {
