@@ -79,7 +79,7 @@ public class TokenUser: NSObject, NSCoding {
         return userSettings[Constants.localCurrency] as? String ?? TokenUser.defaultCurrency
     }
 
-    var verified: Bool {
+    @objc public var verified: Bool {
         return userSettings[Constants.verified] as? Bool ?? false
     }
 

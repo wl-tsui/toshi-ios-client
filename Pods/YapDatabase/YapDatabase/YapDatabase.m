@@ -415,7 +415,7 @@ static int connectionBusyHandler(void *ptr, int count) {
 	
 	// Ensure there is only a single database instance per file.
 	// However, clients may create as many connections as desired.
-	if (![YapDatabaseManager registerDatabaseForPath:path])
+	if (![[YapDatabaseManager shared] registerDatabaseForPath:path])
 	{
 		YDBLogError(@"Only a single database instance is allowed per file. "
 		            @"For concurrency you create multiple connections from a single database instance.");
@@ -646,7 +646,7 @@ static int connectionBusyHandler(void *ptr, int count) {
 		yap_vfs_shim_unregister(&yap_vfs_shim);
 	}
 	
-	[YapDatabaseManager deregisterDatabaseForPath:databasePath];
+    [[YapDatabaseManager shared] deregisterDatabaseForPath:databasePath];
 	
 #if !OS_OBJECT_USE_OBJC
 	if (internalQueue)
@@ -704,6 +704,11 @@ static int connectionBusyHandler(void *ptr, int count) {
     }
 	
 	return YES;
+}
+
+- (void)deregisterPaths
+{
+    [[YapDatabaseManager shared] deregisterDatabaseForPath:self.databasePath];
 }
 
 /**

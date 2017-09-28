@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setupForAccountName:(NSString *)accountName isFirstLaunch:(BOOL)isFirstLaunch;
 
 - (void)deleteThreadsAndMessages;
-- (void)resetSignalStorage;
+- (void)resetSignalStorageWithBackup:(BOOL)withBackup;
 
 - (nullable YapDatabase *)database;
 - (nullable YapDatabaseConnection *)newDatabaseConnection;

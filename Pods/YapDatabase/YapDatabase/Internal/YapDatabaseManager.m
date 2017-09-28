@@ -10,48 +10,70 @@
  * The architecture is built around this restriction, and is dependent upon it for proper operation.
  * This class simply helps maintain this requirement.
 **/
+
+@interface YapDatabaseManager()
+
+@property (nonatomic, copy) NSArray <NSString *> *registeredPaths;
+
+@end
+
+
 @implementation YapDatabaseManager
 
-static NSMutableSet *registeredPaths;
+
 static OSSpinLock lock;
 
-+ (void)initialize
++ (instancetype)shared
 {
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		
-		registeredPaths = [[NSMutableSet alloc] init];
-		lock = OS_SPINLOCK_INIT;
-	});
+    static YapDatabaseManager *sharedManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedManager = [[self alloc] init];
+    });
+    return sharedManager;
 }
 
-+ (BOOL)registerDatabaseForPath:(NSString *)path
+- (instancetype)init
+{
+   self = [super init];
+    if (self) {
+
+        self.registeredPaths = [NSArray array];
+    }
+
+    return self;
+}
+
+- (BOOL)registerDatabaseForPath:(NSString *)path
 {
 	if (path == nil) return NO;
 	
 	// Note: The path has already been standardized by the caller (path = [inPath stringByStandardizingPath]).
 	
 	BOOL result = NO;
-	
-	OSSpinLockLock(&lock);
-	if (![registeredPaths containsObject:path])
+
+	if (![self.registeredPaths containsObject:path])
 	{
-		[registeredPaths addObject:path];
+        NSMutableArray <NSString *> *copiedPaths = [self.registeredPaths mutableCopy];
+		[copiedPaths addObject:path];
+        self.registeredPaths = [copiedPaths copy];
 		result = YES;
 	}
-	OSSpinLockUnlock(&lock);
 	
 	return result;
 }
 
-+ (void)deregisterDatabaseForPath:(NSString *)inPath
+- (void)deregisterDatabaseForPath:(NSString *)inPath
 {
 	NSString *path = [inPath stringByStandardizingPath];
 	if (path == nil) return;
-	
-	OSSpinLockLock(&lock);
-	[registeredPaths removeObject:path];
-	OSSpinLockUnlock(&lock);
+
+    NSMutableArray <NSString *> *copiedPaths = [self.registeredPaths mutableCopy];
+    [copiedPaths removeObject:path];
+    self.registeredPaths = [copiedPaths copy];
+
+    NSLog(@"%@", self.registeredPaths);
+    //self.registeredPaths = nil;
 }
 
 @end

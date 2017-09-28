@@ -567,9 +567,13 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
     }
 }
 
-- (void)resetSignalStorage
+- (void)resetSignalStorageWithBackup:(BOOL)withBackup
 {
-    [self backupDataBaseFile];
+    [self.database deregisterPaths];
+
+    if (withBackup) {
+        [self backupDataBaseFile];
+    }
     
     self.database = nil;
     _dbConnection = nil;

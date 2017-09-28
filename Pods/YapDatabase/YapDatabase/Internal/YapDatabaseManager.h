@@ -11,7 +11,9 @@
 **/
 @interface YapDatabaseManager : NSObject
 
-+ (BOOL)registerDatabaseForPath:(NSString *)path;
-+ (void)deregisterDatabaseForPath:(NSString *)path;
+- (BOOL)registerDatabaseForPath:(NSString *)path;
+- (void)deregisterDatabaseForPath:(NSString *)path;
+
++ (id)shared;
 
 @end

@@ -134,7 +134,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotifications];
-        [[TSStorageManager sharedManager] resetSignalStorage];
+        [[TSStorageManager sharedManager] resetSignalStorageWithBackup:[TokenUser current].verified];
         [[Yap sharedInstance] wipeStorage];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -143,7 +143,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
         [strongSelf.contactsManager refreshContacts];
 
-        exit(0);
+        //exit(0);
     } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign-out-failure-title", nil) message:NSLocalizedString(@"sign-out-failure-message", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alert-ok-action-title", nil) style:UIAlertActionStyleCancel handler:nil]];

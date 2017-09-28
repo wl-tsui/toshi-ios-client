@@ -191,6 +191,8 @@ extern NSString *const YapDatabaseModifiedExternallyKey;
 
 @interface YapDatabase : NSObject
 
+- (void)deregisterPaths;
+
 /**
  * The default serializer & deserializer use NSCoding (NSKeyedArchiver & NSKeyedUnarchiver).
  * Thus any objects that support the NSCoding protocol may be used.

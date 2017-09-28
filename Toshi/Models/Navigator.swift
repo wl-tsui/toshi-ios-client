@@ -115,4 +115,12 @@ public class Navigator: NSObject {
         tabController.messagingController.openThread(thread, animated: true)
         tabController.switch(to: .messaging)
     }
+
+    @objc public static func presentSplash(completion: (() -> Void)? = nil) {
+        self.tabbarController?.currentNavigationController?.popToRootViewController(animated: false)
+
+        let splashNavigationController = SplashNavigationController()
+        splashNavigationController.modalTransitionStyle = .crossDissolve
+        self.rootViewController?.present(splashNavigationController, animated: true, completion: completion)
+    }
 }

@@ -102,6 +102,8 @@ public final class Yap: NSObject, Singleton {
         }
 
         backupUserDBFile()
+
+        self.database?.deregisterPaths()
     }
 
     fileprivate func createDBForCurrentUser() {
