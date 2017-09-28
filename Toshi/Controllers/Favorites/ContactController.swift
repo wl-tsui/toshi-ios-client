@@ -169,7 +169,12 @@ public class ContactController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        edgesForExtendedLayout = .bottom
+        if #available(iOS 11.0, *) {
+            edgesForExtendedLayout = .all
+        } else {
+            edgesForExtendedLayout = .bottom
+        }
+
         title = "Contact"
     }
 
