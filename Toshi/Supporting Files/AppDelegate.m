@@ -317,6 +317,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+
     if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible] && !self.hasBeenActivated) {
         [self configureAndPresentWindow];
         self.hasBeenActivated = YES;
@@ -361,6 +363,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     });
 
     [TSPreKeyManager checkPreKeysIfNecessary];
+
+    [SignalNotificationManager updateUnreadMessagesNumber];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

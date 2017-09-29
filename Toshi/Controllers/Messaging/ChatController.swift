@@ -248,7 +248,7 @@ final class ChatController: UIViewController, UINavigationControllerDelegate {
         super.viewDidAppear(animated)
 
         viewModel.thread.markAllAsRead()
-        SignalNotificationManager.updateApplicationBadgeNumber()
+        SignalNotificationManager.updateUnreadMessagesNumber()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -260,7 +260,7 @@ final class ChatController: UIViewController, UINavigationControllerDelegate {
         viewModel.saveDraftIfNeeded(inputViewText: textInputView.text)
 
         viewModel.thread.markAllAsRead()
-        SignalNotificationManager.updateApplicationBadgeNumber()
+        SignalNotificationManager.updateUnreadMessagesNumber()
 
         preferLargeTitleIfPossible(true)
     }
