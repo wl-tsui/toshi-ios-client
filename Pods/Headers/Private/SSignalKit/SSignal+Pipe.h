@@ -1,1 +1,0 @@
-../../../SSignalKit/SSignalKit/SSignal+Pipe.h

@@ -17,22 +17,19 @@ import UIKit
 import SweetUIKit
 import NoChat
 import MobileCoreServices
-import ImagePicker
 import AVFoundation
 
-final class ChatController: OverlayController {
+final class ChatController: UIViewController, UINavigationControllerDelegate {
 
     fileprivate static let subcontrolsViewWidth: CGFloat = 228.0
     fileprivate static let buttonMargin: CGFloat = 10
 
     private(set) var thread: TSThread
 
-    fileprivate var menuSheetController: MenuSheetController?
     fileprivate var isVisible: Bool = false
 
     fileprivate lazy var viewModel: ChatViewModel = ChatViewModel(output: self, thread: self.thread)
     fileprivate lazy var imagesCache: NSCache<NSString, UIImage> = NSCache()
-    fileprivate lazy var disposable: SMetaDisposable = SMetaDisposable()
 
     fileprivate var buttons: [SofaMessage.Button] = [] {
         didSet {
@@ -474,123 +471,6 @@ final class ChatController: OverlayController {
             viewModel.interactor.sendMessage(sofaWrapper: command)
         }
     }
-
-    // MARK: - Camera and picker
-    fileprivate func displayCamera(from cameraView: AttachmentCameraView?, menu: MenuSheetController, carouselItem _: AttachmentCarouselItemView) {
-        var controller: CameraController
-        let screenSize = TGScreenSize()
-
-        if let previewView = cameraView?.previewView() as CameraPreviewView? {
-            controller = CameraController(camera: previewView.camera, previewView: previewView, intent: CameraControllerGenericIntent)!
-        } else {
-            controller = CameraController()
-        }
-
-        controller.isImportant = true
-        controller.shouldStoreCapturedAssets = true
-        controller.allowCaptions = true
-
-        let controllerWindow = CameraControllerWindow(parentController: self, contentController: controller)
-        controllerWindow?.isHidden = false
-
-        controllerWindow?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-
-        var startFrame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: screenSize.height)
-
-        if let cameraView = cameraView as AttachmentCameraView?, let frame = cameraView.previewView().frame as CGRect? {
-            startFrame = controller.view.convert(frame, from: cameraView)
-        }
-
-        cameraView?.detachPreviewView()
-        controller.beginTransitionIn(from: startFrame)
-
-        controller.beginTransitionOut = {
-
-            if let cameraView = cameraView as AttachmentCameraView? {
-
-                cameraView.willAttachPreviewView()
-                return controller.view.convert(cameraView.frame, from: cameraView.superview)
-            }
-
-            return CGRect.zero
-        }
-
-        controller.finishedTransitionOut = {
-            cameraView?.attachPreviewView(animated: true)
-        }
-
-        controller.finishedWithPhoto = { [weak self] resultImage, _, _ in
-
-            menu.dismiss(animated: true)
-            if let image = resultImage as UIImage? {
-                self?.viewModel.interactor.send(image: image)
-            }
-        }
-
-        controller.finishedWithVideo = { [weak self] videoURL, _, _, _, _, _, _ in
-            defer { menu.dismiss(animated: false) }
-
-            self?.showActivityIndicator()
-
-            guard let videoURL = videoURL else { return }
-            self?.viewModel.interactor.sendVideo(with: videoURL)
-        }
-    }
-
-    fileprivate func checkMicrophoneAccess() {
-        if AVAudioSession.sharedInstance().recordPermission() == .undetermined {
-            
-            AVAudioSession.sharedInstance().requestRecordPermission { _ in
-            }
-        }
-    }
-
-    fileprivate func displayMediaPicker(forFile _: Bool, fromFileMenu _: Bool) {
-
-        guard AccessChecker.checkPhotoAuthorizationStatus(intent: PhotoAccessIntentRead, alertDismissCompletion: nil) else { return }
-        guard let dismissBlock = { [weak self] in
-            self?.dismiss(animated: true, completion: nil)
-        } as? () -> Void else { return }
-
-        let showMediaPickerBlock: ((MediaAssetGroup?) -> Void) = { [weak self] group in
-            let intent: MediaAssetsControllerIntent = .sendMedia
-            let assetsController = MediaAssetsController(assetGroup: group, intent: intent)!
-            assetsController.captionsEnabled = true
-            assetsController.inhibitDocumentCaptions = true
-            assetsController.suggestionContext = SuggestionContext()
-            assetsController.dismissalBlock = dismissBlock
-            assetsController.localMediaCacheEnabled = false
-            assetsController.shouldStoreAssets = false
-            assetsController.shouldShowFileTipIfNeeded = false
-
-            assetsController.completionBlock = { signals in
-
-                assetsController.dismiss(animated: true, completion: nil)
-
-                if let signals = signals as? [SSignal] {
-                    self?.viewModel.interactor.asyncProcess(signals: signals)
-                }
-            }
-
-            Navigator.presentModally(assetsController)
-        }
-
-        if MediaAssetsLibrary.authorizationStatus() == MediaLibraryAuthorizationStatusNotDetermined {
-            MediaAssetsLibrary.requestAuthorization(for: MediaAssetAnyType) { (_, cameraRollGroup) -> Void in
-
-                let photoAllowed = AccessChecker.checkPhotoAuthorizationStatus(intent: PhotoAccessIntentRead, alertDismissCompletion: nil)
-                let microphoneAllowed = AccessChecker.checkMicrophoneAuthorizationStatus(for: MicrophoneAccessIntentVideo, alertDismissCompletion: nil)
-
-                if photoAllowed == false || microphoneAllowed == false {
-                    return
-                }
-
-                showMediaPickerBlock(cameraRollGroup)
-            }
-        }
-
-        showMediaPickerBlock(nil)
-    }
     
     fileprivate func approvePaymentForIndexPath(_ indexPath: IndexPath) {
         guard let message = self.viewModel.messageModels.element(at: indexPath.row) as MessageModel? else { return }
@@ -618,6 +498,24 @@ final class ChatController: OverlayController {
         DispatchQueue.main.asyncAfter(seconds: 2.0) {
             self.hideActiveNetworkViewIfNeeded()
         }
+    }
+}
+
+extension ChatController: UIImagePickerControllerDelegate {
+
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+
+        picker.dismiss(animated: true, completion: nil)
+
+        guard let image = info[UIImagePickerControllerOriginalImage] as? UIImage else {
+            return
+        }
+
+        viewModel.interactor.sendImage(image)
     }
 }
 
@@ -897,80 +795,34 @@ extension ChatController: ChatInputTextPanelDelegate {
 
         view.endEditing(true)
 
-        menuSheetController = MenuSheetController()
-        menuSheetController?.dismissesByOutsideTap = true
-        menuSheetController?.hasSwipeGesture = true
-        menuSheetController?.maxHeight = 445 - MenuSheetButtonItemViewHeight
-        var itemViews = [UIView]()
-
-        checkMicrophoneAccess()
-
-        let carouselItem = AttachmentCarouselItemView(camera: Camera.cameraAvailable(), selfPortrait: false, forProfilePhoto: false, assetType: MediaAssetAnyType)!
-        carouselItem.condensed = false
-        carouselItem.parentController = self
-        carouselItem.allowCaptions = true
-        carouselItem.inhibitDocumentCaptions = true
-        carouselItem.suggestionContext = SuggestionContext()
-        carouselItem.cameraPressed = { [weak self] cameraView in
-            guard AccessChecker.checkCameraAuthorizationStatus(alertDismissComlpetion: nil) == true else { return }
-            guard let strongSelf = self else { return }
-
-            strongSelf.displayCamera(from: cameraView, menu: strongSelf.menuSheetController!, carouselItem: carouselItem)
+        let pickerTypeAlertController = UIAlertController(title: Localized("image-picker-select-source-title"), message: nil, preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: Localized("image-picker-camera-action-title"), style: .default) { _ in
+            self.presentImagePicker(sourceType: .camera)
         }
 
-        carouselItem.sendPressed = { [weak self] currentItem, asFiles in
-            self?.menuSheetController?.dismiss(animated: true, manual: false) {
-
-                let intent: MediaAssetsControllerIntent = asFiles == true ? .sendFile : .sendMedia
-
-                if let signals = MediaAssetsController.resultSignals(selectionContext: carouselItem.selectionContext, editingContext: carouselItem.editingContext, intent: intent, currentItem: currentItem, storeAssets: true, useMediaCache: true) as? [SSignal] {
-                    self?.viewModel.interactor.asyncProcess(signals: signals)
-                }
-            }
+        let libraryAction = UIAlertAction(title: Localized("image-picker-library-action-title"), style: .default) { _ in
+            self.presentImagePicker(sourceType: .photoLibrary)
         }
 
-        itemViews.append(carouselItem)
+        let cancelAction = UIAlertAction(title: Localized("cancel_action"), style: .cancel, handler: nil)
 
-        let galleryItem = MenuSheetButtonItemView(title: "Photo or Video", type: MenuSheetButtonTypeDefault, action: { [weak self] in
+        pickerTypeAlertController.addAction(cameraAction)
+        pickerTypeAlertController.addAction(libraryAction)
+        pickerTypeAlertController.addAction(cancelAction)
 
-            self?.menuSheetController?.dismiss(animated: true)
-            self?.displayMediaPicker(forFile: false, fromFileMenu: false)
-        })!
+        present(pickerTypeAlertController, animated: true)
+    }
 
-        itemViews.append(galleryItem)
+    fileprivate func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = self
 
-        carouselItem.underlyingViews = [galleryItem]
-
-        let cancelItem = MenuSheetButtonItemView(title: "Cancel", type: MenuSheetButtonTypeCancel, action: {
-            self.menuSheetController?.dismiss(animated: true)
-        })!
-
-        itemViews.append(cancelItem)
-        menuSheetController?.setItemViews(itemViews)
-        carouselItem.remainingHeight = MenuSheetButtonItemViewHeight * CGFloat(itemViews.count - 1)
-
-        menuSheetController?.present(in: self, sourceView: view, animated: true)
+        present(imagePicker, animated: true)
     }
 
     func inputTextPanelDidChangeHeight(_ height: CGFloat) {
         textInputHeight = height
-    }
-}
-
-extension ChatController: ImagePickerDelegate {
-    func cancelButtonDidPress(_: ImagePickerController) {
-        dismiss(animated: true)
-    }
-
-    func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
-        dismiss(animated: true) {
-            for image in images {
-                self.viewModel.interactor.send(image: image)
-            }
-        }
-    }
-
-    func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
     }
 }
 

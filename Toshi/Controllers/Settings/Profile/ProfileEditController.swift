@@ -16,10 +16,8 @@
 import UIKit
 import SweetUIKit
 import SweetFoundation
-import ImagePicker
 
-/// Edit user profile info. It's sent to the ID server on saveAndDismiss. Updates local session as well.
-open class ProfileEditController: OverlayController, Editable {
+open class ProfileEditController: UIViewController, Editable, UINavigationControllerDelegate {
 
     fileprivate static let profileVisibilitySectionTitle = Localized("Profile visibility")
     fileprivate static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
@@ -43,8 +41,6 @@ open class ProfileEditController: OverlayController, Editable {
     @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
         keyboardWillHide(notification)
     }
-
-    fileprivate var menuSheetController: MenuSheetController?
 
     fileprivate let editingSections = [ProfileEditSection(items: [ProfileEditItem(.username), ProfileEditItem(.displayName), ProfileEditItem(.about), ProfileEditItem(.location)]),
                                        ProfileEditSection(items: [ProfileEditItem(.visibility)], headerTitle: profileVisibilitySectionTitle, footerTitle: profileVisibilitySectionFooter)]
@@ -186,150 +182,37 @@ open class ProfileEditController: OverlayController, Editable {
     }
 
     @objc func updateAvatar() {
-        menuSheetController = MenuSheetController()
-        menuSheetController?.dismissesByOutsideTap = true
-        menuSheetController?.hasSwipeGesture = true
-        menuSheetController?.maxHeight = 445 - MenuSheetButtonItemViewHeight
-        var itemViews = [UIView]()
-
-        let carouselItem = AttachmentCarouselItemView(camera: Camera.cameraAvailable(), selfPortrait: false, forProfilePhoto: true, assetType: MediaAssetPhotoType)!
-        carouselItem.condensed = false
-        carouselItem.openEditor = true
-        carouselItem.parentController = self
-        carouselItem.allowCaptions = true
-        carouselItem.inhibitDocumentCaptions = true
-        carouselItem.suggestionContext = SuggestionContext()
-        carouselItem.cameraPressed = { cameraView in
-            guard AccessChecker.checkCameraAuthorizationStatus(alertDismissComlpetion: nil) == true else { return }
-
-            self.displayCamera(from: cameraView, menu: self.menuSheetController!, carouselItem: carouselItem)
+        let pickerTypeAlertController = UIAlertController(title: Localized("image-picker-select-source-title"), message: nil, preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: Localized("image-picker-camera-action-title"), style: .default) { _ in
+            self.presentImagePicker(sourceType: .camera)
         }
 
-        carouselItem.avatarCompletionBlock = { image in
-            self.menuSheetController?.dismiss(animated: true, manual: false) {
-                self.changeAvatar(to: image)
-            }
+        let libraryAction = UIAlertAction(title: Localized("image-picker-library-action-title"), style: .default) { _ in
+            self.presentImagePicker(sourceType: .photoLibrary)
         }
 
-        itemViews.append(carouselItem)
+        let cancelAction = UIAlertAction(title: Localized("cancel_action"), style: .cancel, handler: nil)
 
-        let galleryItem = MenuSheetButtonItemView(title: "Library", type: MenuSheetButtonTypeDefault, action: {
-            self.menuSheetController?.dismiss(animated: true)
-            self.displayMediaPicker(forFile: false, fromFileMenu: false)
-        })!
+        pickerTypeAlertController.addAction(cameraAction)
+        pickerTypeAlertController.addAction(libraryAction)
+        pickerTypeAlertController.addAction(cancelAction)
 
-        itemViews.append(galleryItem)
-
-        carouselItem.underlyingViews = [galleryItem]
-
-        let cancelItem = MenuSheetButtonItemView(title: "Cancel", type: MenuSheetButtonTypeCancel, action: {
-            self.menuSheetController?.dismiss(animated: true)
-        })!
-
-        itemViews.append(cancelItem)
-        menuSheetController?.setItemViews(itemViews)
-        carouselItem.remainingHeight = MenuSheetButtonItemViewHeight * CGFloat(itemViews.count - 1)
-
-        menuSheetController?.present(in: self, sourceView: view, animated: true)
+        present(pickerTypeAlertController, animated: true)
     }
 
-    private func displayMediaPicker(forFile _: Bool, fromFileMenu _: Bool) {
+    fileprivate func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
 
-        guard AccessChecker.checkPhotoAuthorizationStatus(intent: PhotoAccessIntentRead, alertDismissCompletion: nil) else { return }
-        let dismissBlock = { [unowned self] in
-            self.dismiss(animated: true, completion: nil)
-        }
-
-        let showMediaPickerBlock: ((MediaAssetGroup?) -> Void) = { [unowned self] group in
-            let intent: MediaAssetsControllerIntent = .setProfilePhoto // forFile ? MediaAssetsControllerIntentSendMedia : MediaAssetsControllerIntentSendMedia
-            let assetsController = MediaAssetsController(assetGroup: group, intent: intent)!
-            assetsController.captionsEnabled = true
-            assetsController.inhibitDocumentCaptions = true
-            assetsController.suggestionContext = SuggestionContext()
-            assetsController.dismissalBlock = dismissBlock
-            assetsController.localMediaCacheEnabled = false
-            assetsController.shouldStoreAssets = false
-            assetsController.shouldShowFileTipIfNeeded = false
-
-            assetsController.avatarCompletionBlock = { image in
-                assetsController.dismiss(animated: true, completion: nil)
-                self.changeAvatar(to: image)
-            }
-
-            Navigator.presentModally(assetsController)
-        }
-
-        if MediaAssetsLibrary.authorizationStatus() == MediaLibraryAuthorizationStatusNotDetermined {
-            MediaAssetsLibrary.requestAuthorization(for: MediaAssetAnyType) { (_, cameraRollGroup) -> Void in
-
-                let photoAllowed = AccessChecker.checkPhotoAuthorizationStatus(intent: PhotoAccessIntentRead, alertDismissCompletion: nil)
-                let microphoneAllowed = AccessChecker.checkMicrophoneAuthorizationStatus(for: MicrophoneAccessIntentVideo, alertDismissCompletion: nil)
-
-                if photoAllowed == false || microphoneAllowed == false {
-                    return
-                }
-
-                showMediaPickerBlock(cameraRollGroup)
-            }
-        }
-
-        showMediaPickerBlock(nil)
+        present(imagePicker, animated: true)
     }
 
     func changeAvatar(to avatar: UIImage?) {
         if let avatar = avatar as UIImage? {
             let scaledImage = avatar.resized(toHeight: 320)
             avatarImageView.image = scaledImage
-        }
-    }
-
-    func displayCamera(from cameraView: AttachmentCameraView?, menu: MenuSheetController, carouselItem _: AttachmentCarouselItemView) {
-        var controller: CameraController
-        let screenSize = TGScreenSize()
-
-        if let previewView = cameraView?.previewView() as CameraPreviewView? {
-            controller = CameraController(camera: previewView.camera, previewView: previewView, intent: CameraControllerAvatarIntent)!
-        } else {
-            controller = CameraController()
-        }
-
-        controller.isImportant = true
-        controller.shouldStoreCapturedAssets = true
-        controller.allowCaptions = true
-
-        let controllerWindow = CameraControllerWindow(parentController: self, contentController: controller)
-        controllerWindow?.isHidden = false
-
-        controllerWindow?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-
-        var startFrame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: screenSize.height)
-
-        if let cameraView = cameraView as AttachmentCameraView?, let frame = cameraView.previewView().frame as CGRect? {
-            startFrame = controller.view.convert(frame, from: cameraView)
-        }
-
-        cameraView?.detachPreviewView()
-        controller.beginTransitionIn(from: startFrame)
-
-        controller.beginTransitionOut = {
-
-            if let cameraView = cameraView as AttachmentCameraView? {
-
-                cameraView.willAttachPreviewView()
-                return controller.view.convert(cameraView.frame, from: cameraView.superview)
-            }
-
-            return CGRect.zero
-        }
-
-        controller.finishedTransitionOut = {
-            cameraView?.attachPreviewView(animated: true)
-        }
-
-        controller.finishedWithPhoto = { resultImage, _, _ in
-
-            menu.dismiss(animated: true)
-            self.changeAvatar(to: resultImage)
         }
     }
 
@@ -373,7 +256,7 @@ open class ProfileEditController: OverlayController, Editable {
         view.endEditing(true)
 
         if validateUserName(username) == false {
-            let alert = UIAlertController.dismissableAlert(title: "Error", message: "Username is invalid! Use numbers, letters, and underscores only.")
+            let alert = UIAlertController.dismissableAlert(title: Localized("error-alert-title"), message: Localized("invalid-username-alert-message"))
             Navigator.presentModally(alert)
 
             return
@@ -469,19 +352,21 @@ open class ProfileEditController: OverlayController, Editable {
     }()
 }
 
-extension ProfileEditController: ImagePickerDelegate {
+extension ProfileEditController: UIImagePickerControllerDelegate {
 
-    public func wrapperDidPress(_: ImagePickerController, images _: [UIImage]) {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 
-    public func doneButtonDidPress(_: ImagePickerController, images: [UIImage]) {
-        guard let image = images.first else { return }
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
-        changeAvatar(to: image)
-    }
+        picker.dismiss(animated: true, completion: nil)
 
-    public func cancelButtonDidPress(_: ImagePickerController) {
-        dismiss(animated: true)
+        guard let image = info[UIImagePickerControllerEditedImage] as? UIImage else {
+            return
+        }
+
+        self.changeAvatar(to: image)
     }
 }
 

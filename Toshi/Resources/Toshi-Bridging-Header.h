@@ -21,6 +21,8 @@
 #import "AppDelegate.h"
 #import "ContactsManager.h"
 
+#import "UIImage+Utils.h"
+
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseViewMappings.h>
 #import <YapDatabase/YapDatabaseViewTransaction.h>
@@ -82,26 +84,3 @@
 
 #import <Curve25519.h>
 #import <Ed25519.h>
-
-#import "MenuSheetController.h"
-#import "AttachmentCarouselItemView.h"
-#import "Camera.h"
-#import "SuggestionContext.h"
-#import "AttachmentCameraView.h"
-#import "MenuSheetButtonItemView.h"
-#import "ViewController.h"
-#import "AccessChecker.h"
-#import "MediaAssetsLibrary.h"
-#import "MediaAssetsController.h"
-#import "OverlayControllerWindow.h"
-#import "VideoMediaAttachment.h"
-#import "Common.h"
-#import "CameraController.h"
-#import "ImageUtils.h"
-#import "CameraPreviewView.h"
-#import "OverlayController.h"
-#import "VideoEditAdjustments.h"
-#import "PhotoEditorController.h"
-#import "MediaEditingContext.h"
-#import "DocumentAttributeFilename.h"
-#import "TGMediaAvatarMenuMixin.h"

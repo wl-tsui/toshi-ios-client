@@ -45,11 +45,6 @@ final class ChatsInteractor: NSObject {
         return IDAPIClient.shared
     }
 
-    lazy var processMediaDisposable: SMetaDisposable = {
-        let disposable = SMetaDisposable()
-        return disposable
-    }()
-
     fileprivate var messageSender: MessageSender?
 
     func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: @escaping ((Bool) -> Void) = { Bool in }) {
@@ -298,90 +293,21 @@ final class ChatsInteractor: NSObject {
         appDelegate?.contactsManager.refreshContacts()
     }
 
-    func asyncProcess(signals: [SSignal]) {
-        let queue = SQueue()
-        var combinedSignal: SSignal?
+    func sendImage(_ image: UIImage) {
 
-        for signal in signals {
-            if combinedSignal == nil {
-                combinedSignal = signal.start(on: queue)
-            } else {
-                combinedSignal = combinedSignal?.then(signal).start(on: queue)
-            }
+        let wrapper = SofaMessage(body: "")
+        let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+
+        guard let data = UIImageJPEGRepresentation(image, 0.7) as Data? else {
+            print("Cant convert selected image to data")
+            return
         }
 
-        let array = [Any]()
-        let signal = combinedSignal?.reduceLeft(array, with: { itemDescriptions, item in
-            if var descriptions = itemDescriptions as? [[String: Any]] {
-                if let description = item as? [String: Any] {
-                    descriptions.append(description)
-                }
-
-                return descriptions
-            }
-
-            return nil
-
-        }).deliver(on: SQueue.main()).start { itemDescriptions in
-
-            var mediaDescriptions = [[String: Any]]()
-
-            if let itemDescriptions = itemDescriptions as? [[String: Any]] {
-
-                for description in itemDescriptions {
-                    if description["localImage"] != nil ||
-                        description["remoteImage"] != nil ||
-                        description["downloadImage"] != nil ||
-                        description["downloadDocument"] != nil ||
-                        description["downloadExternalGif"] != nil ||
-                        description["downloadExternalImage"] != nil ||
-                        description["remoteDocument"] != nil ||
-                        description["remoteCachedDocument"] != nil ||
-                        description["assetImage"] != nil ||
-                        description["assetVideo"] != nil {
-
-                        mediaDescriptions.append(description)
-                    }
-                }
-            }
-
-            if !mediaDescriptions.isEmpty {
-                for description in mediaDescriptions {
-
-                    var mediaData: [String: Any]?
-                    var contentType = ""
-
-                    if let assetImage = description["assetImage"] as? [String: Any] {
-                        mediaData = assetImage
-                        contentType = "image/jpeg"
-                    } else if let localImage = description["localImage"] as? [String: Any] {
-                        mediaData = localImage
-                        contentType = "image/jpeg"
-                    } else if let assetVideo = description["assetVideo"] as? [String: Any] {
-                        mediaData = assetVideo
-                        contentType = "video/mov"
-                    } else if let libraryVideo = description["libraryVideo"] as? [String: Any] {
-                        mediaData = libraryVideo
-                        contentType = "video/mov"
-                    }
-
-                    let wrapper = SofaMessage(body: "")
-                    let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-
-                    if let thumbnailData = mediaData?["thumbnailData"] as? Data {
-                        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
-                        self.messageSender?.sendAttachmentData(thumbnailData, contentType: contentType, sourceFilename: "File.jpeg", in: outgoingMessage, success: {
-                            print("Success")
-                        }, failure: { error in
-                            print("Failure: \(error)")
-                        })
-                    }
-                }
-            }
-        }
-
-        if let signal = signal as SDisposable? {
-            processMediaDisposable.setDisposable(signal)
-        }
+        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
+        self.messageSender?.sendAttachmentData(data, contentType: "image/jpeg", sourceFilename: "File.jpeg", in: outgoingMessage, success: {
+            print("Success")
+        }, failure: { error in
+            print("Failure: \(error)")
+        })
     }
 }

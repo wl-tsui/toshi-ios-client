@@ -21,7 +21,6 @@
 #import <SignalServiceKit/TSPreferences.h>
 
 #import <AxolotlKit/SessionCipher.h>
-#import "Common.h"
 
 NSString *const LaunchedBefore = @"LaunchedBefore";
 NSString *const RequiresSignIn = @"RequiresSignIn";
