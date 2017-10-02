@@ -233,7 +233,8 @@ open class ProfileController: UIViewController {
         nameLabel.right(to: nameContainer)
 
         usernameLabel.height(25, relation: .equalOrGreater, priority: .defaultHigh)
-        usernameLabel.topToBottom(of: nameLabel, offset: margin)
+        usernameLabel.topToBottom(of: nameLabel)
+
         usernameLabel.left(to: nameContainer)
         usernameLabel.bottom(to: nameContainer)
         usernameLabel.right(to: nameContainer)
@@ -242,7 +243,7 @@ open class ProfileController: UIViewController {
         aboutContentLabel.left(to: contentBackgroundView, offset: margin)
         aboutContentLabel.right(to: contentBackgroundView, offset: -margin)
 
-        locationContentLabel.topToBottom(of: aboutContentLabel, offset: margin)
+        locationContentLabel.topToBottom(of: aboutContentLabel, offset: 7)
         locationContentLabel.left(to: contentBackgroundView, offset: margin)
         locationContentLabel.right(to: contentBackgroundView, offset: -margin)
 
