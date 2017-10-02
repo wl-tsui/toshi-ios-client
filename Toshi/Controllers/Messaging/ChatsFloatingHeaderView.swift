@@ -30,7 +30,17 @@ class ChatsFloatingHeaderView: UIView {
         let label = UILabel(withAutoLayout: true)
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.textColor = Theme.darkTextColor
-        label.font = Theme.regular(size: 16)
+        label.font = Theme.medium(size: 15)
+
+        return label
+    }()
+
+    private(set) lazy var dotLabel: UILabel = {
+        let label = UILabel(withAutoLayout: true)
+        label.textColor = Theme.lightGreyTextColor
+        label.font = Theme.regular(size: 15)
+        label.text = "·"
+        label.textAlignment = .center
 
         return label
     }()
@@ -38,7 +48,7 @@ class ChatsFloatingHeaderView: UIView {
     private(set) lazy var ethereumValueLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.textColor = Theme.lightGreyTextColor
-        label.font = Theme.regular(size: 16)
+        label.font = Theme.regular(size: 15)
 
         return label
     }()
@@ -102,6 +112,7 @@ class ChatsFloatingHeaderView: UIView {
 
         addSubview(backgroundBlur)
         addSubview(fiatValueLabel)
+        addSubview(dotLabel)
         addSubview(ethereumValueLabel)
         addSubview(requestButton)
         addSubview(payButton)
@@ -114,9 +125,14 @@ class ChatsFloatingHeaderView: UIView {
         fiatValueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         fiatValueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
 
+        dotLabel.leftAnchor.constraint(equalTo: fiatValueLabel.rightAnchor).isActive = true
+        dotLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        dotLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        dotLabel.widthAnchor.constraint(equalToConstant: 13).isActive = true
+
         ethereumValueLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         ethereumValueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        ethereumValueLabel.leftAnchor.constraint(equalTo: fiatValueLabel.rightAnchor, constant: margin).isActive = true
+        ethereumValueLabel.leftAnchor.constraint(equalTo: dotLabel.rightAnchor).isActive = true
 
         let buttonWidth = CGFloat(70)
         requestButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
