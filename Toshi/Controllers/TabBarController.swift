@@ -104,6 +104,8 @@ open class TabBarController: UITabBarController {
 
         let index = UserDefaults.standard.integer(forKey: tabBarSelectedIndexKey)
         selectedIndex = index
+
+        self.switch(to: .browsing)
     }
 
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {

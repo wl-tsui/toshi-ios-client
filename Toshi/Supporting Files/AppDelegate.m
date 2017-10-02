@@ -140,7 +140,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
         [ChatService.shared freeUp];
 
-        [Navigator presentSplashWithCompletion:nil];
     } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign-out-failure-title", nil) message:NSLocalizedString(@"sign-out-failure-message", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alert-ok-action-title", nil) style:UIAlertActionStyleCancel handler:nil]];
