@@ -103,8 +103,8 @@ class BrowseAllController: UITableViewController {
         }
     }
 
-    override func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return SearchResultCell.height
     }
 
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
@@ -115,8 +115,8 @@ class BrowseAllController: UITableViewController {
         let cell = tableView.dequeue(SearchResultCell.self, for: indexPath)
 
         if let item = searchResults.element(at: indexPath.row) {
-            cell.usernameLabel.text = item.isApp ? item.category : item.username
             cell.nameLabel.text = item.name
+            cell.subLabel.text = item.isApp ? item.about : item.username
 
             if let avatarPath = item.avatarPath as String? {
                 AvatarManager.shared.avatar(for: avatarPath, completion: { image, path in

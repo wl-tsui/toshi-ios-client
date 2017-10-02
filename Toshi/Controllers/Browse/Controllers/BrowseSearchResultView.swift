@@ -72,7 +72,7 @@ extension BrowseSearchResultView: UITableViewDataSource {
         let cell = tableView.dequeue(SearchResultCell.self, for: indexPath)
 
         if let item = searchResults.element(at: indexPath.row) {
-            cell.usernameLabel.text = item.isApp ? item.category : item.username
+            cell.subLabel.text = item.isApp ? item.category : item.username
             cell.nameLabel.text = item.name
 
             if let avatarPath = item.avatarPath as String? {
