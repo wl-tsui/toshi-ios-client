@@ -136,8 +136,9 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
         [ChatService.shared.contactsManager refreshContacts];
-
         [ChatService.shared freeUp];
+
+        [Navigator presentSplashWithCompletion:nil];
 
     } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign-out-failure-title", nil) message:NSLocalizedString(@"sign-out-failure-message", nil) preferredStyle:UIAlertControllerStyleAlert];
