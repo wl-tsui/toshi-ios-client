@@ -98,9 +98,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [self.window makeKeyAndVisible];
 
     if ([Yap isUserDatabaseFileAccessible] == false) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
-        [[NSUserDefaults standardUserDefaults] synchronize];
-
         [self presentSplash];
     } else {
         [tabBarController setupControllers];
@@ -201,8 +198,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [Navigator presentAddressChangeAlertIfNeeded];
 }
 
 - (void)presentSplash

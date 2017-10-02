@@ -67,21 +67,6 @@ public class Navigator: NSObject {
         parentViewController?.present(viewController, animated: true, completion: nil)
     }
 
-    @objc public static func presentAddressChangeAlertIfNeeded() {
-        guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let alertController = AddressChangeAlertController()
-            alertController.modalPresentationStyle = .custom
-            alertController.transitioningDelegate = alertController
-
-            self.presentModally(alertController)
-
-            UserDefaults.standard.set(true, forKey: AddressChangeAlertShown)
-            UserDefaults.standard.synchronize()
-        }
-    }
-
     @objc public static func presentModally(_ controller: UIViewController) {
         present(controller, from: topViewController, animated: true)
     }
