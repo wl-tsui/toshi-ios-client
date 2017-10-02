@@ -573,6 +573,9 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 
     if (withBackup) {
         [self backupDataBaseFile];
+    } else {
+
+        [self __deleteFileIfNeededAtPath:[self dbPath]];
     }
     
     self.database = nil;

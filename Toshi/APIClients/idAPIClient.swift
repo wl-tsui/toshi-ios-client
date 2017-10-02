@@ -109,8 +109,7 @@ import Teapot
                     return
                 }
 
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                appDelegate.contactsManager.refreshContact(updatedContact)
+                ChatService.shared.contactsManager?.refreshContact(updatedContact)
             }
         }
         
@@ -145,7 +144,9 @@ import Teapot
     }
 
     @objc public func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus, _ message: String?) -> Void)) {
-        retrieveUser(username: Cereal.shared.address) { user in
+        guard let paymentAddress = Cereal.shared.paymentAddress, let address = Cereal.shared.address else { fatalError("No cereal data when requested") }
+        
+        retrieveUser(username: address) { user in
 
             guard user == nil else {
                 success(.existing, nil)
@@ -161,7 +162,7 @@ import Teapot
                 let cereal = Cereal.shared
                 let path = "/v1/user"
                 let parameters = [
-                    "payment_address": cereal.paymentAddress
+                    "payment_address": paymentAddress
                 ]
 
                 guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
@@ -172,7 +173,7 @@ import Teapot
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
                 let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
 
-                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+                let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
 
                 let json = RequestParameter(parameters)
 
@@ -184,7 +185,10 @@ import Teapot
                         guard response.statusCode == 200 else { return }
                         guard let json = json?.dictionary else { return }
 
-                        TokenUser.createCurrentUser(with: json)
+                        DispatchQueue.main.async {
+                            TokenUser.createCurrentUser(with: json)
+                        }
+
                         status = .registered
                     case .failure(_, _, let error):
                         print(error)
@@ -207,6 +211,8 @@ import Teapot
                 return
             }
 
+            guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
+
             let cereal = Cereal.shared
             let path = "/v1/user"
             let boundary = "teapot.boundary"
@@ -214,7 +220,7 @@ import Teapot
             let hashedPayload = cereal.sha3WithID(data: payload)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+            let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
             let json = RequestParameter(payload)
 
             self.teapot.put(path, parameters: json, headerFields: fields) { result in
@@ -255,6 +261,8 @@ import Teapot
             let cereal = Cereal.shared
             let path = "/v1/user"
 
+            guard let address = cereal.address else { fatalError("No cereal address when requested") }
+
             guard let payload = try? JSONSerialization.data(withJSONObject: userDict, options: []), let payloadString = String(data: payload, encoding: .utf8) else {
                 completion(false, "Invalid payload, request could not be executed")
                 return
@@ -263,7 +271,7 @@ import Teapot
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(userDict)
 
             self.teapot.put("/v1/user", parameters: json, headerFields: fields) { result in
@@ -459,6 +467,8 @@ import Teapot
             let cereal = Cereal.shared
             let path = "/v1/report"
 
+            guard let address = cereal.address else { fatalError("No cereal address when requested") }
+
             let payload = [
                 "token_id": address,
                 "details": reason
@@ -472,7 +482,7 @@ import Teapot
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(payload)
 
             self.teapot.post(path, parameters: json, headerFields: fields) { result in
@@ -509,10 +519,12 @@ import Teapot
 
             let cereal = Cereal.shared
             let path = "/v1/login/\(loginToken)"
+            
+            guard let address = cereal.address else { fatalError("No cereal address when requested") }
 
             let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
 
             self.teapot.get(path, headerFields: fields) { result in
                 var succeeded = false

@@ -30,11 +30,7 @@ final class ChatsInteractor: NSObject {
         self.output = output
         self.thread = thread
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        self.messageSender = appDelegate.messageSender
+        self.messageSender = ChatService.shared.messageSender
     }
 
     fileprivate var etherAPIClient: EthereumAPIClient {
@@ -294,8 +290,7 @@ final class ChatsInteractor: NSObject {
     }
 
     fileprivate static func requestContactsRefresh() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        appDelegate?.contactsManager.refreshContacts()
+        ChatService.shared.contactsManager?.refreshContacts()
     }
 
     func asyncProcess(signals: [SSignal]) {

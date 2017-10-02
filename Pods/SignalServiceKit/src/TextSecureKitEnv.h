@@ -16,12 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
                            contactsManager:(id<ContactsManagerProtocol>)contactsManager
                              messageSender:(OWSMessageSender *)messageSender
                       notificationsManager:(id<NotificationsProtocol>)notificationsManager
-                               preferences:(id<TSPreferences>)preferences NS_DESIGNATED_INITIALIZER;
+                               preferences:(id<TSPreferences>)preferences
+NS_SWIFT_NAME(init(callMessageHandler:contactsManager:messageSender:notificationsManager:preferences:));
 
-- (instancetype)init NS_UNAVAILABLE;
+- (void)setupWithCallMessageHandler:(id<OWSCallMessageHandler>)callMessageHandler
+                    contactsManager:(id<ContactsManagerProtocol>)contactsManager
+                      messageSender:(OWSMessageSender *)messageSender
+               notificationsManager:(id<NotificationsProtocol>)notificationsManager
+                        preferences:(id<TSPreferences>)preferences
+NS_SWIFT_NAME(setup(callMessageHandler:contactsManager:messageSender:notificationsManager:preferences:));
 
 + (instancetype)sharedEnv;
-+ (void)setSharedEnv:(TextSecureKitEnv *)env;
++ (void)setSharedEnv:(nullable TextSecureKitEnv *)env;
 
 @property (nonatomic, readonly) id<OWSCallMessageHandler> callMessageHandler;
 @property (nonatomic, readonly) id<ContactsManagerProtocol> contactsManager;

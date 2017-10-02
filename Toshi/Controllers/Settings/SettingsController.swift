@@ -154,7 +154,9 @@ open class SettingsController: UIViewController {
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        IDAPIClient.shared.updateContact(with: Cereal.shared.address)
+        guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
+
+        IDAPIClient.shared.updateContact(with: address)
         self.fetchAndUpdateBalance()
 
         preferLargeTitleIfPossible(true)

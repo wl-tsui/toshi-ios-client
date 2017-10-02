@@ -173,12 +173,13 @@ extension SOFAWebController: WKScriptMessageHandler {
     func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let method = Method(rawValue: message.name) else { return print("failed \(message.name)") }
         guard let callbackId = (message.body as? NSDictionary)?.value(forKey: "callback") as? String else { return print("missing callback id") }
+        guard let paymentAddress = Cereal.shared.paymentAddress else { fatalError("No payment address on Cereal when requested") }
 
         self.callbackId = callbackId
 
         switch method {
         case .getAccounts:
-            let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
+            let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + paymentAddress + "\\\"]}"
             jsCallback(callbackId: callbackId, payload: payload)
 
             break

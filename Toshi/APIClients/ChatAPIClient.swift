@@ -65,12 +65,14 @@ public class ChatAPIClient: NSObject {
                 completion(false, "Invalid payload, request could not be executed")
                 return
             }
+
+            guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
             
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
             let signature = "0x\(cereal.signWithID(message: message))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let requestParameter = RequestParameter(payload)
 
             self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in

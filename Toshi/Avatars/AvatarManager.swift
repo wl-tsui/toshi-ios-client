@@ -69,7 +69,7 @@ final class AvatarManager: NSObject {
     @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let contactsManager = appDelegate.contactsManager as ContactsManager? else { return }
+        guard let contactsManager = ChatService.shared.contactsManager as ContactsManager? else { return }
 
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in

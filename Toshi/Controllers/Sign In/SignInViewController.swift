@@ -79,17 +79,17 @@ final class SignInViewController: UIViewController {
 
     private func signInWithPasshphrase(_ passphrase: [String]) {
         
-        guard let cereal = Cereal(words: passphrase) else {
+        guard Cereal.shared.setup(for: passphrase) == true else {
             let alertController = UIAlertController.dismissableAlert(title: Localized("passphrase_signin_error_title"), message: Localized("passphrase_signin_error_verification"))
             present(alertController, animated: true)
 
             return
         }
 
-        Cereal.shared = cereal
+        guard let address = Cereal.shared.address else { fatalError("No cereal address when required") }
 
         let idClient = IDAPIClient.shared
-        idClient.retrieveUser(username: cereal.address) { [weak self] user in
+        idClient.retrieveUser(username: address) { [weak self] user in
             if let user = user {
 
                 UserDefaults.standard.set(false, forKey: RequiresSignIn)

@@ -89,7 +89,14 @@ public final class Yap: NSObject, Singleton {
         createBackupDirectoryIfNeeded()
     }
 
+    @objc public func cleanUp() {
+        self.wipeStorage()
+        TokenUser.sessionEnded()
+    }
+
     @objc public func wipeStorage() {
+        self.database?.deregisterPaths()
+
         if TokenUser.current?.verified == false {
             KeychainSwift().delete(UserDB.password)
             UserDefaults.standard.removeObject(forKey: UserDB.password)
@@ -102,8 +109,6 @@ public final class Yap: NSObject, Singleton {
         }
 
         backupUserDBFile()
-
-        self.database?.deregisterPaths()
     }
 
     fileprivate func createDBForCurrentUser() {
@@ -162,6 +167,9 @@ public final class Yap: NSObject, Singleton {
         guard let currentPassword = keychain.getData(UserDB.password) else { fatalError("No database password found in keychain while database file exits") }
 
         keychain.set(currentPassword, forKey: user.address)
+
+        let password = currentPassword.hexadecimalString
+        print("\n\n Password |\(password)| set for address |\(user.address)|")
 
         try? FileManager.default.moveItem(atPath: UserDB.dbFilePath, toPath: UserDB.Backup.dbFilePath)
 

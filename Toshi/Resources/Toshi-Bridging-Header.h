@@ -39,6 +39,12 @@
 #import <SignalServiceKit/OWSError.h>
 #import <SignalServiceKit/TSDatabaseView.h>
 #import <SignalServiceKit/OWSMessageSender.h>
+#import <SignalServiceKit/ContactsManagerProtocol.h>
+#import <SignalServiceKit/TSPreferences.h>
+#import <SignalServiceKit/TextSecureKitEnv.h>
+
+#import <SignalServiceKit/OWSIncomingMessageReadObserver.h>
+#import <SignalServiceKit/OWSCallMessageHandler.h>
 #import <SignalServiceKit/ContactsUpdater.h>
 
 #import <SignalServiceKit/OWSFingerprintBuilder.h>
@@ -67,6 +73,8 @@
 #import <SignalServiceKit/TSStorageManager+SignedPreKeyStore.h>
 #import <SignalServiceKit/TSThread.h>
 #import <SignalServiceKit/TSContactThread.h>
+
+#import "EmptyCallHandler.h"
 
 #import <25519/Randomness.h>
 

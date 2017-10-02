@@ -36,16 +36,32 @@ static TextSecureKitEnv *TextSecureKitEnvSharedInstance;
     return self;
 }
 
+- (void)setupWithCallMessageHandler:(id<OWSCallMessageHandler>)callMessageHandler
+                    contactsManager:(id<ContactsManagerProtocol>)contactsManager
+                      messageSender:(OWSMessageSender *)messageSender
+               notificationsManager:(id<NotificationsProtocol>)notificationsManager
+                        preferences:(id<TSPreferences>)preferences
+{
+    _callMessageHandler = callMessageHandler;
+    _contactsManager = contactsManager;
+    _messageSender = messageSender;
+    _notificationsManager = notificationsManager;
+    _preferences = preferences;
+}
+
 + (instancetype)sharedEnv
 {
     NSAssert(TextSecureKitEnvSharedInstance, @"Trying to access shared TextSecureKitEnv before it's been set");
     return TextSecureKitEnvSharedInstance;
 }
 
-+ (void)setSharedEnv:(TextSecureKitEnv *)env
++ (void)setSharedEnv:(nullable TextSecureKitEnv *)env
 {
     @synchronized (self) {
-        NSAssert(TextSecureKitEnvSharedInstance == nil, @"Trying to set shared TextSecureKitEnv which has already been set");
+        if (env) {
+            NSAssert(TextSecureKitEnvSharedInstance == nil, @"Trying to set shared TextSecureKitEnv which has already been set");
+        }
+
         TextSecureKitEnvSharedInstance = env;
     }
 }

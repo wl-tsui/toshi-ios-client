@@ -108,6 +108,11 @@ public class TokenUser: NSObject, NSCoding {
             NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
         }
     }
+
+    @objc public static func sessionEnded() {
+        _current = nil
+        current = nil
+    }
     
     static var defaultCurrency: String {
         return Locale.current.currencyCode ?? "USD"
@@ -243,6 +248,7 @@ public class TokenUser: NSObject, NSCoding {
 
     public static func createCurrentUser(with json: [String: Any]) {
         guard let newUser = TokenUser(json: json, shouldSave: false) as TokenUser? else { return }
+        guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
 
         current = newUser
 
@@ -253,7 +259,7 @@ public class TokenUser: NSObject, NSCoding {
             Constants.verified: 0
         ]
 
-        newUser.userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? newUserSettings
+        newUser.userSettings = Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? newUserSettings
         current?.saveSettings()
         current?.adjustToLocalCurrency()
 
@@ -302,16 +308,16 @@ public class TokenUser: NSObject, NSCoding {
 
         // migrate old user storage
         if _current == nil, let userData = (Yap.sharedInstance.retrieveObject(for: TokenUser.legacyStoredUserKey) as? Data) {
-            Yap.sharedInstance.insert(object: userData, for: Cereal.shared.address, in: TokenUser.storedContactKey)
+            Yap.sharedInstance.insert(object: userData, for: Cereal.shared.address!, in: TokenUser.storedContactKey)
             Yap.sharedInstance.removeObject(for: TokenUser.legacyStoredUserKey)
         }
 
         if _current == nil,
-            let userData = (Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: TokenUser.storedContactKey) as? Data),
+            let userData = (Yap.sharedInstance.retrieveObject(for: Cereal.shared.address!, in: TokenUser.storedContactKey) as? Data),
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
             var json = deserialised as? [String: Any] {
 
-            var userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? [:]
+            var userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address!, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? [:]
 
             // Because of payment address migration, we have to override the stored payment address.
             // Otherwise users will be sending payments to the wrong address.

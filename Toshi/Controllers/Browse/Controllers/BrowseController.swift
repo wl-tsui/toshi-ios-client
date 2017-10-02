@@ -101,6 +101,13 @@ class BrowseController: SearchableCollectionController {
         }
 
         addSubviewsAndConstraints()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
+    }
+
+    @objc private func userDidSignOut(_: Notification) {
+        self.items.removeAll()
+        self.collectionView.reloadData()
     }
 
     private func addSubviewsAndConstraints() {

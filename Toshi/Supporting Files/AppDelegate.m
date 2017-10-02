@@ -30,8 +30,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @interface AppDelegate () <TSPreferences>
 
-@property (nonatomic) OWSIncomingMessageReadObserver *incomingMessageReadObserver;
-
 @property (nonatomic) OWSMessageFetcherJob *messageFetcherJob;
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
@@ -141,9 +139,11 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
-        [strongSelf.contactsManager refreshContacts];
+        [ChatService.shared.contactsManager refreshContacts];
 
-        //exit(0);
+        [ChatService.shared freeUp];
+
+        [Navigator presentSplashWithCompletion:nil];
     } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign-out-failure-title", nil) message:NSLocalizedString(@"sign-out-failure-message", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alert-ok-action-title", nil) style:UIAlertActionStyleCancel handler:nil]];
@@ -154,7 +154,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)createNewUser
 {
-    [[Navigator tabbarController] setupControllers];
+    [[Cereal shared] setupForNewUser];
     
     __weak typeof(self)weakSelf = self;
     [[IDAPIClient shared] registerUserIfNeeded:^(UserRegisterStatus status, NSString *message){
@@ -163,14 +163,19 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
             typeof(self)strongSelf = weakSelf;
 
+            [strongSelf setupDB];
+            [strongSelf didCreateUser];
+            [[Cereal shared] save];
+
             [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success, NSString *message) {
                 if (status == UserRegisterStatusRegistered) {
                     [ChatsInteractor triggerBotGreeting];
                 }
             }];
 
-            [strongSelf didCreateUser];
-            [strongSelf setupDB];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[Navigator tabbarController] setupControllers];
+            });
         }
     }];
 }
@@ -192,7 +197,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)didCreateUser {
-    [self.contactsManager refreshContacts];
+    [ChatService.shared.contactsManager refreshContacts];
 
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -261,24 +266,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     // ensure this is called from main queue for the first time
     // otherwise app crashes, because of some code path differences between
     // us and Signal app.
-    [OWSSignalService sharedInstance];
 
-    self.networkManager = [TSNetworkManager sharedManager];
-    self.contactsManager = [[ContactsManager alloc] init];
-    
-    self.contactsUpdater = [ContactsUpdater sharedUpdater];
-
-    TSStorageManager *storageManager = [TSStorageManager sharedManager];
-    [storageManager setupForAccountName:TokenUser.current.address isFirstLaunch:[self isFirstLaunch]];
-
-    self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
-
-    TextSecureKitEnv *sharedEnv = [[TextSecureKitEnv alloc] initWithCallMessageHandler:[[EmptyCallHandler alloc] init] contactsManager:self.contactsManager messageSender:self.messageSender notificationsManager:[[SignalNotificationManager alloc] init] preferences:self];
-
-    [TextSecureKitEnv setSharedEnv:sharedEnv];
-
-    self.incomingMessageReadObserver = [[OWSIncomingMessageReadObserver alloc] initWithStorageManager:storageManager messageSender:self.messageSender];
-    [self.incomingMessageReadObserver startObserving];
+    [ChatService.shared setupWithAccountName:[[TokenUser current] address] isFirstLaunch:[self isFirstLaunch]];
 
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:LaunchedBefore];
 }
@@ -301,6 +290,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 {
     if ([Yap isUserDatabaseFileAccessible]) {
 
+        [[Cereal shared] prepareForLoggedInUser];
         [TokenUser retrieveCurrentUser];
 
         [self setupDB];
@@ -469,7 +459,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }];
 
     OWSSignalService *signalService = [OWSSignalService sharedInstance];
-    self.messageFetcherJob = [[OWSMessageFetcherJob alloc] initWithMessagesManager:[TSMessagesManager sharedManager] messageSender:self.messageSender networkManager:self.networkManager signalService:signalService];
+    self.messageFetcherJob = [[OWSMessageFetcherJob alloc] initWithMessagesManager:[TSMessagesManager sharedManager] messageSender:ChatService.shared.messageSender networkManager:ChatService.shared.networkManager signalService:signalService];
 
     PKPushRegistry *voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
     voipRegistry.delegate = self;

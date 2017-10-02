@@ -95,11 +95,13 @@ public class EthereumAPIClient: NSObject {
                 return
             }
 
+            guard let paymentAddress = Cereal.shared.paymentAddress else { fatalError("No cereal address when requested") }
+
             let hashedPayload = cereal.sha3WithWallet(string: payloadString)
             let signature = "0x\(cereal.signWithWallet(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
             let headers: [String: String] = [
-                "Token-ID-Address": cereal.paymentAddress,
+                "Token-ID-Address": paymentAddress,
                 "Token-Signature": signature,
                 "Token-Timestamp": timestamp
             ]
@@ -124,7 +126,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func getBalance(address: String = Cereal.shared.paymentAddress, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
+    public func getBalance(address: String = Cereal.shared.paymentAddress!, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
 
         let cachedBalance: NSDecimalNumber = self.cache.object(forKey: EthereumAPIClient.CachedBalanceKey) ?? .zero
         cachedBalanceCompletion(cachedBalance, nil)
@@ -213,7 +215,7 @@ public class EthereumAPIClient: NSObject {
 
         let cereal = Cereal.shared
         let path = "/v1/apn/register"
-        let address = cereal.address
+        guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
 
         guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
@@ -249,7 +251,7 @@ public class EthereumAPIClient: NSObject {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
         let cereal = Cereal.shared
-        let address = cereal.paymentAddress
+        guard let address = Cereal.shared.paymentAddress else { fatalError("No cereal address when requested") }
         let path = "/v1/apn/deregister"
 
         let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]

@@ -39,14 +39,18 @@ class PassphraseVerifyController: UIViewController {
     }()
 
     fileprivate lazy var shuffledPassphraseView: PassphraseView = {
-        let view = PassphraseView(with: Cereal().mnemonic.words, for: .shuffled)
+        guard let mnemonic = Cereal.shared.mnemonic else { fatalError("No mnemonic when requested") }
+
+        let view = PassphraseView(with: mnemonic.words, for: .shuffled)
         view.addDelegate = self
 
         return view
     }()
 
     fileprivate lazy var verifyPassphraseView: PassphraseView = {
-        let view = PassphraseView(with: Cereal().mnemonic.words, for: .verification)
+        guard let mnemonic = Cereal.shared.mnemonic else { fatalError("No mnemonic when requested") }
+
+        let view = PassphraseView(with: mnemonic.words, for: .verification)
         view.removeDelegate = self
         view.verificationDelegate = self
         view.backgroundColor = Theme.passphraseVerificationContainerColor
@@ -172,9 +176,10 @@ extension PassphraseVerifyController: RemoveDelegate {
 extension PassphraseVerifyController: VerificationDelegate {
 
     func verify(_ phrase: Phrase) -> VerificationStatus {
-        assert(Cereal().mnemonic.words.count <= 12, "Too large")
+        guard let mnemonic = Cereal.shared.mnemonic else { fatalError("No mnemonic when requested") }
+        assert(mnemonic.words.count <= 12, "Too large")
 
-        let originalPhrase = Cereal().mnemonic.words
+        let originalPhrase = mnemonic.words
 
         guard originalPhrase.count == phrase.count else {
             return .tooShort

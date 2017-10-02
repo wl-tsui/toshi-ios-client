@@ -92,17 +92,17 @@ class AlertController: ModalPresentable {
 
         visualEffectView.backgroundColor = Theme.lightGreyTextColor
 
-        visualEffectView.addSubview(actionsStackView)
-        visualEffectView.addSubview(reviewContainer)
+        visualEffectView.contentView.addSubview(actionsStackView)
+        visualEffectView.contentView.addSubview(reviewContainer)
 
-        reviewContainer.topAnchor.constraint(equalTo: visualEffectView.topAnchor).isActive = true
-        reviewContainer.leftAnchor.constraint(equalTo: visualEffectView.leftAnchor).isActive = true
-        reviewContainer.rightAnchor.constraint(equalTo: visualEffectView.rightAnchor).isActive = true
+        reviewContainer.topAnchor.constraint(equalTo: visualEffectView.contentView.topAnchor).isActive = true
+        reviewContainer.leftAnchor.constraint(equalTo: visualEffectView.contentView.leftAnchor).isActive = true
+        reviewContainer.rightAnchor.constraint(equalTo: visualEffectView.contentView.rightAnchor).isActive = true
 
         actionsStackView.topAnchor.constraint(equalTo: reviewContainer.bottomAnchor, constant: 1.0).isActive = true
-        actionsStackView.leftAnchor.constraint(equalTo: visualEffectView.leftAnchor).isActive = true
-        actionsStackView.bottomAnchor.constraint(equalTo: visualEffectView.bottomAnchor).isActive = true
-        actionsStackView.rightAnchor.constraint(equalTo: visualEffectView.rightAnchor).isActive = true
+        actionsStackView.leftAnchor.constraint(equalTo: visualEffectView.contentView.leftAnchor).isActive = true
+        actionsStackView.bottomAnchor.constraint(equalTo: visualEffectView.contentView.bottomAnchor).isActive = true
+        actionsStackView.rightAnchor.constraint(equalTo: visualEffectView.contentView.rightAnchor).isActive = true
 
         background.fillSuperview()
 

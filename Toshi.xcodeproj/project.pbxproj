@@ -98,6 +98,9 @@
 		2B10A3FD1F082C9300E0F7DC /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */; };
 		2B10A3FF1F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
 		2B10A4001F082CAC00E0F7DC /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */; };
+		2B20BBD11F7A413000844315 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBD01F7A413000844315 /* ChatService.swift */; };
+		2B20BBD21F7A413000844315 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBD01F7A413000844315 /* ChatService.swift */; };
+		2B20BBD31F7A413000844315 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBD01F7A413000844315 /* ChatService.swift */; };
 		2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
@@ -1971,6 +1974,7 @@
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
+		2B20BBD01F7A413000844315 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
 		2B20BBDE1F7A53A400844315 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsProfileCell.xib; sourceTree = "<group>"; };
@@ -4427,6 +4431,7 @@
 				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
+				2BDBB5801F7B9C2000A0ECA0 /* UIViewController+NavigationBar.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4436,6 +4441,7 @@
 			children = (
 				9FB228841EEEA45B00CCAA1D /* PropertyListPreferences.h */,
 				9FB228851EEEA45B00CCAA1D /* PropertyListPreferences.m */,
+				2B20BBD01F7A413000844315 /* ChatService.swift */,
 			);
 			path = SignaServiceKit;
 			sourceTree = "<group>";
@@ -5663,6 +5669,7 @@
 				9F4D81171EEA8B4600FB5361 /* ModernGalleryVideoItemView.m in Sources */,
 				9F4D80231EEA8B4500FB5361 /* UICollectionView+Utils.m in Sources */,
 				9F4D7F431EEA8B4500FB5361 /* PhotoFilter.m in Sources */,
+				2B20BBD31F7A413000844315 /* ChatService.swift in Sources */,
 				9F4D80111EEA8B4500FB5361 /* SharedMediaCollectionLayout.m in Sources */,
 				9F4D7EC31EEA8B4500FB5361 /* ModernGalleryController.m in Sources */,
 				9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */,
@@ -6192,6 +6199,7 @@
 				A9202E631ED84F6A0036E9B7 /* MessageModel.swift in Sources */,
 				9F4D80041EEA8B4500FB5361 /* PSKeyValueCoder.m in Sources */,
 				9F4D7EDC1EEA8B4500FB5361 /* PhotoQualityController.m in Sources */,
+				2B20BBD11F7A413000844315 /* ChatService.swift in Sources */,
 				9F4D80981EEA8B4500FB5361 /* CameraFocusCrosshairsControl.m in Sources */,
 				A9202E5C1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift in Sources */,
 				9F4D81721EEA8B4600FB5361 /* PhotoToolCell.m in Sources */,
@@ -6719,6 +6727,7 @@
 				A9603DEA1F4DABDC00BF57B1 /* ModernGalleryVideoItemView.m in Sources */,
 				A9603DEB1F4DABDC00BF57B1 /* UICollectionView+Utils.m in Sources */,
 				A9603DEC1F4DABDC00BF57B1 /* PhotoFilter.m in Sources */,
+				2B20BBD21F7A413000844315 /* ChatService.swift in Sources */,
 				A9603DED1F4DABDC00BF57B1 /* SharedMediaCollectionLayout.m in Sources */,
 				A9603DEE1F4DABDC00BF57B1 /* ModernGalleryController.m in Sources */,
 				A9603DEF1F4DABDC00BF57B1 /* Navigator.swift in Sources */,

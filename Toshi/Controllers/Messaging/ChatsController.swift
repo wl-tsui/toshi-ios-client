@@ -21,7 +21,6 @@ public extension NSNotification.Name {
     public static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
 }
 
-/// Displays current conversations.
 open class ChatsController: SweetTableController {
 
     lazy var mappings: YapDatabaseViewMappings = {
@@ -91,6 +90,13 @@ open class ChatsController: SweetTableController {
 
         adjustEmptyView()
         makeEmptyView(hidden: true)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
+    }
+
+    @objc private func userDidSignOut(_: Notification) {
+//        self.items.removeAll()
+//        self.collectionView.reloadData()
     }
 
     @objc fileprivate func chatDBCreated(_ notification: Notification) {

@@ -30,9 +30,7 @@ public class ContactController: UIViewController {
     }
 
     fileprivate var messageSender: MessageSender? {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-
-        return appDelegate?.messageSender
+        return ChatService.shared.messageSender
     }
 
     lazy var avatarImageView: AvatarImageView = {

@@ -122,6 +122,8 @@ class RatingsClient: NSObject {
                 return
             }
             let cereal = Cereal.shared
+            guard let address = cereal.address else { fatalError("No cereal address when requested") }
+
             let path = "/v1/review/submit"
             let payload: [String: Any] = [
                 "rating": rating,
@@ -138,7 +140,7 @@ class RatingsClient: NSObject {
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(describing: timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": address, "Token-Signature": signature, "Token-Timestamp": String(describing: timestamp)]
             let json = RequestParameter(payload)
 
             self.teapot.post(path, parameters: json, headerFields: fields) { result in

@@ -60,8 +60,7 @@ class ChatCell: UITableViewCell {
                 }
             }
 
-            guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
+            if let contact = ChatService.shared.contactsManager?.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
                 updateContact(contact)
             } else {
                 IDAPIClient.shared.retrieveUser(username: thread?.contactIdentifier() ?? "") { [weak self] contact in
