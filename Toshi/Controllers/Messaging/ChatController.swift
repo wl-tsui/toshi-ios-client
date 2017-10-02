@@ -417,13 +417,13 @@ final class ChatController: UIViewController, UINavigationControllerDelegate {
         self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
     }
 
-    fileprivate func adjustToPaymentState(_ state: TSInteraction.PaymentState, at indexPath: IndexPath) {
+    fileprivate func adjustToPaymentState(_ state: PaymentState, at indexPath: IndexPath) {
         guard let message = self.viewModel.messageModels[indexPath.row] as MessageModel?, message.type == .paymentRequest || message.type == .payment, let signalMessage = message.signalMessage as TSMessage? else { return }
 
         signalMessage.paymentState = state
         signalMessage.save()
 
-        (tableView.cellForRow(at: indexPath) as? MessagesPaymentCell)?.setPaymentState(signalMessage.paymentState, for: message.type)
+        (tableView.cellForRow(at: indexPath) as? MessagesPaymentCell)?.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: message.type)
 
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -482,7 +482,7 @@ final class ChatController: UIViewController, UINavigationControllerDelegate {
         showActivityIndicator()
         
         viewModel.interactor.sendPayment(in: paymentRequest.value) { [weak self] success in
-            let state: TSInteraction.PaymentState = success ? .approved : .failed
+            let state: PaymentState = success ? .approved : .failed
             self?.adjustToPaymentState(state, at: indexPath)
             DispatchQueue.main.asyncAfter(seconds: 2.0) {
                 self?.hideActiveNetworkViewIfNeeded()
@@ -601,7 +601,7 @@ extension ChatController: UITableViewDataSource {
             cell.titleLabel.text = message.title
             cell.subtitleLabel.text = message.subtitle
             cell.messageLabel.text = message.text
-            cell.setPaymentState(signalMessage.paymentState, for: message.type)
+            cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: message.type)
             cell.selectionDelegate = self
 
             let isPaymentOpen = (message.signalMessage?.paymentState ?? .none) == .none

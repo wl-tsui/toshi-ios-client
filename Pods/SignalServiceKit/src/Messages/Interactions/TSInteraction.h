@@ -6,6 +6,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, TSPaymentState) {
+    TSPaymentStateNone,
+    TSPaymentStatePendingConfirmation,
+    TSPaymentStateFailed,
+    TSPaymentStateRejected,
+    TSPaymentStateApproved
+} NS_SWIFT_NAME(PaymentState) ;
+
 @class TSThread;
 
 @interface TSInteraction : TSYapDatabaseObject
@@ -16,7 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) TSThread *thread;
 @property (nonatomic, readonly) uint64_t timestamp;
 
+@property (nonatomic, assign) TSPaymentState paymentState;
+
 - (NSString *)description;
+- (NSString *)paymentStateText;
 
 /**
  * When an interaction is updated, it often affects the UI for it's containing thread. Touching it's thread will notify
@@ -47,3 +58,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

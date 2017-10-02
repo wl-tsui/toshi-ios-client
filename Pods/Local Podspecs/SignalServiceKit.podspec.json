@@ -17,11 +17,16 @@
     "ios": "8.0"
   },
   "requires_arc": true,
-  "source_files": "src/**/*.{h,m,mm}",
+  "source_files": "src/**/*.{h,m,mm,strings}",
   "resources": [
     "src/Security/PinningCertificate/textsecure.cer",
     "src/Security/PinningCertificate/GIAG2.crt"
   ],
+  "resource_bundles": {
+    "SignalServiceKit": [
+      "SignalServiceKit/*.lproj/*.strings"
+    ]
+  },
   "prefix_header_file": "src/TSPrefix.h",
   "xcconfig": {
     "OTHER_CFLAGS": "$(inherited) -DSQLITE_HAS_CODEC"
