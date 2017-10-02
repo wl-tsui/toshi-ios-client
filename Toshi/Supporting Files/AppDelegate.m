@@ -21,7 +21,6 @@
 #import <SignalServiceKit/TSPreferences.h>
 
 #import <AxolotlKit/SessionCipher.h>
-#import "Common.h"
 
 NSString *const LaunchedBefore = @"LaunchedBefore";
 NSString *const RequiresSignIn = @"RequiresSignIn";
@@ -302,6 +301,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+
     if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible] && !self.hasBeenActivated) {
         [self configureAndPresentWindow];
         self.hasBeenActivated = YES;
@@ -346,6 +347,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     });
 
     [TSPreKeyManager checkPreKeysIfNecessary];
+
+    [SignalNotificationManager updateUnreadMessagesNumber];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

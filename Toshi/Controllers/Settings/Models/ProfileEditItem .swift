@@ -26,6 +26,8 @@ enum ProfileEditItemType: Int {
         switch self {
         case .username:
             return .none
+        case .about:
+            return .sentences
         default:
             return .words
         }

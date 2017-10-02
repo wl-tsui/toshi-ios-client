@@ -3,6 +3,7 @@
 #import "Font.h"
 
 #import "Common.h"
+#import "Toshi-Swift.h"
 
 const CGFloat MenuSheetButtonItemViewHeight = 57.0f;
 
@@ -29,6 +30,7 @@ const CGFloat MenuSheetButtonItemViewHeight = 57.0f;
         _button.highlightBackgroundColor = UIColorRGB(0xebebeb);
         [self _updateForType:type];
         [_button setTitle:title forState:UIControlStateNormal];
+        [_button setTitleColor:[Theme tintColor] forState:UIControlStateNormal];
         [_button addTarget:self action:@selector(buttonPressed) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_button];
         

@@ -36,7 +36,6 @@ PODS:
   - Mantle (2.1.0):
     - Mantle/extobjc (= 2.1.0)
   - Mantle/extobjc (2.1.0)
-  - pop (1.0.9)
   - ProtocolBuffers (1.9.11)
   - SAMKeychain (1.5.2)
   - SignalServiceKit (0.9.0):
@@ -54,7 +53,6 @@ PODS:
   - SQLCipher/common (3.4.1)
   - SQLCipher/fts (3.4.1):
     - SQLCipher/common
-  - SSignalKit (0.0.2)
   - SwiftLint (0.20.1)
   - TwistedOakCollapsingFutures (1.0.0):
     - UnionFind (~> 1.0)
@@ -112,17 +110,14 @@ DEPENDENCIES:
   - AxolotlKit (from `https://github.com/WhisperSystems/SignalProtocolKit.git`)
   - Crashlytics
   - Fabric
-  - pop
-  - SignalServiceKit (from `https://github.com/toshiapp/SignalServiceKit.git`, commit `3820816d116875e417df478880ba5825c7f28c18`)
+  - SignalServiceKit (from `https://github.com/toshiapp/SignalServiceKit.git`)
   - SocketRocket (from `https://github.com/facebook/SocketRocket.git`)
-  - SSignalKit
   - SwiftLint
 
 EXTERNAL SOURCES:
   AxolotlKit:
     :git: https://github.com/WhisperSystems/SignalProtocolKit.git
   SignalServiceKit:
-    :commit: 3820816d116875e417df478880ba5825c7f28c18
     :git: https://github.com/toshiapp/SignalServiceKit.git
   SocketRocket:
     :git: https://github.com/facebook/SocketRocket.git
@@ -132,7 +127,7 @@ CHECKOUT OPTIONS:
     :commit: f8f44d143bffd38e8470fdca0db7adf73a844956
     :git: https://github.com/WhisperSystems/SignalProtocolKit.git
   SignalServiceKit:
-    :commit: 3820816d116875e417df478880ba5825c7f28c18
+    :commit: 8bb4cba28f2a4e8778628064cd5c0ab0ebf15e39
     :git: https://github.com/toshiapp/SignalServiceKit.git
   SocketRocket:
     :commit: 877ac7438be3ad0b45ef5ca3969574e4b97112bf
@@ -148,18 +143,16 @@ SPEC CHECKSUMS:
   HKDFKit: c058305d6f64b84f28c50bd7aa89574625bcb62a
   libPhoneNumber-iOS: f721ae4d5854bce60934f9fb9b0b28e8e68913cb
   Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
-  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   ProtocolBuffers: d509225eb2ea43d9582a59e94348fcf86e2abd65
   SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
-  SignalServiceKit: a3a0990c8de0c1edfb78a81fb98fe97c973f18d8
+  SignalServiceKit: 1bb0d177acbb3678701e1704abed6bc260ec8ac0
   SocketRocket: dbb1554b8fc288ef8ef370d6285aeca7361be31e
   SQLCipher: 43d12c0eb9c57fb438749618fc3ce0065509a559
-  SSignalKit: d65a4f89cdf037c787d630c7d6d6359b80f290f4
   SwiftLint: f60095dc173a3f3ec505bb34f5229c3dfd779a54
   TwistedOakCollapsingFutures: f359b90f203e9ab13dfb92c9ff41842a7fe1cd0c
   UnionFind: c33be5adb12983981d6e827ea94fc7f9e370f52d
   YapDatabase: cd911121580ff16675f65ad742a9eb0ab4d9e266
 
-PODFILE CHECKSUM: bf784e21e44238855a99b56994c05145afba7d96
+PODFILE CHECKSUM: ee19c8632d45f3a9dc3c58b31b080559a395c4b8
 
 COCOAPODS: 1.2.1

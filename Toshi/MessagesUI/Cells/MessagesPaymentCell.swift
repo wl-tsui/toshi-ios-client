@@ -123,7 +123,7 @@ class MessagesPaymentCell: MessagesBasicCell {
         buttonBottomConstraint = declineButton.bottom(to: bubbleView, priority: .defaultHigh, isActive: false)
     }
 
-    func setPaymentState(_ state: TSInteraction.PaymentState, for type: MessageType) {
+    func setPaymentState(_ state: PaymentState, paymentStateText: String, for type: MessageType) {
 
         if isOutGoing || type == .payment {
             approveButton.isHidden = true
@@ -145,7 +145,7 @@ class MessagesPaymentCell: MessagesBasicCell {
             approveButton.isHidden = true
             declineButton.isHidden = true
             statusLabel.isHidden = false
-            statusLabel.text = state.stateText
+            statusLabel.text = paymentStateText
 
             textBottomConstraint?.isActive = false
             buttonBottomConstraint?.isActive = false
@@ -161,7 +161,7 @@ class MessagesPaymentCell: MessagesBasicCell {
         messageLabel.text = nil
         statusLabel.text = nil
 
-        setPaymentState(.none, for: .payment)
+        setPaymentState(.none, paymentStateText: "", for: .payment)
     }
 
     @objc func approvePayment(_: IconLabelButton) {

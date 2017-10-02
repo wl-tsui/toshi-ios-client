@@ -108,6 +108,12 @@
 "settings_deposit_error_action_cancel" = "Cancel";
 "settings_deposit_error_action_backup" = "Backup";
 
+/* Image Picker related */
+
+"image-picker-select-source-title" = "Select source";
+"image-picker-camera-action-title" = "Camera";
+"image-picker-library-action-title" = "Library";
+
 /* Profile QR Code */
 "profile_qr_code_title" = "Profile QR Code";
 "profile_qr_code_subtitle" = "Use this QR code to let others add you on Toshi.";
@@ -119,6 +125,9 @@
 
 /* Network Related */
 "request_generic_error" = "Something went wrong";
+
+"error-alert-title" = "Error";
+"invalid-username-alert-message" = "Username is invalid! Use numbers, letters, and underscores only.";
 
 "ropsten-test-network-title" = "Ropsten Test Network";
 "toshi-test-network-title" = "Toshi Test Network";

@@ -29,7 +29,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
             return
         }
 
-        defer { SignalNotificationManager.updateApplicationBadgeNumber() }
+        defer { SignalNotificationManager.updateUnreadMessagesNumber() }
 
         let content = UNMutableNotificationContent()
         content.title = thread.name()
@@ -54,9 +54,8 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         print("Error: \(error), in thread: \(thread).")
     }
 
-    public static func updateApplicationBadgeNumber() {
+    @objc public static func updateUnreadMessagesNumber() {
         let unreadMessagesCount = Int(TSMessagesManager.shared().unreadMessagesCount())
-        UIApplication.shared.applicationIconBadgeNumber = unreadMessagesCount
 
         if unreadMessagesCount > 0 {
             tabbarController?.messagingController.tabBarItem.badgeValue = "\(unreadMessagesCount)"

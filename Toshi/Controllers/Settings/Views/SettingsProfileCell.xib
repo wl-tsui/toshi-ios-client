@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="82"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="fXD-Js-ak9" id="FsX-Sc-Aoj">
-                <rect key="frame" x="0.0" y="0.0" width="355" height="81.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="360" height="81.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Rd-We-rUP" customClass="AvatarImageView" customModule="Toshi" customModuleProvider="target">
@@ -32,7 +32,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@robertv" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uU-Ln-gsS">
-                        <rect key="frame" x="85" y="53" width="267" height="18"/>
+                        <rect key="frame" x="85" y="46" width="267" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="l1p-pA-Jlz"/>
                         </constraints>
@@ -41,9 +41,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Roberto" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGY-VA-zvn">
-                        <rect key="frame" x="85" y="11" width="267" height="26.5"/>
+                        <rect key="frame" x="85" y="15" width="267" height="26"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="26.5" id="JOD-0w-ffi"/>
+                            <constraint firstAttribute="height" constant="26" id="JOD-0w-ffi"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="SFUIText-Regular" family="SF UI Text" pointSize="22"/>
                         <nil key="textColor"/>
@@ -53,13 +53,13 @@
                 <constraints>
                     <constraint firstAttribute="bottomMargin" secondItem="2Rd-We-rUP" secondAttribute="bottom" id="3HZ-R3-sMa"/>
                     <constraint firstItem="2Rd-We-rUP" firstAttribute="top" secondItem="FsX-Sc-Aoj" secondAttribute="topMargin" id="7e9-Ip-YOz"/>
+                    <constraint firstAttribute="topMargin" secondItem="BGY-VA-zvn" secondAttribute="top" constant="-4" id="F2d-1m-m9Q"/>
                     <constraint firstItem="0uU-Ln-gsS" firstAttribute="leading" secondItem="BGY-VA-zvn" secondAttribute="leading" id="JaI-Hb-bJw"/>
                     <constraint firstAttribute="trailingMargin" secondItem="BGY-VA-zvn" secondAttribute="trailing" id="Tbo-6Y-ZPi"/>
-                    <constraint firstItem="BGY-VA-zvn" firstAttribute="top" secondItem="2Rd-We-rUP" secondAttribute="top" id="VF7-zV-JNE"/>
                     <constraint firstItem="BGY-VA-zvn" firstAttribute="leading" secondItem="2Rd-We-rUP" secondAttribute="trailing" constant="10" id="WmM-w1-2IY"/>
+                    <constraint firstItem="0uU-Ln-gsS" firstAttribute="top" secondItem="BGY-VA-zvn" secondAttribute="bottom" constant="5" id="c3I-u5-8Tu"/>
                     <constraint firstItem="0uU-Ln-gsS" firstAttribute="trailing" secondItem="BGY-VA-zvn" secondAttribute="trailing" id="ocD-VJ-WcK"/>
                     <constraint firstItem="2Rd-We-rUP" firstAttribute="leading" secondItem="FsX-Sc-Aoj" secondAttribute="leadingMargin" id="vN8-Zn-bxC"/>
-                    <constraint firstItem="0uU-Ln-gsS" firstAttribute="bottom" secondItem="2Rd-We-rUP" secondAttribute="bottom" id="xZV-Ht-bGQ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

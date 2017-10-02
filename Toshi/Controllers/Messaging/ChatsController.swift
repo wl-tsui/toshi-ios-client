@@ -141,7 +141,7 @@ open class ChatsController: SweetTableController {
         // swiftlint:enable force_cast
 
         let hasChangesForCurrentView = threadViewConnection.hasChanges(for: notifications)
-        if !hasChangesForCurrentView {
+        guard hasChangesForCurrentView else {
             uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
@@ -316,10 +316,6 @@ extension ChatsController: UITableViewDelegate {
 }
 
 extension ChatsController: UITableViewDataSource {
-
-    open func numberOfSections(in _: UITableView) -> Int {
-        return Int(mappings.numberOfSections())
-    }
 
     open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(mappings.numberOfItems(inSection: UInt(section)))
