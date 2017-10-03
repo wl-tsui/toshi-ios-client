@@ -330,7 +330,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     if (shouldProceedToDBSetup) {
 
         if ([self __tryToOpenDB]) {
-            [self configureAndPresentWindow];
+            [self configureForCurrentSession];
         } else {
 
             // There might be a case when filesystem state is weird and it doesn't return true results, saying file is not present even if it is.
@@ -338,7 +338,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             // in this case we want to wait a bit and try to open file again
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 if ([self __tryToOpenDB]) {
-                    [self configureAndPresentWindow];
+                    [self configureForCurrentSession];
                 }
             });
         }
@@ -363,12 +363,16 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     });
 
     [TSPreKeyManager checkPreKeysIfNecessary];
-
-    [SignalNotificationManager updateUnreadMessagesNumber];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)configureForCurrentSession
+{
+    [self configureAndPresentWindow];
+    [SignalNotificationManager updateUnreadMessagesNumber];
 }
 
 - (void)activateScreenProtection {
