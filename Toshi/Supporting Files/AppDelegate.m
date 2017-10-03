@@ -127,18 +127,21 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
         [AvatarManager.shared cleanCache];
 
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-        [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotifications];
-        [[TSStorageManager sharedManager] resetSignalStorageWithBackup:[TokenUser current].verified];
-        [[Yap sharedInstance] wipeStorage];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotificationsWithCompletion:^(BOOL success, NSString * _Nullable message) {
+            [[TSStorageManager sharedManager] resetSignalStorageWithBackup:[TokenUser current].verified];
+            [[Yap sharedInstance] cleanUp];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
+            [[NSUserDefaults standardUserDefaults] synchronize];
 
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
-        [ChatService.shared.contactsManager refreshContacts];
-        [ChatService.shared freeUp];
+            [ChatService.shared.contactsManager refreshContacts];
+            [ChatService.shared freeUp];
 
-        [Navigator presentSplashWithCompletion:nil];
+            [[Cereal shared] endSession];
+
+            [Navigator presentSplashWithCompletion:nil];
+        }];
 
     } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"sign-out-failure-title", nil) message:NSLocalizedString(@"sign-out-failure-message", nil) preferredStyle:UIAlertControllerStyleAlert];

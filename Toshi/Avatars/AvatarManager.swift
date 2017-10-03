@@ -69,6 +69,7 @@ final class AvatarManager: NSObject {
     @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
 
+        guard ChatService.isSessionActive else { return }
         guard let contactsManager = ChatService.shared.contactsManager as ContactsManager? else { return }
 
         let operation = BlockOperation()

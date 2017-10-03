@@ -32,6 +32,10 @@ final class ChatService: NSObject {
 
     var errorHandler: ChatServiceErrorHandler?
 
+    @objc public static var isSessionActive: Bool {
+        return Yap.isUserDatabaseFileAccessible && Yap.isUserDatabasePasswordAccessible && (Cereal.shared.address != nil)
+    }
+
     @objc func setup(accountName: String, isFirstLaunch: Bool) {
         OWSSignalService.sharedInstance()
 

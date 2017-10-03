@@ -91,6 +91,11 @@ public class Cereal: NSObject {
         return true
     }
 
+    @objc public func endSession() {
+        self.idCereal = nil
+        self.walletCereal = nil
+    }
+
     // MARK: - Sign with id
 
     public func signWithID(message: String) -> String {

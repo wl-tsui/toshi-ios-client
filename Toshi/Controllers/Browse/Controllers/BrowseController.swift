@@ -159,6 +159,8 @@ class BrowseController: SearchableCollectionController {
 
     private func loadItems() {
 
+        guard ChatService.isSessionActive else { return }
+
         AppsAPIClient.shared.getTopRatedApps { [weak self] apps, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
