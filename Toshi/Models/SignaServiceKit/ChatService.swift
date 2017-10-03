@@ -26,7 +26,9 @@ final class ChatService: NSObject {
     @objc private(set) var contactsManager: ContactsManager?
     @objc private(set) var contactsUpdater: ContactsUpdater?
     @objc private(set) var messageSender: MessageSender?
-    private(set) var incomingMessageReadObserver: OWSIncomingMessageReadObserver?
+    @objc private(set) var incomingMessageReadObserver: OWSIncomingMessageReadObserver?
+
+    @objc private(set) var token = ""
 
     @objc static let shared = ChatService()
 
@@ -34,6 +36,10 @@ final class ChatService: NSObject {
 
     @objc public static var isSessionActive: Bool {
         return Yap.isUserDatabaseFileAccessible && Yap.isUserDatabasePasswordAccessible && (Cereal.shared.address != nil)
+    }
+
+    @objc public func updateToken(_ token: String) {
+        self.token = token
     }
 
     @objc func setup(accountName: String, isFirstLaunch: Bool) {
@@ -74,6 +80,8 @@ final class ChatService: NSObject {
         self.messageSender = nil
         TextSecureKitEnv.setShared(nil)
         self.incomingMessageReadObserver = nil
+
+        print("\n\n 2 --- Freeing up ChatService ----")
     }
 }
 

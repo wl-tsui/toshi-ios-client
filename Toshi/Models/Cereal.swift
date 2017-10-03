@@ -60,13 +60,12 @@ public class Cereal: NSObject {
         guard result == 0 else { fatalError("Failed to randomly generate and copy bytes for entropy generation. SecRandomCopyBytes error code: (\(result)).") }
         guard let mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english) else { fatalError("Entropy has incorrect size or wordlist is not supported") }
 
-        Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
-
         setup(for: mnemonic.words)
     }
 
     @objc func save() {
         Yap.sharedInstance.insert(object: mnemonic!.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
+        print("\n\n 6 - Cereal saved for a new user: \(String(describing: self.address))")
     }
 
     @objc @discardableResult func setup(for words: [String]) -> Bool {
@@ -88,12 +87,16 @@ public class Cereal: NSObject {
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
         walletCereal = EtherealCereal(privateKey: walletPrivateKey)
 
+        print("\n\n 2 - Cereal set up for a new user: \(String(describing: self.address))")
+
         return true
     }
 
     @objc public func endSession() {
         self.idCereal = nil
         self.walletCereal = nil
+
+        print("\n\n 3 --- Cleaning Cereal data \n\n")
     }
 
     // MARK: - Sign with id

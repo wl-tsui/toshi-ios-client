@@ -112,6 +112,8 @@ public class TokenUser: NSObject, NSCoding {
     @objc public static func sessionEnded() {
         _current = nil
         current = nil
+
+        print("\n\n Cleaning user with: \(String(describing: Cereal.shared.address))")
     }
     
     static var defaultCurrency: String {

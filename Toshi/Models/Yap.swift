@@ -95,6 +95,9 @@ public final class Yap: NSObject, Singleton {
     }
 
     @objc public func wipeStorage() {
+
+        print("\n\n 2 - Wiping storage for the user")
+
         self.database?.deregisterPaths()
 
         if TokenUser.current?.verified == false {

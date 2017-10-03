@@ -33,7 +33,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
-@property (nonatomic, copy, readwrite) NSString *token;
 @property (nonatomic) NSString *voipToken;
 
 @property (nonatomic, assign) BOOL hasBeenActivated;
@@ -41,7 +40,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 @end
 
 @implementation AppDelegate
-@synthesize token = _token;
+
 @synthesize voipToken = _voipToken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -153,6 +152,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)createNewUser
 {
+    NSLog(@"\n\n 1 - Starting create a new user");
+
     [[Cereal shared] setupForNewUser];
     
     __weak typeof(self)weakSelf = self;
@@ -162,12 +163,15 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
             typeof(self)strongSelf = weakSelf;
 
+            NSLog(@"\n\n 4 - User registered with Chat");
+
             [strongSelf setupDB];
             [strongSelf didCreateUser];
             [[Cereal shared] save];
 
             [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success, NSString *message) {
                 if (status == UserRegisterStatusRegistered) {
+                    NSLog(@"\n\n Pinging a bot");
                     [ChatsInteractor triggerBotGreeting];
                 }
             }];
@@ -189,6 +193,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)setupDB
 {
+    NSLog(@"\n\n 5 - Setting up Chat db for a new user");
+
     [self setupTSKitEnv];
     [self setupSignalService];
 
@@ -412,36 +418,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     return NO;
 }
 
-#pragma mark - Accessors
-
-- (NSString *)token {
-    if (!_token) {
-        _token = @"";
-    }
-
-    return _token;
-}
-
-- (NSString *)voipToken {
-    if (!_voipToken) {
-        _voipToken = @"";
-    }
-
-    return _voipToken;
-}
-
-- (void)setToken:(NSString *)token {
-    _token = token;
-
-    [self updateRemoteNotificationCredentials];
-}
-
-- (void)setVoipToken:(NSString *)voipToken {
-    _voipToken = voipToken;
-
-    [self updateRemoteNotificationCredentials];
-}
-
 #pragma mark - Push notifications
 
 - (void)registerForRemoteNotifications {
@@ -461,17 +437,13 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     OWSSignalService *signalService = [OWSSignalService sharedInstance];
     self.messageFetcherJob = [[OWSMessageFetcherJob alloc] initWithMessagesManager:[TSMessagesManager sharedManager] messageSender:ChatService.shared.messageSender networkManager:ChatService.shared.networkManager signalService:signalService];
-
-    PKPushRegistry *voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
-    voipRegistry.delegate = self;
-    voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
 }
 
 - (void)updateRemoteNotificationCredentials {
     NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
 
-    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:self.voipToken success:^{
-        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@,\n|| - voip: %@\n||\n||------- \n", self.token, self.voipToken);
+    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:ChatService.shared.token voipToken:self.voipToken success:^{
+        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@,\n|| - voip: %@\n||\n||------- \n", ChatService.shared.token, self.voipToken);
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
 
@@ -480,18 +452,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     } failure:^(NSError *error) {
         NSLog(@"\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: %@\n||------- \n", error.localizedDescription);
     }];
-}
-
-- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type {
-    [self.messageFetcherJob runAsync];
-}
-
-- (void)pushRegistry:(PKPushRegistry *)registry didInvalidatePushTokenForType:(PKPushType)type {
-
-}
-
-- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
-    self.voipToken = [credentials.token ows_tripToken];
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
@@ -527,8 +487,10 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }];
 }
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    self.token = [deviceToken hexadecimalString];
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [ChatService.shared updateToken:[deviceToken hexadecimalString]];
+    [self updateRemoteNotificationCredentials];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

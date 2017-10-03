@@ -211,12 +211,11 @@ public class EthereumAPIClient: NSObject {
     }
 
     fileprivate func registerForPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
+        
         let cereal = Cereal.shared
         let path = "/v1/apn/register"
         guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
-        let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
+        let params = ["registration_id": ChatService.shared.token, "address": cereal.paymentAddress]
 
         guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
             DispatchQueue.main.async {
@@ -258,13 +257,11 @@ public class EthereumAPIClient: NSObject {
 
     fileprivate func deregisterFromPushNotifications(_ timestamp: String, teapot: Teapot, completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
         let cereal = Cereal.shared
         guard let address = Cereal.shared.paymentAddress else { fatalError("No cereal address when requested") }
         let path = "/v1/apn/deregister"
 
-        let params = ["registration_id": appDelegate.token, "address": cereal.paymentAddress]
+        let params = ["registration_id": ChatService.shared.token, "address": cereal.paymentAddress]
 
         guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
             completion(false, "Invalid payload, request could not be executed")
