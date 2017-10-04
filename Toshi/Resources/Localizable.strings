@@ -146,7 +146,7 @@
 "block_action_title" = "Block";
 
 "block_alert_title" = "Block username";
-"block_alert_message" = "They won’t be able to find your profile, or message you on Token. Users won’t know that you’ve blocked them.";
+"block_alert_message" = "They won’t be able to find your profile, or message you on Toshi. Users won’t know that you’ve blocked them.";
 
 "block_feedback_alert_title" = "Username blocked";
 "block_feedback_alert_message" = "You can unblock them at any time from their profile";
@@ -167,6 +167,12 @@
 "accept_terms_action_read" = "Read Terms";
 "accept_terms_action_cancel" = "Cancel";
 "accept_terms_action_agree" = "Agree";
+
+/* Favorites */
+"favorites_add_title" = "Add to favorites on Toshi";
+"favorites_add_by_username" = "Add by username";
+"favorites_invite_friends" = "Invite friends";
+"favorites_scan_code" = "Scan code";
 
 /* Passphrase Sign In */
 "passphrase_sign_in_title" = "Sign in with your Passphrase";

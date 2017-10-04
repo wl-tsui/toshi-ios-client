@@ -350,24 +350,24 @@ open class FavoritesController: SweetTableController {
 
     @objc
     fileprivate func didTapAddButton() {
-        let addContactSheet = UIAlertController(title: "Add to favorites on Token", message: nil, preferredStyle: .actionSheet)
+        let addContactSheet = UIAlertController(title: Localized("favorites_add_title"), message: nil, preferredStyle: .actionSheet)
 
-        addContactSheet.addAction(UIAlertAction(title: "Add by username", style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_add_by_username"), style: .default, handler: { _ in
             self.searchController.searchBar.becomeFirstResponder()
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Invite friends", style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_invite_friends"), style: .default, handler: { _ in
             let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
 
             Navigator.presentModally(shareController)
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Scan code", style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_scan_code"), style: .default, handler: { _ in
             guard let tabBarController = self.tabBarController as? TabBarController else { return }
             tabBarController.switch(to: .scanner)
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        addContactSheet.addAction(UIAlertAction(title: Localized("cancel_action"), style: .cancel, handler: nil))
 
         addContactSheet.view.tintColor = Theme.tintColor
         self.present(addContactSheet, animated: true) {
