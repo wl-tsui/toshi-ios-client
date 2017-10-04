@@ -201,7 +201,17 @@ public class ContactController: UIViewController {
 
         reputationView.setScore(.zero)
         updateReputation()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
+
+    fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
+        let database = Yap.sharedInstance.database!
+        let dbConnection = database.newConnection()
+        dbConnection.beginLongLivedReadTransaction()
+
+        return dbConnection
+    }()
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -351,13 +361,27 @@ public class ContactController: UIViewController {
         bottomSeparatorView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
     }
 
-    func updateButton() {
-        let isContactAdded = Yap.sharedInstance.containsObject(for: contact.address, in: TokenUser.favoritesCollectionKey)
-        let fontColor = isContactAdded ? Theme.tintColor : Theme.lightGreyTextColor
-        let title = isContactAdded ? "Favorited" : "Favorite"
+    @objc
+    fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
+        let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
-        actionView.addFavoriteButton.titleLabel.text = title
-        actionView.addFavoriteButton.tintColor = fontColor
+        if uiDatabaseConnection.hasChange(forKey: contact.address, inCollection: TokenUser.favoritesCollectionKey, in: notifications) {
+            updateButton()
+        }
+    }
+    
+    private func updateButton() {
+        uiDatabaseConnection.read { [weak self] transaction in
+            guard let strongSelf = self else { return }
+
+            let isContactAdded = transaction.object(forKey: strongSelf.contact.address, inCollection: TokenUser.favoritesCollectionKey) != nil
+
+            let fontColor = isContactAdded ? Theme.tintColor : Theme.lightGreyTextColor
+            let title = isContactAdded ? "Favorited" : "Favorite"
+
+            strongSelf.actionView.addFavoriteButton.titleLabel.text = title
+            strongSelf.actionView.addFavoriteButton.tintColor = fontColor
+        }
     }
 
     @objc private func didTapMessageContactButton() {
@@ -376,12 +400,9 @@ public class ContactController: UIViewController {
     @objc private func didTapAddContactButton() {
         if Yap.sharedInstance.containsObject(for: contact.address, in: TokenUser.favoritesCollectionKey) {
             Yap.sharedInstance.removeObject(for: contact.address, in: TokenUser.favoritesCollectionKey)
-
-            updateButton()
         } else {
             Yap.sharedInstance.insert(object: contact.json, for: contact.address, in: TokenUser.favoritesCollectionKey)
             SoundPlayer.playSound(type: .addedContact)
-            updateButton()
         }
     }
 
