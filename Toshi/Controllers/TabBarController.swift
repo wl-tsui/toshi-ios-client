@@ -52,9 +52,9 @@ open class TabBarController: UITabBarController {
 
     internal lazy var placeholderScannerController: UIViewController = {
         let controller = UIViewController()
-        controller.tabBarItem = UITabBarItem(title: "Scan", image: #imageLiteral(resourceName: "scan"), tag: 0)
+        controller.tabBarItem = UITabBarItem(title: Localized("tab_bar_title_scan"), image: #imageLiteral(resourceName: "tab3"), tag: 0)
         controller.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
-
+        
         return controller
     }()
 

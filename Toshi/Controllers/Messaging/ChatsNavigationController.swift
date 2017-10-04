@@ -30,8 +30,7 @@ public class ChatsNavigationController: UINavigationController {
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        tabBarItem = UITabBarItem(title: "Recent", image: #imageLiteral(resourceName: "chats"), tag: 0)
-        tabBarItem.selectedImage = #imageLiteral(resourceName: "chats-selected")
+        tabBarItem = UITabBarItem(title: Localized("tab_bar_title_recent"), image: #imageLiteral(resourceName: "tab2"), tag: 0)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 

@@ -30,8 +30,7 @@ public class FavoritesNavigationController: UINavigationController {
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        tabBarItem = UITabBarItem(title: "Favorites", image: #imageLiteral(resourceName: "favourites"), tag: 1)
-        tabBarItem.selectedImage = #imageLiteral(resourceName: "favourites-selected")
+        tabBarItem = UITabBarItem(title: Localized("tab_bar_title_favorites"), image: #imageLiteral(resourceName: "tab4"), tag: 1)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
