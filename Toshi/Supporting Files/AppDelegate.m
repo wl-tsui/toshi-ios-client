@@ -33,15 +33,11 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
-@property (nonatomic) NSString *voipToken;
-
 @property (nonatomic, assign) BOOL hasBeenActivated;
 
 @end
 
 @implementation AppDelegate
-
-@synthesize voipToken = _voipToken;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -442,8 +438,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 - (void)updateRemoteNotificationCredentials {
     NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
 
-    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:ChatService.shared.token voipToken:self.voipToken success:^{
-        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@,\n|| - voip: %@\n||\n||------- \n", ChatService.shared.token, self.voipToken);
+    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:ChatService.shared.token voipToken:nil success:^{
+        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n||\n||------- \n", ChatService.shared.token);
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
 
