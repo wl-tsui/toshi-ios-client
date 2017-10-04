@@ -166,6 +166,11 @@ open class TabBarController: UITabBarController {
 extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController != browseController {
+            guard let browseViewController = browseController.viewControllers.first as? BrowseController else { return true }
+            browseViewController.dsmissSearchIfNeeded()
+        }
+
         if viewController == placeholderScannerController {
             presentScanner()
 
