@@ -390,6 +390,9 @@
 		A921D3631E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A921D3641E7C145E00EE3221 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921D3621E7C145E00EE3221 /* Collection+Additions.swift */; };
 		A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */; };
+		A95D315B1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95D315A1F8289C900B0FED1 /* TextEditingOptionsViewController.swift */; };
+		A95D315C1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95D315A1F8289C900B0FED1 /* TextEditingOptionsViewController.swift */; };
+		A95D315D1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95D315A1F8289C900B0FED1 /* TextEditingOptionsViewController.swift */; };
 		A9603D3A1F4DABDC00BF57B1 /* RoundIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9181D211EDD8154005B63F6 /* RoundIconButton.swift */; };
 		A9603D3C1F4DABDC00BF57B1 /* PaymentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629101F3C64FE008A7F36 /* PaymentNavigationController.swift */; };
 		A9603D401F4DABDC00BF57B1 /* SettingsProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */; };
@@ -985,6 +988,7 @@
 		A9207AF61F6A8088003B79BF /* passwords-library.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "passwords-library.txt"; sourceTree = "<group>"; };
 		A921D3621E7C145E00EE3221 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
 		A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationButton.swift; sourceTree = "<group>"; };
+		A95D315A1F8289C900B0FED1 /* TextEditingOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditingOptionsViewController.swift; sourceTree = "<group>"; };
 		A9603F951F4DABDC00BF57B1 /* Toshi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toshi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9603F9C1F4DB8C100BF57B1 /* DistributionDev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DistributionDev.plist; sourceTree = "<group>"; };
 		A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCornerView.swift; sourceTree = "<group>"; };
@@ -1869,6 +1873,7 @@
 				A9E691B81F7A496700317DB1 /* SignInViewController.swift */,
 				2BD135AD1EE1A1E000B9F454 /* SplashNavigationController.swift */,
 				2BB842781EDD91F70044BDAB /* SplashViewController.swift */,
+				A95D315A1F8289C900B0FED1 /* TextEditingOptionsViewController.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -2667,6 +2672,7 @@
 				84AED6FC1F42EBCB003C38E8 /* String+Regex.swift in Sources */,
 				149F9A7A1E72E29A00FB74AA /* FavoritesController.swift in Sources */,
 				149F9A7B1E72E29A00FB74AA /* ChatsController.swift in Sources */,
+				A95D315D1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
 				A9E777541F2A1F1200FB18F1 /* OpenURLButton.swift in Sources */,
 				8446632C1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
 				A9E691CD1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
@@ -2837,6 +2843,7 @@
 				A91629161F3C7CFD008A7F36 /* Payment.swift in Sources */,
 				A9202E631ED84F6A0036E9B7 /* MessageModel.swift in Sources */,
 				A9202E5C1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift in Sources */,
+				A95D315B1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
 				A9E691C41F7A496800317DB1 /* SignInExplanation.swift in Sources */,
 				84FFE1EB1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
 				A9E691C51F7A496800317DB1 /* SignInLayout.swift in Sources */,
@@ -3007,6 +3014,7 @@
 				A9603E0E1F4DABDC00BF57B1 /* String+Regex.swift in Sources */,
 				A9603E101F4DABDC00BF57B1 /* FavoritesController.swift in Sources */,
 				A9603E121F4DABDC00BF57B1 /* ChatsController.swift in Sources */,
+				A95D315C1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
 				A9603E161F4DABDC00BF57B1 /* OpenURLButton.swift in Sources */,
 				A9603E1A1F4DABDC00BF57B1 /* PaymentRequestMetadata.swift in Sources */,
 				A9E691CC1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,

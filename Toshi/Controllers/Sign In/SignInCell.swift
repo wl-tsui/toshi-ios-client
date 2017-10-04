@@ -15,7 +15,7 @@ final class SignInCell: UICollectionViewCell {
     private lazy var backgroundImageView = UIImageView(image: UIImage(named: "sign-in-cell-background")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18))
     private lazy var passwordLabel = UILabel()
 
-    private var caretView: UIView = {
+    private(set) var caretView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.tintColor
         view.layer.cornerRadius = 1
@@ -27,10 +27,16 @@ final class SignInCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             guard isSelected != oldValue else { return }
-            caretView.alpha = isSelected ? 1 : 0
-            backgroundImageView.isHidden = isSelected
+            self.isActive = isSelected
+        }
+    }
 
-            if let match = match, !isSelected {
+    var isActive: Bool = false {
+        didSet {
+            caretView.alpha = isActive ? 1 : 0
+            backgroundImageView.isHidden = isActive
+
+            if let match = match, !isActive {
                 updateAttributedText(match, with: match)
 
                 contentView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
@@ -83,7 +89,7 @@ final class SignInCell: UICollectionViewCell {
         updateAttributedText(text, with: match)
     }
 
-    private func updateAttributedText(_ text: String, with match: String? = nil) {
+    func updateAttributedText(_ text: String, with match: String? = nil) {
         let emptyString = isFirstAndOnly ? Localized("passphrase_sign_in_placeholder") : Localized("passphrase_sign_in_ellipsis")
         let string = text.isEmpty ? emptyString : match ?? text
         let attributedText = NSMutableAttributedString(string: string, attributes: [.font: Theme.regular(size: 17), .foregroundColor: Theme.greyTextColor])
@@ -100,7 +106,7 @@ final class SignInCell: UICollectionViewCell {
             caretViewLeftConstraint?.isActive = true
             caretViewLeftConstraint?.constant = 0
         } else {
-            let errorRange = NSRange(location: 0, length: text.count)
+            let errorRange = NSRange(location: 0, length: attributedText.length)
             attributedText.addAttribute(.foregroundColor, value: Theme.errorColor, range: errorRange)
 
             caretViewLeftConstraint?.isActive = false

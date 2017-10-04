@@ -56,16 +56,6 @@
     [AvatarManager.shared startDownloadContactsAvatars];
 }
 
-- (void)refreshContactWithAddress:(NSString *)address
-{
-    __weak typeof(self)weakSelf = self;
-    [[IDAPIClient shared] retrieveUserWithUsername:address completion:^(TokenUser * _Nullable contact) {
-
-        typeof(self)strongSelf = weakSelf;
-        [strongSelf refreshContact:contact];
-    }];
-}
-
 - (void)refreshContact:(TokenUser *)contact
 {
     NSUInteger existingContactIndex = [self.tokenContacts indexOfObjectPassingTest:^BOOL(TokenUser * _Nonnull object, NSUInteger idx, BOOL * _Nonnull stop) {

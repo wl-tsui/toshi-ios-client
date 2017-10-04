@@ -40,6 +40,10 @@ public class Cereal: NSObject {
         return walletCereal.address
     }
 
+    @objc public static func areWordsValid(_ words: [String]) -> Bool {
+        return BTCMnemonic(words: words, password: nil, wordListType: .english) != nil
+    }
+
     // restore from words
     public init?(words: [String]) {
         guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }

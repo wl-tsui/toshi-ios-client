@@ -41,6 +41,5 @@
 
 - (void)refreshContacts;
 - (void)refreshContact:(nonnull TokenUser *)contact;
-- (void)refreshContactWithAddress:(nonnull NSString *)address NS_SWIFT_NAME(refreshContact(with:));
 
 @end
