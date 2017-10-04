@@ -102,6 +102,13 @@ open class ChatsController: SweetTableController {
 
         preferLargeTitleIfPossible(true)
         tabBarController?.tabBar.isHidden = false
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didPressCompose(_:)))
+    }
+    
+    @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
+        let favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
+        Navigator.presentModally(favoritesController)
     }
 
     fileprivate lazy var emptyStateContainerView: UIView = {

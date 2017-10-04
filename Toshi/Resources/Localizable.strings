@@ -189,6 +189,10 @@
 /* Text Editing Options */
 "text_editing_options_paste" = "Paste";
 
+/* Favorites */
+"favorites_navigation_title" = "Favorites";
+"favorites_navigation_title_new_chat" = "New Chat";
+
 /* Tab Bar */
 "tab_bar_title_browse" = "Browse";
 "tab_bar_title_recent" = "Recent";
