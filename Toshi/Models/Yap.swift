@@ -101,12 +101,15 @@ public final class Yap: NSObject, Singleton {
         self.database?.deregisterPaths()
 
         if TokenUser.current?.verified == false {
+            print("\n\n Deleting Yap db file for the user")
             KeychainSwift().delete(UserDB.password)
             UserDefaults.standard.removeObject(forKey: UserDB.password)
 
             self.deleteFileIfNeeded(at: UserDB.dbFilePath)
             self.deleteFileIfNeeded(at: UserDB.walFilePath)
             self.deleteFileIfNeeded(at: UserDB.shmFilePath)
+
+            database = nil
 
             return
         }
@@ -178,6 +181,10 @@ public final class Yap: NSObject, Singleton {
 
         KeychainSwift().delete(UserDB.password)
         UserDefaults.standard.removeObject(forKey: UserDB.password)
+
+        database = nil
+
+        print("\n\n --- Backing up yap db file for the user")
     }
 
     /// Insert a object into the database using the main thread default connection.

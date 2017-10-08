@@ -126,6 +126,8 @@ final class SignInViewController: UIViewController {
                 TokenUser.createCurrentUser(with: user.dict)
                 idClient.migrateCurrentUserIfNeeded()
 
+                Cereal.shared.save()
+
                 TokenUser.current?.updateVerificationState(true)
 
                 ChatAPIClient.shared.registerUser()
