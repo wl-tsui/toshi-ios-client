@@ -16,7 +16,6 @@
 		149F9A621E72E29A00FB74AA /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */; };
 		149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
 		149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
-		149F9A661E72E29A00FB74AA /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */; };
 		149F9A671E72E29A00FB74AA /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */; };
 		149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		149F9A6B1E72E29A00FB74AA /* BrowseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED3ABC1E4A2B3400DF8079 /* BrowseController.swift */; };
@@ -314,7 +313,6 @@
 		9FE86E021F0BC0AB00A7F71E /* SweetSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE86E031F0BC14F00A7F71E /* SweetUIKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FE86E041F0BC15900A7F71E /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
-		9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */; };
 		9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */; };
 		9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */; };
 		9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF611E66CD6C00948277 /* requestPayment.m4a */; };
@@ -413,7 +411,6 @@
 		A9603D8C1F4DABDC00BF57B1 /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
 		A9603D8F1F4DABDC00BF57B1 /* MessagesBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */; };
 		A9603D911F4DABDC00BF57B1 /* ScannerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54AB0C1ECC8D390008489F /* ScannerController.swift */; };
-		A9603D921F4DABDC00BF57B1 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */; };
 		A9603D941F4DABDC00BF57B1 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4C1ED84F6A0036E9B7 /* ImagesViewController.swift */; };
 		A9603D991F4DABDC00BF57B1 /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */; };
 		A9603D9E1F4DABDC00BF57B1 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
@@ -955,7 +952,6 @@
 		9FE18B271E2D135F00940DC8 /* ContactCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 		9FE18B2A1E2D1FD300940DC8 /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
 		9FE398401E2E225600386FAF /* ProfileItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileItemCell.swift; sourceTree = "<group>"; };
-		9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFetcherJob.swift; sourceTree = "<group>"; };
 		9FEB8C891E6832120088D5A6 /* NSData+ows_StripToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ows_StripToken.h"; sourceTree = "<group>"; };
 		9FEB8C8A1E6832120088D5A6 /* NSData+ows_StripToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ows_StripToken.m"; sourceTree = "<group>"; };
 		9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalNotificationManager.swift; sourceTree = "<group>"; };
@@ -1650,7 +1646,6 @@
 			children = (
 				9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */,
 				9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */,
-				9FEB8C871E682FD80088D5A6 /* MessageFetcherJob.swift */,
 				9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */,
 				9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */,
 			);
@@ -2635,7 +2630,6 @@
 				149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */,
 				A9E1DCDC1F1E2765001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9F54AB0E1ECC8D390008489F /* ScannerController.swift in Sources */,
-				149F9A661E72E29A00FB74AA /* MessageFetcherJob.swift in Sources */,
 				A9202E6E1ED850220036E9B7 /* ImagesViewController.swift in Sources */,
 				149F9A671E72E29A00FB74AA /* SettingsNavigationController.swift in Sources */,
 				149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */,
@@ -2799,7 +2793,6 @@
 				A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				9F54AB0D1ECC8D390008489F /* ScannerController.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
-				9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */,
@@ -2977,7 +2970,6 @@
 				A9603D8C1F4DABDC00BF57B1 /* BackgroundNotificationHandler.swift in Sources */,
 				A9603D8F1F4DABDC00BF57B1 /* MessagesBasicCell.swift in Sources */,
 				A9603D911F4DABDC00BF57B1 /* ScannerController.swift in Sources */,
-				A9603D921F4DABDC00BF57B1 /* MessageFetcherJob.swift in Sources */,
 				A9603D941F4DABDC00BF57B1 /* ImagesViewController.swift in Sources */,
 				A9603D991F4DABDC00BF57B1 /* SettingsNavigationController.swift in Sources */,
 				A9603D9E1F4DABDC00BF57B1 /* BaseConverter.swift in Sources */,

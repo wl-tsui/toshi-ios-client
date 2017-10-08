@@ -29,8 +29,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @interface AppDelegate () <TSPreferences>
 
-@property (nonatomic) OWSMessageFetcherJob *messageFetcherJob;
-
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
 @property (nonatomic, assign) BOOL hasBeenActivated;
@@ -436,7 +434,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }];
 
     OWSSignalService *signalService = [OWSSignalService sharedInstance];
-    self.messageFetcherJob = [[OWSMessageFetcherJob alloc] initWithMessagesManager:[TSMessagesManager sharedManager] messageSender:ChatService.shared.messageSender networkManager:ChatService.shared.networkManager signalService:signalService];
 }
 
 - (void)updateRemoteNotificationCredentials {
@@ -465,26 +462,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [Navigator navigateTo:identifier animated:YES];
 
     completionHandler();
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
-    __weak typeof(self)weakSelf = self;
-
-    [SignalNotificationHandler handleMessage:userInfo completion:^(UIBackgroundFetchResult result) {
-
-        typeof(self)strongSelf = weakSelf;
-
-        if (result == UIBackgroundFetchResultNewData) {
-            [strongSelf.messageFetcherJob runAsync];
-        }
-
-        completionHandler(result);
-    }];
-
-    [EthereumNotificationHandler handlePayment:userInfo completion:^(UIBackgroundFetchResult result) {
-        completionHandler(result);
-    }];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
