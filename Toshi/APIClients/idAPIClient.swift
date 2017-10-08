@@ -312,18 +312,12 @@ import Teapot
 
             switch result {
             case .success(let json, _):
-                // we know it's a dictionary for this API
                 guard let json = json?.dictionary else {
                     completion(nil)
                     return
                 }
 
-                if let address = json[TokenUser.Constants.address] as? String, Cereal.shared.address == address, TokenUser.current != nil {
-                    TokenUser.current?.update(json: json)
-                    resultUser = TokenUser.current
-                } else {
-                    resultUser = TokenUser(json: json)
-                }
+                resultUser = TokenUser(json: json)
             case .failure(_, _, let error):
                 print(error.localizedDescription)
             }

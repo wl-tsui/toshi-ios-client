@@ -157,6 +157,12 @@ class BrowseController: SearchableCollectionController {
         collectionView.scrollIndicatorInsets.top = max(0, scrollView.contentOffset.y * -1)
     }
 
+    func dsmissSearchIfNeeded() {
+        if let searchText = searchBar.text, searchText.length > 0 {
+            self.searchController.dismiss(animated: false, completion: nil)
+        }
+    }
+
     private func loadItems() {
 
         guard ChatService.isSessionActive else { return }

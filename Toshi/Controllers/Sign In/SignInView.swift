@@ -9,11 +9,16 @@ final class SignInView: UIView {
         view.alwaysBounceVertical = true
         view.showsVerticalScrollIndicator = true
         view.delaysContentTouches = false
+        view.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        
+        if #available(iOS 11.0, *) {
+            view.contentInsetAdjustmentBehavior = .never
+        }
         
         return view
     }()
     
-    private lazy var contentView = UIView()
+    private(set) lazy var contentView = UIView()
     
     private lazy var layout: SignInLayout = {
         let layout = SignInLayout()
@@ -101,10 +106,6 @@ final class SignInView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {

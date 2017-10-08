@@ -146,7 +146,7 @@
 "block_action_title" = "Block";
 
 "block_alert_title" = "Block username";
-"block_alert_message" = "They won’t be able to find your profile, or message you on Token. Users won’t know that you’ve blocked them.";
+"block_alert_message" = "They won’t be able to find your profile, or message you on Toshi. Users won’t know that you’ve blocked them.";
 
 "block_feedback_alert_title" = "Username blocked";
 "block_feedback_alert_message" = "You can unblock them at any time from their profile";
@@ -168,6 +168,12 @@
 "accept_terms_action_cancel" = "Cancel";
 "accept_terms_action_agree" = "Agree";
 
+/* Favorites */
+"favorites_add_title" = "Add to favorites on Toshi";
+"favorites_add_by_username" = "Add by username";
+"favorites_invite_friends" = "Invite friends";
+"favorites_scan_code" = "Scan code";
+
 /* Passphrase Sign In */
 "passphrase_sign_in_title" = "Sign in with your Passphrase";
 "passphrase_sign_in_button" = "Sign in";
@@ -177,6 +183,19 @@
 "passphrase_sign_in_error_singular" = "%i word you typed does not exist in passphrases.";
 "passphrase_sign_in_explanation_title" = "How does it work?";
 "passphrase_sign_in_placeholder" = "Enter your Passphrase...";
-"passphrase_sign_in_ellipsis" = "...";
 "passphrase_sign_in_explanation_title" = "How does it work?";
 "passphrase_sign_in_explanation_text" = "To sign in to Toshi you need to enter the Passphrase that has been given to you when you secured your account. The Passphrase consists out of 12 words and is used to secure and identify your account.\n\nYour account is stored anonymously on the Ethereum blockchain, this means we don't have acces to your data. The 12-word Passphrase is the only way to Sign in to your account. If you lost the Passphrase or have not properly finished the setup there is no way to recover your account. ";
+
+/* Text Editing Options */
+"text_editing_options_paste" = "Paste";
+
+/* Favorites */
+"favorites_navigation_title" = "Favorites";
+"favorites_navigation_title_new_chat" = "New Chat";
+
+/* Tab Bar */
+"tab_bar_title_browse" = "Browse";
+"tab_bar_title_recent" = "Recent";
+"tab_bar_title_scan" = "Scan";
+"tab_bar_title_favorites" = "Favorites";
+"tab_bar_title_me" = "Me";

@@ -51,11 +51,8 @@ open class FavoritesController: SweetTableController {
         }
     }
 
-    fileprivate lazy var addButton: UIBarButtonItem = {
-        let view = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.didTapAddButton))
-
-        return view
-    }()
+    fileprivate lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.didPressCancel(_:)))
+    fileprivate lazy var addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.didTapAddButton))
 
     fileprivate lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
@@ -84,6 +81,10 @@ open class FavoritesController: SweetTableController {
 
         return controller
     }()
+    
+    private var isPresentedModally: Bool {
+        return navigationController?.presentingViewController != nil
+    }
 
     fileprivate lazy var emptyStateContainerView: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -100,8 +101,6 @@ open class FavoritesController: SweetTableController {
         }
 
         NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
-
-        title = "Favorites"
     }
 
     @objc fileprivate func userCreated(_ notification: Notification) {
@@ -145,9 +144,13 @@ open class FavoritesController: SweetTableController {
         } else {
             tableView.tableHeaderView = searchController.searchBar
         }
-
-        navigationItem.rightBarButtonItem = addButton
-
+        
+        if isPresentedModally {
+            navigationItem.leftBarButtonItem = cancelButton
+        } else {
+            navigationItem.rightBarButtonItem = addButton
+        }
+        
         definesPresentationContext = true
 
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
@@ -155,7 +158,7 @@ open class FavoritesController: SweetTableController {
 
         displayContacts()
 
-        if let address = UserDefaults.standard.string(forKey: FavoritesNavigationController.selectedContactKey) {
+        if let address = UserDefaults.standard.string(forKey: FavoritesNavigationController.selectedContactKey), !isPresentedModally {
             // This doesn't restore a contact if they are not our contact, but a search result
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(with: address) else { return }
@@ -165,9 +168,15 @@ open class FavoritesController: SweetTableController {
             }
         }
     }
-
+    
+    @objc private func didPressCancel(_ barButtonItem: UIBarButtonItem) {
+        dismiss(animated: true)
+    }
+    
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        title = isPresentedModally ? Localized("favorites_navigation_title_new_chat") : Localized("favorites_navigation_title")
 
         preferLargeTitleIfPossible(true)
 
@@ -350,24 +359,24 @@ open class FavoritesController: SweetTableController {
 
     @objc
     fileprivate func didTapAddButton() {
-        let addContactSheet = UIAlertController(title: "Add to favorites on Token", message: nil, preferredStyle: .actionSheet)
+        let addContactSheet = UIAlertController(title: Localized("favorites_add_title"), message: nil, preferredStyle: .actionSheet)
 
-        addContactSheet.addAction(UIAlertAction(title: "Add by username", style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_add_by_username"), style: .default, handler: { _ in
             self.searchController.searchBar.becomeFirstResponder()
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Invite friends", style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_invite_friends"), style: .default, handler: { _ in
             let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
 
             Navigator.presentModally(shareController)
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Scan code", style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_scan_code"), style: .default, handler: { _ in
             guard let tabBarController = self.tabBarController as? TabBarController else { return }
             tabBarController.switch(to: .scanner)
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        addContactSheet.addAction(UIAlertAction(title: Localized("cancel_action"), style: .cancel, handler: nil))
 
         addContactSheet.view.tintColor = Theme.tintColor
         self.present(addContactSheet, animated: true) {
@@ -452,14 +461,25 @@ extension FavoritesController: UITableViewDelegate {
     }
 
     public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         self.searchController.searchBar.resignFirstResponder()
-
+        
         if let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath) as TokenUser? {
-
-            let contactController = ContactController(contact: contact)
-            self.navigationController?.pushViewController(contactController, animated: true)
-
-            UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
+            
+            if isPresentedModally {
+                self.searchController.isActive = false
+                ChatsInteractor.getOrCreateThread(for: contact.address)
+                
+                DispatchQueue.main.async {
+                    Navigator.tabbarController?.displayMessage(forAddress: contact.address)
+                    self.dismiss(animated: true)
+                }
+            } else {
+                let contactController = ContactController(contact: contact)
+                self.navigationController?.pushViewController(contactController, animated: true)
+                
+                UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
+            }
         }
     }
 }
@@ -468,7 +488,10 @@ extension FavoritesController: UISearchBarDelegate {
 
     public func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
-        self.displayContacts()
+        
+        if !isPresentedModally {
+            displayContacts()
+        }
     }
 }
 

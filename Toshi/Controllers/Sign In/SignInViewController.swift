@@ -5,11 +5,15 @@ import TinyConstraints
 final class SignInViewController: UIViewController {
 
     fileprivate var signInView: SignInView? { return view as? SignInView }
-    fileprivate var typed: [String] = [""]
+    fileprivate lazy var activityView: UIActivityIndicatorView = self.defaultActivityIndicator()
+
+    fileprivate var enteredStrings: [String] = [""]
     fileprivate var itemCount: Int = 1
     static let maxItemCount: Int = 12
     fileprivate var shouldDeselectWord = false
-
+    fileprivate var userDidPastePassphrase = false
+    fileprivate var maxCharactersCount = 0
+    
     var activeIndexPath: IndexPath? {
         guard let selectedCell = signInView?.collectionView.visibleCells.first(where: { $0.isSelected }) else { return nil }
         return signInView?.collectionView.indexPath(for: selectedCell)
@@ -32,35 +36,55 @@ final class SignInViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        automaticallyAdjustsScrollViewInsets = false
-
+        
         signInView?.collectionView.delegate = self
         signInView?.collectionView.dataSource = self
         signInView?.textField.delegate = self
         signInView?.textField.deleteDelegate = self
 
+        setupActivityIndicator()
+
         loadPasswords { [weak self] in
             self?.passwords = $0
             self?.signInView?.collectionView.selectItem(at: IndexPath(item: 0, section: 0), animated: false, scrollPosition: .top)
+            if let maxCharactersCount = $0.max(by: { $1.count > $0.count })?.count {
+                self?.maxCharactersCount = maxCharactersCount
+            }
         }
 
         signInView?.footerView.explanationButton.addTarget(self, action: #selector(showExplanation(_:)), for: .touchUpInside)
         signInView?.footerView.signInButton.addTarget(self, action: #selector(signIn(_:)), for: .touchUpInside)
+        
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized(_:)))
+        longPressGestureRecognizer.minimumPressDuration = 0.3
+        longPressGestureRecognizer.cancelsTouchesInView = true
+        longPressGestureRecognizer.delegate = self
+        signInView?.addGestureRecognizer(longPressGestureRecognizer)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive(_:)), name: .UIApplicationDidBecomeActive, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         signInView?.textField.becomeFirstResponder()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        signInView?.textField.resignFirstResponder()
+
+    @objc private func appDidBecomeActive(_ notification: Notification) {
+        if isViewLoaded {
+            signInView?.textField.becomeFirstResponder()
+        }
     }
-    
+
     @objc private func showExplanation(_ button: UIButton) {
         let explanationViewController = SignInExplanationViewController()
         navigationController?.pushViewController(explanationViewController, animated: true)
+    }
+    
+    @objc private func longPressGestureRecognized(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        guard longPressGestureRecognizer.state == .began else { return }
+        
+        let indexPath = activeIndexPath ?? IndexPath(item: 0, section: 0)
+        showTextEditingOptions(for: indexPath)
     }
 
     @objc private func signIn(_ button: ActionButton) {
@@ -78,20 +102,25 @@ final class SignInViewController: UIViewController {
     }
 
     private func signInWithPasshphrase(_ passphrase: [String]) {
-        
-        guard Cereal.shared.setup(for: passphrase) == true else {
+
+        guard Cereal.areWordsValid(passphrase), let validCereal = Cereal(words: passphrase) else {
+
             let alertController = UIAlertController.dismissableAlert(title: Localized("passphrase_signin_error_title"), message: Localized("passphrase_signin_error_verification"))
             present(alertController, animated: true)
 
             return
         }
 
-        guard let address = Cereal.shared.address else { fatalError("No cereal address when required") }
+        showActivityIndicator()
 
         let idClient = IDAPIClient.shared
-        idClient.retrieveUser(username: address) { [weak self] user in
+        idClient.retrieveUser(username: validCereal.address) { [weak self] user in
+
+            self?.hideActivityIndicator()
+
             if let user = user {
 
+                Cereal.shared = validCereal
                 UserDefaults.standard.set(false, forKey: RequiresSignIn)
 
                 TokenUser.createCurrentUser(with: user.dict)
@@ -100,6 +129,8 @@ final class SignInViewController: UIViewController {
                 TokenUser.current?.updateVerificationState(true)
 
                 ChatAPIClient.shared.registerUser()
+
+                self?.signInView?.textField.resignFirstResponder()
 
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
                 delegate.signInUser()
@@ -170,7 +201,7 @@ final class SignInViewController: UIViewController {
             self.signInView?.collectionView.performBatchUpdates({
                 self.signInView?.collectionView.insertItems(at: [indexPath])
                 self.itemCount += 1
-                self.typed.append("")
+                self.enteredStrings.append("")
             }, completion: { finished in
                 self.signInView?.layoutIfNeeded()
                 completion?(finished)
@@ -184,8 +215,8 @@ final class SignInViewController: UIViewController {
             self.signInView?.collectionView.performBatchUpdates({
                 self.signInView?.collectionView.indexPathsForVisibleItems.forEach {
 
-                    if $0 != indexPath, let string = self.typed.element(at: $0.item), string.isEmpty {
-                        self.typed.remove(at: $0.item)
+                    if $0 != indexPath, let string = self.enteredStrings.element(at: $0.item), string.isEmpty {
+                        self.enteredStrings.remove(at: $0.item)
                         self.signInView?.collectionView.deleteItems(at: [$0])
                         self.itemCount -= 1
                     }
@@ -196,6 +227,30 @@ final class SignInViewController: UIViewController {
             })
         }
     }
+    
+    func showTextEditingOptions(for indexPath: IndexPath) {
+        
+        if let superview = signInView?.contentView, let sourceView = signInView?.collectionView.cellForItem(at: indexPath) {
+            presentedViewController?.dismiss(animated: true)
+            
+            let textEditingOptionsViewController = TextEditingOptionsViewController(for: sourceView, in: superview)
+            textEditingOptionsViewController.delegate = self
+            present(textEditingOptionsViewController, animated: true)
+        }
+    }
+}
+
+extension SignInViewController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
+    }
+}
+
+extension SignInViewController: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
 }
 
 extension SignInViewController: UICollectionViewDelegate {
@@ -203,11 +258,15 @@ extension SignInViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let activeIndexPath = activeIndexPath, indexPath == activeIndexPath else { return true }
         
-        shouldDeselectWord = true
-        acceptItem(at: indexPath, completion: { [weak self] _ in
-            guard let indexPath = self?.activeIndexPath else { return }
-            self?.cleanUp(after: indexPath)
-        })
+        if let text = enteredStrings.element(at: indexPath.item), text.isEmpty {
+            showTextEditingOptions(for: indexPath)
+        } else {
+            shouldDeselectWord = true
+            acceptItem(at: indexPath, completion: { [weak self] _ in
+                guard let indexPath = self?.activeIndexPath else { return }
+                self?.cleanUp(after: indexPath)
+            })
+        }
         
         return true
     }
@@ -225,6 +284,31 @@ extension SignInViewController: UICollectionViewDelegate {
     }
 }
 
+extension SignInViewController: TextEditingOptionsViewControllerDelegate {
+    
+    func pasteSelected(from textEditingOptionsViewController: TextEditingOptionsViewController) {
+        guard let pasted = UIPasteboard.general.string else { return }
+        
+        userDidPastePassphrase = true
+        
+        enteredStrings = pasted.components(separatedBy: " ").map { String($0.prefix(maxCharactersCount)) }
+        if enteredStrings.count > SignInViewController.maxItemCount {
+            enteredStrings.removeSubrange(SignInViewController.maxItemCount...)
+        }
+        itemCount = enteredStrings.count
+        
+        signInView?.collectionView.reloadData()
+        signInView?.collectionView.collectionViewLayout.invalidateLayout()
+        signInView?.layoutIfNeeded()
+        
+        userDidPastePassphrase = false
+        
+        if itemCount < SignInViewController.maxItemCount {
+            acceptItem(at: IndexPath(item: itemCount - 1, section: 0))
+        }
+    }
+}
+
 extension SignInViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -235,7 +319,25 @@ extension SignInViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SignInCell.reuseIdentifier, for: indexPath)
 
         if let cell = cell as? SignInCell {
-            cell.setText(typed[indexPath.item], isFirstAndOnly: itemCount == 1)
+            let text = enteredStrings[indexPath.item]
+
+            if !userDidPastePassphrase {
+                cell.setText(text, isFirstAndOnly: itemCount == 1)
+                return cell
+            }
+
+            let comparison = libraryComparison(for: text)
+
+            if let match = comparison.match {
+                cell.setText(text, with: match)
+            } else {
+                cell.setText(text, isFirstAndOnly: itemCount == 1)
+            }
+
+            cell.isActive = false
+
+            collectionView.deselectItem(at: indexPath, animated: false)
+            signInView?.textField.text = nil
         }
 
         return cell
@@ -247,6 +349,8 @@ extension SignInViewController: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let indexPath = activeIndexPath else { return false }
         guard let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return false }
+        
+        presentedViewController?.dismiss(animated: true)
 
         if string == " " || string == "\n" {
             acceptItem(at: indexPath)
@@ -254,15 +358,16 @@ extension SignInViewController: UITextFieldDelegate {
             return false
         }
 
-        typed[indexPath.item] = text
+        enteredStrings[indexPath.item] = text
         
         let comparison = libraryComparison(for: text)
         
         if let match = comparison.match {
             activeCell?.setText(text, with: match)
             
-            if comparison.isSingleOccurrence {
+            if comparison.isSingleOccurrence, match == text {
                 acceptItem(at: indexPath)
+                
                 return false
             }
         } else {
@@ -271,6 +376,12 @@ extension SignInViewController: UITextFieldDelegate {
         
         signInView?.collectionView.collectionViewLayout.invalidateLayout()
         signInView?.layoutIfNeeded()
+        
+        if text.count >= maxCharactersCount {
+            acceptItem(at: indexPath)
+            
+            return false
+        }
         
         return true
     }

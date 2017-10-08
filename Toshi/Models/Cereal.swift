@@ -40,6 +40,10 @@ public class Cereal: NSObject {
         return walletCereal?.address
     }
 
+    @objc public static func areWordsValid(_ words: [String]) -> Bool {
+        return BTCMnemonic(words: words, password: nil, wordListType: .english) != nil
+    }
+
     @objc func prepareForLoggedInUser() {
         if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
             guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english) else { fatalError("Entropy has incorrect size or wordlist is not supported") }
