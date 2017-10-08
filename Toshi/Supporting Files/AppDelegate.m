@@ -170,6 +170,8 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
                 }
             }];
 
+            [ExchangeRateAPIClient.shared setupForSession];
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[Navigator tabbarController] setupControllers];
             });

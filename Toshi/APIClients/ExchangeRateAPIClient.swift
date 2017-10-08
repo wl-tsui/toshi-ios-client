@@ -18,11 +18,13 @@ import Teapot
 
 let ExchangeRateClient = ExchangeRateAPIClient.shared
 
-public final class ExchangeRateAPIClient {
+@objc public final class ExchangeRateAPIClient: NSObject {
 
-    static let shared: ExchangeRateAPIClient = ExchangeRateAPIClient()
+    @objc public static let shared: ExchangeRateAPIClient = ExchangeRateAPIClient()
 
     private static let collectionKey = "ethereumExchangeRate"
+
+    private var timer: Timer?
 
     public var teapot: Teapot
     public var baseURL: URL
@@ -40,13 +42,27 @@ public final class ExchangeRateAPIClient {
         self.teapot = teapot
     }
 
-    init() {
+    override init() {
         baseURL = URL(string: ToshiExchangeRateServiceBaseURLPath)!
         teapot = Teapot(baseURL: baseURL)
 
+        super.init()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
+    }
+
+    @objc private func userDidSignOut(_: Notification) {
+        timer?.invalidate()
+        timer = nil
+
+        print("\n\n --- Invalidating exchange rate update timer")
+    }
+
+    @objc public func setupForSession() {
+        print("\n\n --- Setting up exchange rate update timer")
         updateRate()
 
-        Timer.scheduledTimer(withTimeInterval: 300.0, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 300.0, repeats: true) { [weak self] _ in
             self?.updateRate()
         }
     }

@@ -130,6 +130,8 @@ final class SignInViewController: UIViewController {
 
                 ChatAPIClient.shared.registerUser()
 
+                ExchangeRateAPIClient.shared.setupForSession()
+
                 self?.signInView?.textField.resignFirstResponder()
 
                 guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
