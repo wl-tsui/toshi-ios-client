@@ -103,7 +103,7 @@ final class SignInViewController: UIViewController {
 
     private func signInWithPasshphrase(_ passphrase: [String]) {
 
-        guard Cereal.areWordsValid(passphrase), let validCereal = Cereal(words: passphrase) else {
+        guard let validAddress = Cereal.address(for: passphrase) else {
 
             let alertController = UIAlertController.dismissableAlert(title: Localized("passphrase_signin_error_title"), message: Localized("passphrase_signin_error_verification"))
             present(alertController, animated: true)
@@ -114,13 +114,13 @@ final class SignInViewController: UIViewController {
         showActivityIndicator()
 
         let idClient = IDAPIClient.shared
-        idClient.retrieveUser(username: validCereal.address) { [weak self] user in
+        idClient.retrieveUser(username: validAddress) { [weak self] user in
 
             self?.hideActivityIndicator()
 
             if let user = user {
 
-                Cereal.shared = validCereal
+                Cereal.shared.setup(for: passphrase)
                 UserDefaults.standard.set(false, forKey: RequiresSignIn)
 
                 TokenUser.createCurrentUser(with: user.dict)

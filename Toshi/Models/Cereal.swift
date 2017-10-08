@@ -40,8 +40,34 @@ public class Cereal: NSObject {
         return walletCereal?.address
     }
 
-    @objc public static func areWordsValid(_ words: [String]) -> Bool {
-        return BTCMnemonic(words: words, password: nil, wordListType: .english) != nil
+    @objc public static func address(for words: [String]) -> String? {
+        guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
+
+        let idKeychain = mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
+        let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
+        let cereal = EtherealCereal(privateKey: idPrivateKey)
+
+        return cereal.address
+    }
+
+    private func idCereal(for words: [String]) -> EtherealCereal? {
+        guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
+
+        // ID path 0H/1/0
+        let idKeychain = mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
+        let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
+
+        return EtherealCereal(privateKey: idPrivateKey)
+    }
+
+    private func walletCereal(for words: [String]) -> EtherealCereal? {
+        guard let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: .english) else { return nil }
+
+        // wallet path: 44H/60H/0H/0
+        let walletKeychain = mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
+        
+        return EtherealCereal(privateKey: walletPrivateKey)
     }
 
     @objc func prepareForLoggedInUser() {
@@ -81,15 +107,8 @@ public class Cereal: NSObject {
 
         Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
 
-        // ID path 0H/1/0
-        let idKeychain = mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
-        let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
-        idCereal = EtherealCereal(privateKey: idPrivateKey)
-
-        // wallet path: 44H/60H/0H/0
-        let walletKeychain = mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
-        let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
-        walletCereal = EtherealCereal(privateKey: walletPrivateKey)
+        idCereal = idCereal(for: words)
+        walletCereal = walletCereal(for: words)
 
         print("\n\n 2 - Cereal set up for a new user: \(String(describing: self.address))")
 
