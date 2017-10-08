@@ -367,8 +367,6 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
     _uploadingService = [[OWSUploadingService alloc] initWithNetworkManager:networkManager];
     _dbConnection = storageManager.newDatabaseConnection;
 
-    //OWSSingletonAssert();
-
     return self;
 }
 

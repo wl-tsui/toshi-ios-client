@@ -570,11 +570,10 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 - (void)resetSignalStorageWithBackup:(BOOL)withBackup
 {
     [self.database deregisterPaths];
-
+    
     if (withBackup) {
         [self backupDataBaseFile];
     } else {
-
         [self __deleteFileIfNeededAtPath:[self dbPath]];
     }
     
