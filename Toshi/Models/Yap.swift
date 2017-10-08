@@ -39,7 +39,9 @@ fileprivate struct UserDB {
         static let directoryPath = documentsUrl.appendingPathComponent(directory).path
 
         static let dbFile = ".Signal-Backup.sqlite"
-        static let dbFilePath = documentsUrl.appendingPathComponent(directory).appendingPathComponent(".Signal-Backup-\(Cereal.shared.address).sqlite").path
+        static var dbFilePath: String {
+            return documentsUrl.appendingPathComponent(directory).appendingPathComponent(".Signal-Backup-\(String(describing: Cereal.shared.address)).sqlite").path
+        }
     }
 }
 
