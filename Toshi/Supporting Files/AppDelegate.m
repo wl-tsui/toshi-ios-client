@@ -146,7 +146,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)createNewUser
 {
-    NSLog(@"\n\n 1 - Starting create a new user");
+    NSLog(@"\n\n --- Creating a new user");
 
     [[Cereal shared] setupForNewUser];
     
@@ -157,7 +157,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
             typeof(self)strongSelf = weakSelf;
 
-            NSLog(@"\n\n 4 - User registered with Chat");
+            NSLog(@"\n\n --- User registered with Chat");
 
             [strongSelf setupDB];
             [strongSelf didCreateUser];
@@ -165,7 +165,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
             [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success, NSString *message) {
                 if (status == UserRegisterStatusRegistered) {
-                    NSLog(@"\n\n Pinging a bot");
+                    NSLog(@"\n\n --- Pinging a bot");
                     [ChatsInteractor triggerBotGreeting];
                 }
             }];

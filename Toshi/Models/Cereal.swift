@@ -94,8 +94,10 @@ public class Cereal: NSObject {
     }
 
     @objc func save() {
+        print("Yap db accessible while Cereal data being saved : \(Yap.sharedInstance.database != nil)")
+
         Yap.sharedInstance.insert(object: mnemonic!.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
-        print("\n\n 6 - Cereal saved for a new user: \(String(describing: self.address))")
+        print("\n\n 6 --- Cereal saved for a new user: \(String(describing: self.address))")
     }
 
     @objc @discardableResult func setup(for words: [String]) -> Bool {
@@ -105,12 +107,12 @@ public class Cereal: NSObject {
         }
         self.mnemonic = mnemonic
 
-        Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
+        save()
 
         idCereal = idCereal(for: words)
         walletCereal = walletCereal(for: words)
 
-        print("\n\n 2 - Cereal set up for a new user: \(String(describing: self.address))")
+        print("\n\n 2 --- Cereal set up for a new user: \(String(describing: self.address))")
 
         return true
     }

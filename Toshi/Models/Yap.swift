@@ -96,7 +96,7 @@ public final class Yap: NSObject, Singleton {
 
     @objc public func wipeStorage() {
 
-        print("\n\n 2 - Wiping storage for the user")
+        print("\n\n 2 --- Wiping storage for the user")
 
         self.database?.deregisterPaths()
 
@@ -172,7 +172,7 @@ public final class Yap: NSObject, Singleton {
         keychain.set(currentPassword, forKey: user.address)
 
         let password = currentPassword.hexadecimalString
-        print("\n\n Password |\(password)| set for address |\(user.address)|")
+        print("\n\n --- Password |\(password)| set for address |\(user.address)|")
 
         try? FileManager.default.moveItem(atPath: UserDB.dbFilePath, toPath: UserDB.Backup.dbFilePath)
 

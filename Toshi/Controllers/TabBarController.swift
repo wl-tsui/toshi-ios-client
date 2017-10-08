@@ -74,7 +74,7 @@ open class TabBarController: UITabBarController {
     }
 
     @objc public func setupControllers() {
-        print("\n\n  --- Setting up controllers")
+        print("\n\n --- Setting up controllers")
 
         browseController = BrowseNavigationController(rootViewController: BrowseController())
         favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())

@@ -255,6 +255,7 @@ public class TokenUser: NSObject, NSCoding {
         current = newUser
 
         Yap.sharedInstance.setupForNewUser(with: newUser.address)
+        print("\n\n --- Database for new user created: \(Yap.sharedInstance.database != nil)")
 
         let newUserSettings: [String: Any] = [
             Constants.localCurrency: TokenUser.defaultCurrency,
