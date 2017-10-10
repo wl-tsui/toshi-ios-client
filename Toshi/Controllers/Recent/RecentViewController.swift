@@ -21,8 +21,7 @@ public extension NSNotification.Name {
     public static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
 }
 
-/// Displays current conversations.
-open class ChatsController: SweetTableController {
+open class RecentViewController: SweetTableController {
 
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
@@ -256,7 +255,7 @@ open class ChatsController: SweetTableController {
     }
 }
 
-extension ChatsController: Emptiable {
+extension RecentViewController: Emptiable {
 
     var buttonPressed: Selector {
         return #selector(buttonPressed(sender:))
@@ -289,7 +288,7 @@ extension ChatsController: Emptiable {
     }
 }
 
-extension ChatsController: UITableViewDelegate {
+extension RecentViewController: UITableViewDelegate {
 
     open func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 82
@@ -297,8 +296,8 @@ extension ChatsController: UITableViewDelegate {
 
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath) as TSThread? {
-            let chatController = ChatController(thread: thread)
-            navigationController?.pushViewController(chatController, animated: true)
+            let chatViewController = ChatViewController(thread: thread)
+            navigationController?.pushViewController(chatViewController, animated: true)
         }
     }
 
@@ -316,7 +315,7 @@ extension ChatsController: UITableViewDelegate {
     }
 }
 
-extension ChatsController: UITableViewDataSource {
+extension RecentViewController: UITableViewDataSource {
 
     open func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Int(mappings.numberOfItems(inSection: UInt(section)))

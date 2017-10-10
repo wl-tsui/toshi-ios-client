@@ -122,16 +122,7 @@ open class SofaMessage: SofaWrapper {
 
         open var type: ControlType = .button
 
-        private var _label: String?
-
-        open var label: String? {
-            switch self.type {
-            case .button:
-                return self._label
-            case .group:
-                return self._label?.appending(" ▴")
-            }
-        }
+        open var label: String?
 
         // values are to be sent back as SofaCommands
         open var value: Any?
@@ -146,7 +137,7 @@ open class SofaMessage: SofaWrapper {
                 type = ControlType(rawValue: jsonType) ?? .button
             }
             
-            _label = json["label"] as? String
+            label = json["label"] as? String
 
             switch type {
             case .button:
@@ -170,7 +161,7 @@ open class SofaMessage: SofaWrapper {
             let lha = lhs.action as AnyObject
             let rha = rhs.action as AnyObject
 
-            return lhs._label == rhs._label && lhs.type == rhs.type && lhv === rhv && lha === rha
+            return lhs.label == rhs.label && lhs.type == rhs.type && lhv === rhv && lha === rha
         }
     }
 

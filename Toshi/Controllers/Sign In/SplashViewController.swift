@@ -149,7 +149,7 @@ final class SplashViewController: UIViewController {
             self?.present(controller, animated: true, completion: nil)
         }
         
-        let cancel = UIAlertAction(title: Localized("accept_terms_action_cancel"), style: .default) { _ in
+        let cancel = UIAlertAction(title: Localized("cancel_action_title"), style: .default) { _ in
             alert.dismiss(animated: true, completion: nil)
         }
         

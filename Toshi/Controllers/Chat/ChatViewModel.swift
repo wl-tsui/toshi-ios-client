@@ -55,8 +55,8 @@ final class ChatViewModel {
 
     private(set) var thread: TSThread
 
-    private(set) lazy var interactor: ChatsInteractor = {
-        ChatsInteractor(output: self.output, thread: self.thread)
+    private(set) lazy var interactor: ChatInteractor = {
+        ChatInteractor(output: self.output, thread: self.thread)
     }()
 
     var contact: TokenUser? {

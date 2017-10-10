@@ -36,7 +36,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
 
         if isPresenting {
             guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController else { return }
-            guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatController else { return }
+            guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatViewController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .to) as? ImagesViewController else { return }
 
             transitionContext.containerView.addSubview(imagesViewController.view)
@@ -44,14 +44,14 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             animate(with: transitionContext, messagesViewController, imagesViewController)
         } else {
             guard let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController else { return }
-            guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatController else { return }
+            guard let messagesViewController = tabBarController.messagingController.topViewController as? ChatViewController else { return }
             guard let imagesViewController = transitionContext.viewController(forKey: .from) as? ImagesViewController else { return }
 
             animate(with: transitionContext, messagesViewController, imagesViewController)
         }
     }
 
-    func thumbnailImageView(for messagesViewController: ChatController, _ imagesViewController: ImagesViewController) -> UIImageView? {
+    func thumbnailImageView(for messagesViewController: ChatViewController, _ imagesViewController: ImagesViewController) -> UIImageView? {
         messagesViewController.view.setNeedsLayout()
         messagesViewController.view.layoutIfNeeded()
 
@@ -64,7 +64,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         return cell.messageImageView
     }
 
-    func fullsizeImageView(for messagesViewController: ChatController, _ imagesViewController: ImagesViewController) -> UIImageView? {
+    func fullsizeImageView(for messagesViewController: ChatViewController, _ imagesViewController: ImagesViewController) -> UIImageView? {
         imagesViewController.view.setNeedsLayout()
         imagesViewController.view.layoutIfNeeded()
 
@@ -77,13 +77,13 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
         return toCell.imageView
     }
     
-    func cornerType(for messagesViewController: ChatController, at indexPath: IndexPath) -> MessagesCornerType? {
+    func cornerType(for messagesViewController: ChatViewController, at indexPath: IndexPath) -> MessagesCornerType? {
         guard let cell = messagesViewController.tableView.cellForRow(at: indexPath) as? MessagesBasicCell else { return nil }
         
         return cell.messagesCornerView.type
     }
 
-    func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: ChatController, _ imagesViewController: ImagesViewController) {
+    func animate(with context: UIViewControllerContextTransitioning, _ messagesViewController: ChatViewController, _ imagesViewController: ImagesViewController) {
 
         if !isPresenting {
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)

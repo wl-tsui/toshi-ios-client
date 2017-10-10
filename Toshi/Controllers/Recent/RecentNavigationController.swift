@@ -15,7 +15,7 @@
 
 import UIKit
 
-public class ChatsNavigationController: UINavigationController {
+public class RecentNavigationController: UINavigationController {
 
     let selectedThreadAddressKey = "Restoration::SelectedThread"
 
@@ -70,13 +70,13 @@ public class ChatsNavigationController: UINavigationController {
 
     public func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
         _ = popToRootViewController(animated: false)
-        guard let chatsController = self.viewControllers.first as? ChatsController else { return }
+        guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
 
-        if let thread = chatsController.thread(withAddress: address) as TSThread? {
-            let messagesController = ChatController(thread: thread)
-            pushViewController(messagesController, animated: false)
+        if let thread = recentViewController.thread(withAddress: address) as TSThread? {
+            let chatViewController = ChatViewController(thread: thread)
+            pushViewController(chatViewController, animated: false)
 
-            completion?(messagesController)
+            completion?(chatViewController)
         } else {
             completion?(nil)
         }
@@ -84,22 +84,22 @@ public class ChatsNavigationController: UINavigationController {
 
     public func openThread(withThreadIdentifier identifier: String, animated: Bool) {
         _ = self.popToRootViewController(animated: animated)
-        guard let chatsController = self.viewControllers.first as? ChatsController else { return }
-        guard let thread = chatsController.thread(withIdentifier: identifier) else { return }
+        guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
+        guard let thread = recentViewController.thread(withIdentifier: identifier) else { return }
 
-        let messagesController = ChatController(thread: thread)
-        self.pushViewController(messagesController, animated: animated)
+        let chatViewController = ChatViewController(thread: thread)
+        self.pushViewController(chatViewController, animated: animated)
     }
 
     public func openThread(_ thread: TSThread, animated: Bool) {
-        let messagesController = ChatController(thread: thread)
-        self.pushViewController(messagesController, animated: animated)
+        let chatViewController = ChatViewController(thread: thread)
+        self.pushViewController(chatViewController, animated: animated)
     }
 
     public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
 
-        if let viewController = viewController as? ChatController {
+        if let viewController = viewController as? ChatViewController {
             UserDefaults.standard.setValue(viewController.thread.contactIdentifier(), forKey: selectedThreadAddressKey)
         }
     }

@@ -164,7 +164,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
             [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success, NSString *message) {
                 if (status == UserRegisterStatusRegistered) {
-                    [ChatsInteractor triggerBotGreeting];
+                    [ChatInteractor triggerBotGreeting];
                 }
             }];
 

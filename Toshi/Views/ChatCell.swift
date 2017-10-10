@@ -18,7 +18,6 @@ import SweetUIKit
 import SweetSwift
 import SweetFoundation
 
-/// ChatsTableController cells.
 class ChatCell: UITableViewCell {
     var thread: TSThread? {
         didSet {

@@ -16,13 +16,13 @@
 import UIKit
 import SweetUIKit
 
-protocol ChatsFloatingHeaderViewDelegate: class {
-    func messagesFloatingView(_ messagesFloatingView: ChatsFloatingHeaderView, didPressRequestButton button: UIButton)
-    func messagesFloatingView(_ messagesFloatingView: ChatsFloatingHeaderView, didPressPayButton button: UIButton)
+protocol ChatFloatingHeaderViewDelegate: class {
+    func messagesFloatingView(_ messagesFloatingView: ChatFloatingHeaderView, didPressRequestButton button: UIButton)
+    func messagesFloatingView(_ messagesFloatingView: ChatFloatingHeaderView, didPressPayButton button: UIButton)
 }
 
-class ChatsFloatingHeaderView: UIView {
-    weak var delegate: ChatsFloatingHeaderViewDelegate?
+class ChatFloatingHeaderView: UIView {
+    weak var delegate: ChatFloatingHeaderViewDelegate?
 
     static let height = CGFloat(48)
 
@@ -65,7 +65,7 @@ class ChatsFloatingHeaderView: UIView {
                                                                       .foregroundColor: Theme.tintColor]
 
     private(set) lazy var requestButton: UIButton = {
-        let button = ChatsFloatingHeaderView.button()
+        let button = ChatFloatingHeaderView.button()
         button.setAttributedTitle(NSAttributedString(string: "Request", attributes: self.buttonAttributes), for: .normal)
         button.addTarget(self, action: #selector(request(button:)), for: .touchUpInside)
 
@@ -73,7 +73,7 @@ class ChatsFloatingHeaderView: UIView {
     }()
 
     private(set) lazy var payButton: UIButton = {
-        let button = ChatsFloatingHeaderView.button()
+        let button = ChatFloatingHeaderView.button()
         button.setAttributedTitle(NSAttributedString(string: "Pay", attributes: self.buttonAttributes), for: .normal)
         button.addTarget(self, action: #selector(pay(button:)), for: .touchUpInside)
 

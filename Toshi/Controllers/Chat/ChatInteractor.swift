@@ -21,7 +21,7 @@ protocol ChatInteractorOutput: class {
     func didFinishRequest()
 }
 
-final class ChatsInteractor: NSObject {
+final class ChatInteractor: NSObject {
 
     fileprivate weak var output: ChatInteractorOutput?
     private(set) var thread: TSThread
@@ -280,8 +280,8 @@ final class ChatsInteractor: NSObject {
     @objc static func triggerBotGreeting() {
         guard let botAddress = Bundle.main.infoDictionary?["InitialGreetingAddress"] as? String else { return }
 
-        let botThread = ChatsInteractor.getOrCreateThread(for: botAddress)
-        let interactor = ChatsInteractor(output: nil, thread: botThread)
+        let botThread = ChatInteractor.getOrCreateThread(for: botAddress)
+        let interactor = ChatInteractor(output: nil, thread: botThread)
 
         let initialRequest = SofaInitialRequest(content: ["values": ["paymentAddress", "language"]])
         let initWrapper = SofaInitialResponse(initialRequest: initialRequest)
