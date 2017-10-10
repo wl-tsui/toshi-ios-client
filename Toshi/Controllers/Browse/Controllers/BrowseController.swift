@@ -73,6 +73,16 @@ class BrowseController: SearchableCollectionController {
         return layout
     }()
 
+    public init() {
+        super.init()
+
+        collectionView.register(BrowseCell.self)
+    }
+
+    required public init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -84,7 +94,6 @@ class BrowseController: SearchableCollectionController {
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: searchBar.frame.height, left: 0, bottom: 0, right: 0)
         collectionView.setCollectionViewLayout(layout, animated: false)
-        collectionView.register(BrowseCell.self)
         collectionView.delegate = self
 
         searchBar.delegate = self

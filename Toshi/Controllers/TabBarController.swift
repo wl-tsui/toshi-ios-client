@@ -19,7 +19,8 @@ import CameraScanner
 
 let TabBarItemTitleOffset: CGFloat = -3.0
 
-open class TabBarController: UITabBarController {
+open class TabBarController: UITabBarController, OfflineAlertDisplaying {
+    let offlineAlertView = defaultOfflineAlertView()
 
     public enum Tab {
         case browsing
@@ -42,6 +43,13 @@ open class TabBarController: UITabBarController {
     fileprivate var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
+
+    fileprivate lazy var reachabilityManager: ReachabilityManager = {
+        let reachabilityManager = ReachabilityManager()
+        reachabilityManager.delegate = self
+
+        return reachabilityManager
+    }()
 
     internal lazy var scannerController: ScannerViewController = {
         let controller = ScannerController(instructions: "Scan QR code", types: [.qrCode])
@@ -67,6 +75,9 @@ open class TabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
 
         delegate = self
+        reachabilityManager.register()
+
+        setupOfflineAlertView(hidden: true)
     }
 
     public required init?(coder _: NSCoder) {
@@ -271,4 +282,15 @@ extension TabBarController: ScannerViewControllerDelegate {
         }
     }
 
+}
+
+extension TabBarController: ReachabilityDelegate {
+    func reachabilityDidChange(toConnected connected: Bool) {
+
+        if connected {
+            hideOfflineAlertView()
+        } else {
+            showOfflineAlertView()
+        }
+    }
 }

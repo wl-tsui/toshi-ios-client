@@ -168,6 +168,8 @@
 "accept_terms_action_cancel" = "Cancel";
 "accept_terms_action_agree" = "Agree";
 
+"offline_alert_message" = "You are not connected to the internet";
+
 /* Favorites */
 "favorites_add_title" = "Add to favorites on Toshi";
 "favorites_add_by_username" = "Add by username";
