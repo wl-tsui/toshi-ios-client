@@ -26,9 +26,9 @@ protocol ChatInputTextPanelDelegate: NOCChatInputPanelDelegate {
 
 class ChatInputTextPanel: NOCChatInputPanel {
 
-    static let defaultHeight: CGFloat = 51
+    static let defaultHeight: CGFloat = 44
 
-    fileprivate let inputContainerInsets = UIEdgeInsets(top: 8, left: 41, bottom: 7, right: 0)
+    fileprivate let inputContainerInsets = UIEdgeInsets(top: 1, left: 41, bottom: 7, right: 0)
     fileprivate let maximumInputContainerHeight: CGFloat = 175
     fileprivate var inputContainerHeight: CGFloat = ChatInputTextPanel.defaultHeight {
         didSet {
@@ -44,17 +44,11 @@ class ChatInputTextPanel: NOCChatInputPanel {
         return min(maximumInputContainerHeight, max(ChatInputTextPanel.defaultHeight, textViewHeight + inputContainerInsets.top + inputContainerInsets.bottom))
     }
 
-    lazy var inputContainer: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = Theme.borderHeight
-
-        return view
-    }()
+    lazy var inputContainer = UIView(withAutoLayout: true)
 
     lazy var inputField: HPGrowingTextView = {
         let view = HPGrowingTextView(withAutoLayout: true)
-        view.backgroundColor = .white
+        view.backgroundColor = Theme.chatInputFieldBackgroundColor
         view.clipsToBounds = true
         view.layer.cornerRadius = (ChatInputTextPanel.defaultHeight - (self.inputContainerInsets.top + self.inputContainerInsets.bottom)) / 2
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -87,13 +81,6 @@ class ChatInputTextPanel: NOCChatInputPanel {
         return view
     }()
 
-    lazy var backgroundBlur: BlurView = {
-        let view = BlurView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
-
     public var text: String? {
         get {
             return inputField.text
@@ -114,10 +101,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
         super.init(frame: frame)
 
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
-
-        addSubview(backgroundBlur)
-        backgroundBlur.edges(to: self)
-
+        
         addSubview(inputContainer)
         addSubview(attachButton)
         addSubview(inputField)

@@ -376,7 +376,7 @@ open class FavoritesController: SweetTableController {
             tabBarController.switch(to: .scanner)
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: Localized("cancel_action"), style: .cancel, handler: nil))
+        addContactSheet.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil))
 
         addContactSheet.view.tintColor = Theme.tintColor
         self.present(addContactSheet, animated: true) {
@@ -468,7 +468,7 @@ extension FavoritesController: UITableViewDelegate {
             
             if isPresentedModally {
                 self.searchController.isActive = false
-                ChatsInteractor.getOrCreateThread(for: contact.address)
+                ChatInteractor.getOrCreateThread(for: contact.address)
                 
                 DispatchQueue.main.async {
                     Navigator.tabbarController?.displayMessage(forAddress: contact.address)

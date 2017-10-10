@@ -83,6 +83,10 @@ extension Theme {
     public static var inputFieldBackgroundColor: UIColor {
         return UIColor(hex: "F1F1F1")
     }
+    
+    public static var chatInputFieldBackgroundColor: UIColor {
+        return UIColor(hex: "FAFAFA")
+    }
 
     @objc public static var navigationTitleTextColor: UIColor {
         return .black
@@ -136,6 +140,10 @@ extension Theme {
 
     public static var errorColor: UIColor {
         return UIColor(hex: "FF0000")
+    }
+
+    public static var offlineAlertBackgroundColor: UIColor {
+        return UIColor(hex: "5B5B5B")
     }
 }
 

@@ -191,7 +191,7 @@ open class ProfileEditController: UIViewController, Editable, UINavigationContro
             self.presentImagePicker(sourceType: .photoLibrary)
         }
 
-        let cancelAction = UIAlertAction(title: Localized("cancel_action"), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil)
 
         pickerTypeAlertController.addAction(cameraAction)
         pickerTypeAlertController.addAction(libraryAction)

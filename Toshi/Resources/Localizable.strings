@@ -22,7 +22,6 @@
 "messages_sent_error" = "Not delivered Tap to retry";
 "messages_sent_error_action_delete" = "Delete";
 "messages_sent_error_action_resend" = "Resend";
-"messages_sent_error_action_cancel" = "Cancel";
 
 /* Balance */
 "balance-navigation-title" = "Balance";
@@ -47,7 +46,6 @@
 "payment_request_confirmation_warning_title" = "Confirm payment";
 "payment_request_confirmation_warning_message" = "Do you want to accept the %@ (%@) request from %@?";
 "payment_request_confirmation_warning_message_fallback" = "Do you want accept the payment request from %@?";
-"payment_request_confirmation_warning_action_cancel" = "Cancel";
 "payment_request_confirmation_warning_action_confirm" = "Pay";
 
 /* Passphrase */
@@ -99,13 +97,11 @@
 "settings_signout_stepsneeded_message" = "You need to complete at least one of the security steps to sign out.";
 
 "settings_signout_action_ok" = "Ok";
-"settings_signout_action_cancel" = "Cancel";
 "settings_signout_action_delete" = "Delete";
 "settings_signout_action_signout" = "Sign out";
 
 "settings_deposit_error_title" = "Your account is at Risk";
 "settings_deposit_error_message" = "You haven’t backed up your passphrase yet. Without it you risk losing money.";
-"settings_deposit_error_action_cancel" = "Cancel";
 "settings_deposit_error_action_backup" = "Backup";
 
 /* Image Picker related */
@@ -139,9 +135,9 @@
 "alert-ok-action-title" = "OK";
 "sign-out-failure-title" = "Could not sign out";
 "sign-out-failure-message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
+"cancel_action_title" = "Cancel";
 
 /* Block user Alerts */
-"cancel_action" = "Cancel";
 "error_title" = "Error";
 "block_action_title" = "Block";
 
@@ -165,8 +161,9 @@
 "accept_terms_title" = "Accept Terms";
 "accept_terms_text" = "By creating an acount, you agree to the Toshi Terms of Service and Privacy Policy.";
 "accept_terms_action_read" = "Read Terms";
-"accept_terms_action_cancel" = "Cancel";
 "accept_terms_action_agree" = "Agree";
+
+"offline_alert_message" = "You are not connected to the internet";
 
 /* Favorites */
 "favorites_add_title" = "Add to favorites on Toshi";

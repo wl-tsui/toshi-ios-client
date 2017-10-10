@@ -384,7 +384,7 @@ public class ContactController: UIViewController {
 
     @objc private func didTapMessageContactButton() {
         // create thread if needed
-        ChatsInteractor.getOrCreateThread(for: contact.address)
+        ChatInteractor.getOrCreateThread(for: contact.address)
 
         DispatchQueue.main.async {
             (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.contact.address)
@@ -451,7 +451,7 @@ public class ContactController: UIViewController {
         }
 
         actions.addAction(reportAction)
-        actions.addAction(UIAlertAction(title: Localized("cancel_action"), style: .cancel))
+        actions.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
         Navigator.presentModally(actions)
     }
@@ -478,7 +478,7 @@ public class ContactController: UIViewController {
         }
 
         alert.addAction(blockAction)
-        alert.addAction(UIAlertAction(title: Localized("cancel_action"), style: .cancel))
+        alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
         Navigator.presentModally(alert)
     }
@@ -559,7 +559,7 @@ extension ContactController: PaymentControllerDelegate {
                     let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
 
                     // send message to thread
-                    let thread = ChatsInteractor.getOrCreateThread(for: strongSelf.contact.address)
+                    let thread = ChatInteractor.getOrCreateThread(for: strongSelf.contact.address)
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                     let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 

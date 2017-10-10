@@ -12,7 +12,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 import Foundation
 import UIKit
 
@@ -21,6 +20,30 @@ extension UIViewController {
     func preferLargeTitleIfPossible(_ preferred: Bool) {
         if #available(iOS 11.0, *) {
             self.navigationController?.navigationBar.prefersLargeTitles = preferred
+        }
+    }
+
+    open func navigationBarBottomAnchor() -> NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.topAnchor
+        } else {
+            return topLayoutGuide.bottomAnchor
+        }
+    }
+
+    open func layoutGuide() -> UILayoutGuide {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide
+        } else {
+            let layoutGuide = UILayoutGuide()
+            view.addLayoutGuide(layoutGuide)
+
+            layoutGuide.topAnchor.constraint(equalTo:  topLayoutGuide.bottomAnchor).isActive = true
+            layoutGuide.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor).isActive = true
+            layoutGuide.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            layoutGuide.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+
+            return layoutGuide
         }
     }
 }

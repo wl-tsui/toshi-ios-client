@@ -57,7 +57,7 @@ class BalanceController: UIViewController {
 
     private func showSecurityAlert() {
         let alert = UIAlertController(title: Localized("settings_deposit_error_title"), message: Localized("settings_deposit_error_message"), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: Localized("settings_deposit_error_action_cancel"), style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .default, handler: { _ in
             alert.dismiss(animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: Localized("settings_deposit_error_action_backup"), style: .default, handler: { _ in

@@ -19,7 +19,8 @@ import CameraScanner
 
 let TabBarItemTitleOffset: CGFloat = -3.0
 
-open class TabBarController: UITabBarController {
+open class TabBarController: UITabBarController, OfflineAlertDisplaying {
+    let offlineAlertView = defaultOfflineAlertView()
 
     public enum Tab {
         case browsing
@@ -43,6 +44,13 @@ open class TabBarController: UITabBarController {
         return IDAPIClient.shared
     }
 
+    fileprivate lazy var reachabilityManager: ReachabilityManager = {
+        let reachabilityManager = ReachabilityManager()
+        reachabilityManager.delegate = self
+
+        return reachabilityManager
+    }()
+
     internal lazy var scannerController: ScannerViewController = {
         let controller = ScannerController(instructions: "Scan QR code", types: [.qrCode])
         controller.delegate = self
@@ -59,7 +67,7 @@ open class TabBarController: UITabBarController {
     }()
 
     internal var browseController: BrowseNavigationController!
-    internal var messagingController: ChatsNavigationController!
+    internal var messagingController: RecentNavigationController!
     internal var favoritesController: FavoritesNavigationController!
     internal var settingsController: SettingsNavigationController!
 
@@ -67,6 +75,9 @@ open class TabBarController: UITabBarController {
         super.init(nibName: nil, bundle: nil)
 
         delegate = self
+        reachabilityManager.register()
+
+        setupOfflineAlertView(hidden: true)
     }
 
     public required init?(coder _: NSCoder) {
@@ -79,13 +90,13 @@ open class TabBarController: UITabBarController {
         browseController = BrowseNavigationController(rootViewController: BrowseController())
         favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
 
-        messagingController = ChatsNavigationController(nibName: nil, bundle: nil)
-        let chatsController = ChatsController()
+        messagingController = RecentNavigationController(nibName: nil, bundle: nil)
+        let recentViewController = RecentViewController()
 
-        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = chatsController.thread(withAddress: address) as TSThread? {
-            messagingController.viewControllers = [chatsController, ChatController(thread: thread)]
+        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = recentViewController.thread(withAddress: address) as TSThread? {
+            messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]
         } else {
-            messagingController.viewControllers = [chatsController]
+            messagingController.viewControllers = [recentViewController]
         }
 
         settingsController = SettingsNavigationController(rootViewController: SettingsController())
@@ -113,12 +124,12 @@ open class TabBarController: UITabBarController {
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
         dismiss(animated: false) {
 
-            ChatsInteractor.getOrCreateThread(for: address)
+            ChatInteractor.getOrCreateThread(for: address)
 
             DispatchQueue.main.async {
                 self.displayMessage(forAddress: address) { controller in
-                    if let chatController = controller as? ChatController, let parameters = parameters as [String: Any]? {
-                        chatController.sendPayment(with: parameters)
+                    if let chatViewController = controller as? ChatViewController, let parameters = parameters as [String: Any]? {
+                        chatViewController.sendPayment(with: parameters)
                     }
                 }
             }
@@ -275,4 +286,15 @@ extension TabBarController: ScannerViewControllerDelegate {
         }
     }
 
+}
+
+extension TabBarController: ReachabilityDelegate {
+    func reachabilityDidChange(toConnected connected: Bool) {
+
+        if connected {
+            hideOfflineAlertView()
+        } else {
+            showOfflineAlertView()
+        }
+    }
 }

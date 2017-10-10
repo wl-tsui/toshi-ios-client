@@ -73,6 +73,16 @@ class BrowseController: SearchableCollectionController {
         return layout
     }()
 
+    public init() {
+        super.init()
+
+        collectionView.register(BrowseCell.self)
+    }
+
+    required public init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -84,7 +94,6 @@ class BrowseController: SearchableCollectionController {
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: searchBar.frame.height, left: 0, bottom: 0, right: 0)
         collectionView.setCollectionViewLayout(layout, animated: false)
-        collectionView.register(BrowseCell.self)
         collectionView.delegate = self
 
         searchBar.delegate = self
@@ -123,8 +132,6 @@ class BrowseController: SearchableCollectionController {
         openURLButton.left(to: view).isActive = true
         openURLButton.right(to: view).isActive = true
         openURLButtonTopAnchor = openURLButton.top(to: collectionView)
-        openURLButtonTopAnchor.constant = -searchBar.frame.maxY + 64
-        openURLButtonTopAnchor.isActive = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -242,20 +249,30 @@ class BrowseController: SearchableCollectionController {
 
     fileprivate func showOpenURLButton() {
         openURLButton.isHidden = false
-        openURLButtonTopAnchor.constant = searchBar.frame.minY - 20 + 64
-        UIView.animate(withDuration: 0.25) {
-            self.collectionView.layoutIfNeeded()
+        
+        let topOffset: CGFloat
+        
+        if #available(iOS 11.0, *) {
+            topOffset = (navigationController?.navigationBar.bounds.height ?? 0) + searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
+        } else {
+            topOffset = searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
         }
+        
+        openURLButtonTopAnchor.constant = topOffset
+        
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 10, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
 
     fileprivate func hideOpenURLButtonIfNeeded() {
-        guard openURLButtonTopAnchor.constant == 64 else { return }
-
-        openURLButton.isHidden = true
-        openURLButtonTopAnchor.constant = -searchBar.frame.maxY + 64
-        UIView.animate(withDuration: 0.25) {
-            self.collectionView.layoutIfNeeded()
+        openURLButtonTopAnchor.constant = 0
+        
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
+            self.view.layoutIfNeeded()
+        }) { _ in
             self.openURLButton.setAttributedTitle(nil)
+            self.openURLButton.isHidden = true
         }
     }
 

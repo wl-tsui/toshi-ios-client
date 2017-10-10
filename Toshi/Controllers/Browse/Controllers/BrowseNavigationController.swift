@@ -16,7 +16,7 @@
 import UIKit
 
 public class BrowseNavigationController: UINavigationController {
-
+    
     static let selectedAppKey = "Restoration::SelectedApp"
 
     public override var preferredStatusBarStyle: UIStatusBarStyle {

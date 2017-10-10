@@ -31,8 +31,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
-@property (nonatomic, assign) BOOL hasBeenActivated;
-
 @end
 
 @implementation AppDelegate
@@ -53,6 +51,32 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [APIKeysManager setup];
 
     [self setupBasicAppearance];
+
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+
+    if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible]) {
+        [self configureAndPresentWindow];
+
+        return YES;
+    }
+
+    BOOL shouldProceedToDBSetup = ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground);
+    if (shouldProceedToDBSetup) {
+
+        if ([self __tryToOpenDB]) {
+            [self configureForCurrentSession];
+        } else {
+
+            // There might be a case when filesystem state is weird and it doesn't return true results, saying file is not present even if it is.
+            // to determine this we might check keychain for database password being there
+            // in this case we want to wait a bit and try to open file again
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                if ([self __tryToOpenDB]) {
+                    [self configureForCurrentSession];
+                }
+            });
+        }
+    }
 
     return YES;
 }
@@ -166,7 +190,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success, NSString *message) {
                 if (status == UserRegisterStatusRegistered) {
                     NSLog(@"\n\n --- Pinging a bot");
-                    [ChatsInteractor triggerBotGreeting];
+                    [ChatInteractor triggerBotGreeting];
                 }
             }];
 
@@ -309,33 +333,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
-    if (![Yap isUserDatabaseFileAccessible] && ![Yap isUserDatabasePasswordAccessible] && !self.hasBeenActivated) {
-        [self configureAndPresentWindow];
-        self.hasBeenActivated = YES;
-
-        return;
-    }
-
-    BOOL shouldProceedToDBSetup = !self.hasBeenActivated && ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground);
-    if (shouldProceedToDBSetup) {
-
-        if ([self __tryToOpenDB]) {
-            [self configureForCurrentSession];
-        } else {
-
-            // There might be a case when filesystem state is weird and it doesn't return true results, saying file is not present even if it is.
-            // to determine this we might check keychain for database password being there
-            // in this case we want to wait a bit and try to open file again
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                if ([self __tryToOpenDB]) {
-                    [self configureForCurrentSession];
-                }
-            });
-        }
-    }
-
-    self.hasBeenActivated = YES;
-
     [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
         // We're double checking that the app is active, to be sure since we
         // can't verify in production env due to code
@@ -353,16 +350,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     });
 
     [TSPreKeyManager checkPreKeysIfNecessary];
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)configureForCurrentSession
-{
-    [self configureAndPresentWindow];
-    [SignalNotificationManager updateUnreadMessagesNumber];
 }
 
 - (void)activateScreenProtection {
@@ -392,6 +379,12 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }];
 
     self.screenProtectionWindow.hidden = NO;
+}
+
+- (void)configureForCurrentSession
+{
+    [self configureAndPresentWindow];
+    [SignalNotificationManager updateUnreadMessagesNumber];
 }
 
 - (void)deactivateScreenProtection

@@ -213,14 +213,14 @@ open class SettingsController: UIViewController {
 
         if self.isAccountSecured {
             alert = UIAlertController(title: Localized("settings_signout_insecure_title"), message: Localized("settings_signout_insecure_message"), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_cancel"), style: .cancel))
+            alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
             alert.addAction(UIAlertAction(title: Localized("settings_signout_action_signout"), style: .destructive) { _ in
                 (UIApplication.shared.delegate as? AppDelegate)?.signOutUser()
             })
         } else if balance == .zero {
             alert = UIAlertController(title: Localized("settings_signout_nofunds_title"), message: Localized("settings_signout_nofunds_message"), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: Localized("settings_signout_action_cancel"), style: .cancel))
+            alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
             alert.addAction(UIAlertAction(title: Localized("settings_signout_action_delete"), style: .destructive) { _ in
                 (UIApplication.shared.delegate as? AppDelegate)?.signOutUser()
