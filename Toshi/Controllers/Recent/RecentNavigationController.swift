@@ -48,11 +48,11 @@ public class RecentNavigationController: UINavigationController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         guard #available(iOS 11.0, *) else {
             navigationBar.barStyle = .default
             navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
-
+            
             navigationBar.insertSubview(backgroundBlur, at: 0)
             backgroundBlur.edges(to: navigationBar, insets: UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0))
             return

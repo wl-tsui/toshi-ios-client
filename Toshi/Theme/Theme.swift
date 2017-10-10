@@ -141,6 +141,10 @@ extension Theme {
     public static var errorColor: UIColor {
         return UIColor(hex: "FF0000")
     }
+
+    public static var offlineAlertBackgroundColor: UIColor {
+        return UIColor(hex: "5B5B5B")
+    }
 }
 
 extension Theme {
