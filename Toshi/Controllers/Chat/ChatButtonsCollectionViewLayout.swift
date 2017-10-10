@@ -28,7 +28,7 @@ final class ChatButtonsViewLayout: UICollectionViewFlowLayout {
         contentWidth += CGFloat(attributes.count - 1) * minimumInteritemSpacing
         
         if contentWidth < totalWidth {
-            leftInset = ((totalWidth - contentWidth) / 2)
+            leftInset = totalWidth - contentWidth
         }
         
         attributes.forEach {
