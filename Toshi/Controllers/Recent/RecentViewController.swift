@@ -30,10 +30,10 @@ open class RecentViewController: SweetTableController {
         return mappings
     }()
 
-    lazy var uiDatabaseConnection: YapDatabaseConnection = {
-        let database = TSStorageManager.shared().database()!
-        let dbConnection = database.newConnection()
-        dbConnection.beginLongLivedReadTransaction()
+    lazy var uiDatabaseConnection: YapDatabaseConnection? = {
+        let database = TSStorageManager.shared().database()
+        let dbConnection = database?.newConnection()
+        dbConnection?.beginLongLivedReadTransaction()
 
         return dbConnection
     }()
@@ -61,7 +61,7 @@ open class RecentViewController: SweetTableController {
     }
 
     fileprivate func loadMessages() {
-        uiDatabaseConnection.asyncRead { [weak self] transaction in
+        uiDatabaseConnection?.asyncRead { [weak self] transaction in
             self?.mappings.update(with: transaction)
 
             DispatchQueue.main.async {
@@ -95,8 +95,7 @@ open class RecentViewController: SweetTableController {
     }
 
     @objc private func userDidSignOut(_: Notification) {
-//        self.items.removeAll()
-//        self.collectionView.reloadData()
+        self.uiDatabaseConnection = nil
     }
 
     @objc fileprivate func chatDBCreated(_ notification: Notification) {
@@ -140,17 +139,17 @@ open class RecentViewController: SweetTableController {
     }
 
     @objc func yapDatabaseDidChange(notification _: NSNotification) {
-        let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
+        guard let notifications = uiDatabaseConnection?.beginLongLivedReadTransaction() else { return }
 
         // If changes do not affect current view, update and return without updating collection view
         // swiftlint:disable force_cast
-        let threadViewConnection = uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
+        let threadViewConnection = uiDatabaseConnection?.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
         // swiftlint:enable force_cast
 
         let hasChangesForCurrentView = threadViewConnection.hasChanges(for: notifications)
         guard hasChangesForCurrentView else {
-            uiDatabaseConnection.read { transaction in
-                self.mappings.update(with: transaction)
+            uiDatabaseConnection?.read { [weak self] transaction in
+                self?.mappings.update(with: transaction)
             }
 
             return
@@ -217,9 +216,9 @@ open class RecentViewController: SweetTableController {
     func thread(at indexPath: IndexPath) -> TSThread? {
         var thread: TSThread?
 
-        uiDatabaseConnection.read { transaction in
-            guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
-            guard let object = dbExtension.object(at: indexPath, with: self.mappings) as? TSThread else { return }
+        uiDatabaseConnection?.read { [weak self] transaction in
+            guard let strongSelf = self, let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
+            guard let object = dbExtension.object(at: indexPath, with: strongSelf.mappings) as? TSThread else { return }
 
             thread = object
         }
@@ -230,7 +229,7 @@ open class RecentViewController: SweetTableController {
     func thread(withAddress address: String) -> TSThread? {
         var thread: TSThread?
 
-        uiDatabaseConnection.read { transaction in
+        uiDatabaseConnection?.read { transaction in
             transaction.enumerateRows(inCollection: TSThread.collection()) { _, object, _, stop in
                 if let possibleThread = object as? TSThread {
                     if possibleThread.contactIdentifier() == address {
@@ -247,7 +246,7 @@ open class RecentViewController: SweetTableController {
     func thread(withIdentifier identifier: String) -> TSThread? {
         var thread: TSThread?
 
-        uiDatabaseConnection.read { transaction in
+        uiDatabaseConnection?.read { transaction in
             transaction.enumerateRows(inCollection: TSThread.collection()) { _, object, _, stop in
                 if let possibleThread = object as? TSThread {
                     if possibleThread.uniqueId == identifier {
