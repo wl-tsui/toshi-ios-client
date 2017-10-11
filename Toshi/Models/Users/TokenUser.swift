@@ -26,6 +26,28 @@ public extension NSNotification.Name {
 
 public typealias UserInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
 
+
+final class TokenUsersCacheData: NSObject, NSCoding {
+
+    var objects: [TokenUser]?
+
+    override init() {
+        super.init()
+    }
+
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(objects, forKey: "objects")
+    }
+
+    init?(coder aDecoder: NSCoder) {
+        if let apps = aDecoder.decodeObject(forKey: "objects") as? [TokenUser] {
+            self.objects = apps
+        }
+
+        super.init()
+    }
+}
+
 public class TokenUser: NSObject, NSCoding {
 
     struct Constants {
@@ -141,7 +163,9 @@ public class TokenUser: NSObject, NSCoding {
             Constants.name: self.name,
             Constants.avatar: self.avatarPath,
             Constants.isApp: self.isApp,
-            Constants.isPublic: self.isPublic
+            Constants.isPublic: self.isPublic,
+            Constants.reputationScore: self.reputationScore as Any,
+            Constants.averageRating: self.averageRating as Any
         ]
     }
 
