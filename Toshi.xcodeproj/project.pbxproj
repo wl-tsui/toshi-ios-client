@@ -179,7 +179,6 @@
 		9F3FF81A1EB36A7F002D0293 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; };
 		9F3FF81C1EB36A7F002D0293 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8071EB36A7F002D0293 /* HPGrowingTextView.framework */; };
 		9F3FF8201EB36A7F002D0293 /* KeychainSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8091EB36A7F002D0293 /* KeychainSwift.framework */; };
-		9F3FF8221EB36A7F002D0293 /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80A1EB36A7F002D0293 /* NoChat.framework */; };
 		9F3FF8241EB36A7F002D0293 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */; };
 		9F3FF8261EB36A7F002D0293 /* SweetFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80C1EB36A7F002D0293 /* SweetFoundation.framework */; };
 		9F3FF8281EB36A7F002D0293 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
@@ -193,7 +192,6 @@
 		9F3FF8361EB36A8E002D0293 /* HDWallet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3FF8371EB36A8E002D0293 /* HPGrowingTextView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8071EB36A7F002D0293 /* HPGrowingTextView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3FF8391EB36A8E002D0293 /* KeychainSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8091EB36A7F002D0293 /* KeychainSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9F3FF83A1EB36A8E002D0293 /* NoChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80A1EB36A7F002D0293 /* NoChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3FF83B1EB36A8E002D0293 /* PromiseKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3FF83C1EB36A8E002D0293 /* SweetFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80C1EB36A7F002D0293 /* SweetFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3FF83D1EB36A8E002D0293 /* SweetSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -331,7 +329,6 @@
 		9FF957981EEEB7BA00DDCBD8 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
 		9FF9579A1EEEB7BA00DDCBD8 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80F1EB36A7F002D0293 /* Teapot.framework */; };
 		9FF9579B1EEEB7BA00DDCBD8 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8051EB36A7F002D0293 /* Formulaic.framework */; };
-		9FF9579C1EEEB7BA00DDCBD8 /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80A1EB36A7F002D0293 /* NoChat.framework */; };
 		9FF9579E1EEEB7BA00DDCBD8 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */; };
 		9FF9579F1EEEB7BA00DDCBD8 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
 		9FF957A11EEEB7BA00DDCBD8 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; };
@@ -553,7 +550,6 @@
 		A9603F571F4DABDC00BF57B1 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
 		A9603F591F4DABDC00BF57B1 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80F1EB36A7F002D0293 /* Teapot.framework */; };
 		A9603F5A1F4DABDC00BF57B1 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8051EB36A7F002D0293 /* Formulaic.framework */; };
-		A9603F5B1F4DABDC00BF57B1 /* NoChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80A1EB36A7F002D0293 /* NoChat.framework */; };
 		A9603F5D1F4DABDC00BF57B1 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */; };
 		A9603F5E1F4DABDC00BF57B1 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
 		A9603F601F4DABDC00BF57B1 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; };
@@ -772,7 +768,6 @@
 				9F3FF8361EB36A8E002D0293 /* HDWallet.framework in Embed Frameworks */,
 				9F3FF8371EB36A8E002D0293 /* HPGrowingTextView.framework in Embed Frameworks */,
 				9F3FF8391EB36A8E002D0293 /* KeychainSwift.framework in Embed Frameworks */,
-				9F3FF83A1EB36A8E002D0293 /* NoChat.framework in Embed Frameworks */,
 				9F3FF83B1EB36A8E002D0293 /* PromiseKit.framework in Embed Frameworks */,
 				2B98552F1F82430B009C347A /* Reachability.framework in Embed Frameworks */,
 				9F3FF83C1EB36A8E002D0293 /* SweetFoundation.framework in Embed Frameworks */,
@@ -885,7 +880,6 @@
 		9F3FF8061EB36A7F002D0293 /* HDWallet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDWallet.framework; path = Carthage/Build/iOS/HDWallet.framework; sourceTree = "<group>"; };
 		9F3FF8071EB36A7F002D0293 /* HPGrowingTextView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HPGrowingTextView.framework; path = Carthage/Build/iOS/HPGrowingTextView.framework; sourceTree = "<group>"; };
 		9F3FF8091EB36A7F002D0293 /* KeychainSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainSwift.framework; path = Carthage/Build/iOS/KeychainSwift.framework; sourceTree = "<group>"; };
-		9F3FF80A1EB36A7F002D0293 /* NoChat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NoChat.framework; path = Carthage/Build/iOS/NoChat.framework; sourceTree = "<group>"; };
 		9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		9F3FF80C1EB36A7F002D0293 /* SweetFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetFoundation.framework; path = Carthage/Build/iOS/SweetFoundation.framework; sourceTree = "<group>"; };
 		9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SweetSwift.framework; path = Carthage/Build/iOS/SweetSwift.framework; sourceTree = "<group>"; };
@@ -1129,7 +1123,6 @@
 				9FF957981EEEB7BA00DDCBD8 /* SweetUIKit.framework in Frameworks */,
 				9FF9579A1EEEB7BA00DDCBD8 /* Teapot.framework in Frameworks */,
 				9FF9579B1EEEB7BA00DDCBD8 /* Formulaic.framework in Frameworks */,
-				9FF9579C1EEEB7BA00DDCBD8 /* NoChat.framework in Frameworks */,
 				9FF9579E1EEEB7BA00DDCBD8 /* PromiseKit.framework in Frameworks */,
 				9FF9579F1EEEB7BA00DDCBD8 /* SweetSwift.framework in Frameworks */,
 				9FF957A11EEEB7BA00DDCBD8 /* HDWallet.framework in Frameworks */,
@@ -1167,7 +1160,6 @@
 				9F3FF82C1EB36A7F002D0293 /* Teapot.framework in Frameworks */,
 				9F3FF8181EB36A7F002D0293 /* Formulaic.framework in Frameworks */,
 				2B98552B1F824200009C347A /* Reachability.framework in Frameworks */,
-				9F3FF8221EB36A7F002D0293 /* NoChat.framework in Frameworks */,
 				9F3FF8241EB36A7F002D0293 /* PromiseKit.framework in Frameworks */,
 				9F3FF8281EB36A7F002D0293 /* SweetSwift.framework in Frameworks */,
 				9F3FF81A1EB36A7F002D0293 /* HDWallet.framework in Frameworks */,
@@ -1203,7 +1195,6 @@
 				A9603F571F4DABDC00BF57B1 /* SweetUIKit.framework in Frameworks */,
 				A9603F591F4DABDC00BF57B1 /* Teapot.framework in Frameworks */,
 				A9603F5A1F4DABDC00BF57B1 /* Formulaic.framework in Frameworks */,
-				A9603F5B1F4DABDC00BF57B1 /* NoChat.framework in Frameworks */,
 				A9603F5D1F4DABDC00BF57B1 /* PromiseKit.framework in Frameworks */,
 				A9603F5E1F4DABDC00BF57B1 /* SweetSwift.framework in Frameworks */,
 				A9603F601F4DABDC00BF57B1 /* HDWallet.framework in Frameworks */,
@@ -1302,7 +1293,6 @@
 				9F3FF8061EB36A7F002D0293 /* HDWallet.framework */,
 				9F3FF8071EB36A7F002D0293 /* HPGrowingTextView.framework */,
 				9F3FF8091EB36A7F002D0293 /* KeychainSwift.framework */,
-				9F3FF80A1EB36A7F002D0293 /* NoChat.framework */,
 				9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */,
 				9F3FF80C1EB36A7F002D0293 /* SweetFoundation.framework */,
 				9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */,
@@ -2338,7 +2328,6 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/NoChat.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/HPGrowingTextView.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/HDWallet.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",
@@ -2511,7 +2500,6 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/NoChat.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/HPGrowingTextView.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/HDWallet.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Teapot.framework",

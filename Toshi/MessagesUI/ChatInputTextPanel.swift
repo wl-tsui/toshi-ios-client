@@ -13,18 +13,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import NoChat
 import UIKit
 import HPGrowingTextView
 import SweetUIKit
 
-protocol ChatInputTextPanelDelegate: NOCChatInputPanelDelegate {
+protocol ChatInputTextPanelDelegate: class {
     func inputTextPanel(_ inputTextPanel: ChatInputTextPanel, requestSendText text: String)
     func inputTextPanelRequestSendAttachment(_ inputTextPanel: ChatInputTextPanel)
     func inputTextPanelDidChangeHeight(_ height: CGFloat)
 }
 
-class ChatInputTextPanel: NOCChatInputPanel {
+class ChatInputTextPanel: UIView {
+    
+    weak var delegate: ChatInputTextPanelDelegate?
 
     static let defaultHeight: CGFloat = 44
 
@@ -33,9 +34,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
     fileprivate var inputContainerHeight: CGFloat = ChatInputTextPanel.defaultHeight {
         didSet {
             if self.inputContainerHeight != oldValue {
-                if let delegate = self.delegate as? ChatInputTextPanelDelegate {
-                    delegate.inputTextPanelDidChangeHeight(self.inputContainerHeight)
-                }
+                delegate?.inputTextPanelDidChangeHeight(self.inputContainerHeight)
             }
         }
     }
@@ -150,9 +149,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
     }
 
     @objc func attach(_: ActionButton) {
-        if let delegate = self.delegate as? ChatInputTextPanelDelegate {
-            delegate.inputTextPanelRequestSendAttachment(self)
-        }
+        delegate?.inputTextPanelRequestSendAttachment(self)
     }
 
     @objc func send(_: ActionButton) {
@@ -168,9 +165,7 @@ class ChatInputTextPanel: NOCChatInputPanel {
 
         let string = text.trimmingCharacters(in: .whitespacesAndNewlines)
         if !string.isEmpty {
-            if let delegate = self.delegate as? ChatInputTextPanelDelegate {
-                delegate.inputTextPanel(self, requestSendText: string)
-            }
+            delegate?.inputTextPanel(self, requestSendText: string)
         }
 
         self.text = nil

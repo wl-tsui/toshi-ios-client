@@ -14,9 +14,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import Foundation
-import NoChat
+import UIKit
 
-open class Message: NSObject, NOCChatItem {
+open class Message: NSObject {
 
     public var fiatValueString: String?
     public var ethereumValueString: String?

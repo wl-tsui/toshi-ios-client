@@ -15,7 +15,6 @@
 
 import UIKit
 import SweetUIKit
-import NoChat
 import MobileCoreServices
 import AVFoundation
 
@@ -645,9 +644,7 @@ extension ChatViewController: ActivityIndicating {
 }
 
 extension ChatViewController: ChatInputTextPanelDelegate {
-    func inputPanel(_: NOCChatInputPanel, willChangeHeight _: CGFloat, duration _: TimeInterval, animationCurve _: Int32) {
-    }
-
+    
     func inputTextPanel(_: ChatInputTextPanel, requestSendText text: String) {
         let wrapper = SofaMessage(content: ["body": text])
 

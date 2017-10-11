@@ -1,6 +1,0 @@
-framework module NoChat {
-  umbrella header "NoChat.h"
-
-  export *
-  module * { export * }
-}
