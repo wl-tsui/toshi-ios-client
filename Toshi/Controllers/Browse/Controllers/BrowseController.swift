@@ -163,52 +163,33 @@ class BrowseController: SearchableCollectionController {
         }
     }
 
+    private func showResults(_ apps: [TokenUser]?, at index: Int, _ error: Error? = nil) {
+        if let error = error {
+            let alertController = UIAlertController.errorAlert(error as NSError)
+            Navigator.presentModally(alertController)
+        }
+
+        self.items[index] = apps ?? []
+        self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+        self.collectionView.collectionViewLayout.invalidateLayout()
+    }
+
     private func loadItems() {
 
         AppsAPIClient.shared.getTopRatedApps { [weak self] apps, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            }
-
-            self?.items[0] = apps ?? []
-            self?.collectionView.reloadItems(at: [IndexPath(item: 0, section: 0)])
-            self?.collectionView.collectionViewLayout.invalidateLayout()
+            self?.showResults(apps, at: 0, error)
         }
-
+        
         AppsAPIClient.shared.getFeaturedApps { [weak self] apps, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            }
-
-            self?.items[1] = apps ?? []
-            self?.collectionView.reloadItems(at: [IndexPath(item: 1, section: 0)])
-            self?.collectionView.collectionViewLayout.invalidateLayout()
+            self?.showResults(apps, at: 1, error)
         }
-
+        
         IDAPIClient.shared.getTopRatedPublicUsers { [weak self] users, error in
-
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            }
-
-            self?.items[2] = users
-            self?.collectionView.reloadItems(at: [IndexPath(item: 2, section: 0)])
-            self?.collectionView.collectionViewLayout.invalidateLayout()
+            self?.showResults(users, at: 2, error)
         }
-
+        
         IDAPIClient.shared.getLatestPublicUsers { [weak self] users, error in
-
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            }
-
-            self?.items[3] = users
-            self?.collectionView.reloadItems(at: [IndexPath(item: 3, section: 0)])
-            self?.collectionView.collectionViewLayout.invalidateLayout()
+            self?.showResults(users, at: 3, error)
         }
     }
 

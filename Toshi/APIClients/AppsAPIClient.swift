@@ -18,8 +18,16 @@ import AwesomeCache
 import Teapot
 import UIKit
 
+public typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: Error?) -> Void
+
 public class AppsAPIClient: NSObject, CacheExpiryDefault {
     static let shared: AppsAPIClient = AppsAPIClient()
+
+    private let topRatedAppsCachedDataKey = "topRatedAppsCachedData"
+    private let featuredAppsCachedDataKey = "featuredAppsCachedData"
+
+    private let topRatedAppsCachedData = TokenUsersCacheData()
+    private let featuredAppsCachedData = TokenUsersCacheData()
 
     private var teapot: Teapot
 
@@ -32,13 +40,25 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         self.teapot = teapot
     }
 
-    func getTopRatedApps(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
-        self.teapot.get("/v1/search/apps?top=true&recent=false&limit=\(limit)") { (result: NetworkResult) in
+    private lazy var cache: Cache<TokenUsersCacheData> = {
+        do {
+            return try Cache<TokenUsersCacheData>(name: "appsCache")
+        } catch {
+            fatalError("Couldn't instantiate the apps cache")
+        }
+    }()
+
+    func getTopRatedApps(limit: Int = 10, completion: @escaping TokenUserResults) {
+        if let data = cache.object(forKey: topRatedAppsCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+            completion(ratedUsers, nil)
+        }
+
+        teapot.get("/v1/search/apps?top=true&recent=false&limit=\(limit)") { [weak self] (result: NetworkResult) in
             var resultsError: Error?
             var results: [TokenUser] = []
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
+                guard let strongSelf = self, let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
                     completion(nil, nil)
                     return
                 }
@@ -46,6 +66,9 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 let apps = appsJSON.map { json -> TokenUser in
                     TokenUser(json: json)
                 }
+
+                strongSelf.topRatedAppsCachedData.objects = apps
+                strongSelf.cache.setObject(strongSelf.topRatedAppsCachedData, forKey: strongSelf.topRatedAppsCachedDataKey)
 
                 results = apps
             case .failure(_, _, let error):
@@ -58,14 +81,19 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         }
     }
 
-    func getFeaturedApps(limit: Int = 10, completion: @escaping (_ apps: [TokenUser]?, _ error: Error?) -> Void) {
-        self.teapot.get("/v1/search/apps?top=false&recent=true&limit=\(limit)") { (result: NetworkResult) in
+    func getFeaturedApps(limit: Int = 10, completion: @escaping TokenUserResults) {
+
+        if let data = cache.object(forKey: featuredAppsCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+            completion(ratedUsers, nil)
+        }
+
+        teapot.get("/v1/search/apps?top=false&recent=true&limit=\(limit)") { [weak self] (result: NetworkResult) in
             var resultsError: Error?
             var results: [TokenUser] = []
 
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
+                guard let strongSelf = self, let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
                     completion(nil, nil)
                     return
                 }
@@ -73,6 +101,9 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
                 let apps = appsJSON.map { json in
                     TokenUser(json: json)
                 }
+
+                strongSelf.featuredAppsCachedData.objects = apps
+                strongSelf.cache.setObject(strongSelf.featuredAppsCachedData, forKey: strongSelf.featuredAppsCachedDataKey)
 
                 results = apps
             case .failure(_, _, let error):
@@ -92,7 +123,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         }
 
         let query = searchTerm.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? searchTerm
-        self.teapot.get("/v1/search/apps/?query=\(query)&limit=\(limit)") { (result: NetworkResult) in
+        teapot.get("/v1/search/apps/?query=\(query)&limit=\(limit)") { (result: NetworkResult) in
             var resultsError: Error?
             var results: [TokenUser] = []
 
