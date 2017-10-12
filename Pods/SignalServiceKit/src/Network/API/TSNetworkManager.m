@@ -2,37 +2,215 @@
 //  Copyright (c) 2017 Open Whisper Systems. All rights reserved.
 //
 
-/**
- *  TSNetworkManager imports all TSRequests to prevent massive imports
- in classes that call TSNetworkManager
- */
-#import "TSAllocAttachmentRequest.h"
-#import "TSAttachmentRequest.h"
-#import "TSAvailablePreKeysCountRequest.h"
-#import "TSContactsIntersectionRequest.h"
-#import "TSCurrentSignedPreKeyRequest.h"
-#import "TSRecipientPrekeyRequest.h"
-#import "TSRegisterForPushRequest.h"
-#import "TSRegisterPrekeysRequest.h"
-#import "TSRequestVerificationCodeRequest.h"
-#import "TSSubmitMessageRequest.h"
-#import "TSUnregisterAccountRequest.h"
-#import "TSUpdateAttributesRequest.h"
-#import "TSVerifyCodeRequest.h"
-#import <AFNetworking/AFHTTPSessionManager.h>
-#import <Foundation/Foundation.h>
+#import "TSNetworkManager.h"
+#import "NSURLSessionDataTask+StatusCode.h"
 #import "OWSSignalService.h"
+#import "TSAccountManager.h"
+#import "TextSecureKitEnv.h"
+#import "TSStorageManager+keyingMaterial.h"
+#import "TSVerifyCodeRequest.h"
+#import <AFNetworking/AFNetworking.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NSString *const TSNetworkManagerDomain = @"org.whispersystems.signal.networkManager";
 
-extern NSString *const TSNetworkManagerDomain;
+@interface TSNetworkManager ()
 
-@interface TSNetworkManager : NSObject
+typedef void (^failureBlock)(NSURLSessionDataTask *task, NSError *error);
 
-- (void)makeRequest:(TSRequest *)request
-            success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
-            failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure NS_SWIFT_NAME(makeRequest(_:success:failure:));
+@property (nonatomic, strong) OWSSignalService *service;
 
 @end
 
-NS_ASSUME_NONNULL_END
+@implementation TSNetworkManager
+
+#pragma mark Manager Methods
+
+- (void)makeRequest:(TSRequest *)request
+            success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
+            failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failureBlock
+{
+    DDLogInfo(@"%@ Making request: %@", self.tag, request);
+
+    void (^failure)(NSURLSessionDataTask *task, NSError *error) =
+    [TSNetworkManager errorPrettifyingForFailureBlock:failureBlock];
+
+    AFHTTPSessionManager *sessionManager = [TextSecureKitEnv sharedEnv].signalService.HTTPSessionManager;
+
+    if ([request isKindOfClass:[TSVerifyCodeRequest class]]) {
+        // We plant the Authorization parameter ourselves, no need to double add.
+        [sessionManager.requestSerializer
+         setAuthorizationHeaderFieldWithUsername:((TSVerifyCodeRequest *)request).numberToValidate
+         password:[request.parameters objectForKey:@"AuthKey"]];
+        [request.parameters removeObjectForKey:@"AuthKey"];
+        [sessionManager PUT:request.URL.absoluteString parameters:request.parameters success:success failure:failure];
+    } else {
+        if (![request isKindOfClass:[TSRequestVerificationCodeRequest class]]) {
+            [sessionManager.requestSerializer
+             setAuthorizationHeaderFieldWithUsername:[TSAccountManager localNumber]
+             password:[TSStorageManager serverAuthToken]];
+        }
+
+        if ([request.HTTPMethod isEqualToString:@"GET"]) {
+            [sessionManager GET:request.URL.absoluteString
+                     parameters:request.parameters
+                       progress:nil
+                        success:success
+                        failure:failure];
+        } else if ([request.HTTPMethod isEqualToString:@"POST"]) {
+            [sessionManager POST:request.URL.absoluteString
+                      parameters:request.parameters
+                        progress:nil
+                         success:success
+                         failure:failure];
+        } else if ([request.HTTPMethod isEqualToString:@"PUT"]) {
+            [sessionManager PUT:request.URL.absoluteString
+                     parameters:request.parameters
+                        success:success
+                        failure:failure];
+        } else if ([request.HTTPMethod isEqualToString:@"DELETE"]) {
+            [sessionManager DELETE:request.URL.absoluteString
+                        parameters:request.parameters
+                           success:success
+                           failure:failure];
+        } else {
+            DDLogError(@"Trying to perform HTTP operation with unknown verb: %@", request.HTTPMethod);
+        }
+    }
+}
+
++ (failureBlock)errorPrettifyingForFailureBlock:(failureBlock)failureBlock {
+    return ^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull networkError) {
+        NSInteger statusCode = [task statusCode];
+        NSError *error       = [self errorWithHTTPCode:statusCode
+                                           description:nil
+                                         failureReason:nil
+                                    recoverySuggestion:nil
+                                         fallbackError:networkError];
+
+        switch (statusCode) {
+            case 0: {
+                DDLogWarn(@"The network request failed because of a connectivity error.");
+                failureBlock(task,
+                             [self errorWithHTTPCode:statusCode
+                                         description:NSLocalizedString(@"ERROR_DESCRIPTION_NO_INTERNET",
+                                                                       @"Generic error used whenver Signal can't contact the server")
+                                       failureReason:networkError.localizedFailureReason
+                                  recoverySuggestion:NSLocalizedString(@"NETWORK_ERROR_RECOVERY", nil)
+                                       fallbackError:networkError]);
+                break;
+            }
+            case 400: {
+                DDLogError(@"The request contains an invalid parameter : %@", networkError.debugDescription);
+                failureBlock(task, error);
+                break;
+            }
+            case 401: {
+                DDLogError(@"The server returned an error about the authorization header: %@",
+                           networkError.debugDescription);
+                failureBlock(task, error);
+                break;
+            }
+            case 403: {
+                DDLogError(@"The server returned an authentication failure: %@", networkError.debugDescription);
+                failureBlock(task, error);
+                break;
+            }
+            case 404: {
+                DDLogError(@"The requested resource could not be found: %@", networkError.debugDescription);
+                failureBlock(task, error);
+                break;
+            }
+            case 411: {
+                failureBlock(task,
+                             [self errorWithHTTPCode:statusCode
+                                         description:NSLocalizedString(@"MULTIDEVICE_PAIRING_MAX_DESC", nil)
+                                       failureReason:networkError.localizedFailureReason
+                                  recoverySuggestion:NSLocalizedString(@"MULTIDEVICE_PAIRING_MAX_RECOVERY", nil)
+                                       fallbackError:networkError]);
+                break;
+            }
+            case 413: {
+                DDLogWarn(@"Rate limit exceeded");
+                failureBlock(task,
+                             [self errorWithHTTPCode:statusCode
+                                         description:NSLocalizedString(@"REGISTRATION_ERROR", nil)
+                                       failureReason:networkError.localizedFailureReason
+                                  recoverySuggestion:NSLocalizedString(@"REGISTER_RATE_LIMITING_BODY", nil)
+                                       fallbackError:networkError]);
+                break;
+            }
+            case 417: {
+                DDLogWarn(@"The number is already registered on a relay. Please unregister there first.");
+                failureBlock(task,
+                             [self errorWithHTTPCode:statusCode
+                                         description:NSLocalizedString(@"REGISTRATION_ERROR", nil)
+                                       failureReason:networkError.localizedFailureReason
+                                  recoverySuggestion:NSLocalizedString(@"RELAY_REGISTERED_ERROR_RECOVERY", nil)
+                                       fallbackError:networkError]);
+                break;
+            }
+            case 422: {
+                DDLogError(@"The registration was requested over an unknown transport: %@",
+                           networkError.debugDescription);
+                failureBlock(task, error);
+                break;
+            }
+
+            default: {
+                failureBlock(task, error);
+                break;
+            }
+        }
+    };
+}
+
++ (NSError *)errorWithHTTPCode:(NSInteger)code
+                   description:(NSString *)description
+                 failureReason:(NSString *)failureReason
+            recoverySuggestion:(NSString *)recoverySuggestion
+                 fallbackError:(NSError *_Nonnull)fallbackError {
+    if (!description) {
+        description = fallbackError.localizedDescription;
+    }
+    if (!failureReason) {
+        failureReason = fallbackError.localizedFailureReason;
+    }
+    if (!recoverySuggestion) {
+        recoverySuggestion = fallbackError.localizedRecoverySuggestion;
+    }
+
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+
+    if (description) {
+        [dict setObject:description forKey:NSLocalizedDescriptionKey];
+    }
+    if (failureReason) {
+        [dict setObject:failureReason forKey:NSLocalizedFailureReasonErrorKey];
+    }
+    if (recoverySuggestion) {
+        [dict setObject:recoverySuggestion forKey:NSLocalizedRecoverySuggestionErrorKey];
+    }
+
+    NSData *failureData = fallbackError.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+
+    if (failureData) {
+        [dict setObject:failureData forKey:AFNetworkingOperationFailingURLResponseDataErrorKey];
+    }
+
+    return [NSError errorWithDomain:TSNetworkManagerDomain code:code userInfo:dict];
+}
+
+#pragma mark - Logging
+
++ (NSString *)tag
+{
+    return [NSString stringWithFormat:@"[%@]", self.class];
+}
+
+- (NSString *)tag
+{
+    return self.class.tag;
+}
+
+@end
+

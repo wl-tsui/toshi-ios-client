@@ -21,16 +21,13 @@
 #import "TSVerifyCodeRequest.h"
 #import <AFNetworking/AFHTTPSessionManager.h>
 #import <Foundation/Foundation.h>
+#import "OWSSignalService.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const TSNetworkManagerDomain;
 
 @interface TSNetworkManager : NSObject
-
-- (instancetype)init NS_UNAVAILABLE;
-
-+ (id)sharedManager;
 
 - (void)makeRequest:(TSRequest *)request
             success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
@@ -39,3 +36,4 @@ extern NSString *const TSNetworkManagerDomain;
 @end
 
 NS_ASSUME_NONNULL_END
+
