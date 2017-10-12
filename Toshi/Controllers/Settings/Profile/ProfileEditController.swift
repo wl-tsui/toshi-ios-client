@@ -17,10 +17,12 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 
-open class ProfileEditController: UIViewController, Editable, UINavigationControllerDelegate {
+open class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationControllerDelegate {
 
     fileprivate static let profileVisibilitySectionTitle = Localized("Profile visibility")
     fileprivate static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
+
+    var scrollViewBottomInset: CGFloat = 0.0
 
     var scrollView: UIScrollView {
         return tableView
@@ -31,7 +33,7 @@ open class ProfileEditController: UIViewController, Editable, UINavigationContro
     }
 
     var keyboardWillHideSelector: Selector {
-        return #selector(keyboardShownNotificationReceived(_:))
+        return #selector(keyboardHiddenNotificationReceived(_:))
     }
 
     @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
@@ -69,10 +71,7 @@ open class ProfileEditController: UIViewController, Editable, UINavigationContro
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let tabBarHeight: CGFloat = 49.0
-        view.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight, right: 0.0)
         view.backgroundColor = UIColor.clear
-        view.scrollIndicatorInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBarHeight, right: 0.0)
         view.register(InputCell.self)
         view.delegate = self
         view.dataSource = self
@@ -95,7 +94,6 @@ open class ProfileEditController: UIViewController, Editable, UINavigationContro
 
         title = Localized("Edit profile")
         view.backgroundColor = Theme.navigationBarColor
-        self.addSubviewsAndConstraints()
 
         guard let user = TokenUser.current else { return }
 
@@ -112,12 +110,20 @@ open class ProfileEditController: UIViewController, Editable, UINavigationContro
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
         navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0),
                                                                    .foregroundColor: Theme.tintColor], for: .normal)
+
+        addSubviewsAndConstraints()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         registerForKeyboardNotifications()
+    }
+
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        scrollViewBottomInset = tableView.contentInset.bottom
     }
 
     open override func viewWillDisappear(_ animated: Bool) {

@@ -87,11 +87,10 @@
 		2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */; };
 		2B4BCD5B1F599BEA00F9E609 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC8B1F278677000D2A58 /* token.cer */; };
-		2B695CBA1EF9B9A80025119B /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
+		2B695CBA1EF9B9A80025119B /* KeyboardAdjustable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */; };
 		2B98552B1F824200009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
 		2B98552C1F824201009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
 		2B98552D1F824201009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
-		2B98552E1F82430B009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
 		2B98552F1F82430B009C347A /* Reachability.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2BA0D88F1F7551B9000B8500 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0D88E1F75519F000B8500 /* NSLayoutConstraint+Additions.swift */; };
 		2BA0D8901F7551B9000B8500 /* NSLayoutConstraint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0D88E1F75519F000B8500 /* NSLayoutConstraint+Additions.swift */; };
@@ -132,7 +131,7 @@
 		2BDBB57B1F7B832A00A0ECA0 /* APIKeys in Resources */ = {isa = PBXBuildFile; fileRef = 2BDBB5781F7B832300A0ECA0 /* APIKeys */; };
 		2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
 		2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
-		2BE66A0C1EF910B6007A7130 /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
+		2BE66A0C1EF910B6007A7130 /* KeyboardAdjustable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */; };
 		2BE6FB0F1EFC0C1600B0B848 /* AvatarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */; };
 		2BE6FB101EFC0CC500B0B848 /* AvatarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */; };
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
@@ -417,7 +416,7 @@
 		A9603DAB1F4DABDC00BF57B1 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
 		A9603DAC1F4DABDC00BF57B1 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD91E30DF48001C5498 /* ContactController.swift */; };
 		A9603DAF1F4DABDC00BF57B1 /* UIScrollView+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */; };
-		A9603DB01F4DABDC00BF57B1 /* Editable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* Editable.swift */; };
+		A9603DB01F4DABDC00BF57B1 /* KeyboardAdjustable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */; };
 		A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
 		A9603DB71F4DABDC00BF57B1 /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
 		A9603DB91F4DABDC00BF57B1 /* RateUserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A71F1E951F0600FEB67B /* RateUserController.swift */; };
@@ -849,7 +848,7 @@
 		2BDBB5781F7B832300A0ECA0 /* APIKeys */ = {isa = PBXFileReference; lastKnownFileType = folder; path = APIKeys; sourceTree = "<group>"; };
 		2BDBB5801F7B9C2000A0ECA0 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
 		2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Keyboard.swift"; sourceTree = "<group>"; };
-		2BE66A0B1EF910B6007A7130 /* Editable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Editable.swift; sourceTree = "<group>"; };
+		2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAdjustable.swift; sourceTree = "<group>"; };
 		2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarManager.swift; sourceTree = "<group>"; };
 		2BF6343C1F7C3D0B00235C67 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/iOS/Reachability.framework; sourceTree = "<group>"; };
 		2BF634501F7D568C00235C67 /* UIImage+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utils.h"; sourceTree = "<group>"; };
@@ -1150,7 +1149,7 @@
 				2BAB90C41EC1206B005D98C6 /* MobileCoreServices.framework in Frameworks */,
 				2BAB90AF1EC11963005D98C6 /* Photos.framework in Frameworks */,
 				2BAB90A91EC1194B005D98C6 /* CoreGraphics.framework in Frameworks */,
-				2B98552E1F82430B009C347A /* Reachability.framework in Frameworks */,
+				2B98552B1F824200009C347A /* Reachability.framework in Frameworks */,
 				2BAB90AA1EC1194B005D98C6 /* CoreImage.framework in Frameworks */,
 				2BAB90AB1EC1194B005D98C6 /* ImageIO.framework in Frameworks */,
 				9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */,
@@ -1167,7 +1166,6 @@
 				9F3FF82A1EB36A7F002D0293 /* SweetUIKit.framework in Frameworks */,
 				9F3FF82C1EB36A7F002D0293 /* Teapot.framework in Frameworks */,
 				9F3FF8181EB36A7F002D0293 /* Formulaic.framework in Frameworks */,
-				2B98552B1F824200009C347A /* Reachability.framework in Frameworks */,
 				9F3FF8241EB36A7F002D0293 /* PromiseKit.framework in Frameworks */,
 				9F3FF8281EB36A7F002D0293 /* SweetSwift.framework in Frameworks */,
 				9F3FF81A1EB36A7F002D0293 /* HDWallet.framework in Frameworks */,
@@ -1710,7 +1708,7 @@
 			children = (
 				D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */,
 				2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */,
-				2BE66A0B1EF910B6007A7130 /* Editable.swift */,
+				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
@@ -2688,7 +2686,7 @@
 				149F9A6F1E72E29A00FB74AA /* Yap.swift in Sources */,
 				149F9A701E72E29A00FB74AA /* ContactController.swift in Sources */,
 				2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */,
-				2B695CBA1EF9B9A80025119B /* Editable.swift in Sources */,
+				2B695CBA1EF9B9A80025119B /* KeyboardAdjustable.swift in Sources */,
 				A9A9F9A91F8B70910010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AB1F8B70B90010F877 /* ChatViewController.swift in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
@@ -2953,7 +2951,7 @@
 				E6B8577A1F25F3D700979650 /* AddressChangeAlertController.swift in Sources */,
 				84FFE1E41F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */,
 				A90E5A291F03CE0400DAA501 /* BrowseAppCell.swift in Sources */,
-				2BE66A0C1EF910B6007A7130 /* Editable.swift in Sources */,
+				2BE66A0C1EF910B6007A7130 /* KeyboardAdjustable.swift in Sources */,
 				A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */,
 				A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */,
 				9F78D9D81EE93F36003A0B95 /* AlertController.swift in Sources */,
@@ -3040,7 +3038,7 @@
 				A9603DAB1F4DABDC00BF57B1 /* Yap.swift in Sources */,
 				A9603DAC1F4DABDC00BF57B1 /* ContactController.swift in Sources */,
 				A9603DAF1F4DABDC00BF57B1 /* UIScrollView+Keyboard.swift in Sources */,
-				A9603DB01F4DABDC00BF57B1 /* Editable.swift in Sources */,
+				A9603DB01F4DABDC00BF57B1 /* KeyboardAdjustable.swift in Sources */,
 				A9A9F9A81F8B70900010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AA1F8B70B80010F877 /* ChatViewController.swift in Sources */,
 				A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */,

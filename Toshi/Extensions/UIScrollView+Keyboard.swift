@@ -22,10 +22,16 @@ extension UIScrollView {
 
         var keyboardFrameEnd = CGRect.zero
         value.getValue(&keyboardFrameEnd)
-        keyboardFrameEnd = (window?.convert(keyboardFrameEnd, to: superview))!
+        guard let keyboardFrameEndValue = (window?.convert(keyboardFrameEnd, to: superview)) else {
+            return UIEdgeInsets.zero
+        }
 
         var newScrollViewInsets = contentInset
-        newScrollViewInsets.bottom = superview!.bounds.size.height - keyboardFrameEnd.origin.y
+        newScrollViewInsets.bottom = superview!.bounds.size.height - keyboardFrameEndValue.origin.y
+
+        if #available(iOS 11.0, *) {
+            newScrollViewInsets.bottom -= adjustedContentInset.bottom
+        }
 
         return newScrollViewInsets
     }
@@ -35,29 +41,15 @@ extension UIScrollView {
         scrollIndicatorInsets = insets
     }
 
-    func removeBottomInsets(from _: NSNotification) {
-        let insets = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: 0.0, right: contentInset.right)
+    func removeKeyboardInsets(from _: NSNotification, withBasicBottomInset basicBottomInset: CGFloat) {
+        let insets = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: basicBottomInset, right: contentInset.right)
         contentInset = insets
         scrollIndicatorInsets = insets
     }
 
     func addBottomInsets(from notification: NSNotification) {
-        let insets = edgeInsets(from: notification)
+        var insets = edgeInsets(from: notification)
         contentInset = insets
         scrollIndicatorInsets = insets
-    }
-
-    func increaseBottomInsets(by value: CGFloat) {
-        var insets = contentInset
-        insets.bottom += value
-        contentInset = insets
-        scrollIndicatorInsets = insets
-    }
-
-    func decreaseBottomInsets(by value: CGFloat) {
-        var insets = contentInset
-        insets.bottom -= value
-        contentInset = insets
-        scrollIndicatorInsets = contentInset
     }
 }

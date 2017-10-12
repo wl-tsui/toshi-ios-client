@@ -45,7 +45,6 @@ class ContactCell: UITableViewCell {
 
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.setContentHuggingPriority(.required, for: .horizontal)
         view.textColor = Theme.darkTextColor
         view.font = Theme.semibold(size: 15)
 
@@ -54,8 +53,6 @@ class ContactCell: UITableViewCell {
 
     lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = Theme.greyTextColor
         view.font = Theme.regular(size: 14)
 
@@ -94,29 +91,28 @@ class ContactCell: UITableViewCell {
 
         let margin: CGFloat = 16.0
         let interLabelMargin: CGFloat = 6.0
-        let imageSize: CGFloat = 44.0
+        let imageSize: CGFloat = 48.0
         let height: CGFloat = 24.0
 
-        avatarImageView.set(height: imageSize)
-        avatarImageView.set(width: imageSize)
-        avatarImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        avatarImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
+        avatarImageView.size(CGSize(width: imageSize, height: imageSize))
+        avatarImageView.centerY(to: contentView)
+        avatarImageView.left(to: contentView, offset: margin)
 
-        nameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
-        nameLabel.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: margin).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: margin).isActive = true
-        nameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
+        nameLabel.height(height, relation: .equalOrGreater)
+        nameLabel.top(to: contentView, offset: margin)
+        nameLabel.leftToRight(of: avatarImageView, offset: 10)
+        nameLabel.right(to: contentView, offset: -margin)
 
-        usernameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
-        usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: interLabelMargin).isActive = true
-        usernameLabel.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor, constant: margin).isActive = true
-        usernameLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
-        usernameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -margin).isActive = true
+        usernameLabel.height(height, relation: .equalOrGreater)
+        usernameLabel.topToBottom(of: nameLabel)
+        usernameLabel.leftToRight(of: avatarImageView, offset: 10)
+        usernameLabel.right(to: contentView, offset: -margin)
 
-        separatorView.set(height: Theme.borderHeight)
-        separatorView.leftAnchor.constraint(equalTo: avatarImageView.rightAnchor).isActive = true
-        separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        separatorView.height( Theme.borderHeight)
+        separatorView.topToBottom(of: usernameLabel, offset: interLabelMargin)
+        separatorView.left(to: contentView, offset: margin)
+        separatorView.bottom(to: contentView)
+        separatorView.right(to: contentView, offset: -margin)
     }
 
     required init?(coder _: NSCoder) {

@@ -17,14 +17,33 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 import SweetSwift
+import TinyConstraints
 
-public extension Array {
-    public var any: Element? {
-        return self[Int(arc4random_uniform(UInt32(self.count)))] as Element
+open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptiable {
+    
+    let emptyView = EmptyView(title: Localized("favorites_empty_title"), description: Localized("favorites_empty_description"), buttonTitle: Localized("invite_friends_action_title"))
+    
+    var scrollViewBottomInset: CGFloat = 0.0
+
+    var scrollView: UIScrollView {
+        return tableView
     }
-}
 
-open class FavoritesController: SweetTableController {
+    var keyboardWillShowSelector: Selector {
+        return #selector(keyboardShownNotificationReceived(_:))
+    }
+
+    var keyboardWillHideSelector: Selector {
+        return #selector(keyboardHiddenNotificationReceived(_:))
+    }
+
+    @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
+        keyboardWillShow(notification)
+    }
+
+    @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
+        keyboardWillHide(notification)
+    }
 
     fileprivate lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TokenUser.favoritesCollectionKey], view: TokenUser.viewExtensionName)
@@ -85,14 +104,7 @@ open class FavoritesController: SweetTableController {
     private var isPresentedModally: Bool {
         return navigationController?.presentingViewController != nil
     }
-
-    fileprivate lazy var emptyStateContainerView: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
-
+    
     public init() {
         super.init(style: .plain)
 
@@ -123,14 +135,11 @@ open class FavoritesController: SweetTableController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
-        addSubviewsAndConstraints()
-
-        view.layoutIfNeeded()
-        adjustEmptyView()
+        
+        registerForKeyboardNotifications()
 
         tableView.register(ContactCell.self)
-        tableView.register(ChatCell.self)
+        tableView.estimatedRowHeight = 80
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -167,6 +176,13 @@ open class FavoritesController: SweetTableController {
                 self.navigationController?.pushViewController(appController, animated: false)
             }
         }
+        
+        addSubviewsAndConstraints()
+    }
+    
+    @objc func emptyViewButtonPressed(_ button: ActionButton) {
+        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
+        Navigator.presentModally(shareController)
     }
     
     @objc private func didPressCancel(_ barButtonItem: UIBarButtonItem) {
@@ -184,6 +200,12 @@ open class FavoritesController: SweetTableController {
         showOrHideEmptyState()
     }
 
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        scrollViewBottomInset = tableView.contentInset.bottom
+    }
+
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -194,12 +216,13 @@ open class FavoritesController: SweetTableController {
     }
 
     fileprivate func addSubviewsAndConstraints() {
-        view.addSubview(emptyStateContainerView)
-        let topSpace: CGFloat = (navigationController?.navigationBar.frame.height ?? 0.0) + searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
-        emptyStateContainerView.set(height: view.frame.height - topSpace)
-        emptyStateContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        emptyStateContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        emptyStateContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        let tableHeaderHeight = tableView.tableHeaderView?.frame.height ?? 0
+
+        tableView.edges(to: view)
+        
+        view.addSubview(emptyView)
+        emptyView.actionButton.addTarget(self, action: #selector(emptyViewButtonPressed(_:)), for: .touchUpInside)
+        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: tableHeaderHeight, left: 0, bottom: 0, right: 0))
     }
 
     fileprivate func showOrHideEmptyState() {
@@ -213,7 +236,7 @@ open class FavoritesController: SweetTableController {
             shouldHideEmptyState = hasFavourites
         }
 
-        makeEmptyView(hidden: shouldHideEmptyState)
+        emptyView.isHidden = shouldHideEmptyState
     }
 
     fileprivate func contactSorting() -> YapDatabaseViewSorting {
@@ -365,7 +388,7 @@ open class FavoritesController: SweetTableController {
             self.searchController.searchBar.becomeFirstResponder()
         }))
 
-        addContactSheet.addAction(UIAlertAction(title: Localized("favorites_invite_friends"), style: .default, handler: { _ in
+        addContactSheet.addAction(UIAlertAction(title: Localized("invite_friends_action_title"), style: .default, handler: { _ in
             let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
 
             Navigator.presentModally(shareController)
@@ -383,43 +406,6 @@ open class FavoritesController: SweetTableController {
             // Due to a UIKit "bug", tint colour need be reset here.
             addContactSheet.view.tintColor = Theme.tintColor
         }
-    }
-}
-
-extension FavoritesController: Emptiable {
-    var buttonPressed: Selector {
-        return #selector(buttonPressed(sender:))
-    }
-
-    func contentCenterVerticalOffset() -> CGFloat {
-        let topSpace: CGFloat = self.navigationController?.navigationBar.frame.height ?? 0.0
-        return -topSpace
-    }
-
-    func emptyStateTitle() -> String {
-        return "No favorites yet"
-    }
-
-    func emptyStateDescription() -> String {
-        return "Your favorites will be listed here. You\ncan invite friends to join Token."
-    }
-
-    func emptyStateButtonTitle() -> String {
-        return "Invite friends"
-    }
-
-    func sourceView() -> UIView {
-        return self.emptyStateContainerView
-    }
-
-    func isScrollable() -> Bool {
-        return true
-    }
-
-    @objc func buttonPressed(sender _: AnyObject) {
-        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
-
-        Navigator.presentModally(shareController)
     }
 }
 
@@ -455,10 +441,6 @@ extension FavoritesController: UITableViewDataSource {
 }
 
 extension FavoritesController: UITableViewDelegate {
-
-    public func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
 
     public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         

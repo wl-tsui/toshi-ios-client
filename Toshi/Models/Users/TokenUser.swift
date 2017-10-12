@@ -26,7 +26,6 @@ public extension NSNotification.Name {
 
 public typealias UserInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
 
-
 final class TokenUsersCacheData: NSObject, NSCoding {
 
     var objects: [TokenUser]?

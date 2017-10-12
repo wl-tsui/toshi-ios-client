@@ -168,8 +168,15 @@
 /* Favorites */
 "favorites_add_title" = "Add to favorites on Toshi";
 "favorites_add_by_username" = "Add by username";
-"favorites_invite_friends" = "Invite friends";
+"invite_friends_action_title" = "Invite friends";
 "favorites_scan_code" = "Scan code";
+
+/* Empty Views */
+"favorites_empty_title" = "No favorites yet";
+"favorites_empty_description" = "Your favorites will be listed here. You can invite friends to join Token.";
+
+"chats_empty_title" = "No chats yet";
+"chats_empty_description" = "Once you start a new conversation, you'll see it here.";
 
 /* Passphrase Sign In */
 "passphrase_sign_in_title" = "Sign in with your Passphrase";
