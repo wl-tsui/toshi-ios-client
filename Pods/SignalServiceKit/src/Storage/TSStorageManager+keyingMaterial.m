@@ -21,7 +21,7 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block BOOL isPresent;
-        [self.newDatabaseConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
+        [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
             isPresent = [transaction objectForKey:TSStorageRegisteredNumberKey
                                      inCollection:TSStorageUserAccountCollection] != nil;
         }];
@@ -85,3 +85,4 @@
 }
 
 @end
+

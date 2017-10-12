@@ -7,6 +7,7 @@
 #import "OWSGetDevicesRequest.h"
 #import "TSNetworkManager.h"
 #import <Mantle/MTLJSONAdapter.h>
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,23 +17,23 @@ NS_ASSUME_NONNULL_BEGIN
                       failure:(void (^)(NSError *))failureCallback
 {
     OWSGetDevicesRequest *request = [OWSGetDevicesRequest new];
-    [[TSNetworkManager sharedManager] makeRequest:request
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogVerbose(@"Get devices request succeeded");
-            NSArray<OWSDevice *> *devices = [self parseResponse:responseObject];
+    [[TextSecureKitEnv sharedEnv].networkManager makeRequest:request
+                                                     success:^(NSURLSessionDataTask *task, id responseObject) {
+                                                         DDLogVerbose(@"Get devices request succeeded");
+                                                         NSArray<OWSDevice *> *devices = [self parseResponse:responseObject];
 
-            if (devices) {
-                successCallback(devices);
-            } else {
-                DDLogError(@"%@ unable to parse devices response:%@", self.tag, responseObject);
-                NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
-                failureCallback(error);
-            }
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogVerbose(@"Get devices request failed with error: %@", error);
-            failureCallback(error);
-        }];
+                                                         if (devices) {
+                                                             successCallback(devices);
+                                                         } else {
+                                                             DDLogError(@"%@ unable to parse devices response:%@", self.tag, responseObject);
+                                                             NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
+                                                             failureCallback(error);
+                                                         }
+                                                     }
+                                                     failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                                         DDLogVerbose(@"Get devices request failed with error: %@", error);
+                                                         failureCallback(error);
+                                                     }];
 }
 
 - (void)unlinkDevice:(OWSDevice *)device
@@ -41,15 +42,15 @@ NS_ASSUME_NONNULL_BEGIN
 {
     OWSDeleteDeviceRequest *request = [[OWSDeleteDeviceRequest alloc] initWithDevice:device];
 
-    [[TSNetworkManager sharedManager] makeRequest:request
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogVerbose(@"Delete device request succeeded");
-            successCallback();
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogVerbose(@"Get devices request failed with error: %@", error);
-            failureCallback(error);
-        }];
+    [[TextSecureKitEnv sharedEnv].networkManager makeRequest:request
+                                                     success:^(NSURLSessionDataTask *task, id responseObject) {
+                                                         DDLogVerbose(@"Delete device request succeeded");
+                                                         successCallback();
+                                                     }
+                                                     failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                                         DDLogVerbose(@"Get devices request failed with error: %@", error);
+                                                         failureCallback(error);
+                                                     }];
 }
 
 - (NSArray<OWSDevice *> *)parseResponse:(id)responseObject
@@ -95,3 +96,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

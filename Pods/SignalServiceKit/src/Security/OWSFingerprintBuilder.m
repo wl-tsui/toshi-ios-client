@@ -8,6 +8,7 @@
 #import "OWSIdentityManager.h"
 #import "TSStorageManager+keyingMaterial.h"
 #import <25519/Curve25519.h>
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable OWSFingerprint *)fingerprintWithTheirSignalId:(NSString *)theirSignalId
 {
-    NSData *_Nullable theirIdentityKey = [[OWSIdentityManager sharedManager] identityKeyForRecipientId:theirSignalId];
+    NSData *_Nullable theirIdentityKey = [[TextSecureKitEnv sharedEnv].identityManager identityKeyForRecipientId:theirSignalId];
 
     if (theirIdentityKey == nil) {
         OWSAssert(NO);
@@ -51,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
     NSString *theirName = [self.contactsManager displayNameForPhoneIdentifier:theirSignalId];
 
     NSString *mySignalId = [self.storageManager localNumber];
-    NSData *myIdentityKey = [[OWSIdentityManager sharedManager] identityKeyPair].publicKey;
+    NSData *myIdentityKey = [[TextSecureKitEnv sharedEnv].identityManager identityKeyPair].publicKey;
 
     return [OWSFingerprint fingerprintWithMyStableId:mySignalId
                                        myIdentityKey:myIdentityKey
@@ -63,3 +64,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

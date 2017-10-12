@@ -15,15 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSString *const kTSStorageManager_OWSSignalService = @"kTSStorageManager_OWSSignalService";
 NSString *const kTSStorageManager_isCensorshipCircumventionManuallyActivated =
-    @"kTSStorageManager_isCensorshipCircumventionManuallyActivated";
+@"kTSStorageManager_isCensorshipCircumventionManuallyActivated";
 NSString *const kTSStorageManager_ManualCensorshipCircumventionDomain =
-    @"kTSStorageManager_ManualCensorshipCircumventionDomain";
+@"kTSStorageManager_ManualCensorshipCircumventionDomain";
 static NSString *TextSecureServerURL = @"wss://token-chat-service.herokuapp.com";
 NSString *const kTSStorageManager_ManualCensorshipCircumventionCountryCode =
-    @"kTSStorageManager_ManualCensorshipCircumventionCountryCode";
+@"kTSStorageManager_ManualCensorshipCircumventionCountryCode";
 
 NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
-    @"kNSNotificationName_IsCensorshipCircumventionActiveDidChange";
+@"kNSNotificationName_IsCensorshipCircumventionActiveDidChange";
 
 @interface OWSSignalService ()
 
@@ -41,33 +41,24 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 
 @synthesize isCensorshipCircumventionActive = _isCensorshipCircumventionActive;
 
-+ (instancetype)sharedInstance
-{
-    static OWSSignalService *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] initDefault];
-    });
-    return sharedInstance;
-}
-
-- (instancetype)initDefault
+- (instancetype)init
 {
     self = [super init];
-    if (!self) {
-        return self;
+    if (self) {
+        _censorshipConfiguration = [OWSCensorshipConfiguration new];
+
+        [self observeNotifications];
+
+        [self updateHasCensoredPhoneNumber];
+        [self updateIsCensorshipCircumventionActive];
     }
 
-    _censorshipConfiguration = [OWSCensorshipConfiguration new];
-
-    [self observeNotifications];
-
-    [self updateHasCensoredPhoneNumber];
-    [self updateIsCensorshipCircumventionActive];
-
-    OWSSingletonAssert();
-
     return self;
+}
+
+- (void)stopObservingNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 + (void)setBaseURLPath:(NSString *)baseURLPath {
@@ -97,18 +88,19 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 
 - (void)updateHasCensoredPhoneNumber
 {
-    OWSAssert([NSThread isMainThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    NSString *localNumber = [TSAccountManager localNumber];
+        NSString *localNumber = [TSAccountManager localNumber];
 
-    if (localNumber) {
-        self.hasCensoredPhoneNumber = [self.censorshipConfiguration isCensoredPhoneNumber:localNumber];
-    } else {
-        DDLogError(@"%@ no known phone number to check for censorship.", self.tag);
-        self.hasCensoredPhoneNumber = NO;
-    }
+        if (localNumber) {
+            self.hasCensoredPhoneNumber = [self.censorshipConfiguration isCensoredPhoneNumber:localNumber];
+        } else {
+            DDLogError(@"%@ no known phone number to check for censorship.", self.tag);
+            self.hasCensoredPhoneNumber = NO;
+        }
 
-    [self updateIsCensorshipCircumventionActive];
+        [self updateIsCensorshipCircumventionActive];
+    });
 }
 
 - (BOOL)isCensorshipCircumventionManuallyActivated
@@ -119,40 +111,42 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 
 - (void)setIsCensorshipCircumventionManuallyActivated:(BOOL)value
 {
-    OWSAssert([NSThread isMainThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[TSStorageManager sharedManager] setObject:@(value)
+                                             forKey:kTSStorageManager_isCensorshipCircumventionManuallyActivated
+                                       inCollection:kTSStorageManager_OWSSignalService];
 
-    [[TSStorageManager sharedManager] setObject:@(value)
-                                         forKey:kTSStorageManager_isCensorshipCircumventionManuallyActivated
-                                   inCollection:kTSStorageManager_OWSSignalService];
-
-    [self updateIsCensorshipCircumventionActive];
+        [self updateIsCensorshipCircumventionActive];
+    });
 }
 
 - (void)updateIsCensorshipCircumventionActive
 {
-    OWSAssert([NSThread isMainThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    self.isCensorshipCircumventionActive
+        self.isCensorshipCircumventionActive
         = (self.isCensorshipCircumventionManuallyActivated || self.hasCensoredPhoneNumber);
+    });
 }
 
 - (void)setIsCensorshipCircumventionActive:(BOOL)isCensorshipCircumventionActive
 {
-    OWSAssert([NSThread isMainThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    @synchronized(self)
-    {
-        if (_isCensorshipCircumventionActive == isCensorshipCircumventionActive) {
-            return;
+        @synchronized(self)
+        {
+            if (_isCensorshipCircumventionActive == isCensorshipCircumventionActive) {
+                return;
+            }
+
+            _isCensorshipCircumventionActive = isCensorshipCircumventionActive;
         }
 
-        _isCensorshipCircumventionActive = isCensorshipCircumventionActive;
-    }
-
-    [[NSNotificationCenter defaultCenter]
-        postNotificationName:kNSNotificationName_IsCensorshipCircumventionActiveDidChange
-                      object:nil
-                    userInfo:nil];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:kNSNotificationName_IsCensorshipCircumventionActiveDidChange
+         object:nil
+         userInfo:nil];
+    });
 }
 
 - (BOOL)isCensorshipCircumventionActive
@@ -179,7 +173,7 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
     NSURL *baseURL = [[NSURL alloc] initWithString:OWSSignalService.baseURLPath];
     NSURLSessionConfiguration *sessionConf = NSURLSessionConfiguration.ephemeralSessionConfiguration;
     AFHTTPSessionManager *sessionManager =
-        [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];
+    [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];
 
     sessionManager.securityPolicy = [OWSHTTPSecurityPolicy sharedPolicy];
     sessionManager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -202,7 +196,7 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
     NSURL *baseURL = [[NSURL alloc] initWithString:[self.censorshipConfiguration frontingHost:localNumber]];
     NSURLSessionConfiguration *sessionConf = NSURLSessionConfiguration.ephemeralSessionConfiguration;
     AFHTTPSessionManager *sessionManager =
-        [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];
+    [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL sessionConfiguration:sessionConf];
 
     sessionManager.securityPolicy = [[self class] googlePinningPolicy];
 
@@ -276,11 +270,12 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 
 - (void)setManualCensorshipCircumventionDomain:(NSString *)value
 {
-    OWSAssert([NSThread isMainThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    [[TSStorageManager sharedManager] setObject:value
-                                         forKey:kTSStorageManager_ManualCensorshipCircumventionDomain
-                                   inCollection:kTSStorageManager_OWSSignalService];
+        [[TSStorageManager sharedManager] setObject:value
+                                             forKey:kTSStorageManager_ManualCensorshipCircumventionDomain
+                                       inCollection:kTSStorageManager_OWSSignalService];
+    });
 }
 
 - (NSString *)manualCensorshipCircumventionCountryCode
@@ -293,11 +288,12 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 
 - (void)setManualCensorshipCircumventionCountryCode:(NSString *)value
 {
-    OWSAssert([NSThread isMainThread]);
+    dispatch_async(dispatch_get_main_queue(), ^{
 
-    [[TSStorageManager sharedManager] setObject:value
-                                         forKey:kTSStorageManager_ManualCensorshipCircumventionCountryCode
-                                   inCollection:kTSStorageManager_OWSSignalService];
+        [[TSStorageManager sharedManager] setObject:value
+                                             forKey:kTSStorageManager_ManualCensorshipCircumventionCountryCode
+                                       inCollection:kTSStorageManager_OWSSignalService];
+    });
 }
 
 #pragma mark - Logging
@@ -315,3 +311,4 @@ NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidChange =
 @end
 
 NS_ASSUME_NONNULL_END
+

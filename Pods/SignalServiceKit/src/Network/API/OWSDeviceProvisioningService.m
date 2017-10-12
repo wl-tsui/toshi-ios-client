@@ -3,6 +3,7 @@
 #import "OWSDeviceProvisioningService.h"
 #import "OWSDeviceProvisioningRequest.h"
 #import "TSNetworkManager.h"
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init
 {
-    return [self initWithNetworkManager:[TSNetworkManager sharedManager]];
+    return [self initWithNetworkManager:[TextSecureKitEnv sharedEnv].networkManager];
 }
 
 - (void)provisionWithMessageBody:(NSData *)messageBody
@@ -37,19 +38,20 @@ NS_ASSUME_NONNULL_BEGIN
                          failure:(void (^)(NSError *))failureCallback
 {
     OWSDeviceProvisioningRequest *request =
-        [[OWSDeviceProvisioningRequest alloc] initWithMessageBody:messageBody ephemeralDeviceId:deviceId];
+    [[OWSDeviceProvisioningRequest alloc] initWithMessageBody:messageBody ephemeralDeviceId:deviceId];
 
     [self.networkManager makeRequest:request
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogVerbose(@"Provisioning request succeeded");
-            successCallback();
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogVerbose(@"Provisioning request failed with error: %@", error);
-            failureCallback(error);
-        }];
+                             success:^(NSURLSessionDataTask *task, id responseObject) {
+                                 DDLogVerbose(@"Provisioning request succeeded");
+                                 successCallback();
+                             }
+                             failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                 DDLogVerbose(@"Provisioning request failed with error: %@", error);
+                                 failureCallback(error);
+                             }];
 }
 
 @end
 
 NS_ASSUME_NONNULL_END
+

@@ -11,19 +11,11 @@
 #import "TSContactsIntersectionRequest.h"
 #import "TSNetworkManager.h"
 #import "TSStorageManager.h"
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation ContactsUpdater
-
-+ (instancetype)sharedUpdater {
-    static dispatch_once_t onceToken;
-    static id sharedInstance = nil;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [self new];
-    });
-    return sharedInstance;
-}
 
 
 - (instancetype)init
@@ -32,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
     if (!self) {
         return self;
     }
-
-    OWSSingletonAssert();
 
     return self;
 }
@@ -49,14 +39,14 @@ NS_ASSUME_NONNULL_BEGIN
     // retained until our error parameter can take ownership.
     __block NSError *retainedError;
     [self lookupIdentifier:identifier
-        success:^(SignalRecipient *fetchedRecipient) {
-            recipient = fetchedRecipient;
-            dispatch_semaphore_signal(sema);
-        }
-        failure:^(NSError *lookupError) {
-            retainedError = lookupError;
-            dispatch_semaphore_signal(sema);
-        }];
+                   success:^(SignalRecipient *fetchedRecipient) {
+                       recipient = fetchedRecipient;
+                       dispatch_semaphore_signal(sema);
+                   }
+                   failure:^(NSError *lookupError) {
+                       retainedError = lookupError;
+                       dispatch_semaphore_signal(sema);
+                   }];
 
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
     *error = retainedError;
@@ -73,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
         failure(OWSErrorWithCodeDescription(OWSErrorCodeInvalidMethodParameters, @"Cannot lookup nil identifier"));
         return;
     }
-    
+
     [self contactIntersectionWithSet:[NSSet setWithObject:identifier]
                              success:^(NSSet<NSString *> *_Nonnull matchedIds) {
                                  if (matchedIds.count == 1) {
@@ -86,8 +76,8 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)lookupIdentifiers:(NSArray<NSString *> *)identifiers
-                 success:(void (^)(NSArray<SignalRecipient *> *recipients))success
-                 failure:(void (^)(NSError *error))failure
+                  success:(void (^)(NSArray<SignalRecipient *> *recipients))success
+                  failure:(void (^)(NSError *error))failure
 {
     if (identifiers.count < 1) {
         OWSAssert(NO);
@@ -123,10 +113,10 @@ NS_ASSUME_NONNULL_BEGIN
 
     NSMutableSet *recipientIds = [NSMutableSet set];
     [[TSStorageManager sharedManager]
-            .dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
-      NSArray *allRecipientKeys = [transaction allKeysInCollection:[SignalRecipient collection]];
-      [recipientIds addObjectsFromArray:allRecipientKeys];
-    }];
+     .dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
+         NSArray *allRecipientKeys = [transaction allKeysInCollection:[SignalRecipient collection]];
+         [recipientIds addObjectsFromArray:allRecipientKeys];
+     }];
 
     NSMutableSet<NSString *> *allContacts = [[abPhoneNumbers setByAddingObjectsFromSet:recipientIds] mutableCopy];
 
@@ -136,15 +126,15 @@ NS_ASSUME_NONNULL_BEGIN
 
                                  // Cleaning up unregistered identifiers
                                  [[TSStorageManager sharedManager].dbConnection
-                                     readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                                         for (NSString *identifier in recipientIds) {
-                                             SignalRecipient *recipient =
-                                                 [SignalRecipient fetchObjectWithUniqueID:identifier
-                                                                              transaction:transaction];
+                                  readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                                      for (NSString *identifier in recipientIds) {
+                                          SignalRecipient *recipient =
+                                          [SignalRecipient fetchObjectWithUniqueID:identifier
+                                                                       transaction:transaction];
 
-                                             [recipient removeWithTransaction:transaction];
-                                         }
-                                     }];
+                                          [recipient removeWithTransaction:transaction];
+                                      }
+                                  }];
 
                                  DDLogInfo(@"%@ successfully intersected contacts.", self.tag);
                                  success();
@@ -156,64 +146,64 @@ NS_ASSUME_NONNULL_BEGIN
                            success:(void (^)(NSSet<NSString *> *matchedIds))success
                            failure:(void (^)(NSError *error))failure {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      NSMutableDictionary *phoneNumbersByHashes = [NSMutableDictionary dictionary];
-      for (NSString *identifier in idSet) {
-          [phoneNumbersByHashes setObject:identifier
-                                   forKey:[Cryptography truncatedSHA1Base64EncodedWithoutPadding:identifier]];
-      }
-      NSArray *hashes = [phoneNumbersByHashes allKeys];
+        NSMutableDictionary *phoneNumbersByHashes = [NSMutableDictionary dictionary];
+        for (NSString *identifier in idSet) {
+            [phoneNumbersByHashes setObject:identifier
+                                     forKey:[Cryptography truncatedSHA1Base64EncodedWithoutPadding:identifier]];
+        }
+        NSArray *hashes = [phoneNumbersByHashes allKeys];
 
-      TSRequest *request = [[TSContactsIntersectionRequest alloc] initWithHashesArray:hashes];
-      [[TSNetworkManager sharedManager] makeRequest:request
-          success:^(NSURLSessionDataTask *tsTask, id responseDict) {
-            NSMutableDictionary *attributesForIdentifier = [NSMutableDictionary dictionary];
-            NSArray *contactsArray                       = [(NSDictionary *)responseDict objectForKey:@"contacts"];
+        TSRequest *request = [[TSContactsIntersectionRequest alloc] initWithHashesArray:hashes];
+        [[TextSecureKitEnv sharedEnv].networkManager makeRequest:request
+                                                         success:^(NSURLSessionDataTask *tsTask, id responseDict) {
+                                                             NSMutableDictionary *attributesForIdentifier = [NSMutableDictionary dictionary];
+                                                             NSArray *contactsArray                       = [(NSDictionary *)responseDict objectForKey:@"contacts"];
 
-            // Map attributes to phone numbers
-            if (contactsArray) {
-                for (NSDictionary *dict in contactsArray) {
-                    NSString *hash       = [dict objectForKey:@"token"];
-                    NSString *identifier = [phoneNumbersByHashes objectForKey:hash];
+                                                             // Map attributes to phone numbers
+                                                             if (contactsArray) {
+                                                                 for (NSDictionary *dict in contactsArray) {
+                                                                     NSString *hash       = [dict objectForKey:@"token"];
+                                                                     NSString *identifier = [phoneNumbersByHashes objectForKey:hash];
 
-                    if (!identifier) {
-                        DDLogWarn(@"%@ An interesecting hash wasn't found in the mapping.", self.tag);
-                        break;
-                    }
+                                                                     if (!identifier) {
+                                                                         DDLogWarn(@"%@ An interesecting hash wasn't found in the mapping.", self.tag);
+                                                                         break;
+                                                                     }
 
-                    [attributesForIdentifier setObject:dict forKey:identifier];
-                }
-            }
+                                                                     [attributesForIdentifier setObject:dict forKey:identifier];
+                                                                 }
+                                                             }
 
-            // Insert or update contact attributes
-            [[TSStorageManager sharedManager]
-                    .dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-              for (NSString *identifier in attributesForIdentifier) {
-                  SignalRecipient *recipient =
-                      [SignalRecipient recipientWithTextSecureIdentifier:identifier withTransaction:transaction];
-                  if (!recipient) {
-                      recipient = [[SignalRecipient alloc] initWithTextSecureIdentifier:identifier
-                                                                                  relay:nil];
-                  }
+                                                             // Insert or update contact attributes
+                                                             [[TSStorageManager sharedManager]
+                                                              .dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+                                                                  for (NSString *identifier in attributesForIdentifier) {
+                                                                      SignalRecipient *recipient =
+                                                                      [SignalRecipient recipientWithTextSecureIdentifier:identifier withTransaction:transaction];
+                                                                      if (!recipient) {
+                                                                          recipient = [[SignalRecipient alloc] initWithTextSecureIdentifier:identifier
+                                                                                                                                      relay:nil];
+                                                                      }
 
-                  NSDictionary *attributes = [attributesForIdentifier objectForKey:identifier];
+                                                                      NSDictionary *attributes = [attributesForIdentifier objectForKey:identifier];
 
-                  recipient.relay = attributes[@"relay"];
+                                                                      recipient.relay = attributes[@"relay"];
 
-                  [recipient saveWithTransaction:transaction];
-              }
-            }];
+                                                                      [recipient saveWithTransaction:transaction];
+                                                                  }
+                                                              }];
 
-            success([NSSet setWithArray:attributesForIdentifier.allKeys]);
-          }
-          failure:^(NSURLSessionDataTask *task, NSError *error) {
-              NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-              if (response.statusCode == 413) {
-                  failure(OWSErrorWithCodeDescription(
-                      OWSErrorCodeContactsUpdaterRateLimit, OWSSignalServiceKitErrorDomain));
-              } else {
-                  failure(error);
-              }
-          }];
+                                                             success([NSSet setWithArray:attributesForIdentifier.allKeys]);
+                                                         }
+                                                         failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                                             NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                                                             if (response.statusCode == 413) {
+                                                                 failure(OWSErrorWithCodeDescription(
+                                                                                                     OWSErrorCodeContactsUpdaterRateLimit, OWSSignalServiceKitErrorDomain));
+                                                             } else {
+                                                                 failure(error);
+                                                             }
+                                                         }];
     });
 }
 
@@ -232,3 +222,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

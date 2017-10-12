@@ -11,6 +11,7 @@
 #import "TSErrorMessage_privateConstructor.h"
 #import "TSOutgoingMessage.h"
 #import <AxolotlKit/NSData+keyVersionByte.h>
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -51,7 +52,7 @@ NSString *TSInvalidRecipientKey = @"TSInvalidRecipientKey";
 
     // Saving a new identity mutates the session store so it must happen on the sessionStoreQueue
     dispatch_async([OWSDispatch sessionStoreQueue], ^{
-        [[OWSIdentityManager sharedManager] saveRemoteIdentity:self.newIdentityKey recipientId:self.recipientId];
+        [[TextSecureKitEnv sharedEnv].identityManager saveRemoteIdentity:self.newIdentityKey recipientId:self.recipientId];
     });
 }
 
@@ -68,3 +69,4 @@ NSString *TSInvalidRecipientKey = @"TSInvalidRecipientKey";
 @end
 
 NS_ASSUME_NONNULL_END
+

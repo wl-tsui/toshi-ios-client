@@ -95,6 +95,12 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 
 #pragma mark -
 
+@interface TSStorageManager()
+
+@property (nonatomic, strong, readwrite) YapDatabaseConnection *sessionDBConnection;
+
+@end
+
 @implementation TSStorageManager
 
 + (instancetype)sharedManager {
@@ -109,18 +115,29 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
     return sharedManager;
 }
 
+- (YapDatabaseConnection *)sessionDBConnection
+{
+    if (!_sessionDBConnection) {
+
+        _sessionDBConnection = self.newDatabaseConnection;
+        _sessionDBConnection.objectCacheEnabled = NO;
+#if DEBUG
+        _sessionDBConnection.permittedTransactions = YDB_AnySyncTransaction;
+#endif
+    }
+    return _sessionDBConnection;
+}
+
 - (void)loadBackupIfNeeded
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self backupDatabasePath]]) {
 
-        NSString *walFilePath = [[self dbPath] stringByAppendingString:@"-wal"];
-        NSString *shmFilePath = [[self dbPath] stringByAppendingString:@"-shm"];
-
-        [self __deleteFileIfNeededAtPath:walFilePath];
-        [self __deleteFileIfNeededAtPath:shmFilePath];
+        NSLog(@"Loading backed up DB file: \n - Contents of backup directory: %@ \n\n - Contents of db directory: %@\n", [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self backupDirectoryPath] error:nil], [[NSFileManager defaultManager] contentsAtPath:[self dbPath]]);
 
         NSError *error;
         [[NSFileManager defaultManager] moveItemAtPath:[self backupDatabasePath] toPath:[self dbPath] error:&error];
+
+        NSLog(@"\n\n File loaded: contents of db path: %@", [[NSFileManager defaultManager] contentsAtPath:[self dbPath]]);
 
         if (error) {
             DDLogError(@"Error moving backed up db file: %@", error.localizedDescription);
@@ -157,6 +174,10 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
         typeof(self)strongSelf = weakSelf;
         return [strongSelf databasePassword];
     };
+
+    NSLog(@"---------------------\nLoading chat DB: contents: %@", [[NSFileManager defaultManager] contentsAtPath:[self dbPath]]);
+
+    NSLog(@"\n\n - DB Password: %@", [self databasePassword]);
 
     _database = [[YapDatabase alloc] initWithPath:[self dbPath]
                                        serializer:NULL
@@ -214,15 +235,29 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
             [SAMKeychain setPassword:previousVersionDBPassword forService:self.accountName account:keychainDBPassAccount error:&error];
         }
     }
-
-    [self setupDatabase];
 }
 
 - (void)setupDatabase
 {
     [self createBackupDirectoryIfNeeded];
-    [self tryToLoadDatabase];
+    if (![self tryToLoadDatabase]) {
 
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (![self tryToLoadDatabase]) {
+                NSLog(@"OOPS, can't load db .");
+            } else {
+                [self setupForDb];
+            }
+        });
+
+        return;
+    } else {
+        [self setupForDb];
+    }
+}
+
+- (void)setupForDb
+{
     // Register extensions which are essential for rendering threads synchronously
     [TSDatabaseView registerThreadDatabaseView];
     [TSDatabaseView registerThreadInteractionsDatabaseView];
@@ -570,16 +605,17 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 - (void)resetSignalStorageWithBackup:(BOOL)withBackup
 {
     [self.database deregisterPaths];
-    
+
     if (withBackup) {
         [self backupDataBaseFile];
     } else {
         [self __deleteFileIfNeededAtPath:[self dbPath]];
     }
-    
+
     self.database = nil;
     _dbConnection = nil;
-    
+    _sessionDBConnection = nil;
+
     [TSAttachmentStream deleteAttachments];
 }
 
@@ -598,3 +634,4 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 @end
 
 NS_ASSUME_NONNULL_END
+

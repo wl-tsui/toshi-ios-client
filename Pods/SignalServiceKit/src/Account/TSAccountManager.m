@@ -12,6 +12,7 @@
 #import "TSPreKeyManager.h"
 #import "TSSocketManager.h"
 #import "TSStorageManager+keyingMaterial.h"
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,8 @@ NSString *const TSRegistrationErrorDomain = @"TSRegistrationErrorDomain";
 NSString *const TSRegistrationErrorUserInfoHTTPStatus = @"TSHTTPStatus";
 NSString *const kNSNotificationName_RegistrationStateDidChange = @"kNSNotificationName_RegistrationStateDidChange";
 NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName_LocalNumberDidChange";
+
+static TSAccountManager *sharedInstance;
 
 @interface TSAccountManager ()
 
@@ -42,21 +45,12 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
     _networkManager = networkManager;
     _storageManager = storageManager;
 
-    OWSSingletonAssert();
-
     return self;
 }
 
-+ (instancetype)sharedInstance
-{
-    static dispatch_once_t onceToken;
-    static id sharedInstance = nil;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] initWithNetworkManager:[TSNetworkManager sharedManager]
-                                               storageManager:[TSStorageManager sharedManager]];
-    });
-
-    return sharedInstance;
+- (instancetype)init {
+    return [self initWithNetworkManager:[TextSecureKitEnv sharedEnv].networkManager
+                         storageManager:[TSStorageManager sharedManager]];
 }
 
 - (void)setPhoneNumberAwaitingVerification:(NSString *_Nullable)phoneNumberAwaitingVerification
@@ -95,7 +89,7 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
 
 + (nullable NSString *)localNumber
 {
-    TSAccountManager *sharedManager = [self sharedInstance];
+    TSAccountManager *sharedManager = [TextSecureKitEnv sharedEnv].accountManager;
     NSString *awaitingVerif         = sharedManager.phoneNumberAwaitingVerification;
     if (awaitingVerif) {
         return awaitingVerif;
@@ -109,17 +103,17 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
     __block uint32_t registrationID = 0;
 
     [dbConn readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-      registrationID = [[transaction objectForKey:TSStorageLocalRegistrationId
-                                     inCollection:TSStorageUserAccountCollection] unsignedIntValue];
+        registrationID = [[transaction objectForKey:TSStorageLocalRegistrationId
+                                       inCollection:TSStorageUserAccountCollection] unsignedIntValue];
     }];
 
     if (registrationID == 0) {
         registrationID = (uint32_t)arc4random_uniform(16380) + 1;
 
         [dbConn readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-          [transaction setObject:[NSNumber numberWithUnsignedInteger:registrationID]
-                          forKey:TSStorageLocalRegistrationId
-                    inCollection:TSStorageUserAccountCollection];
+            [transaction setObject:[NSNumber numberWithUnsignedInteger:registrationID]
+                            forKey:TSStorageLocalRegistrationId
+                      inCollection:TSStorageUserAccountCollection];
         }];
     }
 
@@ -145,23 +139,23 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
                                  remainingRetries:(int)remainingRetries
 {
     TSRegisterForPushRequest *request =
-        [[TSRegisterForPushRequest alloc] initWithPushIdentifier:pushToken voipIdentifier:voipToken];
+    [[TSRegisterForPushRequest alloc] initWithPushIdentifier:pushToken voipIdentifier:voipToken];
 
     [self.networkManager makeRequest:request
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            successHandler();
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            if (remainingRetries > 0) {
-                [self registerForPushNotificationsWithPushToken:pushToken
-                                                      voipToken:voipToken
-                                                        success:successHandler
-                                                        failure:failureHandler
-                                               remainingRetries:remainingRetries - 1];
-            } else {
-                failureHandler(error);
-            }
-        }];
+                             success:^(NSURLSessionDataTask *task, id responseObject) {
+                                 successHandler();
+                             }
+                             failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                 if (remainingRetries > 0) {
+                                     [self registerForPushNotificationsWithPushToken:pushToken
+                                                                           voipToken:voipToken
+                                                                             success:successHandler
+                                                                             failure:failureHandler
+                                                                    remainingRetries:remainingRetries - 1];
+                                 } else {
+                                     failureHandler(error);
+                                 }
+                             }];
 }
 
 + (void)registerWithPhoneNumber:(NSString *)phoneNumber
@@ -178,29 +172,29 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
     // The country code of TSAccountManager.phoneNumberAwaitingVerification is used to
     // determine whether or not to use domain fronting, so it needs to be set _before_
     // we make our verification code request.
-    TSAccountManager *manager = [self sharedInstance];
+    TSAccountManager *manager = [TextSecureKitEnv sharedEnv].accountManager;
     manager.phoneNumberAwaitingVerification = phoneNumber;
-    
-    [[TSNetworkManager sharedManager]
-        makeRequest:[[TSRequestVerificationCodeRequest alloc]
-                        initWithPhoneNumber:phoneNumber
-                                  transport:isSMS ? TSVerificationTransportSMS : TSVerificationTransportVoice]
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogInfo(@"%@ Successfully requested verification code request for number: %@ method:%@",
-                self.tag,
-                phoneNumber,
-                isSMS ? @"SMS" : @"Voice");
-            successBlock();
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogError(@"%@ Failed to request verification code request with error:%@", self.tag, error);
-            failureBlock(error);
-        }];
+
+    [[TextSecureKitEnv sharedEnv].networkManager
+     makeRequest:[[TSRequestVerificationCodeRequest alloc]
+                  initWithPhoneNumber:phoneNumber
+                  transport:isSMS ? TSVerificationTransportSMS : TSVerificationTransportVoice]
+     success:^(NSURLSessionDataTask *task, id responseObject) {
+         DDLogInfo(@"%@ Successfully requested verification code request for number: %@ method:%@",
+                   self.tag,
+                   phoneNumber,
+                   isSMS ? @"SMS" : @"Voice");
+         successBlock();
+     }
+     failure:^(NSURLSessionDataTask *task, NSError *error) {
+         DDLogError(@"%@ Failed to request verification code request with error:%@", self.tag, error);
+         failureBlock(error);
+     }];
 }
 
 + (void)rerequestSMSWithSuccess:(void (^)())successBlock failure:(void (^)(NSError *error))failureBlock
 {
-    TSAccountManager *manager = [self sharedInstance];
+    TSAccountManager *manager = [TextSecureKitEnv sharedEnv].accountManager;
     NSString *number          = manager.phoneNumberAwaitingVerification;
 
     assert(number);
@@ -210,7 +204,7 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
 
 + (void)rerequestVoiceWithSuccess:(void (^)())successBlock failure:(void (^)(NSError *error))failureBlock
 {
-    TSAccountManager *manager = [self sharedInstance];
+    TSAccountManager *manager = [TextSecureKitEnv sharedEnv].accountManager;
     NSString *number          = manager.phoneNumberAwaitingVerification;
 
     assert(number);
@@ -236,46 +230,46 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
                                                                                  authKey:authToken];
 
     [self.networkManager makeRequest:request
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-            long statuscode = response.statusCode;
+                             success:^(NSURLSessionDataTask *task, id responseObject) {
+                                 NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                                 long statuscode = response.statusCode;
 
-            switch (statuscode) {
-                case 200:
-                case 204: {
-                    [TSStorageManager storeServerToken:authToken signalingKey:signalingKey];
-                    [self didRegister];
-                    [TSSocketManager requestSocketOpen];
-                    [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
-                                                     success:successBlock
-                                                     failure:failureBlock];
-                    break;
-                }
-                default: {
-                    DDLogError(@"%@ Unexpected status while verifying code: %ld", self.tag, statuscode);
-                    NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
-                    failureBlock(error);
-                    break;
-                }
-            }
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogWarn(@"%@ Error verifying code: %@", self.tag, error.debugDescription);
-            switch (error.code) {
-                case 403: {
-                    NSError *userError = OWSErrorWithCodeDescription(OWSErrorCodeUserError,
-                        NSLocalizedString(@"REGISTRATION_VERIFICATION_FAILED_WRONG_CODE_DESCRIPTION",
-                            "Alert body, during registration"));
-                    failureBlock(userError);
-                    break;
-                }
-                default: {
-                    DDLogError(@"%@ verifying code failed with unhandled error: %@", self.tag, error);
-                    failureBlock(error);
-                    break;
-                }
-            }
-        }];
+                                 switch (statuscode) {
+                                     case 200:
+                                     case 204: {
+                                         [TSStorageManager storeServerToken:authToken signalingKey:signalingKey];
+                                         [self didRegister];
+                                         [TSSocketManager requestSocketOpen];
+                                         [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
+                                                                          success:successBlock
+                                                                          failure:failureBlock];
+                                         break;
+                                     }
+                                     default: {
+                                         DDLogError(@"%@ Unexpected status while verifying code: %ld", self.tag, statuscode);
+                                         NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
+                                         failureBlock(error);
+                                         break;
+                                     }
+                                 }
+                             }
+                             failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                 DDLogWarn(@"%@ Error verifying code: %@", self.tag, error.debugDescription);
+                                 switch (error.code) {
+                                     case 403: {
+                                         NSError *userError = OWSErrorWithCodeDescription(OWSErrorCodeUserError,
+                                                                                          NSLocalizedString(@"REGISTRATION_VERIFICATION_FAILED_WRONG_CODE_DESCRIPTION",
+                                                                                                            "Alert body, during registration"));
+                                         failureBlock(userError);
+                                         break;
+                                     }
+                                     default: {
+                                         DDLogError(@"%@ verifying code failed with unhandled error: %@", self.tag, error);
+                                         failureBlock(error);
+                                         break;
+                                     }
+                                 }
+                             }];
 }
 
 #pragma mark Server keying material
@@ -297,25 +291,25 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
 
 + (void)unregisterTextSecureWithSuccess:(void (^)())success failure:(void (^)(NSError *error))failureBlock
 {
-    [[TSNetworkManager sharedManager] makeRequest:[[TSUnregisterAccountRequest alloc] init]
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogInfo(@"%@ Successfully unregistered", self.tag);
-            success();
+    [[TextSecureKitEnv sharedEnv].networkManager makeRequest:[[TSUnregisterAccountRequest alloc] init]
+                                                     success:^(NSURLSessionDataTask *task, id responseObject) {
+                                                         DDLogInfo(@"%@ Successfully unregistered", self.tag);
+                                                         success();
 
-            // This is called from `[SettingsTableViewController proceedToUnregistration]` whose
-            // success handler calls `[Environment resetAppData]`.
-            // This method, after calling that success handler, fires
-            // `kNSNotificationName_RegistrationStateDidChange` which is only safe to fire after
-            // the data store is reset.
+                                                         // This is called from `[SettingsTableViewController proceedToUnregistration]` whose
+                                                         // success handler calls `[Environment resetAppData]`.
+                                                         // This method, after calling that success handler, fires
+                                                         // `kNSNotificationName_RegistrationStateDidChange` which is only safe to fire after
+                                                         // the data store is reset.
 
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNSNotificationName_RegistrationStateDidChange
-                                                                object:nil
-                                                              userInfo:nil];
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogError(@"%@ Failed to unregister with error: %@", self.tag, error);
-            failureBlock(error);
-        }];
+                                                         [[NSNotificationCenter defaultCenter] postNotificationName:kNSNotificationName_RegistrationStateDidChange
+                                                                                                             object:nil
+                                                                                                           userInfo:nil];
+                                                     }
+                                                     failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                                         DDLogError(@"%@ Failed to unregister with error: %@", self.tag, error);
+                                                         failureBlock(error);
+                                                     }];
 }
 
 #pragma mark - Logging
@@ -333,3 +327,4 @@ NSString *const kNSNotificationName_LocalNumberDidChange = @"kNSNotificationName
 @end
 
 NS_ASSUME_NONNULL_END
+

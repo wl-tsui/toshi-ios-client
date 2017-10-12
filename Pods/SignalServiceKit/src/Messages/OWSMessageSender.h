@@ -47,8 +47,10 @@ NS_SWIFT_NAME(MessageSender)
 
     // For subclassing in tests
     OWSUploadingService *_uploadingService;
-    ContactsUpdater *_contactsUpdater;
+
 }
+
+@property (nonatomic, readonly) ContactsUpdater *contactsUpdater;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -101,3 +103,4 @@ NS_SWIFT_NAME(MessageSender)
 @end
 
 NS_ASSUME_NONNULL_END
+

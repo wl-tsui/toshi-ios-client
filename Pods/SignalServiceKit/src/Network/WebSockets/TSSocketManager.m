@@ -13,6 +13,7 @@
 #import "TSMessagesManager.h"
 #import "TSStorageManager+keyingMaterial.h"
 #import "Threading.h"
+#import "TextSecureKitEnv.h"
 
 static const CGFloat kSocketHeartbeatPeriodSeconds = 30.f;
 static const CGFloat kSocketReconnectDelaySeconds = 5.f;
@@ -29,8 +30,6 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
 
 // TSSocketManager's properties should only be accessed from the main thread.
 @interface TSSocketManager ()
-
-@property (nonatomic, readonly) OWSSignalService *signalService;
 
 // This class has a few "tiers" of state.
 //
@@ -90,14 +89,11 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
     if (!self) {
         return self;
     }
-    
+
     OWSAssert([NSThread isMainThread]);
 
-    _signalService = [OWSSignalService sharedInstance];
     _state = SocketManagerStateClosed;
     _fetchingTaskIdentifier = UIBackgroundTaskInvalid;
-
-    OWSSingletonAssert();
 
     return self;
 }
@@ -136,21 +132,12 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
                                                object:nil];
 }
 
-+ (instancetype)sharedManager {
-    static TSSocketManager *sharedMyManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedMyManager = [self new];
-    });
-    return sharedMyManager;
-}
-
 #pragma mark - Manage Socket
 
 - (void)ensureWebsocketIsOpen
 {
     OWSAssert([NSThread isMainThread]);
-    OWSAssert(!self.signalService.isCensorshipCircumventionActive);
+    OWSAssert(![TextSecureKitEnv sharedEnv].signalService.isCensorshipCircumventionActive);
 
     // Try to reuse the existing socket (if any) if it is in a valid state.
     if (self.websocket) {
@@ -235,9 +222,9 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
     }
 
     DDLogWarn(@"%@ Socket state change: %@ -> %@",
-        self.tag,
-        [self stringFromSocketManagerState:_state],
-        [self stringFromSocketManagerState:state]);
+              self.tag,
+              [self stringFromSocketManagerState:_state],
+              [self stringFromSocketManagerState:state]);
 
     // If this state update is _not_ redundant,
     // update class state to reflect the new state.
@@ -265,18 +252,18 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
         case SocketManagerStateConnecting: {
             // Discard the old socket which is already closed or is closing.
             [self resetSocket];
-            
+
             // Create a new web socket.
             // Create a new web socket.
             NSString *textSecureWebSocketAPI = [NSString stringWithFormat:@"%@/v1/websocket/", [OWSSignalService baseURLPath]];
             NSString *webSocketConnect = [textSecureWebSocketAPI stringByAppendingString:[self webSocketAuthenticationString]];
             NSURL *webSocketConnectURL   = [NSURL URLWithString:webSocketConnect];
             NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:webSocketConnectURL];
-            
+
             SRWebSocket *socket = [[SRWebSocket alloc] initWithURLRequest:request
                                                            securityPolicy:[OWSWebsocketSecurityPolicy sharedPolicy]];
             socket.delegate = self;
-            
+
             [self setWebsocket:socket];
 
             // [SRWebSocket open] could hypothetically call a delegate method (e.g. if
@@ -380,7 +367,7 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
     if ([message.path isEqualToString:@"/api/v1/message"] && [message.verb isEqualToString:@"PUT"]) {
 
         NSData *decryptedPayload =
-            [Cryptography decryptAppleMessagePayload:message.body withSignalingKey:TSStorageManager.signalingKey];
+        [Cryptography decryptAppleMessagePayload:message.body withSignalingKey:TSStorageManager.signalingKey];
 
         if (!decryptedPayload) {
             DDLogWarn(@"Failed to decrypt incoming payload or bad HMAC");
@@ -390,12 +377,12 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
 
         OWSSignalServiceProtosEnvelope *envelope = [OWSSignalServiceProtosEnvelope parseFromData:decryptedPayload];
 
-        [[TSMessagesManager sharedManager] handleReceivedEnvelope:envelope
-                                                       completion:^{
-                                                           // Don't acknowledge delivery until the envelope has been
-                                                           // processed.
-                                                           [self sendWebSocketMessageAcknowledgement:message];
-                                                       }];
+        [[TextSecureKitEnv sharedEnv].messagesManager handleReceivedEnvelope:envelope
+                                                                  completion:^{
+                                                                      // Don't acknowledge delivery until the envelope has been
+                                                                      // processed.
+                                                                      [self sendWebSocketMessageAcknowledgement:message];
+                                                                  }];
     } else {
         DDLogWarn(@"Unsupported WebSocket Request");
 
@@ -480,9 +467,9 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
 
 - (NSString *)webSocketAuthenticationString {
     return [NSString
-        stringWithFormat:@"?login=%@&password=%@",
-                         [[TSStorageManager localNumber] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"],
-                         [TSStorageManager serverAuthToken]];
+            stringWithFormat:@"?login=%@&password=%@",
+            [[TSStorageManager localNumber] stringByReplacingOccurrencesOfString:@"+" withString:@"%2B"],
+            [TSStorageManager serverAuthToken]];
 }
 
 #pragma mark - Socket LifeCycle
@@ -495,7 +482,7 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
         return NO;
     }
 
-    if (self.signalService.isCensorshipCircumventionActive) {
+    if ([TextSecureKitEnv sharedEnv].signalService.isCensorshipCircumventionActive) {
         DDLogWarn(@"%@ Skipping opening of websocket due to censorship circumvention.", self.tag);
         return NO;
     }
@@ -577,14 +564,14 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
 + (void)requestSocketOpen
 {
     DispatchMainThreadSafe(^{
-        [[self sharedManager] observeNotificationsIfNecessary];
+        [[TextSecureKitEnv sharedEnv].socketManager observeNotificationsIfNecessary];
 
         // If the app is active and the user is registered, this will
         // simply open the websocket.
         //
         // If the app is inactive, it will open the websocket for a
         // period of time.
-        [[self sharedManager] requestSocketAliveForAtLeastSeconds:kBackgroundOpenSocketDurationSeconds];
+        [[TextSecureKitEnv sharedEnv].socketManager requestSocketAliveForAtLeastSeconds:kBackgroundOpenSocketDurationSeconds];
     });
 }
 

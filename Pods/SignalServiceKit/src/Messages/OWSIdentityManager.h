@@ -22,10 +22,6 @@ extern const NSUInteger kIdentityKeyLength;
 // This class can be safely accessed and used from any thread.
 @interface OWSIdentityManager : NSObject <IdentityKeyStore>
 
-- (instancetype)init NS_UNAVAILABLE;
-
-+ (instancetype)sharedManager;
-
 - (void)generateNewIdentityKey;
 
 - (nullable NSData *)identityKeyForRecipientId:(NSString *)recipientId;
@@ -54,3 +50,4 @@ extern const NSUInteger kIdentityKeyLength;
 @end
 
 NS_ASSUME_NONNULL_END
+

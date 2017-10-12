@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init NS_UNAVAILABLE;
 
+@property (nonatomic, strong, readonly) YapDatabaseConnection *sessionDBConnection;
+
 + (instancetype)sharedManager;
 
 /**
@@ -32,6 +34,8 @@ NS_SWIFT_NAME(setup(accountName:isFirstLaunch:));
 
 - (void)deleteThreadsAndMessages;
 - (void)resetSignalStorageWithBackup:(BOOL)withBackup;
+
+- (void)setupDatabase;
 
 - (nullable YapDatabase *)database;
 - (nullable YapDatabaseConnection *)newDatabaseConnection;
@@ -59,3 +63,4 @@ NS_SWIFT_NAME(setup(accountName:isFirstLaunch:));
 @end
 
 NS_ASSUME_NONNULL_END
+

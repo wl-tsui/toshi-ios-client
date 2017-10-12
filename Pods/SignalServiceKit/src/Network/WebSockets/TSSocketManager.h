@@ -19,10 +19,6 @@ typedef NS_ENUM(NSUInteger, SocketManagerState) {
 
 @property (nonatomic, readonly) SocketManagerState state;
 
-+ (instancetype)sharedManager;
-
-- (instancetype)init NS_UNAVAILABLE;
-
 // If the app is in the foreground, we'll try to open the socket unless it's already
 // open or connecting.
 //
@@ -35,3 +31,4 @@ typedef NS_ENUM(NSUInteger, SocketManagerState) {
 + (void)requestSocketOpen;
 
 @end
+

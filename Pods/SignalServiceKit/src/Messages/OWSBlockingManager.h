@@ -12,10 +12,6 @@ extern NSString *const kNSNotificationName_BlockedPhoneNumbersDidChange;
 // This class can be safely accessed and used from any thread.
 @interface OWSBlockingManager : NSObject
 
-- (instancetype)init NS_UNAVAILABLE;
-
-+ (instancetype)sharedManager;
-
 - (void)addBlockedPhoneNumber:(NSString *)phoneNumber;
 
 - (void)removeBlockedPhoneNumber:(NSString *)phoneNumber;
@@ -29,3 +25,4 @@ extern NSString *const kNSNotificationName_BlockedPhoneNumbersDidChange;
 @end
 
 NS_ASSUME_NONNULL_END
+

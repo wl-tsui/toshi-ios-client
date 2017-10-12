@@ -10,6 +10,7 @@
 #import <25519/Ed25519.h>
 #import <AxolotlKit/AxolotlExceptions.h>
 #import <AxolotlKit/NSData+keyVersionByte.h>
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,12 +27,12 @@ NSString *const TSStorageManagerKeyPrekeyCurrentSignedPrekeyId = @"currentSigned
 
     // Signed prekey ids must be > 0.
     int preKeyId = 1 + arc4random_uniform(INT32_MAX - 1);
-    ECKeyPair *_Nullable identityKeyPair = [[OWSIdentityManager sharedManager] identityKeyPair];
+    ECKeyPair *_Nullable identityKeyPair = [[TextSecureKitEnv sharedEnv].identityManager identityKeyPair];
     return [[SignedPreKeyRecord alloc]
-         initWithId:preKeyId
+            initWithId:preKeyId
             keyPair:keyPair
-          signature:[Ed25519 sign:keyPair.publicKey.prependKeyType withKeyPair:identityKeyPair]
-        generatedAt:[NSDate date]];
+            signature:[Ed25519 sign:keyPair.publicKey.prependKeyType withKeyPair:identityKeyPair]
+            generatedAt:[NSDate date]];
 }
 
 - (SignedPreKeyRecord *)loadSignedPrekey:(int)signedPreKeyId {
@@ -59,10 +60,10 @@ NSString *const TSStorageManagerKeyPrekeyCurrentSignedPrekeyId = @"currentSigned
     YapDatabaseConnection *conn = [self newDatabaseConnection];
 
     [conn readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-      [transaction enumerateRowsInCollection:TSStorageManagerSignedPreKeyStoreCollection
-                                  usingBlock:^(NSString *key, id object, id metadata, BOOL *stop) {
-                                    [signedPreKeyRecords addObject:object];
-                                  }];
+        [transaction enumerateRowsInCollection:TSStorageManagerSignedPreKeyStoreCollection
+                                    usingBlock:^(NSString *key, id object, id metadata, BOOL *stop) {
+                                        [signedPreKeyRecords addObject:object];
+                                    }];
     }];
 
     return signedPreKeyRecords;
@@ -70,8 +71,8 @@ NSString *const TSStorageManagerKeyPrekeyCurrentSignedPrekeyId = @"currentSigned
 
 - (void)storeSignedPreKey:(int)signedPreKeyId signedPreKeyRecord:(SignedPreKeyRecord *)signedPreKeyRecord {
     [self setObject:signedPreKeyRecord
-              forKey:[self keyFromInt:signedPreKeyId]
-        inCollection:TSStorageManagerSignedPreKeyStoreCollection];
+             forKey:[self keyFromInt:signedPreKeyId]
+       inCollection:TSStorageManagerSignedPreKeyStoreCollection];
 }
 
 - (BOOL)containsSignedPreKey:(int)signedPreKeyId {
@@ -160,31 +161,32 @@ NSString *const TSStorageManagerKeyPrekeyCurrentSignedPrekeyId = @"currentSigned
         DDLogInfo(@"%@   All Keys (count: %lu):", tag, (unsigned long)count);
 
         [transaction
-            enumerateKeysAndObjectsInCollection:TSStorageManagerSignedPreKeyStoreCollection
-                                     usingBlock:^(
-                                         NSString *_Nonnull key, id _Nonnull signedPreKeyObject, BOOL *_Nonnull stop) {
-                                         i++;
-                                         if (![signedPreKeyObject isKindOfClass:[SignedPreKeyRecord class]]) {
-                                             DDLogError(@"%@ Was expecting SignedPreKeyRecord, but found: %@",
-                                                 tag,
-                                                 signedPreKeyObject);
-                                             OWSAssert(NO);
-                                             return;
-                                         }
-                                         SignedPreKeyRecord *signedPreKeyRecord
-                                             = (SignedPreKeyRecord *)signedPreKeyObject;
-                                         DDLogInfo(@"%@     #%d <SignedPreKeyRecord: id: %d, generatedAt: %@, "
-                                                   @"wasAcceptedByService:%@, signature: %@",
-                                             tag,
-                                             i,
-                                             signedPreKeyRecord.Id,
-                                             signedPreKeyRecord.generatedAt,
-                                             (signedPreKeyRecord.wasAcceptedByService ? @"YES" : @"NO"),
-                                             signedPreKeyRecord.signature);
-                                     }];
+         enumerateKeysAndObjectsInCollection:TSStorageManagerSignedPreKeyStoreCollection
+         usingBlock:^(
+                      NSString *_Nonnull key, id _Nonnull signedPreKeyObject, BOOL *_Nonnull stop) {
+             i++;
+             if (![signedPreKeyObject isKindOfClass:[SignedPreKeyRecord class]]) {
+                 DDLogError(@"%@ Was expecting SignedPreKeyRecord, but found: %@",
+                            tag,
+                            signedPreKeyObject);
+                 OWSAssert(NO);
+                 return;
+             }
+             SignedPreKeyRecord *signedPreKeyRecord
+             = (SignedPreKeyRecord *)signedPreKeyObject;
+             DDLogInfo(@"%@     #%d <SignedPreKeyRecord: id: %d, generatedAt: %@, "
+                       @"wasAcceptedByService:%@, signature: %@",
+                       tag,
+                       i,
+                       signedPreKeyRecord.Id,
+                       signedPreKeyRecord.generatedAt,
+                       (signedPreKeyRecord.wasAcceptedByService ? @"YES" : @"NO"),
+                       signedPreKeyRecord.signature);
+         }];
     }];
 }
 
 @end
 
 NS_ASSUME_NONNULL_END
+

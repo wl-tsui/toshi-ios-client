@@ -10,10 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ContactsUpdater : NSObject
 
-+ (instancetype)sharedUpdater;
 
 - (nullable SignalRecipient *)synchronousLookup:(NSString *)identifier error:(NSError **)error;
-
 // This asynchronously tries to verify whether or not a contact id
 // corresponds to a service account.
 //
@@ -40,3 +38,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

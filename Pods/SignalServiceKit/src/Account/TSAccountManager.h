@@ -19,13 +19,6 @@ extern NSString *const kNSNotificationName_LocalNumberDidChange;
 
 #pragma mark - Initializers
 
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithNetworkManager:(TSNetworkManager *)networkManager
-                        storageManager:(TSStorageManager *)storageManager;
-
-+ (instancetype)sharedInstance;
-
 @property (nonatomic, strong, readonly) TSNetworkManager *networkManager;
 
 /**
@@ -78,7 +71,7 @@ extern NSString *const kNSNotificationName_LocalNumberDidChange;
                                         voipToken:(NSString *)voipToken
                                           success:(void (^)())successHandler
                                           failure:(void (^)(NSError *error))failureHandler
-    NS_SWIFT_NAME(registerForPushNotifications(pushToken:voipToken:success:failure:));
+NS_SWIFT_NAME(registerForPushNotifications(pushToken:voipToken:success:failure:));
 
 #endif
 
@@ -87,3 +80,4 @@ extern NSString *const kNSNotificationName_LocalNumberDidChange;
 @end
 
 NS_ASSUME_NONNULL_END
+

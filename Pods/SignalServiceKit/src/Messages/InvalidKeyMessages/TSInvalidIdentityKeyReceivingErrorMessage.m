@@ -14,6 +14,7 @@
 #import <AxolotlKit/PreKeyWhisperMessage.h>
 #import <YapDatabase/YapDatabaseTransaction.h>
 #import <YapDatabase/YapDatabaseView.h>
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,11 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
                          withTransaction:(YapDatabaseReadWriteTransaction *)transaction
 {
     TSContactThread *contactThread =
-        [TSContactThread getOrCreateThreadWithContactId:envelope.source transaction:transaction];
+    [TSContactThread getOrCreateThreadWithContactId:envelope.source transaction:transaction];
     TSInvalidIdentityKeyReceivingErrorMessage *errorMessage =
-        [[self alloc] initForUnknownIdentityKeyWithTimestamp:envelope.timestamp
-                                                    inThread:contactThread
-                                            incomingEnvelope:envelope];
+    [[self alloc] initForUnknownIdentityKeyWithTimestamp:envelope.timestamp
+                                                inThread:contactThread
+                                        incomingEnvelope:envelope];
     return errorMessage;
 }
 
@@ -81,15 +82,15 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Saving a new identity mutates the session store so it must happen on the sessionStoreQueue
     dispatch_async([OWSDispatch sessionStoreQueue], ^{
-        [[OWSIdentityManager sharedManager] saveRemoteIdentity:newKey recipientId:self.envelope.source];
+        [[TextSecureKitEnv sharedEnv].identityManager saveRemoteIdentity:newKey recipientId:self.envelope.source];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             // Decrypt this and any old messages for the newly accepted key
             NSArray<TSInvalidIdentityKeyReceivingErrorMessage *> *messagesToDecrypt =
-                [self.thread receivedMessagesForInvalidKey:newKey];
+            [self.thread receivedMessagesForInvalidKey:newKey];
 
             for (TSInvalidIdentityKeyReceivingErrorMessage *errorMessage in messagesToDecrypt) {
-                [[TSMessagesManager sharedManager] handleReceivedEnvelope:errorMessage.envelope completion:nil];
+                [[TextSecureKitEnv sharedEnv].messagesManager handleReceivedEnvelope:errorMessage.envelope completion:nil];
 
                 // Here we remove the existing error message because handleReceivedEnvelope will either
                 //  1.) succeed and create a new successful message in the thread or...
@@ -136,3 +137,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

@@ -29,11 +29,10 @@
 
 + (NSString *)examplePhoneNumberForCountryCode:(NSString *)countryCode;
 
-+ (instancetype)sharedUtil;
-
 - (NBPhoneNumber *)parse:(NSString *)numberToParse defaultRegion:(NSString *)defaultRegion error:(NSError **)error;
 - (NSString *)format:(NBPhoneNumber *)phoneNumber
         numberFormat:(NBEPhoneNumberFormat)numberFormat
                error:(NSError **)error;
 
 @end
+

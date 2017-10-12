@@ -3,6 +3,7 @@
 #import "OWSDeviceProvisioningCodeService.h"
 #import "OWSDeviceProvisioningCodeRequest.h"
 #import "TSNetworkManager.h"
+#import "TextSecureKitEnv.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,28 +32,29 @@ NSString *const OWSDeviceProvisioningCodeServiceProvisioningCodeKey = @"verifica
 
 - (instancetype)init
 {
-    return [self initWithNetworkManager:[TSNetworkManager sharedManager]];
+    return [self initWithNetworkManager:[TextSecureKitEnv sharedEnv].networkManager];
 }
 
 - (void)requestProvisioningCodeWithSuccess:(void (^)(NSString *))successCallback
                                    failure:(void (^)(NSError *))failureCallback
 {
     [self.networkManager makeRequest:[OWSDeviceProvisioningCodeRequest new]
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            DDLogVerbose(@"ProvisioningCode request succeeded");
-            if ([(NSObject *)responseObject isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *responseDict = (NSDictionary *)responseObject;
-                NSString *provisioningCode =
-                    [responseDict objectForKey:OWSDeviceProvisioningCodeServiceProvisioningCodeKey];
-                successCallback(provisioningCode);
-            }
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogVerbose(@"ProvisioningCode request failed with error: %@", error);
-            failureCallback(error);
-        }];
+                             success:^(NSURLSessionDataTask *task, id responseObject) {
+                                 DDLogVerbose(@"ProvisioningCode request succeeded");
+                                 if ([(NSObject *)responseObject isKindOfClass:[NSDictionary class]]) {
+                                     NSDictionary *responseDict = (NSDictionary *)responseObject;
+                                     NSString *provisioningCode =
+                                     [responseDict objectForKey:OWSDeviceProvisioningCodeServiceProvisioningCodeKey];
+                                     successCallback(provisioningCode);
+                                 }
+                             }
+                             failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                 DDLogVerbose(@"ProvisioningCode request failed with error: %@", error);
+                                 failureCallback(error);
+                             }];
 }
 
 @end
 
 NS_ASSUME_NONNULL_END
+

@@ -10,6 +10,7 @@
 #import "TextSecureKitEnv.h"
 #import <YapDatabase/YapDatabaseConnection.h>
 #import <YapDatabase/YapDatabaseTransaction.h>
+#import "OWSMessageSender.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,23 +35,23 @@ NS_ASSUME_NONNULL_BEGIN
     OWSAssert(contactId.length > 0);
 
     SignalRecipient *recipient =
-        [SignalRecipient recipientWithTextSecureIdentifier:contactId withTransaction:transaction];
+    [SignalRecipient recipientWithTextSecureIdentifier:contactId withTransaction:transaction];
 
     if (!recipient) {
         // If no recipient record exists for that contactId, create an empty record
         // for immediate use, then ask ContactsUpdater to try to update it async.
         recipient =
-            [[SignalRecipient alloc] initWithTextSecureIdentifier:contactId
-                                                            relay:relay];
+        [[SignalRecipient alloc] initWithTextSecureIdentifier:contactId
+                                                        relay:relay];
         [recipient saveWithTransaction:transaction];
 
         // Update recipient with Server record async.
-        [[ContactsUpdater sharedUpdater] lookupIdentifier:contactId
-            success:^(SignalRecipient *recipient) {
-            }
-            failure:^(NSError *error) {
-                DDLogWarn(@"Failed to lookup contact with error:%@", error);
-            }];
+        [[TextSecureKitEnv sharedEnv].messageSender.contactsUpdater lookupIdentifier:contactId
+                                                                             success:^(SignalRecipient *recipient) {
+                                                                             }
+                                                                             failure:^(NSError *error) {
+                                                                                 DDLogWarn(@"Failed to lookup contact with error:%@", error);
+                                                                             }];
     }
 
     return [self getOrCreateThreadWithContactId:contactId transaction:transaction];
@@ -61,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
     OWSAssert(contactId.length > 0);
 
     TSContactThread *thread =
-        [self fetchObjectWithUniqueID:[self threadIdFromContactId:contactId] transaction:transaction];
+    [self fetchObjectWithUniqueID:[self threadIdFromContactId:contactId] transaction:transaction];
 
     if (!thread) {
         thread = [[TSContactThread alloc] initWithContactId:contactId];
@@ -98,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)hasSafetyNumbers
 {
-    return !![[OWSIdentityManager sharedManager] identityKeyForRecipientId:self.contactIdentifier];
+    return !![[TextSecureKitEnv sharedEnv].identityManager identityKeyForRecipientId:self.contactIdentifier];
 }
 
 - (NSString *)name
@@ -127,3 +128,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+

@@ -21,9 +21,6 @@ typedef void (^MessageManagerCompletionBlock)();
 
 @interface TSMessagesManager : NSObject
 
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)sharedManager;
-
 @property (nonatomic, readonly) YapDatabaseConnection *dbConnection;
 @property (nonatomic, readonly) TSNetworkManager *networkManager;
 @property (nonatomic, readonly) ContactsUpdater *contactsUpdater;
@@ -45,3 +42,4 @@ typedef void (^MessageManagerCompletionBlock)();
 @end
 
 NS_ASSUME_NONNULL_END
+
