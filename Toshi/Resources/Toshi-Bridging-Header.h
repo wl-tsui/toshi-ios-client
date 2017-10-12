@@ -44,6 +44,7 @@
 #import <SignalServiceKit/ContactsManagerProtocol.h>
 #import <SignalServiceKit/TSPreferences.h>
 #import <SignalServiceKit/TextSecureKitEnv.h>
+#import <SignalServiceKit/TSNetworkManager.h>
 
 #import <SignalServiceKit/OWSIncomingMessageReadObserver.h>
 #import <SignalServiceKit/OWSCallMessageHandler.h>
