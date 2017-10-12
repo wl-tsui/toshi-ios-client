@@ -48,6 +48,7 @@
 #import <SignalServiceKit/OWSIncomingMessageReadObserver.h>
 #import <SignalServiceKit/OWSCallMessageHandler.h>
 #import <SignalServiceKit/ContactsUpdater.h>
+#import <SignalServiceKit/PhoneNumberUtil.h>
 
 #import <SignalServiceKit/OWSFingerprintBuilder.h>
 #import <SignalServiceKit/OWSFingerprint.h>

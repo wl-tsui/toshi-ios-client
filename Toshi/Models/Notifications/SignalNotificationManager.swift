@@ -55,7 +55,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
     }
 
     @objc public static func updateUnreadMessagesNumber() {
-        let unreadMessagesCount = Int(TSMessagesManager.shared().unreadMessagesCount())
+        let unreadMessagesCount = Int(TextSecureKitEnv.shared().messagesManager.unreadMessagesCount())
 
         if unreadMessagesCount > 0 {
             tabbarController?.messagingController.tabBarItem.badgeValue = "\(unreadMessagesCount)"

@@ -429,7 +429,7 @@ public class ContactController: UIViewController {
 
         if contact.isBlocked {
             let unblockAction = UIAlertAction(title: Localized("unblock_action_title"), style: .destructive) { _ in
-                OWSBlockingManager.shared().removeBlockedPhoneNumber(address)
+                ChatService.shared.blockingManager?.removeBlockedPhoneNumber(address)
 
                 let alert = UIAlertController.dismissableAlert(title: Localized("unblock_user_title"), message: Localized("unblock_user_message"))
                 Navigator.presentModally(alert)
@@ -471,7 +471,7 @@ public class ContactController: UIViewController {
     private func didSelectBlockUser() {
         let alert = UIAlertController(title: Localized("block_alert_title"), message: Localized("block_alert_message"), preferredStyle: .alert)
         let blockAction = UIAlertAction(title: Localized("block_action_title"), style: .default) { _ in
-            OWSBlockingManager.shared().addBlockedPhoneNumber(self.contact.address)
+            ChatService.shared.blockingManager?.addBlockedPhoneNumber(self.contact.address)
 
             let alert = UIAlertController.dismissableAlert(title: Localized("block_feedback_alert_title"), message: Localized("block_feedback_alert_message"))
             Navigator.presentModally(alert)

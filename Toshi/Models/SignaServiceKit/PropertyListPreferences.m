@@ -40,8 +40,6 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
         return self;
     }
 
-    OWSSingletonAssert();
-
     return self;
 }
 

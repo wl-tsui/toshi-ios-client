@@ -54,7 +54,7 @@ final class ChatInteractor: NSObject {
         DispatchQueue.main.async {
             self.messageSender?.send(signalMessage, success: {
                 completion(true)
-                print("message sent")
+                print("\n\n <3 ---  message sent \n\n")
             }, failure: { error in
                 completion(false)
                 print(error)
@@ -104,7 +104,7 @@ final class ChatInteractor: NSObject {
             guard let user = user else { return }
 
             let parameters: [String: Any] = [
-                "from": Cereal.shared.paymentAddress,
+                "from": Cereal.shared.paymentAddress ?? "",
                 "to": user.paymentAddress,
                 "value": value.toHexString
             ]

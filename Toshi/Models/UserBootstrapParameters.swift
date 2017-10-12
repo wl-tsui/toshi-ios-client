@@ -83,7 +83,7 @@ public class UserBootstrapParameter {
     // swiftlint:disable force_cast
     // Because this method relies heavily on obj-c classes, we need to force cast some values here.
     init() {
-        let identityManager = OWSIdentityManager.shared()
+        let identityManager = TextSecureKitEnv.shared().identityManager
 
         if identityManager.identityKeyPair() == nil {
             identityManager.generateNewIdentityKey()

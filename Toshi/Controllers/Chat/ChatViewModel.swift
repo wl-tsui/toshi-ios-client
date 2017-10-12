@@ -324,6 +324,9 @@ final class ChatViewModel {
     }
 
     func loadMessages(notifiesAboutLastMessage: Bool) {
+        print("\n\n --- Loading messages ! : from : \(uiDatabaseConnection)  \n\n")
+
+        
         uiDatabaseConnection.asyncRead { [weak self] transaction in
             guard let strongSelf = self else { return }
             strongSelf.loadedMappings.update(with: transaction)
@@ -333,12 +336,19 @@ final class ChatViewModel {
             let numberOfItemsInSection = strongSelf.loadedMappings.numberOfItems(inSection: 0)
             strongSelf.loadedMessagesCount += numberOfItemsInSection
 
+            guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
+
             for i in 0 ..< numberOfItemsInSection {
                 let indexPath = IndexPath(row: Int(i), section: 0)
-                guard let dbExtension = transaction.ext(TSMessageDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
 
-                guard let signalMessage = dbExtension.object(at: indexPath, with: strongSelf.loadedMappings) as? TSMessage else { return }
+                guard let signalMessage = dbExtension.object(at: indexPath, with: strongSelf.loadedMappings) as? TSMessage else {
 
+                    print("Ni signal message... \(dbExtension.object(at: indexPath, with: strongSelf.loadedMappings))")
+                    return
+
+                }
+
+                print("Message: \(signalMessage)")
                 var shouldProcess = false
                 if SofaType(sofa: signalMessage.body ?? "") == .paymentRequest {
                     shouldProcess = true

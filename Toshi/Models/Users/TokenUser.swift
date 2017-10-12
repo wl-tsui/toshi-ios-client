@@ -121,9 +121,9 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     var isBlocked: Bool {
-        let blockingManager = OWSBlockingManager.shared()
+        let blockingManager = ChatService.shared.blockingManager
 
-        return blockingManager.blockedPhoneNumbers().contains(address)
+        return blockingManager?.blockedPhoneNumbers().contains(address) ?? false
     }
 
     var isCurrentUser: Bool {

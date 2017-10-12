@@ -138,14 +138,12 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     __weak typeof(self)weakSelf = self;
     [TSAccountManager unregisterTextSecureWithSuccess:^{
 
-        typeof(self)strongSelf = weakSelf;
-
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidSignOut" object:nil];
         [AvatarManager.shared cleanCache];
 
         [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotificationsWithCompletion:^(BOOL success, NSString * _Nullable message) {
-            [[TSStorageManager sharedManager] resetSignalStorageWithBackup:[TokenUser current].verified];
+
             [[Yap sharedInstance] cleanUp];
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -153,7 +151,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
             [ChatService.shared.contactsManager refreshContacts];
-            [ChatService.shared freeUp];
+            [ChatService.shared freeUpWithBackup:[TokenUser current].verified];
 
             [[Cereal shared] endSession];
 
@@ -261,17 +259,21 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch sessionStoreQueue]];
 
     NSLog(@"Cereal registeres phone number: %@", [Cereal shared].address);
+   // NSLog(@"Account manager: %@", [TSAccountManager sharedInstance]);
 
     [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
 
     __weak typeof(self)weakSelf = self;
-    [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
+    NSLog(@">>>>>>>>>>>>> %@", [TextSecureKitEnv sharedEnv].accountManager);
+
+    [[TextSecureKitEnv sharedEnv].accountManager ifRegistered:YES runAsync:^{
 
         [TSSocketManager requestSocketOpen];
         RTCInitializeSSL();
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+       // dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 
+        dispatch_async(dispatch_get_main_queue(), ^{
             typeof(self)strongSelf = weakSelf;
             [strongSelf registerForRemoteNotifications];
         });
@@ -333,12 +335,14 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
-    [[TSAccountManager sharedInstance] ifRegistered:YES runAsync:^{
-        // We're double checking that the app is active, to be sure since we
-        // can't verify in production env due to code
-        // signing.
-        [TSSocketManager requestSocketOpen];
-    }];
+    if (ChatService.isSessionActive) {
+        [[TextSecureKitEnv sharedEnv].accountManager ifRegistered:YES runAsync:^{
+            // We're double checking that the app is active, to be sure since we
+            // can't verify in production env due to code
+            // signing.
+            [TSSocketManager requestSocketOpen];
+        }];
+    }
 
     // Send screen protection deactivation to the same queue as when resigning
     // to avoid some weird UIKit issue where app is going inactive during the launch process
@@ -347,9 +351,10 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self deactivateScreenProtection];
+        //[TSPreKeyManager checkPreKeysIfNecessary];
     });
 
-    [TSPreKeyManager checkPreKeysIfNecessary];
+
 }
 
 - (void)activateScreenProtection {
@@ -427,14 +432,12 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             });
         }
     }];
-
-    OWSSignalService *signalService = [OWSSignalService sharedInstance];
 }
 
 - (void)updateRemoteNotificationCredentials {
     NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
 
-    [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:ChatService.shared.token voipToken:nil success:^{
+    [[TextSecureKitEnv sharedEnv].accountManager registerForPushNotificationsWithPushToken:ChatService.shared.token voipToken:nil success:^{
         NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n||\n||------- \n", ChatService.shared.token);
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];

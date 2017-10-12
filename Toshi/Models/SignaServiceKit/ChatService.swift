@@ -26,7 +26,9 @@ final class ChatService: NSObject {
     @objc private(set) var contactsManager: ContactsManager?
     @objc private(set) var contactsUpdater: ContactsUpdater?
     @objc private(set) var messageSender: MessageSender?
-    @objc private(set) var incomingMessageReadObserver: OWSIncomingMessageReadObserver?
+    @objc private(set) var blockingManager: OWSBlockingManager?
+
+    @objc private(set) var signalService: OWSSignalService?
 
     @objc private(set) var token = ""
 
@@ -43,11 +45,13 @@ final class ChatService: NSObject {
     }
 
     @objc func setup(accountName: String, isFirstLaunch: Bool) {
-        OWSSignalService.sharedInstance()
 
-        networkManager = TSNetworkManager.sharedManager() as? TSNetworkManager
+        networkManager = TSNetworkManager()
+
+        signalService = OWSSignalService()
+
         contactsManager = ContactsManager()
-        contactsUpdater = ContactsUpdater.shared()
+        contactsUpdater = ContactsUpdater()
 
         let storageManager = TSStorageManager.shared()
         storageManager.setup(accountName: accountName, isFirstLaunch: isFirstLaunch)
@@ -64,22 +68,22 @@ final class ChatService: NSObject {
             return
         }
 
-        let textSecureEnv: TextSecureKitEnv = TextSecureKitEnv()
-        textSecureEnv.setup(callMessageHandler: EmptyCallHandler(), contactsManager: contactsManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), preferences: self)
-        TextSecureKitEnv.setShared(textSecureEnv)
+        let textEnv = TextSecureKitEnv.shared()
+        textEnv.setup(callMessageHandler: EmptyCallHandler(), contactsManager: contactsManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), preferences: self, storageManager:storageManager, networkManager: networkManager)
+        textEnv.setupForNewSession()
 
-        self.incomingMessageReadObserver = OWSIncomingMessageReadObserver(storageManager: storageManager, messageSender: messageSender)
-        self.incomingMessageReadObserver?.startObserving()
+        blockingManager = OWSBlockingManager()
     }
 
-    @objc func freeUp() {
-
+    @objc func freeUp(withBackup: Bool) {
         self.networkManager = nil
+
         self.contactsManager = nil
         self.contactsUpdater = nil
         self.messageSender = nil
-        TextSecureKitEnv.setShared(nil)
-        self.incomingMessageReadObserver = nil
+        self.blockingManager = nil
+
+        TextSecureKitEnv.shared().freeUp(withBackup: withBackup)
 
         print("\n\n 2 --- Freeing up ChatService ----")
     }
