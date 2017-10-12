@@ -2823,7 +2823,6 @@
 				D197B6D6BB93E0F67FE998CE /* OfflineAlertDisplaying.swift in Sources */,
 				D197B0D75181D93C82A98BD6 /* OfflineAlertView.swift in Sources */,
 				D197BDD5424805C3D7F2163A /* ReachabilityManager.swift in Sources */,
-				A9A9F9AD1F8B70E80010F877 /* Collection+Additions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3172,7 +3171,6 @@
 				D197BF10EA25C4BEEC42204E /* OfflineAlertDisplaying.swift in Sources */,
 				D197BBDFE322BAFD2D036076 /* OfflineAlertView.swift in Sources */,
 				D197B683AEBC4A7B8F0FF197 /* ReachabilityManager.swift in Sources */,
-				A9A9F9AC1F8B70E80010F877 /* Collection+Additions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
