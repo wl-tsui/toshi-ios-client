@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovj-LI-uKF">
-                        <rect key="frame" x="15" y="5.5" width="105" height="46"/>
+                        <rect key="frame" x="8" y="5.5" width="105" height="46"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="105" id="ydw-uO-C1d"/>
                         </constraints>
@@ -29,13 +29,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="L0K-YR-6qt">
-                        <rect key="frame" x="130" y="18" width="223" height="21"/>
+                        <rect key="frame" x="123" y="0.0" width="237" height="57"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                     </textField>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pOp-zb-bRc">
-                        <rect key="frame" x="304" y="13" width="51" height="31"/>
+                        <rect key="frame" x="311" y="13" width="51" height="31"/>
                         <connections>
                             <action selector="switchValueDidChange:" destination="Jwf-E5-TBh" eventType="valueChanged" id="4Ja-1Y-tUt"/>
                         </connections>
@@ -44,6 +44,7 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="ovj-LI-uKF" secondAttribute="bottom" constant="5" id="6Xj-V7-a4C"/>
                     <constraint firstItem="ovj-LI-uKF" firstAttribute="top" secondItem="AmV-1d-vx7" secondAttribute="top" constant="5" id="I8S-Eg-2cX"/>
+                    <constraint firstItem="L0K-YR-6qt" firstAttribute="top" secondItem="AmV-1d-vx7" secondAttribute="top" id="Jse-7B-zfk"/>
                     <constraint firstItem="L0K-YR-6qt" firstAttribute="leading" secondItem="ovj-LI-uKF" secondAttribute="trailing" constant="10" id="NoQ-o4-0iU"/>
                     <constraint firstAttribute="trailingMargin" secondItem="pOp-zb-bRc" secondAttribute="trailing" id="XXy-3W-xkz"/>
                     <constraint firstItem="L0K-YR-6qt" firstAttribute="centerY" secondItem="ovj-LI-uKF" secondAttribute="centerY" id="emP-0j-14h"/>

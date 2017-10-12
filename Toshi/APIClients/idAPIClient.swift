@@ -33,6 +33,20 @@ import Teapot
 
     public var teapot: Teapot
 
+    private let topRatedUsersCachedDataKey = "topRatedUsersCachedData"
+    private let latestUsersCachedDataKey = "latestUsersCachedData"
+
+    private let topRatedUsersCachedData = TokenUsersCacheData()
+    private let latestUsersCachedData = TokenUsersCacheData()
+
+    private lazy var cache: Cache<TokenUsersCacheData> = {
+        do {
+            return try Cache<TokenUsersCacheData>(name: "usersCache")
+        } catch {
+            fatalError("Couldn't instantiate the apps cache")
+        }
+    }()
+
     private lazy var contactCache: Cache<TokenUser> = {
         do {
             return try Cache<TokenUser>(name: "tokenContactCache")
@@ -393,15 +407,19 @@ import Teapot
         }
     }
 
-    public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
+    public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
 
-        self.teapot.get("/v1/search/user?public=true&top=true&recent=false&limit=\(limit)") { (result: NetworkResult) in
+        if let data = self.cache.object(forKey: topRatedUsersCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+            completion(ratedUsers, nil)
+        }
+
+        self.teapot.get("/v1/search/user?public=true&top=true&recent=false&limit=\(limit)") { [weak self] (result: NetworkResult) in
             var results: [TokenUser] = []
             var resultError: Error?
 
             switch result {
             case .success(let json, _):
-                guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
+                guard let strongSelf = self, let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
                     completion([], nil)
                     return
                 }
@@ -409,6 +427,9 @@ import Teapot
                 let contacts = json.map { userJSON in
                     TokenUser(json: userJSON)
                 }
+
+                strongSelf.topRatedUsersCachedData.objects = contacts
+                strongSelf.cache.setObject(strongSelf.topRatedUsersCachedData, forKey: strongSelf.topRatedUsersCachedDataKey)
 
                 results = contacts
             case .failure(_, _, let error):
@@ -422,15 +443,19 @@ import Teapot
         }
     }
 
-    public func getLatestPublicUsers(limit: Int = 10, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
+    public func getLatestPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
 
-        self.teapot.get("/v1/search/user?public=true&top=false&recent=true&limit=\(limit)") { (result: NetworkResult) in
+        if let data = self.cache.object(forKey: latestUsersCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+            completion(ratedUsers, nil)
+        }
+
+        self.teapot.get("/v1/search/user?public=true&top=false&recent=true&limit=\(limit)") { [weak self] (result: NetworkResult) in
             var results: [TokenUser] = []
             var resultError: Error?
 
             switch result {
             case .success(let json, _):
-                guard let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
+                guard let strongSelf = self, let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
                     completion([], nil)
                     return
                 }
@@ -438,6 +463,9 @@ import Teapot
                 let contacts = json.map { userJSON in
                     TokenUser(json: userJSON)
                 }
+
+                strongSelf.latestUsersCachedData.objects = contacts
+                strongSelf.cache.setObject(strongSelf.latestUsersCachedData, forKey: strongSelf.latestUsersCachedDataKey)
 
                 results = contacts
             case .failure(_, _, let error):

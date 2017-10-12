@@ -21,7 +21,9 @@ public extension NSNotification.Name {
     public static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
 }
 
-open class RecentViewController: SweetTableController {
+open class RecentViewController: SweetTableController, Emptiable {
+
+    let emptyView = EmptyView(title: Localized("chats_empty_title"), description: Localized("chats_empty_description"), buttonTitle: Localized("invite_friends_action_title"))
 
     lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
@@ -87,11 +89,11 @@ open class RecentViewController: SweetTableController {
         tableView.register(ChatCell.self)
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
+    }
 
-        adjustEmptyView()
-        makeEmptyView(hidden: true)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
+    @objc func emptyViewButtonPressed(_ button: ActionButton) {
+        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://toshi.org)"], applicationActivities: [])
+        Navigator.presentModally(shareController)
     }
 
     @objc private func userDidSignOut(_: Notification) {
@@ -116,22 +118,12 @@ open class RecentViewController: SweetTableController {
         Navigator.presentModally(favoritesController)
     }
 
-    fileprivate lazy var emptyStateContainerView: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
-
     fileprivate func addSubviewsAndConstraints() {
-        view.addSubview(emptyStateContainerView)
-        let topSpace: CGFloat = (navigationController?.navigationBar.frame.height ?? 0.0)
-        emptyStateContainerView.set(height: view.frame.height - topSpace)
-        emptyStateContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        emptyStateContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        emptyStateContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-        view.layoutIfNeeded()
+        let tableHeaderHeight = navigationController?.navigationBar.frame.height ?? 0
+        
+        view.addSubview(emptyView)
+        emptyView.actionButton.addTarget(self, action: #selector(emptyViewButtonPressed(_:)), for: .touchUpInside)
+        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: tableHeaderHeight, left: 0, bottom: 0, right: 0))
     }
 
     func registerNotifications() {
@@ -198,7 +190,7 @@ open class RecentViewController: SweetTableController {
     private func showEmptyStateIfNeeded() {
         let shouldHideEmptyState = mappings.numberOfItems(inSection: 0) > 0
 
-        makeEmptyView(hidden: shouldHideEmptyState)
+        emptyView.isHidden = shouldHideEmptyState
     }
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
@@ -258,39 +250,6 @@ open class RecentViewController: SweetTableController {
         }
 
         return thread
-    }
-}
-
-extension RecentViewController: Emptiable {
-
-    var buttonPressed: Selector {
-        return #selector(buttonPressed(sender:))
-    }
-
-    func emptyStateTitle() -> String {
-        return "No chats yet"
-    }
-
-    func emptyStateDescription() -> String {
-        return "Once you start a new conversation,\nyou'll see it here."
-    }
-
-    func emptyStateButtonTitle() -> String {
-        return "Invite friends"
-    }
-
-    func sourceView() -> UIView {
-        return emptyStateContainerView
-    }
-
-    func isScrollable() -> Bool {
-        return false
-    }
-
-    @objc func buttonPressed(sender _: AnyObject) {
-        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://toshi.org)"], applicationActivities: [])
-
-        Navigator.presentModally(shareController)
     }
 }
 

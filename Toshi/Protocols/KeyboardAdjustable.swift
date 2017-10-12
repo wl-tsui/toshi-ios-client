@@ -16,8 +16,9 @@
 import Foundation
 import UIKit
 
-protocol Editable: class {
+protocol KeyboardAdjustable: class {
     var scrollView: UIScrollView { get }
+    var scrollViewBottomInset: CGFloat { get set }
 
     func registerForKeyboardNotifications()
     func unregisterFromKeyboardNotifications()
@@ -29,7 +30,10 @@ protocol Editable: class {
     func keyboardWillHide(_ notification: NSNotification)
 }
 
-extension Editable where Self: UIViewController {
+extension KeyboardAdjustable where Self: UIViewController {
+    func keyboardOffset() -> CGFloat {
+        return 0.0
+    }
 
     func registerForKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: keyboardWillShowSelector, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -46,6 +50,7 @@ extension Editable where Self: UIViewController {
     }
 
     func keyboardWillHide(_ notification: NSNotification) {
-        scrollView.removeBottomInsets(from: notification)
+        scrollView.removeKeyboardInsets(from: notification, withBasicBottomInset: scrollViewBottomInset)
+        scrollView.layoutIfNeeded()
     }
 }

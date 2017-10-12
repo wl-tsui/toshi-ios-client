@@ -15,7 +15,6 @@
 
 import UIKit
 import SweetUIKit
-import NoChat
 import MobileCoreServices
 import AVFoundation
 
@@ -645,9 +644,7 @@ extension ChatViewController: ActivityIndicating {
 }
 
 extension ChatViewController: ChatInputTextPanelDelegate {
-    func inputPanel(_: NOCChatInputPanel, willChangeHeight _: CGFloat, duration _: TimeInterval, animationCurve _: Int32) {
-    }
-
+    
     func inputTextPanel(_: ChatInputTextPanel, requestSendText text: String) {
         let wrapper = SofaMessage(content: ["body": text])
 
@@ -803,24 +800,26 @@ extension ChatViewController: ChatButtonsSelectionDelegate {
         case .button:
             didTapControlButton(button)
         case .group:
-            showActions(for: button)
+            showMenu(for: button, at: indexPath)
         }
     }
     
-    private func showActions(for button: SofaMessage.Button) {
+    private func showMenu(for button: SofaMessage.Button, at indexPath: IndexPath) {
         
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        for control in button.subcontrols {
-            let action = UIAlertAction(title: control.label, style: .default, handler: { _ in
-                self.didTapControlButton(control)
-            })
+        if let cell = buttonsView.collectionView.cellForItem(at: indexPath) {
+            presentedViewController?.dismiss(animated: true)
             
-            actionSheet.addAction(action)
+            let chatMenuTableViewController = ChatMenuTableViewController(for: cell, in: buttonsView)
+            chatMenuTableViewController.delegate = self
+            chatMenuTableViewController.buttons = button.subcontrols
+            present(chatMenuTableViewController, animated: true)
         }
-        
-        actionSheet.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
-        
-        Navigator.presentModally(actionSheet)
+    }
+}
+
+extension ChatViewController: ChatMenuTableViewControllerDelegate {
+    
+    func didSelectButton(_ button: SofaMessage.Button, at indexPath: IndexPath) {
+        didTapControlButton(button)
     }
 }

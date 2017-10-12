@@ -53,47 +53,33 @@ class BrowseAllController: UITableViewController {
         tableView.register(SearchResultCell.self)
     }
 
-    private func fetchData() {
+    private func showResults(_ apps: [TokenUser]?, _ error: Error? = nil) {
+        if let error = error {
+            let alertController = UIAlertController.errorAlert(error as NSError)
+            Navigator.presentModally(alertController)
+        }
 
+        self.searchResults = apps ?? []
+    }
+
+    private func fetchData() {
         switch contentSection {
         case .topRatedApps:
-            AppsAPIClient.shared.getTopRatedApps(limit: 100) { [weak self] apps, error in
-                if let error = error {
-                    let alertController = UIAlertController.errorAlert(error as NSError)
-                    Navigator.presentModally(alertController)
-                }
-
-                self?.searchResults = apps ?? []
-            }
+            AppsAPIClient.shared.getTopRatedApps(limit: 100, completion: { [weak self] apps, error in
+                self?.showResults(apps, error)
+            })
         case .featuredApps:
-            AppsAPIClient.shared.getFeaturedApps(limit: 100) { [weak self] apps, error in
-                if let error = error {
-                    let alertController = UIAlertController.errorAlert(error as NSError)
-                    Navigator.presentModally(alertController)
-                }
-
-                self?.searchResults = apps ?? []
-            }
+            AppsAPIClient.shared.getFeaturedApps(limit: 100, completion: { [weak self] apps, error in
+                self?.showResults(apps, error)
+            })
         case .topRatedPublicUsers:
-            IDAPIClient.shared.getTopRatedPublicUsers(limit: 100) { [weak self] users, error in
-
-                if let error = error {
-                    let alertController = UIAlertController.errorAlert(error as NSError)
-                    Navigator.presentModally(alertController)
-                }
-
-                self?.searchResults = users
-            }
+            IDAPIClient.shared.getTopRatedPublicUsers(limit: 100, completion: { [weak self] users, error in
+                self?.showResults(users, error)
+            })
         case .latestPublicUsers:
-            IDAPIClient.shared.getLatestPublicUsers(limit: 100) { [weak self] users, error in
-
-                if let error = error {
-                    let alertController = UIAlertController.errorAlert(error as NSError)
-                    Navigator.presentModally(alertController)
-                }
-
-                self?.searchResults = users
-            }
+            IDAPIClient.shared.getLatestPublicUsers(limit: 100, completion: { [weak self] users, error in
+                 self?.showResults(users, error)
+            })
         }
     }
 
