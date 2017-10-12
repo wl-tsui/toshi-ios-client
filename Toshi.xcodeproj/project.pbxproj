@@ -581,6 +581,12 @@
 		A963D5301F288E5D00297FDF /* MessagesCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */; };
 		A963D5311F288E8900297FDF /* MessagesCornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */; };
 		A96B19011F87CCE1002E5B52 /* Collection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96B19001F87CCE0002E5B52 /* Collection+Additions.swift */; };
+		A976002C1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002B1F8F711C00D1C79E /* ChatMenuTableViewController.swift */; };
+		A976002D1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002B1F8F711C00D1C79E /* ChatMenuTableViewController.swift */; };
+		A976002E1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002B1F8F711C00D1C79E /* ChatMenuTableViewController.swift */; };
+		A97600301F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
+		A97600311F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
+		A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
 		A997B0FE1EF94B4600A143FE /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
 		A997B0FF1EF94B4900A143FE /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
 		A997B1001EF94B4C00A143FE /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
@@ -1003,6 +1009,8 @@
 		A9603F9C1F4DB8C100BF57B1 /* DistributionDev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DistributionDev.plist; sourceTree = "<group>"; };
 		A963D52F1F288E5D00297FDF /* MessagesCornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesCornerView.swift; sourceTree = "<group>"; };
 		A96B19001F87CCE0002E5B52 /* Collection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Additions.swift"; sourceTree = "<group>"; };
+		A976002B1F8F711C00D1C79E /* ChatMenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMenuTableViewController.swift; sourceTree = "<group>"; };
+		A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMenuTableViewCell.swift; sourceTree = "<group>"; };
 		A9AC74071E77E37500365029 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		A9AC740A1E77E62900365029 /* UIView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 		A9AC740D1E78051F00365029 /* TitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -1766,11 +1774,13 @@
 		A91D729B1F877FFA0093420C /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				A91D72A61F8782DC0093420C /* ChatButtonsView.swift */,
 				A91D72AE1F8786A70093420C /* ChatButtonsCollectionViewCell.swift */,
 				A91D72AA1F8785E10093420C /* ChatButtonsCollectionViewLayout.swift */,
+				A91D72A61F8782DC0093420C /* ChatButtonsView.swift */,
 				A91D729C1F877FFA0093420C /* ChatFloatingHeaderView.swift */,
 				A91D729D1F877FFA0093420C /* ChatInteractor.swift */,
+				A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */,
+				A976002B1F8F711C00D1C79E /* ChatMenuTableViewController.swift */,
 				A91D729E1F877FFA0093420C /* ChatViewController.swift */,
 				A91D729F1F877FFA0093420C /* ChatViewModel.swift */,
 			);
@@ -2649,6 +2659,7 @@
 				2B3DF3621F4721EB00A869A3 /* SettingsProfileCell.swift in Sources */,
 				A9E691CB1F7A49A700317DB1 /* SignInExplanation.swift in Sources */,
 				84FFE1EC1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
+				A976002E1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */,
 				9F88EA041EE0402F00267573 /* PassphraseView.swift in Sources */,
 				2BC7CA2A1F7BA6D000033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				149F9A621E72E29A00FB74AA /* ProfileEditController.swift in Sources */,
@@ -2746,6 +2757,7 @@
 				A9BF33B31E76F8D0009A51AA /* PassphraseEnableController.swift in Sources */,
 				A9E691C91F7A49A100317DB1 /* SignInCell.swift in Sources */,
 				9F5B9BA21EBB530B006448F0 /* RatingView.swift in Sources */,
+				A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				149F9A8D1E72E29A00FB74AA /* Theme.swift in Sources */,
 				9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */,
 				A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */,
@@ -2823,6 +2835,7 @@
 				9F78D9CF1EE93E68003A0B95 /* ModalPresentationController.swift in Sources */,
 				9FE18B2B1E2D1FD300940DC8 /* ProfileEditController.swift in Sources */,
 				84C1952C1ECF057E00B9512F /* SOFAWebController.swift in Sources */,
+				A976002C1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */,
 				A91D72A21F877FFA0093420C /* ChatFloatingHeaderView.swift in Sources */,
 				A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */,
 				2BC7CA2C1F7BA6D200033E35 /* UIViewController+NavigationBar.swift in Sources */,
@@ -2920,6 +2933,7 @@
 				2BA0D88F1F7551B9000B8500 /* NSLayoutConstraint+Additions.swift in Sources */,
 				9FC72A3A1E25145D00EF1141 /* CryptoTools.m in Sources */,
 				A9202E621ED84F6A0036E9B7 /* Extensions.swift in Sources */,
+				A97600301F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				14E4D8D01E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
 				A96B19011F87CCE1002E5B52 /* Collection+Additions.swift in Sources */,
@@ -2997,6 +3011,7 @@
 				A9603D401F4DABDC00BF57B1 /* SettingsProfileCell.swift in Sources */,
 				A9E691CA1F7A49A700317DB1 /* SignInExplanation.swift in Sources */,
 				A9603D431F4DABDC00BF57B1 /* QRCodeIntent.swift in Sources */,
+				A976002D1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */,
 				A9603D461F4DABDC00BF57B1 /* PassphraseView.swift in Sources */,
 				2BC7CA2B1F7BA6D100033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				A9603D551F4DABDC00BF57B1 /* ProfileEditController.swift in Sources */,
@@ -3094,6 +3109,7 @@
 				A9603E881F4DABDC00BF57B1 /* PassphraseEnableController.swift in Sources */,
 				A9E691C81F7A49A100317DB1 /* SignInCell.swift in Sources */,
 				A9603E901F4DABDC00BF57B1 /* RatingView.swift in Sources */,
+				A97600311F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				A9603E911F4DABDC00BF57B1 /* Theme.swift in Sources */,
 				A9603E951F4DABDC00BF57B1 /* ChatInputTextPanel.swift in Sources */,
 				A9603E9D1F4DABDC00BF57B1 /* Footnote.swift in Sources */,
