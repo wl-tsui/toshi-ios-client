@@ -24,25 +24,6 @@ void AssertIsOnSessionStoreQueue()
  * Note that it's still technically possible to access this collection from a different collection,
  * but that should be considered a bug.
  */
-+ (YapDatabaseConnection *)sessionDBConnection
-{
-    static dispatch_once_t onceToken;
-    static YapDatabaseConnection *sessionDBConnection;
-    dispatch_once(&onceToken, ^{
-        sessionDBConnection = [TSStorageManager sharedManager].newDatabaseConnection;
-        sessionDBConnection.objectCacheEnabled = NO;
-#if DEBUG
-        sessionDBConnection.permittedTransactions = YDB_AnySyncTransaction;
-#endif
-    });
-
-    return sessionDBConnection;
-}
-
-- (YapDatabaseConnection *)sessionDBConnection
-{
-    return [[self class] sessionDBConnection];
-}
 
 #pragma mark - SessionStore
 
@@ -56,6 +37,8 @@ void AssertIsOnSessionStoreQueue()
     }];
 
     SessionRecord *record;
+
+    NSLog(@" \n\n Dictionary %@", dictionary);
 
     if (dictionary) {
         record = [dictionary objectForKey:@(deviceId)];
@@ -98,7 +81,7 @@ void AssertIsOnSessionStoreQueue()
     __block NSDictionary *immutableDictionary;
     [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         immutableDictionary =
-            [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
     }];
 
     NSMutableDictionary *dictionary = [immutableDictionary mutableCopy];
@@ -127,12 +110,12 @@ void AssertIsOnSessionStoreQueue()
 {
     AssertIsOnSessionStoreQueue();
     DDLogInfo(
-        @"[TSStorageManager (SessionStore)] deleting session for contact: %@ device: %d", contactIdentifier, deviceId);
+              @"[TSStorageManager (SessionStore)] deleting session for contact: %@ device: %d", contactIdentifier, deviceId);
 
     __block NSDictionary *immutableDictionary;
     [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         immutableDictionary =
-            [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
     }];
     NSMutableDictionary *dictionary = [immutableDictionary mutableCopy];
 
@@ -168,7 +151,7 @@ void AssertIsOnSessionStoreQueue()
     __block NSDictionary<NSNumber *, SessionRecord *> *sessionRecords;
     [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         sessionRecords =
-            [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
 
 
         for (id deviceId in sessionRecords) {
@@ -198,42 +181,43 @@ void AssertIsOnSessionStoreQueue()
     [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
         DDLogDebug(@"%@ All Sessions:", tag);
         [transaction
-            enumerateKeysAndObjectsInCollection:TSStorageManagerSessionStoreCollection
-                                     usingBlock:^(NSString *_Nonnull key,
-                                         id _Nonnull deviceSessionsObject,
-                                         BOOL *_Nonnull stop) {
-                                         if (![deviceSessionsObject isKindOfClass:[NSDictionary class]]) {
-                                             OWSAssert(NO);
-                                             DDLogError(
-                                                 @"%@ Unexpected type: %@ in collection.", tag, deviceSessionsObject);
-                                             return;
-                                         }
-                                         NSDictionary *deviceSessions = (NSDictionary *)deviceSessionsObject;
+         enumerateKeysAndObjectsInCollection:TSStorageManagerSessionStoreCollection
+         usingBlock:^(NSString *_Nonnull key,
+                      id _Nonnull deviceSessionsObject,
+                      BOOL *_Nonnull stop) {
+             if (![deviceSessionsObject isKindOfClass:[NSDictionary class]]) {
+                 OWSAssert(NO);
+                 DDLogError(
+                            @"%@ Unexpected type: %@ in collection.", tag, deviceSessionsObject);
+                 return;
+             }
+             NSDictionary *deviceSessions = (NSDictionary *)deviceSessionsObject;
 
-                                         DDLogDebug(@"%@     Sessions for recipient: %@", tag, key);
-                                         [deviceSessions enumerateKeysAndObjectsUsingBlock:^(
-                                             id _Nonnull key, id _Nonnull sessionRecordObject, BOOL *_Nonnull stop) {
-                                             if (![sessionRecordObject isKindOfClass:[SessionRecord class]]) {
-                                                 OWSAssert(NO);
-                                                 DDLogError(@"%@ Unexpected type: %@ in collection.",
-                                                     tag,
-                                                     sessionRecordObject);
-                                                 return;
-                                             }
-                                             SessionRecord *sessionRecord = (SessionRecord *)sessionRecordObject;
-                                             SessionState *activeState = [sessionRecord sessionState];
-                                             NSArray<SessionState *> *previousStates =
-                                                 [sessionRecord previousSessionStates];
-                                             DDLogDebug(@"%@         Device: %@ SessionRecord: %@ activeSessionState: "
-                                                        @"%@ previousSessionStates: %@",
-                                                 tag,
-                                                 key,
-                                                 sessionRecord,
-                                                 activeState,
-                                                 previousStates);
-                                         }];
-                                     }];
+             DDLogDebug(@"%@     Sessions for recipient: %@", tag, key);
+             [deviceSessions enumerateKeysAndObjectsUsingBlock:^(
+                                                                 id _Nonnull key, id _Nonnull sessionRecordObject, BOOL *_Nonnull stop) {
+                 if (![sessionRecordObject isKindOfClass:[SessionRecord class]]) {
+                     OWSAssert(NO);
+                     DDLogError(@"%@ Unexpected type: %@ in collection.",
+                                tag,
+                                sessionRecordObject);
+                     return;
+                 }
+                 SessionRecord *sessionRecord = (SessionRecord *)sessionRecordObject;
+                 SessionState *activeState = [sessionRecord sessionState];
+                 NSArray<SessionState *> *previousStates =
+                 [sessionRecord previousSessionStates];
+                 DDLogDebug(@"%@         Device: %@ SessionRecord: %@ activeSessionState: "
+                            @"%@ previousSessionStates: %@",
+                            tag,
+                            key,
+                            sessionRecord,
+                            activeState,
+                            previousStates);
+             }];
+         }];
     }];
 }
 
 @end
+
