@@ -112,6 +112,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         NotificationCenter.default.addObserver(self, selector: #selector(handleBalanceUpdate(_:)), name: .ethereumBalanceUpdateNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardDidHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     required init?(coder aDecoder: NSCoder) {
