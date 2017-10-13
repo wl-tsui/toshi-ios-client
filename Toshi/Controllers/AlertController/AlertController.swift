@@ -92,8 +92,8 @@ class AlertController: ModalPresentable {
 
         visualEffectView.backgroundColor = Theme.lightGreyTextColor
 
-        visualEffectView.addSubview(actionsStackView)
-        visualEffectView.addSubview(reviewContainer)
+        visualEffectView.contentView.addSubview(actionsStackView)
+        visualEffectView.contentView.addSubview(reviewContainer)
 
         reviewContainer.topAnchor.constraint(equalTo: visualEffectView.topAnchor).isActive = true
         reviewContainer.leftAnchor.constraint(equalTo: visualEffectView.leftAnchor).isActive = true
