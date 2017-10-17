@@ -329,7 +329,6 @@ static const CGFloat kSignedPreKeyUpdateFailureMaxFailureDuration = 10 * 24 * 60
 + (void)clearSignedPreKeyRecordsWithKeyId:(NSNumber *)keyId success:(void (^_Nullable)())successHandler
 {
     if (!keyId) {
-        OWSAssert(NO);
         DDLogError(@"%@ Ignoring request to clear signed preKeys since no keyId was specified", self.tag);
         return;
     }
