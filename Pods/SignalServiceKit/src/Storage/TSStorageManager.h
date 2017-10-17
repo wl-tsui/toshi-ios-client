@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 @property (nonatomic, strong, readonly) YapDatabaseConnection *sessionDBConnection;
+@property (nonatomic, assign, readonly) dispatch_queue_t sessionDBQueue;
 
 + (instancetype)sharedManager;
 

@@ -98,6 +98,7 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 @interface TSStorageManager()
 
 @property (nonatomic, strong, readwrite) YapDatabaseConnection *sessionDBConnection;
+@property (nonatomic, assign, readwrite) dispatch_queue_t sessionDBQueue;
 
 @end
 
@@ -118,7 +119,6 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 - (YapDatabaseConnection *)sessionDBConnection
 {
     if (!_sessionDBConnection) {
-
         _sessionDBConnection = self.newDatabaseConnection;
         _sessionDBConnection.objectCacheEnabled = NO;
 #if DEBUG
@@ -126,6 +126,15 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 #endif
     }
     return _sessionDBConnection;
+}
+
+- (dispatch_queue_t)sessionDBQueue
+{
+    if (!_sessionDBQueue) {
+        _sessionDBQueue = dispatch_queue_create("com.myQueue.CJFilterMainQueue", NULL);
+    }
+
+    return _sessionDBQueue;
 }
 
 - (void)loadBackupIfNeeded
@@ -175,14 +184,15 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
         return [strongSelf databasePassword];
     };
 
-    NSLog(@"---------------------\nLoading chat DB: contents: %@", [[NSFileManager defaultManager] contentsAtPath:[self dbPath]]);
+    NSLog(@"\n\n---------------------\n \n Loading chat DB: has contents %@ \n --", @([[NSFileManager defaultManager] contentsAtPath:[self dbPath]] != nil));
 
-    NSLog(@"\n\n - DB Password: %@", [self databasePassword]);
 
     _database = [[YapDatabase alloc] initWithPath:[self dbPath]
                                        serializer:NULL
                                      deserializer:[[self class] logOnFailureDeserializer]
                                           options:options];
+    NSLog(@"\n\n --------------- \n - DB Password: %@ \n - DB created: %@ \n\n --------------------------", [self databasePassword], @(_database != nil));
+
     if (!_database) {
         return NO;
     }
@@ -615,6 +625,7 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
     self.database = nil;
     _dbConnection = nil;
     _sessionDBConnection = nil;
+    _sessionDBQueue = nil;
 
     [TSAttachmentStream deleteAttachments];
 }

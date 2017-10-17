@@ -18,10 +18,6 @@ extern NSString *const kNSNotificationName_IsCensorshipCircumventionActiveDidCha
 
 @property (nonatomic, readonly) BOOL hasCensoredPhoneNumber;
 
-//+ (instancetype)sharedInstance;
-
-//- (instancetype)init NS_UNAVAILABLE;
-
 - (void)stopObservingNotifications;
 
 - (BOOL)isCensorshipCircumventionManuallyActivated;

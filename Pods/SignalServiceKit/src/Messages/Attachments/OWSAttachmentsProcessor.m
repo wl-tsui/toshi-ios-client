@@ -146,45 +146,45 @@ static const CGFloat kAttachmentDownloadProgressTheta = 0.001f;
                              success:^(NSURLSessionDataTask *task, id responseObject) {
                                  if (![responseObject isKindOfClass:[NSDictionary class]]) {
                                      DDLogError(@"%@ Failed retrieval of attachment. Response had unexpected format.",
-                                         self.tag);
+                                                self.tag);
                                      NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
                                      return markAndHandleFailure(error);
                                  }
                                  NSString *location = [(NSDictionary *)responseObject objectForKey:@"location"];
                                  if (!location) {
                                      DDLogError(
-                                         @"%@ Failed retrieval of attachment. Response had no location.", self.tag);
+                                                @"%@ Failed retrieval of attachment. Response had no location.", self.tag);
                                      NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
                                      return markAndHandleFailure(error);
                                  }
 
-                                 dispatch_async([OWSDispatch attachmentsQueue], ^{
+                                 dispatch_async([OWSDispatch.shared attachmentsQueue], ^{
                                      [self downloadFromLocation:location
-                                         pointer:attachment
-                                         success:^(NSData *_Nonnull encryptedData) {
-                                             [self decryptAttachmentData:encryptedData
-                                                                 pointer:attachment
-                                                                 success:markAndHandleSuccess
-                                                                 failure:markAndHandleFailure];
-                                         }
-                                         failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
-                                             if (attachment.serverId < 100) {
-                                                 // This looks like the symptom of the "frequent 404
-                                                 // downloading attachments with low server ids".
-                                                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
-                                                 NSInteger statusCode = [httpResponse statusCode];
-                                                 DDLogError(@"%@ %d Failure with suspicious attachment id: %llu, %@",
-                                                     self.tag,
-                                                     (int)statusCode,
-                                                     (unsigned long long)attachment.serverId,
-                                                     error);
-                                                 [DDLog flushLog];
-                                                 OWSAssert(0);
-                                             }
-                                             if (markAndHandleFailure) {
-                                                 markAndHandleFailure(error);
-                                             }
-                                         }];
+                                                        pointer:attachment
+                                                        success:^(NSData *_Nonnull encryptedData) {
+                                                            [self decryptAttachmentData:encryptedData
+                                                                                pointer:attachment
+                                                                                success:markAndHandleSuccess
+                                                                                failure:markAndHandleFailure];
+                                                        }
+                                                        failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+                                                            if (attachment.serverId < 100) {
+                                                                // This looks like the symptom of the "frequent 404
+                                                                // downloading attachments with low server ids".
+                                                                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+                                                                NSInteger statusCode = [httpResponse statusCode];
+                                                                DDLogError(@"%@ %d Failure with suspicious attachment id: %llu, %@",
+                                                                           self.tag,
+                                                                           (int)statusCode,
+                                                                           (unsigned long long)attachment.serverId,
+                                                                           error);
+                                                                [DDLog flushLog];
+                                                                OWSAssert(0);
+                                                            }
+                                                            if (markAndHandleFailure) {
+                                                                markAndHandleFailure(error);
+                                                            }
+                                                        }];
                                  });
                              }
                              failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -195,10 +195,10 @@ static const CGFloat kAttachmentDownloadProgressTheta = 0.001f;
                                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
                                      NSInteger statusCode = [httpResponse statusCode];
                                      DDLogError(@"%@ %d Failure with suspicious attachment id: %llu, %@",
-                                         self.tag,
-                                         (int)statusCode,
-                                         (unsigned long long)attachment.serverId,
-                                         error);
+                                                self.tag,
+                                                (int)statusCode,
+                                                (unsigned long long)attachment.serverId,
+                                                error);
                                      [DDLog flushLog];
                                      OWSAssert(0);
                                  }
@@ -212,7 +212,7 @@ static const CGFloat kAttachmentDownloadProgressTheta = 0.001f;
                       failure:(void (^)(NSError *error))failureHandler
 {
     NSData *plaintext =
-        [Cryptography decryptAttachment:cipherText withKey:attachment.encryptionKey digest:attachment.digest];
+    [Cryptography decryptAttachment:cipherText withKey:attachment.encryptionKey digest:attachment.digest];
 
     if (!plaintext) {
         NSError *error = OWSErrorWithCodeDescription(OWSErrorCodeFailedToDecryptMessage, NSLocalizedString(@"ERROR_MESSAGE_INVALID_MESSAGE", @""));
@@ -249,97 +249,97 @@ static const CGFloat kAttachmentDownloadProgressTheta = 0.001f;
     __block NSURLSessionDataTask *task = nil;
     __block BOOL hasCheckedContentLength = NO;
     task = [manager GET:location
-        parameters:nil
-        progress:^(NSProgress *_Nonnull progress) {
-            OWSAssert(progress != nil);
-            
-            // Don't do anything until we've received at least one byte of data.
-            if (progress.completedUnitCount < 1) {
-                return;
-            }
-            
-            void (^abortDownload)() = ^{
-                OWSAssert(0);
-                [task cancel];
-            };
-            
-            if (progress.totalUnitCount > kMaxDownloadSize || progress.completedUnitCount > kMaxDownloadSize) {
-                // A malicious service might send a misleading content length header,
-                // so....
-                //
-                // If the current downloaded bytes or the expected total byes
-                // exceed the max download size, abort the download.
-                DDLogError(@"%@ Attachment download exceed expected content length: %lld, %lld.",
-                           self.tag,
-                           (long long) progress.totalUnitCount,
-                           (long long) progress.completedUnitCount);
-                abortDownload();
-                return;
-            }
+             parameters:nil
+               progress:^(NSProgress *_Nonnull progress) {
+                   OWSAssert(progress != nil);
 
-            [self fireProgressNotification:MAX(kAttachmentDownloadProgressTheta, progress.fractionCompleted)
-                              attachmentId:pointer.uniqueId];
+                   // Don't do anything until we've received at least one byte of data.
+                   if (progress.completedUnitCount < 1) {
+                       return;
+                   }
 
-            // We only need to check the content length header once.
-            if (hasCheckedContentLength) {
-                return;
-            }
-            
-            // Once we've received some bytes of the download, check the content length
-            // header for the download.
-            //
-            // If the task doesn't exist, or doesn't have a response, or is missing
-            // the expected headers, or has an invalid or oversize content length, etc.,
-            // abort the download.
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
-            if (![httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-                DDLogError(@"%@ Attachment download has missing or invalid response.",
-                           self.tag);
-                abortDownload();
-                return;
-            }
-            
-            NSDictionary *headers = [httpResponse allHeaderFields];
-            if (![headers isKindOfClass:[NSDictionary class]]) {
-                DDLogError(@"%@ Attachment download invalid headers.",
-                           self.tag);
-                abortDownload();
-                return;
-            }
-            
-            
-            NSString *contentLength = headers[@"Content-Length"];
-            if (![contentLength isKindOfClass:[NSString class]]) {
-                DDLogError(@"%@ Attachment download missing or invalid content length.",
-                           self.tag);
-                abortDownload();
-                return;
-            }
-            
-            
-            if (contentLength.longLongValue > kMaxDownloadSize) {
-                DDLogError(@"%@ Attachment download content length exceeds max download size.",
-                           self.tag);
-                abortDownload();
-                return;
-            }
-            
-            // This response has a valid content length that is less
-            // than our max download size.  Proceed with the download.
-            hasCheckedContentLength = YES;
-        }
-        success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
-            if (![responseObject isKindOfClass:[NSData class]]) {
-                DDLogError(@"%@ Failed retrieval of attachment. Response had unexpected format.", self.tag);
-                NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
-                return failureHandler(task, error);
-            }
-            successHandler((NSData *)responseObject);
-        }
-        failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
-            DDLogError(@"Failed to retrieve attachment with error: %@", error.description);
-            return failureHandler(task, error);
-        }];
+                   void (^abortDownload)() = ^{
+                       OWSAssert(0);
+                       [task cancel];
+                   };
+
+                   if (progress.totalUnitCount > kMaxDownloadSize || progress.completedUnitCount > kMaxDownloadSize) {
+                       // A malicious service might send a misleading content length header,
+                       // so....
+                       //
+                       // If the current downloaded bytes or the expected total byes
+                       // exceed the max download size, abort the download.
+                       DDLogError(@"%@ Attachment download exceed expected content length: %lld, %lld.",
+                                  self.tag,
+                                  (long long) progress.totalUnitCount,
+                                  (long long) progress.completedUnitCount);
+                       abortDownload();
+                       return;
+                   }
+
+                   [self fireProgressNotification:MAX(kAttachmentDownloadProgressTheta, progress.fractionCompleted)
+                                     attachmentId:pointer.uniqueId];
+
+                   // We only need to check the content length header once.
+                   if (hasCheckedContentLength) {
+                       return;
+                   }
+
+                   // Once we've received some bytes of the download, check the content length
+                   // header for the download.
+                   //
+                   // If the task doesn't exist, or doesn't have a response, or is missing
+                   // the expected headers, or has an invalid or oversize content length, etc.,
+                   // abort the download.
+                   NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
+                   if (![httpResponse isKindOfClass:[NSHTTPURLResponse class]]) {
+                       DDLogError(@"%@ Attachment download has missing or invalid response.",
+                                  self.tag);
+                       abortDownload();
+                       return;
+                   }
+
+                   NSDictionary *headers = [httpResponse allHeaderFields];
+                   if (![headers isKindOfClass:[NSDictionary class]]) {
+                       DDLogError(@"%@ Attachment download invalid headers.",
+                                  self.tag);
+                       abortDownload();
+                       return;
+                   }
+
+
+                   NSString *contentLength = headers[@"Content-Length"];
+                   if (![contentLength isKindOfClass:[NSString class]]) {
+                       DDLogError(@"%@ Attachment download missing or invalid content length.",
+                                  self.tag);
+                       abortDownload();
+                       return;
+                   }
+
+
+                   if (contentLength.longLongValue > kMaxDownloadSize) {
+                       DDLogError(@"%@ Attachment download content length exceeds max download size.",
+                                  self.tag);
+                       abortDownload();
+                       return;
+                   }
+
+                   // This response has a valid content length that is less
+                   // than our max download size.  Proceed with the download.
+                   hasCheckedContentLength = YES;
+               }
+                success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
+                    if (![responseObject isKindOfClass:[NSData class]]) {
+                        DDLogError(@"%@ Failed retrieval of attachment. Response had unexpected format.", self.tag);
+                        NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
+                        return failureHandler(task, error);
+                    }
+                    successHandler((NSData *)responseObject);
+                }
+                failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+                    DDLogError(@"Failed to retrieve attachment with error: %@", error.description);
+                    return failureHandler(task, error);
+                }];
 }
 
 - (void)fireProgressNotification:(CGFloat)progress attachmentId:(NSString *)attachmentId
@@ -349,9 +349,9 @@ static const CGFloat kAttachmentDownloadProgressTheta = 0.001f;
         [notificationCenter postNotificationName:kAttachmentDownloadProgressNotification
                                           object:nil
                                         userInfo:@{
-                                            kAttachmentDownloadProgressKey : @(progress),
-                                            kAttachmentDownloadAttachmentIDKey : attachmentId
-                                        }];
+                                                   kAttachmentDownloadProgressKey : @(progress),
+                                                   kAttachmentDownloadAttachmentIDKey : attachmentId
+                                                   }];
     });
 }
 
@@ -393,3 +393,4 @@ static const CGFloat kAttachmentDownloadProgressTheta = 0.001f;
 @end
 
 NS_ASSUME_NONNULL_END
+

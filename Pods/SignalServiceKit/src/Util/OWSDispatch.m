@@ -6,36 +6,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface OWSDispatch ()
+
+@property (nonatomic, strong, readwrite) dispatch_queue_t attachmentsQueue;
+@property (nonatomic, strong, readwrite) dispatch_queue_t sessionStoreQueue;
+@property (nonatomic, strong, readwrite) dispatch_queue_t sendingQueue;
+
+@end
+
 @implementation OWSDispatch
 
-+ (dispatch_queue_t)attachmentsQueue
++ (instancetype)shared
 {
+    static OWSDispatch *sharedInstance = nil;
     static dispatch_once_t onceToken;
-    static dispatch_queue_t queue;
     dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("org.whispersystems.signal.attachments", NULL);
+        sharedInstance = [[self alloc] init];
     });
-    return queue;
+
+    return sharedInstance;
 }
 
-+ (dispatch_queue_t)sessionStoreQueue
+- (void)freeUp
 {
-    static dispatch_once_t onceToken;
-    static dispatch_queue_t queue;
-    dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("org.whispersystems.signal.sessionStoreQueue", NULL);
-    });
-    return queue;
+    self.attachmentsQueue = nil;
+    self.sessionStoreQueue = nil;
+    self.sendingQueue = nil;
 }
 
-+ (dispatch_queue_t)sendingQueue
+- (void)setupForNewSession
 {
-    static dispatch_once_t onceToken;
-    static dispatch_queue_t queue;
-    dispatch_once(&onceToken, ^{
-        queue = dispatch_queue_create("org.whispersystems.signal.sendQueue", NULL);
-    });
-    return queue;
+    self.attachmentsQueue = dispatch_queue_create("org.whispersystems.signal.attachments", NULL);
+    self.sessionStoreQueue = dispatch_queue_create("org.whispersystems.signal.sessionStoreQueue", NULL);
+    self.sendingQueue = dispatch_queue_create("org.whispersystems.signal.sendQueue", NULL);
 }
 
 @end
@@ -45,3 +48,4 @@ void AssertIsOnMainThread() {
 }
 
 NS_ASSUME_NONNULL_END
+

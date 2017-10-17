@@ -49,7 +49,7 @@ void AssertIsOnSendingQueue()
 {
 #ifdef DEBUG
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(10, 0)) {
-        dispatch_assert_queue([OWSDispatch sendingQueue]);
+        dispatch_assert_queue([OWSDispatch.shared sendingQueue]);
     } // else, skip assert as it's a development convenience.
 #endif
 }
@@ -513,7 +513,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
     // TODO: Move the iOSVersion header to SSK.
     NSData *dataCopy = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(10, 0) ? data : [data copy]);
 
-    dispatch_async([OWSDispatch attachmentsQueue], ^{
+    dispatch_async([OWSDispatch.shared attachmentsQueue], ^{
         TSAttachmentStream *attachmentStream =
         [[TSAttachmentStream alloc] initWithContentType:contentType sourceFilename:sourceFilename];
         if (message.isVoiceMessage) {
@@ -572,7 +572,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
 {
     TSThread *thread = message.thread;
 
-    dispatch_async([OWSDispatch sendingQueue], ^{
+    dispatch_async([OWSDispatch.shared sendingQueue], ^{
         if ([thread isKindOfClass:[TSGroupThread class]]) {
             TSGroupThread *gThread = (TSGroupThread *)thread;
 
@@ -935,7 +935,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
 
     [self.networkManager makeRequest:request
                              success:^(NSURLSessionDataTask *task, id responseObject) {
-                                 dispatch_async([OWSDispatch sendingQueue], ^{
+                                 dispatch_async([OWSDispatch.shared sendingQueue], ^{
                                      [recipient save];
                                      [self handleMessageSentLocally:message];
                                      successHandler();
@@ -957,7 +957,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
                                          return failureHandler(error);
                                      }
 
-                                     dispatch_async([OWSDispatch sendingQueue], ^{
+                                     dispatch_async([OWSDispatch.shared sendingQueue], ^{
                                          DDLogDebug(@"%@ Retrying: %@", self.tag, message.debugDescription);
                                          [self sendMessage:message
                                                  recipient:recipient
@@ -1035,7 +1035,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
     NSArray *extraDevices = [dictionary objectForKey:@"extraDevices"];
     NSArray *missingDevices = [dictionary objectForKey:@"missingDevices"];
 
-    dispatch_async([OWSDispatch sessionStoreQueue], ^{
+    dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
         if (extraDevices.count < 1 && missingDevices.count < 1) {
             DDLogError(@"%@ No missing or extra devices in %s", self.tag, __PRETTY_FUNCTION__);
             OWSAssert(NO);
@@ -1149,7 +1149,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
             __block NSException *encryptionException;
             // Mutating session state is not thread safe, so we operate on a serial queue, shared with decryption
             // operations.
-            dispatch_sync([OWSDispatch sessionStoreQueue], ^{
+            dispatch_sync([OWSDispatch.shared sessionStoreQueue], ^{
                 @try {
                     messageDict = [self encryptedMessageWithPlaintext:plainText
                                                           toRecipient:recipient.uniqueId
@@ -1322,7 +1322,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
                            recipientId:(NSString *)identifier
                             completion:(void (^)())completionHandler
 {
-    dispatch_async([OWSDispatch sendingQueue], ^{
+    dispatch_async([OWSDispatch.shared sendingQueue], ^{
         NSDictionary *serialization = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
         NSArray *devices = serialization[@"staleDevices"];
 
@@ -1330,7 +1330,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
             return;
         }
 
-        dispatch_async([OWSDispatch sessionStoreQueue], ^{
+        dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
             for (NSUInteger i = 0; i < [devices count]; i++) {
                 int deviceNumber = [devices[i] intValue];
                 [[TSStorageManager sharedManager] deleteSessionForContact:identifier deviceId:deviceNumber];

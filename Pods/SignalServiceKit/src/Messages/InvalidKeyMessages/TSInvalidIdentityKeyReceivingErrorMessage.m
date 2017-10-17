@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 
     // Saving a new identity mutates the session store so it must happen on the sessionStoreQueue
-    dispatch_async([OWSDispatch sessionStoreQueue], ^{
+    dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
         [[TextSecureKitEnv sharedEnv].identityManager saveRemoteIdentity:newKey recipientId:self.envelope.source];
 
         dispatch_async(dispatch_get_main_queue(), ^{

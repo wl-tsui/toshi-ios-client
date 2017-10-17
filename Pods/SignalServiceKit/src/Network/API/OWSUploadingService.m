@@ -68,57 +68,57 @@ static const CGFloat kAttachmentUploadProgressTheta = 0.001f;
 
     TSRequest *allocateAttachment = [[TSAllocAttachmentRequest alloc] init];
     [self.networkManager makeRequest:allocateAttachment
-        success:^(NSURLSessionDataTask *task, id responseObject) {
-            dispatch_async([OWSDispatch attachmentsQueue], ^{ // TODO can we move this queue specification up a level?
-                if (![responseObject isKindOfClass:[NSDictionary class]]) {
-                    DDLogError(@"%@ unexpected response from server: %@", self.tag, responseObject);
-                    NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
-                    [error setIsRetryable:YES];
-                    return failureHandlerWrapper(error);
-                }
-
-                NSDictionary *responseDict = (NSDictionary *)responseObject;
-                UInt64 serverId = ((NSDecimalNumber *)[responseDict objectForKey:@"id"]).unsignedLongLongValue;
-                NSString *location = [responseDict objectForKey:@"location"];
-
-                NSError *error;
-                NSData *attachmentData = [attachmentStream readDataFromFileWithError:&error];
-                if (error) {
-                    DDLogError(@"%@ Failed to read attachment data with error:%@", self.tag, error);
-                    [error setIsRetryable:YES];
-                    return failureHandlerWrapper(error);
-                }
-
-                NSData *encryptionKey;
-                NSData *digest;
-                NSData *encryptedAttachmentData =
-                    [Cryptography encryptAttachmentData:attachmentData outKey:&encryptionKey outDigest:&digest];
-
-                attachmentStream.encryptionKey = encryptionKey;
-                attachmentStream.digest = digest;
-
-                [self uploadDataWithProgress:encryptedAttachmentData
-                                    location:location
-                                attachmentId:attachmentStream.uniqueId
-                                     success:^{
-                                         OWSAssert([NSThread isMainThread]);
-
-                                         DDLogInfo(@"%@ Uploaded attachment: %p.", self.tag, attachmentStream);
-                                         attachmentStream.serverId = serverId;
-                                         attachmentStream.isUploaded = YES;
-                                         [attachmentStream save];
-
-                                         successHandlerWrapper();
+                             success:^(NSURLSessionDataTask *task, id responseObject) {
+                                 dispatch_async([OWSDispatch.shared attachmentsQueue], ^{ // TODO can we move this queue specification up a level?
+                                     if (![responseObject isKindOfClass:[NSDictionary class]]) {
+                                         DDLogError(@"%@ unexpected response from server: %@", self.tag, responseObject);
+                                         NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
+                                         [error setIsRetryable:YES];
+                                         return failureHandlerWrapper(error);
                                      }
-                                     failure:failureHandlerWrapper];
 
-            });
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error) {
-            DDLogError(@"%@ Failed to allocate attachment with error: %@", self.tag, error);
-            [error setIsRetryable:YES];
-            failureHandlerWrapper(error);
-        }];
+                                     NSDictionary *responseDict = (NSDictionary *)responseObject;
+                                     UInt64 serverId = ((NSDecimalNumber *)[responseDict objectForKey:@"id"]).unsignedLongLongValue;
+                                     NSString *location = [responseDict objectForKey:@"location"];
+
+                                     NSError *error;
+                                     NSData *attachmentData = [attachmentStream readDataFromFileWithError:&error];
+                                     if (error) {
+                                         DDLogError(@"%@ Failed to read attachment data with error:%@", self.tag, error);
+                                         [error setIsRetryable:YES];
+                                         return failureHandlerWrapper(error);
+                                     }
+
+                                     NSData *encryptionKey;
+                                     NSData *digest;
+                                     NSData *encryptedAttachmentData =
+                                     [Cryptography encryptAttachmentData:attachmentData outKey:&encryptionKey outDigest:&digest];
+
+                                     attachmentStream.encryptionKey = encryptionKey;
+                                     attachmentStream.digest = digest;
+
+                                     [self uploadDataWithProgress:encryptedAttachmentData
+                                                         location:location
+                                                     attachmentId:attachmentStream.uniqueId
+                                                          success:^{
+                                                              OWSAssert([NSThread isMainThread]);
+
+                                                              DDLogInfo(@"%@ Uploaded attachment: %p.", self.tag, attachmentStream);
+                                                              attachmentStream.serverId = serverId;
+                                                              attachmentStream.isUploaded = YES;
+                                                              [attachmentStream save];
+
+                                                              successHandlerWrapper();
+                                                          }
+                                                          failure:failureHandlerWrapper];
+
+                                 });
+                             }
+                             failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                 DDLogError(@"%@ Failed to allocate attachment with error: %@", self.tag, error);
+                                 [error setIsRetryable:YES];
+                                 failureHandlerWrapper(error);
+                             }];
 }
 
 
@@ -134,33 +134,33 @@ static const CGFloat kAttachmentUploadProgressTheta = 0.001f;
     [request setValue:OWSMimeTypeApplicationOctetStream forHTTPHeaderField:@"Content-Type"];
 
     AFURLSessionManager *manager = [[AFURLSessionManager alloc]
-        initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+                                    initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 
     NSURLSessionUploadTask *uploadTask;
     uploadTask = [manager uploadTaskWithRequest:request
-        fromData:cipherText
-        progress:^(NSProgress *_Nonnull uploadProgress) {
-            [self fireProgressNotification:MAX(kAttachmentUploadProgressTheta, uploadProgress.fractionCompleted)
-                              attachmentId:attachmentId];
-        }
-        completionHandler:^(NSURLResponse *_Nonnull response, id _Nullable responseObject, NSError *_Nullable error) {
-            OWSAssert([NSThread isMainThread]);
-            if (error) {
-                [error setIsRetryable:YES];
-                return failureHandler(error);
-            }
+                                       fromData:cipherText
+                                       progress:^(NSProgress *_Nonnull uploadProgress) {
+                                           [self fireProgressNotification:MAX(kAttachmentUploadProgressTheta, uploadProgress.fractionCompleted)
+                                                             attachmentId:attachmentId];
+                                       }
+                              completionHandler:^(NSURLResponse *_Nonnull response, id _Nullable responseObject, NSError *_Nullable error) {
+                                  OWSAssert([NSThread isMainThread]);
+                                  if (error) {
+                                      [error setIsRetryable:YES];
+                                      return failureHandler(error);
+                                  }
 
-            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
-            BOOL isValidResponse = (statusCode >= 200) && (statusCode < 400);
-            if (!isValidResponse) {
-                DDLogError(@"%@ Unexpected server response: %d", self.tag, (int)statusCode);
-                NSError *invalidResponseError = OWSErrorMakeUnableToProcessServerResponseError();
-                [invalidResponseError setIsRetryable:YES];
-                return failureHandler(invalidResponseError);
-            }
+                                  NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+                                  BOOL isValidResponse = (statusCode >= 200) && (statusCode < 400);
+                                  if (!isValidResponse) {
+                                      DDLogError(@"%@ Unexpected server response: %d", self.tag, (int)statusCode);
+                                      NSError *invalidResponseError = OWSErrorMakeUnableToProcessServerResponseError();
+                                      [invalidResponseError setIsRetryable:YES];
+                                      return failureHandler(invalidResponseError);
+                                  }
 
-            successHandler();
-        }];
+                                  successHandler();
+                              }];
 
     [uploadTask resume];
 }
@@ -172,9 +172,9 @@ static const CGFloat kAttachmentUploadProgressTheta = 0.001f;
         [notificationCenter postNotificationName:kAttachmentUploadProgressNotification
                                           object:nil
                                         userInfo:@{
-                                            kAttachmentUploadProgressKey : @(progress),
-                                            kAttachmentUploadAttachmentIDKey : attachmentId
-                                        }];
+                                                   kAttachmentUploadProgressKey : @(progress),
+                                                   kAttachmentUploadAttachmentIDKey : attachmentId
+                                                   }];
     });
 }
 
@@ -193,3 +193,4 @@ static const CGFloat kAttachmentUploadProgressTheta = 0.001f;
 @end
 
 NS_ASSUME_NONNULL_END
+

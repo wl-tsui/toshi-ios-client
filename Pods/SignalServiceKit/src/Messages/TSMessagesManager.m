@@ -326,7 +326,7 @@ NS_ASSUME_NONNULL_BEGIN
         TSStorageManager *storageManager = [TSStorageManager sharedManager];
         NSString *recipientId = messageEnvelope.source;
         int deviceId = messageEnvelope.sourceDevice;
-        dispatch_async([OWSDispatch sessionStoreQueue], ^{
+        dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
             // DEPRECATED - Remove after all clients have been upgraded.
             NSData *encryptedData
             = messageEnvelope.hasContent ? messageEnvelope.content : messageEnvelope.legacyMessage;
@@ -393,7 +393,7 @@ NS_ASSUME_NONNULL_BEGIN
             return;
         }
 
-        dispatch_async([OWSDispatch sessionStoreQueue], ^{
+        dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
             NSData *plaintextData;
             @try {
                 // Check whether we need to refresh our PreKeys every time we receive a PreKeyWhisperMessage.
@@ -698,7 +698,7 @@ NS_ASSUME_NONNULL_BEGIN
         }
     }];
 
-    dispatch_async([OWSDispatch sessionStoreQueue], ^{
+    dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
         [[TSStorageManager sharedManager] deleteAllSessionsForContact:endSessionEnvelope.source];
     });
 }

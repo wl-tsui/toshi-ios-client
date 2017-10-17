@@ -9,21 +9,28 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Attachment downloading
  */
-+ (dispatch_queue_t)attachmentsQueue;
+@property (nonatomic, strong, readonly) dispatch_queue_t attachmentsQueue;
 
 /**
  * Signal protocol session state must be coordinated on a serial queue. This is sometimes used synchronously,
  * so never dispatching sync *from* this queue to avoid deadlock.
  */
-+ (dispatch_queue_t)sessionStoreQueue;
+@property (nonatomic, strong, readonly) dispatch_queue_t sessionStoreQueue;
 
 /**
  * Serial message sending queue
  */
-+ (dispatch_queue_t)sendingQueue;
+@property (nonatomic, strong, readonly) dispatch_queue_t sendingQueue;
+
++ (instancetype)shared;
+
+- (void)freeUp;
+
+- (void)setupForNewSession;
 
 @end
 
 void AssertIsOnMainThread();
 
 NS_ASSUME_NONNULL_END
+

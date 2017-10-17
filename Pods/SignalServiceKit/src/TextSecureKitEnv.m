@@ -59,8 +59,6 @@ NS_ASSUME_NONNULL_BEGIN
 
     self.messagesManager = [[TSMessagesManager alloc] init];
     self.identityManager = [[OWSIdentityManager alloc] init];
-
-    NSLog(@"%@", self);
 }
 
 - (NSString *)description
@@ -86,6 +84,8 @@ NS_ASSUME_NONNULL_BEGIN
 
     [self.signalService stopObservingNotifications];
     self.signalService = nil;
+
+    [OWSDispatch.shared freeUp];
 }
 
 //@synthesize callMessageHandler = _callMessageHandler,
@@ -123,6 +123,8 @@ NS_ASSUME_NONNULL_BEGIN
                      networkManager:(TSNetworkManager *)networkManager
 {
     @synchronized (self) {
+        [OWSDispatch.shared setupForNewSession];
+
         self.callMessageHandler = callMessageHandler;
         self.contactsManager = contactsManager;
         self.messageSender = messageSender;
@@ -136,7 +138,9 @@ NS_ASSUME_NONNULL_BEGIN
 
         [self.storageManager setupDatabase];
 
-        NSLog(@"\n *** %@", self);
+        [self setupForNewSession];
+
+        NSLog(@"\n\n *** %@ \n\n ---- \n", self);
     }
 }
 

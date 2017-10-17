@@ -4,6 +4,7 @@
 
 #import "TSStorageManager+SessionStore.h"
 #import <AxolotlKit/SessionRecord.h>
+#import "TSPreKeyManager.h"
 
 NSString *const TSStorageManagerSessionStoreCollection = @"TSStorageManagerSessionStoreCollection";
 NSString *const kSessionStoreDBConnectionKey = @"kSessionStoreDBConnectionKey";
@@ -12,7 +13,7 @@ void AssertIsOnSessionStoreQueue()
 {
 #ifdef DEBUG
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(10, 0)) {
-        dispatch_assert_queue([OWSDispatch sessionStoreQueue]);
+        dispatch_assert_queue([OWSDispatch.shared sessionStoreQueue]);
     } // else, skip assert as it's a development convenience.
 #endif
 }
@@ -32,21 +33,27 @@ void AssertIsOnSessionStoreQueue()
     AssertIsOnSessionStoreQueue();
 
     __block NSDictionary *dictionary;
-    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        dictionary = [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    //    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+    //        dictionary = [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
 
     SessionRecord *record;
 
-    NSLog(@" \n\n Dictionary %@", dictionary);
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:contactIdentifier];
+    dictionary = (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];;
+
+    NSLog(@" \n\n - Dictionary %@ loaded for %@ \n\n  -", dictionary, contactIdentifier);
 
     if (dictionary) {
         record = [dictionary objectForKey:@(deviceId)];
     }
 
     if (!record) {
+        NSLog(@"\n\n ---------- \n - Creating new session record for %@ \n\n ---------- \n.", contactIdentifier);
         return [SessionRecord new];
     }
+
+    NSLog(@"\n\n ############################### \n - Session state key: %@ contactID: %@ \n\n#####", record.sessionState.remoteIdentityKey, contactIdentifier);
 
     return record;
 }
@@ -59,9 +66,12 @@ void AssertIsOnSessionStoreQueue()
     AssertIsOnSessionStoreQueue();
 
     __block NSDictionary *dictionary;
-    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        dictionary = [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    //    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+    //        dictionary = [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
+
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:contactIdentifier];
+    dictionary =  (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
     return dictionary ? dictionary.allKeys : @[];
 }
@@ -79,11 +89,13 @@ void AssertIsOnSessionStoreQueue()
     [session markAsUnFresh];
 
     __block NSDictionary *immutableDictionary;
-    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        immutableDictionary =
-        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    //    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+    //        immutableDictionary =
+    //        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
 
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:contactIdentifier];
+    immutableDictionary =  (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
     NSMutableDictionary *dictionary = [immutableDictionary mutableCopy];
 
     if (!dictionary) {
@@ -92,11 +104,20 @@ void AssertIsOnSessionStoreQueue()
 
     [dictionary setObject:session forKey:@(deviceId)];
 
-    [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        [transaction setObject:[dictionary copy]
-                        forKey:contactIdentifier
-                  inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    NSLog(@"\n\n --------- \n Storing session dictionary for \n key %@ \n\n --------", contactIdentifier);
+
+    NSData *myData = [NSKeyedArchiver archivedDataWithRootObject:[dictionary copy]];
+    [[NSUserDefaults standardUserDefaults] setObject:myData forKey:contactIdentifier];
+
+    //    [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+    //        [transaction setObject:[dictionary copy]
+    //                        forKey:contactIdentifier
+    //                  inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
+
+    NSLog(@"Test after storing \n\n .");
+    SessionRecord *testRecord = [self loadSession:contactIdentifier deviceId:deviceId];
+    NSLog(@"Loaded session record: %@", testRecord);
 }
 
 - (BOOL)containsSession:(NSString *)contactIdentifier deviceId:(int)deviceId
@@ -113,10 +134,13 @@ void AssertIsOnSessionStoreQueue()
               @"[TSStorageManager (SessionStore)] deleting session for contact: %@ device: %d", contactIdentifier, deviceId);
 
     __block NSDictionary *immutableDictionary;
-    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-        immutableDictionary =
-        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    //    [self.sessionDBConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
+    //        immutableDictionary =
+    //        [transaction objectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
+
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:contactIdentifier];
+    immutableDictionary =  (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
     NSMutableDictionary *dictionary = [immutableDictionary mutableCopy];
 
     if (!dictionary) {
@@ -125,11 +149,15 @@ void AssertIsOnSessionStoreQueue()
 
     [dictionary removeObjectForKey:@(deviceId)];
 
-    [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        [transaction setObject:[dictionary copy]
-                        forKey:contactIdentifier
-                  inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    //    [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+    //        [transaction setObject:[dictionary copy]
+    //                        forKey:contactIdentifier
+    //                  inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
+
+    NSData *myData = [NSKeyedArchiver archivedDataWithRootObject:dictionary];
+
+    [[NSUserDefaults standardUserDefaults] setObject:myData forKey:contactIdentifier];
 }
 
 - (void)deleteAllSessionsForContact:(NSString *)contactIdentifier
@@ -137,9 +165,12 @@ void AssertIsOnSessionStoreQueue()
     AssertIsOnSessionStoreQueue();
     DDLogInfo(@"[TSStorageManager (SessionStore)] deleting all sessions for contact:%@", contactIdentifier);
 
-    [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        [transaction removeObjectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
-    }];
+    NSLog(@"\n\n ------------------------ \n\n Deleting all sessions for contact: %@ \n\n -------------------------- \n.", contactIdentifier);
+    //    [self.sessionDBConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+    //        [transaction removeObjectForKey:contactIdentifier inCollection:TSStorageManagerSessionStoreCollection];
+    //    }];
+
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:contactIdentifier];
 }
 
 - (void)archiveAllSessionsForContact:(NSString *)contactIdentifier

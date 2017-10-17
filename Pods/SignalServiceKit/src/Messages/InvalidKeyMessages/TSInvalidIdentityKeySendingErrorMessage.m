@@ -51,7 +51,7 @@ NSString *TSInvalidRecipientKey = @"TSInvalidRecipientKey";
     OWSFail(@"accepting new identity key is deprecated.");
 
     // Saving a new identity mutates the session store so it must happen on the sessionStoreQueue
-    dispatch_async([OWSDispatch sessionStoreQueue], ^{
+    dispatch_async([OWSDispatch.shared sessionStoreQueue], ^{
         [[TextSecureKitEnv sharedEnv].identityManager saveRemoteIdentity:self.newIdentityKey recipientId:self.recipientId];
     });
 }
