@@ -77,8 +77,6 @@ import Teapot
         super.init()
     }
 
-    /// We use a background queue and a semaphore to ensure we only update the UI
-    /// once all the contacts have been processed.
     func updateContacts() {
         updateOperationQueue.cancelAllOperations()
 
@@ -101,7 +99,6 @@ import Teapot
                         if let updatedContact = updatedContact {
                             Yap.sharedInstance.insert(object: updatedContact.json, for: updatedContact.address, in: collectionKey)
                         }
-
                     }
                 }
             }

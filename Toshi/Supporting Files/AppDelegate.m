@@ -256,7 +256,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (void)setupSignalService {
     // Encryption/Descryption mutates session state and must be synchronized on a serial queue.
-    [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch sessionStoreQueue]];
+    [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch.shared sessionStoreQueue]];
 
     NSLog(@"Cereal registeres phone number: %@", [Cereal shared].address);
    // NSLog(@"Account manager: %@", [TSAccountManager sharedInstance]);
@@ -351,7 +351,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self deactivateScreenProtection];
-        //[TSPreKeyManager checkPreKeysIfNecessary];
+        [TSPreKeyManager checkPreKeysIfNecessary];
     });
 
 

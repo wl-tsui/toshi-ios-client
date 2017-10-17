@@ -215,6 +215,7 @@ open class RecentViewController: SweetTableController, Emptiable {
             thread = object
         }
 
+        print("Thread on recent: \(thread)")
         return thread
     }
 

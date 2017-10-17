@@ -64,7 +64,6 @@ public final class Yap: NSObject, Singleton {
 
         if Yap.isUserDatabaseFileAccessible {
             createDBForCurrentUser()
-            IDAPIClient.shared.updateContacts()
         }
     }
 
@@ -89,6 +88,8 @@ public final class Yap: NSObject, Singleton {
         self.insert(object: TokenUser.current?.json, for: address, in: TokenUser.storedContactKey)
 
         createBackupDirectoryIfNeeded()
+
+        IDAPIClient.shared.updateContacts()
     }
 
     @objc public func cleanUp() {
