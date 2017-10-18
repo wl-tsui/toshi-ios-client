@@ -36,7 +36,7 @@ static NSString *keychainDBPassAccount    = @"TSDatabasePass";
 
 @property (nullable, atomic) YapDatabase *database;
 
-@property (nonatomic, copy) NSString *accountName;
+@property (nonatomic, copy, readwrite) NSString *accountName;
 
 @end
 

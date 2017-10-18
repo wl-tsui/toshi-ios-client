@@ -14,7 +14,9 @@
 - (NSString *)localNumber
 {
     // TODO cache this? It only changes once, ever, and otherwise causes "surprising" transactions to occur.
-    return [self stringForKey:TSStorageRegisteredNumberKey inCollection:TSStorageUserAccountCollection];
+
+    NSString *registeredNumber = [[NSUserDefaults standardUserDefaults] objectForKey:TSStorageRegisteredNumberKey];
+    return registeredNumber ? registeredNumber : self.accountName;
 }
 
 - (void)ifLocalNumberPresent:(BOOL)runIfPresent runAsync:(void (^)())block;
@@ -22,8 +24,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block BOOL isPresent;
         [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
-            isPresent = [transaction objectForKey:TSStorageRegisteredNumberKey
-                                     inCollection:TSStorageUserAccountCollection] != nil;
+            isPresent = [[NSUserDefaults standardUserDefaults] objectForKey:TSStorageRegisteredNumberKey];
         }];
 
         if (isPresent == runIfPresent) {
@@ -53,11 +54,7 @@
 
 - (void)storePhoneNumber:(NSString *)phoneNumber
 {
-    [self.dbConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        [transaction setObject:phoneNumber
-                        forKey:TSStorageRegisteredNumberKey
-                  inCollection:TSStorageUserAccountCollection];
-    }];
+    [[NSUserDefaults standardUserDefaults] setObject:phoneNumber forKey:TSStorageRegisteredNumberKey];
 }
 
 + (void)storeServerToken:(NSString *)authToken signalingKey:(NSString *)signalingKey {

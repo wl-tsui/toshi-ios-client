@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) YapDatabaseConnection *sessionDBConnection;
 @property (nonatomic, assign, readonly) dispatch_queue_t sessionDBQueue;
 
+@property (nonatomic, copy, readonly) NSString *accountName;
+
 + (instancetype)sharedManager;
 
 /**
