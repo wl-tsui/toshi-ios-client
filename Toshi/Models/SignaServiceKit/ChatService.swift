@@ -72,6 +72,8 @@ final class ChatService: NSObject {
         textEnv.setup(callMessageHandler: EmptyCallHandler(), contactsManager: contactsManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), preferences: self, storageManager:storageManager, networkManager: networkManager)
 
         blockingManager = OWSBlockingManager()
+
+        NotificationCenter.default.post(Notification(name: .ChatDatabaseCreated))
     }
 
     @objc func freeUp(withBackup: Bool) {

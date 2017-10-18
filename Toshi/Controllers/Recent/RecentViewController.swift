@@ -32,13 +32,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         return mappings
     }()
 
-    lazy var uiDatabaseConnection: YapDatabaseConnection? = {
-        let database = TSStorageManager.shared().database()
-        let dbConnection = database?.newConnection()
-        dbConnection?.beginLongLivedReadTransaction()
-
-        return dbConnection
-    }()
+    private var uiDatabaseConnection: YapDatabaseConnection?
 
     fileprivate var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
@@ -55,10 +49,11 @@ open class RecentViewController: SweetTableController, Emptiable {
 
         loadViewIfNeeded()
 
-        if TokenUser.current != nil {
+        NotificationCenter.default.addObserver(self, selector: #selector(chatDBCreated(_:)), name: .ChatDatabaseCreated, object: nil)
+
+        if ChatService.isSessionActive {
+            setupDBConnection()
             self.loadMessages()
-        } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(chatDBCreated(_:)), name: .ChatDatabaseCreated, object: nil)
         }
     }
 
@@ -101,7 +96,14 @@ open class RecentViewController: SweetTableController, Emptiable {
     }
 
     @objc fileprivate func chatDBCreated(_ notification: Notification) {
+        setupDBConnection()
         loadMessages()
+    }
+
+    private func setupDBConnection() {
+        let database = TSStorageManager.shared().database()
+        uiDatabaseConnection = database?.newConnection()
+        uiDatabaseConnection?.beginLongLivedReadTransaction()
     }
 
     open override func viewWillAppear(_ animated: Bool) {
@@ -291,6 +293,7 @@ extension RecentViewController: UITableViewDataSource {
         let cell = tableView.dequeue(ChatCell.self, for: indexPath)
         let thread = self.thread(at: indexPath)
 
+        print(thread)
         // TODO: deal with last message from thread. It should be last visible message.
         cell.thread = thread
 

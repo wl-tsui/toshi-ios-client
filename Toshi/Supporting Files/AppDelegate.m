@@ -218,8 +218,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     [self setupTSKitEnv];
     [self setupSignalService];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatDatabaseCreated" object:nil];
 }
 
 - (void)didCreateUser {
