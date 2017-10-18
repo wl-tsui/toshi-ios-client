@@ -557,7 +557,9 @@ extension ContactController: PaymentControllerDelegate {
                 }
 
                 if let json = json?.dictionary {
-                    guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                    guard let txHash = json["tx_hash"] as? String else {
+                        CrashlyticsLogger.log("Error recovering transaction hash.")
+                        fatalError("Error recovering transaction hash.") }
                     let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
 
                     // send message to thread
@@ -568,6 +570,7 @@ extension ContactController: PaymentControllerDelegate {
                     strongSelf.messageSender?.send(outgoingMessage, success: {
                         print("message sent")
                     }, failure: { error in
+                        CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
                         print(error)
                     })
                 }

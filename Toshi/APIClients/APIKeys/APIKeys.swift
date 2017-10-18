@@ -40,7 +40,6 @@ public final class APIKeysManager: NSObject {
             return
         }
 
-        Crashlytics.start(withAPIKey: fabricKey)
-        Fabric.with([Crashlytics.self])
+        CrashlyticsClient.start(with: fabricKey)
     }
 }

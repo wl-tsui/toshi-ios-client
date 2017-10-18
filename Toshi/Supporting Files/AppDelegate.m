@@ -255,8 +255,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     // Encryption/Descryption mutates session state and must be synchronized on a serial queue.
     [SessionCipher setSessionCipherDispatchQueue:[OWSDispatch sessionStoreQueue]];
 
-    NSLog(@"Cereal registeres phone number: %@", [Cereal shared].address);
-
+    [CrashlyticsClient setupForUserWith:[[Cereal shared] address]];
     [[TSStorageManager sharedManager] storePhoneNumber:[[Cereal shared] address]];
 
     __weak typeof(self)weakSelf = self;
@@ -293,6 +292,10 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     TSStorageManager *storageManager = [TSStorageManager sharedManager];
     [storageManager setupForAccountName:TokenUser.current.address isFirstLaunch:[self isFirstLaunch]];
+
+    if (![storageManager database]) {
+        [CrashlyticsLogger log:@"Failed to create chat databse for the suer" attributes:nil];
+    }
 
     self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
 
@@ -332,7 +335,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     }
 
     if ([Yap isUserDatabasePasswordAccessible]) {
-        CLS_LOG(@"User database file not accessible while password present in the keychain");
+        [CrashlyticsLogger log:@"User database file not accessible while password present in the keychain" attributes:nil];
         return NO;
     }
 
@@ -488,6 +491,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     } failure:^(NSError *error) {
         NSLog(@"\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: %@\n||------- \n", error.localizedDescription);
+        [CrashlyticsLogger log:@"Failed to register for PNs" attributes:@{@"error": error.localizedDescription}];
     }];
 }
 

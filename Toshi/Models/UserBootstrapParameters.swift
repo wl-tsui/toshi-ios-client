@@ -89,7 +89,10 @@ public class UserBootstrapParameter {
             identityManager.generateNewIdentityKey()
         }
 
-        guard let identityKeyPair = identityManager.identityKeyPair() else { fatalError("No ID key pair for current user!") }
+        guard let identityKeyPair = identityManager.identityKeyPair() else {
+            CrashlyticsLogger.log("No identity key pair", attributes: [.occured: "User bootstrap parameters init"])
+            fatalError("No ID key pair for current user!")
+        }
 
         let storageManager = TSStorageManager.shared()
 

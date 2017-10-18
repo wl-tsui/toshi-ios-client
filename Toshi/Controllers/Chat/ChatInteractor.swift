@@ -152,7 +152,10 @@ final class ChatInteractor: NSObject {
                     return
                 }
 
-                guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                guard let txHash = json["tx_hash"] as? String else {
+                    CrashlyticsLogger.log("Error recovering transaction hash.")
+                    fatalError("Error recovering transaction hash.")
+                }
                 guard let value = parameters["value"] as? String else { return }
 
                 let payment = SofaPayment(txHash: txHash, valueHex: value)

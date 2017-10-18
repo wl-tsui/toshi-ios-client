@@ -28,7 +28,7 @@ public enum QRCodeIntent {
             guard let metadata = PaymentRequestMetadata(with: result) else { return nil }
             self = .paymentRequest(weiValue: metadata.weiValue, address: nil, username: username, memo: metadata.memo)
         } else {
-            
+            CrashlyticsLogger.log("Unsupported QR code result", attributes: [.resultString: result])
             return nil
         }
     }

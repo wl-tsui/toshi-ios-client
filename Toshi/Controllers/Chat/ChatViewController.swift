@@ -149,6 +149,11 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         isVisible = true
 
+        if viewModel.contact?.address == nil {
+            CrashlyticsLogger.log("No contact address on chat open")
+            fatalError("No contact address on chat open")
+        }
+
         viewModel.loadFirstMessages()
 
         viewModel.reloadDraft { [weak self] placeholder in
