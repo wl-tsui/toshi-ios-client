@@ -723,7 +723,7 @@ extension ChatViewController: PaymentControllerDelegate {
         switch controller.paymentType {
         case .request:
             let request: [String: Any] = [
-                "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate).string).",
+                "body": "",
                 "value": valueInWei.toHexString,
                 "destinationAddress": Cereal.shared.paymentAddress
             ]
