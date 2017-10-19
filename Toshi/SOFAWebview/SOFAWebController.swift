@@ -214,7 +214,7 @@ extension SOFAWebController: WKScriptMessageHandler {
                 IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
                     var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
 
-                    if let user = user as TokenUser? {
+                    if let user = user {
                         userInfo.avatarPath = user.avatarPath
                         userInfo.username = user.username
                         userInfo.name = user.name

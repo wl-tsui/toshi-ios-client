@@ -272,8 +272,10 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     public static func createCurrentUser(with json: [String: Any]) {
-        guard let newUser = TokenUser(json: json, shouldSave: false) as TokenUser? else { return }
+
         guard let address = Cereal.shared.address else { fatalError("No cereal address when requested") }
+
+        let newUser = TokenUser(json: json, shouldSave: false)
 
         current = newUser
 

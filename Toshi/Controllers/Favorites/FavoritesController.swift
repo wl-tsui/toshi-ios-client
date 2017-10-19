@@ -242,8 +242,8 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     fileprivate func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
             if let data1 = object1 as? Data, let data2 = object2 as? Data,
-                let contact1 = TokenUser.user(with: data1) as TokenUser?,
-                let contact2 = TokenUser.user(with: data2) as TokenUser? {
+                let contact1 = TokenUser.user(with: data1),
+                let contact2 = TokenUser.user(with: data2) {
 
                 return contact1.username.compare(contact2.username)
             }
@@ -338,12 +338,11 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     }
 
     fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {
-        guard let contact = self.contact(at: indexPath) as TokenUser?,
-            let address = contact.address as String? else { return }
+        guard let contact = self.contact(at: indexPath) else { return }
 
-        print("Updating contact infor for address: \(address).")
+        print("Updating contact infor for address: \(contact.address).")
 
-        self.idAPIClient.findContact(name: address) { [weak self] contact in
+        self.idAPIClient.findContact(name: contact.address) { [weak self] contact in
             if let contact = contact {
                 print("Added contact info for \(contact.username)")
 
@@ -446,7 +445,7 @@ extension FavoritesController: UITableViewDelegate {
         
         self.searchController.searchBar.resignFirstResponder()
         
-        if let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath) as TokenUser? {
+        if let contact = self.searchController.isActive ? self.searchContacts[indexPath.row] : self.contact(at: indexPath) {
             
             if isPresentedModally {
                 self.searchController.isActive = false

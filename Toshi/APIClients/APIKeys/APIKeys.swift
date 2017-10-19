@@ -35,12 +35,11 @@ struct APIKeys {
 public final class APIKeysManager: NSObject {
 
     @objc public static func setup() {
-        guard let fabricKey = APIKeys.key(named: APIKeys.Fabric) as String? else {
+        guard let fabricKey = APIKeys.key(named: APIKeys.Fabric) else {
             print("Can't load Fabric API Key")
             return
         }
 
-        Crashlytics.start(withAPIKey: fabricKey)
-        Fabric.with([Crashlytics.self])
+        CrashlyticsClient.start(with: fabricKey)
     }
 }

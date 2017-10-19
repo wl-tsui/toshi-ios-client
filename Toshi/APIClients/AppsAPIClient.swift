@@ -49,7 +49,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
     }()
 
     func getTopRatedApps(limit: Int = 10, completion: @escaping TokenUserResults) {
-        if let data = cache.object(forKey: topRatedAppsCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+        if let data = cache.object(forKey: topRatedAppsCachedDataKey), let ratedUsers = data.objects {
             completion(ratedUsers, nil)
         }
 
@@ -83,7 +83,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
 
     func getFeaturedApps(limit: Int = 10, completion: @escaping TokenUserResults) {
 
-        if let data = cache.object(forKey: featuredAppsCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+        if let data = cache.object(forKey: featuredAppsCachedDataKey), let ratedUsers = data.objects {
             completion(ratedUsers, nil)
         }
 

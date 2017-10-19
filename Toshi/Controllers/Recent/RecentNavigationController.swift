@@ -72,7 +72,7 @@ public class RecentNavigationController: UINavigationController {
         _ = popToRootViewController(animated: false)
         guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
 
-        if let thread = recentViewController.thread(withAddress: address) as TSThread? {
+        if let thread = recentViewController.thread(withAddress: address) {
             let chatViewController = ChatViewController(thread: thread)
             pushViewController(chatViewController, animated: false)
 

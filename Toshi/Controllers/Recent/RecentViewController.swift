@@ -155,7 +155,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         guard isDatabaseChanged else { return }
 
         if let insertedRow = yapDatabaseChanges.rowChanges.first(where: { $0.type == .insert }) {
-            if let thread = self.thread(at: insertedRow.newIndexPath) as TSThread?, let contactIdentifier = thread.contactIdentifier() as String? {
+            if let thread = self.thread(at: insertedRow.newIndexPath), let contactIdentifier = thread.contactIdentifier() {
                 IDAPIClient.shared.updateContact(with: contactIdentifier)
             }
         }
@@ -196,7 +196,7 @@ open class RecentViewController: SweetTableController, Emptiable {
     }
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
-        if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() as String? {
+        if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() {
             print("Updating contact infor for address: \(address).")
 
             idAPIClient.retrieveUser(username: address) { contact in
@@ -263,7 +263,7 @@ extension RecentViewController: UITableViewDelegate {
     }
 
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let thread = self.thread(at: indexPath) as TSThread? {
+        if let thread = self.thread(at: indexPath) {
             let chatViewController = ChatViewController(thread: thread)
             navigationController?.pushViewController(chatViewController, animated: true)
         }
@@ -271,7 +271,7 @@ extension RecentViewController: UITableViewDelegate {
 
     public func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
-            if let thread = self.thread(at: indexPath) as TSThread? {
+            if let thread = self.thread(at: indexPath) {
 
                 TSStorageManager.shared().dbConnection?.asyncReadWrite { transaction in
                     thread.remove(with: transaction)

@@ -97,10 +97,8 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
         guard let user = TokenUser.current else { return }
 
-        if let path = user.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path) { [weak self] image, _ in
-                self?.avatarImageView.image = image
-            }
+        AvatarManager.shared.avatar(for: user.avatarPath) { [weak self] image, _ in
+            self?.avatarImageView.image = image
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapView))
@@ -216,7 +214,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
     }
 
     func changeAvatar(to avatar: UIImage?) {
-        if let avatar = avatar as UIImage? {
+        if let avatar = avatar {
             let scaledImage = avatar.resized(toHeight: 320)
             avatarImageView.image = scaledImage
         }
@@ -287,7 +285,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
             let cachedAvatar = AvatarManager.shared.cachedAvatar(for: user.avatarPath)
 
-            if let image = self?.avatarImageView.image as UIImage?, image != cachedAvatar {
+            if let image = self?.avatarImageView.image, image != cachedAvatar {
 
                 self?.idAPIClient.updateAvatar(image) { [weak self] avatarUpdated in
                     let success = userUpdated == true && avatarUpdated == true

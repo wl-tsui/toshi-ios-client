@@ -67,7 +67,7 @@ class AlertController: ModalPresentable {
     }
 
     func arrangeCustomView() {
-        if let customContentView = self.customContentView as UIView? {
+        if let customContentView = self.customContentView {
             reviewContainer.addSubview(customContentView)
             self.customContentView?.fillSuperview()
         }
@@ -152,7 +152,7 @@ class AlertController: ModalPresentable {
     }
 
     @objc private func actionButtonPressed(_ button: UIButton) {
-        guard let buttonIndex = self.actionsStackView.arrangedSubviews.index(of: button) as Int? else { return }
+        guard let buttonIndex = self.actionsStackView.arrangedSubviews.index(of: button) else { return }
         guard actions.count - 1 >= buttonIndex else { return }
 
         let action: Action = actions[buttonIndex]

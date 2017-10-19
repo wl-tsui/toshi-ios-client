@@ -19,7 +19,7 @@ class PaymentManager {
         
         EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
             
-            guard let transaction = transaction as String? else {
+            guard let transaction = transaction else {
                 
                 if let error = error {
                     DispatchQueue.main.async {

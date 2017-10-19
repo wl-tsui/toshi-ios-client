@@ -226,15 +226,13 @@ public class ContactController: UIViewController {
 
         aboutContentLabel.text = contact.about
         locationContentLabel.text = contact.location
-
-        if let path = self.contact.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path) { [weak self] image, _ in
-                if image != nil {
-                    self?.avatarImageView.image = image
-                }
+        
+        AvatarManager.shared.avatar(for: contact.avatarPath) { [weak self] image, _ in
+            if image != nil {
+                self?.avatarImageView.image = image
             }
         }
-
+        
         updateButton()
     }
 
@@ -533,7 +531,7 @@ extension ContactController: PaymentControllerDelegate {
 
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
 
-            guard let transaction = transaction as String? else {
+            guard let transaction = transaction else {
                 self?.hideActivityIndicator()
                 let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error?.localizedDescription)
                 Navigator.presentModally(alert)
@@ -555,7 +553,9 @@ extension ContactController: PaymentControllerDelegate {
                 }
 
                 if let json = json?.dictionary {
-                    guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                    guard let txHash = json["tx_hash"] as? String else {
+                        CrashlyticsLogger.log("Error recovering transaction hash.")
+                        fatalError("Error recovering transaction hash.") }
                     let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
 
                     // send message to thread
@@ -566,6 +566,7 @@ extension ContactController: PaymentControllerDelegate {
                     strongSelf.messageSender?.send(outgoingMessage, success: {
                         print("message sent")
                     }, failure: { error in
+                        CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
                         print(error)
                     })
                 }

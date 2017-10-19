@@ -154,6 +154,7 @@ final class SignInViewController: UIViewController {
             let data = try String(contentsOfFile: path, encoding: .utf8)
             completion(data.components(separatedBy: .newlines))
         } catch {
+            CrashlyticsLogger.log("Can not load passwords file")
             fatalError("Can't load data from file.")
         }
     }

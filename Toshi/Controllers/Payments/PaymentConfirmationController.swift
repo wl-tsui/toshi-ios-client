@@ -66,7 +66,7 @@ class PaymentConfirmationController: AlertController {
             customView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
 
             customView.set(height: customView.frame.height + activeNetworkView.frame.height)
-            if let path = self.userInfo.avatarPath as String? {
+            if let path = self.userInfo.avatarPath {
                 AvatarManager.shared.avatar(for: path) { image, _ in
                     customView.userAvatarImageView.image = image
                 }

@@ -73,6 +73,9 @@
 		2B20BBD11F7A413000844315 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBD01F7A413000844315 /* ChatService.swift */; };
 		2B20BBD21F7A413000844315 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBD01F7A413000844315 /* ChatService.swift */; };
 		2B20BBD31F7A413000844315 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBD01F7A413000844315 /* ChatService.swift */; };
+		2B0EF8291F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
+		2B0EF82A1F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
+		2B0EF82B1F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
 		2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
@@ -820,6 +823,7 @@
 		2B10A3FB1F082C9300E0F7DC /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		2B10A3FE1F082CAC00E0F7DC /* ChatInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		2B20BBD01F7A413000844315 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsClient.swift; sourceTree = "<group>"; };
 		2B20BBDE1F7A53A400844315 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsProfileCell.xib; sourceTree = "<group>"; };
@@ -1669,6 +1673,7 @@
 				2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */,
 				9F54A7221E951F1500FEB67B /* RatingsClient.swift */,
 				9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */,
+				2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */,
 			);
 			path = APIClients;
 			sourceTree = "<group>";
@@ -2692,6 +2697,7 @@
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
 				A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */,
 				A9A9F9A11F8B70770010F877 /* RecentViewController.swift in Sources */,
+				2B0EF82B1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				A91D72A91F8782DC0093420C /* ChatButtonsView.swift in Sources */,
 				2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
@@ -2867,6 +2873,7 @@
 				A91D72A41F877FFA0093420C /* ChatViewController.swift in Sources */,
 				A90E5A311F069CAF00DAA501 /* BrowseAllController.swift in Sources */,
 				84AED6FB1F42EBCB003C38E8 /* String+Regex.swift in Sources */,
+				2B0EF8291F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				A9E777531F2A0BC700FB18F1 /* OpenURLButton.swift in Sources */,
 				9FD25D3C1E813C3F0011F164 /* Navigator.swift in Sources */,
 				2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */,
@@ -3042,6 +3049,7 @@
 				A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */,
 				A9603DB71F4DABDC00BF57B1 /* BalanceController.swift in Sources */,
 				A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */,
+				2B0EF82A1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				A9603DB91F4DABDC00BF57B1 /* RateUserController.swift in Sources */,
 				A91D72A81F8782DC0093420C /* ChatButtonsView.swift in Sources */,
 				A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */,

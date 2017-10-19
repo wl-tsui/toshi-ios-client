@@ -74,10 +74,10 @@ public final class Yap: NSObject, Singleton {
         keychain.synchronizable = false
 
         var dbPassowrd: Data
-        if let loggedData = keychain.getData(UserDB.password) as Data? {
+        if let loggedData = keychain.getData(UserDB.password) {
             dbPassowrd = loggedData
         } else {
-           dbPassowrd = keychain.getData(address) ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
+            dbPassowrd = keychain.getData(address) ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
         }
         keychain.set(dbPassowrd, forKey: UserDB.password, withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
         UserDefaults.standard.set(true, forKey: UserDB.password)
@@ -105,6 +105,8 @@ public final class Yap: NSObject, Singleton {
 
         if TokenUser.current?.verified == false {
             print("\n\n Deleting Yap db file for the user")
+            CrashlyticsLogger.log("Deleting database files for signed out user")
+
             KeychainSwift().delete(UserDB.password)
             UserDefaults.standard.removeObject(forKey: UserDB.password)
 
@@ -128,7 +130,10 @@ public final class Yap: NSObject, Singleton {
             let keychain = KeychainSwift()
             keychain.synchronizable = false
 
-            guard let userDatabasePassword = keychain.getData(UserDB.password) else { fatalError("No database password found in keychain") }
+            guard let userDatabasePassword = keychain.getData(UserDB.password) else {
+                CrashlyticsLogger.log("No user database password", attributes: [.occured: "Cipher key block"])
+                fatalError("No database password found in keychain")
+            }
 
             return userDatabasePassword
         }
@@ -140,6 +145,10 @@ public final class Yap: NSObject, Singleton {
         try? url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
 
         mainConnection = database?.newConnection()
+
+        if database == nil {
+            CrashlyticsLogger.log("Failed to create user database")
+        }
     }
 
     fileprivate func createBackupDirectoryIfNeeded() {
@@ -156,6 +165,7 @@ public final class Yap: NSObject, Singleton {
 
     fileprivate func useBackedDBIfNeeded() {
         if TokenUser.current != nil, FileManager.default.fileExists(atPath: UserDB.Backup.dbFilePath) {
+            CrashlyticsLogger.log("Using backup database for signed in user")
             try? FileManager.default.moveItem(atPath: UserDB.Backup.dbFilePath, toPath: UserDB.dbFilePath)
         }
     }
@@ -167,13 +177,21 @@ public final class Yap: NSObject, Singleton {
     }
 
     fileprivate func backupUserDBFile() {
-        guard let user = TokenUser.current as TokenUser? else { return }
+        guard let user = TokenUser.current else {
+            CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Yap backup"])
+            fatalError("No current user while backing up user db file")
+        }
+
+        CrashlyticsLogger.log("Backing up database file for signed out user")
 
         deleteFileIfNeeded(at: UserDB.walFilePath)
         deleteFileIfNeeded(at: UserDB.shmFilePath)
 
         let keychain = KeychainSwift()
-        guard let currentPassword = keychain.getData(UserDB.password) else { fatalError("No database password found in keychain while database file exits") }
+        guard let currentPassword = keychain.getData(UserDB.password) else {
+            CrashlyticsLogger.log("No database password found in keychain while database file exits", attributes: [.occured: "Yap backup"])
+            fatalError("No database password found in keychain while database file exits")
+        }
 
         keychain.set(currentPassword, forKey: user.address)
 

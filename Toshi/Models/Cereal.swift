@@ -72,7 +72,10 @@ public class Cereal: NSObject {
 
     @objc func prepareForLoggedInUser() {
         if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
-            guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english) else { fatalError("Entropy has incorrect size or wordlist is not supported") }
+            guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english) else {
+                CrashlyticsLogger.log("Incorrect entropy for given passphrase")
+                fatalError("Entropy has incorrect size or wordlist is not supported")
+            }
             mnemonic = mnemonicValue
 
             setup(for: words.components(separatedBy: " "))

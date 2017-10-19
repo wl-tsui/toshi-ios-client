@@ -85,7 +85,7 @@ let ExchangeRateClient = ExchangeRateAPIClient.shared
         self.teapot.get("/v1/rates/ETH/\(code)") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary, let usd = json["rate"] as? String, let doubleValue = Double(usd) as Double? else {
+                guard let json = json?.dictionary, let usd = json["rate"] as? String, let doubleValue = Double(usd) else {
                     completion(nil)
                     return
                 }

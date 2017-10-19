@@ -56,6 +56,10 @@ final class ChatService: NSObject {
         let storageManager = TSStorageManager.shared()
         storageManager.setup(accountName: accountName, isFirstLaunch: isFirstLaunch)
 
+        if (storageManager.database() == nil) {
+            CrashlyticsLogger.log("Failed to create chat databse for the suer", attributes:nil)
+        }
+
         guard let networkManager = self.networkManager, let contactsManager = self.contactsManager, let contactsUpdater = self.contactsUpdater else {
             self.errorHandler?.didFailToSetup()
             return

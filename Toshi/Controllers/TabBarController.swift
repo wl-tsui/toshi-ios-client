@@ -93,7 +93,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
         let recentViewController = RecentViewController()
 
-        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = recentViewController.thread(withAddress: address) as TSThread? {
+        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = recentViewController.thread(withAddress: address) {
             messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]
         } else {
             messagingController.viewControllers = [recentViewController]
@@ -128,7 +128,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
             DispatchQueue.main.async {
                 self.displayMessage(forAddress: address) { controller in
-                    if let chatViewController = controller as? ChatViewController, let parameters = parameters as [String: Any]? {
+                    if let chatViewController = controller as? ChatViewController, let parameters = parameters {
                         chatViewController.sendPayment(with: parameters)
                     }
                 }
@@ -247,7 +247,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(username: String, weiValue: String?) {
         idAPIClient.retrieveUser(username: username) { [weak self] contact in
-            if let contact = contact as TokenUser? {
+            if let contact = contact {
                 var parameters = ["from": Cereal.shared.paymentAddress, "to": contact.paymentAddress]
                 parameters["value"] = weiValue
 

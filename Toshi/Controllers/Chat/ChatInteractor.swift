@@ -124,7 +124,7 @@ final class ChatInteractor: NSObject {
     func sendPayment(with parameters: [String: Any], completion: ((Bool) -> Void)? = nil) {
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
 
-            guard let transaction = transaction as String? else {
+            guard let transaction = transaction else {
                 if let error = error as Error? {
                     self?.output?.didFinishRequest()
                     self?.output?.didCatchError(error.localizedDescription)
@@ -148,7 +148,10 @@ final class ChatInteractor: NSObject {
                     return
                 }
 
-                guard let txHash = json["tx_hash"] as? String else { fatalError("Error recovering transaction hash.") }
+                guard let txHash = json["tx_hash"] as? String else {
+                    CrashlyticsLogger.log("Error recovering transaction hash.")
+                    fatalError("Error recovering transaction hash.")
+                }
                 guard let value = parameters["value"] as? String else { return }
 
                 let payment = SofaPayment(txHash: txHash, valueHex: value)
@@ -293,7 +296,7 @@ final class ChatInteractor: NSObject {
         let wrapper = SofaMessage(body: "")
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
 
-        guard let data = UIImageJPEGRepresentation(image, 0.7) as Data? else {
+        guard let data = UIImageJPEGRepresentation(image, 0.7) else {
             print("Cant convert selected image to data")
             return
         }

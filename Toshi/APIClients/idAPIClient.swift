@@ -406,7 +406,7 @@ import Teapot
 
     public func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
 
-        if let data = self.cache.object(forKey: topRatedUsersCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+        if let data = self.cache.object(forKey: topRatedUsersCachedDataKey), let ratedUsers = data.objects {
             completion(ratedUsers, nil)
         }
 
@@ -442,7 +442,7 @@ import Teapot
 
     public func getLatestPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
 
-        if let data = self.cache.object(forKey: latestUsersCachedDataKey) as TokenUsersCacheData?, let ratedUsers = data.objects as [TokenUser]? {
+        if let data = self.cache.object(forKey: latestUsersCachedDataKey), let ratedUsers = data.objects {
             completion(ratedUsers, nil)
         }
 

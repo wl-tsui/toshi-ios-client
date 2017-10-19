@@ -182,7 +182,7 @@ final class ChatViewModel {
     fileprivate func loadNextChunk(notifiesAboutLastMessage: Bool = false) {
         let nextChunkSize = self.nextChunkSize()
 
-        guard let rangeOptions = YapDatabaseViewRangeOptions.flexibleRange(withLength: nextChunkSize, offset: loadedMessagesCount, from: .end) as YapDatabaseViewRangeOptions? else {
+        guard let rangeOptions = YapDatabaseViewRangeOptions.flexibleRange(withLength: nextChunkSize, offset: loadedMessagesCount, from: .end) else {
             self.output?.didRequireGreetingIfNeeded()
             
             return
@@ -204,7 +204,7 @@ final class ChatViewModel {
         // swiftlint:disable force_cast
         let messageViewConnection = uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
         // swiftlint:enable force_cast
-        if let hasChangesForCurrentView = messageViewConnection.hasChanges(for: notifications) as Bool?, hasChangesForCurrentView == false {
+        if messageViewConnection.hasChanges(for: notifications) == false {
             uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
             }
@@ -250,14 +250,14 @@ final class ChatViewModel {
                     let indexPath = change.indexPath
 
                     guard let signalMessage = dbExtension.object(at: indexPath, with: strongSelf.mappings) as? TSMessage else { return }
-                    guard let message = strongSelf.messages.first(where: { $0.signalMessage.uniqueId == signalMessage.uniqueId }) as Message? else { return }
+                    guard let message = strongSelf.messages.first(where: { $0.signalMessage.uniqueId == signalMessage.uniqueId }) else { return }
                     
                     DispatchQueue.main.async {
                         if let loadedSignalMessage = message.signalMessage as? TSOutgoingMessage, let newSignalMessage = signalMessage as? TSOutgoingMessage {
                             loadedSignalMessage.setState(newSignalMessage.messageState)
                         }
 
-                        if let index = strongSelf.messages.index(of: message) as Int? {
+                        if let index = strongSelf.messages.index(of: message) {
 
                             let updatedMessage = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: false)
                             strongSelf.messages[index] = updatedMessage
