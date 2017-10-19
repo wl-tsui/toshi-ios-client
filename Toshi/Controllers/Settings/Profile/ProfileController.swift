@@ -184,7 +184,7 @@ open class ProfileController: UIViewController {
         aboutContentLabel.text = TokenUser.current?.about
         locationContentLabel.text = TokenUser.current?.location
 
-        if let path = TokenUser.current?.avatarPath as String? {
+        if let path = TokenUser.current?.avatarPath {
             AvatarManager.shared.avatar(for: path) { [weak self] image, _ in
                 self?.avatarImageView.image = image
             }
@@ -291,7 +291,7 @@ open class ProfileController: UIViewController {
     }
 
     fileprivate func updateReputation() {
-        guard let currentUser = TokenUser.current as TokenUser? else {
+        guard let currentUser = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile Controller"])
             fatalError("No current user on Profile controller")
         }

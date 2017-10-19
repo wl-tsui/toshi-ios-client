@@ -228,15 +228,13 @@ public class ContactController: UIViewController {
 
         aboutContentLabel.text = contact.about
         locationContentLabel.text = contact.location
-
-        if let path = self.contact.avatarPath as String? {
-            AvatarManager.shared.avatar(for: path) { [weak self] image, _ in
-                if image != nil {
-                    self?.avatarImageView.image = image
-                }
+        
+        AvatarManager.shared.avatar(for: contact.avatarPath) { [weak self] image, _ in
+            if image != nil {
+                self?.avatarImageView.image = image
             }
         }
-
+        
         updateButton()
     }
 
@@ -535,7 +533,7 @@ extension ContactController: PaymentControllerDelegate {
 
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
 
-            guard let transaction = transaction as String? else {
+            guard let transaction = transaction else {
                 self?.hideActivityIndicator()
                 let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error?.localizedDescription)
                 Navigator.presentModally(alert)

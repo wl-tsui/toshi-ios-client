@@ -69,16 +69,16 @@ final class AvatarManager: NSObject {
     @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let contactsManager = appDelegate.contactsManager as ContactsManager? else { return }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
 
-            let avatarPaths: [String] = contactsManager.tokenContacts.flatMap { contact in
-                contact.avatarPath as String
+            let avatarPaths: [String] = appDelegate.contactsManager.tokenContacts.flatMap { contact in
+                contact.avatarPath
             }
 
-            if let currentUserAvatarPath = TokenUser.current?.avatarPath as String? {
+            if let currentUserAvatarPath = TokenUser.current?.avatarPath {
                 self?.downloadAvatar(for: currentUserAvatarPath)
             }
 
@@ -109,9 +109,9 @@ final class AvatarManager: NSObject {
     }
 
     private func teapot(for url: URL) -> Teapot? {
-        guard let base = baseURL(from: url) as String? else { return nil }
+        guard let base = baseURL(from: url) else { return nil }
         if teapots[base] == nil {
-            guard let baseUrl = URL(string: base) as URL? else { return nil }
+            guard let baseUrl = URL(string: base) else { return nil }
             teapots[base] = Teapot(baseURL: baseUrl)
         }
 
@@ -119,10 +119,9 @@ final class AvatarManager: NSObject {
     }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-        guard let url = URL(string: path) as URL?,
-            let teapot = self.teapot(for: url) as Teapot? else {
-                completion(nil)
-                return
+        guard let url = URL(string: path), let teapot = self.teapot(for: url) else {
+            completion(nil)
+            return
         }
 
         teapot.get(url.relativePath) { [weak self] (result: NetworkImageResult) in

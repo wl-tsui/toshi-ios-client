@@ -45,10 +45,10 @@ open class Message: NSObject {
     fileprivate func streamImage(for stream: TSAttachmentStream) -> UIImage? {
         var image: UIImage?
 
-        if let cachedImage = self.attachmentsCache.object(forKey: self.uniqueIdentifier() as NSString) as UIImage? {
+        if let cachedImage = self.attachmentsCache.object(forKey: self.uniqueIdentifier() as NSString) {
             image = cachedImage
         } else {
-            if let streamImage = stream.image() as UIImage? {
+            if let streamImage = stream.image() {
                 attachmentsCache.setObject(streamImage, forKey: uniqueIdentifier() as NSString)
                 image = streamImage
             }

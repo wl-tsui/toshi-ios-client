@@ -40,7 +40,7 @@ final class CurrencyPicker: UIViewController {
         preferLargeTitleIfPossible(false)
 
         ExchangeRateClient.getCurrencies { [weak self] results in
-            guard let strongSelf = self as CurrencyPicker? else { return }
+            guard let strongSelf = self else { return }
 
             let availableLocaleCurrencies = Locale.availableIdentifiers.flatMap { Locale(identifier: $0).currencyCode }
 
@@ -70,7 +70,7 @@ final class CurrencyPicker: UIViewController {
     }
 
     fileprivate var currentLocalCurrencyIndexPath: IndexPath {
-        guard let currentUser = TokenUser.current as TokenUser? else {
+        guard let currentUser = TokenUser.current else {
 
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Currency picker"])
             fatalError("No current user on CurrencyListController")
@@ -78,7 +78,7 @@ final class CurrencyPicker: UIViewController {
 
         let currentLocalCurrencyCode = currentUser.localCurrency
 
-        if let suggestedCurrencyIndex = suggestedCurrencies.index(where: {$0.code == currentLocalCurrencyCode}) as Int? {
+        if let suggestedCurrencyIndex = suggestedCurrencies.index(where: {$0.code == currentLocalCurrencyCode}) {
             return IndexPath(row: suggestedCurrencyIndex, section: 0)
         }
 

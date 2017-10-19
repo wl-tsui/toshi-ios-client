@@ -83,8 +83,8 @@ extension ScannerController: PaymentPresentable {
     func paymentApproved(with parameters: [String: Any], userInfo: UserInfo) {
         isStatusBarHidden = false
         guard !userInfo.isLocal else {
-            if let tabbarController = self.presentingViewController as? TabBarController, let address = userInfo.address as String? {
-                tabbarController.openPaymentMessage(to: address, parameters: parameters)
+            if let tabbarController = self.presentingViewController as? TabBarController {
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters)
             }
 
             return
@@ -94,7 +94,7 @@ extension ScannerController: PaymentPresentable {
 
         EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
 
-            guard let transaction = transaction as String? else {
+            guard let transaction = transaction else {
                 self?.hideActivityIndicator()
                 self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? "Something went wrong")
                 self?.startScanning()

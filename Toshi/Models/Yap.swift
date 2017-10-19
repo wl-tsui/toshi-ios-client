@@ -73,7 +73,7 @@ public final class Yap: NSObject, Singleton {
         keychain.synchronizable = false
 
         var dbPassowrd: Data
-        if let loggedData = keychain.getData(UserDB.password) as Data? {
+        if let loggedData = keychain.getData(UserDB.password) {
             dbPassowrd = loggedData
         } else {
             dbPassowrd = keychain.getData(address) ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
@@ -161,7 +161,7 @@ public final class Yap: NSObject, Singleton {
     }
 
     fileprivate func backupUserDBFile() {
-        guard let user = TokenUser.current as TokenUser? else {
+        guard let user = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Yap backup"])
             fatalError("No current user while backing up user db file")
         }

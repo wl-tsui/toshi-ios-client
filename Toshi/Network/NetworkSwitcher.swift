@@ -79,7 +79,7 @@ public final class NetworkSwitcher {
     }
 
     public var activeNetwork: Network {
-        guard let switched = self.switchedNetwork as Network? else {
+        guard let switched = self.switchedNetwork else {
             return defaultNetwork
         }
 
@@ -131,7 +131,7 @@ public final class NetworkSwitcher {
         set {
             _switchedNetwork = newValue
 
-            guard let network = _switchedNetwork as Network? else {
+            guard let network = _switchedNetwork else {
                 keychain.delete(NetworkInfo.ActiveNetwork)
                 let notification = Notification(name: .SwitchedNetworkChanged)
                 NotificationCenter.default.post(notification)
@@ -152,8 +152,8 @@ public final class NetworkSwitcher {
             }
         }
         get {
-            guard let cachedNetwork = self._switchedNetwork as Network? else {
-                guard let storedNetworkID = self.keychain.get(NetworkInfo.ActiveNetwork) as String? else { return nil }
+            guard let cachedNetwork = self._switchedNetwork else {
+                guard let storedNetworkID = self.keychain.get(NetworkInfo.ActiveNetwork) else { return nil }
                 _switchedNetwork = Network(rawValue: storedNetworkID)
 
                 return _switchedNetwork
@@ -170,7 +170,7 @@ public final class NetworkSwitcher {
     }
 
     fileprivate func deregisterFromActiveNetworkPushNotificationsIfNeeded(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
-        guard let switchedNetwork = self.switchedNetwork as Network?, switchedNetwork.rawValue != self.defaultNetwork.rawValue else {
+        guard let switchedNetwork = self.switchedNetwork, switchedNetwork.rawValue != self.defaultNetwork.rawValue else {
             completion(true, nil)
             return
         }

@@ -29,8 +29,6 @@ protocol ActivityIndicating: class {
 extension ActivityIndicating where Self: UIViewController {
 
     func setupActivityIndicator() {
-        guard let activityIndicator = self.activityIndicator as UIActivityIndicatorView? else { return }
-
         view.addSubview(activityIndicator)
         self.activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         self.activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true

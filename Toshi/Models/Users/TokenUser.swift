@@ -265,7 +265,7 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     public static func createCurrentUser(with json: [String: Any]) {
-        guard let newUser = TokenUser(json: json, shouldSave: false) as TokenUser? else { return }
+        let newUser = TokenUser(json: json, shouldSave: false)
 
         current = newUser
 

@@ -256,7 +256,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     @objc fileprivate func showContactProfile(_ sender: UITapGestureRecognizer) {
-        if let contact = self.viewModel.contact as TokenUser?, sender.state == .ended {
+        if let contact = self.viewModel.contact, sender.state == .ended {
             let contactController = ContactController(contact: contact)
             navigationController?.pushViewController(contactController, animated: true)
         }
@@ -278,7 +278,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     fileprivate func adjustToLastMessage() {
-        guard let message = viewModel.messages.first as Message?, let sofaMessage = message.sofaWrapper as? SofaMessage, sofaMessage.buttons.count > 0 else { return }
+        guard let message = viewModel.messages.first, let sofaMessage = message.sofaWrapper as? SofaMessage, sofaMessage.buttons.count > 0 else { return }
         buttonsView.buttons = sofaMessage.buttons
     }
 
@@ -289,7 +289,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     fileprivate func adjustToPaymentState(_ state: PaymentState, at indexPath: IndexPath) {
-        guard let message = self.viewModel.messageModels[indexPath.row] as MessageModel?, message.type == .paymentRequest || message.type == .payment, let signalMessage = message.signalMessage as TSMessage? else { return }
+        guard let message = self.viewModel.messageModels.element(at: indexPath.row), message.type == .paymentRequest || message.type == .payment, let signalMessage = message.signalMessage else { return }
 
         signalMessage.paymentState = state
         signalMessage.save()
@@ -302,9 +302,9 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
     fileprivate func image(for message: MessageModel) -> UIImage {
         var image = UIImage()
-        if let cachedImage = self.imagesCache.object(forKey: message.identifier as NSString) as UIImage? {
+        if let cachedImage = self.imagesCache.object(forKey: message.identifier as NSString) {
             image = cachedImage
-        } else if let messageImage = message.image as UIImage? {
+        } else if let messageImage = message.image {
             let maxWidth: CGFloat = UIScreen.main.bounds.width * 0.5
 
             let maxSize = CGSize(width: maxWidth, height: UIScreen.main.bounds.height)
@@ -343,7 +343,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
     
     fileprivate func approvePaymentForIndexPath(_ indexPath: IndexPath) {
-        guard let message = self.viewModel.messageModels.element(at: indexPath.row) as MessageModel? else { return }
+        guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return }
         
         adjustToPaymentState(.pendingConfirmation, at: indexPath)
         
@@ -428,9 +428,7 @@ extension ChatViewController: UITableViewDelegate {
 extension ChatViewController: UITableViewDataSource {
 
     public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        guard let messages = self.viewModel.messageModels as [MessageModel]? else { return 0 }
-
-        return messages.count
+        return viewModel.messageModels.count
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -446,7 +444,7 @@ extension ChatViewController: UITableViewDataSource {
         
         if let cell = cell as? MessagesBasicCell {
 
-            if !message.isOutgoing, let avatarPath = self.viewModel.contact?.avatarPath as String? {
+            if !message.isOutgoing, let avatarPath = self.viewModel.contact?.avatarPath {
                 AvatarManager.shared.avatar(for: avatarPath, completion: { image, _ in
                     cell.avatarImageView.image = image
                 })
@@ -548,8 +546,8 @@ extension MessageModel {
 extension ChatViewController: MessagesPaymentCellDelegate {
 
     func approvePayment(for cell: MessagesPaymentCell) {
-        guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
-        guard let message = self.viewModel.messageModels.element(at: indexPath.row) as MessageModel? else { return }
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return }
         
         let messageText: String
         if let fiat = message.fiatValueString, let eth = message.ethereumValueString {
@@ -573,7 +571,7 @@ extension ChatViewController: MessagesPaymentCellDelegate {
     }
 
     func declinePayment(for cell: MessagesPaymentCell) {
-        guard let indexPath = self.tableView.indexPath(for: cell) as IndexPath? else { return }
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
 
         declinePaymentForIndexPath(indexPath)
     }
@@ -616,7 +614,7 @@ extension ChatViewController: ChatViewModelOutput {
     }
 
     fileprivate func sendGreetingTriggerIfNeeded() {
-        if let contact = self.viewModel.contact as TokenUser?, contact.isApp && self.viewModel.messages.isEmpty {
+        if let contact = self.viewModel.contact, contact.isApp && self.viewModel.messages.isEmpty {
             // If contact is an app, and there are no messages between current user and contact
             // we send the app an empty regular sofa message. This ensures that Signal won't display it,
             // but at the same time, most bots will reply with a greeting.

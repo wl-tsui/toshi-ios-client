@@ -239,14 +239,14 @@ open class SettingsController: UIViewController {
         cell.displayNameLabel.text = TokenUser.current?.name
         cell.usernameLabel.text = TokenUser.current?.displayUsername
 
-        guard let avatarPath = TokenUser.current?.avatarPath as String? else { return }
+        guard let avatarPath = TokenUser.current?.avatarPath else { return }
         AvatarManager.shared.avatar(for: avatarPath) { image, _ in
             cell.avatarImageView.image = image
         }
     }
 
     fileprivate func pushViewController(_ storyboardName: String) {
-        guard let storyboard = UIStoryboard(name: storyboardName, bundle: nil) as UIStoryboard? else { return }
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         guard let controller = storyboard.instantiateInitialViewController() else { return }
 
         self.navigationController?.pushViewController(controller, animated: true)
