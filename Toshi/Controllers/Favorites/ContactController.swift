@@ -44,7 +44,7 @@ public class ContactController: UIViewController {
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 24)
+        view.font = Theme.preferredTitle2()
 
         return view
     }()
@@ -52,7 +52,7 @@ public class ContactController: UIViewController {
     lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.preferredRegularMedium()
         view.textColor = Theme.greyTextColor
 
         return view
@@ -60,7 +60,7 @@ public class ContactController: UIViewController {
 
     lazy var aboutContentLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredRegular()
         view.numberOfLines = 0
 
         return view
@@ -68,7 +68,7 @@ public class ContactController: UIViewController {
 
     lazy var locationContentLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.preferredRegularMedium()
         view.textColor = Theme.lightGreyTextColor
         view.numberOfLines = 0
 
@@ -122,7 +122,7 @@ public class ContactController: UIViewController {
 
     lazy var reputationTitle: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 13)
+        view.font = Theme.preferredFootnote()
         view.textColor = Theme.sectionTitleColor
         view.text = "REPUTATION"
 
@@ -150,7 +150,7 @@ public class ContactController: UIViewController {
         view.setTitle("Rate this user", for: .normal)
         view.setTitleColor(Theme.tintColor, for: .normal)
         view.setTitleColor(Theme.greyTextColor, for: .highlighted)
-        view.titleLabel?.font = Theme.regular(size: 17)
+        view.titleLabel?.font = Theme.preferredRegular()
 
         view.addTarget(self, action: #selector(self.didTapRateUser), for: .touchUpInside)
 

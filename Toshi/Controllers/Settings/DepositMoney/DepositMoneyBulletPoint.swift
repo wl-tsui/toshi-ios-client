@@ -16,42 +16,42 @@
 import UIKit
 import TinyConstraints
 
-class AddMoneyHeader: UIView {
+class DepositMoneyBulletPoint: UIView {
 
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.medium(size: 20)
+        view.font = Theme.preferredSemibold()
         view.textColor = Theme.darkTextColor
         view.numberOfLines = 0
 
         return view
     }()
 
-    private lazy var subtitleLabel: UILabel = {
+    private lazy var textLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredRegular()
         view.textColor = Theme.darkTextColor
         view.numberOfLines = 0
 
         return view
     }()
 
-    convenience init(title: String, subtitle: String) {
+    convenience init(title: String, text: String) {
         self.init()
 
         titleLabel.text = title
         addSubview(titleLabel)
 
-        subtitleLabel.text = subtitle
-        addSubview(subtitleLabel)
+        textLabel.text = text
+        addSubview(textLabel)
 
         titleLabel.top(to: self, offset: 15)
         titleLabel.left(to: self, offset: 15)
         titleLabel.right(to: self, offset: -15)
 
-        subtitleLabel.topToBottom(of: titleLabel, offset: 5)
-        subtitleLabel.left(to: self, offset: 15)
-        subtitleLabel.right(to: self, offset: -15)
-        subtitleLabel.bottom(to: self)
+        textLabel.topToBottom(of: titleLabel, offset: 5)
+        textLabel.left(to: self, offset: 15)
+        textLabel.right(to: self, offset: -15)
+        textLabel.bottom(to: self)
     }
 }

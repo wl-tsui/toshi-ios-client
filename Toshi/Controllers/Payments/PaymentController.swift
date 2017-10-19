@@ -108,7 +108,7 @@ class PaymentController: UIViewController {
         view.textAlignment = .center
         view.minimumScaleFactor = 0.25
         view.adjustsFontSizeToFitWidth = true
-        view.font = Theme.medium(size: 16)
+        view.font = Theme.preferredRegularMedium()
         view.textColor = Theme.greyTextColor
         view.text = EthereumConverter.ethereumValueString(forEther: 0)
 

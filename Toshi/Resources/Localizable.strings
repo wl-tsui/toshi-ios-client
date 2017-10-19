@@ -1,4 +1,10 @@
 
+/* Welcome view */
+"welcome_title" = "Welcome to\nToshi";
+"welcome_subtitle" = "A browser for the Ethereum network that provides universal access to financial services";
+"sign_in_button_title" = "Sign in";
+"create_account_button_title" = "Create a new account";
+
 /* Push Notifications */
 "CONTACT_DETAIL_COMM_TYPE_INSECURE" = "Warning: Unregistered Number";
 "APN_Message" = "New message!";
@@ -24,9 +30,9 @@
 "messages_sent_error_action_resend" = "Resend";
 
 /* Balance */
-"balance-navigation-title" = "Balance";
-"balance-action-send" = "Send";
-"balance-action-deposit" = "Deposit";
+"balance_navigation_title" = "Balance";
+"balance_action_send" = "Send";
+"balance_action_deposit" = "Deposit";
 
 /* Payment */
 "payment_request" = "Request Payment";
@@ -49,25 +55,22 @@
 "payment_request_confirmation_warning_action_confirm" = "Pay";
 
 /* Passphrase */
-"passphrase_copy_navigation_title" = "Store passphrase";
-"passphrase_copy_title" = "This is your passphrase";
-"passphrase_copy_text" = "Carefully write down the words.\nDon’t email it or screenshot it.";
+"passphrase_copy_navigation_title" = "Your passphrase";
+"passphrase_copy_text" = "Carefully write down the words. Don’t email it or screenshot it.";
 "passphrase_copy_action" = "Verify passphrase";
-"passphrase_copy_confirm_title" = "Copy passphrase to clipboard";
+"passphrase_copy_confirm_title" = "Copy to clipboard";
 "passphrase_copy_confirm_copied" = "Copied to clipboard";
 
 "passphrase_enable_navigation_title" = "Store passphrase";
-"passphrase_enable_title" = "Let’s secure your account";
-"passphrase_enable_text" = "Storing a passphrase will allow you to recover your funds if your phone is ever lost or stolen.\n\nIt’s important to store this passphrase securely where nobody else can access it, such as on a piece of paper or in a password manager.";
+"passphrase_enable_title" = "Storing a passphrase will allow you to recover your funds if your phone is ever lost or stolen.";
+"passphrase_enable_text" = "It’s important to store this passphrase securely where nobody else can access it, such as on a piece of paper or in a password manager.";
 "passphrase_enable_checkbox" = "I understand that if I lose my passphrase, I will be unable to recover access to my account.";
 "passphrase_enable_action" = "Continue";
 
-"passphrase_verify_navigation_title" = "Store passphrase";
-"passphrase_verify_title" = "Verify the passphrase";
+"passphrase_verify_navigation_title" = "Verify passphrase";
 "passphrase_verify_text" = "Tap the words to put them next to each other in the correct order.";
 
 "passphrase_signin_error_title" = "Invalid passphrase";
-"passphrase_signin_error_words_count" = "Make sure your passphrase consists of 12 words, separated by a single space.";
 "passphrase_signin_error_verification" = "Are you sure you typed your passphrase correctly?";
 
 /* Settings */
@@ -104,6 +107,11 @@
 "settings_deposit_error_message" = "You haven’t backed up your passphrase yet. Without it you risk losing money.";
 "settings_deposit_error_action_backup" = "Backup";
 
+/* Edit profile */
+
+"edit_profile_title" = "Edit profile";
+"edit_profile_change_photo" = "Change profile photo";
+
 /* Image Picker related */
 
 "image-picker-select-source-title" = "Select source";
@@ -111,8 +119,22 @@
 "image-picker-library-action-title" = "Library";
 
 /* Profile QR Code */
-"profile_qr_code_title" = "Profile QR Code";
+"profile_qr_code_title" = "My QR Code";
 "profile_qr_code_subtitle" = "Use this QR code to let others add you on Toshi.";
+
+/* Deposit Money */
+"deposit_money_title" = "Deposit Money";
+"deposit_money_header_text" = "You can add money to your account in a variety of ways.";
+"deposit_money_1_title" = "1. Send ETH from another wallet";
+"deposit_money_1_text" = "Send to this address to top up your wallet:\n\n%@";
+"deposit_money_2_title" = "2. Find a local exchanger";
+"deposit_money_2_text" = "Find a local exchanger of Ethereum in your country. You can give them cash and they will send you Ethereum.";
+"deposit_money_3_title" = "3. Earn money";
+"deposit_money_3_text" = "Install an app that lets you earn Ethereum.";
+"deposit_money_4_title" = "4. Request money from a friend";
+"deposit_money_4_text" = "Send a payment request to a friend on Toshi.";
+"copy_to_clipboard_action" = "Copy to clipboard";
+"copy_to_clipboard_feedback" = "Copied";
 
 /* Currency Picker */
 "currency_picker_title" = "Local Currency";

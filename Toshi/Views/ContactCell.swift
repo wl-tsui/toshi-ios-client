@@ -46,7 +46,7 @@ class ContactCell: UITableViewCell {
     lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
-        view.font = Theme.semibold(size: 15)
+        view.font = Theme.preferredSemibold()
 
         return view
     }()
@@ -54,7 +54,7 @@ class ContactCell: UITableViewCell {
     lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.greyTextColor
-        view.font = Theme.regular(size: 14)
+        view.font = Theme.preferredRegularSmall()
 
         return view
     }()

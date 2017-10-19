@@ -66,7 +66,7 @@ class ConfirmationButton: UIControl {
 
     private lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.medium(size: 17)
+        view.font = Theme.regular(size: 17)
         view.textColor = Theme.tintColor
         view.textAlignment = .center
         view.isUserInteractionEnabled = false
@@ -76,7 +76,7 @@ class ConfirmationButton: UIControl {
 
     private lazy var confirmationLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.semibold(size: 15)
+        view.font = Theme.semibold(size: 16)
         view.textColor = Theme.greyTextColor
         view.textAlignment = .center
         view.isUserInteractionEnabled = false

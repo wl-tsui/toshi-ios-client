@@ -16,7 +16,7 @@ class MessagesPaymentCell: MessagesBasicCell {
     private(set) lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 18)
+        view.font = Theme.preferredRegular()
         view.textColor = Theme.tintColor
 
         return view
@@ -25,7 +25,7 @@ class MessagesPaymentCell: MessagesBasicCell {
     private(set) lazy var subtitleLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 13)
+        view.font = Theme.preferredRegularSmall()
         view.textColor = Theme.mediumTextColor
 
         return view
@@ -34,7 +34,7 @@ class MessagesPaymentCell: MessagesBasicCell {
     private(set) lazy var messageLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 14)
+        view.font = Theme.preferredFootnote()
         view.textColor = Theme.darkTextColor
 
         return view
@@ -43,7 +43,7 @@ class MessagesPaymentCell: MessagesBasicCell {
     private(set) lazy var statusLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 14)
+        view.font = Theme.preferredFootnote()
         view.textColor = Theme.mediumTextColor
 
         return view
@@ -54,7 +54,6 @@ class MessagesPaymentCell: MessagesBasicCell {
         view.title = Localized("messages_payment_approve")
         view.icon = UIImage(named: "approve")?.withRenderingMode(.alwaysTemplate)
         view.color = Theme.tintColor
-        view.font = Theme.medium(size: 15)
         view.addTarget(self, action: #selector(approvePayment(_:)), for: .touchUpInside)
 
         return view
@@ -65,7 +64,6 @@ class MessagesPaymentCell: MessagesBasicCell {
         view.title = Localized("messages_payment_decline")
         view.icon = UIImage(named: "decline")?.withRenderingMode(.alwaysTemplate)
         view.color = .gray
-        view.font = Theme.regular(size: 15)
         view.addTarget(self, action: #selector(declinePayment(_:)), for: .touchUpInside)
 
         return view

@@ -237,14 +237,14 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 }
 
 - (void)setupBasicAppearance {
-    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme boldWithSize:17]};
+    NSDictionary *attributtes = @{NSForegroundColorAttributeName: [Theme navigationTitleTextColor], NSFontAttributeName: [Theme preferredSemibold]};
 
     UINavigationBar *navBarAppearance = [UINavigationBar appearance];
     [navBarAppearance setTitleTextAttributes:attributtes];
     [navBarAppearance setTintColor:[Theme tintColor]];
     [navBarAppearance setBarTintColor:[Theme navigationBarColor]];
 
-    attributtes = @{NSForegroundColorAttributeName: [Theme tintColor], NSFontAttributeName: [Theme regularWithSize:17]};
+    attributtes = @{NSForegroundColorAttributeName: [Theme tintColor], NSFontAttributeName: [Theme preferredRegular]};
     UIBarButtonItem *barButtonAppearance = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]];
     [barButtonAppearance setTitleTextAttributes:attributtes forState:UIControlStateNormal];
 

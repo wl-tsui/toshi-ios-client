@@ -19,7 +19,7 @@ import SweetUIKit
 class CheckboxControl: UIControl {
 
     lazy var checkbox: Checkbox = {
-        let view = Checkbox(withAutoLayout: true)
+        let view = Checkbox()
         view.checked = false
         view.isUserInteractionEnabled = false
 
@@ -27,7 +27,7 @@ class CheckboxControl: UIControl {
     }()
 
     private lazy var titleLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
+        let view = UILabel()
         view.numberOfLines = 0
         view.isUserInteractionEnabled = false
 
@@ -47,7 +47,7 @@ class CheckboxControl: UIControl {
             paragraphStyle.paragraphSpacing = -4
             
             let attributes: [NSAttributedStringKey: Any] = [
-                .font: Theme.regular(size: 16),
+                .font: Theme.preferredRegularMedium(),
                 .foregroundColor: Theme.darkTextColor,
                 .paragraphStyle: paragraphStyle
             ]
@@ -66,15 +66,11 @@ class CheckboxControl: UIControl {
         addSubview(checkbox)
         addSubview(titleLabel)
 
-        NSLayoutConstraint.activate([
-            self.checkbox.topAnchor.constraint(equalTo: self.topAnchor),
-            self.checkbox.leftAnchor.constraint(equalTo: self.leftAnchor),
+        checkbox.top(to: titleLabel.forFirstBaselineLayout)
+        checkbox.left(to: self)
+        checkbox.size(CGSize(width: 20, height: 20))
 
-            self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
-            self.titleLabel.leftAnchor.constraint(equalTo: self.checkbox.rightAnchor, constant: 15),
-            self.titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor)
-        ])
+        titleLabel.edges(to: self, insets: UIEdgeInsets(top: 0, left: 35, bottom: 0, right: 0))
     }
 
     override var isHighlighted: Bool {

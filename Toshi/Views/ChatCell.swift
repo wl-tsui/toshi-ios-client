@@ -84,7 +84,7 @@ class ChatCell: UITableViewCell {
         paragraphStyle.lineBreakMode = .byTruncatingTail
 
         return [
-            .font: Theme.regular(size: 15),
+            .font: Theme.preferredRegularSmall(),
             .foregroundColor: Theme.greyTextColor,
             .paragraphStyle: paragraphStyle
         ]
@@ -98,7 +98,7 @@ class ChatCell: UITableViewCell {
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
 
-        self.unreadLabel.font = Theme.regular(size: 15)
+        self.unreadLabel.font = Theme.preferredRegularSmall()
         self.unreadLabel.textColor = Theme.lightTextColor
         self.unreadLabel.textAlignment = .center
         view.addSubview(self.unreadLabel)
@@ -125,7 +125,7 @@ class ChatCell: UITableViewCell {
 
     lazy var usernameLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.semibold(size: 16)
+        view.font = Theme.preferredSemibold()
         view.textColor = Theme.darkTextColor
 
         return view
@@ -140,7 +140,7 @@ class ChatCell: UITableViewCell {
 
     lazy var lastMessageDateLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.regular(size: 15)
+        view.font = Theme.preferredRegularSmall()
         view.textAlignment = .right
         view.textColor = Theme.tintColor
 
@@ -152,10 +152,6 @@ class ChatCell: UITableViewCell {
         view.backgroundColor = Theme.borderColor
 
         return view
-    }()
-
-    lazy var guides: [UILayoutGuide] = {
-        [UILayoutGuide(), UILayoutGuide(), UILayoutGuide()]
     }()
 
     lazy var textGuide: UILayoutGuide = {
@@ -192,52 +188,61 @@ class ChatCell: UITableViewCell {
         contentView.addSubview(lastMessageDateLabel)
         contentView.addSubview(separatorView)
 
-        for guide in guides {
-            contentView.addLayoutGuide(guide)
-        }
+        let avatarLayoutSpace = UILayoutGuide()
+        contentView.addLayoutGuide(avatarLayoutSpace)
+        let labelLayoutSpace = UILayoutGuide()
+        contentView.addLayoutGuide(labelLayoutSpace)
+        let indicatorsViewSpace = UILayoutGuide()
+        contentView.addLayoutGuide(indicatorsViewSpace)
 
         contentView.addLayoutGuide(textGuide)
 
-        let margin: CGFloat = 15.0
+        let margin: CGFloat = 16.0
+        let halfMargin: CGFloat = 8.0
+        let imageSize: CGFloat = 48.0
 
-        guides[0].left(to: contentView, offset: margin)
-        guides[0].centerY(to: contentView)
+        avatarLayoutSpace.left(to: contentView, offset: margin)
+        avatarLayoutSpace.top(to: contentView, offset: margin)
+        avatarLayoutSpace.bottom(to: contentView, offset: -margin)
+        avatarLayoutSpace.height(imageSize, relation: .equalOrGreater)
 
-        guides[1].leftToRight(of: guides[0], offset: margin)
-        guides[1].centerY(to: contentView)
+        labelLayoutSpace.leftToRight(of: avatarLayoutSpace, offset: margin)
+        labelLayoutSpace.top(to: contentView, offset: halfMargin)
+        labelLayoutSpace.bottom(to: contentView, offset: -halfMargin)
 
-        guides[2].top(to: guides[1])
-        guides[2].leftToRight(of: guides[1], offset: margin)
-        guides[2].right(to: contentView, offset: 0)
+        indicatorsViewSpace.top(to: labelLayoutSpace)
+        indicatorsViewSpace.leftToRight(of: labelLayoutSpace, offset: margin)
+        indicatorsViewSpace.right(to: contentView)
+        indicatorsViewSpace.bottom(to: contentView)
 
-        avatarImageView.size(CGSize(width: 44, height: 44))
-        avatarImageView.centerY(to: guides[0])
-        avatarImageView.left(to: guides[0])
-        avatarImageView.right(to: guides[0])
+        avatarImageView.size(CGSize(width: imageSize, height: imageSize))
+        avatarImageView.centerY(to: avatarLayoutSpace)
+        avatarImageView.left(to: avatarLayoutSpace)
+        avatarImageView.right(to: avatarLayoutSpace)
 
-        usernameLabel.top(to: guides[1])
-        usernameLabel.left(to: guides[1])
-        usernameLabel.right(to: guides[1])
+        usernameLabel.top(to: labelLayoutSpace)
+        usernameLabel.left(to: labelLayoutSpace)
+        usernameLabel.right(to: labelLayoutSpace)
 
         textGuide.topToBottom(of: usernameLabel)
-        textGuide.left(to: guides[1])
-        textGuide.right(to: guides[1])
+        textGuide.left(to: labelLayoutSpace)
+        textGuide.right(to: labelLayoutSpace)
 
         lastMessageLabel.topToBottom(of: textGuide)
-        lastMessageLabel.left(to: guides[1])
-        lastMessageLabel.right(to: guides[1])
-        lastMessageLabel.bottom(to: guides[1])
+        lastMessageLabel.left(to: labelLayoutSpace)
+        lastMessageLabel.right(to: labelLayoutSpace)
+        lastMessageLabel.bottom(to: labelLayoutSpace)
 
-        lastMessageDateLabel.top(to: contentView, offset: 10)
-        lastMessageDateLabel.left(to: guides[2])
-        lastMessageDateLabel.right(to: guides[2])
+        lastMessageDateLabel.top(to: indicatorsViewSpace)
+        lastMessageDateLabel.left(to: indicatorsViewSpace)
+        lastMessageDateLabel.right(to: indicatorsViewSpace)
 
         unreadView.topToBottom(of: lastMessageDateLabel, offset: 12)
-        unreadView.right(to: guides[2])
+        unreadView.right(to: indicatorsViewSpace)
         unreadView.height(24)
         unreadView.width(24, relation: .equalOrGreater)
 
-        separatorView.left(to: guides[1])
+        separatorView.left(to: avatarLayoutSpace)
         separatorView.right(to: self)
         separatorView.height(Theme.borderHeight)
         separatorView.bottom(to: contentView)

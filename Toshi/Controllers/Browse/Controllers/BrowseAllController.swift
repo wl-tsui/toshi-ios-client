@@ -89,10 +89,6 @@ class BrowseAllController: UITableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return SearchResultCell.height
-    }
-
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return searchResults.count
     }
@@ -102,8 +98,8 @@ class BrowseAllController: UITableViewController {
 
         if let item = searchResults.element(at: indexPath.row) {
             cell.nameLabel.text = item.name
-            cell.subLabel.text = item.isApp ? item.about : item.username
-            
+            cell.usernameLabel.text = item.isApp ? item.about : item.username
+
             AvatarManager.shared.avatar(for: item.avatarPath, completion: { image, path in
                 if item.avatarPath == path {
                     cell.avatarImageView.image = image

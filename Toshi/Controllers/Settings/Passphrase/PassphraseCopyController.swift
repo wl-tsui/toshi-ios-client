@@ -22,15 +22,8 @@ class PassphraseCopyController: UIViewController {
         return IDAPIClient.shared
     }
 
-    lazy var titleLabel: TitleLabel = {
-        let view = TitleLabel(Localized("passphrase_copy_title"))
-
-        return view
-    }()
-
     lazy var textLabel: UILabel = {
         let view = TextLabel(Localized("passphrase_copy_text"))
-        view.textAlignment = .center
 
         return view
     }()
@@ -45,7 +38,7 @@ class PassphraseCopyController: UIViewController {
 
     private lazy var passphraseView = PassphraseView(with: Cereal().mnemonic.words, for: .original)
 
-    private lazy var confirmationButton: ConfirmationButton = {
+    private lazy var copyButton: ConfirmationButton = {
         let view = ConfirmationButton(withAutoLayout: true)
         view.title = Localized("passphrase_copy_confirm_title")
         view.confirmation = Localized("passphrase_copy_confirm_copied")
@@ -53,6 +46,8 @@ class PassphraseCopyController: UIViewController {
 
         return view
     }()
+
+    private var passPhraseViewHeightConstraint: NSLayoutConstraint?
 
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -62,49 +57,72 @@ class PassphraseCopyController: UIViewController {
     }
 
     public required init?(coder _: NSCoder) {
-        fatalError("")
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    open override func loadView() {
+        let scrollView = UIScrollView()
+
+        view = scrollView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Theme.settingsBackgroundColor
+        
+        addSubviewsAndConstraints()
+    }
 
-        view.addSubview(titleLabel)
-        view.addSubview(textLabel)
-        view.addSubview(passphraseView)
-        view.addSubview(confirmationButton)
-        view.addSubview(actionButton)
+    private func addSubviewsAndConstraints() {
+        let margin: CGFloat = 20
 
-        NSLayoutConstraint.activate([
-            self.titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 40 + 64),
-            self.titleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
-            self.titleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
+        let contentView = UIView()
+        view.addSubview(contentView)
 
-            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: 20),
-            self.textLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
-            self.textLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
+        contentView.edges(to: view)
+        contentView.width(to: view)
+        contentView.height(to: layoutGuide(), relation: .equalOrGreater)
 
-            self.passphraseView.topAnchor.constraint(equalTo: self.textLabel.bottomAnchor, constant: 60),
-            self.passphraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 15),
-            self.passphraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -15),
+        contentView.addSubview(textLabel)
+        contentView.addSubview(passphraseView)
+        contentView.addSubview(copyButton)
+        contentView.addSubview(actionButton)
 
-            self.confirmationButton.topAnchor.constraint(equalTo: self.passphraseView.bottomAnchor, constant: 20),
-            self.confirmationButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+        textLabel.top(to: contentView, offset: 13)
+        textLabel.left(to: contentView, offset: margin)
+        textLabel.right(to: contentView, offset: -margin)
 
-            self.actionButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.actionButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -30)
-        ])
+        passphraseView.topToBottom(of: textLabel, offset: margin)
+        passphraseView.left(to: contentView, offset: margin)
+        passphraseView.right(to: contentView, offset: -margin)
+
+        // Anchored the bottom of PassPhraseView to the bottomContainer, since the height is ambiguous otherwise
+        if let bottomAnchor = passphraseView.containers.last?.bottomAnchor {
+            passphraseView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10).isActive = true
+        }
+
+        copyButton.topToBottom(of: passphraseView)
+        copyButton.height(35)
+        copyButton.left(to: contentView, offset: margin)
+        copyButton.right(to: contentView, offset: -margin)
+
+        actionButton.height(50)
+        actionButton.left(to: contentView, offset: margin)
+        actionButton.right(to: contentView, offset: -margin)
+        actionButton.topToBottom(of: copyButton, offset: 40, relation: .equalOrGreater)
+        actionButton.bottom(to: contentView, offset: -50)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        preferLargeTitleIfPossible(false)
+        preferLargeTitleIfPossible(true)
     }
 
     @objc func proceed(_: ActionButton) {
         let controller = PassphraseVerifyController()
         navigationController?.pushViewController(controller, animated: true)
+        controller.passPhraseViewHeight = passphraseView.frame.height
     }
 
     @objc func copyToClipBoard(_ button: ConfirmationButton) {

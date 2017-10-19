@@ -23,20 +23,8 @@ class PassphraseVerifyController: UIViewController {
     }
 
     private let navigationBarCompensation: CGFloat = 64
-    private let margin: CGFloat = 30
 
-    lazy var titleLabel: TitleLabel = {
-        let view = TitleLabel(Localized("passphrase_verify_title"))
-
-        return view
-    }()
-
-    lazy var textLabel: UILabel = {
-        let view = TextLabel(Localized("passphrase_verify_text"))
-        view.textAlignment = .center
-
-        return view
-    }()
+    lazy var textLabel = TextLabel(Localized("passphrase_verify_text"))
 
     fileprivate lazy var shuffledPassphraseView: PassphraseView = {
         let view = PassphraseView(with: Cereal().mnemonic.words, for: .shuffled)
@@ -54,9 +42,7 @@ class PassphraseVerifyController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var guides: [UILayoutGuide] = {
-        [UILayoutGuide(), UILayoutGuide(), UILayoutGuide(), UILayoutGuide(), UILayoutGuide()]
-    }()
+    var passPhraseViewHeight: CGFloat = 147.0
 
     public required init?(coder _: NSCoder) {
         fatalError("")
@@ -69,6 +55,12 @@ class PassphraseVerifyController: UIViewController {
         hidesBottomBarWhenPushed = true
     }
 
+    open override func loadView() {
+        let scrollView = UIScrollView()
+
+        view = scrollView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Theme.settingsBackgroundColor
@@ -79,73 +71,41 @@ class PassphraseVerifyController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        preferLargeTitleIfPossible(false)
+        preferLargeTitleIfPossible(true)
     }
 
     func addSubviewsAndConstraints() {
-        view.addSubview(titleLabel)
-        view.addSubview(textLabel)
-        view.addSubview(verifyPassphraseView)
-        view.addSubview(shuffledPassphraseView)
+        let margin: CGFloat = 20
 
-        /*
-         Between each view we place a layout-guide to add dynamic control of
-         the spacing between the views. We do this by setting a target height
-         for the first layout-guide and chain the height constraints of all
-         layout-guides to each other.
-         This way the spacing between each view remains equal to each other,
-         even when the target height for the first layout-guide is not reached.
-         */
+        let contentView = UIView()
+        view.addSubview(contentView)
 
-        for guide in guides {
-            view.addLayoutGuide(guide)
+        contentView.edges(to: view)
+        contentView.width(to: view)
+
+        contentView.addSubview(textLabel)
+        contentView.addSubview(verifyPassphraseView)
+        contentView.addSubview(shuffledPassphraseView)
+
+        textLabel.top(to: contentView, offset: 13)
+        textLabel.left(to: contentView, offset: margin)
+        textLabel.right(to: contentView, offset: -margin)
+
+        verifyPassphraseView.topToBottom(of: textLabel, offset: margin)
+        verifyPassphraseView.left(to: contentView, offset: margin)
+        verifyPassphraseView.right(to: contentView, offset: -margin)
+        verifyPassphraseView.height(passPhraseViewHeight)
+
+        shuffledPassphraseView.topToBottom(of: verifyPassphraseView, offset: margin)
+        shuffledPassphraseView.left(to: contentView, offset: margin)
+        shuffledPassphraseView.right(to: contentView, offset: -margin)
+
+        // Anchored the bottom of PassPhraseView to the bottomContainer, since the height is ambiguous otherwise
+        if let bottomAnchor = shuffledPassphraseView.containers.last?.bottomAnchor {
+            shuffledPassphraseView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10).isActive = true
         }
 
-        NSLayoutConstraint.activate([
-            self.guides[0].topAnchor.constraint(equalTo: self.view.topAnchor, constant: self.navigationBarCompensation),
-            self.guides[0].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[0].bottomAnchor.constraint(equalTo: self.titleLabel.topAnchor),
-            self.guides[0].rightAnchor.constraint(equalTo: self.view.rightAnchor),
-
-            self.titleLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin),
-            self.titleLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin),
-
-            self.guides[1].topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor),
-            self.guides[1].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[1].bottomAnchor.constraint(equalTo: self.textLabel.topAnchor),
-            self.guides[1].rightAnchor.constraint(equalTo: self.view.rightAnchor),
-
-            self.textLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin),
-            self.textLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin),
-
-            self.guides[2].topAnchor.constraint(equalTo: self.textLabel.bottomAnchor),
-            self.guides[2].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[2].bottomAnchor.constraint(equalTo: self.verifyPassphraseView.topAnchor),
-            self.guides[2].rightAnchor.constraint(equalTo: self.view.rightAnchor),
-
-            self.verifyPassphraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
-            self.verifyPassphraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
-
-            self.guides[3].topAnchor.constraint(equalTo: self.verifyPassphraseView.bottomAnchor),
-            self.guides[3].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[3].bottomAnchor.constraint(equalTo: self.shuffledPassphraseView.topAnchor),
-            self.guides[3].rightAnchor.constraint(equalTo: self.view.rightAnchor),
-
-            self.shuffledPassphraseView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: self.margin / 2),
-            self.shuffledPassphraseView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -self.margin / 2),
-            self.shuffledPassphraseView.heightAnchor.constraint(equalTo: self.verifyPassphraseView.heightAnchor).priority(.defaultHigh),
-
-            self.guides[4].topAnchor.constraint(equalTo: self.shuffledPassphraseView.bottomAnchor),
-            self.guides[4].leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.guides[4].bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            self.guides[4].rightAnchor.constraint(equalTo: self.view.rightAnchor),
-
-            self.guides[0].heightAnchor.constraint(equalToConstant: self.margin).priority(.defaultHigh),
-            self.guides[1].heightAnchor.constraint(equalTo: self.guides[0].heightAnchor, multiplier: 0.5),
-            self.guides[2].heightAnchor.constraint(equalTo: self.guides[0].heightAnchor),
-            self.guides[3].heightAnchor.constraint(equalTo: self.guides[2].heightAnchor),
-            self.guides[4].heightAnchor.constraint(equalTo: self.guides[3].heightAnchor)
-        ])
+        shuffledPassphraseView.bottom(to: contentView, offset: -margin)
     }
 }
 

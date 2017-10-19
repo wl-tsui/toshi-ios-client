@@ -426,7 +426,7 @@
 		A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
 		A9603DC11F4DABDC00BF57B1 /* CacheExpiry+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F48C1561E9CD911008BA637 /* CacheExpiry+Default.swift */; };
 		A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
-		A9603DC81F4DABDC00BF57B1 /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
+		A9603DC81F4DABDC00BF57B1 /* DepositMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */; };
 		A9603DC91F4DABDC00BF57B1 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* Payment.swift */; };
 		A9603DD31F4DABDC00BF57B1 /* BrowseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90E5A261F03BBAB00DAA501 /* BrowseCell.swift */; };
 		A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */; };
@@ -437,7 +437,7 @@
 		A9603DFE1F4DABDC00BF57B1 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
 		A9603E081F4DABDC00BF57B1 /* ContactsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A431E252CFA00EF1141 /* ContactsManager.m */; };
 		A9603E0A1F4DABDC00BF57B1 /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
-		A9603E0B1F4DABDC00BF57B1 /* AddMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */; };
+		A9603E0B1F4DABDC00BF57B1 /* DepositMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* DepositMoneyItem.swift */; };
 		A9603E0C1F4DABDC00BF57B1 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		A9603E0E1F4DABDC00BF57B1 /* String+Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AED6FA1F42EBCB003C38E8 /* String+Regex.swift */; };
 		A9603E101F4DABDC00BF57B1 /* FavoritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE01E28E71900A70E07 /* FavoritesController.swift */; };
@@ -495,7 +495,7 @@
 		A9603ED11F4DABDC00BF57B1 /* InputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC85F7E1F0F946600BCB171 /* InputCell.swift */; };
 		A9603ED61F4DABDC00BF57B1 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		A9603EDA1F4DABDC00BF57B1 /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
-		A9603EDD1F4DABDC00BF57B1 /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
+		A9603EDD1F4DABDC00BF57B1 /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
 		A9603EDE1F4DABDC00BF57B1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
 		A9603EDF1F4DABDC00BF57B1 /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9603EE41F4DABDC00BF57B1 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
@@ -505,7 +505,7 @@
 		A9603EEF1F4DABDC00BF57B1 /* AddressChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B857791F25F3D700979650 /* AddressChangeAlertController.swift */; };
 		A9603EF11F4DABDC00BF57B1 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
 		A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
-		A9603EF41F4DABDC00BF57B1 /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
+		A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */; };
 		A9603EF71F4DABDC00BF57B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
@@ -589,10 +589,10 @@
 		A97600301F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
 		A97600311F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
 		A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
-		A997B0FE1EF94B4600A143FE /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
-		A997B0FF1EF94B4900A143FE /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
-		A997B1001EF94B4C00A143FE /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
-		A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */; };
+		A997B0FE1EF94B4600A143FE /* DepositMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */; };
+		A997B0FF1EF94B4900A143FE /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
+		A997B1001EF94B4C00A143FE /* DepositMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */; };
+		A997B1011EF94B4F00A143FE /* DepositMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* DepositMoneyItem.swift */; };
 		A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* RecentViewController.swift */; };
 		A9A9F9A11F8B70770010F877 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* RecentViewController.swift */; };
 		A9A9F9A21F8B707C0010F877 /* RecentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* RecentNavigationController.swift */; };
@@ -620,10 +620,10 @@
 		A9AC74181E78277700365029 /* PassphraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* PassphraseWordView.swift */; };
 		A9AFDD481F5FF80500C0A256 /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
 		A9AFDD491F5FF80600C0A256 /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
-		A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */; };
-		A9BA6B7B1EF7D582007C3206 /* AddMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */; };
-		A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */; };
-		A9BA6B7F1EF7D864007C3206 /* AddMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */; };
+		A9BA6B791EF7CEAD007C3206 /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
+		A9BA6B7B1EF7D582007C3206 /* DepositMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */; };
+		A9BA6B7D1EF7D746007C3206 /* DepositMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */; };
+		A9BA6B7F1EF7D864007C3206 /* DepositMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* DepositMoneyItem.swift */; };
 		A9BF33AD1E76DF0B009A51AA /* PassphraseEnableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AC1E76DF0B009A51AA /* PassphraseEnableController.swift */; };
 		A9BF33AF1E76DF54009A51AA /* PassphraseCopyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33AE1E76DF54009A51AA /* PassphraseCopyController.swift */; };
 		A9BF33B11E76DF67009A51AA /* PassphraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */; };
@@ -1020,10 +1020,10 @@
 		A9AC74101E78064500365029 /* TextLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextLabel.swift; sourceTree = "<group>"; };
 		A9AC74131E78231A00365029 /* PassphraseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseView.swift; sourceTree = "<group>"; };
 		A9AC74161E78277700365029 /* PassphraseWordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseWordView.swift; sourceTree = "<group>"; };
-		A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyController.swift; sourceTree = "<group>"; };
-		A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyHeader.swift; sourceTree = "<group>"; };
-		A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyBulletPoint.swift; sourceTree = "<group>"; };
-		A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddMoneyItem.swift; sourceTree = "<group>"; };
+		A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositMoneyController.swift; sourceTree = "<group>"; };
+		A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositMoneyHeader.swift; sourceTree = "<group>"; };
+		A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositMoneyBulletPoint.swift; sourceTree = "<group>"; };
+		A9BA6B7E1EF7D864007C3206 /* DepositMoneyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepositMoneyItem.swift; sourceTree = "<group>"; };
 		A9BF33AC1E76DF0B009A51AA /* PassphraseEnableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseEnableController.swift; sourceTree = "<group>"; };
 		A9BF33AE1E76DF54009A51AA /* PassphraseCopyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseCopyController.swift; sourceTree = "<group>"; };
 		A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassphraseVerifyController.swift; sourceTree = "<group>"; };
@@ -1724,7 +1724,7 @@
 		9FE18B291E2D1FC700940DC8 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				A9BA6B771EF7CEAD007C3206 /* AddMoney */,
+				A9BA6B771EF7CEAD007C3206 /* DepositMoney */,
 				A9191DC41F2203DD00498A4F /* Advanced */,
 				A9191DCE1F2220B100498A4F /* Balance */,
 				6AE44D951F45C37A00F5AF02 /* LocalCurrency */,
@@ -1837,15 +1837,15 @@
 			path = "Rate Users";
 			sourceTree = "<group>";
 		};
-		A9BA6B771EF7CEAD007C3206 /* AddMoney */ = {
+		A9BA6B771EF7CEAD007C3206 /* DepositMoney */ = {
 			isa = PBXGroup;
 			children = (
-				A9BA6B7C1EF7D746007C3206 /* AddMoneyBulletPoint.swift */,
-				A9BA6B781EF7CEAD007C3206 /* AddMoneyController.swift */,
-				A9BA6B7A1EF7D582007C3206 /* AddMoneyHeader.swift */,
-				A9BA6B7E1EF7D864007C3206 /* AddMoneyItem.swift */,
+				A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */,
+				A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */,
+				A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */,
+				A9BA6B7E1EF7D864007C3206 /* DepositMoneyItem.swift */,
 			);
-			path = AddMoney;
+			path = DepositMoney;
 			sourceTree = "<group>";
 		};
 		A9BF33AB1E76DE36009A51AA /* Passphrase */ = {
@@ -2703,7 +2703,7 @@
 				2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				9F48C1581E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
 				9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
-				A997B1001EF94B4C00A143FE /* AddMoneyHeader.swift in Sources */,
+				A997B1001EF94B4C00A143FE /* DepositMoneyHeader.swift in Sources */,
 				A91629171F3C85D6008A7F36 /* Payment.swift in Sources */,
 				A90E5A2B1F03D0D200DAA501 /* BrowseCell.swift in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
@@ -2715,7 +2715,7 @@
 				A9AFDD491F5FF80600C0A256 /* MessagesErrorView.swift in Sources */,
 				149F9A761E72E29A00FB74AA /* ContactsManager.m in Sources */,
 				A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */,
-				A997B1011EF94B4F00A143FE /* AddMoneyItem.swift in Sources */,
+				A997B1011EF94B4F00A143FE /* DepositMoneyItem.swift in Sources */,
 				A9A9F9A71F8B708A0010F877 /* ChatInteractor.swift in Sources */,
 				848D82231F23D50A00BBFA66 /* NetworkSettingsController.swift in Sources */,
 				84AED6FC1F42EBCB003C38E8 /* String+Regex.swift in Sources */,
@@ -2785,7 +2785,7 @@
 				2BC85F801F0F946600BCB171 /* InputCell.swift in Sources */,
 				2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */,
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
-				A997B0FF1EF94B4900A143FE /* AddMoneyController.swift in Sources */,
+				A997B0FF1EF94B4900A143FE /* DepositMoneyController.swift in Sources */,
 				149F9A9B1E72E29A00FB74AA /* AppDelegate.m in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
 				149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */,
@@ -2796,7 +2796,7 @@
 				2BA0D8911F7551BA000B8500 /* NSLayoutConstraint+Additions.swift in Sources */,
 				A9AC740C1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */,
-				A997B0FE1EF94B4600A143FE /* AddMoneyBulletPoint.swift in Sources */,
+				A997B0FE1EF94B4600A143FE /* DepositMoneyBulletPoint.swift in Sources */,
 				149F9AA31E72E29A00FB74AA /* main.m in Sources */,
 				9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
@@ -2853,7 +2853,7 @@
 				9FEB8C881E682FD80088D5A6 /* MessageFetcherJob.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
-				A9BA6B7D1EF7D746007C3206 /* AddMoneyBulletPoint.swift in Sources */,
+				A9BA6B7D1EF7D746007C3206 /* DepositMoneyBulletPoint.swift in Sources */,
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				14ED3ABD1E4A2B3400DF8079 /* BrowseController.swift in Sources */,
@@ -2900,7 +2900,7 @@
 				A9E691C51F7A496800317DB1 /* SignInLayout.swift in Sources */,
 				9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */,
 				9FCDBAE51E28E71900A70E07 /* ProfileController.swift in Sources */,
-				A9BA6B7F1EF7D864007C3206 /* AddMoneyItem.swift in Sources */,
+				A9BA6B7F1EF7D864007C3206 /* DepositMoneyItem.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				A9E691C11F7A496800317DB1 /* SignInView.swift in Sources */,
 				9FB228861EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */,
@@ -2966,14 +2966,14 @@
 				9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */,
 				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
-				A9BA6B791EF7CEAD007C3206 /* AddMoneyController.swift in Sources */,
+				A9BA6B791EF7CEAD007C3206 /* DepositMoneyController.swift in Sources */,
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9FB8EA471E323B4000505441 /* SofaWrapper.swift in Sources */,
 				9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
 				2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */,
 				9F78D9CD1EE93E68003A0B95 /* ModalPresentable.swift in Sources */,
-				A9BA6B7B1EF7D582007C3206 /* AddMoneyHeader.swift in Sources */,
+				A9BA6B7B1EF7D582007C3206 /* DepositMoneyHeader.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				A916290F1F3C3A02008A7F36 /* PaymentAddressInputView.swift in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
@@ -3057,7 +3057,7 @@
 				A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */,
 				A9603DC11F4DABDC00BF57B1 /* CacheExpiry+Default.swift in Sources */,
 				A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */,
-				A9603DC81F4DABDC00BF57B1 /* AddMoneyHeader.swift in Sources */,
+				A9603DC81F4DABDC00BF57B1 /* DepositMoneyHeader.swift in Sources */,
 				A9603DC91F4DABDC00BF57B1 /* Payment.swift in Sources */,
 				A9603DD31F4DABDC00BF57B1 /* BrowseCell.swift in Sources */,
 				A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */,
@@ -3069,7 +3069,7 @@
 				A9AFDD481F5FF80500C0A256 /* MessagesErrorView.swift in Sources */,
 				A9603E081F4DABDC00BF57B1 /* ContactsManager.m in Sources */,
 				A9603E0A1F4DABDC00BF57B1 /* AdvancedSettingsController.swift in Sources */,
-				A9603E0B1F4DABDC00BF57B1 /* AddMoneyItem.swift in Sources */,
+				A9603E0B1F4DABDC00BF57B1 /* DepositMoneyItem.swift in Sources */,
 				A9A9F9A61F8B70890010F877 /* ChatInteractor.swift in Sources */,
 				A9603E0C1F4DABDC00BF57B1 /* NetworkSettingsController.swift in Sources */,
 				A9603E0E1F4DABDC00BF57B1 /* String+Regex.swift in Sources */,
@@ -3138,7 +3138,7 @@
 				A9603ED11F4DABDC00BF57B1 /* InputCell.swift in Sources */,
 				A9603ED61F4DABDC00BF57B1 /* ProfileEditConfigurator.swift in Sources */,
 				A9603EDA1F4DABDC00BF57B1 /* UserBootstrapParameters.swift in Sources */,
-				A9603EDD1F4DABDC00BF57B1 /* AddMoneyController.swift in Sources */,
+				A9603EDD1F4DABDC00BF57B1 /* DepositMoneyController.swift in Sources */,
 				A9603EDE1F4DABDC00BF57B1 /* AppDelegate.m in Sources */,
 				A9603EDF1F4DABDC00BF57B1 /* CheckboxControl.swift in Sources */,
 				A9603EE41F4DABDC00BF57B1 /* DateTimeFormatter.swift in Sources */,
@@ -3149,7 +3149,7 @@
 				A9603EF11F4DABDC00BF57B1 /* UIView+Additions.swift in Sources */,
 				2BA0D8901F7551B9000B8500 /* NSLayoutConstraint+Additions.swift in Sources */,
 				A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */,
-				A9603EF41F4DABDC00BF57B1 /* AddMoneyBulletPoint.swift in Sources */,
+				A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */,
 				A9603EF71F4DABDC00BF57B1 /* main.m in Sources */,
 				A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */,
 				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,

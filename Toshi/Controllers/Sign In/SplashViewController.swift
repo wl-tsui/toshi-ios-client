@@ -48,14 +48,14 @@ final class SplashViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = Theme.viewBackgroundColor
         label.numberOfLines = 0
-        label.text = "Welcome to\nToshi"
+        label.text = Localized("welcome_title")
 
         return label
     }()
 
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
-        label.font = Theme.regular(size: 17.0)
+        label.font = Theme.preferredRegular()
         label.textColor = Theme.viewBackgroundColor.withAlphaComponent(0.6)
         label.numberOfLines = 0
 
@@ -63,7 +63,7 @@ final class SplashViewController: UIViewController {
         paragraphStyle.lineSpacing = 5
         paragraphStyle.alignment = .center
 
-        let attrString = NSMutableAttributedString(string: "A browser for the Ethereum network\nthat provides universal access to\nfinancial services")
+        let attrString = NSMutableAttributedString(string: Localized("welcome_subtitle"))
         attrString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attrString.length))
 
         label.attributedText = attrString
@@ -71,23 +71,23 @@ final class SplashViewController: UIViewController {
         return label
     }()
 
-    private lazy var signinButton: UIButton = {
+    private lazy var newAccountButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
-        button.isUserInteractionEnabled = true
-        button.setTitle("Sign in", for: .normal)
+        button.setTitle(Localized("create_account_button_title"), for: .normal)
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
-        button.addTarget(self, action: #selector(signinPressed(_:)), for: .touchUpInside)
-        button.titleLabel?.font = Theme.regular(size: 16.0)
+        button.addTarget(self, action: #selector(newAccountPressed(_:)), for: .touchUpInside)
+        button.titleLabel?.font = Theme.preferredTitle3()
 
         return button
     }()
 
-    private lazy var newAccountButton: UIButton = {
+    private lazy var signinButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
-        button.setTitle("Create a new account", for: .normal)
+        button.isUserInteractionEnabled = true
+        button.setTitle(Localized("sign_in_button_title"), for: .normal)
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
-        button.addTarget(self, action: #selector(newAccountPressed(_:)), for: .touchUpInside)
-        button.titleLabel?.font = Theme.regular(size: 20.0)
+        button.addTarget(self, action: #selector(signinPressed(_:)), for: .touchUpInside)
+        button.titleLabel?.font = Theme.preferredRegularMedium()
 
         return button
     }()
@@ -99,6 +99,8 @@ final class SplashViewController: UIViewController {
     }
 
     private func decorateView() {
+        let margin: CGFloat = 15.0
+
         view.addSubview(backgroundImageView)
         backgroundImageView.fillSuperview()
 
@@ -110,22 +112,28 @@ final class SplashViewController: UIViewController {
 
         backgroundImageView.addSubview(titleLabel)
         titleLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 24.0).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
+        titleLabel.left(to: view, offset: margin)
+        titleLabel.right(to: view, offset: -margin)
 
         backgroundImageView.addSubview(subtitleLabel)
-        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20.0).isActive = true
-        subtitleLabel.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
+        subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: margin).isActive = true
+        subtitleLabel.left(to: view, offset: margin)
+        subtitleLabel.right(to: view, offset: -margin)
 
-        backgroundImageView.addSubview(signinButton)
-        signinButton.set(width: 70.0)
-        signinButton.set(height: 44.0)
-        signinButton.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
-        signinButton.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -40.0).isActive = true
+        subtitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 
         backgroundImageView.addSubview(newAccountButton)
-        newAccountButton.set(height: 44.0)
-        newAccountButton.centerXAnchor.constraint(equalTo: backgroundImageView.centerXAnchor).isActive = true
-        newAccountButton.bottomAnchor.constraint(equalTo: signinButton.topAnchor, constant: -20.0).isActive = true
+        newAccountButton.left(to: view, offset: margin)
+        newAccountButton.height(44.0)
+        newAccountButton.right(to: view, offset: -margin)
+        newAccountButton.topToBottom(of: subtitleLabel, offset: margin, relation: .equalOrGreater)
+
+        backgroundImageView.addSubview(signinButton)
+        signinButton.topToBottom(of: newAccountButton, offset: margin)
+        signinButton.left(to: view, offset: margin)
+        signinButton.right(to: view, offset: -margin)
+        signinButton.height(44.0)
+        signinButton.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -40.0).isActive = true
     }
 
     @objc private func signinPressed(_: UIButton) {

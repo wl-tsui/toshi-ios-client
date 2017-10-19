@@ -35,7 +35,7 @@ class EmptyView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.font = Theme.medium(size: 20)
+        label.font = Theme.preferredSemibold()
         
         return label
     }()
@@ -44,7 +44,7 @@ class EmptyView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.font = Theme.regular(size: 16)
+        label.font = Theme.preferredRegular()
         
         return label
     }()

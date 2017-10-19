@@ -16,7 +16,6 @@ class BalanceController: UIViewController {
         view.dataSource = self
         view.delegate = self
         view.separatorStyle = .singleLine
-        view.rowHeight = 44.0
 
         view.register(UITableViewCell.self, forCellReuseIdentifier: self.reuseIdentifier)
         view.registerNib(InputCell.self)
@@ -39,7 +38,7 @@ class BalanceController: UIViewController {
 
         view.backgroundColor = Theme.settingsBackgroundColor
 
-        title = Localized("balance-navigation-title")
+        title = Localized("balance_navigation_title")
 
         view.addSubview(tableView)
         tableView.edges(to: view)
@@ -102,7 +101,7 @@ extension BalanceController: UITableViewDelegate {
             
         } else if indexPath.row == 2 {
             guard let current = TokenUser.current else { return }
-            let controller = AddMoneyController(for: current.displayUsername, name: current.name)
+            let controller = DepositMoneyController(for: current.displayUsername, name: current.name)
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -136,14 +135,14 @@ extension BalanceController: UITableViewDataSource {
             }
         case 1:
             cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-            cell.textLabel?.text = Localized("balance-action-send")
+            cell.textLabel?.text = Localized("balance_action_send")
             cell.textLabel?.textColor = Theme.tintColor
-            cell.textLabel?.font = Theme.regular(size: 17)
+            cell.textLabel?.font = Theme.preferredRegular()
         case 2:
             cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-            cell.textLabel?.text = Localized("balance-action-deposit")
+            cell.textLabel?.text = Localized("balance_action_deposit")
             cell.textLabel?.textColor = Theme.tintColor
-            cell.textLabel?.font = Theme.regular(size: 17)
+            cell.textLabel?.font = Theme.preferredRegular()
         default:
             cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         }

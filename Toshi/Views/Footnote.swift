@@ -43,7 +43,7 @@ class Footnote: UIView {
         paragraphStyle.paragraphSpacing = 5
 
         let attributes: [NSAttributedStringKey: Any] = [
-            .font: Theme.regular(size: 13),
+            .font: Theme.preferredFootnote(),
             .foregroundColor: Theme.greyTextColor,
             .paragraphStyle: paragraphStyle
         ]

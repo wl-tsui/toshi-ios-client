@@ -16,9 +16,9 @@
 import UIKit
 import TinyConstraints
 
-class AddMoneyController: UIViewController {
+class DepositMoneyController: UIViewController {
 
-    private var items: [AddMoneyItem] = []
+    private var items: [DepositMoneyItem] = []
 
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -35,17 +35,23 @@ class AddMoneyController: UIViewController {
     convenience init(for username: String, name _: String) {
         self.init(nibName: nil, bundle: nil)
 
-        title = "Add Money"
+        title = Localized("deposit_money_title")
 
         items = [
-            .header("Add money to my Wallet", "You can add money to your account in a variety of ways."),
-            .bulletPoint("1. Send ETH from another wallet", "Send to this address to top up your wallet:\n\n\(Cereal.shared.paymentAddress)"),
-            .copyToClipBoard("Copy to clipboard", "Copied", #selector(copyToClipBoard(_:))),
+            .header(Localized("deposit_money_header_text")),
+            .bulletPoint(Localized("deposit_money_1_title"), String(format: Localized("deposit_money_1_text"), Cereal.shared.paymentAddress)),
+            .copyToClipBoard(Localized("copy_to_clipboard_action"), Localized("copy_to_clipboard_feedback"), #selector(copyToClipBoard(_:))),
             .QRCode(UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)),
-            .bulletPoint("2. Find a local exchanger", "Find a local exchanger of Ethereum in your country. You can give them cash and they will send you Ethereum."),
-            .bulletPoint("3. Earn money", "Install an app that lets you earn Ethereum."),
-            .bulletPoint("4. Request money from a friend", "Send a payment request to a friend on Toshi.")
+            .bulletPoint(Localized("deposit_money_2_title"), Localized("deposit_money_2_text")),
+            .bulletPoint(Localized("deposit_money_3_title"), Localized("deposit_money_3_text")),
+            .bulletPoint(Localized("deposit_money_4_title"), Localized("deposit_money_4_text"))
         ]
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(true)
     }
 
     override func viewDidLoad() {
@@ -59,6 +65,7 @@ class AddMoneyController: UIViewController {
         scrollView.addSubview(stackView)
         stackView.edges(to: scrollView)
         stackView.width(to: scrollView)
+
     }
     
     @objc func copyToClipBoard(_ button: ConfirmationButton) {

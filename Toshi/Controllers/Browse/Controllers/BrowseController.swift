@@ -92,7 +92,7 @@ class BrowseController: SearchableCollectionController {
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = Theme.viewBackgroundColor
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsets(top: searchBar.frame.height, left: 0, bottom: 0, right: 0)
+
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.delegate = self
 
@@ -107,6 +107,9 @@ class BrowseController: SearchableCollectionController {
         let navigationItem = UINavigationItem()
         if #available(iOS 11.0, *) {
             navigationItem.searchController = self.searchController
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        } else {
+            collectionView.contentInset = UIEdgeInsets(top: searchBar.frame.height, left: 0, bottom: 0, right: 0)
         }
 
         addSubviewsAndConstraints()
@@ -154,7 +157,11 @@ class BrowseController: SearchableCollectionController {
 
         /* Adjust scroll indicator insets while scrolling to keep
          the indicator below the search bar. */
-        collectionView.scrollIndicatorInsets.top = max(0, scrollView.contentOffset.y * -1)
+
+        if #available(iOS 11.0, *) {
+        } else {
+            collectionView.scrollIndicatorInsets.top = max(0, scrollView.contentOffset.y * -1)
+        }
     }
 
     func dsmissSearchIfNeeded() {

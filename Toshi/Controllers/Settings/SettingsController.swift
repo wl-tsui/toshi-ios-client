@@ -17,6 +17,8 @@ import UIKit
 import SweetUIKit
 
 open class SettingsController: UIViewController {
+    static var headerHeight: CGFloat = 38.0
+    static var footerHeight: CGFloat = 20.0
 
     enum SettingsSection: Int {
         case profile
@@ -251,17 +253,6 @@ open class SettingsController: UIViewController {
 
         self.navigationController?.pushViewController(controller, animated: true)
     }
-
-    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 2 {
-            let view = SettingsSectionHeader(title: Localized("settings_header_security"), error: Localized("settings_header_security_text"))
-            view.setErrorHidden(self.isAccountSecured, animated: false)
-
-            return view
-        }
-
-        return nil
-    }
 }
 
 extension SettingsController: UITableViewDataSource {
@@ -280,6 +271,8 @@ extension SettingsController: UITableViewDataSource {
             cell = tableView.dequeue(InputCell.self, for: indexPath)
         default:
             cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
+            cell.textLabel?.textColor = Theme.darkTextColor
+            cell.textLabel?.font = Theme.preferredRegular()
         }
 
         switch item {
@@ -302,22 +295,18 @@ extension SettingsController: UITableViewDataSource {
                 cell.textField.isUserInteractionEnabled = false
                 cell.switchControl.isHidden = true
 
-                cell.titleWidthConstraint?.isActive = false
                 cell.titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-                
+
                 cell.accessoryType = .disclosureIndicator
             }
         case .security:
             cell.textLabel?.text = Localized("settings_cell_passphrase")
-            cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .localCurrency:
             cell.textLabel?.text = Localized("Local currency")
-            cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .advanced:
             cell.textLabel?.text = Localized("settings_cell_advanced")
-            cell.textLabel?.textColor = Theme.darkTextColor
             cell.accessoryType = .disclosureIndicator
         case .signOut:
             cell.textLabel?.text = Localized("settings_cell_signout")
@@ -338,15 +327,7 @@ extension SettingsController: UITableViewDataSource {
     }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = sections[indexPath.section]
-        let item = section.items[indexPath.row]
-
-        switch item {
-        case .profile:
-            return UITableViewAutomaticDimension
-        default:
-            return 44.0
-        }
+        return UITableViewAutomaticDimension
     }
 }
 
@@ -380,6 +361,49 @@ extension SettingsController: UITableViewDelegate {
             self.pushViewController("AdvancedSettings")
         case .signOut:
             self.handleSignOut()
+        }
+    }
+
+    open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionItem = sections[section]
+
+        switch sectionItem {
+        case .security:
+            let view = SettingsSectionHeader(title: Localized("settings_header_security"), error: Localized("settings_header_security_text"))
+            view.setErrorHidden(self.isAccountSecured, animated: false)
+
+            return view
+        default:
+            return nil
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let sectionItem = sections[section]
+
+        switch sectionItem {
+            case .profile:
+                return SettingsController.headerHeight + SettingsController.footerHeight
+            default:
+                return SettingsController.headerHeight
+        }
+    }
+
+    public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else { return }
+
+        headerView.textLabel?.font = Theme.sectionTitleFont
+    }
+
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+
+        let sectionItem = sections[section]
+
+        switch sectionItem {
+            case .settings:
+                return 44
+            default:
+                return SettingsController.footerHeight
         }
     }
 

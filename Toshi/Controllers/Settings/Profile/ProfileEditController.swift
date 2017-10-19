@@ -60,7 +60,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
     fileprivate lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
-        let title = NSAttributedString(string: Localized("Change profile photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.regular(size: 16)])
+        let title = NSAttributedString(string: Localized("edit_profile_change_photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.preferredRegularMedium()])
         view.setAttributedTitle(title, for: .normal)
         view.addTarget(self, action: #selector(updateAvatar), for: .touchUpInside)
 
@@ -76,7 +76,6 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
-        view.rowHeight = 44.0
         view.register(UINib(nibName: "InputCell", bundle: nil), forCellReuseIdentifier: String(describing: InputCell.self))
         view.layer.borderWidth = Theme.borderHeight
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -92,7 +91,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Localized("Edit profile")
+        title = Localized("edit_profile_title")
         view.backgroundColor = Theme.navigationBarColor
 
         guard let user = TokenUser.current else { return }

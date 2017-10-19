@@ -16,21 +16,21 @@
 import UIKit
 import TinyConstraints
 
-enum AddMoneyItem {
-    case header(String, String) // title and subtitle
+enum DepositMoneyItem {
+    case header(String) // text
     case copyToClipBoard(String, String, Selector) // title, confirmation and action
     case QRCode(UIImage) // QR-Code image
     case warning(String) // red text label
     case bulletPoint(String, String) // title and text
 }
 
-extension AddMoneyItem {
+extension DepositMoneyItem {
 
     var view: UIView {
 
         switch self {
-        case .header(let title, let subtitle):
-            let view = AddMoneyHeader(title: title, subtitle: subtitle)
+        case .header(let text):
+            let view = DepositMoneyHeader(text: text)
 
             return view
 
@@ -68,7 +68,7 @@ extension AddMoneyItem {
 
             let view = UILabel()
             view.text = warning
-            view.font = Theme.regular(size: 17)
+            view.font = Theme.preferredRegular()
             view.textColor = Theme.errorColor
             view.numberOfLines = 0
             container.addSubview(view)
@@ -78,14 +78,14 @@ extension AddMoneyItem {
             return container
 
         case .bulletPoint(let title, let text):
-            return AddMoneyBulletPoint(title: title, text: text)
+            return DepositMoneyBulletPoint(title: title, text: text)
         }
     }
 }
 
 extension UIStackView {
 
-    convenience init(with items: [AddMoneyItem]) {
+    convenience init(with items: [DepositMoneyItem]) {
         self.init()
 
         translatesAutoresizingMaskIntoConstraints = false

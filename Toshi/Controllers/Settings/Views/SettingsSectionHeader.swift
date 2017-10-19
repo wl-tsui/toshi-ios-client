@@ -29,7 +29,7 @@ class SettingsSectionHeader: UIView {
     lazy var errorLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.errorColor
-        view.font = Theme.regular(size: 13)
+        view.font = Theme.preferredFootnote()
         view.textAlignment = .right
 
         return view
@@ -55,7 +55,7 @@ class SettingsSectionHeader: UIView {
 
         addSubview(titleLabel)
 
-        titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
 
         if self.errorLabel.text != nil {
 
@@ -65,11 +65,13 @@ class SettingsSectionHeader: UIView {
             NSLayoutConstraint.activate([
                 NSLayoutConstraint.constraints(withVisualFormat: "H:|-[titleLabel]", options: [], metrics: nil, views: ["titleLabel": self.titleLabel]).first!,
 
-                self.errorLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                self.errorLabel.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
                 self.errorLabel.leftAnchor.constraint(greaterThanOrEqualTo: self.titleLabel.rightAnchor),
                 self.errorLabel.rightAnchor.constraint(equalTo: self.errorImage.leftAnchor, constant: -5),
 
-                self.errorImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                self.errorImage.centerYAnchor.constraint(equalTo: self.errorLabel.centerYAnchor),
+                self.errorImage.heightAnchor.constraint(equalToConstant: 16),
+                self.errorImage.widthAnchor.constraint(equalToConstant: 16),
                 NSLayoutConstraint.constraints(withVisualFormat: "H:[errorImage]-|", options: [], metrics: nil, views: ["errorImage": self.errorImage]).first!
                 ])
         } else {

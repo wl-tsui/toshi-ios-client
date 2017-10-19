@@ -251,8 +251,8 @@ open class RecentViewController: SweetTableController, Emptiable {
 
 extension RecentViewController: UITableViewDelegate {
 
-    open func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
-        return 82
+    open func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
 
     open func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
