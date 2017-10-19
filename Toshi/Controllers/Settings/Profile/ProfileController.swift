@@ -89,7 +89,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var contentSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -99,7 +99,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var reputationSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -109,7 +109,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var bottomSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -160,7 +160,7 @@ open class ProfileController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
         addSubviewsAndConstraints()
 
@@ -295,7 +295,7 @@ open class ProfileController: UIViewController {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile Controller"])
             fatalError("No current user on Profile controller")
         }
-
+        
         RatingsClient.shared.scores(for: currentUser.address) { [weak self] ratingScore in
             self?.reputationView.setScore(ratingScore)
         }

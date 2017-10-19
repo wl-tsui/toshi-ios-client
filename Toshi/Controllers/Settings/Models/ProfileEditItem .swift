@@ -56,12 +56,12 @@ public class ProfileEditItem {
 
     init(_ type: ProfileEditItemType) {
         self.type = type
-
+        
         guard let user = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile edit item"])
             fatalError("No current user on Profile edit item")
         }
-
+        
         switch type {
         case .username:
             titleText = Localized("Username")

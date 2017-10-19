@@ -16,7 +16,7 @@
 import Foundation
 import UIKit
 
-class BrowseAllController: UITableViewController {
+class BrowseAllViewController: UITableViewController {
 
     private var searchResults: [TokenUser] = [] {
         didSet {

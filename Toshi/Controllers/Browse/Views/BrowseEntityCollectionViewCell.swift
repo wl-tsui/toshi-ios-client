@@ -17,7 +17,7 @@ import Foundation
 import UIKit
 import SweetUIKit
 
-class BrowseAppCell: UICollectionViewCell {
+class BrowseEntityCollectionViewCell: UICollectionViewCell {
 
     private(set) lazy var avatarImageView: AvatarImageView = AvatarImageView()
 
@@ -30,12 +30,7 @@ class BrowseAppCell: UICollectionViewCell {
         return label
     }()
 
-    private(set) lazy var ratingView: RatingView = {
-        let view = RatingView(numberOfStars: 5)
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        return view
-    }()
+    private(set) lazy var ratingView = RatingView(numberOfStars: 5)
 
     private(set) lazy var verticalPositionGuide = UILayoutGuide()
 
@@ -64,7 +59,7 @@ class BrowseAppCell: UICollectionViewCell {
 
         verticalPositionGuide.width(size.width)
         verticalPositionGuide.height(size.height)
-        verticalPositionGuide.edges(to: contentView, insets: UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0))
+        verticalPositionGuide.edges(to: contentView, insets: UIEdgeInsets(top: 67, left: 0, bottom: 0, right: 0))
 
         avatarImageView.top(to: verticalPositionGuide, offset: 5)
         avatarImageView.left(to: verticalPositionGuide, offset: 7)

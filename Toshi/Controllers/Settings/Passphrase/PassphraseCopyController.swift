@@ -61,15 +61,13 @@ class PassphraseCopyController: UIViewController {
     }
 
     open override func loadView() {
-        let scrollView = UIScrollView()
-
-        view = scrollView
+        view = UIScrollView()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Theme.settingsBackgroundColor
         
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         addSubviewsAndConstraints()
     }
 

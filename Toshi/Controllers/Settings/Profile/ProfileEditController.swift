@@ -71,7 +71,8 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = nil
+        view.isOpaque = false
         view.register(InputCell.self)
         view.delegate = self
         view.dataSource = self
@@ -90,9 +91,9 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         title = Localized("edit_profile_title")
-        view.backgroundColor = Theme.navigationBarColor
 
         guard let user = TokenUser.current else { return }
 
@@ -132,7 +133,9 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
     fileprivate lazy var headerView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = nil
+        view.isOpaque = false
+        
         view.addSubview(self.avatarImageView)
         view.addSubview(self.changeAvatarButton)
 

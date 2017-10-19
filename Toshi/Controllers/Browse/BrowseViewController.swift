@@ -37,7 +37,7 @@ enum BrowseContentSection {
     }
 }
 
-class BrowseController: SearchableCollectionController {
+class BrowseViewController: SearchableCollectionController {
 
     fileprivate var contentSections: [BrowseContentSection] = [.topRatedApps, .featuredApps, .topRatedPublicUsers, .latestPublicUsers]
 
@@ -72,11 +72,20 @@ class BrowseController: SearchableCollectionController {
 
         return layout
     }()
+    
+    var topInset: CGFloat {
+        return (navigationController?.navigationBar.bounds.height ?? 0) + searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
+    }
+    
+    var bottomInset: CGFloat {
+        return tabBarController?.tabBar.bounds.height ?? 0
+    }
 
     public init() {
         super.init()
 
-        collectionView.register(BrowseCell.self)
+        collectionView.register(BrowseCollectionViewCell.self)
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     required public init?(coder _: NSCoder) {
@@ -92,10 +101,15 @@ class BrowseController: SearchableCollectionController {
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = Theme.viewBackgroundColor
         collectionView.dataSource = self
-
         collectionView.setCollectionViewLayout(layout, animated: false)
         collectionView.delegate = self
-
+        
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+        
+        collectionView.contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset, right: 0)
+        
         searchBar.delegate = self
         searchBar.barTintColor = Theme.viewBackgroundColor
         searchBar.tintColor = Theme.tintColor
@@ -151,17 +165,10 @@ class BrowseController: SearchableCollectionController {
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView == collectionView else { return }
-
         super.scrollViewDidScroll(scrollView)
-
-        /* Adjust scroll indicator insets while scrolling to keep
-         the indicator below the search bar. */
-
-        if #available(iOS 11.0, *) {
-        } else {
-            collectionView.scrollIndicatorInsets.top = max(0, scrollView.contentOffset.y * -1)
-        }
+        
+        collectionView.scrollIndicatorInsets.top = max(0, scrollView.contentOffset.y * -1)
+        collectionView.scrollIndicatorInsets.bottom = bottomInset
     }
 
     func dsmissSearchIfNeeded() {
@@ -177,8 +184,8 @@ class BrowseController: SearchableCollectionController {
         }
 
         self.items[index] = apps ?? []
-        self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         self.collectionView.collectionViewLayout.invalidateLayout()
+        self.collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
     }
 
     private func loadItems() {
@@ -228,16 +235,7 @@ class BrowseController: SearchableCollectionController {
 
     fileprivate func showOpenURLButton() {
         openURLButton.isHidden = false
-        
-        let topOffset: CGFloat
-        
-        if #available(iOS 11.0, *) {
-            topOffset = (navigationController?.navigationBar.bounds.height ?? 0) + searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
-        } else {
-            topOffset = searchController.searchBar.frame.height + UIApplication.shared.statusBarFrame.height
-        }
-        
-        openURLButtonTopAnchor.constant = topOffset
+        openURLButtonTopAnchor.constant = topInset
         
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 10, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.view.layoutIfNeeded()
@@ -266,7 +264,7 @@ class BrowseController: SearchableCollectionController {
     }
 }
 
-extension BrowseController: UISearchBarDelegate {
+extension BrowseViewController: UISearchBarDelegate {
 
     func searchBar(_: UISearchBar, textDidChange searchText: String) {
 
@@ -289,7 +287,7 @@ extension BrowseController: UISearchBarDelegate {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if let collectionView = collectionView as? SectionedCollectionView {
-            let cell = collectionView.dequeue(BrowseAppCell.self, for: indexPath)
+            let cell = collectionView.dequeue(BrowseEntityCollectionViewCell.self, for: indexPath)
 
             if let section = items.element(at: collectionView.section), let item = section.element(at: indexPath.item) {
                 if !item.name.isEmpty {
@@ -314,7 +312,7 @@ extension BrowseController: UISearchBarDelegate {
 
         let contentSection = contentSections[indexPath.item]
 
-        let cell = collectionView.dequeue(BrowseCell.self, for: indexPath)
+        let cell = collectionView.dequeue(BrowseCollectionViewCell.self, for: indexPath)
         cell.collectionView.dataSource = self
         cell.collectionView.reloadData()
         cell.collectionView.collectionViewLayout.invalidateLayout()
@@ -336,20 +334,20 @@ extension BrowseController: UISearchBarDelegate {
     }
 }
 
-extension BrowseController {
+extension BrowseViewController {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfItems = items[indexPath.row].count
-        let itemHeight: CGFloat = (numberOfItems == 0) ? 0 : 230
+        let itemHeight: CGFloat = (numberOfItems == 0) ? 0 : 247
         
         return CGSize(width: UIScreen.main.bounds.width, height: itemHeight)
     }
 }
 
-extension BrowseController: BrowseCellSelectionDelegate {
+extension BrowseViewController: BrowseCollectionViewCellSelectionDelegate {
 
     func seeAll(for contentSection: BrowseContentSection) {
-        let controller = BrowseAllController(contentSection)
+        let controller = BrowseAllViewController(contentSection)
         controller.title = contentSection.title
         Navigator.push(controller)
     }

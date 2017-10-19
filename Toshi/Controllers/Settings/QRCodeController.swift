@@ -48,16 +48,16 @@ class QRCodeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = Theme.lightGrayBackgroundColor
+        
         let contentView = UIView()
         view.addSubview(contentView)
 
         contentView.edges(to: view)
         contentView.width(to: view)
         contentView.height(to: layoutGuide(), relation: .equalOrGreater)
-
-        view.backgroundColor = Theme.settingsBackgroundColor
-        contentView.backgroundColor = Theme.settingsBackgroundColor
+        
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(qrCodeImageView)
 

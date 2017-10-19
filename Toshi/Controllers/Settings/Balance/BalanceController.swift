@@ -36,7 +36,7 @@ class BalanceController: UIViewController {
             showSecurityAlert()
         }
 
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
         title = Localized("balance_navigation_title")
 

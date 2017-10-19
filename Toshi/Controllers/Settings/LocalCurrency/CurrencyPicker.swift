@@ -12,8 +12,8 @@ final class CurrencyPicker: UIViewController {
     fileprivate lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .grouped)
 
-        view.backgroundColor = UIColor.clear
-        view.register(UITableViewCell.self)
+        view.backgroundColor = nil
+        view.isOpaque = false
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
@@ -28,7 +28,7 @@ final class CurrencyPicker: UIViewController {
         super.viewDidLoad()
 
         title = Localized("currency_picker_title")
-        view.backgroundColor = Theme.navigationBarColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         addSubviewsAndConstraints()
 
         self.tableView.reloadData()
@@ -70,12 +70,12 @@ final class CurrencyPicker: UIViewController {
     }
 
     fileprivate var currentLocalCurrencyIndexPath: IndexPath {
+        
         guard let currentUser = TokenUser.current else {
-
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Currency picker"])
             fatalError("No current user on CurrencyListController")
         }
-
+        
         let currentLocalCurrencyCode = currentUser.localCurrency
 
         if let suggestedCurrencyIndex = suggestedCurrencies.index(where: {$0.code == currentLocalCurrencyCode}) {

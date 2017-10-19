@@ -102,7 +102,7 @@ public class ContactController: UIViewController {
 
     lazy var topSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -112,7 +112,7 @@ public class ContactController: UIViewController {
 
     lazy var reputationSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -131,7 +131,7 @@ public class ContactController: UIViewController {
 
     lazy var bottomSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -195,7 +195,7 @@ public class ContactController: UIViewController {
         setupActivityIndicator()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more"), style: .plain, target: self, action: #selector(didSelectMoreButton))
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
         addSubviewsAndConstraints()
 

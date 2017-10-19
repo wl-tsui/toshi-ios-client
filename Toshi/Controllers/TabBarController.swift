@@ -66,7 +66,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return controller
     }()
 
-    internal var browseController: BrowseNavigationController!
+    internal var browseViewController: BrowseNavigationController!
     internal var messagingController: RecentNavigationController!
     internal var favoritesController: FavoritesNavigationController!
     internal var settingsController: SettingsNavigationController!
@@ -85,7 +85,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }
 
     @objc public func setupControllers() {
-        browseController = BrowseNavigationController(rootViewController: BrowseController())
+        browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
         favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
 
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
@@ -100,7 +100,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         settingsController = SettingsNavigationController(rootViewController: SettingsController())
 
         viewControllers = [
-            self.browseController,
+            self.browseViewController,
             self.messagingController,
             self.placeholderScannerController,
             self.favoritesController,
@@ -177,8 +177,8 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
 extension TabBarController: UITabBarControllerDelegate {
 
     public func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController != browseController {
-            guard let browseViewController = browseController.viewControllers.first as? BrowseController else { return true }
+        if viewController != browseViewController {
+            guard let browseViewController = browseViewController.viewControllers.first as? BrowseViewController else { return true }
             browseViewController.dsmissSearchIfNeeded()
         }
 

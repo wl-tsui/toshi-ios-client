@@ -77,9 +77,9 @@ extension Theme {
     public static var unselectedItemTintColor: UIColor {
         return UIColor(hex: "979ca4")
     }
-
-    public static var settingsBackgroundColor: UIColor {
-        return UIColor(hex: "F1F1F5")
+    
+    public static var lightGrayBackgroundColor: UIColor {
+        return UIColor(hex: "EFEFF4")
     }
 
     public static var inputFieldBackgroundColor: UIColor {
