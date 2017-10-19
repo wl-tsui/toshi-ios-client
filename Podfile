@@ -4,7 +4,7 @@ inhibit_all_warnings!
 
 abstract_target 'CocoaPods' do
   pod 'AxolotlKit',  git: 'https://github.com/WhisperSystems/SignalProtocolKit.git'
-  pod 'SignalServiceKit', git: 'https://github.com/toshiapp/SignalServiceKit.git', commit: "72a56adeac71713706764c402382c2995200da23"
+  pod 'SignalServiceKit', git: 'https://github.com/toshiapp/SignalServiceKit.git', commit: "79be9351407886a72ff38f4a4fcd84460be9b6ef"
   pod 'SocketRocket', git: 'https://github.com/facebook/SocketRocket.git'
   pod 'Fabric'
   pod 'Crashlytics'

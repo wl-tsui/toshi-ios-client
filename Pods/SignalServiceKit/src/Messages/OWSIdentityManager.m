@@ -96,8 +96,10 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
 
 - (nullable ECKeyPair *)identityKeyPair
 {
-    return [self.storageManager keyPairForKey:TSStorageManagerIdentityKeyStoreIdentityKey
-                                 inCollection:TSStorageManagerIdentityKeyStoreCollection];
+    ECKeyPair *keyPair = [self.storageManager keyPairForKey:TSStorageManagerIdentityKeyStoreIdentityKey
+                                               inCollection:TSStorageManagerIdentityKeyStoreCollection];
+    NSLog(@"Retriveing keypair %@ publicKey: %@", @(keyPair != nil), [keyPair.publicKey base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed]);
+    return keyPair;
 }
 
 - (int)localRegistrationId

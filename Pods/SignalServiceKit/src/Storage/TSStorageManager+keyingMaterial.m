@@ -22,10 +22,7 @@
 - (void)ifLocalNumberPresent:(BOOL)runIfPresent runAsync:(void (^)())block;
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        __block BOOL isPresent;
-        [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *_Nonnull transaction) {
-            isPresent = [[NSUserDefaults standardUserDefaults] objectForKey:TSStorageRegisteredNumberKey];
-        }];
+        BOOL isPresent = [[NSUserDefaults standardUserDefaults] objectForKey:TSStorageRegisteredNumberKey];
 
         if (isPresent == runIfPresent) {
             if (runIfPresent) {
