@@ -82,7 +82,7 @@
 "settings_header_security_text" = "Your account is at risk";
 "settings_header_settings" = "Settings";
 
-"settings_cell_qr" = "Profile QR Code";
+"settings_cell_qr" = "My QR Code";
 "settings_cell_passphrase" = "Store passphrase";
 "settings_cell_advanced" = "Advanced";
 "settings_cell_signout" = "Sign out";
