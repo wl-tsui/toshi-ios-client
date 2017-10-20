@@ -23,6 +23,13 @@ class BalanceController: UIViewController {
         return view
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+
+        return refreshControl
+    }()
+
     fileprivate let reuseIdentifier = "BalanceControllerCell"
 
     private var isAccountSecured: Bool {
@@ -42,6 +49,7 @@ class BalanceController: UIViewController {
 
         view.addSubview(tableView)
         tableView.edges(to: view)
+        tableView.refreshControl = refreshControl
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
@@ -52,6 +60,12 @@ class BalanceController: UIViewController {
         fetchAndUpdateBalance()
 
         preferLargeTitleIfPossible(false)
+    }
+
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        fetchAndUpdateBalance { _ in
+            refreshControl.endRefreshing()
+        }
     }
 
     private func showSecurityAlert() {
@@ -73,15 +87,17 @@ class BalanceController: UIViewController {
         self.balance = balance
     }
 
-    fileprivate func fetchAndUpdateBalance() {
+    private func fetchAndUpdateBalance(completion: ((_ success: Bool) -> Void)? = nil) {
 
         EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, error in
             self?.balance = cachedBalance
         }) { [weak self] fetchedBalance, error in
             if let error = error {
                 Navigator.presentModally(UIAlertController.errorAlert(error as NSError))
+                completion?(false)
             } else {
                 self?.balance = fetchedBalance
+                completion?(true)
             }
         }
     }
