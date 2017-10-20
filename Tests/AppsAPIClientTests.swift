@@ -30,7 +30,7 @@ class AppsAPIClientTests: QuickSpec {
 
                 it("fetches the top rated apps") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "getTopRatedApps")
-                    subject = AppsAPIClient(teapot: mockTeapot)
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getTopRatedApps { users, _ in
@@ -43,7 +43,7 @@ class AppsAPIClientTests: QuickSpec {
 
                 it("fetches the featured apps") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "getFeaturedApps")
-                    subject = AppsAPIClient(teapot: mockTeapot)
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getFeaturedApps { users, _ in
@@ -69,7 +69,7 @@ class AppsAPIClientTests: QuickSpec {
             context("⚠ Unauthorized error 🔒") {
                 it("fetches the top rated apps") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "getTopRatedApps", statusCode: .unauthorized)
-                    subject = AppsAPIClient(teapot: mockTeapot)
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getTopRatedApps { users, error in
@@ -83,7 +83,7 @@ class AppsAPIClientTests: QuickSpec {
 
                 it("fetches the featured apps") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "getFeaturedApps", statusCode: .unauthorized)
-                    subject = AppsAPIClient(teapot: mockTeapot)
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getFeaturedApps { users, error in
@@ -112,7 +112,7 @@ class AppsAPIClientTests: QuickSpec {
 
                 it("fetches the top rated apps") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "getTopRatedApps", statusCode: .notFound)
-                    subject = AppsAPIClient(teapot: mockTeapot)
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getTopRatedApps { users, error in
@@ -126,7 +126,7 @@ class AppsAPIClientTests: QuickSpec {
 
                 it("fetches the featured apps") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "getFeaturedApps", statusCode: .notFound)
-                    subject = AppsAPIClient(teapot: mockTeapot)
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getFeaturedApps { users, error in

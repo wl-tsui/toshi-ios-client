@@ -32,8 +32,9 @@ class IDAPIClientTests: QuickSpec {
                     subject = IDAPIClient(teapot: mockTeapot)
 
                     waitUntil { done in
-                        subject.fetchTimestamp { timestamp in
+                        subject.fetchTimestamp { timestamp, error in
                             expect(timestamp).toNot(beNil())
+                            expect(error).to(beNil())
                             done()
                         }
                     }
@@ -139,12 +140,12 @@ class IDAPIClientTests: QuickSpec {
 
                 it("gets top rated public users") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getTopRatedPublicUsers")
-                    subject = IDAPIClient(teapot: mockTeapot)
+                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getTopRatedPublicUsers { users, error in
-                            expect(users.count).to(equal(2))
-                            expect(users.first!.about).to(equal("Top rated"))
+                            expect(users!.count).to(equal(2))
+                            expect(users!.first!.about).to(equal("Top rated"))
                             expect(error).to(beNil())
                             done()
                         }
@@ -153,14 +154,14 @@ class IDAPIClientTests: QuickSpec {
 
                 it("gets latest public users") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getLatestPublicUsers")
-                    subject = IDAPIClient(teapot: mockTeapot)
+                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getLatestPublicUsers { users, error in
                             print(error)
                             expect(error).to(beNil())
-                            expect(users.count).to(equal(2))
-                            expect(users.first!.about).to(equal("Latest public"))
+                            expect(users!.count).to(equal(2))
+                            expect(users!.first!.about).to(equal("Latest public"))
                             done()
                         }
                     }
@@ -313,12 +314,12 @@ class IDAPIClientTests: QuickSpec {
 
                 it("gets top rated public users") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getTopRatedPublicUsers", statusCode: .unauthorized)
-                    subject = IDAPIClient(teapot: mockTeapot)
+                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getTopRatedPublicUsers { users, error in
-                            expect(users.count).to(equal(0))
-                            expect(error).toNot(beNil())
+                            expect(users!.count).to(equal(0))
+                            expect(error!).toNot(beNil())
                             done()
                         }
                     }
@@ -326,11 +327,11 @@ class IDAPIClientTests: QuickSpec {
 
                 it("gets latest public users") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getLatestPublicUsers", statusCode: .unauthorized)
-                    subject = IDAPIClient(teapot: mockTeapot)
+                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
 
                     waitUntil { done in
                         subject.getLatestPublicUsers { users, error in
-                            expect(users.count).to(equal(0))
+                            expect(users!.count).to(equal(0))
                             expect(error).toNot(beNil())
                             done()
                         }

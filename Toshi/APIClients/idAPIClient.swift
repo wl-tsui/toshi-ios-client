@@ -65,9 +65,13 @@ import Teapot
 
     public var baseURL: URL
 
-    convenience init(teapot: Teapot) {
+    convenience init(teapot: Teapot, cacheEnabled: Bool = true) {
         self.init()
         self.teapot = teapot
+
+        if !cacheEnabled {
+            self.cache.removeAllObjects()
+        }
     }
 
     private override init() {
