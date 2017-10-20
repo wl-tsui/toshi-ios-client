@@ -21,7 +21,6 @@ import Teapot
 
 //swiftlint:disable force_cast
 class AppsAPIClientTests: QuickSpec {
-
     override func spec() {
         describe("the Apps API Client") {
             var subject: AppsAPIClient!
