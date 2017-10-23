@@ -31,7 +31,7 @@ class SearchResultCell: UITableViewCell {
         view.setContentHuggingPriority(.defaultLow, for: .horizontal)
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = Theme.greyTextColor
-        view.font = Theme.preferredFootnote()
+        view.font = Theme.preferredRegularSmall()
 
         return view
     }()
