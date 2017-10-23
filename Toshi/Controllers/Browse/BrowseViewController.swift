@@ -163,7 +163,7 @@ class BrowseViewController: SearchableCollectionController {
         collectionView.scrollIndicatorInsets.bottom = bottomInset
     }
 
-    func dsmissSearchIfNeeded() {
+    func dismissSearchIfNeeded() {
         if let searchText = searchBar.text, searchText.length > 0 {
             self.searchController.dismiss(animated: false, completion: nil)
         }
@@ -211,15 +211,10 @@ class BrowseViewController: SearchableCollectionController {
             showOpenURLButton()
         } else {
             hideOpenURLButtonIfNeeded()
-
-            AppsAPIClient.shared.search(searchText) { [weak self] apps, error in
-                if let error = error {
-                    let alertController = UIAlertController.errorAlert(error as NSError)
-                    Navigator.presentModally(alertController)
-                }
+            IDAPIClient.shared.searchContacts(name: searchText) { [weak self] users in
 
                 if searchText == self?.searchBar.text {
-                    self?.searchResultView.searchResults = apps
+                    self?.searchResultView.searchResults = users
                 }
             }
         }

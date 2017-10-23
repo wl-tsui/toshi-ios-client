@@ -689,7 +689,6 @@
 		D197B0D6785893BC3224D40D /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197B0D75181D93C82A98BD6 /* OfflineAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD136059B5C238CB3425 /* OfflineAlertView.swift */; };
 		D197B11DD70DB5696FFC4FD2 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
-		D197B12668721515F3F87A31 /* search.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BF349118AC9D1FE859C4 /* search.json */; };
 		D197B133E8FE4FD69F1AA511 /* IDAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B8C43D9AEF28A5170A /* IDAPIClientTests.swift */; };
 		D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */; };
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
@@ -1089,7 +1088,6 @@
 		D197BD136059B5C238CB3425 /* OfflineAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineAlertView.swift; sourceTree = "<group>"; };
 		D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAppDelegate.m; sourceTree = "<group>"; };
 		D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClientTests.swift; sourceTree = "<group>"; };
-		D197BF349118AC9D1FE859C4 /* search.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = search.json; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		E2C0C38CD39DA83E3AE9415C /* Pods-CocoaPods-Debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Debug.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Debug/Pods-CocoaPods-Debug.debug.xcconfig"; sourceTree = "<group>"; };
 		E67683551F4464980014B2D4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
@@ -1924,7 +1922,6 @@
 			children = (
 				D197B86A198E11D1255A9721 /* getFeaturedApps.json */,
 				D197B06C962A9EC5993916F9 /* getTopRatedApps.json */,
-				D197BF349118AC9D1FE859C4 /* search.json */,
 			);
 			path = AppsAPIClient;
 			sourceTree = "<group>";
@@ -2178,7 +2175,6 @@
 				D197B6CAA22DFAA0B0FFE15D /* sendSignedTransaction.json in Resources */,
 				D197BA6E5DC09E84D524D1A2 /* getBalance.json in Resources */,
 				D197BA0569377AF2E56C7393 /* getFeaturedApps.json in Resources */,
-				D197B12668721515F3F87A31 /* search.json in Resources */,
 				D197B30022F9B4D9D27325F7 /* getTopRatedApps.json in Resources */,
 				D197B74275EBC3A229F0D4D9 /* timestamp.json in Resources */,
 				D197B9DDD90826832295B645 /* getRate.json in Resources */,
