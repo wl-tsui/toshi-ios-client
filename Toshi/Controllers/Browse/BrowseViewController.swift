@@ -118,14 +118,6 @@ class BrowseViewController: SearchableCollectionController {
         let searchField = searchBar.value(forKey: "searchField") as? UITextField
         searchField?.backgroundColor = Theme.inputFieldBackgroundColor
         
-        let navigationItem = UINavigationItem()
-        if #available(iOS 11.0, *) {
-            navigationItem.searchController = self.searchController
-            collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        } else {
-            collectionView.contentInset = UIEdgeInsets(top: searchBar.frame.height, left: 0, bottom: 0, right: 0)
-        }
-
         addSubviewsAndConstraints()
     }
 
