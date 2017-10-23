@@ -60,7 +60,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
     fileprivate lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
-        let title = NSAttributedString(string: Localized("Change profile photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.regular(size: 16)])
+        let title = NSAttributedString(string: Localized("edit_profile_change_photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.preferredRegularMedium()])
         view.setAttributedTitle(title, for: .normal)
         view.addTarget(self, action: #selector(updateAvatar), for: .touchUpInside)
 
@@ -71,12 +71,12 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = nil
+        view.isOpaque = false
         view.register(InputCell.self)
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
-        view.rowHeight = 44.0
         view.register(UINib(nibName: "InputCell", bundle: nil), forCellReuseIdentifier: String(describing: InputCell.self))
         view.layer.borderWidth = Theme.borderHeight
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -91,9 +91,9 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
-        title = Localized("Edit profile")
-        view.backgroundColor = Theme.navigationBarColor
+        
+        view.backgroundColor = Theme.lightGrayBackgroundColor
+        title = Localized("edit_profile_title")
 
         guard let user = TokenUser.current else { return }
 
@@ -133,7 +133,9 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
     fileprivate lazy var headerView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = nil
+        view.isOpaque = false
+        
         view.addSubview(self.avatarImageView)
         view.addSubview(self.changeAvatarButton)
 

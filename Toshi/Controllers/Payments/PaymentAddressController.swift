@@ -22,7 +22,7 @@ class PaymentAddressController: UIViewController {
 
     private lazy var descriptionLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredRegular()
         view.textAlignment = .center
         view.numberOfLines = 0
         view.text = Localized("payment_send_description")

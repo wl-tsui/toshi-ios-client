@@ -32,7 +32,7 @@ open class ProfileController: UIViewController {
     fileprivate lazy var nameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 24)
+        view.font = Theme.preferredTitle2()
 
         return view
     }()
@@ -40,7 +40,7 @@ open class ProfileController: UIViewController {
     fileprivate lazy var usernameLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.preferredRegularMedium()
         view.textColor = Theme.greyTextColor
 
         return view
@@ -48,8 +48,8 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var editProfileButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.regular(size: 17), .foregroundColor: Theme.tintColor]), for: .normal)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.regular(size: 17), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
 
         return view
@@ -65,7 +65,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var aboutContentLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredRegular()
         view.numberOfLines = 0
 
         return view
@@ -73,7 +73,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var locationContentLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.preferredRegularMedium()
         view.textColor = Theme.lightGreyTextColor
         view.numberOfLines = 0
 
@@ -89,7 +89,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var contentSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -99,7 +99,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var reputationSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -109,7 +109,7 @@ open class ProfileController: UIViewController {
 
     fileprivate lazy var bottomSeparatorView: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = 1.0 / UIScreen.main.scale
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -160,7 +160,7 @@ open class ProfileController: UIViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
         addSubviewsAndConstraints()
 
@@ -295,7 +295,7 @@ open class ProfileController: UIViewController {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile Controller"])
             fatalError("No current user on Profile controller")
         }
-
+        
         RatingsClient.shared.scores(for: currentUser.address) { [weak self] ratingScore in
             self?.reputationView.setScore(ratingScore)
         }

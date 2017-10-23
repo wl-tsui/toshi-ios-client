@@ -39,7 +39,7 @@ class EthereumConverterTests: QuickSpec {
                 }
 
                 context("balance sparse attributed string") {
-                    let fontAttribute = [NSFontAttributeName: UIFont.systemFont(ofSize: 19.0)]
+                    let fontAttribute = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 19.0)]
                     let ethereumValueString = EthereumConverter.balanceSparseAttributedString(forWei: wei, exchangeRate: exchangeRate, width: 100.0, attributes: fontAttribute)
 
                     let dollarSting = String(format: "$100%@00 USD", TokenUser.current?.cachedCurrencyLocale?.decimalSeparator ?? ".")
@@ -50,16 +50,16 @@ class EthereumConverterTests: QuickSpec {
 
                     it("has the right attributes") {
                         let fiatAttributes = ethereumValueString.attributes(at: 0, effectiveRange: nil)
-                        expect(fiatAttributes[NSForegroundColorAttributeName] as? UIColor).to(equal(Theme.darkTextColor))
-                        expect(fiatAttributes[NSFontAttributeName] as? UIFont).to(equal(UIFont.systemFont(ofSize: 19.0)))
+                        expect(fiatAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.darkTextColor))
+                        expect(fiatAttributes[NSAttributedStringKey.font] as? UIFont).to(equal(UIFont.systemFont(ofSize: 19.0)))
 
                         let ethAttributes = ethereumValueString.attributes(at: ethereumValueString.string.characters.count - 1, effectiveRange: nil)
-                        expect(ethAttributes[NSForegroundColorAttributeName] as? UIColor).to(equal(Theme.greyTextColor))
+                        expect(ethAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.greyTextColor))
                     }
                 }
 
                 context("balance attributed string") {
-                    let fontAttribute = [NSFontAttributeName: UIFont.systemFont(ofSize: 19.0)]
+                    let fontAttribute = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 19.0)]
                     let ethereumValueString = EthereumConverter.balanceAttributedString(forWei: wei, exchangeRate: exchangeRate, attributes: fontAttribute)
 
                     let dollarSting = String(format: "$100%@00 USD", TokenUser.current?.cachedCurrencyLocale?.decimalSeparator ?? ".")
@@ -70,11 +70,11 @@ class EthereumConverterTests: QuickSpec {
 
                     it("has the right attributes") {
                         let fiatAttributes = ethereumValueString.attributes(at: 0, effectiveRange: nil)
-                        expect(fiatAttributes[NSForegroundColorAttributeName] as? UIColor).to(equal(Theme.darkTextColor))
-                        expect(fiatAttributes[NSFontAttributeName] as? UIFont).to(equal(UIFont.systemFont(ofSize: 19.0)))
+                        expect(fiatAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.darkTextColor))
+                        expect(fiatAttributes[NSAttributedStringKey.font] as? UIFont).to(equal(UIFont.systemFont(ofSize: 19.0)))
 
                         let ethAttributes = ethereumValueString.attributes(at: ethereumValueString.string.characters.count - 1, effectiveRange: nil)
-                        expect(ethAttributes[NSForegroundColorAttributeName] as? UIColor).to(equal(Theme.greyTextColor))
+                        expect(ethAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.greyTextColor))
                     }
                 }
             }

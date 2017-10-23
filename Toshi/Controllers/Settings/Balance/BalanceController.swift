@@ -16,12 +16,18 @@ class BalanceController: UIViewController {
         view.dataSource = self
         view.delegate = self
         view.separatorStyle = .singleLine
-        view.rowHeight = 44.0
 
         view.register(UITableViewCell.self, forCellReuseIdentifier: self.reuseIdentifier)
         view.registerNib(InputCell.self)
 
         return view
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+
+        return refreshControl
     }()
 
     fileprivate let reuseIdentifier = "BalanceControllerCell"
@@ -37,12 +43,13 @@ class BalanceController: UIViewController {
             showSecurityAlert()
         }
 
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
-        title = Localized("balance-navigation-title")
+        title = Localized("balance_navigation_title")
 
         view.addSubview(tableView)
         tableView.edges(to: view)
+        tableView.refreshControl = refreshControl
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
     }
@@ -53,6 +60,12 @@ class BalanceController: UIViewController {
         fetchAndUpdateBalance()
 
         preferLargeTitleIfPossible(false)
+    }
+
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        fetchAndUpdateBalance { _ in
+            refreshControl.endRefreshing()
+        }
     }
 
     private func showSecurityAlert() {
@@ -74,15 +87,17 @@ class BalanceController: UIViewController {
         self.balance = balance
     }
 
-    fileprivate func fetchAndUpdateBalance() {
+    private func fetchAndUpdateBalance(completion: ((_ success: Bool) -> Void)? = nil) {
 
         EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, error in
             self?.balance = cachedBalance
         }) { [weak self] fetchedBalance, error in
             if let error = error {
                 Navigator.presentModally(UIAlertController.errorAlert(error as NSError))
+                completion?(false)
             } else {
                 self?.balance = fetchedBalance
+                completion?(true)
             }
         }
     }
@@ -102,7 +117,7 @@ extension BalanceController: UITableViewDelegate {
             
         } else if indexPath.row == 2 {
             guard let current = TokenUser.current else { return }
-            let controller = AddMoneyController(for: current.displayUsername, name: current.name)
+            let controller = DepositMoneyController(for: current.displayUsername, name: current.name)
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -136,14 +151,14 @@ extension BalanceController: UITableViewDataSource {
             }
         case 1:
             cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-            cell.textLabel?.text = Localized("balance-action-send")
+            cell.textLabel?.text = Localized("balance_action_send")
             cell.textLabel?.textColor = Theme.tintColor
-            cell.textLabel?.font = Theme.regular(size: 17)
+            cell.textLabel?.font = Theme.preferredRegular()
         case 2:
             cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-            cell.textLabel?.text = Localized("balance-action-deposit")
+            cell.textLabel?.text = Localized("balance_action_deposit")
             cell.textLabel?.textColor = Theme.tintColor
-            cell.textLabel?.font = Theme.regular(size: 17)
+            cell.textLabel?.font = Theme.preferredRegular()
         default:
             cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         }

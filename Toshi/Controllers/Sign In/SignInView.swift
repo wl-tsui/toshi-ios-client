@@ -46,7 +46,7 @@ final class SignInView: UIView {
 
     private(set) lazy var textField: DeletableTextField = {
         let view = DeletableTextField()
-        view.font = Theme.regular(size: 16)
+        view.font = Theme.regular(size: 15)
         view.textColor = Theme.darkTextColor
         view.returnKeyType = .next
         view.alpha = 0

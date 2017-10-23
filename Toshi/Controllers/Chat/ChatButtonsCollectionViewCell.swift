@@ -28,7 +28,7 @@ final class ChatButtonsViewCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredRegular()
         view.textColor = Theme.tintColor
         
         return view

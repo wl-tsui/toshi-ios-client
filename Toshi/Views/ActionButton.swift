@@ -18,7 +18,7 @@ import SweetUIKit
 
 class ActionButton: UIControl {
 
-    static let height: CGFloat = 44
+    static let height: CGFloat = 50
 
     var titleColor = StateColor()
     var buttonColor = StateColor()
@@ -125,7 +125,7 @@ class ActionButton: UIControl {
 
     lazy var titleLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
-        view.font = Theme.medium(size: 16)
+        view.font = Theme.preferredRegularMedium()
         view.textAlignment = .center
         view.isUserInteractionEnabled = false
 

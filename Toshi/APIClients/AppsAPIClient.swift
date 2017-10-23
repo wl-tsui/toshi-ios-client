@@ -35,9 +35,13 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         teapot = Teapot(baseURL: URL(string: ToshiIdServiceBaseURLPath)!)
     }
 
-    convenience init(teapot: Teapot) {
+    convenience init(teapot: Teapot, cacheEnabled: Bool = true) {
         self.init()
         self.teapot = teapot
+
+        if !cacheEnabled {
+            self.cache.removeAllObjects()
+        }
     }
 
     private lazy var cache: Cache<TokenUsersCacheData> = {

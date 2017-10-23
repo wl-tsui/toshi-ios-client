@@ -86,7 +86,7 @@ open class Message: NSObject {
     public var subtitle: String? {
         set {
             if let string = newValue {
-                attributedSubtitle = NSAttributedString(string: string, attributes: [.font: Theme.regular(size: 15), .foregroundColor: Theme.incomingMessageTextColor])
+                attributedSubtitle = NSAttributedString(string: string, attributes: [.font: Theme.preferredRegularSmall(), .foregroundColor: Theme.incomingMessageTextColor])
             } else {
                 attributedSubtitle = nil
             }

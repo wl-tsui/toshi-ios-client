@@ -92,7 +92,7 @@ final class SignInCell: UICollectionViewCell {
     func updateAttributedText(_ text: String, with match: String? = nil) {
         let emptyString = isFirstAndOnly ? Localized("passphrase_sign_in_placeholder") : ""
         let string = text.isEmpty ? emptyString : match ?? text
-        let attributedText = NSMutableAttributedString(string: string, attributes: [.font: Theme.regular(size: 17), .foregroundColor: Theme.greyTextColor])
+        let attributedText = NSMutableAttributedString(string: string, attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.greyTextColor])
 
         if let match = match, let matchingRange = (match as NSString?)?.range(of: text, options: [.caseInsensitive, .anchored]) {
             attributedText.addAttribute(.foregroundColor, value: Theme.darkTextColor, range: matchingRange)

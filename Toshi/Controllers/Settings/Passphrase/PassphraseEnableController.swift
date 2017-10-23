@@ -17,14 +17,20 @@ import UIKit
 import SweetUIKit
 
 class PassphraseEnableController: UIViewController {
+
+    private lazy var titleLabel: TextLabel = {
+        let textLabel = TextLabel(Localized("passphrase_enable_title"))
+        textLabel.font = Theme.preferredSemibold()
+
+        return textLabel
+    }()
     
-    lazy var titleLabel = TitleLabel(Localized("passphrase_enable_title"))
     lazy var textLabel = TextLabel(Localized("passphrase_enable_text"))
     
     lazy var checkboxControl: CheckboxControl = {
         let text = Localized("passphrase_enable_checkbox")
 
-        let view = CheckboxControl(withAutoLayout: true)
+        let view = CheckboxControl()
         view.title = text
         view.addTarget(self, action: #selector(checked(_:)), for: .touchUpInside)
 
@@ -55,44 +61,65 @@ class PassphraseEnableController: UIViewController {
         hidesBottomBarWhenPushed = true
     }
 
+    open override func loadView() {
+        let scrollView = UIScrollView()
+
+        view = scrollView
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Theme.settingsBackgroundColor
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
-        view.addSubview(titleLabel)
-        view.addSubview(textLabel)
-        view.addSubview(checkboxControl)
-        view.addSubview(actionButton)
-
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40 + 64),
-            titleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
-            titleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
-
-            textLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            textLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
-            textLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
-
-            checkboxControl.topAnchor.constraint(equalTo: textLabel.bottomAnchor, constant: 30),
-            checkboxControl.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30),
-            checkboxControl.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30),
-
-            actionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            actionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30)
-        ])
+        addSubviewsAndConstraints()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        preferLargeTitleIfPossible(false)
+        preferLargeTitleIfPossible(true)
 
         if isPresentedModally {
             let item = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismiss(_:)))
             navigationItem.setLeftBarButtonItems([item], animated: true)
         }
     }
-    
+
+    private func addSubviewsAndConstraints() {
+        let margin: CGFloat = 20
+
+        let contentView = UIView()
+        view.addSubview(contentView)
+
+        contentView.edges(to: view)
+        contentView.width(to: view)
+        contentView.height(to: layoutGuide(), relation: .equalOrGreater)
+
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(textLabel)
+        contentView.addSubview(checkboxControl)
+        contentView.addSubview(actionButton)
+
+        titleLabel.top(to: contentView, offset: 13)
+        titleLabel.left(to: contentView, offset: margin)
+        titleLabel.right(to: contentView, offset: -margin)
+
+        textLabel.topToBottom(of: titleLabel, offset: 20)
+        textLabel.left(to: view, offset: margin)
+        textLabel.right(to: view, offset: -margin)
+
+        checkboxControl.topToBottom(of: textLabel, offset: margin)
+        checkboxControl.height(66, relation: .equalOrGreater)
+        checkboxControl.left(to: view, offset: margin)
+        checkboxControl.right(to: view, offset: -margin)
+
+        actionButton.height(50)
+        actionButton.left(to: contentView, offset: margin)
+        actionButton.right(to: contentView, offset: -margin)
+        actionButton.topToBottom(of: checkboxControl, offset: 2 * margin, relation: .equalOrGreater)
+        actionButton.bottom(to: contentView, offset: -50)
+    }
+
     @objc func dismiss(_ item: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }

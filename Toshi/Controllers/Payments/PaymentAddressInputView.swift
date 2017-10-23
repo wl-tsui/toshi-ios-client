@@ -26,7 +26,7 @@ class PaymentAddressInputView: UIView {
 
     private(set) lazy var addressTextField: UITextField = {
         let view = UITextField()
-        view.font = Theme.regular(size: 18)
+        view.font = Theme.preferredRegular()
         view.delegate = self
         view.placeholder = Localized("payment_input_placeholder")
         view.returnKeyType = .send

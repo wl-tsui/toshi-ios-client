@@ -30,26 +30,7 @@ class QRCodeController: UIViewController {
 
     private lazy var qrCodeImageView: UIImageView = UIImageView()
 
-    private lazy var titleLabel: UILabel = {
-        let view = UILabel()
-        view.font = Theme.medium(size: 20)
-        view.textAlignment = .center
-        view.adjustsFontSizeToFitWidth = true
-        view.minimumScaleFactor = 0.3
-
-        return view
-    }()
-
-    private lazy var subtitleLabel: UILabel = {
-        let view = UILabel()
-        view.font = Theme.regular(size: 17)
-        view.textAlignment = .center
-        view.adjustsFontSizeToFitWidth = true
-        view.minimumScaleFactor = 0.6
-        view.numberOfLines = 2
-
-        return view
-    }()
+    private lazy var subtitleLabel = TextLabel(Localized("profile_qr_code_subtitle"))
 
     convenience init(for username: String, name: String) {
         self.init(nibName: nil, bundle: nil)
@@ -57,40 +38,60 @@ class QRCodeController: UIViewController {
         title = Localized("profile_qr_code_title")
 
         qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
-        titleLabel.text = Localized("profile_qr_code_title")
-        subtitleLabel.text = Localized("profile_qr_code_subtitle")
+    }
+
+    open override func loadView() {
+        let scrollView = UIScrollView()
+
+        view = scrollView
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = Theme.lightGrayBackgroundColor
+        
+        let contentView = UIView()
+        view.addSubview(contentView)
 
-        view.backgroundColor = Theme.settingsBackgroundColor
-        view.addSubview(qrCodeImageView)
-        view.addSubview(titleLabel)
-        view.addSubview(subtitleLabel)
+        contentView.edges(to: view)
+        contentView.width(to: view)
+        contentView.height(to: layoutGuide(), relation: .equalOrGreater)
+        
+        contentView.addSubview(subtitleLabel)
+        contentView.addSubview(qrCodeImageView)
 
-        let top = navigationController?.navigationBar.frame.height ?? 0
+        subtitleLabel.top(to: contentView, offset: 13)
+        subtitleLabel.left(to: view, offset: 20)
+        subtitleLabel.right(to: view, offset: -20)
 
+        let qrCodeTopLayoutGuide = UILayoutGuide()
+        contentView.addLayoutGuide(qrCodeTopLayoutGuide)
+
+        qrCodeTopLayoutGuide.topToBottom(of: subtitleLabel)
+        qrCodeTopLayoutGuide.height(40, relation: .equalOrGreater)
+        qrCodeTopLayoutGuide.left(to: contentView)
+        qrCodeTopLayoutGuide.right(to: contentView)
+
+        qrCodeImageView.topToBottom(of: qrCodeTopLayoutGuide)
         qrCodeImageView.height(300)
         qrCodeImageView.width(300)
-        qrCodeImageView.centerX(to: view)
-        qrCodeImageView.centerY(to: view, offset: -top)
+        qrCodeImageView.centerX(to: contentView)
+        
+        let qrCodeBottomLayoutGuide = UILayoutGuide()
+        contentView.addLayoutGuide(qrCodeBottomLayoutGuide)
 
-        titleLabel.height(42)
-        titleLabel.topToBottom(of: qrCodeImageView, offset: 10)
-        titleLabel.left(to: view, offset: 27)
-        titleLabel.right(to: view, offset: -27)
-
-        subtitleLabel.height(48)
-        subtitleLabel.topToBottom(of: titleLabel, offset: 10)
-        subtitleLabel.left(to: view, offset: 27)
-        subtitleLabel.right(to: view, offset: -27)
+        qrCodeBottomLayoutGuide.topToBottom(of: qrCodeImageView)
+        qrCodeBottomLayoutGuide.left(to: contentView)
+        qrCodeBottomLayoutGuide.right(to: contentView)
+        qrCodeBottomLayoutGuide.bottom(to: contentView)
+        qrCodeBottomLayoutGuide.height(to: qrCodeTopLayoutGuide)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        preferLargeTitleIfPossible(false)
+        preferLargeTitleIfPossible(true)
     }
 }
 

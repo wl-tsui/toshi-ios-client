@@ -468,7 +468,6 @@ extension ChatViewController: UITableViewDataSource {
         } else if let cell = cell as? MessagesPaymentCell, (message.type == .payment) || (message.type == .paymentRequest), let signalMessage = message.signalMessage {
             cell.titleLabel.text = message.title
             cell.subtitleLabel.text = message.subtitle
-            cell.messageLabel.text = message.text
             cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: message.type)
             cell.selectionDelegate = self
 
@@ -724,7 +723,7 @@ extension ChatViewController: PaymentControllerDelegate {
         switch controller.paymentType {
         case .request:
             let request: [String: Any] = [
-                "body": "Request for \(EthereumConverter.balanceAttributedString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate).string).",
+                "body": "",
                 "value": valueInWei.toHexString,
                 "destinationAddress": Cereal.shared.paymentAddress
             ]

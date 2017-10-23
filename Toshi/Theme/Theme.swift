@@ -17,7 +17,9 @@ import UIKit
 import SweetUIKit
 import SweetFoundation
 
-public final class Theme: NSObject {}
+public final class Theme: NSObject {
+
+}
 
 extension Theme {
     public static var borderHeight: CGFloat {
@@ -37,11 +39,11 @@ extension Theme {
     }
 
     public static var mediumTextColor: UIColor {
-        return UIColor(hex: "9A9B9B")
+        return UIColor(hex: "99999D")
     }
 
     public static var darkTextColor: UIColor {
-        return UIColor(hex: "161621")
+        return .black
     }
 
     public static var greyTextColor: UIColor {
@@ -65,7 +67,7 @@ extension Theme {
     }
 
     public static var sectionTitleColor: UIColor {
-        return UIColor(hex: "FF6D6D72")
+        return UIColor(hex: "78787D")
     }
 
     @objc public static var viewBackgroundColor: UIColor {
@@ -75,9 +77,9 @@ extension Theme {
     public static var unselectedItemTintColor: UIColor {
         return UIColor(hex: "979ca4")
     }
-
-    public static var settingsBackgroundColor: UIColor {
-        return UIColor(hex: "F3F4F5")
+    
+    public static var lightGrayBackgroundColor: UIColor {
+        return UIColor(hex: "EFEFF4")
     }
 
     public static var inputFieldBackgroundColor: UIColor {
@@ -93,7 +95,7 @@ extension Theme {
     }
 
     @objc public static var navigationBarColor: UIColor {
-        return UIColor(hex: "FBFAFB")
+        return UIColor(hex: "F7F7F8")
     }
 
     public static var borderColor: UIColor {
@@ -149,8 +151,12 @@ extension Theme {
 
 extension Theme {
 
-    static var sectionTitleFont: UIFont {
+    @objc public static var sectionTitleFont: UIFont {
         return .preferredFont(forTextStyle: .footnote)
+    }
+
+    @objc public static var emoji: UIFont {
+        return UIFont(name: "SFUIText-Regular", size: 50) ?? UIFont.systemFont(ofSize: CGFloat(50), weight: .regular)
     }
 
     static func light(size: CGFloat) -> UIFont {
@@ -161,15 +167,47 @@ extension Theme {
         return UIFont(name: "SFUIText-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .regular)
     }
 
+    @objc static func preferredFootnote() -> UIFont {
+        return .preferredFont(forTextStyle: .footnote)
+    }
+
+    @objc static func preferredTitle1() -> UIFont {
+        return .preferredFont(forTextStyle: .title1)
+    }
+
+    @objc static func preferredTitle2() -> UIFont {
+        return .preferredFont(forTextStyle: .title2)
+    }
+
+    @objc static func preferredTitle3() -> UIFont {
+        return .preferredFont(forTextStyle: .title3)
+    }
+
+    @objc static func preferredRegular() -> UIFont {
+        return .preferredFont(forTextStyle: .body)
+    }
+
+    @objc static func preferredRegularMedium() -> UIFont {
+        return .preferredFont(forTextStyle: .callout)
+    }
+
+    @objc static func preferredRegularSmall() -> UIFont {
+        return .preferredFont(forTextStyle: .subheadline)
+    }
+
     static func semibold(size: CGFloat) -> UIFont {
         return UIFont(name: "SFUIText-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .semibold)
+    }
+
+    @objc static func preferredSemibold() -> UIFont {
+        return .preferredFont(forTextStyle: .headline)
     }
 
     @objc static func bold(size: CGFloat) -> UIFont {
         return UIFont(name: "SFUIText-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .bold)
     }
 
-    static func medium(size: CGFloat) -> UIFont {
+    @objc static func medium(size: CGFloat) -> UIFont {
         return UIFont(name: "SFUIText-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .medium)
     }
 }

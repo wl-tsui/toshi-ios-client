@@ -13,14 +13,14 @@ class MessagesTextCell: MessagesBasicCell {
 
             if let messageText = messageText, messageText.hasEmojiOnly, messageText.emojiVisibleLength <= 3 {
                 bubbleView.backgroundColor = nil
-                textView.font = Theme.regular(size: 50)
+                textView.font = Theme.emoji
             }
         }
     }
 
     private lazy var textView: UITextView = {
         let view = UITextView()
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredRegular()
         view.dataDetectorTypes = [.link]
         view.isUserInteractionEnabled = true
         view.isScrollEnabled = false
@@ -81,7 +81,7 @@ class MessagesTextCell: MessagesBasicCell {
             textView.attributedText = text
         }
 
-        textView.font = Theme.regular(size: 17)
+        textView.font = Theme.preferredRegular()
         textView.text = nil
     }
 

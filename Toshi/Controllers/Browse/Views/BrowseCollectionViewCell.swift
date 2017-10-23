@@ -17,7 +17,7 @@ import Foundation
 import UIKit
 import SweetUIKit
 
-protocol BrowseCellSelectionDelegate: class {
+protocol BrowseCollectionViewCellSelectionDelegate: class {
     func seeAll(for contentSection: BrowseContentSection)
     func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView)
 }
@@ -26,11 +26,11 @@ class SectionedCollectionView: UICollectionView {
     var section: Int = 0
 }
 
-class BrowseCell: UICollectionViewCell {
+class BrowseCollectionViewCell: UICollectionViewCell {
 
     let horizontalInset: CGFloat = 10
 
-    weak var selectionDelegate: BrowseCellSelectionDelegate?
+    weak var selectionDelegate: BrowseCollectionViewCellSelectionDelegate?
 
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -52,14 +52,14 @@ class BrowseCell: UICollectionViewCell {
         view.showsHorizontalScrollIndicator = true
         view.contentInset = UIEdgeInsets(top: 0, left: self.horizontalInset, bottom: 0, right: self.horizontalInset)
         view.delegate = self
-        view.register(BrowseAppCell.self)
+        view.register(BrowseEntityCollectionViewCell.self)
 
         return view
     }()
 
     private(set) lazy var titleLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.regular(size: 17)
+        view.font = Theme.preferredTitle2()
         view.textColor = Theme.darkTextColor
 
         return view
@@ -67,7 +67,7 @@ class BrowseCell: UICollectionViewCell {
 
     private lazy var seeAllButton: UIButton = {
         let view = UIButton()
-        view.titleLabel?.font = Theme.regular(size: 17)
+        view.titleLabel?.font = Theme.preferredRegular()
         view.setTitleColor(Theme.tintColor, for: .normal)
         view.setTitle(Localized("browse-more-button"), for: .normal)
         view.addTarget(self, action: #selector(seeAllButtonTapped(_:)), for: .touchUpInside)
@@ -110,14 +110,31 @@ class BrowseCell: UICollectionViewCell {
 
         collectionView.edges(to: contentView)
 
-        titleLabel.origin(to: contentView, insets: CGVector(dx: 15, dy: 20))
+        let collectionHeaderLayoutGuide = UILayoutGuide()
+        contentView.addLayoutGuide(collectionHeaderLayoutGuide)
 
-        seeAllButton.top(to: contentView, offset: 8)
-        seeAllButton.right(to: contentView, offset: -15)
-        seeAllButton.height(44)
+        collectionHeaderLayoutGuide.height(50)
+        collectionHeaderLayoutGuide.top(to: contentView)
+        collectionHeaderLayoutGuide.left(to: contentView)
+        collectionHeaderLayoutGuide.right(to: contentView)
+
+        // We want the "More" button text to always be completely visible but never bigger
+        seeAllButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        seeAllButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        // We want the title to break off when it becomes to big, but otherwise take the full available space
+        titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        titleLabel.left(to: collectionHeaderLayoutGuide, offset: 15)
+        titleLabel.centerY(to: collectionHeaderLayoutGuide)
+        titleLabel.height(44)
+
+        seeAllButton.leftToRight(of: titleLabel, offset: 10)
+        seeAllButton.right(to: collectionHeaderLayoutGuide, offset: -15)
+        seeAllButton.centerY(to: collectionHeaderLayoutGuide)
 
         divider.height(Theme.borderHeight)
-        divider.left(to: self, offset: 15)
+        divider.left(to: self, offset: 15, relation: .equalOrLess)
         divider.right(to: self)
         divider.bottom(to: contentView)
     }
@@ -135,7 +152,7 @@ class BrowseCell: UICollectionViewCell {
     }
 }
 
-extension BrowseCell: UICollectionViewDelegate {
+extension BrowseCollectionViewCell: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 

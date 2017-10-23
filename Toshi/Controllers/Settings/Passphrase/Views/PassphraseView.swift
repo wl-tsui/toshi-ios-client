@@ -107,7 +107,7 @@ class PassphraseView: UIView {
             currentPhrase.append(contentsOf: self.originalPhrase)
             activateNewLayout()
         case .verification:
-            backgroundColor = Theme.settingsBackgroundColor
+            backgroundColor = Theme.lightGrayBackgroundColor
             layer.cornerRadius = 4
             clipsToBounds = true
             activateNewLayout()

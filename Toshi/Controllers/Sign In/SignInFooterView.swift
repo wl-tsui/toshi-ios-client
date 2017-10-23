@@ -82,7 +82,7 @@ final class SignInFooterView: UIView {
             paragraphStyle.alignment = .left
             
             let attributes: [NSAttributedStringKey: Any] = [
-                .font: Theme.regular(size: 13),
+                .font: Theme.preferredFootnote(),
                 .foregroundColor: Theme.errorColor,
                 .paragraphStyle: paragraphStyle
             ]

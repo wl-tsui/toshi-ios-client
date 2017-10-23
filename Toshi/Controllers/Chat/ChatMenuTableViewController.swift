@@ -107,7 +107,7 @@ final class ChatMenuTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChatMenuTableViewCell.reuseIdentifier, for: indexPath)
         
         if let cell = cell as? ChatMenuTableViewCell, let buttons = buttons, let button = buttons.element(at: indexPath.row), let text = button.label {
-            cell.textLabel?.attributedText = NSMutableAttributedString(string: text, attributes: [.foregroundColor: Theme.tintColor, .font: Theme.regular(size: 17)])
+            cell.textLabel?.attributedText = NSMutableAttributedString(string: text, attributes: [.foregroundColor: Theme.tintColor, .font: Theme.preferredRegular()])
             cell.bottomDivider.isHidden = indexPath.row == buttons.count - 1
         }
         

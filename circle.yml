@@ -1,8 +1,17 @@
 machine:
   xcode:
-    version: "8.3"
+    version: "9.0"
 
 test:
+  test:
+  override:
+    - xcodebuild
+        -workspace Toshi.xcworkspace
+        -scheme "All Tests"
+        -destination 'platform=iOS Simulator,name=iPhone 6'
+        test |
+      tee $CIRCLE_ARTIFACTS/xcode_raw.log |
+      xcpretty --color --report junit --output $CIRCLE_TEST_REPORTS/xcode/results.xml && exit ${PIPESTATUS[0]}
   post:
     - bundle exec danger
     

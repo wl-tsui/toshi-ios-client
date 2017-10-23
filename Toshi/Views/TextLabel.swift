@@ -26,7 +26,7 @@ class TextLabel: UILabel {
         paragraphStyle.paragraphSpacing = -4
 
         let attributes: [NSAttributedStringKey: Any] = [
-            .font: Theme.regular(size: 16),
+            .font: Theme.preferredRegular(),
             .foregroundColor: Theme.darkTextColor,
             .paragraphStyle: paragraphStyle
         ]
