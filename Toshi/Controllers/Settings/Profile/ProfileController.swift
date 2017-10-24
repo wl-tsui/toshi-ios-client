@@ -247,7 +247,7 @@ open class ProfileController: UIViewController {
         locationContentLabel.left(to: contentBackgroundView, offset: margin)
         locationContentLabel.right(to: contentBackgroundView, offset: -margin)
 
-        editSeparatorView.height(Theme.borderHeight)
+        editSeparatorView.height(.lineHeight)
         editSeparatorView.topToBottom(of: locationContentLabel, offset: margin)
         editSeparatorView.left(to: contentBackgroundView)
         editSeparatorView.right(to: contentBackgroundView)
@@ -257,7 +257,7 @@ open class ProfileController: UIViewController {
         editProfileButton.left(to: contentBackgroundView)
         editProfileButton.right(to: contentBackgroundView)
 
-        contentSeparatorView.height(Theme.borderHeight)
+        contentSeparatorView.height(.lineHeight)
         contentSeparatorView.topToBottom(of: editProfileButton)
         contentSeparatorView.left(to: contentBackgroundView)
         contentSeparatorView.right(to: contentBackgroundView)
@@ -274,7 +274,7 @@ open class ProfileController: UIViewController {
         reputationBackgroundView.addSubview(reputationView)
         reputationBackgroundView.addSubview(bottomSeparatorView)
 
-        reputationSeparatorView.height(Theme.borderHeight)
+        reputationSeparatorView.height(.lineHeight)
         reputationSeparatorView.top(to: reputationBackgroundView)
         reputationSeparatorView.left(to: reputationBackgroundView)
         reputationSeparatorView.right(to: reputationBackgroundView)
@@ -283,7 +283,7 @@ open class ProfileController: UIViewController {
         reputationView.left(to: reputationBackgroundView, offset: 34)
         reputationView.right(to: reputationBackgroundView, offset: -40)
 
-        bottomSeparatorView.height(Theme.borderHeight)
+        bottomSeparatorView.height(.lineHeight)
         bottomSeparatorView.topToBottom(of: reputationView, offset: 40)
         bottomSeparatorView.left(to: reputationBackgroundView)
         bottomSeparatorView.right(to: reputationBackgroundView)

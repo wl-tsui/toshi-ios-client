@@ -133,7 +133,7 @@ class BrowseCollectionViewCell: UICollectionViewCell {
         seeAllButton.right(to: collectionHeaderLayoutGuide, offset: -15)
         seeAllButton.centerY(to: collectionHeaderLayoutGuide)
 
-        divider.height(Theme.borderHeight)
+        divider.height(.lineHeight)
         divider.left(to: self, offset: 15, relation: .equalOrLess)
         divider.right(to: self)
         divider.bottom(to: contentView)

@@ -51,6 +51,7 @@ class BrowseAllViewController: UITableViewController {
         tableView.showsVerticalScrollIndicator = true
         tableView.contentInset.bottom = 60
         tableView.register(SearchResultCell.self)
+        tableView.estimatedRowHeight = 50
     }
 
     private func showResults(_ apps: [TokenUser]?, _ error: Error? = nil) {

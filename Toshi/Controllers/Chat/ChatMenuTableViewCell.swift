@@ -23,7 +23,7 @@ final class ChatMenuTableViewCell: UITableViewCell {
         bottomDivider.left(to: contentView)
         bottomDivider.bottom(to: contentView)
         bottomDivider.right(to: contentView)
-        bottomDivider.height(Theme.borderHeight)
+        bottomDivider.height(.lineHeight)
     }
     
     required init?(coder aDecoder: NSCoder) {

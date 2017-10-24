@@ -95,7 +95,7 @@ class RateUserController: ModalPresentable {
         view.clipsToBounds = true
         view.layer.cornerRadius = 4
         view.layer.borderColor = Theme.greyTextColor.cgColor
-        view.layer.borderWidth = Theme.borderHeight
+        view.layer.borderWidth = .lineHeight
         view.delegate = self
         view.font = UIFont.systemFont(ofSize: 16)
         view.internalTextView.textContainerInset = UIEdgeInsets(top: 8, left: 5, bottom: 5, right: 5)
@@ -266,7 +266,7 @@ class RateUserController: ModalPresentable {
             self.dividers[0].topAnchor.constraint(equalTo: self.inputField.bottomAnchor, constant: 20),
             self.dividers[0].leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
             self.dividers[0].rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
-            self.dividers[0].heightAnchor.constraint(equalToConstant: Theme.borderHeight),
+            self.dividers[0].heightAnchor.constraint(equalToConstant: .lineHeight),
 
             self.cancelButton.topAnchor.constraint(equalTo: self.dividers[0].bottomAnchor),
             self.cancelButton.leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
@@ -275,7 +275,7 @@ class RateUserController: ModalPresentable {
             self.dividers[1].topAnchor.constraint(equalTo: self.cancelButton.bottomAnchor),
             self.dividers[1].leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),
             self.dividers[1].rightAnchor.constraint(equalTo: self.visualEffectView.contentView.rightAnchor),
-            self.dividers[1].heightAnchor.constraint(equalToConstant: Theme.borderHeight),
+            self.dividers[1].heightAnchor.constraint(equalToConstant: .lineHeight),
 
             self.submitButton.topAnchor.constraint(equalTo: self.dividers[1].bottomAnchor),
             self.submitButton.leftAnchor.constraint(equalTo: self.visualEffectView.contentView.leftAnchor),

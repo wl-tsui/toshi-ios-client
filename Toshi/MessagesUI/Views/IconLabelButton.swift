@@ -59,7 +59,7 @@ class IconLabelButton: UIControl {
         divider.top(to: self)
         divider.left(to: self)
         divider.right(to: self)
-        divider.height(Theme.borderHeight)
+        divider.height(.lineHeight)
 
         iconLabelView.edges(to: self)
     }

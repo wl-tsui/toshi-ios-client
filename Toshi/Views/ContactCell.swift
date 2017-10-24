@@ -108,7 +108,7 @@ class ContactCell: UITableViewCell {
         usernameLabel.leftToRight(of: avatarImageView, offset: 10)
         usernameLabel.right(to: contentView, offset: -margin)
 
-        separatorView.height( Theme.borderHeight)
+        separatorView.height(.lineHeight)
         separatorView.topToBottom(of: usernameLabel, offset: interLabelMargin)
         separatorView.left(to: contentView, offset: margin)
         separatorView.bottom(to: contentView)

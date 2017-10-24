@@ -185,7 +185,7 @@ extension TabBarController: UITabBarControllerDelegate {
     public func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController != browseViewController {
             guard let browseViewController = browseViewController.viewControllers.first as? BrowseViewController else { return true }
-            browseViewController.dsmissSearchIfNeeded()
+            browseViewController.dismissSearchIfNeeded()
         }
 
         if viewController == placeholderScannerController {

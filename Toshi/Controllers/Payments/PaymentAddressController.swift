@@ -11,7 +11,8 @@ class PaymentAddressController: UIViewController {
         let value = EthereumConverter.fiatValueString(forWei: self.valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
 
         let view = UILabel()
-        view.font = Theme.regular(size: 34)
+        view.font = Theme.preferredTitle1()
+        view.adjustsFontForContentSizeCategory = true
         view.textAlignment = .center
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.5
@@ -82,6 +83,7 @@ class PaymentAddressController: UIViewController {
 
         navigationItem.backBarButtonItem = UIBarButtonItem.back
         navigationItem.rightBarButtonItem = sendBarButton
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0), .foregroundColor: Theme.tintColor], for: .normal)
 
         addressInputView.addressTextField.becomeFirstResponder()
     }

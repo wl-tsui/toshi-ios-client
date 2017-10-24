@@ -14,26 +14,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import UIKit
-import SweetUIKit
-import SweetFoundation
 
-public final class Theme: NSObject {
-
+extension CGFloat {
+    
+    public static var lineHeight: CGFloat {
+        return 1 / UIScreen.main.scale
+    }
 }
 
+public final class Theme: NSObject {}
+
 extension Theme {
-    public static var borderHeight: CGFloat {
-        return 1.0 / UIScreen.main.scale
+    
+    @objc public static func setupBasicAppearance() {
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.titleTextAttributes = [.font: Theme.preferredSemibold(), .foregroundColor: Theme.navigationTitleTextColor]
+        navBarAppearance.tintColor = Theme.tintColor
+        navBarAppearance.barTintColor = Theme.navigationBarColor
+        
+        let barButtonAppearance = UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
+        barButtonAppearance.setTitleTextAttributes([.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor], for: .normal)
+        
+        let alertAppearance = UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self])
+        alertAppearance.tintColor = Theme.tintColor
     }
 }
 
 extension Theme {
-    public static var randomColor: UIColor {
-        let colors = [UIColor.lightGray, UIColor.green, UIColor.red, UIColor.magenta, UIColor.purple, UIColor.blue, UIColor.yellow]
-
-        return colors[Int(arc4random_uniform(UInt32(colors.count)))]
-    }
-
+    
     public static var lightTextColor: UIColor {
         return .white
     }
@@ -125,11 +133,9 @@ extension Theme {
     public static var separatorColor: UIColor {
         return UIColor(white: 0.95, alpha: 1)
     }
-
-    // MARK: - Message colours
-
+    
     public static var incomingMessageBackgroundColor: UIColor {
-        return UIColor(hex: "F1F0F0")
+        return UIColor(hex: "ECECEE")
     }
 
     public static var outgoingMessageTextColor: UIColor {
@@ -150,64 +156,87 @@ extension Theme {
 }
 
 extension Theme {
-
-    @objc public static var sectionTitleFont: UIFont {
-        return .preferredFont(forTextStyle: .footnote)
+    
+    private static func dynamicType(for preferredFont: UIFont, withStyle style: UIFontTextStyle, inSizeRange range: ClosedRange<CGFloat>) -> UIFont {
+        let font: UIFont
+        
+        if #available(iOS 11.0, *) {
+            let metrics = UIFontMetrics(forTextStyle: style)
+            font = metrics.scaledFont(for: preferredFont, maximumPointSize: range.upperBound)
+        } else {
+            font = .preferredFont(forTextStyle: style)
+        }
+        
+        let augmentedFontSize = font.pointSize.clamp(to: range)
+        
+        return font.withSize(augmentedFontSize)
+    }
+    
+    @objc static func emoji() -> UIFont {
+        return .systemFont(ofSize: 50)
+    }
+    
+    static func preferredFootnote(range: ClosedRange<CGFloat> = 13...30) -> UIFont {
+        return dynamicType(for: regular(size: 13), withStyle: .footnote, inSizeRange: range)
+    }
+    
+    static func preferredTitle1(range: ClosedRange<CGFloat> = 34...40) -> UIFont {
+        return dynamicType(for: bold(size: 34), withStyle: .title1, inSizeRange: range)
+    }
+    
+    static func preferredTitle2(range: ClosedRange<CGFloat> = 22...35) -> UIFont {
+        return dynamicType(for: bold(size: 22), withStyle: .title2, inSizeRange: range)
     }
 
-    @objc public static var emoji: UIFont {
-        return UIFont(name: "SFUIText-Regular", size: 50) ?? UIFont.systemFont(ofSize: CGFloat(50), weight: .regular)
+    static func preferredTitle3(range: ClosedRange<CGFloat> = 20...30) -> UIFont {
+        return dynamicType(for: regular(size: 16), withStyle: .title3, inSizeRange: range)
     }
-
-    static func light(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Light", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .light)
+    
+    static func preferredRegular(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: regular(size: 17), withStyle: .body, inSizeRange: range)
     }
-
+    
+    static func preferredRegularMedium(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: medium(size: 17), withStyle: .callout, inSizeRange: range)
+    }
+    
+    static func preferredRegularSmall(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: light(size: 17), withStyle: .subheadline, inSizeRange: range)
+    }
+    
+    static func preferredSemibold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: semibold(size: 17), withStyle: .headline, inSizeRange: range)
+    }
+    
+    /* Default Fonts */
+    @objc static func light(size: CGFloat) -> UIFont {
+        guard let font = UIFont(name: "SFProDisplay-Light", size: size) else { fatalError("This font should be available.") }
+        return font
+    }
+    
     @objc static func regular(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Regular", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .regular)
+        guard let font = UIFont(name: "SFProDisplay-Regular", size: size) else { fatalError("This font should be available.") }
+        return font
     }
-
-    @objc static func preferredFootnote() -> UIFont {
-        return .preferredFont(forTextStyle: .footnote)
+    
+    @objc static func semibold(size: CGFloat) -> UIFont {
+        guard let font = UIFont(name: "SFProDisplay-Semibold", size: size) else { fatalError("This font should be available.") }
+        return font
     }
-
-    @objc static func preferredTitle1() -> UIFont {
-        return .preferredFont(forTextStyle: .title1)
-    }
-
-    @objc static func preferredTitle2() -> UIFont {
-        return .preferredFont(forTextStyle: .title2)
-    }
-
-    @objc static func preferredTitle3() -> UIFont {
-        return .preferredFont(forTextStyle: .title3)
-    }
-
-    @objc static func preferredRegular() -> UIFont {
-        return .preferredFont(forTextStyle: .body)
-    }
-
-    @objc static func preferredRegularMedium() -> UIFont {
-        return .preferredFont(forTextStyle: .callout)
-    }
-
-    @objc static func preferredRegularSmall() -> UIFont {
-        return .preferredFont(forTextStyle: .subheadline)
-    }
-
-    static func semibold(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Semibold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .semibold)
-    }
-
-    @objc static func preferredSemibold() -> UIFont {
-        return .preferredFont(forTextStyle: .headline)
-    }
-
+    
     @objc static func bold(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Bold", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .bold)
+        guard let font = UIFont(name: "SFProDisplay-Bold", size: size) else { fatalError("This font should be available.") }
+        return font
     }
-
+    
     @objc static func medium(size: CGFloat) -> UIFont {
-        return UIFont(name: "SFUIText-Medium", size: size) ?? UIFont.systemFont(ofSize: CGFloat(size), weight: .medium)
+        guard let font = UIFont(name: "SFProDisplay-Medium", size: size) else { fatalError("This font should be available.") }
+        return font
+    }
+    
+    /* Text Fonts */
+    @objc static func regularText(size: CGFloat) -> UIFont {
+        guard let font = UIFont(name: "SFUIText-Regular", size: size) else { fatalError("This font should be available.") }
+        return font
     }
 }

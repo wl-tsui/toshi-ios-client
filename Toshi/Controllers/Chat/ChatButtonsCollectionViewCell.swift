@@ -8,7 +8,18 @@ final class ChatButtonsViewCell: UICollectionViewCell {
     
     var title: String? {
         didSet {
-            titleLabel.text = title
+            guard let title = title else {
+                titleLabel.attributedText = nil
+                return
+            }
+            
+            let attributes: [NSAttributedStringKey: Any] = [
+                .font: Theme.regularText(size: 17),
+                .foregroundColor: Theme.tintColor,
+                .kern: -0.4
+            ]
+            
+            titleLabel.attributedText = NSMutableAttributedString(string: title, attributes: attributes)
         }
     }
     

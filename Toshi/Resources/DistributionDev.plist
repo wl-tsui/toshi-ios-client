@@ -54,11 +54,12 @@
 	<string>https://chat.development.service.toshi.org</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>SF-UI-Text-Bold.otf</string>
-		<string>SF-UI-Text-Light.otf</string>
-		<string>SF-UI-Text-Medium.otf</string>
 		<string>SF-UI-Text-Regular.otf</string>
-		<string>SF-UI-Text-Semibold.otf</string>
+		<string>SF-Pro-Display-Bold.otf</string>
+		<string>SF-Pro-Display-Light.otf</string>
+		<string>SF-Pro-Display-Medium.otf</string>
+		<string>SF-Pro-Display-Regular.otf</string>
+		<string>SF-Pro-Display-Semibold.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

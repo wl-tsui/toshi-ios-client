@@ -119,43 +119,4 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
             }
         }
     }
-
-    func search(_ searchTerm: String, limit: Int = 100, completion: @escaping (_ apps: [TokenUser], _ error: Error?) -> Void) {
-        guard !searchTerm.isEmpty else {
-            completion([TokenUser](), nil)
-            return
-        }
-
-        let query = searchTerm.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? searchTerm
-        teapot.get("/v1/search/apps/?query=\(query)&limit=\(limit)") { (result: NetworkResult) in
-            var resultsError: Error?
-            var results: [TokenUser] = []
-
-            switch result {
-            case .success(let json, _):
-                guard let json = json?.dictionary else {
-                    completion([], nil)
-
-                    return
-                }
-
-                guard let appsJSON = json["results"] as? [[String: Any]] else {
-                    completion([TokenUser](), nil)
-                    return
-                }
-
-                let apps = appsJSON.map { json -> TokenUser in
-                    return TokenUser(json: json)
-                }
-
-                results = apps
-            case .failure(_, _, let error):
-                resultsError = error
-            }
-
-            DispatchQueue.main.async {
-                completion(results, resultsError)
-            }
-        }
-    }
 }

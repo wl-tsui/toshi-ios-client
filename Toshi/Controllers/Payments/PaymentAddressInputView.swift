@@ -68,7 +68,7 @@ class PaymentAddressInputView: UIView {
         topDivider.top(to: self)
         topDivider.left(to: self)
         topDivider.right(to: self)
-        topDivider.height(Theme.borderHeight)
+        topDivider.height(.lineHeight)
 
         addressTextField.left(to: self, offset: 16)
         addressTextField.centerY(to: self)
@@ -83,7 +83,7 @@ class PaymentAddressInputView: UIView {
         bottomDivider.left(to: self, offset: 16)
         bottomDivider.bottom(to: self)
         bottomDivider.right(to: self, offset: -16)
-        bottomDivider.height(Theme.borderHeight)
+        bottomDivider.height(.lineHeight)
     }
 
     @objc func qrButtonTapped(_ button: UIButton) {
