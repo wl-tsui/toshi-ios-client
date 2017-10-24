@@ -91,17 +91,17 @@ class InputField: UIView {
             self.topSeparatorView.topAnchor.constraint(equalTo: self.topAnchor),
             self.topSeparatorView.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.topSeparatorView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.topSeparatorView.heightAnchor.constraint(equalToConstant: Theme.borderHeight),
+            self.topSeparatorView.heightAnchor.constraint(equalToConstant: .lineHeight),
 
             self.shortBottomSeparatorView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
             self.shortBottomSeparatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.shortBottomSeparatorView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.shortBottomSeparatorView.heightAnchor.constraint(equalToConstant: Theme.borderHeight),
+            self.shortBottomSeparatorView.heightAnchor.constraint(equalToConstant: .lineHeight),
 
             self.bottomSeparatorView.leftAnchor.constraint(equalTo: self.leftAnchor),
             self.bottomSeparatorView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             self.bottomSeparatorView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            self.bottomSeparatorView.heightAnchor.constraint(equalToConstant: Theme.borderHeight),
+            self.bottomSeparatorView.heightAnchor.constraint(equalToConstant: .lineHeight),
 
             self.titleLabel.topAnchor.constraint(equalTo: self.topAnchor),
             self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),

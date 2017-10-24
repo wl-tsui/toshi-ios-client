@@ -244,7 +244,7 @@ class ChatCell: UITableViewCell {
 
         separatorView.left(to: avatarLayoutSpace)
         separatorView.right(to: self)
-        separatorView.height(Theme.borderHeight)
+        separatorView.height(.lineHeight)
         separatorView.bottom(to: contentView)
     }
 

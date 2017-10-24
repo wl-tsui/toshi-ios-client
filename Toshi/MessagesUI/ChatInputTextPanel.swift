@@ -51,10 +51,10 @@ class ChatInputTextPanel: UIView {
         view.clipsToBounds = true
         view.layer.cornerRadius = (ChatInputTextPanel.defaultHeight - (self.inputContainerInsets.top + self.inputContainerInsets.bottom)) / 2
         view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = Theme.borderHeight
+        view.layer.borderWidth = .lineHeight
         view.delegate = self
         view.placeholder = "Message..."
-        view.contentInset = UIEdgeInsets(top: 0.0, left: 15.0, bottom: 0.0, right: 0.0)
+        view.contentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 0)
         view.font = UIFont.systemFont(ofSize: 16)
         view.internalTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 5)
         view.internalTextView.scrollIndicatorInsets = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 5)

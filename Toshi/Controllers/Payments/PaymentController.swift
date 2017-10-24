@@ -127,6 +127,11 @@ class PaymentController: UIViewController {
         title = paymentType.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelItemTapped(_:)))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: continueOption.buttonTitle, style: .plain, target: self, action: #selector(continueItemTapped(_:)))
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        if continueOption == .send {
+            navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0), .foregroundColor: Theme.tintColor], for: .normal)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -191,6 +196,8 @@ extension PaymentController: UITextFieldDelegate {
         guard let newValue = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else {
             return true
         }
+        
+        navigationItem.rightBarButtonItem?.isEnabled = !newValue.isEmpty
 
         guard newValue.length > 0 else {
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)

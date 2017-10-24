@@ -370,7 +370,7 @@ extension SettingsController: UITableViewDelegate {
         switch sectionItem {
         case .security:
             let view = SettingsSectionHeader(title: Localized("settings_header_security"), error: Localized("settings_header_security_text"))
-            view.setErrorHidden(self.isAccountSecured, animated: false)
+            view.setErrorHidden(isAccountSecured)
 
             return view
         default:
@@ -392,7 +392,7 @@ extension SettingsController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let headerView = view as? UITableViewHeaderFooterView else { return }
 
-        headerView.textLabel?.font = Theme.sectionTitleFont
+        headerView.textLabel?.font = Theme.preferredFootnote()
     }
 
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

@@ -13,7 +13,7 @@ class MessagesTextCell: MessagesBasicCell {
 
             if let messageText = messageText, messageText.hasEmojiOnly, messageText.emojiVisibleLength <= 3 {
                 bubbleView.backgroundColor = nil
-                textView.font = Theme.emoji
+                textView.font = Theme.emoji()
             }
         }
     }
@@ -80,7 +80,7 @@ class MessagesTextCell: MessagesBasicCell {
 
             textView.attributedText = text
         }
-
+        
         textView.font = Theme.preferredRegular()
         textView.text = nil
     }
@@ -90,6 +90,8 @@ class MessagesTextCell: MessagesBasicCell {
 
         if let text = textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
             let range = NSRange(location: 0, length: text.string.length)
+            
+            text.addAttributes([.kern: -0.4], range: range)
 
             usernameDetector.enumerateMatches(in: text.string, options: [], range: range) { [weak self] result, _, _ in
 

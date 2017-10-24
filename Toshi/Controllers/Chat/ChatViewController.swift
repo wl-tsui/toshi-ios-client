@@ -695,7 +695,7 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
 
     func messagesFloatingView(_: ChatFloatingHeaderView, didPressRequestButton _: UIButton) {
         
-        let paymentController = PaymentController(withPaymentType: .request, continueOption: .next)
+        let paymentController = PaymentController(withPaymentType: .request, continueOption: .send)
         paymentController.delegate = self
         
         let navigationController = PaymentNavigationController(rootViewController: paymentController)

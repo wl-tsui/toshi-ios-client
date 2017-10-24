@@ -9,7 +9,8 @@ final class SignInHeaderView: UIView {
         view.text = Localized("passphrase_sign_in_title")
         view.textAlignment = .center
         view.textColor = Theme.darkTextColor
-        view.font = Theme.regular(size: 34)
+        view.font = Theme.preferredTitle1()
+        view.adjustsFontForContentSizeCategory = true
         view.numberOfLines = 0
         
         return view

@@ -78,7 +78,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         view.dataSource = self
         view.tableFooterView = UIView()
         view.register(UINib(nibName: "InputCell", bundle: nil), forCellReuseIdentifier: String(describing: InputCell.self))
-        view.layer.borderWidth = Theme.borderHeight
+        view.layer.borderWidth = .lineHeight
         view.layer.borderColor = Theme.borderColor.cgColor
         view.alwaysBounceVertical = true
 
@@ -106,8 +106,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelAndDismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.saveAndDismiss))
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0),
-                                                                   .foregroundColor: Theme.tintColor], for: .normal)
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0), .foregroundColor: Theme.tintColor], for: .normal)
 
         addSubviewsAndConstraints()
     }
@@ -143,7 +142,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         view.addSubview(bottomBorder)
 
         bottomBorder.backgroundColor = Theme.borderColor
-        bottomBorder.set(height: Theme.borderHeight)
+        bottomBorder.set(height: .lineHeight)
         bottomBorder.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bottomBorder.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         bottomBorder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true

@@ -45,7 +45,7 @@ class AvatarImageView: UIImageView {
         clipsToBounds = true
         contentMode = .scaleAspectFill
         layer.borderColor = Theme.borderColor.cgColor
-        layer.borderWidth = Theme.borderHeight
+        layer.borderWidth = .lineHeight
     }
 
     override func layoutSubviews() {

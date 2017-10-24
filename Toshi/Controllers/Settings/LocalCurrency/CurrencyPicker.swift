@@ -18,7 +18,7 @@ final class CurrencyPicker: UIViewController {
         view.dataSource = self
         view.tableFooterView = UIView()
         view.register(UITableViewCell.self)
-        view.layer.borderWidth = Theme.borderHeight
+        view.layer.borderWidth = .lineHeight
         view.layer.borderColor = Theme.borderColor.cgColor
 
         return view

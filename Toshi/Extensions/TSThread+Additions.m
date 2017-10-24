@@ -3,7 +3,6 @@
 #import "Toshi-Swift.h"
 
 @implementation TSThread (Additions)
-static char _internalPropertyKey;
 
 - (NSArray<TSMessage *> *)messages {
     NSMutableArray *visible = [NSMutableArray array];

@@ -19,70 +19,51 @@ import SweetUIKit
 class SettingsSectionHeader: UIView {
 
     lazy var titleLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
+        let view = UILabel()
         view.textColor = Theme.sectionTitleColor
-        view.font = Theme.sectionTitleFont
+        view.font = Theme.preferredFootnote()
 
         return view
     }()
 
     lazy var errorLabel: UILabel = {
-        let view = UILabel(withAutoLayout: true)
+        let view = UILabel()
         view.textColor = Theme.errorColor
         view.font = Theme.preferredFootnote()
-        view.textAlignment = .right
 
         return view
     }()
 
-    lazy var errorImage: UIImageView = {
-        let view = UIImageView(withAutoLayout: true)
-        view.image = #imageLiteral(resourceName: "error")
-        view.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-
-        return view
-    }()
-
+    lazy var errorImage = UIImageView(image: #imageLiteral(resourceName: "error"))
+    
     convenience init(title: String, error: String? = nil) {
         self.init()
-        clipsToBounds = true
-
+        
+        addSubview(titleLabel)
+        titleLabel.bottom(to: self, offset: -6)
         titleLabel.text = title.uppercased()
         errorLabel.text = error
-
-        preservesSuperviewLayoutMargins = true
-
-        addSubview(titleLabel)
-
-        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6).isActive = true
-
+        
         if self.errorLabel.text != nil {
-
             addSubview(errorLabel)
             addSubview(errorImage)
-
-            NSLayoutConstraint.activate([
-                NSLayoutConstraint.constraints(withVisualFormat: "H:|-[titleLabel]", options: [], metrics: nil, views: ["titleLabel": self.titleLabel]).first!,
-
-                self.errorLabel.centerYAnchor.constraint(equalTo: self.titleLabel.centerYAnchor),
-                self.errorLabel.leftAnchor.constraint(greaterThanOrEqualTo: self.titleLabel.rightAnchor),
-                self.errorLabel.rightAnchor.constraint(equalTo: self.errorImage.leftAnchor, constant: -5),
-
-                self.errorImage.centerYAnchor.constraint(equalTo: self.errorLabel.centerYAnchor),
-                self.errorImage.heightAnchor.constraint(equalToConstant: 16),
-                self.errorImage.widthAnchor.constraint(equalToConstant: 16),
-                NSLayoutConstraint.constraints(withVisualFormat: "H:[errorImage]-|", options: [], metrics: nil, views: ["errorImage": self.errorImage]).first!
-                ])
+            
+            titleLabel.left(to: self, offset: 15)
+            
+            errorLabel.centerY(to: titleLabel)
+            errorLabel.left(to: titleLabel, relation: .equalOrGreater)
+            errorLabel.rightToLeft(of: errorImage, offset: -5)
+            
+            errorImage.centerY(to: errorLabel)
+            errorImage.size(CGSize(width: 16, height: 16))
+            errorImage.right(to: self, offset: -15)
         } else {
-            NSLayoutConstraint.activate([
-                self.titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor),
-                self.titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor)
-                ])
+            titleLabel.left(to: self, offset: 15)
+            titleLabel.right(to: self, offset: -15)
         }
     }
 
-    func setErrorHidden(_ hidden: Bool, animated: Bool) {
+    func setErrorHidden(_ hidden: Bool) {
         errorLabel.alpha = hidden ? 0.0 : 1.0
         errorImage.alpha = hidden ? 0.0 : 1.0
     }

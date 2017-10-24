@@ -28,6 +28,13 @@ extension NSAttributedString {
     }
 }
 
+extension CGFloat {
+    
+    func clamp(to range: ClosedRange<CGFloat>) -> CGFloat {
+        return Swift.min(range.upperBound, Swift.max(range.lowerBound, self))
+    }
+}
+
 extension String {
 
     var hasEmojiOnly: Bool {

@@ -109,7 +109,7 @@ class ActionButton: UIControl {
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
-        view.layer.borderWidth = Theme.borderHeight
+        view.layer.borderWidth = .lineHeight
 
         return view
     }()

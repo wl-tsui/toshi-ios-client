@@ -74,7 +74,7 @@ class ProfileItemCell: UITableViewCell {
         itemTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         itemTextField.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -margin).isActive = true
 
-        separatorView.set(height: Theme.borderHeight)
+        separatorView.set(height: .lineHeight)
         separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         separatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: margin).isActive = true
         separatorView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true

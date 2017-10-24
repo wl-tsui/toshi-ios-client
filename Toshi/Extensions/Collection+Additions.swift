@@ -15,7 +15,7 @@
 
 import Foundation
 
-extension MutableCollection where Indices.Iterator.Element == Index {
+extension MutableCollection {
 
     mutating func shuffle() {
         guard count > 1 else { return }
