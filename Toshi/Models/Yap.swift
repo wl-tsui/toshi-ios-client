@@ -148,6 +148,8 @@ public final class Yap: NSObject, Singleton {
 
         if database == nil {
             CrashlyticsLogger.log("Failed to create user database")
+        } else {
+            NotificationCenter.default.post(name: .userCreated, object: nil)
         }
     }
 

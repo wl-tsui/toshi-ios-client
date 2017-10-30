@@ -200,7 +200,14 @@ public class ContactController: UIViewController {
         reputationView.setScore(.zero)
         updateReputation()
 
+        NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
+    }
+
+    @objc fileprivate func userCreated(_ notification: Notification) {
+        let database = Yap.sharedInstance.database!
+        uiDatabaseConnection = database.newConnection()
+        uiDatabaseConnection.beginLongLivedReadTransaction()
     }
 
     fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {

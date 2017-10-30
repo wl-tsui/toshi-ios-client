@@ -91,10 +91,6 @@ open class RecentViewController: SweetTableController, Emptiable {
         Navigator.presentModally(shareController)
     }
 
-    @objc private func userDidSignOut(_: Notification) {
-        self.uiDatabaseConnection = nil
-    }
-
     @objc fileprivate func chatDBCreated(_ notification: Notification) {
         setupDBConnection()
         loadMessages()
@@ -197,7 +193,6 @@ open class RecentViewController: SweetTableController, Emptiable {
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() {
-            print("Updating contact infor for address: \(address).")
 
             idAPIClient.retrieveUser(username: address) { contact in
                 if let contact = contact {
@@ -217,7 +212,6 @@ open class RecentViewController: SweetTableController, Emptiable {
             thread = object
         }
 
-        print("Thread on recent: \(thread)")
         return thread
     }
 

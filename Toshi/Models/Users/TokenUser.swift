@@ -290,8 +290,6 @@ public class TokenUser: NSObject, NSCoding {
         newUser.userSettings = Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.localUserSettingsKey) as? [String: Any] ?? newUserSettings
         current?.saveSettings()
         current?.adjustToLocalCurrency()
-
-        NotificationCenter.default.post(name: .userCreated, object: nil)
     }
 
     @objc public static func retrieveCurrentUser() {

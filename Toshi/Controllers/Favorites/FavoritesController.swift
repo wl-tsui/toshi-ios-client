@@ -116,6 +116,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     }
 
     @objc fileprivate func userCreated(_ notification: Notification) {
+        setupDBConnection()
         setupForCurrentUserNotifications()
     }
 
@@ -178,6 +179,12 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         }
         
         addSubviewsAndConstraints()
+    }
+
+    private func setupDBConnection() {
+        let database = Yap.sharedInstance.database
+        let dbConnection = database!.newConnection()
+        dbConnection.beginLongLivedReadTransaction()
     }
     
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
