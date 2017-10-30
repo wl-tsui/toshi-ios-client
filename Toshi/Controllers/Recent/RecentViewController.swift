@@ -53,7 +53,7 @@ open class RecentViewController: SweetTableController, Emptiable {
 
         if ChatService.isSessionActive {
             setupDBConnection()
-            self.loadMessages()
+            loadMessages()
         }
     }
 
@@ -65,8 +65,6 @@ open class RecentViewController: SweetTableController, Emptiable {
                 self?.showEmptyStateIfNeeded()
             }
         }
-
-        registerNotifications()
     }
 
     public required init?(coder _: NSCoder) {
@@ -100,6 +98,8 @@ open class RecentViewController: SweetTableController, Emptiable {
         let database = TSStorageManager.shared().database()
         uiDatabaseConnection = database?.newConnection()
         uiDatabaseConnection?.beginLongLivedReadTransaction()
+
+        registerNotifications()
     }
 
     open override func viewWillAppear(_ animated: Bool) {

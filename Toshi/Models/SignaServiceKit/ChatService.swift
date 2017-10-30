@@ -75,6 +75,10 @@ final class ChatService: NSObject {
         let textEnv = TextSecureKitEnv.shared()
         textEnv.setup(callMessageHandler: EmptyCallHandler(), contactsManager: contactsManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), preferences: self, storageManager:storageManager, networkManager: networkManager)
 
+        if textEnv.identityManager.identityKeyPair() == nil {
+            textEnv.identityManager.generateNewIdentityKey()
+        }
+
         blockingManager = OWSBlockingManager()
 
         NotificationCenter.default.post(Notification(name: .ChatDatabaseCreated))
