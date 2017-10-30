@@ -25,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>toshi</string>
+				<string>toshi_debug</string>
 			</array>
 		</dict>
 	</array>
