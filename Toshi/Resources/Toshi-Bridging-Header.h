@@ -29,6 +29,10 @@
 #import <YapDatabase/YapDatabaseConnection.h>
 #import <YapDatabase/YapDatabaseViewConnection.h>
 #import <YapDatabase/YapDatabaseViewTypes.h>
+#import <YapDatabase/YapDatabaseFilteredViewTypes.h>
+#import <YapDatabase/YapDatabaseFilteredView.h>
+#import <YapDatabase/YapDatabaseFilteredViewConnection.h>
+#import <YapDatabase/YapDatabaseFilteredViewTransaction.h>
 
 #import <SignalServiceKit/NotificationsProtocol.h>
 #import <SignalServiceKit/OWSGetMessagesRequest.h>
