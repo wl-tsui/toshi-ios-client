@@ -149,11 +149,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         isVisible = true
 
-        if viewModel.contact?.address == nil {
-            CrashlyticsLogger.log("No contact address on chat open")
-            fatalError("No contact address on chat open")
-        }
-
         viewModel.loadFirstMessages()
 
         viewModel.reloadDraft { [weak self] placeholder in
@@ -278,8 +273,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     fileprivate func adjustToLastMessage() {
-        guard let message = viewModel.messages.first, let sofaMessage = message.sofaWrapper as? SofaMessage, sofaMessage.buttons.count > 0 else { return }
-        buttonsView.buttons = sofaMessage.buttons
+        let buttonsMessage = viewModel.messages.flatMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
+        buttonsView.buttons = buttonsMessage?.buttons
     }
 
     fileprivate func scrollToBottom(animated: Bool = true) {
