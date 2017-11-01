@@ -17,10 +17,48 @@
 
 import Foundation
 
-public struct Currency {
+final class CurrenciesCacheData: NSObject, NSCoding {
 
-    var code: String
-    var name: String
+    var objects: [Currency]?
+
+    override init() {
+        super.init()
+    }
+
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(objects, forKey: "objects")
+    }
+
+    init?(coder aDecoder: NSCoder) {
+        if let currencies = aDecoder.decodeObject(forKey: "objects") as? [Currency] {
+            objects = currencies
+        }
+
+        super.init()
+    }
+}
+
+public final class Currency: NSObject, NSCoding {
+
+    var code: String = ""
+    var name: String = ""
+
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "code")
+        aCoder.encode(name, forKey: "name")
+    }
+
+    public init?(coder aDecoder: NSCoder) {
+        if let code = aDecoder.decodeObject(forKey: "code") as? String {
+            self.code = code
+        }
+
+        if let name = aDecoder.decodeObject(forKey: "name") as? String {
+            self.name = name
+        }
+
+        super.init()
+    }
 
     init(_ code: String, _ name: String) {
         self.code = code

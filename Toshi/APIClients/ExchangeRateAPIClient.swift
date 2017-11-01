@@ -15,6 +15,7 @@
 
 import Foundation
 import Teapot
+import AwesomeCache
 
 let ExchangeRateClient = ExchangeRateAPIClient.shared
 
@@ -23,6 +24,17 @@ public final class ExchangeRateAPIClient {
     static let shared: ExchangeRateAPIClient = ExchangeRateAPIClient()
 
     private static let collectionKey = "ethereumExchangeRate"
+    private let currenciesCacheKey = "currenciesCacheKey"
+
+    private let currenciesCachedData = CurrenciesCacheData()
+
+    private lazy var cache: Cache<CurrenciesCacheData> = {
+        do {
+            return try Cache<CurrenciesCacheData>(name: "currenciesCache")
+        } catch {
+            fatalError("Couldn't instantiate the currencies cache")
+        }
+    }()
 
     public var teapot: Teapot
     public var baseURL: URL
@@ -66,7 +78,7 @@ public final class ExchangeRateAPIClient {
     public func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
         let code = TokenUser.current?.localCurrency ?? TokenUser.defaultCurrency
 
-        self.teapot.get("/v1/rates/ETH/\(code)") { (result: NetworkResult) in
+        teapot.get("/v1/rates/ETH/\(code)") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
                 guard let json = json?.dictionary, let usd = json["rate"] as? String, let doubleValue = Double(usd) else {
@@ -83,12 +95,17 @@ public final class ExchangeRateAPIClient {
     }
 
     public func getCurrencies(_ completion: @escaping (([Currency]) -> Void)) {
-        self.teapot.get("/v1/currencies") { (result: NetworkResult) in
+
+        if let data = cache.object(forKey: currenciesCacheKey), let currencies = data.objects {
+            completion(currencies)
+        }
+
+        teapot.get("/v1/currencies") { [weak self] (result: NetworkResult) in
             var results: [Currency] = []
 
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary, let currencies = json["currencies"] as? [[String : String]] else {
+                guard let strongSelf = self, let json = json?.dictionary, let currencies = json["currencies"] as? [[String : String]] else {
                     completion([])
                     return
                 }
@@ -101,6 +118,8 @@ public final class ExchangeRateAPIClient {
                 }
 
                 results = validResults
+                strongSelf.currenciesCachedData.objects = validResults
+                strongSelf.cache.setObject(strongSelf.currenciesCachedData, forKey: strongSelf.currenciesCacheKey)
             case .failure(_, _, let error):
                 print(error.localizedDescription)
             }
