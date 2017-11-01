@@ -1,8 +1,8 @@
 {
-  "commitish" : "0617917df37640934b9f2c742cbb60eedd2cbd48",
+  "commitish" : "388d1e8e7ec47dd2f8c3635b158264918e05437b",
   "iOS" : [
     {
-      "hash" : "5c7d5f32c6237e0aafed273d514ebf75ca49ab09b12bd82f7aeaff589b1aafdf",
+      "hash" : "2f3c7e368a73c0959d5ee4d5fd42a6f922c761340411e6f7847d9c0a622af9da",
       "name" : "SweetSwift"
     }
   ]

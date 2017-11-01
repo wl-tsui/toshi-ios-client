@@ -209,6 +209,18 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+        
+        guard reachabilityManager.reachability?.currentReachabilityStatus != .notReachable else {
+            let alert = UIAlertController(title: Localized("error-alert-title"), message: Localized("offline_alert_message"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .cancel, handler: { _ in
+                self.scannerController.startScanning()
+            }))
+            
+            Navigator.presentModally(alert)
+            
+            return
+        }
+        
         if let intent = QRCodeIntent(result: result) {
             switch intent {
             case .webSignIn(let loginToken):
