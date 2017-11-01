@@ -717,14 +717,7 @@ extension ChatViewController: PaymentControllerDelegate {
 
         switch controller.paymentType {
         case .request:
-            let request: [String: Any] = [
-                "body": "",
-                "value": valueInWei.toHexString,
-                "destinationAddress": Cereal.shared.paymentAddress
-            ]
-
-            let paymentRequest = SofaPaymentRequest(content: request)
-
+            let paymentRequest = SofaPaymentRequest(valueInWei: valueInWei)
             viewModel.interactor.sendMessage(sofaWrapper: paymentRequest)
 
         case .send:

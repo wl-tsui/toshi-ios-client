@@ -49,6 +49,8 @@ final class ChatInteractor: NSObject {
 
     func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: @escaping ((Bool) -> Void) = { Bool in }) {
         let timestamp = NSDate.ows_millisecondsSince1970(for: date)
+
+        sofaWrapper.removeFiatValueString()
         let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: sofaWrapper.content)
 
         self.send(outgoingMessage, completion: completion)
@@ -202,6 +204,12 @@ final class ChatInteractor: NSObject {
         /// Since now we know we can expande the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = signalMessage as? TSOutgoingMessage {
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
+
+            if interaction.body != sofaWrapper.content {
+                interaction.body = sofaWrapper.content
+                interaction.save()
+            }
+            
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: true)
 
             if interaction.hasAttachments() {
@@ -215,6 +223,12 @@ final class ChatInteractor: NSObject {
             return message
         } else if let interaction = signalMessage as? TSIncomingMessage {
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
+
+            if interaction.body != sofaWrapper.content {
+                interaction.body = sofaWrapper.content
+                interaction.save()
+            }
+            
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
 
             if interaction.hasAttachments() {
