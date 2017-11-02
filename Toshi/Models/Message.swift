@@ -119,6 +119,8 @@ open class Message: NSObject {
         // it's a `wake up` message, so we don't display them either.
         if let message = sofaWrapper as? SofaMessage {
             guard !message.body.isEmpty else { return false }
+        } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
+            guard EthereumAddress.validate(paymentRequest.destinationAddress) else { return false }
         }
 
         // or not one of the types below

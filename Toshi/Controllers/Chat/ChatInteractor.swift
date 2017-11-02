@@ -119,6 +119,18 @@ final class ChatInteractor: NSObject {
         }
     }
 
+    func sendPayment(to destinationAddress: String, in value: NSDecimalNumber, completion: ((Bool) -> Void)? = nil) {
+        guard EthereumAddress.validate(destinationAddress) else { return }
+
+        let parameters: [String: Any] = [
+          "from": Cereal.shared.paymentAddress,
+          "to": destinationAddress,
+          "value": value.toHexString
+        ]
+
+        self.sendPayment(with: parameters, completion: completion)
+    }
+
     func fetchAndUpdateBalance(cachedCompletion: @escaping BalanceCompletion, fetchedCompletion: @escaping BalanceCompletion) {
         etherAPIClient.getBalance(cachedBalanceCompletion: { cachedBalance, _ in
             cachedCompletion(cachedBalance, nil)

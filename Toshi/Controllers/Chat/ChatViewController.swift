@@ -346,7 +346,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         
         showActivityIndicator()
         
-        viewModel.interactor.sendPayment(in: paymentRequest.value) { [weak self] success in
+        viewModel.interactor.sendPayment(to: paymentRequest.destinationAddress, in: paymentRequest.value) { [weak self] success in
             let state: PaymentState = success ? .approved : .failed
             self?.adjustToPaymentState(state, at: indexPath)
             DispatchQueue.main.asyncAfter(seconds: 2.0) {

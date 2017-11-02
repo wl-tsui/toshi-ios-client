@@ -36,8 +36,8 @@ final class SofaPaymentRequest: SofaWrapper {
         return NSDecimalNumber(hexadecimalString: hexValue)
     }
 
-    public var destinationAddress: String? {
-        return (json["destinationAddress"] as? String)
+    public var destinationAddress: String {
+        return json["destinationAddress"] as? String ?? ""
     }
 
     public convenience init(valueInWei: NSDecimalNumber) {
