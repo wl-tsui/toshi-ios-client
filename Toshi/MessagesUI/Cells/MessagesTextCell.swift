@@ -20,7 +20,7 @@ class MessagesTextCell: MessagesBasicCell {
 
     private lazy var textView: UITextView = {
         let view = UITextView()
-        view.font = Theme.preferredRegular()
+        view.font = Theme.preferredRegularText()
         view.dataDetectorTypes = [.link]
         view.isUserInteractionEnabled = true
         view.isScrollEnabled = false
@@ -81,7 +81,7 @@ class MessagesTextCell: MessagesBasicCell {
             textView.attributedText = text
         }
         
-        textView.font = Theme.preferredRegular()
+        textView.font = Theme.preferredRegularText()
         textView.text = nil
     }
 

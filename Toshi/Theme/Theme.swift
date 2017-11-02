@@ -196,12 +196,16 @@ extension Theme {
         return dynamicType(for: regular(size: 17), withStyle: .body, inSizeRange: range)
     }
     
+    static func preferredRegularText(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: regularText(size: 17), withStyle: .body, inSizeRange: range)
+    }
+    
     static func preferredRegularMedium(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
         return dynamicType(for: medium(size: 17), withStyle: .callout, inSizeRange: range)
     }
     
-    static func preferredRegularSmall(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
-        return dynamicType(for: light(size: 17), withStyle: .subheadline, inSizeRange: range)
+    static func preferredRegularSmall(range: ClosedRange<CGFloat> = 16...30) -> UIFont {
+        return dynamicType(for: regular(size: 16), withStyle: .subheadline, inSizeRange: range)
     }
     
     static func preferredSemibold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {

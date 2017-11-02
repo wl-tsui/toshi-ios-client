@@ -84,6 +84,7 @@ class ChatCell: UITableViewCell {
         paragraphStyle.lineBreakMode = .byTruncatingTail
 
         return [
+            .kern: -0.4,
             .font: Theme.preferredRegularSmall(),
             .foregroundColor: Theme.greyTextColor,
             .paragraphStyle: paragraphStyle
