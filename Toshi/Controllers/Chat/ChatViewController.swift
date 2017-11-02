@@ -447,15 +447,8 @@ extension ChatViewController: UITableViewDataSource {
 
             cell.isOutGoing = message.isOutgoing
             cell.positionType = positionType(for: indexPath)
-            
-            if let signalMessage = message.signalMessage as? TSOutgoingMessage {
-                switch signalMessage.messageState {
-                case .attemptingOut, .sent_OBSOLETE, .delivered_OBSOLETE, .sentToService:
-                    cell.sentState = .sent
-                case .unsent:
-                    cell.sentState = .failed
-                }
-            }
+
+            updateMessageState(message, in: cell)
         }
 
         if let cell = cell as? MessagesImageCell, message.type == .image {
@@ -481,6 +474,21 @@ extension ChatViewController: UITableViewDataSource {
         cell.transform = self.tableView.transform
 
         return cell
+    }
+
+    private func updateMessageState(_ message: MessageModel, in cell: MessagesBasicCell) {
+
+        // we do ignore SOFA::Payment failure because actual payment always succeeds even if warming SOFA message fails due to f.e. a receiver is logged out
+        guard message.type != .payment else { return }
+
+        if let signalMessage = message.signalMessage as? TSOutgoingMessage {
+            switch signalMessage.messageState {
+            case .attemptingOut, .sent_OBSOLETE, .delivered_OBSOLETE, .sentToService:
+                cell.sentState = .sent
+            case .unsent:
+                cell.sentState = .failed
+            }
+        }
     }
 
     private func positionType(for indexPath: IndexPath) -> MessagePositionType {
