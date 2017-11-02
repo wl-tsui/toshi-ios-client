@@ -21,10 +21,6 @@ final class AvatarManager: NSObject {
 
     @objc static let shared = AvatarManager()
 
-    internal lazy var cacheExpiry: CacheExpiry = {
-        return .never
-    }()
-
     private lazy var imageCache: Cache<UIImage> = {
         do {
             return try Cache<UIImage>(name: "imageCache")
@@ -37,7 +33,7 @@ final class AvatarManager: NSObject {
 
     private lazy var downloadOperationQueue: OperationQueue = {
         let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
+        queue.maxConcurrentOperationCount = 10
         queue.name = "Download avatars queue"
 
         return queue
@@ -91,10 +87,8 @@ final class AvatarManager: NSObject {
         downloadOperationQueue.addOperation(operation)
     }
 
-    private func downloadAvatar(for path: String) {
-        guard imageCache.object(forKey: path) == nil else {
-            return
-        }
+    func downloadAvatar(for path: String) {
+        guard imageCache.object(forKey: path) == nil else { return }
 
         downloadAvatar(path: path) { _ in }
     }
@@ -119,29 +113,31 @@ final class AvatarManager: NSObject {
     }
 
     func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
-        guard let url = URL(string: path), let teapot = self.teapot(for: url) else {
-            completion(nil)
-            return
-        }
-
-        teapot.get(url.relativePath) { [weak self] (result: NetworkImageResult) in
-            guard let strongSelf = self else {
+        DispatchQueue.global().async {
+            guard let url = URL(string: path), let teapot = self.teapot(for: url) else {
                 completion(nil)
                 return
             }
 
-            var resultImage: UIImage?
-            switch result {
-            case .success(let image, _):
-                strongSelf.imageCache.setObject(image, forKey: path, expires: strongSelf.cacheExpiry)
-                resultImage = image
-            case .failure(let response, let error):
-                print(response)
-                print(error)
-            }
+            teapot.get(url.relativePath) { [weak self] (result: NetworkImageResult) in
+                guard let strongSelf = self else {
+                    completion(nil)
+                    return
+                }
 
-            DispatchQueue.main.async {
-                completion(resultImage)
+                var resultImage: UIImage?
+                switch result {
+                case .success(let image, _):
+                    strongSelf.imageCache.setObject(image, forKey: path)
+                    resultImage = image
+                case .failure(let response, let error):
+                    print(response)
+                    print(error)
+                }
+
+                DispatchQueue.main.async {
+                    completion(resultImage)
+                }
             }
         }
     }

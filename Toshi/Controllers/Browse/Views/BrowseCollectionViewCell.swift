@@ -20,6 +20,7 @@ import SweetUIKit
 protocol BrowseCollectionViewCellSelectionDelegate: class {
     func seeAll(for contentSection: BrowseContentSection)
     func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView)
+    func willDisplayCell(_ cell: UICollectionViewCell, at indexPath: IndexPath, _ collectionView: UICollectionView)
 }
 
 class SectionedCollectionView: UICollectionView {
@@ -30,7 +31,7 @@ class BrowseCollectionViewCell: UICollectionViewCell {
 
     let horizontalInset: CGFloat = 10
 
-    weak var selectionDelegate: BrowseCollectionViewCellSelectionDelegate?
+    weak var collectionViewDelegate: BrowseCollectionViewCellSelectionDelegate?
 
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -142,7 +143,7 @@ class BrowseCollectionViewCell: UICollectionViewCell {
     @objc func seeAllButtonTapped(_: UIButton) {
         guard let contentSection = contentSection else { return }
 
-        selectionDelegate?.seeAll(for: contentSection)
+        collectionViewDelegate?.seeAll(for: contentSection)
     }
 
     override func prepareForReuse() {
@@ -157,7 +158,11 @@ extension BrowseCollectionViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if let collectionView = collectionView as? SectionedCollectionView {
-            selectionDelegate?.didSelectItem(at: indexPath, collectionView: collectionView)
+            collectionViewDelegate?.didSelectItem(at: indexPath, collectionView: collectionView)
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        collectionViewDelegate?.willDisplayCell(cell, at: indexPath, collectionView)
     }
 }

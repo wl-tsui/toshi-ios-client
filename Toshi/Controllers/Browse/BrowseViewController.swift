@@ -199,6 +199,18 @@ class BrowseViewController: SearchableCollectionController {
         }
     }
 
+    private func avatar(for indexPath: IndexPath, in section: Int, completion: @escaping ((UIImage?) -> Void)) {
+
+        guard let section = items.element(at: section), let item = section.element(at: indexPath.item) else {
+            completion(nil)
+            return
+        }
+
+        AvatarManager.shared.avatar(for: item.avatarPath, completion: { image, path in
+            completion(image)
+        })
+    }
+
     @objc
     fileprivate func reload(searchText: String) {
 
@@ -273,21 +285,17 @@ extension BrowseViewController: UISearchBarDelegate {
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        if let collectionView = collectionView as? SectionedCollectionView {
-            let cell = collectionView.dequeue(BrowseEntityCollectionViewCell.self, for: indexPath)
+        if let sectionedCollectionView = collectionView as? SectionedCollectionView {
+            let cell = sectionedCollectionView.dequeue(BrowseEntityCollectionViewCell.self, for: indexPath)
 
-            if let section = items.element(at: collectionView.section), let item = section.element(at: indexPath.item) {
+            if let section = items.element(at: sectionedCollectionView.section), let item = section.element(at: indexPath.item) {
                 if !item.name.isEmpty {
                     cell.nameLabel.text = item.name
                 } else {
                     cell.nameLabel.text = item.isApp ? item.category : item.username
                 }
-                
-                AvatarManager.shared.avatar(for: item.avatarPath, completion: { image, path in
-                    if item.avatarPath == path {
-                        cell.avatarImageView.image = image
-                    }
-                })
+
+                cell.avatarImageView.image = AvatarManager.shared.cachedAvatar(for: item.avatarPath)
                 
                 if let averageRating = item.averageRating {
                     cell.ratingView.set(rating: averageRating)
@@ -305,7 +313,7 @@ extension BrowseViewController: UISearchBarDelegate {
         cell.collectionView.collectionViewLayout.invalidateLayout()
         cell.collectionView.section = indexPath.item
         cell.contentSection = contentSection
-        cell.selectionDelegate = self
+        cell.collectionViewDelegate = self
         cell.divider.isHidden = contentSection == .latestPublicUsers
 
         return cell
@@ -343,6 +351,24 @@ extension BrowseViewController: BrowseCollectionViewCellSelectionDelegate {
 
         if let section = items.element(at: collectionView.section), let item = section.element(at: indexPath.item) {
             Navigator.push(ContactController(contact: item))
+        }
+    }
+
+    func willDisplayCell(_ cell: UICollectionViewCell, at indexPath: IndexPath, _ collectionView: UICollectionView) {
+
+        if let sectionedCollectionView = collectionView as? SectionedCollectionView, let cell = cell as? BrowseEntityCollectionViewCell {
+
+            avatar(for: indexPath, in: sectionedCollectionView.section, completion: { [weak self] image in
+
+                guard let strongSelf = self else { return }
+
+                let visibleEntities = sectionedCollectionView.indexPathsForVisibleItems.map { $0.item }
+                let visibleCategories = strongSelf.collectionView.indexPathsForVisibleItems.map { $0.item }
+
+                if visibleEntities.contains(indexPath.item) && visibleCategories.contains(sectionedCollectionView.section) {
+                    cell.avatarImageView.image = image
+                }
+            })
         }
     }
 }
