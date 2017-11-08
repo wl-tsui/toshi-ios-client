@@ -123,15 +123,23 @@ public final class Yap: NSObject, Singleton {
         }
 
         database = YapDatabase(path: UserDB.dbFilePath, options: options)
-        
-        let url = NSURL(fileURLWithPath: UserDB.dbFilePath)
-        try? url.setResourceValue(false, forKey: .isUbiquitousItemKey)
-        try? url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
 
         mainConnection = database?.newConnection()
 
         if database == nil {
             CrashlyticsLogger.log("Failed to create user database")
+        } else {
+            addSkipBackupAttributeToDatabasePath()
+        }
+    }
+
+    private func addSkipBackupAttributeToDatabasePath() {
+        let url = NSURL(fileURLWithPath: UserDB.dbFilePath)
+        do {
+            try url.setResourceValue(false, forKey: .isUbiquitousItemKey)
+            try url.setResourceValue(true, forKey: .isExcludedFromBackupKey)
+        } catch let error {
+            CrashlyticsLogger.log("Failed to exclude DB from backup and sync \(error.localizedDescription)")
         }
     }
 
