@@ -50,6 +50,7 @@ class SubcontrolCell: ControlCell {
         button.setTitleColor(Theme.actionButtonTitleColor, for: .highlighted)
         button.setTitleColor(Theme.darkTextColor, for: .selected)
         button.titleLabel?.font = Theme.preferredRegularSmall()
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.contentHorizontalAlignment = .left
 
         button.fillSuperview(with: buttonInsets)

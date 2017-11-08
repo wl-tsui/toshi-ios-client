@@ -29,7 +29,7 @@ public class SplashNavigationController: UINavigationController {
         navigationBar.shadowImage = UIImage()
         
         let titleTextAttributes: [NSAttributedStringKey: Any] = [
-            .font: Theme.preferredRegular(),
+            .font: Theme.regular(size: 17),
             .foregroundColor: Theme.darkTextColor
         ]
         

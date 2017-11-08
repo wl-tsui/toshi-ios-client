@@ -30,6 +30,7 @@ class InputField: UIView {
     lazy var textField: UITextField = {
         let view = UITextField(withAutoLayout: true)
         view.font = Theme.preferredRegularMedium()
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.darkTextColor
         view.delegate = self
 
@@ -41,6 +42,7 @@ class InputField: UIView {
         view.numberOfLines = 0
         view.isUserInteractionEnabled = false
         view.font = Theme.preferredRegularMedium()
+        view.adjustsFontForContentSizeCategory = true
         view.text = self.type == .username ? "Username" : "Password"
         view.textColor = Theme.greyTextColor
         view.textAlignment = .left

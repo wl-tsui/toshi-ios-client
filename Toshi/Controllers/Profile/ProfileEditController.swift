@@ -62,6 +62,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
         let title = NSAttributedString(string: Localized("edit_profile_change_photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.preferredRegularMedium()])
         view.setAttributedTitle(title, for: .normal)
+        view.titleLabel?.adjustsFontForContentSizeCategory = true
         view.addTarget(self, action: #selector(updateAvatar), for: .touchUpInside)
 
         return view

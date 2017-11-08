@@ -111,7 +111,8 @@ class PaymentController: UIViewController {
         view.font = Theme.preferredRegularMedium()
         view.textColor = Theme.greyTextColor
         view.text = EthereumConverter.ethereumValueString(forEther: 0)
-
+        view.adjustsFontForContentSizeCategory = true
+        
         return view
     }()
 

@@ -110,14 +110,7 @@ final class ReputationView: UIView {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        
-        layoutIfNeeded()
-        setScore(.zero)
-    }
-    
+
     public func setScore(_ ratingScore: RatingScore) {
         reviewCount = ratingScore.reviewCount
         ratingLabel.text = "\(ratingScore.averageRating)"

@@ -30,6 +30,7 @@ class PaymentAddressInputView: UIView {
         view.delegate = self
         view.placeholder = Localized("payment_input_placeholder")
         view.returnKeyType = .send
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

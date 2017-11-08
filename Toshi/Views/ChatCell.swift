@@ -127,6 +127,7 @@ class ChatCell: UITableViewCell {
     lazy var usernameLabel: UILabel = {
         let view = UILabel()
         view.font = Theme.preferredSemibold()
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.darkTextColor
 
         return view
@@ -135,6 +136,7 @@ class ChatCell: UITableViewCell {
     lazy var lastMessageLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 2
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -142,6 +144,7 @@ class ChatCell: UITableViewCell {
     lazy var lastMessageDateLabel: UILabel = {
         let view = UILabel()
         view.font = Theme.preferredRegularSmall()
+        view.adjustsFontForContentSizeCategory = true
         view.textAlignment = .right
         view.textColor = Theme.tintColor
 

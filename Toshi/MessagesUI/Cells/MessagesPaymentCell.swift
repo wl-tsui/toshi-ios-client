@@ -17,6 +17,7 @@ class MessagesPaymentCell: MessagesBasicCell {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = Theme.preferredRegular()
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.tintColor
 
         return view
@@ -26,6 +27,7 @@ class MessagesPaymentCell: MessagesBasicCell {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = Theme.preferredRegularSmall()
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.mediumTextColor
 
         return view
@@ -35,6 +37,7 @@ class MessagesPaymentCell: MessagesBasicCell {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = Theme.preferredFootnote()
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.darkTextColor
 
         return view
@@ -44,6 +47,7 @@ class MessagesPaymentCell: MessagesBasicCell {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = Theme.preferredFootnote()
+        view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.mediumTextColor
 
         return view

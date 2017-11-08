@@ -71,6 +71,7 @@ extension DepositMoneyItem {
             view.font = Theme.preferredRegular()
             view.textColor = Theme.errorColor
             view.numberOfLines = 0
+            view.adjustsFontForContentSizeCategory = true
             container.addSubview(view)
 
             view.edges(to: container, insets: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: -15))

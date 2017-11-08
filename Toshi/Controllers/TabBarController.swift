@@ -167,7 +167,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
             idAPIClient.retrieveUser(username: username) { [weak self] contact in
                 guard let contact = contact else { return }
 
-                let contactController = ContactController(contact: contact)
+                let contactController = ProfileViewController(contact: contact)
                 (self?.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
             }
         }
@@ -288,7 +288,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             self?.dismiss(animated: true) {
                 self?.switch(to: .favorites)
-                let contactController = ContactController(contact: contact)
+                let contactController = ProfileViewController(contact: contact)
                 self?.favoritesController.pushViewController(contactController, animated: true)
             }
         }

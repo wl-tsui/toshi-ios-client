@@ -29,12 +29,12 @@ extension Theme {
     
     @objc public static func setupBasicAppearance() {
         let navBarAppearance = UINavigationBar.appearance()
-        navBarAppearance.titleTextAttributes = [.font: Theme.preferredSemibold(), .foregroundColor: Theme.navigationTitleTextColor]
+        navBarAppearance.titleTextAttributes = [.font: Theme.semibold(size: 17), .foregroundColor: Theme.navigationTitleTextColor]
         navBarAppearance.tintColor = Theme.tintColor
         navBarAppearance.barTintColor = Theme.navigationBarColor
         
         let barButtonAppearance = UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.self])
-        barButtonAppearance.setTitleTextAttributes([.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor], for: .normal)
+        barButtonAppearance.setTitleTextAttributes([.font: Theme.regular(size: 17), .foregroundColor: Theme.tintColor], for: .normal)
         
         let alertAppearance = UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self])
         alertAppearance.tintColor = Theme.tintColor

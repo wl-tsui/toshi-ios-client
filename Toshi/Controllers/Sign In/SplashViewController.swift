@@ -56,6 +56,7 @@ final class SplashViewController: UIViewController {
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = Theme.preferredRegular()
+        label.adjustsFontForContentSizeCategory = true
         label.textColor = Theme.viewBackgroundColor.withAlphaComponent(0.6)
         label.numberOfLines = 0
 
@@ -77,6 +78,7 @@ final class SplashViewController: UIViewController {
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
         button.addTarget(self, action: #selector(newAccountPressed(_:)), for: .touchUpInside)
         button.titleLabel?.font = Theme.preferredTitle3()
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
 
         return button
     }()
@@ -88,6 +90,7 @@ final class SplashViewController: UIViewController {
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
         button.addTarget(self, action: #selector(signinPressed(_:)), for: .touchUpInside)
         button.titleLabel?.font = Theme.preferredRegularMedium()
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
 
         return button
     }()

@@ -23,6 +23,7 @@ class TitleLabel: UILabel {
 
         textColor = Theme.darkTextColor
         font = Theme.preferredSemibold()
+        adjustsFontForContentSizeCategory = true
         numberOfLines = 0
         text = title
         textAlignment = .center

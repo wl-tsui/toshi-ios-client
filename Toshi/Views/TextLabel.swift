@@ -31,6 +31,7 @@ class TextLabel: UILabel {
             .paragraphStyle: paragraphStyle
         ]
 
+        adjustsFontForContentSizeCategory = true
         attributedText = NSMutableAttributedString(string: text, attributes: attributes)
         numberOfLines = 0
     }

@@ -36,6 +36,7 @@ class EmptyView: UIView {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = Theme.preferredSemibold()
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -45,6 +46,7 @@ class EmptyView: UIView {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.font = Theme.preferredRegular()
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()

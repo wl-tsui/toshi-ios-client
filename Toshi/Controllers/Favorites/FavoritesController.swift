@@ -201,7 +201,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(with: address) else { return }
 
-                let appController = ContactController(contact: contact)
+                let appController = ProfileViewController(contact: contact)
                 self.navigationController?.pushViewController(appController, animated: false)
             }
         }
@@ -463,7 +463,7 @@ extension FavoritesController: UITableViewDelegate {
                     self.dismiss(animated: true)
                 }
             } else {
-                let contactController = ContactController(contact: contact)
+                let contactController = ProfileViewController(contact: contact)
                 self.navigationController?.pushViewController(contactController, animated: true)
                 
                 UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)

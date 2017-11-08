@@ -123,19 +123,21 @@ class ContactActionView: UIStackView {
     convenience init() {
         self.init(arrangedSubviews: [])
 
-        self.distribution = .equalSpacing
-        self.isLayoutMarginsRelativeArrangement = true
-        self.layoutMargins.left = 38
-        self.layoutMargins.right = 38
+        distribution = .equalSpacing
+        isLayoutMarginsRelativeArrangement = true
+        layoutMargins.top = 16
+        layoutMargins.bottom = 16
+        layoutMargins.left = 38
+        layoutMargins.right = 38
 
-        self.insertArrangedSubview(self.messageButton, at: 0)
-        self.insertArrangedSubview(self.addFavoriteButton, at: 1)
-        self.insertArrangedSubview(self.payButton, at: 2)
+        insertArrangedSubview(messageButton, at: 0)
+        insertArrangedSubview(addFavoriteButton, at: 1)
+        insertArrangedSubview(payButton, at: 2)
 
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
 
-        self.messageButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
-        self.addFavoriteButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
-        self.payButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
+        messageButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
+        addFavoriteButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
+        payButton.widthAnchor.constraint(equalToConstant: 63).isActive = true
     }
 }

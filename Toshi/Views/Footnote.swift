@@ -28,6 +28,7 @@ class Footnote: UIView {
     private lazy var textLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

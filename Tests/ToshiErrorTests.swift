@@ -50,4 +50,3 @@ class ToshiErrorTests: QuickSpec {
         }
     }
 } //swiftlint:enable force_cast
-

@@ -22,6 +22,7 @@ class SearchResultCell: UITableViewCell {
         view.setContentHuggingPriority(.required, for: .horizontal)
         view.textColor = Theme.darkTextColor
         view.font = Theme.preferredSemibold()
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -32,6 +33,7 @@ class SearchResultCell: UITableViewCell {
         view.setContentCompressionResistancePriority(.required, for: .horizontal)
         view.textColor = Theme.greyTextColor
         view.font = Theme.preferredRegularSmall()
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

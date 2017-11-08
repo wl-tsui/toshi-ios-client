@@ -21,6 +21,7 @@ class PassphraseEnableController: UIViewController {
     private lazy var titleLabel: TextLabel = {
         let textLabel = TextLabel(Localized("passphrase_enable_title"))
         textLabel.font = Theme.preferredSemibold()
+        textLabel.adjustsFontForContentSizeCategory = true
 
         return textLabel
     }()

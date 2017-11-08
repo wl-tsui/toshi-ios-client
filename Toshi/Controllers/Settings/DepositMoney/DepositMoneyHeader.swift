@@ -23,6 +23,7 @@ class DepositMoneyHeader: UIView {
         view.font = Theme.preferredRegular()
         view.textColor = Theme.darkTextColor
         view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

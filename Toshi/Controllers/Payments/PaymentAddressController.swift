@@ -27,6 +27,7 @@ class PaymentAddressController: UIViewController {
         view.textAlignment = .center
         view.numberOfLines = 0
         view.text = Localized("payment_send_description")
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

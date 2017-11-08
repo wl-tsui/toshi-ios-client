@@ -21,6 +21,7 @@ class MessagesTextCell: MessagesBasicCell {
     private lazy var textView: UITextView = {
         let view = UITextView()
         view.font = Theme.preferredRegularText()
+        view.adjustsFontForContentSizeCategory = true
         view.dataDetectorTypes = [.link]
         view.isUserInteractionEnabled = true
         view.isScrollEnabled = false
@@ -82,6 +83,7 @@ class MessagesTextCell: MessagesBasicCell {
         }
         
         textView.font = Theme.preferredRegularText()
+        textView.adjustsFontForContentSizeCategory = true
         textView.text = nil
     }
 

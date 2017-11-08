@@ -47,6 +47,7 @@ class ContactCell: UITableViewCell {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
         view.font = Theme.preferredSemibold()
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -55,6 +56,7 @@ class ContactCell: UITableViewCell {
         let view = UILabel(withAutoLayout: true)
         view.textColor = Theme.greyTextColor
         view.font = Theme.preferredRegularSmall()
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

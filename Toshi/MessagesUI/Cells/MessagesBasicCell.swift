@@ -79,6 +79,7 @@ class MessagesBasicCell: UITableViewCell {
         let view = UILabel()
         view.alpha = 0
         view.attributedText = attributedString
+        view.adjustsFontForContentSizeCategory = true
         view.numberOfLines = 1
 
         return view

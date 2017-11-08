@@ -47,6 +47,7 @@ class PassphraseWordView: UIControl {
         view.textColor = Theme.darkTextColor
         view.textAlignment = .center
         view.isUserInteractionEnabled = false
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

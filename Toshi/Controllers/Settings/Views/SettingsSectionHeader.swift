@@ -22,6 +22,7 @@ class SettingsSectionHeader: UIView {
         let view = UILabel()
         view.textColor = Theme.sectionTitleColor
         view.font = Theme.preferredFootnote()
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -30,6 +31,7 @@ class SettingsSectionHeader: UIView {
         let view = UILabel()
         view.textColor = Theme.errorColor
         view.font = Theme.preferredFootnote()
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

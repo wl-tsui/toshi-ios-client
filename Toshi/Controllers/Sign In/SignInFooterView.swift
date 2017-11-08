@@ -15,6 +15,7 @@ final class SignInFooterView: UIView {
         let view = UILabel()
         view.numberOfLines = 0
         view.isHidden = true
+        view.adjustsFontForContentSizeCategory = true
         
         return view
     }()

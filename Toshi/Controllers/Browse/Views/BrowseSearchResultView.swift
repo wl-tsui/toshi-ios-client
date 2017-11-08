@@ -53,7 +53,7 @@ extension BrowseSearchResultView: UITableViewDelegate {
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let item = searchResults.element(at: indexPath.row) {
-            Navigator.push(ContactController(contact: item))
+            Navigator.push(ProfileViewController(contact: item))
         }
     }
 }

@@ -30,6 +30,7 @@ class CheckboxControl: UIControl {
         let view = UILabel()
         view.numberOfLines = 0
         view.isUserInteractionEnabled = false
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

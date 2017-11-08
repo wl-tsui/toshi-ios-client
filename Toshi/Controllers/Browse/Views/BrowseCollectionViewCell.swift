@@ -62,6 +62,7 @@ class BrowseCollectionViewCell: UICollectionViewCell {
         let view = UILabel()
         view.font = Theme.preferredTitle2()
         view.textColor = Theme.darkTextColor
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -72,6 +73,7 @@ class BrowseCollectionViewCell: UICollectionViewCell {
         view.setTitleColor(Theme.tintColor, for: .normal)
         view.setTitle(Localized("browse-more-button"), for: .normal)
         view.addTarget(self, action: #selector(seeAllButtonTapped(_:)), for: .touchUpInside)
+        view.titleLabel?.adjustsFontForContentSizeCategory = true
 
         return view
     }()

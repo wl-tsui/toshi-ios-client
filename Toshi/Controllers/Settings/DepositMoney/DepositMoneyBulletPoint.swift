@@ -23,6 +23,7 @@ class DepositMoneyBulletPoint: UIView {
         view.font = Theme.preferredSemibold()
         view.textColor = Theme.darkTextColor
         view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -32,6 +33,7 @@ class DepositMoneyBulletPoint: UIView {
         view.font = Theme.preferredRegular()
         view.textColor = Theme.darkTextColor
         view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()

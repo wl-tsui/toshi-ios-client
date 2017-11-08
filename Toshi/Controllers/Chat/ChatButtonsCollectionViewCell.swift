@@ -41,6 +41,7 @@ final class ChatButtonsViewCell: UICollectionViewCell {
         let view = UILabel()
         view.font = Theme.preferredRegular()
         view.textColor = Theme.tintColor
+        view.adjustsFontForContentSizeCategory = true
         
         return view
     }()

@@ -42,6 +42,7 @@ class ProfileItemCell: UITableViewCell {
         let view = UITextField(withAutoLayout: true)
         view.textColor = Theme.darkTextColor
         view.font = Theme.preferredRegularSmall()
+        view.adjustsFontForContentSizeCategory = true
         view.textAlignment = .right
 
         return view

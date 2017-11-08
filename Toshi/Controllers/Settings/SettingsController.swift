@@ -295,7 +295,7 @@ extension SettingsController: UITableViewDataSource {
                 cell.textField.isUserInteractionEnabled = false
                 cell.switchControl.isHidden = true
 
-                cell.titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+//                cell.titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
                 cell.accessoryType = .disclosureIndicator
             }
@@ -341,7 +341,7 @@ extension SettingsController: UITableViewDelegate {
 
         switch item {
         case .profile:
-            self.navigationController?.pushViewController(ProfileController(), animated: true)
+            self.navigationController?.pushViewController(PersonalProfileViewController(), animated: true)
         case .qrCode:
             guard let current = TokenUser.current else { return }
             let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
