@@ -44,7 +44,7 @@ public final class Currency: NSObject, NSCoding {
     var name: String = ""
 
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(name, forKey: "code")
+        aCoder.encode(code, forKey: "code")
         aCoder.encode(name, forKey: "name")
     }
 
