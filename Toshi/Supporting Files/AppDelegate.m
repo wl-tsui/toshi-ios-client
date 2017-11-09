@@ -79,9 +79,14 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             // There might be a case when filesystem state is weird and it doesn't return true results, saying file is not present even if it is.
             // to determine this we might check keychain for database password being there
             // in this case we want to wait a bit and try to open file again
+            // if it still fails - both password and database file, whatever is present in Yap, is deleted and splash is presented
+
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 if ([self __tryToOpenDB]) {
                     [self configureForCurrentSession];
+                } else {
+                    [Yap.sharedInstance processInconsistencyError];
+                    [self configureAndPresentWindow];
                 }
             });
         }
@@ -122,7 +127,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
     [self.window makeKeyAndVisible];
 
-    if ([Yap isUserDatabaseFileAccessible] == false) {
+    if (![Yap isUserDatabaseFileAccessible] || ![Yap isUserDatabasePasswordAccessible]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
         [[NSUserDefaults standardUserDefaults] synchronize];
 
@@ -310,21 +315,16 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 - (BOOL)__tryToOpenDB
 {
-    if ([Yap isUserDatabaseFileAccessible]) {
-
+    if ([Yap isUserDatabaseFileAccessible] && [Yap isUserDatabasePasswordAccessible]) {
         [TokenUser retrieveCurrentUser];
-
         [self setupDB];
 
         return YES;
     }
 
-    if ([Yap isUserDatabasePasswordAccessible]) {
-        [CrashlyticsLogger log:@"User database file not accessible while password present in the keychain" attributes:nil];
-        return NO;
-    }
+    [CrashlyticsLogger log:Yap.inconsistentStateDescription attributes:nil];
 
-    return YES;
+    return NO;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

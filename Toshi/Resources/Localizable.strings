@@ -228,3 +228,7 @@
 "tab_bar_title_scan" = "Scan";
 "tab_bar_title_favorites" = "Favorites";
 "tab_bar_title_me" = "Me";
+
+/* Keychain and file system error */
+"yap_missing_password_error_description" = "No keychain password while database present";
+"yap_missing_db_file_error_description" = "No database file while keychain password present";

@@ -20,6 +20,23 @@ protocol Singleton: class {
     static var sharedInstance: Self { get }
 }
 
+@objc public enum YapInconsistencyError: Int {
+    case none
+    case missingDatabaseFile
+    case missingKeychainPassword
+
+    var description: String? {
+        switch self {
+        case .missingDatabaseFile:
+            return Localized("yap_missing_db_file_error_description")
+        case .missingKeychainPassword:
+            return Localized("yap_missing_password_error_description")
+        case .none:
+            return nil
+        }
+    }
+}
+
 fileprivate struct UserDB {
 
     static let password = "DBPWD"
@@ -57,10 +74,14 @@ public final class Yap: NSObject, Singleton {
         return UserDefaults.standard.bool(forKey: UserDB.password)
     }
 
+    @objc public static var inconsistentStateDescription = inconsistencyError.description
+
+    @objc public static var inconsistencyError: YapInconsistencyError = isUserDatabaseFileAccessible ? .missingKeychainPassword : .missingDatabaseFile
+
     private override init() {
         super.init()
 
-        if Yap.isUserDatabaseFileAccessible {
+        if Yap.isUserDatabaseFileAccessible && Yap.isUserDatabasePasswordAccessible {
             createDBForCurrentUser()
             IDAPIClient.shared.updateContacts()
         }
@@ -83,8 +104,8 @@ public final class Yap: NSObject, Singleton {
 
         createDBForCurrentUser()
 
-        self.insert(object: address, for: TokenUser.currentLocalUserAddressKey)
-        self.insert(object: TokenUser.current?.json, for: address, in: TokenUser.storedContactKey)
+        insert(object: address, for: TokenUser.currentLocalUserAddressKey)
+        insert(object: TokenUser.current?.json, for: address, in: TokenUser.storedContactKey)
 
         createBackupDirectoryIfNeeded()
     }
@@ -92,18 +113,26 @@ public final class Yap: NSObject, Singleton {
     @objc public func wipeStorage() {
         if TokenUser.current?.verified == false {
             CrashlyticsLogger.log("Deleting database files for signed out user")
-
-            KeychainSwift().delete(UserDB.password)
-            UserDefaults.standard.removeObject(forKey: UserDB.password)
-
-            self.deleteFileIfNeeded(at: UserDB.dbFilePath)
-            self.deleteFileIfNeeded(at: UserDB.walFilePath)
-            self.deleteFileIfNeeded(at: UserDB.shmFilePath)
+            removeDatabaseFileAndPassword()
 
             return
         }
 
         backupUserDBFile()
+    }
+
+    @objc public func processInconsistencyError() {
+        CrashlyticsLogger.log("Deleting database files for signed out user")
+        removeDatabaseFileAndPassword()
+    }
+
+    fileprivate func removeDatabaseFileAndPassword() {
+        KeychainSwift().delete(UserDB.password)
+        UserDefaults.standard.removeObject(forKey: UserDB.password)
+
+        deleteFileIfNeeded(at: UserDB.dbFilePath)
+        deleteFileIfNeeded(at: UserDB.walFilePath)
+        deleteFileIfNeeded(at: UserDB.shmFilePath)
     }
 
     fileprivate func createDBForCurrentUser() {
