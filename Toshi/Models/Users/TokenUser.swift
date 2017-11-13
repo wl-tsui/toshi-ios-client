@@ -126,7 +126,9 @@ public class TokenUser: NSObject, NSCoding {
             }
 
             _current = newValue
-            NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .currentUserUpdated, object: nil)
+            }
         }
     }
     
