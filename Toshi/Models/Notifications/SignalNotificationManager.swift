@@ -17,15 +17,9 @@ import UIKit
 
 public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
-    static var tabbarController: TabBarController? {
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window else { return nil }
-
-        return window.rootViewController as? TabBarController
-    }
-
     public func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
 
-        guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
+        guard UIApplication.shared.applicationState == .background || Navigator.tabbarController?.selectedViewController != Navigator.tabbarController?.messagingController else {
             return
         }
 
@@ -55,13 +49,15 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
     }
 
     @objc public static func updateUnreadMessagesNumber() {
-        let unreadMessagesCount = Int(OWSMessageManager.shared().unreadMessagesCount())
+        DispatchQueue.main.async {
+            let unreadMessagesCount = Int(OWSMessageManager.shared().unreadMessagesCount())
 
-        if unreadMessagesCount > 0 {
-            tabbarController?.messagingController.tabBarItem.badgeValue = "\(unreadMessagesCount)"
-            tabbarController?.messagingController.tabBarItem.badgeColor = .red
-        } else {
-            tabbarController?.messagingController.tabBarItem.badgeValue = nil
+            if unreadMessagesCount > 0 {
+                Navigator.tabbarController?.messagingController.tabBarItem.badgeValue = "\(unreadMessagesCount)"
+                Navigator.tabbarController?.messagingController.tabBarItem.badgeColor = .red
+            } else {
+                Navigator.tabbarController?.messagingController.tabBarItem.badgeValue = nil
+            }
         }
     }
 }
