@@ -164,8 +164,8 @@ public class ProfileViewController: UIViewController {
         }
 
         let reportAction = UIAlertAction(title: Localized("report_action_title"), style: .destructive) { _ in
-            self.idAPIClient.reportUser(address: address) { success, errorMessage in
-                self.showReportUserFeedbackAlert(success, message: errorMessage)
+            self.idAPIClient.reportUser(address: address) { success, error in
+                self.showReportUserFeedbackAlert(success, message: error?.description)
             }
         }
 
@@ -175,7 +175,7 @@ public class ProfileViewController: UIViewController {
         Navigator.presentModally(actions)
     }
 
-    private func showReportUserFeedbackAlert(_ success: Bool, message: String) {
+    private func showReportUserFeedbackAlert(_ success: Bool, message: String?) {
         guard success else {
             let alert = UIAlertController.dismissableAlert(title: Localized("error_title"), message: message)
             Navigator.presentModally(alert)
@@ -218,9 +218,9 @@ extension ProfileViewController: ActivityIndicating {
 extension ProfileViewController: RateUserControllerDelegate {
     func didRate(_ user: TokenUser, rating: Int, review: String) {
         dismiss(animated: true) {
-            RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) { [weak self] success, message in
+            RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) { [weak self] success, error in
                 guard success == true else {
-                    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+                    let alert = UIAlertController(title: Localized("error_title"), message: error?.description, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "OK", style: .default))
 
                     Navigator.presentModally(alert)
@@ -254,7 +254,7 @@ extension ProfileViewController: PaymentControllerDelegate {
 
             guard let transaction = transaction else {
                 self?.hideActivityIndicator()
-                let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: error?.localizedDescription)
+                let alert = UIAlertController.dismissableAlert(title: Localized("payment_error_message"), message: error?.localizedDescription)
                 Navigator.presentModally(alert)
 
                 return
@@ -262,13 +262,13 @@ extension ProfileViewController: PaymentControllerDelegate {
 
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-            etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, message in
+            etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, error in
                 guard let strongSelf = self else { return }
 
                 strongSelf.hideActivityIndicator()
 
                 guard success else {
-                    let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message ?? "Something went wrong")
+                    let alert = UIAlertController.dismissableAlert(title: Localized("payment_error_message"), message: error?.description ?? ToshiError.genericError.description)
                     Navigator.presentModally(alert)
                     return
                 }

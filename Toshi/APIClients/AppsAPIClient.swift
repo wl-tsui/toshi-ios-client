@@ -18,7 +18,7 @@ import AwesomeCache
 import Teapot
 import UIKit
 
-public typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: Error?) -> Void
+public typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: ToshiError?) -> Void
 
 public class AppsAPIClient: NSObject, CacheExpiryDefault {
     static let shared: AppsAPIClient = AppsAPIClient()
@@ -58,12 +58,12 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         }
 
         teapot.get("/v1/search/apps?top=true&recent=false&limit=\(limit)") { [weak self] (result: NetworkResult) in
-            var resultsError: Error?
+            var resultsError: ToshiError?
             var results: [TokenUser] = []
             switch result {
             case .success(let json, _):
                 guard let strongSelf = self, let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
-                    completion(nil, nil)
+                    completion(nil, .invalidResponseJSON)
                     return
                 }
 
@@ -78,7 +78,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
 
                 results = apps
             case .failure(_, _, let error):
-                resultsError = error
+                resultsError = ToshiError(withTeapotError: error)
             }
 
             DispatchQueue.main.async {
@@ -94,13 +94,13 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
         }
 
         teapot.get("/v1/search/apps?top=false&recent=true&limit=\(limit)") { [weak self] (result: NetworkResult) in
-            var resultsError: Error?
+            var resultsError: ToshiError?
             var results: [TokenUser] = []
 
             switch result {
             case .success(let json, _):
                 guard let strongSelf = self, let json = json?.dictionary, let appsJSON = json["results"] as? [[String: Any]] else {
-                    completion(nil, nil)
+                    completion(nil, .invalidResponseJSON)
                     return
                 }
 
@@ -115,7 +115,7 @@ public class AppsAPIClient: NSObject, CacheExpiryDefault {
 
                 results = apps
             case .failure(_, _, let error):
-                resultsError = error
+                resultsError = ToshiError(withTeapotError: error)
             }
 
             DispatchQueue.main.async {

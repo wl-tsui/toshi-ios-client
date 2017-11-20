@@ -159,13 +159,13 @@ final class ChatInteractor: NSObject {
 
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-            self?.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, message in
+            self?.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, error in
 
                 self?.output?.didFinishRequest()
 
                 guard success, let json = json?.dictionary else {
                     DispatchQueue.main.async {
-                        self?.output?.didCatchError(message ?? "Something went wrong")
+                        self?.output?.didCatchError(error?.description ?? ToshiError.genericError.description)
                         completion?(false)
                     }
                     return
