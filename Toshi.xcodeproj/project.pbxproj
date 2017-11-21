@@ -53,6 +53,12 @@
 		2B0EF8291F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
 		2B0EF82A1F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
 		2B0EF82B1F948931001A76CA /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
+		2B1D66961FC2E00E00EB166C /* ToshiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D66951FC2E00E00EB166C /* ToshiTableViewCell.swift */; };
+		2B1D66971FC2E00E00EB166C /* ToshiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D66951FC2E00E00EB166C /* ToshiTableViewCell.swift */; };
+		2B1D66981FC2E00E00EB166C /* ToshiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D66951FC2E00E00EB166C /* ToshiTableViewCell.swift */; };
+		2B1D669B1FC2F96500EB166C /* TableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D669A1FC2F96500EB166C /* TableViewData.swift */; };
+		2B1D669C1FC2F96500EB166C /* TableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D669A1FC2F96500EB166C /* TableViewData.swift */; };
+		2B1D669D1FC2F96500EB166C /* TableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1D669A1FC2F96500EB166C /* TableViewData.swift */; };
 		2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
 		2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B20BBDE1F7A53A400844315 /* APIKeys.swift */; };
@@ -860,6 +866,8 @@
 		24AC0CEAA51D7F8A19F246E9 /* libPods-CocoaPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsClient.swift; sourceTree = "<group>"; };
+		2B1D66951FC2E00E00EB166C /* ToshiTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToshiTableViewCell.swift; sourceTree = "<group>"; };
+		2B1D669A1FC2F96500EB166C /* TableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewData.swift; sourceTree = "<group>"; };
 		2B20BBDE1F7A53A400844315 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsProfileCell.xib; sourceTree = "<group>"; };
@@ -1597,6 +1605,8 @@
 				A9AC74101E78064500365029 /* TextLabel.swift */,
 				A9AC740D1E78051F00365029 /* TitleLabel.swift */,
 				D197BD136059B5C238CB3425 /* OfflineAlertView.swift */,
+				2B1D669A1FC2F96500EB166C /* TableViewData.swift */,
+				2B1D66951FC2E00E00EB166C /* ToshiTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2842,6 +2852,7 @@
 				A95D315D1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
 				8446632C1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
 				A9E691CD1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
+				2B1D66981FC2E00E00EB166C /* ToshiTableViewCell.swift in Sources */,
 				A9CADC241F94B1C50096D017 /* BrowseViewController.swift in Sources */,
 				A9CADC2C1F94B1D30096D017 /* SearchResultCell.swift in Sources */,
 				9F54A7241E951F1500FEB67B /* RatingsClient.swift in Sources */,
@@ -2913,6 +2924,7 @@
 				A9AC740C1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */,
 				A997B0FE1EF94B4600A143FE /* DepositMoneyBulletPoint.swift in Sources */,
+				2B1D669D1FC2F96500EB166C /* TableViewData.swift in Sources */,
 				149F9AA31E72E29A00FB74AA /* main.m in Sources */,
 				9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
@@ -3029,6 +3041,7 @@
 				A9E691C51F7A496800317DB1 /* SignInLayout.swift in Sources */,
 				9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */,
 				A9BA6B7F1EF7D864007C3206 /* DepositMoneyItem.swift in Sources */,
+				2B1D66961FC2E00E00EB166C /* ToshiTableViewCell.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				A9E691C11F7A496800317DB1 /* SignInView.swift in Sources */,
 				9FB228861EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */,
@@ -3100,6 +3113,7 @@
 				2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */,
 				9F78D9CD1EE93E68003A0B95 /* ModalPresentable.swift in Sources */,
 				A9BA6B7B1EF7D582007C3206 /* DepositMoneyHeader.swift in Sources */,
+				2B1D669B1FC2F96500EB166C /* TableViewData.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				A916290F1F3C3A02008A7F36 /* PaymentAddressInputView.swift in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
@@ -3216,6 +3230,7 @@
 				A9E691CC1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
 				A9CADC231F94B1C50096D017 /* BrowseViewController.swift in Sources */,
 				A9CADC2B1F94B1D30096D017 /* SearchResultCell.swift in Sources */,
+				2B1D66971FC2E00E00EB166C /* ToshiTableViewCell.swift in Sources */,
 				A9603E1D1F4DABDC00BF57B1 /* RatingsClient.swift in Sources */,
 				A9603E1F1F4DABDC00BF57B1 /* AvatarManager.swift in Sources */,
 				A9603E201F4DABDC00BF57B1 /* ConfirmationButton.swift in Sources */,
@@ -3287,6 +3302,7 @@
 				A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */,
 				A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */,
 				A9603EF71F4DABDC00BF57B1 /* main.m in Sources */,
+				2B1D669C1FC2F96500EB166C /* TableViewData.swift in Sources */,
 				A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */,
 				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,
 				A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */,
