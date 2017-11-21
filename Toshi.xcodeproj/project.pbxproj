@@ -691,8 +691,10 @@
 		D197B0D6785893BC3224D40D /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197B0D75181D93C82A98BD6 /* OfflineAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD136059B5C238CB3425 /* OfflineAlertView.swift */; };
 		D197B0EE47ED98F7705E95B1 /* PersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */; };
+		D197B0F382CC723AF2A5C36E /* TitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC51E940F1B16693CC50 /* TitleSubtitleCell.swift */; };
 		D197B11DD70DB5696FFC4FD2 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
 		D197B133E8FE4FD69F1AA511 /* IDAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B8C43D9AEF28A5170A /* IDAPIClientTests.swift */; };
+		D197B17E2E4A6B6FB241253D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */; };
 		D197B1C8F23C146673D27610 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */; };
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
@@ -712,17 +714,21 @@
 		D197B3DE723A39F67001ACC7 /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
 		D197B3F6858BB66E21F4D171 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197B401E977724E946A55BE /* ActiveNetworkDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */; };
+		D197B4156EC52BDA70D828D0 /* BasicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCD09A762734CEE3C8C1 /* BasicTableViewCell.swift */; };
 		D197B4267BE0D9E6F9357723 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7A2C3032B73635553CD /* ProfileView.swift */; };
 		D197B42A7E9E693AC60C9299 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197B4425A9FE7A36B983DE1 /* getLatestPublicUsers.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B707B59B3F92F8A4B3EC /* getLatestPublicUsers.json */; };
 		D197B47D98009339295B1A5C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B19EAB3E25CAEDCC5C86 /* ProfileViewController.swift */; };
 		D197B4C46B755554DA3550F2 /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
+		D197B4E151374CB79439B857 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDCB452B860202517745 /* TitleCell.swift */; };
 		D197B54E550A80E09BFE6501 /* RatingsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A7221E951F1500FEB67B /* RatingsClient.swift */; };
 		D197B54F2788A7DF91A035AE /* ToshiErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */; };
 		D197B590E4C59A08CB4AD88A /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
+		D197B59BCF1383AA29757546 /* AvatarTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B2FA0D0888E5222FF623 /* AvatarTitleCell.swift */; };
 		D197B5BB47AF86207A16EB1F /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
 		D197B5BBD23C7E20BC4DAE55 /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		D197B5E0F04D0A7529EC6342 /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */; };
+		D197B61481BD9F8833F70DEB /* TitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB94F2C161F269D3C967 /* TitleSwitchCell.swift */; };
 		D197B6174378B26EDA051439 /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
 		D197B61F77E710DF67E4FBD2 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
 		D197B637C5223A239BA0EF67 /* getTopRatedPublicUsers.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BA847282226E502C8CEE /* getTopRatedPublicUsers.json */; };
@@ -731,6 +737,7 @@
 		D197B6B964C6C99549F7B078 /* SofaInitialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */; };
 		D197B6C89BDD1FE57CA3DA33 /* RatingsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6D88C3CCC7B7A890925 /* RatingsClientTests.swift */; };
 		D197B6CAA22DFAA0B0FFE15D /* sendSignedTransaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B654F730E653B7C6F444 /* sendSignedTransaction.json */; };
+		D197B6CFCFBF44E789974646 /* TitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */; };
 		D197B6D6BB93E0F67FE998CE /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB4FC8D408B73FE253E5 /* BlurView.swift */; };
 		D197B6EB6C3157476638ABE6 /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
@@ -738,11 +745,17 @@
 		D197B76039E4B9C45F980CCF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
 		D197B77259031691F95DA6AA /* PersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */; };
 		D197B7826883306A72319E51 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B19EAB3E25CAEDCC5C86 /* ProfileViewController.swift */; };
+		D197B7D1079D294F6B96DF5D /* BasicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCD09A762734CEE3C8C1 /* BasicTableViewCell.swift */; };
 		D197B80A67FA2271BE1C9621 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
+		D197B80BA859D990BA308903 /* TitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */; };
+		D197B81F1E89C7FFD9471412 /* TitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC51E940F1B16693CC50 /* TitleSubtitleCell.swift */; };
 		D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
+		D197B858C5B5C6F49529970D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */; };
 		D197B8B87F4A0DCA761DE9D6 /* retrieveUser.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B8E798FCD39B97824BBA /* retrieveUser.json */; };
+		D197B8ECD585B5B62D55E5A5 /* TitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC51E940F1B16693CC50 /* TitleSubtitleCell.swift */; };
 		D197B93806978360C8100D50 /* score.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BB0710786F9F642F4318 /* score.json */; };
 		D197B93C624C3E8D1F43B232 /* getCurrencies.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B175422C9602CE00CF65 /* getCurrencies.json */; };
+		D197B9451C28657F864C34D4 /* AvatarTitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BE1598510352F60B759F /* AvatarTitleSubtitleCell.swift */; };
 		D197B9489797708FF150253E /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197B95C65F5A93A5012EA5B /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
 		D197B968EE5E2CE52CC92F1D /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
@@ -753,16 +766,26 @@
 		D197B9DDD90826832295B645 /* getRate.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B079DCC1F4C2498E14C7 /* getRate.json */; };
 		D197B9E9AE00E2DC8DDF09BD /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
 		D197B9EF12AE7FEC28E43542 /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
+		D197B9F28EDF2456F3355087 /* TitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB94F2C161F269D3C967 /* TitleSwitchCell.swift */; };
 		D197BA0569377AF2E56C7393 /* getFeaturedApps.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B86A198E11D1255A9721 /* getFeaturedApps.json */; };
 		D197BA6E5DC09E84D524D1A2 /* getBalance.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B003D276C7AD76B6A223 /* getBalance.json */; };
 		D197BA94CB5436F7605925FD /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
+		D197BAB60CFE01AC0AE168A5 /* AvatarTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B2FA0D0888E5222FF623 /* AvatarTitleCell.swift */; };
 		D197BADA32392E95EA354C18 /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDBBB0DE754639B7005B /* ProfileEditController.swift */; };
+		D197BB345FA5AF6C93CDC38B /* TitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */; };
 		D197BB5265BB1DA3032B68AA /* ExchangeRateAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */; };
+		D197BB7B0480E36C496F672C /* AvatarTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B2FA0D0888E5222FF623 /* AvatarTitleCell.swift */; };
+		D197BB8232A0CBF5ADE9D730 /* TitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB94F2C161F269D3C967 /* TitleSwitchCell.swift */; };
 		D197BBA31772C24F264C2D3B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7A2C3032B73635553CD /* ProfileView.swift */; };
+		D197BBA923264C41DF4DEA51 /* AvatarTitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BE1598510352F60B759F /* AvatarTitleSubtitleCell.swift */; };
 		D197BBDFE322BAFD2D036076 /* OfflineAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD136059B5C238CB3425 /* OfflineAlertView.swift */; };
+		D197BBEBFFA3EC7790C6A6D9 /* BasicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCD09A762734CEE3C8C1 /* BasicTableViewCell.swift */; };
 		D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197BC3B60A96D12312C48B7 /* SofaInitialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */; };
+		D197BCE0F7A893AF20F52EC1 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDCB452B860202517745 /* TitleCell.swift */; };
 		D197BD08F09124F7B83238F9 /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
+		D197BD0F380FD5703BC6FEA3 /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */; };
+		D197BD29432DD91865DC3E00 /* AvatarTitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BE1598510352F60B759F /* AvatarTitleSubtitleCell.swift */; };
 		D197BD532AA776C66EDCCDEB /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		D197BD8E4D43B3EFF276694E /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */; };
 		D197BDD5424805C3D7F2163A /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
@@ -773,6 +796,7 @@
 		D197BE83E68416D3FA0AE9BF /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDBBB0DE754639B7005B /* ProfileEditController.swift */; };
 		D197BEB8664994CE2E938479 /* SofaInitialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */; };
 		D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */; };
+		D197BEEF921358342316DFD8 /* TitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDCB452B860202517745 /* TitleCell.swift */; };
 		D197BF10EA25C4BEEC42204E /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197BF264BEDC2A9EABFA2FA /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197BF84F829C3200A677BE0 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
@@ -1115,6 +1139,7 @@
 		D197B175422C9602CE00CF65 /* getCurrencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getCurrencies.json; sourceTree = "<group>"; };
 		D197B19EAB3E25CAEDCC5C86 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		D197B29F0030A48233E69AD9 /* nonExistingUser.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = nonExistingUser.json; sourceTree = "<group>"; };
+		D197B2FA0D0888E5222FF623 /* AvatarTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTitleCell.swift; sourceTree = "<group>"; };
 		D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumAPIClientTests.swift; sourceTree = "<group>"; };
 		D197B3AC0E3346D86F7A4559 /* testImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = testImage.png; sourceTree = "<group>"; };
 		D197B3F77566E161C5CAB467 /* SofaMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaMessage.swift; sourceTree = "<group>"; };
@@ -1141,17 +1166,24 @@
 		D197BB03F2BFF88371C66F25 /* createUnsignedTransaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createUnsignedTransaction.json; sourceTree = "<group>"; };
 		D197BB0710786F9F642F4318 /* score.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = score.json; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		D197BB94F2C161F269D3C967 /* TitleSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSwitchCell.swift; sourceTree = "<group>"; };
 		D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalProfileViewController.swift; sourceTree = "<group>"; };
+		D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSubtitleSwitchCell.swift; sourceTree = "<group>"; };
 		D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaInitialRequest.swift; sourceTree = "<group>"; };
 		D197BC29CA8C5D37D1FA122F /* TestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAppDelegate.h; sourceTree = "<group>"; };
 		D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaWrapper.swift; sourceTree = "<group>"; };
 		D197BC4FF536D4350C725251 /* SofaPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaPayment.swift; sourceTree = "<group>"; };
+		D197BC51E940F1B16693CC50 /* TitleSubtitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleSubtitleCell.swift; sourceTree = "<group>"; };
 		D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaPaymentRequest.swift; sourceTree = "<group>"; };
+		D197BCD09A762734CEE3C8C1 /* BasicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicTableViewCell.swift; sourceTree = "<group>"; };
 		D197BCEB0A1FF98FE303EDBD /* SofaIdentifierTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaIdentifierTests.swift; sourceTree = "<group>"; };
 		D197BD136059B5C238CB3425 /* OfflineAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineAlertView.swift; sourceTree = "<group>"; };
 		D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAppDelegate.m; sourceTree = "<group>"; };
 		D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClientTests.swift; sourceTree = "<group>"; };
 		D197BDBBB0DE754639B7005B /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
+		D197BDCB452B860202517745 /* TitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleCell.swift; sourceTree = "<group>"; };
+		D197BE1598510352F60B759F /* AvatarTitleSubtitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTitleSubtitleCell.swift; sourceTree = "<group>"; };
+		D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTitleSubtitleSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		E2C0C38CD39DA83E3AE9415C /* Pods-CocoaPods-Debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Debug.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Debug/Pods-CocoaPods-Debug.debug.xcconfig"; sourceTree = "<group>"; };
 		E67683551F4464980014B2D4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
@@ -1607,6 +1639,7 @@
 				D197BD136059B5C238CB3425 /* OfflineAlertView.swift */,
 				2B1D669A1FC2F96500EB166C /* TableViewData.swift */,
 				2B1D66951FC2E00E00EB166C /* ToshiTableViewCell.swift */,
+				D197B77014C165AE5B05C6AD /* Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2034,6 +2067,21 @@
 				D197BB0710786F9F642F4318 /* score.json */,
 			);
 			path = RatingsClient;
+			sourceTree = "<group>";
+		};
+		D197B77014C165AE5B05C6AD /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D197BCD09A762734CEE3C8C1 /* BasicTableViewCell.swift */,
+				D197BDCB452B860202517745 /* TitleCell.swift */,
+				D197B2FA0D0888E5222FF623 /* AvatarTitleCell.swift */,
+				D197BE1598510352F60B759F /* AvatarTitleSubtitleCell.swift */,
+				D197BC51E940F1B16693CC50 /* TitleSubtitleCell.swift */,
+				D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */,
+				D197BB94F2C161F269D3C967 /* TitleSwitchCell.swift */,
+				D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		D197BC65AA22A50C491B80E2 /* IDAPIClient */ = {
@@ -2969,6 +3017,14 @@
 				D197B329D1F28B5F7868DE4D /* ProfileEditController.swift in Sources */,
 				D197B99E1E1E4A6020699D14 /* ProfileViewController.swift in Sources */,
 				D197BFF1B944A12C9733439F /* ProfileView.swift in Sources */,
+				D197B7D1079D294F6B96DF5D /* BasicTableViewCell.swift in Sources */,
+				D197B4E151374CB79439B857 /* TitleCell.swift in Sources */,
+				D197BB7B0480E36C496F672C /* AvatarTitleCell.swift in Sources */,
+				D197BBA923264C41DF4DEA51 /* AvatarTitleSubtitleCell.swift in Sources */,
+				D197B8ECD585B5B62D55E5A5 /* TitleSubtitleCell.swift in Sources */,
+				D197B6CFCFBF44E789974646 /* TitleSubtitleSwitchCell.swift in Sources */,
+				D197B61481BD9F8833F70DEB /* TitleSwitchCell.swift in Sources */,
+				D197B858C5B5C6F49529970D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3158,6 +3214,14 @@
 				D197BE83E68416D3FA0AE9BF /* ProfileEditController.swift in Sources */,
 				D197B7826883306A72319E51 /* ProfileViewController.swift in Sources */,
 				D197B4267BE0D9E6F9357723 /* ProfileView.swift in Sources */,
+				D197BBEBFFA3EC7790C6A6D9 /* BasicTableViewCell.swift in Sources */,
+				D197BEEF921358342316DFD8 /* TitleCell.swift in Sources */,
+				D197B59BCF1383AA29757546 /* AvatarTitleCell.swift in Sources */,
+				D197BD29432DD91865DC3E00 /* AvatarTitleSubtitleCell.swift in Sources */,
+				D197B81F1E89C7FFD9471412 /* TitleSubtitleCell.swift in Sources */,
+				D197BB345FA5AF6C93CDC38B /* TitleSubtitleSwitchCell.swift in Sources */,
+				D197BB8232A0CBF5ADE9D730 /* TitleSwitchCell.swift in Sources */,
+				D197B17E2E4A6B6FB241253D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3347,6 +3411,14 @@
 				D197BADA32392E95EA354C18 /* ProfileEditController.swift in Sources */,
 				D197B47D98009339295B1A5C /* ProfileViewController.swift in Sources */,
 				D197BBA31772C24F264C2D3B /* ProfileView.swift in Sources */,
+				D197B4156EC52BDA70D828D0 /* BasicTableViewCell.swift in Sources */,
+				D197BCE0F7A893AF20F52EC1 /* TitleCell.swift in Sources */,
+				D197BAB60CFE01AC0AE168A5 /* AvatarTitleCell.swift in Sources */,
+				D197B9451C28657F864C34D4 /* AvatarTitleSubtitleCell.swift in Sources */,
+				D197B0F382CC723AF2A5C36E /* TitleSubtitleCell.swift in Sources */,
+				D197B80BA859D990BA308903 /* TitleSubtitleSwitchCell.swift in Sources */,
+				D197B9F28EDF2456F3355087 /* TitleSwitchCell.swift in Sources */,
+				D197BD0F380FD5703BC6FEA3 /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,7 +18,7 @@ import UIKit
 
 protocol ToshiTableViewCellConfigurator: class {
 
-    func configureCell(_ cell: ToshiTableViewCell, with cellData: TableCellData)
+    func configureCell(_ cell: BasicTableViewCell, with cellData: TableCellData)
     func cellIdentifier(for components: TableCellDataComponents) -> String
 }
 
@@ -28,7 +28,7 @@ class CellConfigurator: ToshiTableViewCellConfigurator { // lets say we have thi
 
 extension ToshiTableViewCellConfigurator {
 
-    func configureCell(_ cell: ToshiTableViewCell, with cellData: TableCellData) {
+    func configureCell(_ cell: BasicTableViewCell, with cellData: TableCellData) {
         cell.titleLabel?.text = cellData.title
         cell.subtitleLabel?.text = cellData.subtitle
         cell.detailsLabel?.text = cellData.details
@@ -36,94 +36,22 @@ extension ToshiTableViewCellConfigurator {
     }
 
     func cellIdentifier(for components: TableCellDataComponents) -> String {
-        var reuseIdentifier = ToshiTitleCell.reuseIdentifier
+        var reuseIdentifier = TitleCell.reuseIdentifier
 
         if components.contains(.titleSubtitleSwitchControlLeftImage) {
-            reuseIdentifier = ToshiAvatarTitleSubtitleSwitchTableViewCell.reuseIdentifier
+            reuseIdentifier = AvatarTitleSubtitleSwitchTableViewCell.reuseIdentifier
         } else if components.contains(.titleSubtitleDetailsLeftImage) || components.contains(.titleSubtitleLeftImage) {
-            reuseIdentifier = ToshiAvatarTitleSubtitleCell.reuseIdentifier
+            reuseIdentifier = AvatarTitleSubtitleCell.reuseIdentifier
         } else if components.contains(.titleSubtitleSwitchControl) {
-            reuseIdentifier = ToshiTitleSubtitleSwitchCell.reuseIdentifier
+            reuseIdentifier = TitleSubtitleSwitchCell.reuseIdentifier
         } else if components.contains(.titleSwitchControl) {
-            reuseIdentifier = ToshiTitleSwitchCell.reuseIdentifier
+            reuseIdentifier = TitleSwitchCell.reuseIdentifier
         } else if components.contains(.titleLeftImage) {
-            reuseIdentifier = ToshiAvatarTitleCell.reuseIdentifier
+            reuseIdentifier = AvatarTitleCell.reuseIdentifier
         } else if components.contains(.titleSubtitle) {
-            reuseIdentifier = ToshiTitleSubtitleCell.reuseIdentifier
+            reuseIdentifier = TitleSubtitleCell.reuseIdentifier
         }
 
         return reuseIdentifier
-    }
-}
-
-class ToshiTableViewCell: UITableViewCell {
-
-    private(set) var titleLabel: UILabel?
-    private(set) var subtitleLabel: UILabel?
-    private(set) var detailsLabel: UILabel?
-    private(set) var leftImageView: UIImageView?
-    private(set) var switchControl: UISwitch?
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        addSubviewsAndConstraints()
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    open func addSubviewsAndConstraints() {
-        fatalError("addSubviewsAndConstraints() Should be overriden")
-    }
-}
-
-final class ToshiTitleCell: ToshiTableViewCell {
-
-    override open func addSubviewsAndConstraints() {
-
-    }
-}
-
-final class ToshiAvatarTitleCell: ToshiTableViewCell {
-
-    open override func addSubviewsAndConstraints() {
-
-    }
-}
-
-final class ToshiAvatarTitleSubtitleCell: ToshiTableViewCell {
-
-    override func addSubviewsAndConstraints() {
-
-    }
-}
-
-final class ToshiTitleSubtitleCell: ToshiTableViewCell {
-
-    override func addSubviewsAndConstraints() {
-
-    }
-}
-
-final class ToshiTitleSubtitleSwitchCell: ToshiTableViewCell {
-
-    override func addSubviewsAndConstraints() {
-
-    }
-}
-
-final class ToshiTitleSwitchCell: ToshiTableViewCell {
-
-    override func addSubviewsAndConstraints() {
-
-    }
-}
-
-final class ToshiAvatarTitleSubtitleSwitchTableViewCell: ToshiTableViewCell {
-
-    override func addSubviewsAndConstraints() {
-
     }
 }
