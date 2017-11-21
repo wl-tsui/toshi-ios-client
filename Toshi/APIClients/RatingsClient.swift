@@ -125,7 +125,6 @@ class RatingsClient: NSObject {
             let path = "/v1/review/submit"
             let payload: [String: Any] = [
                 "rating": rating,
-                "rating": rating,
                 "reviewee": userId,
                 "review": review
             ]
