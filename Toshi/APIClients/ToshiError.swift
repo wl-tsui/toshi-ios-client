@@ -20,7 +20,7 @@ public struct ToshiError: Error, CustomStringConvertible {
     static func dataTaskError(withUnderLyingError error: Error) -> TeapotError {
         let errorDescription = String(format: NSLocalizedString("toshi_error_data_task_error", bundle: Teapot.localizationBundle, comment: ""), error.localizedDescription)
 
-        return TeapotError(withType: .dataTaskError, errorDescription: errorDescription, underlyingError: error)
+        return TeapotError(withType: .dataTaskError, description: errorDescription, underlyingError: error)
     }
 
     static let invalidPayload = ToshiError(withType: .invalidPayload, description: Localized("toshi_error_invalid_payload"))
@@ -75,6 +75,7 @@ extension ToshiError {
     init(withTeapotError teapotError: TeapotError, errorDescription: String? = nil) {
         let errorType = ToshiError.teapotErrorTypeToToshiErrorType(teapotError.type)
 
-        self.init(withType: errorType, description: errorDescription ?? teapotError.errorDescription, responseStatus: teapotError.responseStatus, underlyingError: teapotError.underlyingError)
+        let validErrorDescription = errorDescription ?? teapotError.description
+        self.init(withType: errorType, description: validErrorDescription, responseStatus: teapotError.responseStatus, underlyingError: teapotError.underlyingError)
     }
 }

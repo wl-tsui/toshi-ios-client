@@ -83,6 +83,22 @@ public class EthereumAPIClient: NSObject {
     }
 
     public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
+        let params = [
+            "tx": originalTransaction,
+            "signature": transactionSignature
+        ]
+        sendSignedTransaction(params: params, completion: completion)
+    }
+
+    public func sendSignedTransaction(signedTransaction: String, completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
+        let params = [
+            "tx": signedTransaction
+        ]
+        sendSignedTransaction(params: params, completion: completion)
+    }
+
+    private func sendSignedTransaction(params: [String:String], completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
+
         timestamp(activeTeapot) { timestamp, error in
             guard let timestamp = timestamp else {
                 completion(false, nil, error)
@@ -91,10 +107,6 @@ public class EthereumAPIClient: NSObject {
 
             let cereal = Cereal.shared
             let path = "/v1/tx"
-            let params = [
-                "tx": originalTransaction,
-                "signature": transactionSignature
-            ]
 
             guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
                 print("Invalid payload, request could not be executed")

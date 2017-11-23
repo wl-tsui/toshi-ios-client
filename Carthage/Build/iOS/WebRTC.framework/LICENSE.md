@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Licenses</title>
-<style>
-  body { margin: 0; font-family: sans-serif; }
-  pre { background-color: #eeeeee; padding: 1em; white-space: pre-wrap; }
-  p { margin: 1em; white-space: nowrap; }
-</style>
-</head>
-<p>webrtc<br/></p>
-<pre>
+# webrtc
+```
 Copyright (c) 2011, The WebRTC project authors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -500,9 +489,10 @@ extend only to the software or derivative works that you create that run on a
 Microsoft Windows operating system product.
 
 
-</pre>
-<p>boringssl<br/></p>
-<pre>
+```
+
+# boringssl
+```
 BoringSSL is a fork of OpenSSL. As such, large parts of it fall under OpenSSL
 licensing. Files that are completely new have a Google copyright and an ISC
 license. This license is reproduced at the bottom of this file.
@@ -696,12 +686,13 @@ Some files from Intel carry the following license:
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-</pre>
-<p>libsrtp<br/></p>
-<pre>
+```
+
+# libsrtp
+```
 /*
  *	
- * Copyright (c) 2001-2006 Cisco Systems, Inc.
+ * Copyright (c) 2001-2017 Cisco Systems, Inc.
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -735,9 +726,10 @@ Some files from Intel carry the following license:
  *
  */
 
-</pre>
-<p>libvpx<br/></p>
-<pre>
+```
+
+# libvpx
+```
 Copyright (c) 2010, The WebM Project authors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -770,9 +762,10 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-</pre>
-<p>libyuv<br/></p>
-<pre>
+```
+
+# libyuv
+```
 Copyright 2011 The LibYuv Project Authors. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -803,9 +796,10 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-</pre>
-<p>opus<br/></p>
-<pre>
+```
+
+# opus
+```
 Copyright 2001-2011 Xiph.Org, Skype Limited, Octasic,
                     Jean-Marc Valin, Timothy B. Terriberry,
                     CSIRO, Gregory Maxwell, Mark Borgerding,
@@ -851,9 +845,10 @@ https://datatracker.ietf.org/ipr/1914/
 Broadcom Corporation:
 https://datatracker.ietf.org/ipr/1526/
 
-</pre>
-<p>protobuf<br/></p>
-<pre>
+```
+
+# protobuf
+```
 This license applies to all parts of Protocol Buffers except the following:
 
   - Atomicops support for generic gcc, located in
@@ -897,9 +892,10 @@ of the input file used when generating it.  This code is not
 standalone and requires a support library to be linked with it.  This
 support library is itself covered by the above license.
 
-</pre>
-<p>usrsctp<br/></p>
-<pre>
+```
+
+# usrsctp
+```
 (Copied from the COPYRIGHT file of
 https://code.google.com/p/sctp-refimpl/source/browse/trunk/COPYRIGHT)
 --------------------------------------------------------------------------------
@@ -931,6 +927,5 @@ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
 
-</pre>
-</body>
-</html>
+```
+

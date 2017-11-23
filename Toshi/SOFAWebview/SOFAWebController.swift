@@ -22,6 +22,7 @@ class SOFAWebController: UIViewController {
     enum Method: String {
         case getAccounts
         case signTransaction
+        case publishTransaction
         case approveTransaction
     }
 
@@ -53,6 +54,7 @@ class SOFAWebController: UIViewController {
 
         configuration.userContentController.add(self, name: Method.getAccounts.rawValue)
         configuration.userContentController.add(self, name: Method.signTransaction.rawValue)
+        configuration.userContentController.add(self, name: Method.publishTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.approveTransaction.rawValue)
 
         configuration.userContentController.addUserScript(userScript)
@@ -180,10 +182,9 @@ extension SOFAWebController: WKScriptMessageHandler {
         case .getAccounts:
             let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
             jsCallback(callbackId: callbackId, payload: payload)
-
-            break
         case .signTransaction:
             guard let messageBody = message.body as? [String: Any], let tx = messageBody["tx"] as? [String: Any] else {
+                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
                 return
             }
 
@@ -225,15 +226,37 @@ extension SOFAWebController: WKScriptMessageHandler {
                 let userInfo = UserInfo(address: "", paymentAddress: "", avatarPath: nil, name: "New Contract", username: "", isLocal: false)
                 displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
             }
+        case .publishTransaction:
+            guard let messageBody = message.body as? [String: Any],
+                  let signedTransaction = messageBody["rawTx"] as? String else {
+                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+                return
+            }
 
-            break
+            etherAPIClient.sendSignedTransaction(signedTransaction: signedTransaction) { [weak self] success, json, error in
+                guard let strongSelf = self else { return }
+
+                guard success, let json = json?.dictionary else {
+                    strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: "{\\\"error\\\": \\\"\(error?.description ?? "Error sending transaction")\\\"}")
+                    return
+                }
+
+                guard let txHash = json["tx_hash"] as? String else {
+                    strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: "{\\\"error\\\": \\\"Error recovering transaction hash\\\"}")
+                    return
+                }
+
+                strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: "{\\\"result\\\":\\\"\(txHash)\\\"}")
+            }
         case .approveTransaction:
             let payload = "{\\\"error\\\": null, \\\"result\\\": true}"
             jsCallback(callbackId: callbackId, payload: payload)
-
-            break
         }
     }
+}
+
+struct SOFAResponseConstants {
+    static let skeletonErrorJSON = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
 }
 
 extension SOFAWebController: PaymentPresentable {
@@ -241,13 +264,13 @@ extension SOFAWebController: PaymentPresentable {
         etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, _ in
             guard let strongSelf = self else { return }
 
-            var payload: String
+            let payload: String
 
-            if let tx = transaction {
-                let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: tx))"
-                payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + tx + "\\\", \\\"" + signedTransaction + "\\\"]}"
+            if let tx = transaction,
+               let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
+                payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
             } else {
-                payload = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
+                payload = SOFAResponseConstants.skeletonErrorJSON
             }
 
             strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: payload)
