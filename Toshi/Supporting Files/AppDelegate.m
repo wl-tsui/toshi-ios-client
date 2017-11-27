@@ -277,7 +277,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [[TSAccountManager sharedInstance] storeLocalNumber:[Cereal shared].address];
 
     if (![storageManager database]) {
-        [CrashlyticsLogger log:@"Failed to create chat databse for the suer" attributes:nil];
+        [CrashlyticsLogger log:@"Failed to create chat databse for the user" attributes:nil];
     }
 
     self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
