@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class ToshiErrorTests: QuickSpec {
 
     override func spec() {
@@ -49,4 +48,4 @@ class ToshiErrorTests: QuickSpec {
             }
         }
     }
-} //swiftlint:enable force_cast
+}

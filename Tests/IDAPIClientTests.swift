@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class IDAPIClientTests: QuickSpec {
     override func spec() {
         describe("the id API Client") {
@@ -374,5 +373,3 @@ class IDAPIClientTests: QuickSpec {
         }
     }
 }
-
-//swiftlint:enable force_cast

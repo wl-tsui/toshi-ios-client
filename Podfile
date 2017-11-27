@@ -6,9 +6,9 @@ abstract_target 'CocoaPods' do
   pod 'AxolotlKit',  git: 'https://github.com/WhisperSystems/SignalProtocolKit.git'
   pod 'SignalServiceKit', git: 'https://github.com/toshiapp/Signal-iOS.git', commit: "e094330cd383b906db799ee4f4ab999bf00d232c"
   pod 'SocketRocket', git: 'https://github.com/facebook/SocketRocket.git'
-  pod 'Fabric'
-  pod 'Crashlytics'
-  pod 'SwiftLint'
+  pod 'Fabric', '~> 1.7.2'
+  pod 'Crashlytics', '~>3.9.3'
+  pod 'SwiftLint', '~>0.24.0'
   pod 'CocoaLumberjack', '~> 3.3.0'
 
   target 'Development' do

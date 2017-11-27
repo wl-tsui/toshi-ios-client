@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class AppsAPIClientTests: QuickSpec {
     override func spec() {
         describe("the Apps API Client") {
@@ -142,4 +141,3 @@ class AppsAPIClientTests: QuickSpec {
         }
     }
 }
-//swiftlint:enable force_cast

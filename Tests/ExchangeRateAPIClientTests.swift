@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class ExchangeRateAPIClientTests: QuickSpec {
 
     override func spec() {
@@ -80,4 +79,4 @@ class ExchangeRateAPIClientTests: QuickSpec {
         }
     }
 }
-//swiftlint:enable force_cast
+

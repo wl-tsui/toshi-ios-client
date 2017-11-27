@@ -3,7 +3,6 @@ import UIKit
 import Quick
 import Nimble
 
-//swiftlint:disable force_cast
 class EthereumConverterTests: QuickSpec {
 
     override func spec() {
@@ -81,4 +80,4 @@ class EthereumConverterTests: QuickSpec {
         }
     }
 }
-//swiftlint:enable force_cast
+

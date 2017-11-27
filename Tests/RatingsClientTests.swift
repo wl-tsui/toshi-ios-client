@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class RatingsClientTests: QuickSpec {
 
     override func spec() {
@@ -93,4 +92,4 @@ class RatingsClientTests: QuickSpec {
             }
         }
     }
-} //swiftlint:enable force_cast
+}
