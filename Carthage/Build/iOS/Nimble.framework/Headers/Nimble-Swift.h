@@ -467,6 +467,8 @@ SWIFT_CLASS("_TtC6Nimble11NMBStringer")
 @end
 
 
+
+
 SWIFT_CLASS("_TtC6Nimble14SourceLocation")
 @interface SourceLocation : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;

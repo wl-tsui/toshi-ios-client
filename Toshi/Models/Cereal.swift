@@ -131,10 +131,64 @@ public class Cereal: NSObject {
         return walletCereal.sign(hex: hex)
     }
 
+    public func signEthereumTransactionWithWallet(hex: String) -> String? {
+        do {
+            guard var rlp = try RLP.decode(from: hex) as? [Data] else {
+                return nil
+            }
+            var networkId: UInt?
+            if rlp.count == 9 {
+                // make sure transaction isn't already signed
+                guard rlp[7].count == 0, rlp[8].count == 0 else {
+                    return nil
+                }
+                networkId = UInt(bigEndianData: rlp[6])
+                guard let networkIdValue = networkId else {
+                    return nil
+                }
+                if networkIdValue == 0 {
+                    networkId = nil
+                    rlp.removeLast(3)
+                }
+            } else if rlp.count == 6 {
+                networkId = nil
+            } else {
+                // bad length
+                return nil
+            }
+
+            let signature = walletCereal.sign(hex: try RLP.encode(rlp).hexEncodedString())
+            let sOffset = signature.index(signature.startIndex, offsetBy: 64)
+            let vOffset = signature.index(signature.startIndex, offsetBy: 128)
+            guard signature.count == 130,
+                  let r = String(signature[..<sOffset]).hexadecimalData,
+                  let s = String(signature[sOffset..<vOffset]).hexadecimalData,
+                  let vData = String(signature[vOffset...]).hexadecimalData,
+                  var v = UInt(bigEndianData: vData) else {
+                return nil
+            }
+
+            if rlp.count == 9 {
+                rlp.removeLast(3)
+            }
+            if let networkIdValue = networkId {
+                v += 35 + networkIdValue * 2
+            } else {
+                v += 27
+            }
+            rlp.append(contentsOf: [Data(bigEndianFrom: v), r, s])
+
+            let encodedSignedTransactionData = try RLP.encode(rlp)
+            return "0x\(encodedSignedTransactionData.hexEncodedString())"
+        } catch {
+            return nil
+        }
+    }
+
     public func sha3WithWallet(string: String) -> String {
         return walletCereal.sha3(string: string)
     }
-    
+
     @objc fileprivate func userCreated(_ notification: Notification) {
         Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
     }

@@ -96,7 +96,7 @@ extension ScannerController: PaymentPresentable {
 
             guard let transaction = transaction else {
                 self?.hideActivityIndicator()
-                self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? "Something went wrong")
+                self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
                 self?.startScanning()
 
                 return
@@ -104,12 +104,12 @@ extension ScannerController: PaymentPresentable {
 
             let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-            EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, message in
+            EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
 
                 self?.hideActivityIndicator()
 
                 guard success else {
-                    self?.presentPaymentError(withErrorMessage: message ?? "Something went wrong")
+                    self?.presentPaymentError(withErrorMessage: error?.description ?? ToshiError.genericError.description)
                     self?.startScanning()
                     return
                 }

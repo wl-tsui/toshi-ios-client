@@ -134,6 +134,12 @@
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		40F452374014D1BCC886E826 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */; };
+		6A369A3A1FBF2AB50099C2FF /* RLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A369A391FBF2AB50099C2FF /* RLPTests.swift */; };
+		6AAB66321FC4508600C45149 /* CerealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AAB66311FC4508600C45149 /* CerealTests.swift */; };
+		6ACC21621FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
+		6ACC21631FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
+		6ACC21641FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
+		6ACC21651FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
 		6AE44D971F45C38B00F5AF02 /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE44D961F45C38B00F5AF02 /* CurrencyPicker.swift */; };
 		6AE44D981F45C38B00F5AF02 /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE44D961F45C38B00F5AF02 /* CurrencyPicker.swift */; };
 		8446632B1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */; };
@@ -234,6 +240,8 @@
 		9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
 		9F9B25551ECB1BC0007B435A /* ContactActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B25541ECB1BC0007B435A /* ContactActionView.swift */; };
 		9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B25541ECB1BC0007B435A /* ContactActionView.swift */; };
+		9F9CDCF21FBB24E200D042BA /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
+		9F9CDCF31FBB24E200D042BA /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80F1EB36A7F002D0293 /* Teapot.framework */; };
 		9FA12BE81E65A116003705F6 /* RevealServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA12BE71E65A116003705F6 /* RevealServer.framework */; };
 		9FA12BE91E65A151003705F6 /* RevealServer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA12BE71E65A116003705F6 /* RevealServer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9FA12BEC1E65CF73003705F6 /* PN.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEB1E65CF61003705F6 /* PN.m4a */; };
@@ -313,7 +321,6 @@
 		9FF957951EEEB7BA00DDCBD8 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8071EB36A7F002D0293 /* HPGrowingTextView.framework */; };
 		9FF957961EEEB7BA00DDCBD8 /* TinyConstraints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */; };
 		9FF957981EEEB7BA00DDCBD8 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
-		9FF9579A1EEEB7BA00DDCBD8 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80F1EB36A7F002D0293 /* Teapot.framework */; };
 		9FF9579B1EEEB7BA00DDCBD8 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8051EB36A7F002D0293 /* Formulaic.framework */; };
 		9FF9579E1EEEB7BA00DDCBD8 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */; };
 		9FF9579F1EEEB7BA00DDCBD8 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
@@ -514,7 +521,6 @@
 		A9603F541F4DABDC00BF57B1 /* AwesomeCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8021EB36A7F002D0293 /* AwesomeCache.framework */; };
 		A9603F551F4DABDC00BF57B1 /* HPGrowingTextView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8071EB36A7F002D0293 /* HPGrowingTextView.framework */; };
 		A9603F561F4DABDC00BF57B1 /* TinyConstraints.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9202E371ED82AAD0036E9B7 /* TinyConstraints.framework */; };
-		A9603F571F4DABDC00BF57B1 /* SweetUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80E1EB36A7F002D0293 /* SweetUIKit.framework */; };
 		A9603F591F4DABDC00BF57B1 /* Teapot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80F1EB36A7F002D0293 /* Teapot.framework */; };
 		A9603F5A1F4DABDC00BF57B1 /* Formulaic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8051EB36A7F002D0293 /* Formulaic.framework */; };
 		A9603F5D1F4DABDC00BF57B1 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80B1EB36A7F002D0293 /* PromiseKit.framework */; };
@@ -907,6 +913,9 @@
 		3F0DBA781E2F9F3F471A6BAD /* Pods-CocoaPods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Tests/Pods-CocoaPods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DE939A571E431967E87D37E /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
 		5F709713CAF04EC864636591 /* Pods-CocoaPods-Debug.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Debug.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Debug/Pods-CocoaPods-Debug.release.xcconfig"; sourceTree = "<group>"; };
+		6A369A391FBF2AB50099C2FF /* RLPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLPTests.swift; sourceTree = "<group>"; };
+		6AAB66311FC4508600C45149 /* CerealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CerealTests.swift; sourceTree = "<group>"; };
+		6ACC21611FBDE72E002345D0 /* RLP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLP.swift; sourceTree = "<group>"; };
 		6AE44D961F45C38B00F5AF02 /* CurrencyPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPicker.swift; sourceTree = "<group>"; };
 		7E67E3F2BFB7B0171BF61B30 /* libPods-CocoaPods-Distribution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Distribution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestMetadata.swift; sourceTree = "<group>"; };
@@ -1174,7 +1183,7 @@
 				9FF9577A1EEEB7BA00DDCBD8 /* libstdc++.tbd in Frameworks */,
 				9FF9577B1EEEB7BA00DDCBD8 /* AssetsLibrary.framework in Frameworks */,
 				9FF9577C1EEEB7BA00DDCBD8 /* MobileCoreServices.framework in Frameworks */,
-				9FF9579A1EEEB7BA00DDCBD8 /* Teapot.framework in Frameworks */,
+				9F9CDCF31FBB24E200D042BA /* Teapot.framework in Frameworks */,
 				9FF957841EEEB7BA00DDCBD8 /* Photos.framework in Frameworks */,
 				2B98552D1F824201009C347A /* Reachability.framework in Frameworks */,
 				9FF957871EEEB7BA00DDCBD8 /* CoreGraphics.framework in Frameworks */,
@@ -1191,7 +1200,6 @@
 				9FF957951EEEB7BA00DDCBD8 /* HPGrowingTextView.framework in Frameworks */,
 				9FF957961EEEB7BA00DDCBD8 /* TinyConstraints.framework in Frameworks */,
 				9FF957981EEEB7BA00DDCBD8 /* SweetUIKit.framework in Frameworks */,
-				9FF9579A1EEEB7BA00DDCBD8 /* Teapot.framework in Frameworks */,
 				9FF9579B1EEEB7BA00DDCBD8 /* Formulaic.framework in Frameworks */,
 				9FF9579E1EEEB7BA00DDCBD8 /* PromiseKit.framework in Frameworks */,
 				9FF9579F1EEEB7BA00DDCBD8 /* SweetSwift.framework in Frameworks */,
@@ -1245,7 +1253,7 @@
 				A9603F3B1F4DABDC00BF57B1 /* libstdc++.tbd in Frameworks */,
 				A9603F3C1F4DABDC00BF57B1 /* AssetsLibrary.framework in Frameworks */,
 				A9603F3D1F4DABDC00BF57B1 /* MobileCoreServices.framework in Frameworks */,
-				A9603F571F4DABDC00BF57B1 /* SweetUIKit.framework in Frameworks */,
+				9F9CDCF21FBB24E200D042BA /* SweetUIKit.framework in Frameworks */,
 				A9603F451F4DABDC00BF57B1 /* Photos.framework in Frameworks */,
 				2B98552C1F824201009C347A /* Reachability.framework in Frameworks */,
 				A9603F481F4DABDC00BF57B1 /* CoreGraphics.framework in Frameworks */,
@@ -1261,7 +1269,6 @@
 				A9603F541F4DABDC00BF57B1 /* AwesomeCache.framework in Frameworks */,
 				A9603F551F4DABDC00BF57B1 /* HPGrowingTextView.framework in Frameworks */,
 				A9603F561F4DABDC00BF57B1 /* TinyConstraints.framework in Frameworks */,
-				A9603F571F4DABDC00BF57B1 /* SweetUIKit.framework in Frameworks */,
 				A9603F591F4DABDC00BF57B1 /* Teapot.framework in Frameworks */,
 				A9603F5A1F4DABDC00BF57B1 /* Formulaic.framework in Frameworks */,
 				A9603F5D1F4DABDC00BF57B1 /* PromiseKit.framework in Frameworks */,
@@ -1306,6 +1313,8 @@
 				D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */,
 				D197BCEB0A1FF98FE303EDBD /* SofaIdentifierTests.swift */,
 				D197B6AD4DEFD836C0ECA908 /* SofaWrapperTests.swift */,
+				6A369A391FBF2AB50099C2FF /* RLPTests.swift */,
+				6AAB66311FC4508600C45149 /* CerealTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1621,6 +1630,7 @@
 				84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */,
 				9FA12BF11E65D135003705F6 /* SoundPlayer.swift */,
 				9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */,
+				6ACC21611FBDE72E002345D0 /* RLP.swift */,
 				9FCDBAD31E27DE8800A70E07 /* Yap.swift */,
 				2BA888EA1F600ED500B03D8E /* Currency.swift */,
 				D197B4ACBCACEF91B09E63EA /* SofaWrappers */,
@@ -2180,7 +2190,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Bakken&Baeck";
 				TargetAttributes = {
 					14147EA01E8119F0006BD47B = {
@@ -2734,8 +2744,10 @@
 				9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */,
 				E60A52AF1F28E6A60032CAC0 /* EthereumAPIClient.swift in Sources */,
 				84FFE1ED1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
+				6A369A3A1FBF2AB50099C2FF /* RLPTests.swift in Sources */,
 				84C459021F41B7AA00D534B8 /* QRCodeIntentTests.swift in Sources */,
 				E60A52A51F28DB710032CAC0 /* AppsAPIClient.swift in Sources */,
+				6AAB66321FC4508600C45149 /* CerealTests.swift in Sources */,
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
 				8446632D1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
 				E60A52B01F28E6FF0032CAC0 /* NetworkSwitcher.swift in Sources */,
@@ -2744,6 +2756,7 @@
 				84AED6FE1F42ED91003C38E8 /* String+Regex.swift in Sources */,
 				9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */,
 				E60A52AB1F28E0F30032CAC0 /* Yap.swift in Sources */,
+				6ACC21651FBDE72E002345D0 /* RLP.swift in Sources */,
 				2BA888EE1F60156D00B03D8E /* Currency.swift in Sources */,
 				E60A52A81F28DC750032CAC0 /* TokenUser.swift in Sources */,
 				D197B9D646686EF7FE2D78B8 /* UINotificationName+Additions.swift in Sources */,
@@ -2882,6 +2895,7 @@
 				A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				149F9A8D1E72E29A00FB74AA /* Theme.swift in Sources */,
 				9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */,
+				6ACC21641FBDE72E002345D0 /* RLP.swift in Sources */,
 				A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */,
 				A9202E6D1ED8501E0036E9B7 /* ImageCell.swift in Sources */,
 				9FF6AFA01E83DE04001B5907 /* AvatarImageView.swift in Sources */,
@@ -3069,6 +3083,7 @@
 				A97600301F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				14E4D8D01E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
+				6ACC21621FBDE72E002345D0 /* RLP.swift in Sources */,
 				A96B19011F87CCE1002E5B52 /* Collection+Additions.swift in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
 				145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */,
@@ -3256,6 +3271,7 @@
 				A9603E911F4DABDC00BF57B1 /* Theme.swift in Sources */,
 				A9603E951F4DABDC00BF57B1 /* ChatInputTextPanel.swift in Sources */,
 				A9603E9D1F4DABDC00BF57B1 /* Footnote.swift in Sources */,
+				6ACC21631FBDE72E002345D0 /* RLP.swift in Sources */,
 				A9603EA01F4DABDC00BF57B1 /* ImageCell.swift in Sources */,
 				A9603EA61F4DABDC00BF57B1 /* AvatarImageView.swift in Sources */,
 				A9603EB01F4DABDC00BF57B1 /* CryptoTools.m in Sources */,

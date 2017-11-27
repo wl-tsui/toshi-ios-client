@@ -38,7 +38,7 @@ enum BrowseContentSection {
 }
 
 class BrowseViewController: SearchableCollectionController {
-    
+    fileprivate var cacheQueue = DispatchQueue(label: "org.toshi.cacheQueue")
     fileprivate var contentSections: [BrowseContentSection] = [.topRatedApps, .featuredApps, .topRatedPublicUsers, .latestPublicUsers]
     fileprivate var items: [[TokenUser]] = [[], [], [], []]
     fileprivate var openURLButtonTopAnchor: NSLayoutConstraint?
@@ -298,9 +298,15 @@ extension BrowseViewController: UISearchBarDelegate {
                 } else {
                     cell.nameLabel.text = item.isApp ? item.category : item.username
                 }
-                
-                cell.avatarImageView.image = AvatarManager.shared.cachedAvatar(for: item.avatarPath)
-                
+
+                cacheQueue.async {
+                    let image = AvatarManager.shared.cachedAvatar(for: item.avatarPath)
+                    DispatchQueue.main.async {
+                        let cell = sectionedCollectionView.cellForItem(at: indexPath) as? BrowseEntityCollectionViewCell
+                        cell?.avatarImageView.image = image
+                    }
+                }
+
                 if let averageRating = item.averageRating {
                     cell.ratingView.set(rating: averageRating)
                 }
@@ -357,22 +363,4 @@ extension BrowseViewController: BrowseCollectionViewCellSelectionDelegate {
             Navigator.push(ProfileViewController(contact: item))
         }
     }
-    
-    func willDisplayCell(_ cell: UICollectionViewCell, at indexPath: IndexPath, _ collectionView: UICollectionView) {
-        
-        if let sectionedCollectionView = collectionView as? SectionedCollectionView, let cell = cell as? BrowseEntityCollectionViewCell {
-            
-            avatar(for: indexPath, in: sectionedCollectionView.section, completion: { [weak self] image in
-                guard let strongSelf = self else { return }
-                
-                let visibleEntities = sectionedCollectionView.indexPathsForVisibleItems.map { $0.item }
-                let visibleCategories = strongSelf.collectionView.indexPathsForVisibleItems.map { $0.item }
-                
-                if visibleEntities.contains(indexPath.item) && visibleCategories.contains(sectionedCollectionView.section) {
-                    cell.avatarImageView.image = image
-                }
-            })
-        }
-    }
 }
-
