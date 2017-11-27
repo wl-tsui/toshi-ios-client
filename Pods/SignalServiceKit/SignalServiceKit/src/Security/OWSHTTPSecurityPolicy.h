@@ -8,5 +8,7 @@
 @interface OWSHTTPSecurityPolicy : AFSecurityPolicy
 
 + (instancetype)sharedPolicy;
++ (void)setCertificateServiceName:(NSString *)serviceName;
 
 @end
+

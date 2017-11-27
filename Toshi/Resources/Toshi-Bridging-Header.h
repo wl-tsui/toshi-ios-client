@@ -75,6 +75,7 @@
 #import <SignalServiceKit/TSStorageManager+SignedPreKeyStore.h>
 #import <SignalServiceKit/TSThread.h>
 #import <SignalServiceKit/TSContactThread.h>
+#import <SignalServiceKit/OWSHTTPSecurityPolicy.h>
 
 #import <25519/Randomness.h>
 

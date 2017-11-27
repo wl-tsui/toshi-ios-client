@@ -23,6 +23,7 @@
 
 NSString *const LaunchedBefore = @"LaunchedBefore";
 NSString *const RequiresSignIn = @"RequiresSignIn";
+NSString *const ChatSertificateName = @"token";
 
 @import WebRTC;
 
@@ -42,6 +43,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 {
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
     [OWSSignalService setBaseURLPath:tokenChatServiceBaseURL];
+    [OWSHTTPSecurityPolicy setCertificateServiceName:ChatSertificateName];
 
     // Set the seed the generator for rand().
     //

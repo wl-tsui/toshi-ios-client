@@ -7,6 +7,8 @@
 
 #import <AssertMacros.h>
 
+static NSString *CertificateServiceName;
+
 @implementation OWSHTTPSecurityPolicy
 
 + (instancetype)sharedPolicy {
@@ -23,7 +25,7 @@
 
     if (self) {
         self.pinnedCertificates = [NSSet setWithArray:@[
-                                                        [self certificateDataForService:@"token"],
+                                                        [self certificateDataForService:[OWSHTTPSecurityPolicy certificateServiceName]],
                                                         ]];
     }
 
@@ -31,7 +33,17 @@
 }
 
 - (NSArray *)certs {
-    return @[ (__bridge id)[self certificateForService:@"token"] ];
+    return @[ (__bridge id)[self certificateForService:[OWSHTTPSecurityPolicy certificateServiceName]] ];
+}
+
++ (void)setCertificateServiceName:(NSString *)serviceName
+{
+    CertificateServiceName = serviceName;
+}
+
++ (NSString *)certificateServiceName
+{
+    return CertificateServiceName;
 }
 
 - (NSData *)certificateDataForService:(NSString *)service {
@@ -93,4 +105,3 @@ _out:
 }
 
 @end
-
