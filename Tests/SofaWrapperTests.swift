@@ -69,7 +69,7 @@ class SofaWrapperTests: QuickSpec {
             context("with fiatValueString in the content") {
 
                 it("it removes fiatValueString from String content") {
-                    var sofaString = "SOFA::Payment:{\"fiatValueString\":\"$2.00 USD\",\"value\":\"0x17ac784453a3d2\"}"
+                    let sofaString = "SOFA::Payment:{\"fiatValueString\":\"$2.00 USD\",\"value\":\"0x17ac784453a3d2\"}"
                     let payment = SofaPayment(content: sofaString)
 
                     payment.removeFiatValueString()

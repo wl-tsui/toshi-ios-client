@@ -79,7 +79,7 @@ extension NetworkSettingsController: UITableViewDataSource {
         cell.textLabel?.text = network.label
         cell.selectionStyle = .none
 
-        let isActiveNetwork = network.rawValue == NetworkSwitcher.shared.activeNetwork.rawValue
+        let isActiveNetwork = (network.rawValue == NetworkSwitcher.shared.activeNetwork.rawValue)
         cell.accessoryType = isActiveNetwork ? .checkmark : .none
 
         return cell

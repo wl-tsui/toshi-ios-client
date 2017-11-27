@@ -26,7 +26,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 
 @import WebRTC;
 
-@interface AppDelegate ()
+@interface AppDelegate()
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
@@ -428,11 +428,6 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             });
         }
     }];
-
-
-    PKPushRegistry *voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
-    voipRegistry.delegate = self;
-    voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
 }
 
 - (void)updateRemoteNotificationCredentials {

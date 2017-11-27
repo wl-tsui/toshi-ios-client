@@ -63,7 +63,7 @@ fileprivate extension String {
 
     func base36to16() -> String? {
         var bytes = [Int]()
-        for character in self.characters {
+        for character in self {
             guard var carry = String.base36AlphabetMap[character] else { return nil }
 
             for byteIndex in 0..<bytes.count {

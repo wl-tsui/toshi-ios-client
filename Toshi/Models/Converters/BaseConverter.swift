@@ -25,8 +25,8 @@ public struct BaseConverter {
         var carry = 0
         var i = 0
         while i < n || carry > 0 {
-            let xi = i < x.count ? x[i] : 0
-            let yi = i < y.count ? y[i] : 0
+            let xi = (i < x.count ? x[i] : 0)
+            let yi = (i < y.count ? y[i] : 0)
             let zi = carry + xi + yi
             z.append(zi % base)
             carry = zi / base
@@ -66,7 +66,7 @@ public struct BaseConverter {
 
     func parseToDigitsArray(_ str: String) -> [Int] {
         var digits: [String] = []
-        for char in str.characters {
+        for char in str {
             digits.append(String(char))
         }
 

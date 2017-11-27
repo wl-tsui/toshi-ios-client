@@ -158,7 +158,7 @@ class IDAPIClientTests: QuickSpec {
 
                     waitUntil { done in
                         subject.getLatestPublicUsers { users, error in
-                            print(error)
+                            print(error ?? "Error was nil!")
                             expect(error).to(beNil())
                             expect(users!.count).to(equal(2))
                             expect(users!.first!.about).to(equal("Latest public"))

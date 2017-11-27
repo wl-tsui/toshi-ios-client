@@ -8,7 +8,7 @@ class PaymentAddressController: UIViewController {
     fileprivate let valueInWei: NSDecimalNumber
 
     private lazy var valueLabel: UILabel = {
-        let value = EthereumConverter.fiatValueString(forWei: self.valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
+        let value: String = EthereumConverter.fiatValueString(forWei: self.valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
 
         let view = UILabel()
         view.font = Theme.preferredTitle1()

@@ -47,7 +47,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
 
         let searchText = searchController.searchBar.text?.lowercased() ?? ""
 
-        let filteringBlock: YapDatabaseViewFilteringWithObjectBlock = { [weak self] transaction, group, colelction, key, object in
+        let filteringBlock: YapDatabaseViewFilteringWithObjectBlock = { transaction, group, colelction, key, object in
 
             guard searchText.length > 0 else { return true }
 

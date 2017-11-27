@@ -302,16 +302,16 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
 
     fileprivate func validateUserName(_ username: String) -> Bool {
         let none = NSRegularExpression.MatchingOptions(rawValue: 0)
-        let range = NSRange(location: 0, length: username.characters.count)
+        let range = NSRange(location: 0, length: username.count)
 
         var isValid = true
 
         if isValid {
-            isValid = username.characters.count >= 2
+            isValid = username.count >= 2
         }
 
         if isValid {
-            isValid = username.characters.count <= 60
+            isValid = username.count <= 60
         }
 
         var regex: NSRegularExpression?

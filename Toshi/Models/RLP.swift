@@ -115,7 +115,7 @@ public class RLP {
     //  - length : The length of the item the current length prefex describes
     //  - ll : "Length length", the length of the current length prefix field
     // returns (item type, item length, item start offset)
-    private static func consumeLenghtPrefix(_ rlp: Data, _ start: UInt) throws -> (RLPDataType, UInt, UInt) {
+    private static func consumeLenghtPrefix(_ rlp: Data, _ start: UInt) throws -> (RLPDataType, UInt, UInt) { //swiftlint:disable:this large_tuple
         if rlp.count <= start {
             throw RLPDecodeError.stringTooShort
         }

@@ -101,9 +101,10 @@ extern NSString *const kNSNotificationName_LocalNumberDidChange;
  *  Register's the device's push notification token with the server
  *
  *  @param pushToken Apple's Push Token
+ *  @param voipToken The user's VOIP token, or nil. 
  */
 - (void)registerForPushNotificationsWithPushToken:(NSString *)pushToken
-                                        voipToken:(NSString *)voipToken
+                                        voipToken:(nullable NSString *)voipToken
                                           success:(void (^)())successHandler
                                           failure:(void (^)(NSError *error))failureHandler
 NS_SWIFT_NAME(registerForPushNotifications(pushToken:voipToken:success:failure:));

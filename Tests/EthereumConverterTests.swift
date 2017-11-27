@@ -52,7 +52,7 @@ class EthereumConverterTests: QuickSpec {
                         expect(fiatAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.darkTextColor))
                         expect(fiatAttributes[NSAttributedStringKey.font] as? UIFont).to(equal(UIFont.systemFont(ofSize: 19.0)))
 
-                        let ethAttributes = ethereumValueString.attributes(at: ethereumValueString.string.characters.count - 1, effectiveRange: nil)
+                        let ethAttributes = ethereumValueString.attributes(at: ethereumValueString.string.count - 1, effectiveRange: nil)
                         expect(ethAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.greyTextColor))
                     }
                 }
@@ -72,7 +72,7 @@ class EthereumConverterTests: QuickSpec {
                         expect(fiatAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.darkTextColor))
                         expect(fiatAttributes[NSAttributedStringKey.font] as? UIFont).to(equal(UIFont.systemFont(ofSize: 19.0)))
 
-                        let ethAttributes = ethereumValueString.attributes(at: ethereumValueString.string.characters.count - 1, effectiveRange: nil)
+                        let ethAttributes = ethereumValueString.attributes(at: ethereumValueString.string.count - 1, effectiveRange: nil)
                         expect(ethAttributes[NSAttributedStringKey.foregroundColor] as? UIColor).to(equal(Theme.greyTextColor))
                     }
                 }

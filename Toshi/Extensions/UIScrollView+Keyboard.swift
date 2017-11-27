@@ -48,7 +48,7 @@ extension UIScrollView {
     }
 
     func addBottomInsets(from notification: NSNotification) {
-        var insets = edgeInsets(from: notification)
+        let insets = edgeInsets(from: notification)
         contentInset = insets
         scrollIndicatorInsets = insets
     }
