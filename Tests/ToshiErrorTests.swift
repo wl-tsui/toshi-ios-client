@@ -37,12 +37,14 @@ class ToshiErrorTests: QuickSpec {
                     expect(toshiError.description).to(equal("Teapot error description"))
                 }
 
-                it("doesn't initialise from an invalid teapot error type") {
+                it("gives a generic error back from an invalid teapot error type") {
                     let teapotError = TeapotError(withType: .missingMockFile, description: "Teapot error description", responseStatus: 400, underlyingError: nil)
 
                     let toshiError = ToshiError(withTeapotError: teapotError)
 
+                    expect(toshiError).toNot(beNil())
                     expect(toshiError.type).to(equal(ToshiError.ErrorType.generic))
+                    expect(toshiError.responseStatus).to(equal(400))
                 }
             }
         }
