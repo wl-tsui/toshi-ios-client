@@ -13,17 +13,17 @@ public struct PaymentRequestMetadata {
         for pair in metadata {
             guard let value = pair.value else { continue }
             switch pair.name {
-                // "amount" is used by Jaxx and others as a float denominated in Ether
-                case "amount":
-                    let ether = NSDecimalNumber(string: value)
-                    tempWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant).toHexString
-                // "value" is used by Toshi and others as an integer denominated in Wei
-                case "value":
-                    tempWei = NSDecimalNumber(string: value).toHexString
-                case "memo":
-                    memo = value
-                default:
-                    continue
+            // "amount" is used by Jaxx and others as a float denominated in Ether
+            case "amount":
+                let ether = NSDecimalNumber(string: value)
+                tempWei = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant).toHexString
+            // "value" is used by Toshi and others as an integer denominated in Wei
+            case "value":
+                tempWei = NSDecimalNumber(string: value).toHexString
+            case "memo":
+                memo = value
+            default:
+                continue
             }
         }
 

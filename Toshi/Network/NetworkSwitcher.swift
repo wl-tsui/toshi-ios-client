@@ -70,7 +70,7 @@ public enum Network: String {
 
 public final class NetworkSwitcher {
     static let shared = NetworkSwitcher()
-    fileprivate let keychain = KeychainSwift()
+    private let keychain = KeychainSwift()
 
     init() {
         keychain.synchronizable = false
@@ -126,8 +126,8 @@ public final class NetworkSwitcher {
         }
     }
 
-    fileprivate var _switchedNetwork: Network?
-    fileprivate var switchedNetwork: Network? {
+    private var _switchedNetwork: Network?
+    private var switchedNetwork: Network? {
         set {
             _switchedNetwork = newValue
 
@@ -163,13 +163,13 @@ public final class NetworkSwitcher {
         }
     }
 
-    fileprivate func registerForSwitchedNetworkPushNotifications(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
+    private func registerForSwitchedNetworkPushNotifications(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         EthereumAPIClient.shared.registerForSwitchedNetworkPushNotificationsIfNeeded { success, _ in
             completion(success, nil)
         }
     }
 
-    fileprivate func deregisterFromActiveNetworkPushNotificationsIfNeeded(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
+    private func deregisterFromActiveNetworkPushNotificationsIfNeeded(completion: @escaping ((_ success: Bool, _ message: String?) -> Void)) {
         guard let switchedNetwork = self.switchedNetwork, switchedNetwork.rawValue != self.defaultNetwork.rawValue else {
             completion(true, nil)
             return
@@ -184,7 +184,7 @@ public final class NetworkSwitcher {
         }
     }
 
-    fileprivate var defaultNetwork: Network {
+    private var defaultNetwork: Network {
         #if DEBUG
             return .toshiTestNetwork
         #elseif TOSHIDEV

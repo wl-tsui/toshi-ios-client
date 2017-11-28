@@ -26,15 +26,15 @@ class SOFAWebController: UIViewController {
         case approveTransaction
     }
 
-    fileprivate var etherAPIClient: EthereumAPIClient {
+    private var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
 
-    fileprivate let rcpUrl = ToshiWebviewRPCURLPath
+    private let rcpUrl = ToshiWebviewRPCURLPath
 
-    fileprivate var callbackId = ""
+    private var callbackId = ""
 
-    fileprivate lazy var webView: WKWebView = {
+    private lazy var webView: WKWebView = {
         let configuration = WKWebViewConfiguration()
 
         var js = "window.SOFA = {config: {rcpUrl: '" + self.rcpUrl + "'}}; "
@@ -68,7 +68,7 @@ class SOFAWebController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var backButton: UIButton = {
+    private lazy var backButton: UIButton = {
         let view = UIButton(type: .custom)
         view.bounds.size = CGSize(width: 44, height: 44)
         view.setImage(#imageLiteral(resourceName: "web_back").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -77,7 +77,7 @@ class SOFAWebController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var forwardButton: UIButton = {
+    private lazy var forwardButton: UIButton = {
         let view = UIButton(type: .custom)
         view.bounds.size = CGSize(width: 44, height: 44)
         view.setImage(#imageLiteral(resourceName: "web_forward").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -86,15 +86,15 @@ class SOFAWebController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var backBarButtonItem: UIBarButtonItem = {
+    private lazy var backBarButtonItem: UIBarButtonItem = {
         UIBarButtonItem(customView: self.backButton)
     }()
 
-    fileprivate lazy var forwardBarButtonItem: UIBarButtonItem = {
+    private lazy var forwardBarButtonItem: UIBarButtonItem = {
         UIBarButtonItem(customView: self.forwardButton)
     }()
 
-    fileprivate lazy var toolbar: UIToolbar = {
+    private lazy var toolbar: UIToolbar = {
         let view = UIToolbar(withAutoLayout: true)
 
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
@@ -140,12 +140,12 @@ class SOFAWebController: UIViewController {
     }
 
     @objc
-    fileprivate func didTapBackButton() {
+    private func didTapBackButton() {
         webView.goBack()
     }
 
     @objc
-    fileprivate func didTapForwardButton() {
+    private func didTapForwardButton() {
         webView.goForward()
     }
 }
@@ -158,7 +158,7 @@ extension SOFAWebController: WKNavigationDelegate {
 }
 
 extension SOFAWebController: WKScriptMessageHandler {
-    fileprivate func jsCallback(callbackId: String, payload: String) {
+    private func jsCallback(callbackId: String, payload: String) {
         let js = "SOFA.callback(\"" + callbackId + "\",\"" + payload + "\")"
 
         webView.evaluateJavaScript("javascript:" + js) { jsReturnValue, error in

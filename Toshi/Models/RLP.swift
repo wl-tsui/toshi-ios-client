@@ -260,11 +260,11 @@ extension BigEndianDataConvertible where Self:FixedWidthInteger {
     }
 }
 
-extension UInt8 : BigEndianDataConvertible {}
-extension UInt16 : BigEndianDataConvertible {}
-extension UInt32 : BigEndianDataConvertible {}
-extension UInt64 : BigEndianDataConvertible {}
-extension UInt : BigEndianDataConvertible {}
+extension UInt8: BigEndianDataConvertible {}
+extension UInt16: BigEndianDataConvertible {}
+extension UInt32: BigEndianDataConvertible {}
+extension UInt64: BigEndianDataConvertible {}
+extension UInt: BigEndianDataConvertible {}
 
 extension Data {
 

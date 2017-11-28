@@ -19,7 +19,7 @@ import CoreImage
 
 open class PersonalProfileViewController: UIViewController {
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
@@ -63,7 +63,7 @@ open class PersonalProfileViewController: UIViewController {
         }
     }
 
-    fileprivate func updateReputation() {
+    private func updateReputation() {
         guard let currentUser = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile Controller"])
             fatalError("No current user on Profile controller")

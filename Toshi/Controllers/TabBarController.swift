@@ -36,15 +36,15 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return selectedViewController as? UINavigationController
     }
 
-    fileprivate var chatAPIClient: ChatAPIClient {
+    private var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
     }
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
-    fileprivate lazy var reachabilityManager: ReachabilityManager = {
+    private lazy var reachabilityManager: ReachabilityManager = {
         let reachabilityManager = ReachabilityManager()
         reachabilityManager.delegate = self
 
@@ -155,7 +155,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         }
     }
 
-    fileprivate func presentScanner() {
+    private func presentScanner() {
         SoundPlayer.playSound(type: .menuButton)
         Navigator.presentModally(scannerController)
     }

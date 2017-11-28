@@ -5,7 +5,7 @@ import CameraScanner
 
 class PaymentAddressController: UIViewController {
 
-    fileprivate let valueInWei: NSDecimalNumber
+    private let valueInWei: NSDecimalNumber
 
     private lazy var valueLabel: UILabel = {
         let value: String = EthereumConverter.fiatValueString(forWei: self.valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
@@ -32,7 +32,7 @@ class PaymentAddressController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var addressInputView: PaymentAddressInputView = {
+    private lazy var addressInputView: PaymentAddressInputView = {
         let view = PaymentAddressInputView()
         view.delegate = self
 

@@ -126,7 +126,7 @@ class AlertController: ModalPresentable {
         }
     }
 
-    fileprivate lazy var contentViewVerticalCenter: NSLayoutConstraint = {
+    private lazy var contentViewVerticalCenter: NSLayoutConstraint = {
         self.visualEffectView.centerYAnchor.constraint(equalTo: self.background.centerYAnchor)
     }()
 

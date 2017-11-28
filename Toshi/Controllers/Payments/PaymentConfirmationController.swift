@@ -21,12 +21,12 @@ class PaymentConfirmationController: AlertController {
 
     static let contentWidth: CGFloat = 310
 
-    fileprivate var userInfo: UserInfo
-    fileprivate var value = NSDecimalNumber.zero
+    private var userInfo: UserInfo
+    private var value = NSDecimalNumber.zero
 
-    fileprivate var review: String = ""
+    private var review: String = ""
 
-    fileprivate lazy var networkView: ActiveNetworkView = {
+    private lazy var networkView: ActiveNetworkView = {
         self.defaultActiveNetworkView()
     }()
 
@@ -59,7 +59,7 @@ class PaymentConfirmationController: AlertController {
         showActiveNetworkViewIfNeeded()
     }
 
-    fileprivate func setupCustomContentView() {
+    private func setupCustomContentView() {
         if let customView = Bundle.main.loadNibNamed("PaymentRequestInfoView", owner: nil, options: nil)?.first as? PaymentRequestInfoView {
 
             customView.translatesAutoresizingMaskIntoConstraints = false

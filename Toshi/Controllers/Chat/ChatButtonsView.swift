@@ -49,7 +49,7 @@ final class ChatButtonsView: UIView {
     }
 }
 
-extension ChatButtonsView : UICollectionViewDelegate {
+extension ChatButtonsView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.didSelectButton(at: indexPath)

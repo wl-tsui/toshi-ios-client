@@ -38,19 +38,19 @@ enum BrowseContentSection {
 }
 
 class BrowseViewController: SearchableCollectionController {
-    fileprivate var cacheQueue = DispatchQueue(label: "org.toshi.cacheQueue")
-    fileprivate var contentSections: [BrowseContentSection] = [.topRatedApps, .featuredApps, .topRatedPublicUsers, .latestPublicUsers]
-    fileprivate var items: [[TokenUser]] = [[], [], [], []]
-    fileprivate var openURLButtonTopAnchor: NSLayoutConstraint?
+    private var cacheQueue = DispatchQueue(label: "org.toshi.cacheQueue")
+    private var contentSections: [BrowseContentSection] = [.topRatedApps, .featuredApps, .topRatedPublicUsers, .latestPublicUsers]
+    private var items: [[TokenUser]] = [[], [], [], []]
+    private var openURLButtonTopAnchor: NSLayoutConstraint?
     
-    fileprivate lazy var searchResultView: BrowseSearchResultView = {
+    private lazy var searchResultView: BrowseSearchResultView = {
         let view = BrowseSearchResultView()
         view.isHidden = true
         
         return view
     }()
     
-    fileprivate lazy var openURLButton: OpenURLButton = {
+    private lazy var openURLButton: OpenURLButton = {
         let view = OpenURLButton(withAutoLayout: true)
         view.isHidden = true
         view.addTarget(self, action: #selector(didTapOpenURL(_:)), for: .touchUpInside)
@@ -58,7 +58,7 @@ class BrowseViewController: SearchableCollectionController {
         return view
     }()
     
-    fileprivate lazy var openButtonAttributes: [NSAttributedStringKey: Any] = {
+    private lazy var openButtonAttributes: [NSAttributedStringKey: Any] = {
         return [.foregroundColor: Theme.tintColor, .font: Theme.regular(size: 14)]
     }()
     
@@ -212,7 +212,7 @@ class BrowseViewController: SearchableCollectionController {
         })
     }
     
-    @objc fileprivate func reload(searchText: String) {
+    @objc private func reload(searchText: String) {
         
         if searchText.isValidURL {
             let title = NSAttributedString(string: searchText, attributes: openButtonAttributes)
@@ -232,7 +232,7 @@ class BrowseViewController: SearchableCollectionController {
         }
     }
     
-    fileprivate func showOpenURLButton() {
+    private func showOpenURLButton() {
         openURLButton.isHidden = false
         openURLButtonTopAnchor?.constant = topInset
         
@@ -241,18 +241,18 @@ class BrowseViewController: SearchableCollectionController {
         }, completion: nil)
     }
     
-    fileprivate func hideOpenURLButtonIfNeeded() {
+    private func hideOpenURLButtonIfNeeded() {
         openURLButtonTopAnchor?.constant = 0
         
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.view.layoutIfNeeded()
-        }) { _ in
+        }, completion: { _ in
             self.openURLButton.setAttributedTitle(nil)
             self.openURLButton.isHidden = true
-        }
+        })
     }
     
-    @objc fileprivate func didTapOpenURL(_ button: UIControl) {
+    @objc private func didTapOpenURL(_ button: UIControl) {
         guard let string = searchController.searchBar.text, let url = URL(string: string) else { return }
         
         let sofaController = SOFAWebController()

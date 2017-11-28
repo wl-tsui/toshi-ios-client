@@ -40,11 +40,11 @@ open class RecentViewController: SweetTableController, Emptiable {
         return dbConnection
     }()
 
-    fileprivate var chatAPIClient: ChatAPIClient {
+    private var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
     }
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
@@ -62,7 +62,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         }
     }
 
-    fileprivate func loadMessages() {
+    private func loadMessages() {
         uiDatabaseConnection.asyncRead { [weak self] transaction in
             self?.mappings.update(with: transaction)
 
@@ -96,7 +96,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         Navigator.presentModally(shareController)
     }
 
-    @objc fileprivate func chatDBCreated(_ notification: Notification) {
+    @objc private func chatDBCreated(_ notification: Notification) {
         loadMessages()
     }
 
@@ -114,7 +114,7 @@ open class RecentViewController: SweetTableController, Emptiable {
         Navigator.presentModally(favoritesController)
     }
 
-    fileprivate func addSubviewsAndConstraints() {
+    private func addSubviewsAndConstraints() {
         let tableHeaderHeight = navigationController?.navigationBar.frame.height ?? 0
         
         view.addSubview(emptyView)

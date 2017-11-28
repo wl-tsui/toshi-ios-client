@@ -4,12 +4,12 @@ import TinyConstraints
 
 final class CurrencyPicker: UIViewController {
 
-    fileprivate static let popularCurrenciesCodes = ["USD", "EUR", "CNY", "GBP", "CAD"]
+    private static let popularCurrenciesCodes = ["USD", "EUR", "CNY", "GBP", "CAD"]
 
-    fileprivate var suggestedCurrencies: [Currency] = []
-    fileprivate var otherCurrencies: [Currency] = []
+    private var suggestedCurrencies: [Currency] = []
+    private var otherCurrencies: [Currency] = []
 
-    fileprivate lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .grouped)
 
         view.backgroundColor = nil
@@ -69,7 +69,7 @@ final class CurrencyPicker: UIViewController {
         tableView.edges(to: view)
     }
 
-    fileprivate var currentLocalCurrencyIndexPath: IndexPath {
+    private var currentLocalCurrencyIndexPath: IndexPath {
         
         guard let currentUser = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Currency picker"])

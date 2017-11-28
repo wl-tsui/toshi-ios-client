@@ -17,7 +17,7 @@ import Foundation
 
 final class ProfileEditConfigurator {
 
-    fileprivate var item: ProfileEditItem = ProfileEditItem(.none)
+    private var item: ProfileEditItem = ProfileEditItem(.none)
 
     init(item: ProfileEditItem) {
         self.item = item

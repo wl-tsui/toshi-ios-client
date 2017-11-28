@@ -38,7 +38,7 @@ class ScannerController: ScannerViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    fileprivate lazy var activityView: UIActivityIndicatorView = {
+    private lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
 

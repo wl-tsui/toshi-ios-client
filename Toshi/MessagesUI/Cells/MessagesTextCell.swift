@@ -50,7 +50,7 @@ class MessagesTextCell: MessagesBasicCell {
         textView.isUserInteractionEnabled = !show
     }
 
-    fileprivate lazy var usernameDetector: NSRegularExpression = {
+    private lazy var usernameDetector: NSRegularExpression = {
         do {
             return try NSRegularExpression(pattern: " ?(@[a-zA-Z][a-zA-Z0-9_]{2,59}) ?", options: [.caseInsensitive, .useUnicodeWordBoundaries])
         } catch {
@@ -87,7 +87,7 @@ class MessagesTextCell: MessagesBasicCell {
         textView.text = nil
     }
 
-    fileprivate func detectUsernameLinksIfNeeded() {
+    private func detectUsernameLinksIfNeeded() {
         guard frame.isEmpty == false else { return }
 
         if let text = textView.attributedText?.mutableCopy() as? NSMutableAttributedString {

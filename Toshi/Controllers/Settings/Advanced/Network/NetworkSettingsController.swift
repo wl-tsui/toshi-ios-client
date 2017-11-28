@@ -18,11 +18,11 @@ import SweetUIKit
 
 class NetworkSettingsController: UIViewController {
 
-    fileprivate lazy var activityView: UIActivityIndicatorView = {
+    private lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
 
-    fileprivate lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
 
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false

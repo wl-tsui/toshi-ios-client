@@ -107,8 +107,8 @@ public class TokenUser: NSObject, NSCoding {
     private var userSettings: [String: Any] = [:]
     private(set) var cachedCurrencyLocale: Locale?
 
-    fileprivate static var _current: TokenUser?
-    @objc fileprivate(set) static var current: TokenUser? {
+    private static var _current: TokenUser?
+    @objc private(set) static var current: TokenUser? {
         get {
             if _current == nil {
                 _current = retrieveCurrentUserFromStore()

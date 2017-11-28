@@ -189,7 +189,7 @@ public class Cereal: NSObject {
         return walletCereal.sha3(string: string)
     }
 
-    @objc fileprivate func userCreated(_ notification: Notification) {
+    @objc private func userCreated(_ notification: Notification) {
         Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
     }
 }

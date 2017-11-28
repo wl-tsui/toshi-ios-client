@@ -23,11 +23,11 @@ public class EthereumAPIClient: NSObject {
 
     @objc static let shared: EthereumAPIClient = EthereumAPIClient()
 
-    fileprivate var mainTeapot: Teapot
+    private var mainTeapot: Teapot
 
-    fileprivate var switchedNetworkTeapot: Teapot
+    private var switchedNetworkTeapot: Teapot
 
-    fileprivate var activeTeapot: Teapot {
+    private var activeTeapot: Teapot {
         if NetworkSwitcher.shared.isDefaultNetworkActive {
             return mainTeapot
         } else {
@@ -35,12 +35,12 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    fileprivate static var teapotUrl: String {
+    private static var teapotUrl: String {
         return NetworkSwitcher.shared.activeNetworkBaseUrl
     }
 
-    fileprivate static let CachedBalanceKey = "CachedBalanceKey"
-    fileprivate lazy var cache: Cache<NSDecimalNumber> = {
+    private static let CachedBalanceKey = "CachedBalanceKey"
+    private lazy var cache: Cache<NSDecimalNumber> = {
         do {
             return try Cache<NSDecimalNumber>(name: "balanceCache")
         } catch {
@@ -54,7 +54,7 @@ public class EthereumAPIClient: NSObject {
         self.mainTeapot = mockTeapot
     }
 
-    fileprivate override init() {
+    private override init() {
         mainTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
         switchedNetworkTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
 
@@ -97,7 +97,7 @@ public class EthereumAPIClient: NSObject {
         sendSignedTransaction(params: params, completion: completion)
     }
 
-    private func sendSignedTransaction(params: [String:String], completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
+    private func sendSignedTransaction(params: [String: String], completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
 
         timestamp(activeTeapot) { timestamp, error in
             guard let timestamp = timestamp else {
@@ -211,7 +211,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    fileprivate func timestamp(_ teapot: Teapot, _ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
+    private func timestamp(_ teapot: Teapot, _ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
         teapot.get("/v1/timestamp") { (result: NetworkResult) in
             switch result {
             case .success(let json, _):
@@ -226,7 +226,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    fileprivate func registerForPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
+    private func registerForPushNotifications(_ timestamp: String, teapot: Teapot, completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
         let cereal = Cereal.shared
@@ -262,7 +262,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    fileprivate func deregisterFromPushNotifications(_ timestamp: String, teapot: Teapot, completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
+    private func deregisterFromPushNotifications(_ timestamp: String, teapot: Teapot, completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
 
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 

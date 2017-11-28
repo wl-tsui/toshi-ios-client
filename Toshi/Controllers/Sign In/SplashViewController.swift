@@ -148,7 +148,7 @@ final class SplashViewController: UIViewController {
         showAcceptTermsAlert()
     }
     
-    fileprivate func showAcceptTermsAlert() {
+    private func showAcceptTermsAlert() {
         
         let alert = UIAlertController(title: Localized("accept_terms_title"), message: Localized("accept_terms_text"), preferredStyle: .alert)
         

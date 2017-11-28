@@ -47,7 +47,7 @@ final class InputCell: UITableViewCell, UITextFieldDelegate {
         switchControl.isOn = false
     }
 
-    @objc @IBAction fileprivate func switchValueDidChange(_: Any) {
+    @objc @IBAction private func switchValueDidChange(_: Any) {
         updater?.inputDidUpdate(textField.text, switchControl.isOn)
     }
 

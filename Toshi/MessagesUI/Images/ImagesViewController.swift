@@ -14,7 +14,7 @@ class ImagesViewController: UIViewController {
 
     var interactiveTransition: UIPercentDrivenInteractiveTransition?
 
-    fileprivate lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
         UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:)))
     }()
 

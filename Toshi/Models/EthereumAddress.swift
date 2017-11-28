@@ -49,7 +49,7 @@ public struct EthereumAddress {
     }
 }
 
-fileprivate extension String {
+private extension String {
     static let base36Alphabet = "0123456789abcdefghijklmnopqrstuvwxyz"
     static var base36AlphabetMap: [Character: Int] {
         var reverseLookup = [Character: Int]()
@@ -78,7 +78,7 @@ fileprivate extension String {
             }
         }
 
-        let hexAddress = bytes.reversed().map { byte in String(format:"%02hhx", byte) }.joined()
+        let hexAddress = bytes.reversed().map { byte in String(format: "%02hhx", byte) }.joined()
 
         return hexAddress
     }

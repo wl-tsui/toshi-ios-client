@@ -20,17 +20,17 @@ import TinyConstraints
 
 public class ProfileViewController: UIViewController {
 
-    fileprivate lazy var activityView: UIActivityIndicatorView = {
+    private lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
 
     public var contact: TokenUser
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
-    fileprivate var messageSender: MessageSender? {
+    private var messageSender: MessageSender? {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
         return appDelegate?.messageSender
@@ -82,7 +82,7 @@ public class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
-    fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
+    private lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = Yap.sharedInstance.database!
         let dbConnection = database.newConnection()
         dbConnection.beginLongLivedReadTransaction()
@@ -113,7 +113,7 @@ public class ProfileViewController: UIViewController {
     }
 
     @objc
-    fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
+    private func yapDatabaseDidChange(notification _: NSNotification) {
         let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
         if uiDatabaseConnection.hasChange(forKey: contact.address, inCollection: TokenUser.favoritesCollectionKey, in: notifications) {
@@ -202,7 +202,7 @@ public class ProfileViewController: UIViewController {
         Navigator.presentModally(alert)
     }
 
-    fileprivate func updateReputation() {
+    private func updateReputation() {
         RatingsClient.shared.scores(for: contact.address) { [weak self] ratingScore in
             self?.profileView?.reputationView.setScore(ratingScore)
         }

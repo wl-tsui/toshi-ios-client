@@ -4,8 +4,8 @@ import TinyConstraints
 
 class OpenURLButton: UIControl {
 
-    fileprivate lazy var titleLabel: UILabel = UILabel()
-    fileprivate lazy var chevron: UIImageView = UIImageView(image: UIImage(named: "chevron"))
+    private lazy var titleLabel: UILabel = UILabel()
+    private lazy var chevron: UIImageView = UIImageView(image: UIImage(named: "chevron"))
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

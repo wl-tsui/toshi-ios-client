@@ -39,11 +39,11 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         return #selector(keyboardHiddenNotificationReceived(_:))
     }
 
-    fileprivate lazy var filteredView: YapDatabaseFilteredView = {
+    private lazy var filteredView: YapDatabaseFilteredView = {
         return YapDatabaseFilteredView(parentViewName: TokenUser.viewExtensionName, filtering: filtering)
     }()
 
-    fileprivate var filtering: YapDatabaseViewFiltering {
+    private var filtering: YapDatabaseViewFiltering {
 
         let searchText = searchController.searchBar.text?.lowercased() ?? ""
 
@@ -71,14 +71,14 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         keyboardWillHide(notification)
     }
 
-    fileprivate lazy var mappings: YapDatabaseViewMappings = {
+    private lazy var mappings: YapDatabaseViewMappings = {
         let mappings = YapDatabaseViewMappings(groups: [TokenUser.favoritesCollectionKey], view: filteredDatabaseViewName)
         mappings.setIsReversed(true, forGroup: TokenUser.favoritesCollectionKey)
 
         return mappings
     }()
 
-    fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
+    private lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = Yap.sharedInstance.database
         let dbConnection = database!.newConnection()
         dbConnection.beginLongLivedReadTransaction()
@@ -86,21 +86,21 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         return dbConnection
     }()
 
-    fileprivate lazy var databaseConnection: YapDatabaseConnection = {
+    private lazy var databaseConnection: YapDatabaseConnection = {
         let database = Yap.sharedInstance.database
         let dbConnection = database!.newConnection()
 
         return dbConnection
     }()
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
-    fileprivate lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.didPressCancel(_:)))
-    fileprivate lazy var addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.didTapAddButton))
+    private lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.didPressCancel(_:)))
+    private lazy var addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.didTapAddButton))
 
-    fileprivate lazy var searchController: UISearchController = {
+    private lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchResultsUpdater = self
 
@@ -142,13 +142,13 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
     }
 
-    @objc fileprivate func userCreated(_ notification: Notification) {
+    @objc private func userCreated(_ notification: Notification) {
         DispatchQueue.main.async {
             self.setupForCurrentUserNotifications()
         }
     }
 
-    fileprivate func setupForCurrentUserNotifications() {
+    private func setupForCurrentUserNotifications() {
         registerTokenContactsDatabaseView()
 
         uiDatabaseConnection.asyncRead { [weak self] transaction in
@@ -244,7 +244,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         searchController.searchBar.superview?.clipsToBounds = false
     }
 
-    fileprivate func addSubviewsAndConstraints() {
+    private func addSubviewsAndConstraints() {
         let tableHeaderHeight = tableView.tableHeaderView?.frame.height ?? 0
 
         tableView.edges(to: view)
@@ -254,11 +254,11 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: tableHeaderHeight, left: 0, bottom: 0, right: 0))
     }
 
-    fileprivate func showOrHideEmptyState() {
+    private func showOrHideEmptyState() {
         emptyView.isHidden = searchController.isActive || mappings.numberOfItems(inSection: 0) > 0
     }
 
-    fileprivate func contactSorting() -> YapDatabaseViewSorting {
+    private func contactSorting() -> YapDatabaseViewSorting {
         let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
             if let data1 = object1 as? Data, let data2 = object2 as? Data,
                 let contact1 = TokenUser.user(with: data1),
@@ -274,7 +274,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     }
 
     @discardableResult
-    fileprivate func registerTokenContactsDatabaseView() -> Bool {
+    private func registerTokenContactsDatabaseView() -> Bool {
         guard let database = Yap.sharedInstance.database else { fatalError("couldn't instantiate the database") }
         // Check if it's already registered.
         guard database.registeredExtension(TokenUser.viewExtensionName) == nil else { return true }
@@ -300,18 +300,18 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         return mainViewIsRegistered && filteredViewIsRegistered
     }
 
-    fileprivate func displayContacts() {
+    private func displayContacts() {
         tableView.reloadData()
         showOrHideEmptyState()
     }
 
-    fileprivate func registerDatabaseNotifications() {
+    private func registerDatabaseNotifications() {
         let notificationController = NotificationCenter.default
         notificationController.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
     @objc
-    fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
+    private func yapDatabaseDidChange(notification _: NSNotification) {
         defer {
            showOrHideEmptyState()
         }
@@ -365,7 +365,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         tableView.endUpdates()
     }
 
-    fileprivate func updateContactIfNeeded(at indexPath: IndexPath) {
+    private func updateContactIfNeeded(at indexPath: IndexPath) {
         guard let contact = contact(at: indexPath) else { return }
 
         print("Updating contact infor for address: \(contact.address).")
@@ -381,7 +381,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         }
     }
 
-    fileprivate func contact(at indexPath: IndexPath) -> TokenUser? {
+    private func contact(at indexPath: IndexPath) -> TokenUser? {
         var contact: TokenUser?
 
         uiDatabaseConnection.read { [weak self] transaction in
@@ -396,7 +396,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
         return contact
     }
 
-    fileprivate func contact(with address: String) -> TokenUser? {
+    private func contact(with address: String) -> TokenUser? {
         var contact: TokenUser?
 
         uiDatabaseConnection.read { transaction in
@@ -409,7 +409,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     }
 
     @objc
-    fileprivate func didTapAddButton() {
+    private func didTapAddButton() {
         let addContactSheet = UIAlertController(title: Localized("favorites_add_title"), message: nil, preferredStyle: .actionSheet)
 
         addContactSheet.addAction(UIAlertAction(title: Localized("favorites_add_by_username"), style: .default, handler: { _ in

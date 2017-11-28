@@ -13,7 +13,7 @@ class QRCodeIntentTests: XCTestCase {
             XCTAssertNil(username)
             XCTAssertEqual(memo, "thanks")
         } else {
-            XCTFail()
+            XCTFail("Could not create payment request from intent")
         }
     }
 
@@ -26,7 +26,7 @@ class QRCodeIntentTests: XCTestCase {
             XCTAssertEqual(username, "mark")
             XCTAssertNil(memo)
         } else {
-            XCTFail()
+            XCTFail("Could not create payment request from intent")
         }
     }
 
@@ -36,7 +36,7 @@ class QRCodeIntentTests: XCTestCase {
         if case .addressInput(let address) = intent {
             XCTAssertEqual(address, "0x037be053f866be6ee6dda11f258bd871b701a8d7")
         } else {
-            XCTFail()
+            XCTFail("Could not create address input from intent")
         }
     }
 
@@ -46,7 +46,7 @@ class QRCodeIntentTests: XCTestCase {
         if case .webSignIn(let loginToken) = intent {
             XCTAssertEqual(loginToken, "a3e4c16114c50878")
         } else {
-            XCTFail()
+            XCTFail("Could not web sign in from intent")
         }
     }
 
@@ -56,7 +56,7 @@ class QRCodeIntentTests: XCTestCase {
         if case .addContact(let username) = intent {
             XCTAssertEqual(username, "mark")
         } else {
-            XCTFail()
+            XCTFail("Could not create contact from intent")
         }
     }
 

@@ -65,7 +65,7 @@ open class SettingsController: UIViewController {
             }
         }
 
-        fileprivate static var appVersionString: String {
+        private static var appVersionString: String {
             let info = Bundle.main.infoDictionary!
             let version = info["CFBundleShortVersionString"]
             let buildNumber = info["CFBundleVersion"]
@@ -78,15 +78,15 @@ open class SettingsController: UIViewController {
         case profile, qrCode, balance, security, advanced, localCurrency, signOut
     }
 
-    fileprivate var ethereumAPIClient: EthereumAPIClient {
+    private var ethereumAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
 
-    fileprivate var chatAPIClient: ChatAPIClient {
+    private var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
     }
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
@@ -94,9 +94,9 @@ open class SettingsController: UIViewController {
         return TokenUser.current?.verified ?? false
     }
 
-    fileprivate let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
+    private let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
 
-    fileprivate lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
 
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -112,7 +112,7 @@ open class SettingsController: UIViewController {
         return view
     }()
 
-    fileprivate var balance: NSDecimalNumber? {
+    private var balance: NSDecimalNumber? {
         didSet {
             self.tableView.reloadData()
         }
@@ -175,21 +175,21 @@ open class SettingsController: UIViewController {
         self.balance = balance
     }
 
-    fileprivate func fetchAndUpdateBalance() {
+    private func fetchAndUpdateBalance() {
 
         self.ethereumAPIClient.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, _ in
             self?.balance = cachedBalance
-        }) { [weak self] fetchedBalance, error in
+        }, fetchedBalanceCompletion: { [weak self] fetchedBalance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             } else {
                 self?.balance = fetchedBalance
             }
-        }
+        })
     }
 
-    fileprivate func handleSignOut() {
+    private func handleSignOut() {
         guard let currentUser = TokenUser.current else {
             let alert = UIAlertController(title: Localized("settings_signout_error_title"), message: Localized("settings_signout_error_message"), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: Localized("settings_signout_action_ok"), style: .default, handler: { _ in
@@ -235,7 +235,7 @@ open class SettingsController: UIViewController {
         return alert
     }
 
-    fileprivate func setupProfileCell(_ cell: UITableViewCell) {
+    private func setupProfileCell(_ cell: UITableViewCell) {
         guard let cell = cell as? SettingsProfileCell else { return }
 
         cell.displayNameLabel.text = TokenUser.current?.name
@@ -247,7 +247,7 @@ open class SettingsController: UIViewController {
         }
     }
 
-    fileprivate func pushViewController(_ storyboardName: String) {
+    private func pushViewController(_ storyboardName: String) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         guard let controller = storyboard.instantiateInitialViewController() else { return }
 
@@ -382,10 +382,10 @@ extension SettingsController: UITableViewDelegate {
         let sectionItem = sections[section]
 
         switch sectionItem {
-            case .profile:
-                return SettingsController.headerHeight + SettingsController.footerHeight
-            default:
-                return SettingsController.headerHeight
+        case .profile:
+            return SettingsController.headerHeight + SettingsController.footerHeight
+        default:
+            return SettingsController.headerHeight
         }
     }
 
@@ -400,10 +400,10 @@ extension SettingsController: UITableViewDelegate {
         let sectionItem = sections[section]
 
         switch sectionItem {
-            case .settings:
-                return 44
-            default:
-                return SettingsController.footerHeight
+        case .settings:
+            return 44
+        default:
+            return SettingsController.footerHeight
         }
     }
 

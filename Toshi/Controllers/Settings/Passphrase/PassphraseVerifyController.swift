@@ -18,7 +18,7 @@ import SweetUIKit
 
 class PassphraseVerifyController: UIViewController {
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
@@ -26,14 +26,14 @@ class PassphraseVerifyController: UIViewController {
 
     lazy var textLabel = TextLabel(Localized("passphrase_verify_text"))
 
-    fileprivate lazy var shuffledPassphraseView: PassphraseView = {
+    private lazy var shuffledPassphraseView: PassphraseView = {
         let view = PassphraseView(with: Cereal().mnemonic.words, for: .shuffled)
         view.addDelegate = self
 
         return view
     }()
 
-    fileprivate lazy var verifyPassphraseView: PassphraseView = {
+    private lazy var verifyPassphraseView: PassphraseView = {
         let view = PassphraseView(with: Cereal().mnemonic.words, for: .verification)
         view.removeDelegate = self
         view.verificationDelegate = self
