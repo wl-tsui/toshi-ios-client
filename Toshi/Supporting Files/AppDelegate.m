@@ -179,7 +179,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [[Navigator tabbarController] setupControllers];
 
     __weak typeof(self)weakSelf = self;
-    [[IDAPIClient shared] registerUserIfNeeded:^(UserRegisterStatus status, NSString *message){
+    [[IDAPIClient shared] registerUserIfNeeded:^(UserRegisterStatus status){
 
         if (status != UserRegisterStatusFailed) {
 
@@ -188,7 +188,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             [strongSelf didCreateUser];
             [strongSelf setupDB];
 
-            [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success, NSString *message) {
+            [[ChatAPIClient shared] registerUserWithCompletion:^(BOOL success) {
                 if (status == UserRegisterStatusRegistered) {
                     [ChatInteractor triggerBotGreeting];
                 }

@@ -3,9 +3,9 @@ github "UseSweet/SweetFoundation" ~> 1.2.0
 github "UseSweet/SweetSwift" "master"
 github "UseSweet/SweetUIKit" "master"
 github "bakkenbaeck/CameraScanner" "01708dc3f1b440177173b48377ca18f6748fa58e"
-github "bakkenbaeck/EtherealCereal" ~> 0.0.3
+github "bakkenbaeck/EtherealCereal" ~> 0.1
 github "bakkenbaeck/Formulaic" "12d290e608d6da68d4956c265740621ce7d44f56"
-github "bakkenbaeck/Teapot" "fix/public-error-properties"
+github "bakkenbaeck/Teapot" "c28f2281366fcc90f235d43b74d9e23ec75f607d"
 github "marketplacer/keychain-swift" ~> 7.0
 github "mxcl/PromiseKit" ~> 4.0
 github "toshiapp/AwesomeCache" "master"

@@ -61,8 +61,7 @@ class AppsAPIClientTests: QuickSpec {
                     waitUntil { done in
                         subject.getTopRatedApps { users, error in
                             expect(users?.count).to(equal(0))
-                            expect(error).toNot(beNil())
-
+                            expect(error?.type).to(equal(.invalidResponseStatus))
                             done()
                         }
                     }
@@ -75,7 +74,7 @@ class AppsAPIClientTests: QuickSpec {
                     waitUntil { done in
                         subject.getFeaturedApps { users, error in
                             expect(users?.count).to(equal(0))
-                            expect(error).toNot(beNil())
+                            expect(error?.type).to(equal(.invalidResponseStatus))
                             done()
                         }
                     }
@@ -91,8 +90,7 @@ class AppsAPIClientTests: QuickSpec {
                     waitUntil { done in
                         subject.getTopRatedApps { users, error in
                             expect(users?.count).to(equal(0))
-                            expect(error).toNot(beNil())
-
+                            expect(error?.type).to(equal(.invalidResponseStatus))
                             done()
                         }
                     }
@@ -105,7 +103,37 @@ class AppsAPIClientTests: QuickSpec {
                     waitUntil { done in
                         subject.getFeaturedApps { users, error in
                             expect(users?.count).to(equal(0))
-                            expect(error).toNot(beNil())
+                            expect(error?.type).to(equal(.invalidResponseStatus))
+                            done()
+                        }
+                    }
+                }
+            }
+
+            context("Invalid JSON") {
+
+                it("fetches the top rated apps") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "score")
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
+
+                    waitUntil { done in
+                        subject.getTopRatedApps { users, error in
+                            expect(users?.count).to(beNil())
+                            expect(error?.type).to(equal(.invalidResponseJSON))
+
+                            done()
+                        }
+                    }
+                }
+
+                it("fetches the featured apps") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: AppsAPIClientTests.self), mockFilename: "score")
+                    subject = AppsAPIClient(teapot: mockTeapot, cacheEnabled: false)
+
+                    waitUntil { done in
+                        subject.getFeaturedApps { users, error in
+                            expect(users?.count).to(beNil())
+                            expect(error?.type).to(equal(.invalidResponseJSON))
                             done()
                         }
                     }
