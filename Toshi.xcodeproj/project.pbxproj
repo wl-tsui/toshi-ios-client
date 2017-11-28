@@ -702,7 +702,9 @@
 		D197B21E44FC770D3632265C /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197B22F0A1803EEBB6819FE /* searchContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4747DA95DF531E0C300 /* searchContacts.json */; };
 		D197B22FB4CEE1C4761BCEB7 /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
+		D197B28EB9A9030E0722C968 /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B4D3CFFCDD20926ADDCD /* TestTableViewController.swift */; };
 		D197B2A45E12329713413EAE /* createUnsignedTransaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BB03F2BFF88371C66F25 /* createUnsignedTransaction.json */; };
+		D197B2E19CD5F7FA20469DB6 /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B4D3CFFCDD20926ADDCD /* TestTableViewController.swift */; };
 		D197B30022F9B4D9D27325F7 /* getTopRatedApps.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B06C962A9EC5993916F9 /* getTopRatedApps.json */; };
 		D197B329C25288ECA41EC3C8 /* SofaWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6AD4DEFD836C0ECA908 /* SofaWrapperTests.swift */; };
 		D197B329D1F28B5F7868DE4D /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDBBB0DE754639B7005B /* ProfileEditController.swift */; };
@@ -748,6 +750,7 @@
 		D197B7D1079D294F6B96DF5D /* BasicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCD09A762734CEE3C8C1 /* BasicTableViewCell.swift */; };
 		D197B80A67FA2271BE1C9621 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B80BA859D990BA308903 /* TitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */; };
+		D197B81949E77CC872FB9E00 /* TestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B4D3CFFCDD20926ADDCD /* TestTableViewController.swift */; };
 		D197B81F1E89C7FFD9471412 /* TitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC51E940F1B16693CC50 /* TitleSubtitleCell.swift */; };
 		D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197B858C5B5C6F49529970D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */; };
@@ -1145,6 +1148,7 @@
 		D197B3F77566E161C5CAB467 /* SofaMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaMessage.swift; sourceTree = "<group>"; };
 		D197B4747DA95DF531E0C300 /* searchContacts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = searchContacts.json; sourceTree = "<group>"; };
 		D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "YapDatabaseViewConnection+Additions.swift"; sourceTree = "<group>"; };
+		D197B4D3CFFCDD20926ADDCD /* TestTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTableViewController.swift; sourceTree = "<group>"; };
 		D197B54B1A4AD5DB747C55BF /* ToshiError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToshiError.swift; sourceTree = "<group>"; };
 		D197B5835BCEB0D7A2DA6967 /* timestamp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = timestamp.json; path = Tests/Mocks/timestamp.json; sourceTree = SOURCE_ROOT; };
 		D197B5AD370809E7D2EB3631 /* SofaCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaCommand.swift; sourceTree = "<group>"; };
@@ -2080,6 +2084,7 @@
 				D197BBE1E19E1989BE64242B /* TitleSubtitleSwitchCell.swift */,
 				D197BB94F2C161F269D3C967 /* TitleSwitchCell.swift */,
 				D197BF9B28AD7DEE0C09DD0E /* AvatarTitleSubtitleSwitchTableViewCell.swift */,
+				D197B4D3CFFCDD20926ADDCD /* TestTableViewController.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3025,6 +3030,7 @@
 				D197B6CFCFBF44E789974646 /* TitleSubtitleSwitchCell.swift in Sources */,
 				D197B61481BD9F8833F70DEB /* TitleSwitchCell.swift in Sources */,
 				D197B858C5B5C6F49529970D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */,
+				D197B81949E77CC872FB9E00 /* TestTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3222,6 +3228,7 @@
 				D197BB345FA5AF6C93CDC38B /* TitleSubtitleSwitchCell.swift in Sources */,
 				D197BB8232A0CBF5ADE9D730 /* TitleSwitchCell.swift in Sources */,
 				D197B17E2E4A6B6FB241253D /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */,
+				D197B2E19CD5F7FA20469DB6 /* TestTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3419,6 +3426,7 @@
 				D197B80BA859D990BA308903 /* TitleSubtitleSwitchCell.swift in Sources */,
 				D197B9F28EDF2456F3355087 /* TitleSwitchCell.swift in Sources */,
 				D197BD0F380FD5703BC6FEA3 /* AvatarTitleSubtitleSwitchTableViewCell.swift in Sources */,
+				D197B28EB9A9030E0722C968 /* TestTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

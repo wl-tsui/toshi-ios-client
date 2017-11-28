@@ -86,7 +86,10 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     @objc public func setupControllers() {
         browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
-        favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
+
+        // WARNING: showing test tableviewController to test new cell logic
+        favoritesController = FavoritesNavigationController(rootViewController: TestTableViewController())
+//        favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
 
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
         let recentViewController = RecentViewController()
