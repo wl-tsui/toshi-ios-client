@@ -33,7 +33,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
 
         let content = UNMutableNotificationContent()
         content.title = thread.name()
-        content.threadIdentifier = thread.uniqueId
+        content.threadIdentifier = thread.uniqueId!
 
         if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
             content.body = sofa.body

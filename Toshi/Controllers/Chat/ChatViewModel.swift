@@ -146,11 +146,11 @@ final class ChatViewModel {
     }()
 
     private lazy var mappings: YapDatabaseViewMappings = {
-        YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
+        YapDatabaseViewMappings(groups: [self.thread.uniqueId!], view: TSMessageDatabaseViewExtensionName)
     }()
 
     private lazy var loadedMappings: YapDatabaseViewMappings = {
-        YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
+        YapDatabaseViewMappings(groups: [self.thread.uniqueId!], view: TSMessageDatabaseViewExtensionName)
     }()
 
     private lazy var editingDatabaseConnection: YapDatabaseConnection? = {
@@ -189,7 +189,7 @@ final class ChatViewModel {
             return
         }
 
-        self.loadedMappings.setRangeOptions(rangeOptions, forGroup: self.thread.uniqueId)
+        self.loadedMappings.setRangeOptions(rangeOptions, forGroup: self.thread.uniqueId!)
 
         self.loadMessages(notifiesAboutLastMessage: notifiesAboutLastMessage)
     }
