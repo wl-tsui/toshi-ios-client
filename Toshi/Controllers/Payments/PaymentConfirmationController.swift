@@ -53,6 +53,8 @@ class PaymentConfirmationController: AlertController {
         super.viewDidLoad()
 
         setupCustomContentView()
+        
+        fetchScores()
 
         setupActiveNetworkView()
 
@@ -60,7 +62,10 @@ class PaymentConfirmationController: AlertController {
     }
 
     private func setupCustomContentView() {
-        if let customView = Bundle.main.loadNibNamed("PaymentRequestInfoView", owner: nil, options: nil)?.first as? PaymentRequestInfoView {
+        guard let nibViews = Bundle.main.loadNibNamed("PaymentRequestInfoView", owner: nil, options: nil), let customView = nibViews.first as? PaymentRequestInfoView else {
+            assertionFailure("Could not load Payment Request Info View from nib")
+            return
+        }
 
             customView.translatesAutoresizingMaskIntoConstraints = false
             customView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -79,12 +84,13 @@ class PaymentConfirmationController: AlertController {
             customView.mode = (userInfo.isLocal == true) ? Mode.localUser : Mode.remoteUser
 
             customContentView = customView
-
-            RatingsClient.shared.scores(for: userInfo.address) { [weak self] score in
-                if let view = self?.customContentView as? PaymentRequestInfoView {
-                    view.ratingView.set(rating: Float(score.averageRating), animated: true)
-                    view.ratingCountLabel.text = "(\(score.reviewCount))"
-                }
+    }
+    
+    func fetchScores() {
+        RatingsClient.shared.scores(for: userInfo.address) { [weak self] score in
+            if let view = self?.customContentView as? PaymentRequestInfoView {
+                view.ratingView.set(rating: Float(score.averageRating), animated: true)
+                view.ratingCountLabel.text = "(\(score.reviewCount))"
             }
         }
     }

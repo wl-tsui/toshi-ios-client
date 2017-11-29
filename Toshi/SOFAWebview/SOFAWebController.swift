@@ -33,12 +33,12 @@ class SOFAWebController: UIViewController {
     private let rcpUrl = ToshiWebviewRPCURLPath
 
     private var callbackId = ""
-
-    private lazy var webView: WKWebView = {
+    
+    private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
-
+        
         var js = "window.SOFA = {config: {rcpUrl: '" + self.rcpUrl + "'}}; "
-
+        
         if let filepath = Bundle.main.path(forResource: "sofa-web3", ofType: "js") {
             do {
                 js += try String(contentsOfFile: filepath)
@@ -49,17 +49,21 @@ class SOFAWebController: UIViewController {
         } else {
             print("Sofa.js not found in bundle")
         }
-
+        
         var userScript: WKUserScript = WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-
+        
         configuration.userContentController.add(self, name: Method.getAccounts.rawValue)
         configuration.userContentController.add(self, name: Method.signTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.publishTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.approveTransaction.rawValue)
-
+        
         configuration.userContentController.addUserScript(userScript)
+        
+        return configuration
+    }()
 
-        let view = WKWebView(frame: self.view.frame, configuration: configuration)
+    private lazy var webView: WKWebView = {
+        let view = WKWebView(frame: self.view.frame, configuration: self.webViewConfiguration)
         view.allowsBackForwardNavigationGestures = true
         view.scrollView.isScrollEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false

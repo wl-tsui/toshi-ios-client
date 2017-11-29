@@ -93,30 +93,39 @@ extension ScannerController: PaymentPresentable {
         showActivityIndicator()
 
         EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
-
-            guard let transaction = transaction else {
-                self?.hideActivityIndicator()
-                self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
-                self?.startScanning()
-
+            
+            guard
+                let transaction = transaction,
+                let signedTransaction = self?.createSignedTransaction(from: transaction) else {
+                    self?.hideActivityIndicator()
+                    self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
+                    self?.startScanning()
+                
                 return
             }
 
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
-
-            EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
-
-                self?.hideActivityIndicator()
-
-                guard success else {
-                    self?.presentPaymentError(withErrorMessage: error?.description ?? ToshiError.genericError.description)
-                    self?.startScanning()
-                    return
-                }
-
-                self?.presentSuccessAlert { [weak self] _ in
-                    self?.startScanning()
-                }
+            self?.sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)
+        }
+    }
+    
+    private func createSignedTransaction(from unsignedTransaction: String) -> String {
+        return "0x\(Cereal.shared.signWithWallet(hex: unsignedTransaction))"
+    }
+    
+    private func sendTransaction(originalTransaction: String, signedTransaction: String) {
+        EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: originalTransaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
+            
+            self?.hideActivityIndicator()
+            
+            guard success else {
+                self?.presentPaymentError(withErrorMessage: error?.description ?? ToshiError.genericError.description)
+                self?.startScanning()
+                
+                return
+            }
+            
+            self?.presentSuccessAlert { [weak self] _ in
+                self?.startScanning()
             }
         }
     }

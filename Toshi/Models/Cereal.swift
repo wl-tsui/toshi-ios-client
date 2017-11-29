@@ -43,6 +43,25 @@ public class Cereal: NSObject {
     @objc public static func areWordsValid(_ words: [String]) -> Bool {
         return BTCMnemonic(words: words, password: nil, wordListType: .english) != nil
     }
+    
+    private static func idKeychain(from mnemonic: BTCMnemonic) -> BTCKeychain {
+        // ID path 0H/1/0
+        return mnemonic.keychain
+            .derivedKeychain(at: 0, hardened: true)
+            .derivedKeychain(at: 1)
+            .derivedKeychain(at: 0)
+    }
+    
+    private static func walletKeychain(from mnemonic: BTCMnemonic) -> BTCKeychain {
+        // wallet path: 44H/60H/0H/0 and then 0 again. Metamask root path, first key.
+        // Metamask allows multiple addresses, by incrementing the last path. So second key would be: 44H/60H/0H/0/1 and so on.
+        return mnemonic.keychain
+            .derivedKeychain(at: 44, hardened: true)
+            .derivedKeychain(at: 60, hardened: true)
+            .derivedKeychain(at: 0, hardened: true)
+            .derivedKeychain(at: 0)
+            .derivedKeychain(at: 0)
+    }
 
     // restore from words
     public init?(words: [String]) {
@@ -52,12 +71,12 @@ public class Cereal: NSObject {
         Yap.sharedInstance.insert(object: self.mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
 
         // ID path 0H/1/0
-        let idKeychain = self.mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
+        let idKeychain = Cereal.idKeychain(from: mnemonic)
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
         idCereal = EtherealCereal(privateKey: idPrivateKey)
 
         // wallet path: 44H/60H/0H/0
-        let walletKeychain = self.mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        let walletKeychain = Cereal.walletKeychain(from: mnemonic)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
         walletCereal = EtherealCereal(privateKey: walletPrivateKey)
 
@@ -77,7 +96,7 @@ public class Cereal: NSObject {
             var entropy = Data(count: entropyByteCount)
             // This creates the private key inside a block, result is of internal type ResultType.
             // We just need to check if it's 0 to ensure that there were no errors.
-            let result = entropy.withUnsafeMutableBytes { mutableBytes in
+            let result: Int32 = entropy.withUnsafeMutableBytes { mutableBytes in
                 SecRandomCopyBytes(kSecRandomDefault, entropy.count, mutableBytes)
             }
             guard result == 0 else {
@@ -88,14 +107,11 @@ public class Cereal: NSObject {
             mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english)!
         }
 
-        // ID path 0H/1/0
-        let idKeychain = mnemonic.keychain.derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 1).derivedKeychain(at: 0)
+        let idKeychain = Cereal.idKeychain(from: mnemonic)
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
         idCereal = EtherealCereal(privateKey: idPrivateKey)
 
-        // wallet path: 44H/60H/0H/0 and then 0 again. Metamask root path, first key.
-        // Metamask allows multiple addresses, by incrementing the last path. So second key would be: 44H/60H/0H/0/1 and so on.
-        let walletKeychain = mnemonic.keychain.derivedKeychain(at: 44, hardened: true).derivedKeychain(at: 60, hardened: true).derivedKeychain(at: 0, hardened: true).derivedKeychain(at: 0).derivedKeychain(at: 0)
+        let walletKeychain = Cereal.walletKeychain(from: mnemonic)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
         walletCereal = EtherealCereal(privateKey: walletPrivateKey)
 

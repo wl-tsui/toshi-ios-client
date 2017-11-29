@@ -21,43 +21,9 @@ import SweetFoundation
 class ChatCell: UITableViewCell {
     var thread: TSThread? {
         didSet {
-            // last visible message
-            if let message = self.thread?.messages.last, let messageBody = message.body {
-
-                switch SofaType(sofa: messageBody) {
-                case .message:
-                    lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaMessage(content: messageBody).body, attributes: messageAttributes)
-                case .paymentRequest:
-                    lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaPaymentRequest(content: messageBody).body, attributes: messageAttributes)
-                default:
-                    lastMessageLabel.attributedText = nil
-                }
-            } else {
-                lastMessageLabel.attributedText = nil
-            }
-
-            // date
-            if let date = self.thread?.lastMessageDate() {
-                if DateTimeFormatter.isDate(date, sameDayAs: Date()) {
-                    lastMessageDateLabel.text = DateTimeFormatter.timeFormatter.string(from: date)
-                } else {
-                    lastMessageDateLabel.text = DateTimeFormatter.dateFormatter.string(from: date)
-                }
-            }
-
-            // unread badge
-            if let thread = self.thread {
-                let unreadMessagesCount = OWSMessageManager.shared().unreadMessages(in: thread)
-                if unreadMessagesCount > 0 {
-                    unreadLabel.text = "\(unreadMessagesCount)"
-                    unreadView.isHidden = false
-                    lastMessageDateLabel.textColor = Theme.tintColor
-                } else {
-                    unreadLabel.text = nil
-                    unreadView.isHidden = true
-                    lastMessageDateLabel.textColor = Theme.greyTextColor
-                }
-            }
+            configureLastVisibleMessage()
+            configureLastMessageDate()
+            configureUnreadBadge()
 
             guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
             if let contact = delegate.contactsManager.tokenContact(forAddress: self.thread?.contactIdentifier() ?? "") {
@@ -67,12 +33,6 @@ class ChatCell: UITableViewCell {
                     guard let contact = contact else { return }
                     self?.updateContact(contact)
                 }
-            }
-
-            if let lastMessage = self.lastMessageLabel.text, !lastMessage.isEmpty {
-                textGuideHeight.constant = 5
-            } else {
-                textGuideHeight.constant = 0
             }
         }
     }
@@ -263,6 +223,65 @@ class ChatCell: UITableViewCell {
             if contact.avatarPath == path {
                 self?.avatarImageView.image = image
             }
+        }
+    }
+    
+    private func configureLastVisibleMessage() {
+        guard let thread = self.thread else {
+            lastMessageLabel.attributedText = nil
+            return
+        }
+        
+        if let message = thread.messages.last, let messageBody = message.body {
+            switch SofaType(sofa: messageBody) {
+            case .message:
+                lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaMessage(content: messageBody).body, attributes: messageAttributes)
+            case .paymentRequest:
+                lastMessageLabel.attributedText = NSMutableAttributedString(string: SofaPaymentRequest(content: messageBody).body, attributes: messageAttributes)
+            default:
+                lastMessageLabel.attributedText = nil
+            }
+        } else {
+            lastMessageLabel.attributedText = nil
+        }
+        
+        if let lastMessage = self.lastMessageLabel.text, !lastMessage.isEmpty {
+            textGuideHeight.constant = 5
+        } else {
+            textGuideHeight.constant = 0
+        }
+    }
+    
+    private func configureLastMessageDate() {
+        guard let date = self.thread?.lastMessageDate() else {
+            lastMessageDateLabel.text = nil
+            
+            return
+        }
+        
+        if DateTimeFormatter.isDate(date, sameDayAs: Date()) {
+            lastMessageDateLabel.text = DateTimeFormatter.timeFormatter.string(from: date)
+        } else {
+            lastMessageDateLabel.text = DateTimeFormatter.dateFormatter.string(from: date)
+        }
+    }
+    
+    private func configureUnreadBadge() {
+        guard let thread = self.thread else {
+            unreadView.isHidden = true
+            
+            return
+        }
+        
+        let unreadMessagesCount = OWSMessageManager.shared().unreadMessages(in: thread)
+        if unreadMessagesCount > 0 {
+            unreadLabel.text = "\(unreadMessagesCount)"
+            unreadView.isHidden = false
+            lastMessageDateLabel.textColor = Theme.tintColor
+        } else {
+            unreadLabel.text = nil
+            unreadView.isHidden = true
+            lastMessageDateLabel.textColor = Theme.greyTextColor
         }
     }
 }

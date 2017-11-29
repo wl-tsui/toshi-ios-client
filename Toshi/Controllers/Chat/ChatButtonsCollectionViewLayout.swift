@@ -23,12 +23,12 @@ final class ChatButtonsViewLayout: UICollectionViewFlowLayout {
         }
         
         var leftInset: CGFloat = 0
-        let totalWidth = UIScreen.main.bounds.width - (view.contentInset.left + view.contentInset.right)
-        var contentWidth = attributes.map { $0.frame.width }.reduce(0, +)
-        contentWidth += CGFloat(attributes.count - 1) * minimumInteritemSpacing
+        let totalWidth: CGFloat = UIScreen.main.bounds.width - (view.contentInset.left + view.contentInset.right)
+        let contentWidth: CGFloat = attributes.map { $0.frame.width }.reduce(0, +)
+        let paddedContentWidth: CGFloat = contentWidth + CGFloat(attributes.count - 1) * minimumInteritemSpacing
         
-        if contentWidth < totalWidth {
-            leftInset = totalWidth - contentWidth
+        if paddedContentWidth < totalWidth {
+            leftInset = totalWidth - paddedContentWidth
         }
         
         attributes.forEach {
