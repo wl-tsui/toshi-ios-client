@@ -155,7 +155,7 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
         OWSRecipientIdentity *existingIdentity = [OWSRecipientIdentity fetchObjectWithUniqueID:recipientId];
 
         if (existingIdentity == nil) {
-            DDLogInfo(@"%@ saving first use identity for recipient: %@", self.tag, recipientId);
+            DDLogInfo(@"%@ saving first use identity for recipient: %@", self.logTag, recipientId);
             [[[OWSRecipientIdentity alloc] initWithRecipientId:recipientId
                                                    identityKey:identityKey
                                                isFirstKnownKey:YES
@@ -183,10 +183,10 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
             }
 
             DDLogInfo(@"%@ replacing identity for existing recipient: %@ (%@ -> %@)",
-                      self.tag,
-                      recipientId,
-                      OWSVerificationStateToString(existingIdentity.verificationState),
-                      OWSVerificationStateToString(verificationState));
+                self.logTag,
+                recipientId,
+                OWSVerificationStateToString(existingIdentity.verificationState),
+                OWSVerificationStateToString(verificationState));
             [self createIdentityChangeInfoMessageForRecipientId:recipientId];
 
             [[[OWSRecipientIdentity alloc] initWithRecipientId:recipientId
@@ -237,10 +237,10 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
         }
 
         DDLogInfo(@"%@ setVerificationState: %@ (%@ -> %@)",
-                  self.tag,
-                  recipientId,
-                  OWSVerificationStateToString(recipientIdentity.verificationState),
-                  OWSVerificationStateToString(verificationState));
+            self.logTag,
+            recipientId,
+            OWSVerificationStateToString(recipientIdentity.verificationState),
+            OWSVerificationStateToString(verificationState));
 
         [recipientIdentity updateWithVerificationState:verificationState];
 
@@ -329,10 +329,10 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
                 return YES;
             } else {
                 OWSFail(@"%@ Wrong identity: %@ for local key: %@, recipientId: %@",
-                        self.tag,
-                        identityKey,
-                        [self identityKeyPair].publicKey,
-                        recipientId);
+                    self.logTag,
+                    identityKey,
+                    [self identityKeyPair].publicKey,
+                    recipientId);
                 return NO;
             }
         }
@@ -346,7 +346,7 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
                 return [self isTrustedKey:identityKey forSendingToIdentity:existingIdentity];
             }
             default: {
-                OWSFail(@"%@ unexpected message direction: %ld", self.tag, (long)direction);
+                OWSFail(@"%@ unexpected message direction: %ld", self.logTag, (long)direction);
                 return NO;
             }
         }
@@ -365,7 +365,7 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
 
         OWSAssert(recipientIdentity.identityKey.length == kStoredIdentityKeyLength);
         if (![recipientIdentity.identityKey isEqualToData:identityKey]) {
-            DDLogWarn(@"%@ key mismatch for recipient: %@", self.tag, recipientIdentity.recipientId);
+            DDLogWarn(@"%@ key mismatch for recipient: %@", self.logTag, recipientIdentity.recipientId);
             return NO;
         }
 
@@ -378,7 +378,8 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
                 BOOL isNew = (fabs([recipientIdentity.createdAt timeIntervalSinceNow])
                               < kIdentityKeyStoreNonBlockingSecondsThreshold);
                 if (isNew) {
-                    DDLogWarn(@"%@ not trusting new identity for recipient: %@", self.tag, recipientIdentity.recipientId);
+                    DDLogWarn(
+                        @"%@ not trusting new identity for recipient: %@", self.logTag, recipientIdentity.recipientId);
                     return NO;
                 } else {
                     return YES;
@@ -387,7 +388,9 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
             case OWSVerificationStateVerified:
                 return YES;
             case OWSVerificationStateNoLongerVerified:
-                DDLogWarn(@"%@ not trusting no longer verified identity for recipient: %@", self.tag, recipientIdentity.recipientId);
+                DDLogWarn(@"%@ not trusting no longer verified identity for recipient: %@",
+                    self.logTag,
+                    recipientIdentity.recipientId);
                 return NO;
         }
     }
@@ -514,30 +517,30 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
     // subsequently
     OWSOutgoingNullMessage *nullMessage = [[OWSOutgoingNullMessage alloc] initWithContactThread:contactThread
                                                                    verificationStateSyncMessage:message];
-    [self.messageSender sendMessage:nullMessage
-                            success:^{
-                                DDLogInfo(@"%@ Successfully sent verification state NullMessage", self.tag);
-                                [self.messageSender sendMessage:message
-                                                        success:^{
-                                                            DDLogInfo(@"%@ Successfully sent verification state sync message", self.tag);
+    [self.messageSender enqueueMessage:nullMessage
+        success:^{
+            DDLogInfo(@"%@ Successfully sent verification state NullMessage", self.logTag);
+            [self.messageSender enqueueMessage:message
+                success:^{
+                    DDLogInfo(@"%@ Successfully sent verification state sync message", self.logTag);
 
-                                                            // Record that this verification state was successfully synced.
-                                                            [self clearSyncMessageForRecipientId:message.verificationForRecipientId];
-                                                        }
-                                                        failure:^(NSError *error) {
-                                                            DDLogError(@"%@ Failed to send verification state sync message with error: %@", self.tag, error);
-                                                        }];
-                            }
-                            failure:^(NSError *_Nonnull error) {
-                                DDLogError(@"%@ Failed to send verification state NullMessage with error: %@", self.tag, error);
-                                if (error.code == OWSErrorCodeNoSuchSignalRecipient) {
-                                    DDLogInfo(@"%@ Removing retries for syncing verification state, since user is no longer registered: %@",
-                                              self.tag,
-                                              message.verificationForRecipientId);
-                                    // Otherwise this will fail forever.
-                                    [self clearSyncMessageForRecipientId:message.verificationForRecipientId];
-                                }
-                            }];
+                    // Record that this verification state was successfully synced.
+                    [self clearSyncMessageForRecipientId:message.verificationForRecipientId];
+                }
+                failure:^(NSError *error) {
+                    DDLogError(@"%@ Failed to send verification state sync message with error: %@", self.logTag, error);
+                }];
+        }
+        failure:^(NSError *_Nonnull error) {
+            DDLogError(@"%@ Failed to send verification state NullMessage with error: %@", self.logTag, error);
+            if (error.code == OWSErrorCodeNoSuchSignalRecipient) {
+                DDLogInfo(@"%@ Removing retries for syncing verification state, since user is no longer registered: %@",
+                    self.logTag,
+                    message.verificationForRecipientId);
+                // Otherwise this will fail forever.
+                [self clearSyncMessageForRecipientId:message.verificationForRecipientId];
+            }
+        }];
 }
 
 - (void)clearSyncMessageForRecipientId:(NSString *)recipientId
@@ -647,10 +650,10 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
             }
 
             DDLogInfo(@"%@ setVerificationState: %@ (%@ -> %@)",
-                      self.tag,
-                      recipientId,
-                      OWSVerificationStateToString(recipientIdentity.verificationState),
-                      OWSVerificationStateToString(verificationState));
+                self.logTag,
+                recipientId,
+                OWSVerificationStateToString(recipientIdentity.verificationState),
+                OWSVerificationStateToString(verificationState));
 
             [recipientIdentity updateWithVerificationState:verificationState];
 
@@ -750,18 +753,6 @@ NSString *const kNSNotificationName_IdentityStateDidChange = @"kNSNotificationNa
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)1.f * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self tryToSyncQueuedVerificationStates];
     });
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end

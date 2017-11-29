@@ -2390,6 +2390,12 @@
 				"${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR4.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR1.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR3.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR4.crt",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2410,6 +2416,12 @@
 				"${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR4.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR1.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR3.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR4.crt",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2473,6 +2485,12 @@
 				"${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR4.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR1.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR3.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR4.crt",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -2656,6 +2674,12 @@
 				"${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer",
 				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR4.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR1.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR2.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR3.crt",
+				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR4.crt",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

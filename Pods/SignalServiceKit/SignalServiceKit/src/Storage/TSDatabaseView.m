@@ -120,9 +120,8 @@ NSString *const TSSecondaryDevicesDatabaseViewExtensionName = @"TSSecondaryDevic
          withName:viewName
          completionBlock:^(BOOL ready) {
              OWSCAssert(ready);
-
-             DDLogInfo(@"%@ asyncRegisterExtension: %@ -> %d", self.tag, viewName, ready);
-         }];
+                       DDLogInfo(@"%@ asyncRegisterExtension: %@ -> %d", self.logTag, viewName, ready);
+                   }];
     } else {
         [[TSStorageManager sharedManager].database registerExtension:view withName:viewName];
     }
@@ -389,15 +388,15 @@ NSString *const TSSecondaryDevicesDatabaseViewExtensionName = @"TSSecondaryDevic
     [[YapDatabaseAutoView alloc] initWithGrouping:viewGrouping sorting:viewSorting versionTag:@"3" options:options];
 
     [[TSStorageManager sharedManager].database
-     asyncRegisterExtension:view
-     withName:TSSecondaryDevicesDatabaseViewExtensionName
-     completionBlock:^(BOOL ready) {
-         if (ready) {
-             DDLogDebug(@"%@ Successfully set up extension: %@", self.tag, TSSecondaryDevicesGroup);
-         } else {
-             DDLogError(@"%@ Unable to setup extension: %@", self.tag, TSSecondaryDevicesGroup);
-         }
-     }];
+        asyncRegisterExtension:view
+                      withName:TSSecondaryDevicesDatabaseViewExtensionName
+               completionBlock:^(BOOL ready) {
+                   if (ready) {
+                       DDLogDebug(@"%@ Successfully set up extension: %@", self.logTag, TSSecondaryDevicesGroup);
+                   } else {
+                       DDLogError(@"%@ Unable to setup extension: %@", self.logTag, TSSecondaryDevicesGroup);
+                   }
+               }];
 }
 
 + (id)unseenDatabaseViewExtension:(YapDatabaseReadTransaction *)transaction
@@ -448,18 +447,6 @@ NSString *const TSSecondaryDevicesDatabaseViewExtensionName = @"TSSecondaryDevic
           object:nil
           userInfo:nil];
      }];
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end

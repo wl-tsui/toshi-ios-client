@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithEnvelope:(OWSSignalServiceProtosEnvelope *)envelope NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithUniqueId:(NSString *)uniqueId NS_UNAVAILABLE;
+- (instancetype)initWithUniqueId:(NSString *_Nullable)uniqueId NS_UNAVAILABLE;
 - (OWSSignalServiceProtosEnvelope *)envelopeProto;
 
 @end
@@ -299,7 +299,7 @@ NSString *const OWSMessageDecryptJobFinderExtensionGroup = @"OWSMessageProcessin
     OWSMessageDecryptJob *_Nullable job = [self.finder nextJob];
     if (!job) {
         self.isDrainingQueue = NO;
-        DDLogVerbose(@"%@ Queue is drained.", self.tag);
+        DDLogVerbose(@"%@ Queue is drained.", self.logTag);
         return;
     }
 
@@ -307,9 +307,9 @@ NSString *const OWSMessageDecryptJobFinderExtensionGroup = @"OWSMessageProcessin
           completion:^(BOOL success) {
               [self.finder removeJobWithId:job.uniqueId];
               DDLogVerbose(@"%@ %@ job. %lu jobs left.",
-                           self.tag,
-                           success ? @"decrypted" : @"failed to decrypt",
-                           (unsigned long)[OWSMessageDecryptJob numberOfKeysInCollection]);
+                  self.logTag,
+                  success ? @"decrypted" : @"failed to decrypt",
+                  (unsigned long)[OWSMessageDecryptJob numberOfKeysInCollection]);
               [self drainQueueWorkStep];
           }];
 }
@@ -347,7 +347,7 @@ NSString *const OWSMessageDecryptJobFinderExtensionGroup = @"OWSMessageProcessin
 
 - (NSString *)tag
 {
-    return self.class.tag;
+    return self.class.logTag;
 }
 
 @end

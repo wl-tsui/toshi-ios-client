@@ -87,11 +87,23 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer"
   install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR2.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR4.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR1.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR2.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR3.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR4.crt"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer"
   install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR2.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GSR4.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR1.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR2.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR3.crt"
+  install_resource "${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GTSR4.crt"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

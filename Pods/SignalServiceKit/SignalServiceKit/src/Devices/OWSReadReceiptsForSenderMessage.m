@@ -67,30 +67,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - TSYapDatabaseObject overrides
 
-- (void)saveWithTransaction:(YapDatabaseReadWriteTransaction *)transaction
+- (BOOL)shouldBeSaved
 {
-    // override superclass with no-op.
-    //
-    // There's no need to save this message, since it's not displayed to the user.
-    //
-    // Should we find a need to save this in the future, we need to exclude any non-serializable properties.
+    return NO;
 }
 
 - (NSString *)debugDescription
 {
-    return [NSString stringWithFormat:@"%@ with message timestamps: %zd", self.tag, self.messageTimestamps.count];
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
+    return [NSString stringWithFormat:@"%@ with message timestamps: %zd", self.logTag, self.messageTimestamps.count];
 }
 
 @end

@@ -138,7 +138,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 
 - (void)didRegister
 {
-    DDLogInfo(@"%@ didRegister", self.tag);
+    DDLogInfo(@"%@ didRegister", self.logTag);
     NSString *phoneNumber = self.phoneNumberAwaitingVerification;
 
     if (!phoneNumber) {
@@ -211,7 +211,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 
     if (registrationID == 0) {
         registrationID = (uint32_t)arc4random_uniform(16380) + 1;
-        DDLogWarn(@"%@ Generated a new registrationID: %u", self.tag, registrationID);
+        DDLogWarn(@"%@ Generated a new registrationID: %u", self.logTag, registrationID);
 
         [self.keysDBConnection setObject:[NSNumber numberWithUnsignedInteger:registrationID]
                                   forKey:TSAccountManager_LocalRegistrationIdKey
@@ -222,8 +222,8 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 }
 
 - (void)registerForPushNotificationsWithPushToken:(NSString *)pushToken
-                                        voipToken:(nullable NSString *)voipToken
-                                          success:(void (^)())successHandler
+                                        voipToken:(NSString *)voipToken
+                                          success:(void (^)(void))successHandler
                                           failure:(void (^)(NSError *))failureHandler
 {
     [self registerForPushNotificationsWithPushToken:pushToken
@@ -234,8 +234,8 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 }
 
 - (void)registerForPushNotificationsWithPushToken:(NSString *)pushToken
-                                        voipToken:(nullable NSString *)voipToken
-                                          success:(void (^)())successHandler
+                                        voipToken:(NSString *)voipToken
+                                          success:(void (^)(void))successHandler
                                           failure:(void (^)(NSError *))failureHandler
                                  remainingRetries:(int)remainingRetries
 {
@@ -263,7 +263,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 }
 
 + (void)registerWithPhoneNumber:(NSString *)phoneNumber
-                        success:(void (^)())successBlock
+                        success:(void (^)(void))successBlock
                         failure:(void (^)(NSError *error))failureBlock
                 smsVerification:(BOOL)isSMS
 
@@ -285,7 +285,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
                   transport:isSMS ? TSVerificationTransportSMS : TSVerificationTransportVoice]
      success:^(NSURLSessionDataTask *task, id responseObject) {
          DDLogInfo(@"%@ Successfully requested verification code request for number: %@ method:%@",
-                   self.tag,
+                   self.logTag,
                    phoneNumber,
                    isSMS ? @"SMS" : @"Voice");
          successBlock();
@@ -294,12 +294,12 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
          if (!IsNSErrorNetworkFailure(error)) {
              OWSProdError([OWSAnalyticsEvents accountsErrorVerificationCodeRequestFailed]);
          }
-         DDLogError(@"%@ Failed to request verification code request with error:%@", self.tag, error);
+         DDLogError(@"%@ Failed to request verification code request with error:%@", self.logTag, error);
          failureBlock(error);
      }];
 }
 
-+ (void)rerequestSMSWithSuccess:(void (^)())successBlock failure:(void (^)(NSError *error))failureBlock
++ (void)rerequestSMSWithSuccess:(void (^)(void))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     TSAccountManager *manager = [self sharedInstance];
     NSString *number          = manager.phoneNumberAwaitingVerification;
@@ -309,7 +309,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
     [self registerWithPhoneNumber:number success:successBlock failure:failureBlock smsVerification:YES];
 }
 
-+ (void)rerequestVoiceWithSuccess:(void (^)())successBlock failure:(void (^)(NSError *error))failureBlock
++ (void)rerequestVoiceWithSuccess:(void (^)(void))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     TSAccountManager *manager = [self sharedInstance];
     NSString *number          = manager.phoneNumberAwaitingVerification;
@@ -319,22 +319,23 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
     [self registerWithPhoneNumber:number success:successBlock failure:failureBlock smsVerification:NO];
 }
 
-- (void)registerForManualMessageFetchingWithSuccess:(void (^)())successBlock
+- (void)registerForManualMessageFetchingWithSuccess:(void (^)(void))successBlock
                                             failure:(void (^)(NSError *error))failureBlock
 {
     TSUpdateAttributesRequest *request = [[TSUpdateAttributesRequest alloc] initWithManualMessageFetching:YES];
     [self.networkManager makeRequest:request
-                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-                                 DDLogInfo(@"%@ updated server with account attributes to enableManualFetching", self.tag);
-                                 successBlock();
-                             } failure:^(NSURLSessionDataTask * _Nonnull task, NSError * _Nonnull error) {
-                                 DDLogInfo(@"%@ failed to updat server with account attributes with error: %@", self.tag, error);
-                                 failureBlock(error);
-                             }];
+        success:^(NSURLSessionDataTask *_Nonnull task, id _Nonnull responseObject) {
+            DDLogInfo(@"%@ updated server with account attributes to enableManualFetching", self.logTag);
+            successBlock();
+        }
+        failure:^(NSURLSessionDataTask *_Nonnull task, NSError *_Nonnull error) {
+            DDLogInfo(@"%@ failed to updat server with account attributes with error: %@", self.logTag, error);
+            failureBlock(error);
+        }];
 }
 
 - (void)verifyAccountWithCode:(NSString *)verificationCode
-                      success:(void (^)())successBlock
+                      success:(void (^)(void))successBlock
                       failure:(void (^)(NSError *error))failureBlock
 {
     NSString *authToken = [[self class] generateNewAccountAuthenticationToken];
@@ -352,52 +353,48 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 
     __weak typeof(self)weakSelf = self;
     [self.networkManager makeRequest:request
-                             success:^(NSURLSessionDataTask *task, id responseObject) {
-                                 NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-                                 long statuscode = response.statusCode;
+        success:^(NSURLSessionDataTask *task, id responseObject) {
+            NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+            long statuscode = response.statusCode;
 
-                                 typeof(self)strongSelf = weakSelf;
-
-                                 switch (statuscode) {
-                                     case 200:
-                                     case 204: {
-                                         DDLogInfo(@"%@ Verification code accepted.", self.tag);
-                                         [weakSelf storeServerAuthToken:authToken signalingKey:signalingKey];
-                                         [self didRegister];
-                                         [TSSocketManager requestSocketOpen];
-                                         [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
-                                                                          success:successBlock
-                                                                          failure:failureBlock];
-                                         break;
-                                     }
-                                     default: {
-                                         DDLogError(@"%@ Unexpected status while verifying code: %ld", self.tag, statuscode);
-                                         NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
-                                         failureBlock(error);
-                                         break;
-                                     }
-                                 }
-                             }
-                             failure:^(NSURLSessionDataTask *task, NSError *error) {
-                                 if (!IsNSErrorNetworkFailure(error)) {
-                                     OWSProdError([OWSAnalyticsEvents accountsErrorVerifyAccountRequestFailed]);
-                                 }
-                                 DDLogWarn(@"%@ Error verifying code: %@", self.tag, error.debugDescription);
-                                 switch (error.code) {
-                                     case 403: {
-                                         NSError *userError = OWSErrorWithCodeDescription(OWSErrorCodeUserError,
-                                                                                          NSLocalizedString(@"REGISTRATION_VERIFICATION_FAILED_WRONG_CODE_DESCRIPTION",
-                                                                                                            "Alert body, during registration"));
-                                         failureBlock(userError);
-                                         break;
-                                     }
-                                     default: {
-                                         DDLogError(@"%@ verifying code failed with unhandled error: %@", self.tag, error);
-                                         failureBlock(error);
-                                         break;
-                                     }
-                                 }
-                             }];
+            switch (statuscode) {
+                case 200:
+                case 204: {
+                    DDLogInfo(@"%@ Verification code accepted.", self.logTag);
+                    [self storeServerAuthToken:authToken signalingKey:signalingKey];
+                    [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
+                                                     success:successBlock
+                                                     failure:failureBlock];
+                    break;
+                }
+                default: {
+                    DDLogError(@"%@ Unexpected status while verifying code: %ld", self.logTag, statuscode);
+                    NSError *error = OWSErrorMakeUnableToProcessServerResponseError();
+                    failureBlock(error);
+                    break;
+                }
+            }
+        }
+        failure:^(NSURLSessionDataTask *task, NSError *error) {
+            if (!IsNSErrorNetworkFailure(error)) {
+                OWSProdError([OWSAnalyticsEvents accountsErrorVerifyAccountRequestFailed]);
+            }
+            DDLogWarn(@"%@ Error verifying code: %@", self.logTag, error.debugDescription);
+            switch (error.code) {
+                case 403: {
+                    NSError *userError = OWSErrorWithCodeDescription(OWSErrorCodeUserError,
+                        NSLocalizedString(@"REGISTRATION_VERIFICATION_FAILED_WRONG_CODE_DESCRIPTION",
+                            "Alert body, during registration"));
+                    failureBlock(userError);
+                    break;
+                }
+                default: {
+                    DDLogError(@"%@ verifying code failed with unhandled error: %@", self.logTag, error);
+                    failureBlock(error);
+                    break;
+                }
+            }
+        }];
 }
 
 #pragma mark Server keying material
@@ -460,11 +457,11 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
     }];
 }
 
-+ (void)unregisterTextSecureWithSuccess:(void (^)())success failure:(void (^)(NSError *error))failureBlock
++ (void)unregisterTextSecureWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failureBlock
 {
     [[TSNetworkManager sharedManager] makeRequest:[[TSUnregisterAccountRequest alloc] init]
                                           success:^(NSURLSessionDataTask *task, id responseObject) {
-                                              DDLogInfo(@"%@ Successfully unregistered", self.tag);
+                                              DDLogInfo(@"%@ Successfully unregistered", self.logTag);
                                               success();
 
                                               // This is called from `[AppSettingsViewController proceedToUnregistration]` whose
@@ -482,21 +479,9 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
                                               if (!IsNSErrorNetworkFailure(error)) {
                                                   OWSProdError([OWSAnalyticsEvents accountsErrorUnregisterAccountRequestFailed]);
                                               }
-                                              DDLogError(@"%@ Failed to unregister with error: %@", self.tag, error);
+                                              DDLogError(@"%@ Failed to unregister with error: %@", self.logTag, error);
                                               failureBlock(error);
                                           }];
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end

@@ -63,11 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
     OWSAssert(transaction);
 
     OWSIncomingSentMessageTranscript *transcript = self.incomingSentMessageTranscript;
-    DDLogDebug(@"%@ Recording transcript: %@", self.tag, transcript);
+    DDLogDebug(@"%@ Recording transcript: %@", self.logTag, transcript);
 
     TSThread *thread = [transcript threadWithTransaction:transaction];
     if (transcript.isEndSessionMessage) {
-        DDLogInfo(@"%@ EndSession was sent to recipient: %@.", self.tag, transcript.recipientId);
+        DDLogInfo(@"%@ EndSession was sent to recipient: %@.", self.logTag, transcript.recipientId);
         dispatch_async([OWSDispatch sessionStoreQueue], ^{
             [self.storageManager deleteAllSessionsForContact:transcript.recipientId];
         });
@@ -109,6 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
         return;
     }
 
+    [outgoingMessage saveWithTransaction:transaction];
     [outgoingMessage updateWithWasSentFromLinkedDeviceWithTransaction:transaction];
     [OWSDisappearingMessagesJob becomeConsistentWithConfigurationForMessage:outgoingMessage
                                                             contactsManager:self.contactsManager];
@@ -123,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
                            success:attachmentHandler
                            failure:^(NSError *_Nonnull error) {
                                DDLogError(@"%@ failed to fetch transcripts attachments for message: %@",
-                                   self.tag,
+                                   self.logTag,
                                    outgoingMessage);
                            }];
 
@@ -138,20 +139,9 @@ NS_ASSUME_NONNULL_BEGIN
                                                                      expiresInSeconds:transcript.expirationDuration
                                                                       expireStartedAt:transcript.expirationStartedAt];
         // Since textMessage is a new message, updateWithWasSentAndDelivered will save it.
+        [textMessage saveWithTransaction:transaction];
         [textMessage updateWithWasSentFromLinkedDeviceWithTransaction:transaction];
     }
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end

@@ -62,21 +62,28 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
 + (PhoneNumber *)phoneNumberFromUserSpecifiedText:(NSString *)text {
     OWSAssert(text != nil);
 
-    return [PhoneNumber phoneNumberFromText:text andRegion:[self defaultRegionCode]];
+    return [PhoneNumber phoneNumberFromText:text andRegion:[self defaultCountryCode]];
 }
 
-+ (NSString *)defaultRegionCode {
-    NSString *defaultRegion;
-#if TARGET_OS_IPHONE
-    defaultRegion = [[PhoneNumberUtil sharedUtil].nbPhoneNumberUtil countryCodeByCarrier];
++ (NSString *)defaultCountryCode
+{
+    NSLocale *locale = [NSLocale currentLocale];
 
-    if ([defaultRegion isEqualToString:@"ZZ"]) {
-        defaultRegion = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    NSString *_Nullable countryCode = nil;
+#if TARGET_OS_IPHONE
+    countryCode = [[PhoneNumberUtil sharedUtil].nbPhoneNumberUtil countryCodeByCarrier];
+
+    if ([countryCode isEqualToString:@"ZZ"]) {
+        countryCode = [locale objectForKey:NSLocaleCountryCode];
     }
 #else
-    defaultRegion = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    countryCode = [locale objectForKey:NSLocaleCountryCode];
 #endif
-    return defaultRegion;
+    if (!countryCode) {
+        OWSFail(@"%@ Could not identify country code for locale: %@", self.logTag, locale);
+        countryCode = @"US";
+    }
+    return countryCode;
 }
 
 + (PhoneNumber *)phoneNumberFromE164:(NSString *)text {
@@ -90,7 +97,7 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
 
 + (NSString *)bestEffortFormatPartialUserSpecifiedTextToLookLikeAPhoneNumber:(NSString *)input {
     return [PhoneNumber bestEffortFormatPartialUserSpecifiedTextToLookLikeAPhoneNumber:input
-                                                               withSpecifiedRegionCode:[self defaultRegionCode]];
+                                                               withSpecifiedRegionCode:[self defaultCountryCode]];
 }
 
 + (NSString *)bestEffortFormatPartialUserSpecifiedTextToLookLikeAPhoneNumber:(NSString *)input
@@ -144,9 +151,9 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
     static NSString *result = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSString *defaultRegionCode = [self defaultRegionCode];
+        NSString *defaultCountryCode = [self defaultCountryCode];
         NBMetadataHelper *helper = [[NBMetadataHelper alloc] init];
-        NBPhoneMetaData *defaultRegionMetadata = [helper getMetadataForRegion:defaultRegionCode];
+        NBPhoneMetaData *defaultRegionMetadata = [helper getMetadataForRegion:defaultCountryCode];
         result = defaultRegionMetadata.nationalPrefixTransformRule;
     });
     return result;
@@ -167,8 +174,8 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
         if (localCallingCode != nil) {
             NSString *localCallingCodePrefix = [NSString stringWithFormat:@"+%@", localCallingCode];
             NSString *localCountryCode =
-            [PhoneNumberUtil.sharedUtil probableCountryCodeForCallingCode:localCallingCodePrefix];
-            if (localCountryCode && ![localCountryCode isEqualToString:[self defaultRegionCode]]) {
+                [PhoneNumberUtil.sharedUtil probableCountryCodeForCallingCode:localCallingCodePrefix];
+            if (localCountryCode && ![localCountryCode isEqualToString:[self defaultCountryCode]]) {
                 NBMetadataHelper *helper = [[NBMetadataHelper alloc] init];
                 NBPhoneMetaData *localNumberRegionMetadata = [helper getMetadataForRegion:localCountryCode];
                 result = localNumberRegionMetadata.nationalPrefixTransformRule;
@@ -248,7 +255,7 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
         }
     };
 
-    tryParsingWithCountryCode(sanitizedString, [self defaultRegionCode]);
+    tryParsingWithCountryCode(sanitizedString, [self defaultCountryCode]);
 
     if ([sanitizedString hasPrefix:@"+"]) {
         // If the text starts with "+", don't try prepending
@@ -257,10 +264,12 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
     }
 
     // Try just adding "+" and parsing it.
-    tryParsingWithCountryCode([NSString stringWithFormat:@"+%@", sanitizedString], [self defaultRegionCode]);
+    tryParsingWithCountryCode([NSString stringWithFormat:@"+%@", sanitizedString], [self defaultCountryCode]);
 
     // Order matters; better results should appear first so prefer
     // matches with the same country code as this client's phone number.
+
+    //   if (shouldVerifyCountryCodePrefix) {
     //    OWSAssert(clientPhoneNumber.length > 0);
     //    if (clientPhoneNumber.length > 0) {
     //        // Note that NBPhoneNumber uses "country code" to refer to what we call a
@@ -272,7 +281,7 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
     //            NSString *callingCodePrefix = [NSString stringWithFormat:@"+%@", callingCodeForLocalNumber];
     //
     //            tryParsingWithCountryCode(
-    //                [callingCodePrefix stringByAppendingString:sanitizedString], [self defaultRegionCode]);
+    //                                      [callingCodePrefix stringByAppendingString:sanitizedString], [self defaultCountryCode]);
     //
     //            // Try to determine what the country code is for the local phone number
     //            // and also try parsing the phone number using that country code if it
@@ -282,13 +291,14 @@ static NSString *const RPDefaultsKeyPhoneNumberCanonical = @"RPDefaultsKeyPhoneN
     //            // Italian phone number but use French region/language for their
     //            // phone. They're likely to have both Italian and French contacts.
     //            NSString *localCountryCode =
-    //                [PhoneNumberUtil.sharedUtil probableCountryCodeForCallingCode:callingCodePrefix];
-    //            if (localCountryCode && ![localCountryCode isEqualToString:[self defaultRegionCode]]) {
+    //            [PhoneNumberUtil.sharedUtil probableCountryCodeForCallingCode:callingCodePrefix];
+    //            if (localCountryCode && ![localCountryCode isEqualToString:[self defaultCountryCode]]) {
     //                tryParsingWithCountryCode(
-    //                    [callingCodePrefix stringByAppendingString:sanitizedString], localCountryCode);
+    //                                          [callingCodePrefix stringByAppendingString:sanitizedString], localCountryCode);
     //            }
     //        }
     //    }
+    //}
 
     return result;
 }

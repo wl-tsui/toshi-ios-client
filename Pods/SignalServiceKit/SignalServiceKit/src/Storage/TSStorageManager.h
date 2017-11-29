@@ -73,6 +73,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, readonly) YapDatabaseConnection *keysDBReadConnection;
 @property (nullable, nonatomic, readonly) YapDatabaseConnection *keysDBReadWriteConnection;
 
+#pragma mark - Utilities
+
+- (void)protectFolderAtPath:(NSString *)path;
+
 @end
 
 NS_ASSUME_NONNULL_END

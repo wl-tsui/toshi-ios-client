@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithEnvelopeData:(NSData *)envelopeData
                        plaintextData:(NSData *_Nullable)plaintextData NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder *)coder NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithUniqueId:(NSString *)uniqueId NS_UNAVAILABLE;
+- (instancetype)initWithUniqueId:(NSString *_Nullable)uniqueId NS_UNAVAILABLE;
 - (OWSSignalServiceProtosEnvelope *)envelopeProto;
 
 @end
@@ -218,7 +218,7 @@ NSString *const OWSMessageContentJobFinderExtensionGroup = @"OWSMessageContentJo
 
 - (NSString *)tag
 {
-    return self.class.tag;
+    return self.class.logTag;
 }
 
 @end
@@ -326,7 +326,7 @@ NSString *const OWSMessageContentJobFinderExtensionGroup = @"OWSMessageContentJo
     OWSAssert(jobs);
     if (jobs.count < 1) {
         self.isDrainingQueue = NO;
-        DDLogVerbose(@"%@ Queue is drained", self.tag);
+        DDLogVerbose(@"%@ Queue is drained", self.logTag);
         return;
     }
 
@@ -335,9 +335,9 @@ NSString *const OWSMessageContentJobFinderExtensionGroup = @"OWSMessageContentJo
     [self.finder removeJobsWithIds:jobs.uniqueIds];
 
     DDLogVerbose(@"%@ completed %zd jobs. %zd jobs left.",
-                 self.tag,
-                 jobs.count,
-                 [OWSMessageContentJob numberOfKeysInCollection]);
+        self.logTag,
+        jobs.count,
+        [OWSMessageContentJob numberOfKeysInCollection]);
 
     // Wait a bit in hopes of increasing the batch size.
     // This delay won't affect the first message to arrive when this queue is idle,
@@ -370,7 +370,7 @@ NSString *const OWSMessageContentJobFinderExtensionGroup = @"OWSMessageContentJo
 
 - (NSString *)tag
 {
-    return self.class.tag;
+    return self.class.logTag;
 }
 
 @end

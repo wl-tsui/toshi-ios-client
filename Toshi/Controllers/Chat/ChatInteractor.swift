@@ -57,15 +57,13 @@ final class ChatInteractor: NSObject {
     }
 
     func send(_ signalMessage: TSOutgoingMessage, completion: @escaping ((Bool) -> Void) = { Bool in }) {
-        DispatchQueue.main.async {
-            self.messageSender?.send(signalMessage, success: {
-                completion(true)
-                print("message sent")
-            }, failure: { error in
-                completion(false)
-                print(error)
-            })
-        }
+        self.messageSender?.enqueue(signalMessage, success: {
+            completion(true)
+            print("message sent")
+        }, failure: { error in
+            completion(false)
+            print(error)
+        })
     }
 
     func send(image: UIImage) {
@@ -77,7 +75,7 @@ final class ChatInteractor: NSObject {
 
         guard let datasource = DataSourceValue.dataSource(with: imageData, fileExtension: "png") else { return }
 
-        messageSender?.sendAttachmentData(datasource, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
+        messageSender?.enqueueAttachment(datasource, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
             print("Success")
         }, failure: { error in
             print("Failure: \(error)")
@@ -93,7 +91,7 @@ final class ChatInteractor: NSObject {
 
         guard let datasource = DataSourceValue.dataSource(with: videoData, fileExtension: "mov") else { return }
 
-        messageSender?.sendAttachmentData(datasource, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
+        messageSender?.enqueueAttachment(datasource, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
             self.output?.didFinishRequest()
             print("Success")
         }, failure: { error in
@@ -226,7 +224,7 @@ final class ChatInteractor: NSObject {
                 interaction.body = sofaWrapper.content
                 interaction.save()
             }
-            
+
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: true)
 
             if interaction.hasAttachments() {
@@ -245,7 +243,7 @@ final class ChatInteractor: NSObject {
                 interaction.body = sofaWrapper.content
                 interaction.save()
             }
-            
+
             let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
 
             if interaction.hasAttachments() {
@@ -341,7 +339,7 @@ final class ChatInteractor: NSObject {
 
         guard let datasource = DataSourceValue.dataSource(with: data, fileExtension: "jpeg") else { return }
 
-        self.messageSender?.sendAttachmentData(datasource, contentType: "image/jpeg", sourceFilename: "File.jpeg", in: outgoingMessage, success: {
+        self.messageSender?.enqueueAttachment(datasource, contentType: "image/jpeg", sourceFilename: "File.jpeg", in: outgoingMessage, success: {
             print("Success")
         }, failure: { error in
             print("Failure: \(error)")

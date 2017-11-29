@@ -5,10 +5,13 @@
 #import "TSStorageManager.h"
 #import "NSData+Base64.h"
 #import "OWSAnalytics.h"
+#import "OWSBatchMessageProcessor.h"
 #import "OWSDisappearingMessagesFinder.h"
 #import "OWSFailedAttachmentDownloadsJob.h"
 #import "OWSFailedMessagesJob.h"
+#import "OWSFileSystem.h"
 #import "OWSIncomingMessageFinder.h"
+#import "OWSMessageReceiver.h"
 #import "SignalRecipient.h"
 #import "TSAttachmentStream.h"
 #import "TSDatabaseSecondaryIndexes.h"
@@ -18,8 +21,6 @@
 #import <25519/Randomness.h>
 #import "TSAccountManager.h"
 #import <SAMKeychain/SAMKeychain.h>
-#import <SignalServiceKit/OWSBatchMessageProcessor.h>
-#import <SignalServiceKit/OWSMessageReceiver.h>
 #import <YapDatabase/YapDatabaseRelationship.h>
 #import <YapDatabase/YapDatabaseManager.h>
 
@@ -192,21 +193,9 @@ void setDatabaseInitialized()
 
 - (nullable Class)unarchiver:(NSKeyedUnarchiver *)unarchiver cannotDecodeObjectOfClassName:(NSString *)name originalClasses:(NSArray<NSString *> *)classNames
 {
-    DDLogError(@"%@ Could not decode object: %@", self.tag, name);
+    DDLogError(@"%@ Could not decode object: %@", self.logTag, name);
     OWSProdError([OWSAnalyticsEvents storageErrorCouldNotDecodeClass]);
     return [OWSUnknownObject class];
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end
@@ -234,7 +223,7 @@ void setDatabaseInitialized()
 
     if (resortID == 0) {
         resortID = (uint32_t)arc4random_uniform(16380) + 1; //5687
-        DDLogWarn(@"%@ Generated a new registrationID: %u", self.tag, resortID);
+        DDLogWarn(@"%@ Generated a new registrationID: %u", self.logTag, resortID);
 
         [_keysDBReadConnection setObject:[NSNumber numberWithUnsignedInteger:resortID]
                                   forKey:@"ResortID"
@@ -454,36 +443,9 @@ void setDatabaseInitialized()
 }
 
 - (void)protectSignalFiles {
-    [self protectFolderAtPath:[TSAttachmentStream attachmentsFolder]];
-
-    NSString *databasePath = [self dbPathWithName:databaseName];
-    [self protectFolderAtPath:databasePath];
-    [self protectFolderAtPath:[databasePath stringByAppendingString:@"-shm"]];
-    [self protectFolderAtPath:[databasePath stringByAppendingString:@"-wal"]];
-
-    NSString *keysDBPath = [self dbPathWithName:keysDBName];
-    [self protectFolderAtPath:keysDBPath];
-    [self protectFolderAtPath:[keysDBPath stringByAppendingString:@"-shm"]];
-    [self protectFolderAtPath:[keysDBPath stringByAppendingString:@"-wal"]];
-}
-
-- (void)protectFolderAtPath:(NSString *)path {
-    if (![NSFileManager.defaultManager fileExistsAtPath:path]) {
-        return;
-    }
-
-    NSError *error;
-    NSDictionary *fileProtection = @{NSFileProtectionKey : NSFileProtectionCompleteUntilFirstUserAuthentication};
-    [[NSFileManager defaultManager] setAttributes:fileProtection ofItemAtPath:path error:&error];
-
-    NSDictionary *resourcesAttrs = @{ NSURLIsExcludedFromBackupKey : @YES };
-
-    NSURL *ressourceURL = [NSURL fileURLWithPath:path];
-    BOOL success        = [ressourceURL setResourceValues:resourcesAttrs error:&error];
-
-    if (error || !success) {
-        OWSProdCritical([OWSAnalyticsEvents storageErrorFileProtection]);
-    }
+    [OWSFileSystem protectFolderAtPath:[self dbPath]];
+    [OWSFileSystem protectFolderAtPath:[[self dbPath] stringByAppendingString:@"-shm"]];
+    [OWSFileSystem protectFolderAtPath:[[self dbPath] stringByAppendingString:@"-wal"]];
 }
 
 - (nullable YapDatabaseConnection *)newDatabaseConnection
@@ -502,6 +464,11 @@ void setDatabaseInitialized()
 
 - (BOOL)dbExists {
     return [[NSFileManager defaultManager] fileExistsAtPath:[self dbPathWithName:databaseName]];
+}
+
+- (NSString *)dbPath
+{
+    return [self dbPathWithName:databaseName];
 }
 
 - (NSString *)dbPathWithName:(NSString *)name {
@@ -571,7 +538,7 @@ void setDatabaseInitialized()
     if (keyFetchError) {
         UIApplicationState applicationState = [UIApplication sharedApplication].applicationState;
         NSString *errorDescription = [NSString stringWithFormat:@"Database password inaccessible. No unlock since device restart? Error: %@ ApplicationState: %d", keyFetchError, (int)applicationState];
-        DDLogError(@"%@ %@", self.tag, errorDescription);
+        DDLogError(@"%@ %@", self.logTag, errorDescription);
         [DDLog flushLog];
 
         if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
@@ -790,18 +757,6 @@ void setDatabaseInitialized()
     [TSAttachmentStream deleteAttachments];
 
     [self deleteDatabaseFile];
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end

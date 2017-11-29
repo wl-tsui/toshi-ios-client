@@ -284,7 +284,7 @@ extension ProfileViewController: PaymentControllerDelegate {
                     let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
                     let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 
-                    strongSelf.messageSender?.send(outgoingMessage, success: {
+                    strongSelf.messageSender?.enqueue(outgoingMessage, success: {
                         print("message sent")
                     }, failure: { error in
                         CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])

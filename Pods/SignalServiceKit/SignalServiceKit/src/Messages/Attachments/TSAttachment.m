@@ -29,7 +29,12 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
     OWSAssert(encryptionKey.length > 0);
     if (byteCount <= 0) {
         // This will fail with legacy iOS clients which don't upload attachment size.
-        DDLogWarn(@"%@ Missing byteCount for attachment with serverId: %lld", self.tag, serverId);
+        DDLogWarn(@"%@ Missing byteCount for attachment with serverId: %lld", self.logTag, serverId);
+    }
+    if (contentType.length < 1) {
+        DDLogWarn(@"%@ incoming attachment has invalid content type", self.logTag);
+
+        contentType = OWSMimeTypeApplicationOctetStream;
     }
     OWSAssert(contentType.length > 0);
 
@@ -55,6 +60,11 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
                           byteCount:(UInt32)byteCount
                      sourceFilename:(nullable NSString *)sourceFilename
 {
+    if (contentType.length < 1) {
+        DDLogWarn(@"%@ outgoing attachment has invalid content type", self.logTag);
+
+        contentType = OWSMimeTypeApplicationOctetStream;
+    }
     OWSAssert(contentType.length > 0);
     OWSAssert(byteCount > 0);
 
@@ -80,7 +90,7 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
     OWSAssert(pointer.encryptionKey.length > 0);
     if (pointer.byteCount <= 0) {
         // This will fail with legacy iOS clients which don't upload attachment size.
-        DDLogWarn(@"%@ Missing pointer.byteCount for attachment with serverId: %lld", self.tag, pointer.serverId);
+        DDLogWarn(@"%@ Missing pointer.byteCount for attachment with serverId: %lld", self.logTag, pointer.serverId);
     }
     OWSAssert(pointer.contentType.length > 0);
 
@@ -93,8 +103,14 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
     _serverId = pointer.serverId;
     _encryptionKey = pointer.encryptionKey;
     _byteCount = pointer.byteCount;
-    _contentType = pointer.contentType;
     _sourceFilename = pointer.sourceFilename;
+    NSString *contentType = pointer.contentType;
+    if (contentType.length < 1) {
+        DDLogWarn(@"%@ incoming attachment has invalid content type", self.logTag);
+
+        contentType = OWSMimeTypeApplicationOctetStream;
+    }
+    _contentType = contentType;
 
     _attachmentSchemaVersion = TSAttachmentSchemaVersion;
 
@@ -117,6 +133,12 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
         // renamed _filename to _sourceFilename
         _sourceFilename = [coder decodeObjectForKey:@"filename"];
         OWSAssert(!_sourceFilename || [_sourceFilename isKindOfClass:[NSString class]]);
+    }
+
+    if (_contentType.length < 1) {
+        DDLogWarn(@"%@ legacy attachment has invalid content type", self.logTag);
+
+        _contentType = OWSMimeTypeApplicationOctetStream;
     }
 
     return self;
@@ -160,18 +182,6 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
 - (BOOL)isVoiceMessage
 {
     return self.attachmentType == TSAttachmentTypeVoiceMessage;
-}
-
-#pragma mark - Logging
-
-+ (NSString *)tag
-{
-    return [NSString stringWithFormat:@"[%@]", self.class];
-}
-
-- (NSString *)tag
-{
-    return self.class.tag;
 }
 
 @end
