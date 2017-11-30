@@ -222,7 +222,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 }
 
 - (void)registerForPushNotificationsWithPushToken:(NSString *)pushToken
-                                        voipToken:(NSString *)voipToken
+                                        voipToken:(nullable NSString *)voipToken
                                           success:(void (^)())successHandler
                                           failure:(void (^)(NSError *))failureHandler
 {
@@ -234,7 +234,7 @@ NSString *const TSAccountManager_ServerSignalingKey = @"TSStorageServerSignaling
 }
 
 - (void)registerForPushNotificationsWithPushToken:(NSString *)pushToken
-                                        voipToken:(NSString *)voipToken
+                                        voipToken:(nullable NSString *)voipToken
                                           success:(void (^)())successHandler
                                           failure:(void (^)(NSError *))failureHandler
                                  remainingRetries:(int)remainingRetries

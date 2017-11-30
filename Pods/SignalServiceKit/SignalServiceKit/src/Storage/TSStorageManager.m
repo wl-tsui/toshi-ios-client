@@ -302,6 +302,7 @@ void setDatabaseInitialized()
         return [strongSelf databasePasswordForKey:strongSelf.accountName];
     };
 
+    [self prepareDatabasePasswordIfNeededForKey:self.accountName];
     _database = [[YapDatabase alloc] initWithPath:[self dbPathWithName:databaseName]
                                        serializer:NULL
                                      deserializer:[[self class] logOnFailureDeserializer]
@@ -580,6 +581,19 @@ void setDatabaseInitialized()
     // kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
     [NSException raise:TSStorageManagerExceptionNameDatabasePasswordInaccessibleWhileBackgrounded
                 format:@"%@", errorDescription];
+}
+
+- (void)prepareDatabasePasswordIfNeededForKey:(NSString *)key
+{
+    [SAMKeychain setAccessibilityType:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly];
+
+    NSError *keyFetchError;
+    NSString *dbPassword =
+    [SAMKeychain passwordForService:key account:keychainDBPassAccount error:&keyFetchError];
+
+    if (keyFetchError) {
+        [self createAndSetNewDatabasePasswordForKey:key];
+    }
 }
 
 - (NSData *)databasePasswordForKey:(NSString *)key
