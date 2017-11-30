@@ -58,7 +58,7 @@ class SOFAWebController: UIViewController {
         configuration.userContentController.add(self, name: Method.approveTransaction.rawValue)
         
         configuration.userContentController.addUserScript(userScript)
-        
+
         return configuration
     }()
 

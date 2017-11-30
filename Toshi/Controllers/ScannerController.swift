@@ -120,7 +120,7 @@ extension ScannerController: PaymentPresentable {
             guard success else {
                 self?.presentPaymentError(withErrorMessage: error?.description ?? ToshiError.genericError.description)
                 self?.startScanning()
-                
+
                 return
             }
             

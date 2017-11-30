@@ -37,20 +37,20 @@ class EthereumNotificationHandler: NSObject {
 
         guard let body = userInfo["sofa"] as? String else {
             completion(.noData)
-            
+
             return
         }
 
         guard SofaWrapper.wrapper(content: body) as? SofaPayment != nil else {
             completion(.noData)
-            
+
             return
         }
 
         EthereumAPIClient.shared.getBalance { balance, _ in
             guard let sofa = SofaWrapper.wrapper(content: body) as? SofaPayment else {
                 completion(.noData)
-                
+
                 return
             }
             

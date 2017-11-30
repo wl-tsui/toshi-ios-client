@@ -8,6 +8,19 @@
 #import <SignalServiceKit/Asserts.h>
 #import <SignalServiceKit/Constraints.h>
 
+#import "Toshi-Swift.h"
+
+// -- Necessary for OWS assertion use
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+#ifdef DEBUG
+static const NSUInteger ddLogLevel = DDLogLevelAll;
+#else
+static const NSUInteger ddLogLevel = DDLogLevelInfo;
+#endif
+// -- 
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 double const PropertyListPreferencesDefaultCallStreamDESBufferLevel = 0.5;

@@ -3,14 +3,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CocoaLumberjack/CocoaLumberjack.h>
-
-#ifdef DEBUG
-static const NSUInteger ddLogLevel = DDLogLevelAll;
-#else
-static const NSUInteger ddLogLevel = DDLogLevelInfo;
-#endif
-
 
 NS_ASSUME_NONNULL_BEGIN
 

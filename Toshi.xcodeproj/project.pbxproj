@@ -133,6 +133,7 @@
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
+		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */; };
 		40F452374014D1BCC886E826 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */; };
 		6A369A3A1FBF2AB50099C2FF /* RLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A369A391FBF2AB50099C2FF /* RLPTests.swift */; };
@@ -911,6 +912,7 @@
 		2F1B2E5A8052289054B2DCDD /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
+		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUserTests.swift; sourceTree = "<group>"; };
 		3F0DBA781E2F9F3F471A6BAD /* Pods-CocoaPods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Tests/Pods-CocoaPods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DE939A571E431967E87D37E /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
@@ -1424,6 +1426,14 @@
 			path = Avatars;
 			sourceTree = "<group>";
 		};
+		339959A91FCED3B900D69A01 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				339959AA1FCED3D700D69A01 /* DLog.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		6AE44D951F45C37A00F5AF02 /* LocalCurrency */ = {
 			isa = PBXGroup;
 			children = (
@@ -1526,6 +1536,7 @@
 				84C1952A1ECF056800B9512F /* SOFAWebview */,
 				9F9238B41E24F1D2004BEEE0 /* Supporting Files */,
 				9FCDBAE81E28FD5600A70E07 /* Theme */,
+				339959A91FCED3B900D69A01 /* Utilities */,
 				9F9238CE1E24F3EB004BEEE0 /* Views */,
 				D197BCEC97DDF7C3EE23594B /* Managers */,
 			);
@@ -3003,6 +3014,7 @@
 				9F54AB0D1ECC8D390008489F /* ScannerController.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
 				A9CADC211F94AF2D0096D017 /* BrowseCollectionViewCell.swift in Sources */,
+				339959AB1FCED3D700D69A01 /* DLog.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				A9BA6B7D1EF7D746007C3206 /* DepositMoneyBulletPoint.swift in Sources */,

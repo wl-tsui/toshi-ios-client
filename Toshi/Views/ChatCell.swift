@@ -255,7 +255,7 @@ class ChatCell: UITableViewCell {
     private func configureLastMessageDate() {
         guard let date = self.thread?.lastMessageDate() else {
             lastMessageDateLabel.text = nil
-            
+
             return
         }
         
@@ -269,7 +269,7 @@ class ChatCell: UITableViewCell {
     private func configureUnreadBadge() {
         guard let thread = self.thread else {
             unreadView.isHidden = true
-            
+
             return
         }
         
