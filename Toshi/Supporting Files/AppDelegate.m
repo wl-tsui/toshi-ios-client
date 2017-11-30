@@ -32,7 +32,6 @@ NSString *const ChatSertificateName = @"token";
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
 @property (nonatomic, copy, readwrite) NSString *token;
-@property (nonatomic) NSString *voipToken;
 
 @end
 
@@ -436,7 +435,7 @@ NSString *const ChatSertificateName = @"token";
     NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
 
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:nil success:^{
-        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@,\n|| - voip: %@\n||\n||------- \n", self.token, self.voipToken);
+        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n", self.token);
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
 

@@ -59,9 +59,6 @@ extern NSString *const PropertyListPreferencesKeyEnableDebugLog;
 - (BOOL)soundInForeground;
 - (void)setSoundInForeground:(BOOL)enabled;
 
-- (BOOL)hasRegisteredVOIPPush;
-- (void)setHasRegisteredVOIPPush:(BOOL)enabled;
-
 + (nullable NSString *)lastRanVersion;
 + (NSString *)setAndGetCurrentVersion;
 
@@ -98,9 +95,6 @@ extern NSString *const PropertyListPreferencesKeyEnableDebugLog;
 
 - (void)setPushToken:(NSString *)value;
 - (nullable NSString *)getPushToken;
-
-- (void)setVoipToken:(NSString *)value;
-- (nullable NSString *)getVoipToken;
 
 @end
 
