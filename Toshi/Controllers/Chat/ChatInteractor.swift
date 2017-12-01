@@ -218,7 +218,7 @@ final class ChatInteractor: NSObject {
         }
 
         /// TODO: Simplify how we deal with interactions vs text messages.
-        /// Since now we know we can expande the TSInteraction stored properties, maybe we can merge some of this together.
+        /// Since now we know we can expand the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = signalMessage as? TSOutgoingMessage {
             let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
 

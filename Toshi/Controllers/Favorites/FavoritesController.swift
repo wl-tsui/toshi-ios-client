@@ -47,7 +47,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
 
         let searchText = searchController.searchBar.text?.lowercased() ?? ""
 
-        let filteringBlock: YapDatabaseViewFilteringWithObjectBlock = { transaction, group, colelction, key, object in
+        let filteringBlock: YapDatabaseViewFilteringWithObjectBlock = { transaction, group, _, key, object in
 
             guard searchText.length > 0 else { return true }
 
@@ -368,7 +368,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     private func updateContactIfNeeded(at indexPath: IndexPath) {
         guard let contact = contact(at: indexPath) else { return }
 
-        print("Updating contact infor for address: \(contact.address).")
+        print("Updating contact info for address: \(contact.address).")
 
         idAPIClient.findContact(name: contact.address) { [weak self] contact in
             if let contact = contact {

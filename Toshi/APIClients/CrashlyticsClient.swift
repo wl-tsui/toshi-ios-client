@@ -19,7 +19,7 @@ typealias KeyTitle = String
 
 extension KeyTitle {
     static var error = "error"
-    static var occured = "occured"
+    static var occurred = "occurred"
     static var resultString = "result string"
 }
 

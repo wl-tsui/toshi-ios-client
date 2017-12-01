@@ -93,13 +93,13 @@ public final class Yap: NSObject, Singleton {
         let keychain = KeychainSwift()
         keychain.synchronizable = false
 
-        var dbPassowrd: Data
+        var dbPassword: Data
         if let loggedData = keychain.getData(UserDB.password) {
-            dbPassowrd = loggedData
+            dbPassword = loggedData
         } else {
-            dbPassowrd = keychain.getData(address) ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
+            dbPassword = keychain.getData(address) ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
         }
-        keychain.set(dbPassowrd, forKey: UserDB.password, withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
+        keychain.set(dbPassword, forKey: UserDB.password, withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
         UserDefaults.standard.set(true, forKey: UserDB.password)
 
         createDBForCurrentUser()
@@ -145,7 +145,7 @@ public final class Yap: NSObject, Singleton {
             keychain.synchronizable = false
 
             guard let userDatabasePassword = keychain.getData(UserDB.password) else {
-                CrashlyticsLogger.log("No user database password", attributes: [.occured: "Cipher key block"])
+                CrashlyticsLogger.log("No user database password", attributes: [.occurred: "Cipher key block"])
                 fatalError("No database password found in keychain")
             }
 
@@ -200,7 +200,7 @@ public final class Yap: NSObject, Singleton {
 
     private func backupUserDBFile() {
         guard let user = TokenUser.current else {
-            CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Yap backup"])
+            CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Yap backup"])
             fatalError("No current user while backing up user db file")
         }
 
@@ -211,7 +211,7 @@ public final class Yap: NSObject, Singleton {
 
         let keychain = KeychainSwift()
         guard let currentPassword = keychain.getData(UserDB.password) else {
-            CrashlyticsLogger.log("No database password found in keychain while database file exits", attributes: [.occured: "Yap backup"])
+            CrashlyticsLogger.log("No database password found in keychain while database file exits", attributes: [.occurred: "Yap backup"])
             fatalError("No database password found in keychain while database file exits")
         }
 

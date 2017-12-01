@@ -63,7 +63,7 @@ struct EthereumConverter {
     /// The fiat currency string representation for a given wei value
     ///
     /// - Parameter balance: value in wei
-    /// - Returns: fiat string represetation: "$10.50"
+    /// - Returns: fiat string representation: "$10.50"
     public static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
         let ether = balance.dividing(by: weisToEtherConstant)
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)

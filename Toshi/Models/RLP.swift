@@ -67,7 +67,7 @@ public class RLP {
 
     private static func consumeItem(_ rlp: Data, _ start: UInt) throws -> (Any, UInt) {
         do {
-            let (type, length, start) = try consumeLenghtPrefix(rlp, start)
+            let (type, length, start) = try consumeLengthPrefix(rlp, start)
             return try consumePayload(rlp, type, length, start)
         } catch let error {
             throw error
@@ -112,10 +112,10 @@ public class RLP {
     // Common variable naming:
     //  - b0 : Byte Zero
     //  - start : The start of the current length prefix
-    //  - length : The length of the item the current length prefex describes
+    //  - length : The length of the item the current length prefix describes
     //  - ll : "Length length", the length of the current length prefix field
     // returns (item type, item length, item start offset)
-    private static func consumeLenghtPrefix(_ rlp: Data, _ start: UInt) throws -> (RLPDataType, UInt, UInt) { //swiftlint:disable:this large_tuple
+    private static func consumeLengthPrefix(_ rlp: Data, _ start: UInt) throws -> (RLPDataType, UInt, UInt) { //swiftlint:disable:this large_tuple
         if rlp.count <= start {
             throw RLPDecodeError.stringTooShort
         }

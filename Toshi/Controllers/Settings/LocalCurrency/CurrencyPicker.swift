@@ -72,7 +72,7 @@ final class CurrencyPicker: UIViewController {
     private var currentLocalCurrencyIndexPath: IndexPath {
         
         guard let currentUser = TokenUser.current else {
-            CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Currency picker"])
+            CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Currency picker"])
             fatalError("No current user on CurrencyListController")
         }
         

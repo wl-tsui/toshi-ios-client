@@ -65,7 +65,7 @@
 
     NSMutableArray *mutableContacts = self.tokenContacts.mutableCopy;
     if (existingContactIndex != NSNotFound) {
-        [mutableContacts replaceObjectAtIndex:existingContactIndex withObject:contact];
+        mutableContacts[existingContactIndex] = contact;
     } else {
         [mutableContacts addObject:contact];
     }

@@ -65,7 +65,7 @@ open class PersonalProfileViewController: UIViewController {
 
     private func updateReputation() {
         guard let currentUser = TokenUser.current else {
-            CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile Controller"])
+            CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Profile Controller"])
             fatalError("No current user on Profile controller")
         }
         

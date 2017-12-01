@@ -87,7 +87,7 @@ public class Cereal: NSObject {
     // restore from local user or create new
     public override init() {
         if let words = Yap.sharedInstance.retrieveObject(for: Cereal.privateKeyStorageKey) as? String {
-            guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: .english) else {
+            guard let mnemonicValue = BTCMnemonic(words: words.components(separatedBy: " "), password: nil, wordListType: BTCMnemonicWordListType.english) else {
                 CrashlyticsLogger.log("Incorrect entropy for given passphrase")
                 fatalError("Entropy has incorrect size or wordlist is not supported")
             }
@@ -104,7 +104,7 @@ public class Cereal: NSObject {
                 fatalError("Failed to randomly generate and copy bytes for entropy generation. SecRandomCopyBytes error code: (\(result)).")
             }
 
-            mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: .english)!
+            mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: BTCMnemonicWordListType.english)!
         }
 
         let idKeychain = Cereal.idKeychain(from: mnemonic)
