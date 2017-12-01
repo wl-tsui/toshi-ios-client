@@ -26,19 +26,19 @@ class SOFAWebController: UIViewController {
         case approveTransaction
     }
 
-    fileprivate var etherAPIClient: EthereumAPIClient {
+    private var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
 
-    fileprivate let rcpUrl = ToshiWebviewRPCURLPath
+    private let rcpUrl = ToshiWebviewRPCURLPath
 
-    fileprivate var callbackId = ""
-
-    fileprivate lazy var webView: WKWebView = {
+    private var callbackId = ""
+    
+    private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
-
+        
         var js = "window.SOFA = {config: {rcpUrl: '" + self.rcpUrl + "'}}; "
-
+        
         if let filepath = Bundle.main.path(forResource: "sofa-web3", ofType: "js") {
             do {
                 js += try String(contentsOfFile: filepath)
@@ -49,17 +49,21 @@ class SOFAWebController: UIViewController {
         } else {
             print("Sofa.js not found in bundle")
         }
-
+        
         var userScript: WKUserScript = WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-
+        
         configuration.userContentController.add(self, name: Method.getAccounts.rawValue)
         configuration.userContentController.add(self, name: Method.signTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.publishTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.approveTransaction.rawValue)
-
+        
         configuration.userContentController.addUserScript(userScript)
 
-        let view = WKWebView(frame: self.view.frame, configuration: configuration)
+        return configuration
+    }()
+
+    private lazy var webView: WKWebView = {
+        let view = WKWebView(frame: self.view.frame, configuration: self.webViewConfiguration)
         view.allowsBackForwardNavigationGestures = true
         view.scrollView.isScrollEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +72,7 @@ class SOFAWebController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var backButton: UIButton = {
+    private lazy var backButton: UIButton = {
         let view = UIButton(type: .custom)
         view.bounds.size = CGSize(width: 44, height: 44)
         view.setImage(#imageLiteral(resourceName: "web_back").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -77,7 +81,7 @@ class SOFAWebController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var forwardButton: UIButton = {
+    private lazy var forwardButton: UIButton = {
         let view = UIButton(type: .custom)
         view.bounds.size = CGSize(width: 44, height: 44)
         view.setImage(#imageLiteral(resourceName: "web_forward").withRenderingMode(.alwaysTemplate), for: .normal)
@@ -86,15 +90,15 @@ class SOFAWebController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var backBarButtonItem: UIBarButtonItem = {
+    private lazy var backBarButtonItem: UIBarButtonItem = {
         UIBarButtonItem(customView: self.backButton)
     }()
 
-    fileprivate lazy var forwardBarButtonItem: UIBarButtonItem = {
+    private lazy var forwardBarButtonItem: UIBarButtonItem = {
         UIBarButtonItem(customView: self.forwardButton)
     }()
 
-    fileprivate lazy var toolbar: UIToolbar = {
+    private lazy var toolbar: UIToolbar = {
         let view = UIToolbar(withAutoLayout: true)
 
         let share = UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
@@ -140,12 +144,12 @@ class SOFAWebController: UIViewController {
     }
 
     @objc
-    fileprivate func didTapBackButton() {
+    private func didTapBackButton() {
         webView.goBack()
     }
 
     @objc
-    fileprivate func didTapForwardButton() {
+    private func didTapForwardButton() {
         webView.goForward()
     }
 }
@@ -158,7 +162,7 @@ extension SOFAWebController: WKNavigationDelegate {
 }
 
 extension SOFAWebController: WKScriptMessageHandler {
-    fileprivate func jsCallback(callbackId: String, payload: String) {
+    private func jsCallback(callbackId: String, payload: String) {
         let js = "SOFA.callback(\"" + callbackId + "\",\"" + payload + "\")"
 
         webView.evaluateJavaScript("javascript:" + js) { jsReturnValue, error in

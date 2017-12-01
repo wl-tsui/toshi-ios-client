@@ -19,13 +19,13 @@ import SweetUIKit
 
 class ActiveNetworkView: UIView {
     static let height: CGFloat = 32.0
-    fileprivate let margin: CGFloat = 6.0
+    private let margin: CGFloat = 6.0
 
     var heightConstraint: NSLayoutConstraint?
 
-    fileprivate var isDefaultNetworkActive = NetworkSwitcher.shared.isDefaultNetworkActive
+    private var isDefaultNetworkActive = NetworkSwitcher.shared.isDefaultNetworkActive
 
-    fileprivate lazy var textLabel: UILabel = {
+    private lazy var textLabel: UILabel = {
         let textLabel = UILabel(withAutoLayout: true)
 
         textLabel.font = Theme.regular(size: 14)

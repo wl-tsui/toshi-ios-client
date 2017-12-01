@@ -35,8 +35,6 @@ static const NSString *const databaseName = @"Signal.sqlite";
 static const NSString *const keysDBName = @"SignalKeys.sqlite";
 static NSString *keychainService          = @"TSKeyChainService";
 static NSString *keychainDBPassAccount    = @"TSDatabasePass";
-static NSString *keychainKeysService          = @"TSKeysChainService";
-static NSString *keychainKeysDBPassAccount    = @"TSKeysDatabasePass";
 
 #pragma mark -
 
@@ -292,21 +290,47 @@ void setDatabaseInitialized()
     // this can be deleting any existing database file (if we're recovering
     // from a corrupt keychain).
 
+    // We use YapDatabaseCorruptAction_Rename option for database files which will create new one in case of failure
+    // documentation: https://github.com/yapstudios/YapDatabase/blob/master/YapDatabase/YapDatabaseOptions.h#L44
+
     YapDatabaseOptions *options = [[YapDatabaseOptions alloc] init];
     options.corruptAction       = YapDatabaseCorruptAction_Fail;
 
     __weak typeof (self)weakSelf = self;
     options.cipherKeyBlock = ^{
         typeof(self)strongSelf = weakSelf;
-        return [strongSelf databasePassword];
+        return [strongSelf databasePasswordForKey:strongSelf.accountName];
     };
 
+    [self prepareDatabasePasswordIfNeededForKey:self.accountName];
     _database = [[YapDatabase alloc] initWithPath:[self dbPathWithName:databaseName]
                                        serializer:NULL
                                      deserializer:[[self class] logOnFailureDeserializer]
                                           options:options];
     if (!_database) {
-        return NO;
+
+        // in case the user has used "keychainService" service for retrieving password
+        options.cipherKeyBlock = ^{
+            typeof(self)strongSelf = weakSelf;
+            return [strongSelf databasePasswordForKey:keychainService];
+        };
+
+        _database = [[YapDatabase alloc] initWithPath:[self dbPathWithName:databaseName]
+                                           serializer:NULL
+                                         deserializer:[[self class] logOnFailureDeserializer]
+                                              options:options];
+
+        if (!_database) {
+            return NO;
+        } else {
+            NSError *keyFetchError;
+            NSString *previousVersionDBPassword = [SAMKeychain passwordForService:keychainService account:keychainDBPassAccount error:&keyFetchError];
+            if (previousVersionDBPassword) {
+
+                NSError *error;
+                [SAMKeychain setPassword:previousVersionDBPassword forService:self.accountName account:keychainDBPassAccount error:&error];
+            }
+        }
     }
 
     _dbReadConnection = self.newDatabaseConnection;
@@ -317,7 +341,7 @@ void setDatabaseInitialized()
 
     keysDBOptions.cipherKeyBlock = ^{
         typeof(self)strongSelf = weakSelf;
-        return [strongSelf keysDBPassword];
+        return [strongSelf databasePasswordForKey:strongSelf.accountName];
     };
 
     _keysDatabase = [[YapDatabase alloc] initWithPath:[self dbPathWithName:keysDBName]
@@ -559,13 +583,26 @@ void setDatabaseInitialized()
                 format:@"%@", errorDescription];
 }
 
-- (NSData *)databasePassword
+- (void)prepareDatabasePasswordIfNeededForKey:(NSString *)key
 {
     [SAMKeychain setAccessibilityType:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly];
 
     NSError *keyFetchError;
     NSString *dbPassword =
-    [SAMKeychain passwordForService:keychainService account:keychainDBPassAccount error:&keyFetchError];
+    [SAMKeychain passwordForService:key account:keychainDBPassAccount error:&keyFetchError];
+
+    if (keyFetchError) {
+        [self createAndSetNewDatabasePasswordForKey:key];
+    }
+}
+
+- (NSData *)databasePasswordForKey:(NSString *)key
+{
+    [SAMKeychain setAccessibilityType:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly];
+
+    NSError *keyFetchError;
+    NSString *dbPassword =
+    [SAMKeychain passwordForService:key account:keychainDBPassAccount error:&keyFetchError];
 
     if (keyFetchError) {
         UIApplicationState applicationState = [UIApplication sharedApplication].applicationState;
@@ -592,82 +629,21 @@ void setDatabaseInitialized()
         // Try to reset app by deleting database.
         [self resetSignalStorageWithBackup:NO];
 
-        dbPassword = [self createAndSetNewDatabasePassword];
+        dbPassword = [self createAndSetNewDatabasePasswordForKey:key];
     }
 
     return [dbPassword dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (NSData *)keysDBPassword
-{
-    [SAMKeychain setAccessibilityType:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly];
-
-    NSError *keyFetchError;
-    NSString *dbPassword =
-    [SAMKeychain passwordForService:keychainService account:keychainDBPassAccount error:&keyFetchError];
-
-    if (keyFetchError) {
-        UIApplicationState applicationState = [UIApplication sharedApplication].applicationState;
-        NSString *errorDescription = [NSString stringWithFormat:@"Database password inaccessible. No unlock since device restart? Error: %@ ApplicationState: %d", keyFetchError, (int)applicationState];
-        DDLogError(@"%@ %@", self.tag, errorDescription);
-        [DDLog flushLog];
-
-        if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
-            // TODO: Rather than crash here, we should detect the situation earlier
-            // and exit gracefully - (in the app delegate?). See the `
-            // This is a last ditch effort to avoid blowing away the user's database.
-            [self backgroundedAppDatabasePasswordInaccessibleWithErrorDescription:errorDescription];
-        }
-
-        // At this point, either this is a new install so there's no existing password to retrieve
-        // or the keychain has become corrupt.  Either way, we want to get back to a
-        // "known good state" and behave like a new install.
-
-        BOOL shouldHavePassword = [NSFileManager.defaultManager fileExistsAtPath:[self dbPathWithName:databaseName]];
-        if (shouldHavePassword) {
-            OWSProdCritical([OWSAnalyticsEvents storageErrorCouldNotLoadDatabaseSecondAttempt]);
-        }
-
-        // Try to reset app by deleting database.
-        [self resetSignalStorageWithBackup:NO];
-
-        dbPassword = [self createAndSetNewKeysDatabasePassword];
-    }
-
-    return [dbPassword dataUsingEncoding:NSUTF8StringEncoding];
-}
-
-- (NSString *)createAndSetNewDatabasePassword
+- (NSString *)createAndSetNewDatabasePasswordForKey:(NSString *)key
 {
     NSString *newDBPassword = [[Randomness generateRandomBytes:30] base64EncodedString];
     NSError *keySetError;
-    [SAMKeychain setPassword:newDBPassword forService:keychainService account:keychainDBPassAccount error:&keySetError];
+    [SAMKeychain setPassword:newDBPassword forService:key account:keychainDBPassAccount error:&keySetError];
     if (keySetError) {
         OWSProdCritical([OWSAnalyticsEvents storageErrorCouldNotStoreDatabasePassword]);
 
-        [self deletePasswordFromKeychain];
-
-        // Sleep to give analytics events time to be delivered.
-        [NSThread sleepForTimeInterval:15.0f];
-
-        [NSException raise:TSStorageManagerExceptionNameDatabasePasswordUnwritable
-                    format:@"Setting DB password failed with error: %@", keySetError];
-    } else {
-        DDLogWarn(@"Succesfully set new DB password.");
-    }
-
-    return newDBPassword;
-}
-
-- (NSString *)createAndSetNewKeysDatabasePassword
-{
-    NSString *newDBPassword = [[Randomness generateRandomBytes:30] base64EncodedString];
-    NSError *keySetError;
-    [SAMKeychain setPassword:newDBPassword forService:keychainKeysService account:keychainKeysDBPassAccount error:&keySetError];
-    if (keySetError) {
-        OWSProdCritical([OWSAnalyticsEvents storageErrorCouldNotStoreDatabasePassword]);
-
-        [self deleteKeysPasswordFromKeychain];
+        [self deletePasswordFromKeychainForKey:key];
 
         // Sleep to give analytics events time to be delivered.
         [NSThread sleepForTimeInterval:15.0f];
@@ -800,14 +776,9 @@ void setDatabaseInitialized()
     [TSAttachmentStream deleteAttachments];
 }
 
-- (void)deletePasswordFromKeychain
+- (void)deletePasswordFromKeychainForKey:(NSString *)key
 {
-    [SAMKeychain deletePasswordForService:keychainService account:keychainDBPassAccount];
-}
-
-- (void)deleteKeysPasswordFromKeychain
-{
-    [SAMKeychain deletePasswordForService:keychainKeysService account:keychainKeysDBPassAccount];
+    [SAMKeychain deletePasswordForService:key account:keychainDBPassAccount];
 }
 
 - (void)deleteDatabaseFile
@@ -872,4 +843,3 @@ void setDatabaseInitialized()
 @end
 
 NS_ASSUME_NONNULL_END
-

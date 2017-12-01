@@ -4,15 +4,15 @@ import TinyConstraints
 
 final class SignInViewController: UIViewController {
 
-    fileprivate var signInView: SignInView? { return view as? SignInView }
-    fileprivate lazy var activityView: UIActivityIndicatorView = self.defaultActivityIndicator()
+    private var signInView: SignInView? { return view as? SignInView }
+    private lazy var activityView: UIActivityIndicatorView = self.defaultActivityIndicator()
 
-    fileprivate var enteredStrings: [String] = [""]
-    fileprivate var itemCount: Int = 1
+    private var enteredStrings: [String] = [""]
+    private var itemCount: Int = 1
     static let maxItemCount: Int = 12
-    fileprivate var shouldDeselectWord = false
-    fileprivate var userDidPastePassphrase = false
-    fileprivate var maxCharactersCount = 0
+    private var shouldDeselectWord = false
+    private var userDidPastePassphrase = false
+    private var maxCharactersCount = 0
     
     var activeIndexPath: IndexPath? {
         guard let selectedCell = signInView?.collectionView.visibleCells.first(where: { $0.isSelected }) else { return nil }
@@ -154,7 +154,7 @@ final class SignInViewController: UIViewController {
         }
     }
 
-    fileprivate func libraryComparison(for text: String) -> (match: String?, isSingleOccurrence: Bool) {
+    private func libraryComparison(for text: String) -> (match: String?, isSingleOccurrence: Bool) {
         guard !text.isEmpty else { return (nil, false) }
 
         let filtered = passwords?.filter {
@@ -164,7 +164,7 @@ final class SignInViewController: UIViewController {
         return (filtered?.first, filtered?.count == 1)
     }
 
-    fileprivate func acceptItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
+    private func acceptItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
         signInView?.textField.text = nil
 
         let newIndexPath = IndexPath(item: itemCount, section: 0)
@@ -184,7 +184,7 @@ final class SignInViewController: UIViewController {
         }
     }
 
-    fileprivate func addItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
+    private func addItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
 
         if itemCount == SignInViewController.maxItemCount, let activeIndexPath = activeIndexPath {
             signInView?.collectionView.deselectItem(at: activeIndexPath, animated: false)
@@ -209,7 +209,7 @@ final class SignInViewController: UIViewController {
         }
     }
 
-    fileprivate func cleanUp(after indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
+    private func cleanUp(after indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
 
         UIView.animate(withDuration: 0) {
             self.signInView?.collectionView.performBatchUpdates({

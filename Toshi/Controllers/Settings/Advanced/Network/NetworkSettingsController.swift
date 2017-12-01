@@ -18,11 +18,11 @@ import SweetUIKit
 
 class NetworkSettingsController: UIViewController {
 
-    fileprivate lazy var activityView: UIActivityIndicatorView = {
+    private lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
 
-    fileprivate lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
 
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ extension NetworkSettingsController: UITableViewDataSource {
         cell.textLabel?.text = network.label
         cell.selectionStyle = .none
 
-        let isActiveNetwork = network.rawValue == NetworkSwitcher.shared.activeNetwork.rawValue
+        let isActiveNetwork = (network.rawValue == NetworkSwitcher.shared.activeNetwork.rawValue)
         cell.accessoryType = isActiveNetwork ? .checkmark : .none
 
         return cell

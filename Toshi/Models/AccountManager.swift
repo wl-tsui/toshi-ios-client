@@ -49,17 +49,17 @@ class AccountManager: NSObject {
         }
     }
 
-    func updatePushTokens(pushToken: String, voipToken: String) -> Promise<Void> {
+    func updatePushTokens(pushToken: String) -> Promise<Void> {
         return firstly {
-            self.updateTextSecurePushTokens(pushToken: pushToken, voipToken: voipToken)
+            self.updateTextSecurePushTokens(pushToken: pushToken)
         }.then {
             print("\(self.TAG) Successfully updated text secure push tokens.")
         }
     }
 
-    private func updateTextSecurePushTokens(pushToken: String, voipToken: String) -> Promise<Void> {
+    private func updateTextSecurePushTokens(pushToken: String) -> Promise<Void> {
         return Promise { fulfill, reject in
-            self.textSecureAccountManager.registerForPushNotifications(pushToken: pushToken, voipToken: voipToken, success: fulfill, failure: reject)
+            self.textSecureAccountManager.registerForPushNotifications(pushToken: pushToken, success: fulfill, failure: reject)
         }
     }
 

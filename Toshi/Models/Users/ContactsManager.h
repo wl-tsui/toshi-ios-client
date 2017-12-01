@@ -18,7 +18,6 @@
 #import <SignalServiceKit/ContactsManagerProtocol.h>
 #import <SignalServiceKit/PhoneNumber.h>
 #import "CollapsingFutures.h"
-#import "Contact.h"
 
 /**
  Get Signal or Token contacts. 

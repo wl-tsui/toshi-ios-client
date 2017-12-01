@@ -48,14 +48,14 @@ class EthereumNotificationHandler: NSObject {
         }
 
         EthereumAPIClient.shared.getBalance { balance, _ in
-            defer {
-                completion(.newData)
-            }
-
             guard let sofa = SofaWrapper.wrapper(content: body) as? SofaPayment else {
                 completion(.noData)
 
                 return
+            }
+            
+            defer {
+                completion(.newData)
             }
 
             if UIApplication.shared.applicationState == .active {
@@ -69,24 +69,28 @@ class EthereumNotificationHandler: NSObject {
                 return
             }
 
-            if sofa.status == .unconfirmed {
-                let content = UNMutableNotificationContent()
-                content.title = "Payment"
-
-                if sofa.recipientAddress == TokenUser.current?.paymentAddress {
-                    content.body = "Payment received: \(EthereumConverter.fiatValueString(forWei: sofa.value, exchangeRate:ExchangeRateClient.exchangeRate))."
-                } else {
-                    content.body = "Payment sent: \(EthereumConverter.fiatValueString(forWei: sofa.value, exchangeRate: ExchangeRateClient.exchangeRate))."
-                }
-
-                content.sound = UNNotificationSound(named: "PN.m4a")
-
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                let request = UNNotificationRequest(identifier: content.title, content: content, trigger: trigger)
-
-                let center = UNUserNotificationCenter.current()
-                center.add(request, withCompletionHandler: nil)
+            if sofa.status == SofaPayment.Status.unconfirmed {
+                self.handleUnconfirmed(payment: sofa)
             }
         }
+    }
+    
+    private static func handleUnconfirmed(payment sofa: SofaPayment) {
+        let content = UNMutableNotificationContent()
+        content.title = "Payment"
+        
+        if sofa.recipientAddress == TokenUser.current?.paymentAddress {
+            content.body = "Payment received: \(EthereumConverter.fiatValueString(forWei: sofa.value, exchangeRate: ExchangeRateClient.exchangeRate))."
+        } else {
+            content.body = "Payment sent: \(EthereumConverter.fiatValueString(forWei: sofa.value, exchangeRate: ExchangeRateClient.exchangeRate))."
+        }
+        
+        content.sound = UNNotificationSound(named: "PN.m4a")
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: content.title, content: content, trigger: trigger)
+        
+        let center = UNUserNotificationCenter.current()
+        center.add(request, withCompletionHandler: nil)
     }
 }

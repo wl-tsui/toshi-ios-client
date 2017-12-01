@@ -31,7 +31,7 @@ protocol ChatViewModelOutput: ChatInteractorOutput {
 
 final class ChatViewModel {
 
-    fileprivate weak var output: ChatViewModelOutput?
+    private weak var output: ChatViewModelOutput?
 
     init(output: ChatViewModelOutput, thread: TSThread) {
         self.output = output
@@ -47,9 +47,9 @@ final class ChatViewModel {
         contactsManager = appDelegate?.contactsManager
     }
 
-    fileprivate var contactsManager: ContactsManager?
+    private var contactsManager: ContactsManager?
 
-    fileprivate var etherAPIClient: EthereumAPIClient {
+    private var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
 
@@ -67,7 +67,7 @@ final class ChatViewModel {
 
     var messageModels: [MessageModel] = []
 
-    fileprivate lazy var reloadQueue: OperationQueue = {
+    private lazy var reloadQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 1
         queue.name = "Chat-Reload-Queue"
@@ -128,9 +128,9 @@ final class ChatViewModel {
         return messages[index]
     }
 
-    fileprivate var storageManager: TSStorageManager?
+    private var storageManager: TSStorageManager?
 
-    fileprivate lazy var uiDatabaseConnection: YapDatabaseConnection = {
+    private lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = TSStorageManager.shared().database()!
         let dbConnection = database.newConnection()
         dbConnection.beginLongLivedReadTransaction()
@@ -138,29 +138,29 @@ final class ChatViewModel {
         return dbConnection
     }()
 
-    fileprivate lazy var rangeOptions: YapDatabaseViewRangeOptions = {
+    private lazy var rangeOptions: YapDatabaseViewRangeOptions = {
         let options = YapDatabaseViewRangeOptions.flexibleRange(withLength: 20, offset: 0, from: .end)!
         options.growOptions = .onBothSides
 
         return options
     }()
 
-    fileprivate lazy var mappings: YapDatabaseViewMappings = {
+    private lazy var mappings: YapDatabaseViewMappings = {
         YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
     }()
 
-    fileprivate lazy var loadedMappings: YapDatabaseViewMappings = {
+    private lazy var loadedMappings: YapDatabaseViewMappings = {
         YapDatabaseViewMappings(groups: [self.thread.uniqueId], view: TSMessageDatabaseViewExtensionName)
     }()
 
-    fileprivate lazy var editingDatabaseConnection: YapDatabaseConnection? = {
+    private lazy var editingDatabaseConnection: YapDatabaseConnection? = {
         self.storageManager?.newDatabaseConnection()
     }()
 
-    fileprivate var messagesCount: UInt = 0
-    fileprivate var loadedMessagesCount: UInt = 0
+    private var messagesCount: UInt = 0
+    private var loadedMessagesCount: UInt = 0
 
-    fileprivate func registerNotifications() {
+    private func registerNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
@@ -180,7 +180,7 @@ final class ChatViewModel {
         loadNextChunk()
     }
 
-    fileprivate func loadNextChunk(notifiesAboutLastMessage: Bool = false) {
+    private func loadNextChunk(notifiesAboutLastMessage: Bool = false) {
         let nextChunkSize = self.nextChunkSize()
 
         guard let rangeOptions = YapDatabaseViewRangeOptions.flexibleRange(withLength: nextChunkSize, offset: loadedMessagesCount, from: .end) else {
@@ -195,7 +195,7 @@ final class ChatViewModel {
     }
 
     @objc
-    fileprivate func yapDatabaseDidChange(notification _: NSNotification) {
+    private func yapDatabaseDidChange(notification _: NSNotification) {
         
         let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
@@ -306,7 +306,7 @@ final class ChatViewModel {
         interactor.fetchAndUpdateBalance(cachedCompletion: cachedCompletion, fetchedCompletion: fetchedCompletion)
     }
 
-    fileprivate func countAllMessages() {
+    private func countAllMessages() {
         self.uiDatabaseConnection.read { [weak self] transaction in
             guard let strongSelf = self else { return }
 
@@ -315,7 +315,7 @@ final class ChatViewModel {
         }
     }
 
-    fileprivate func nextChunkSize() -> UInt {
+    private func nextChunkSize() -> UInt {
         let notLoadedCount = messagesCount - loadedMessagesCount
         let numberToLoad = min(notLoadedCount, 50)
 

@@ -61,7 +61,7 @@ class ChatFloatingHeaderView: UIView {
         return button
     }
 
-    fileprivate var buttonAttributes: [NSAttributedStringKey: Any] = [.font: Theme.medium(size: 15),
+    private var buttonAttributes: [NSAttributedStringKey: Any] = [.font: Theme.medium(size: 15),
                                                                       .foregroundColor: Theme.tintColor]
 
     private(set) lazy var requestButton: UIButton = {

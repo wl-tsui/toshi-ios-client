@@ -93,7 +93,7 @@ class ProfileView: UIView {
         return view
     }()
 
-    fileprivate lazy var actionsSeparatorView: UIView = {
+    private lazy var actionsSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.borderColor
         view.set(height: 1.0 / UIScreen.main.scale)
@@ -111,7 +111,7 @@ class ProfileView: UIView {
         return view
     }()
 
-    fileprivate lazy var editProfileButton: UIButton = {
+    private lazy var editProfileButton: UIButton = {
         let view = UIButton()
         view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor]), for: .normal)
         view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
@@ -132,14 +132,14 @@ class ProfileView: UIView {
         return view
     }()
 
-    fileprivate lazy var contentBackgroundView: UIView = {
+    private lazy var contentBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.viewBackgroundColor
 
         return view
     }()
 
-    fileprivate lazy var contentSeparatorView: UIView = {
+    private lazy var contentSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -149,7 +149,7 @@ class ProfileView: UIView {
         return view
     }()
 
-    fileprivate lazy var reputationSeparatorView: UIView = {
+    private lazy var reputationSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -173,7 +173,7 @@ class ProfileView: UIView {
         return view
     }()
 
-    fileprivate lazy var bottomSeparatorView: UIView = {
+    private lazy var bottomSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.lightGrayBackgroundColor
         view.layer.borderColor = Theme.borderColor.cgColor
@@ -212,28 +212,28 @@ class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    fileprivate func addSubviewsAndConstraints(for viewType: ViewType) {
+    private func addSubviewsAndConstraints(for viewType: ViewType) {
         let editProfileButtonHeight: CGFloat
         let actionSeparatorMargin: CGFloat
         let rateThisUserButtonHeight: CGFloat
 
         switch viewType {
-            case .profile:
-                editProfileButtonHeight = 0.0
-                actionSeparatorMargin = 8.0
-                actionView.alpha = 1.0
-                rateThisUserButtonHeight = 44.0
-            case .personalProfile:
-                editProfileButtonHeight = 50.0
-                actionSeparatorMargin = 0.0
-                actionView.alpha = 0.0
-                rateThisUserButtonHeight = 0.0
-            case .personalProfileReadOnly:
-                editProfileButtonHeight = 0.0
-                actionSeparatorMargin = 0.0
-                actionsSeparatorView.alpha = 0.0
-                actionView.alpha = 0.0
-                rateThisUserButtonHeight = 0.0
+        case .profile:
+            editProfileButtonHeight = 0.0
+            actionSeparatorMargin = 8.0
+            actionView.alpha = 1.0
+            rateThisUserButtonHeight = 44.0
+        case .personalProfile:
+            editProfileButtonHeight = 50.0
+            actionSeparatorMargin = 0.0
+            actionView.alpha = 0.0
+            rateThisUserButtonHeight = 0.0
+        case .personalProfileReadOnly:
+            editProfileButtonHeight = 0.0
+            actionSeparatorMargin = 0.0
+            actionsSeparatorView.alpha = 0.0
+            actionView.alpha = 0.0
+            rateThisUserButtonHeight = 0.0
         }
 
         let margin: CGFloat = 15

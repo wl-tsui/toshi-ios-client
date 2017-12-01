@@ -13,11 +13,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import Foundation
+import UIKit
 
 final class ProfileEditConfigurator {
 
-    fileprivate var item: ProfileEditItem = ProfileEditItem(.none)
+    private var item: ProfileEditItem = ProfileEditItem(.none)
 
     init(item: ProfileEditItem) {
         self.item = item
@@ -29,8 +29,8 @@ final class ProfileEditConfigurator {
         cell.textField.text = item.detailText
         cell.switchControl.isOn = item.switchMode
 
-        cell.switchControl.isHidden = item.type != .visibility
-        cell.textField.isHidden = item.type == .visibility
+        cell.switchControl.isHidden = (item.type != ProfileEditItemType.visibility)
+        cell.textField.isHidden = (item.type == ProfileEditItemType.visibility)
         cell.textField.autocapitalizationType = item.type.autocapitalizationType
 
         cell.updater = self

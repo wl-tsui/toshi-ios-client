@@ -65,25 +65,27 @@ final class ReputationView: UIView {
         guides.forEach { addLayoutGuide($0) }
         reputationBarViews.forEach { addSubview($0) }
         
-        guides[0].top(to: self)
-        guides[0].left(to: self)
-        guides[0].bottom(to: self)
+        let firstGuide = guides[0]
+        firstGuide.top(to: self)
+        firstGuide.left(to: self)
+        firstGuide.bottom(to: self)
         
-        guides[1].top(to: self)
-        guides[1].leftToRight(of: guides[0])
-        guides[1].bottom(to: self)
-        guides[1].right(to: self)
+        let secondGuide = guides[1]
+        secondGuide.top(to: self)
+        secondGuide.leftToRight(of: firstGuide)
+        secondGuide.bottom(to: self)
+        secondGuide.right(to: self)
         
-        ratingLabel.top(to: guides[0], offset: 5)
-        ratingLabel.left(to: guides[0], offset: horizontalMargin)
-        ratingLabel.right(to: guides[0], offset: -horizontalMargin)
+        ratingLabel.top(to: firstGuide, offset: 5)
+        ratingLabel.left(to: firstGuide, offset: horizontalMargin)
+        ratingLabel.right(to: firstGuide, offset: -horizontalMargin)
         
         ratingView.topToBottom(of: ratingLabel, offset: 0)
-        ratingView.centerX(to: guides[0])
+        ratingView.centerX(to: firstGuide)
         
         ratingsCountLabel.topToBottom(of: ratingView, offset: 10)
-        ratingsCountLabel.centerX(to: guides[0])
-        ratingsCountLabel.bottom(to: guides[0], offset: -barSpacing)
+        ratingsCountLabel.centerX(to: firstGuide)
+        ratingsCountLabel.bottom(to: firstGuide, offset: -barSpacing)
         ratingsCountLabel.height(16)
         
         var previousReputationBarView: ReputationBarView? = nil
@@ -92,15 +94,15 @@ final class ReputationView: UIView {
             if let previousReputationBarView = previousReputationBarView {
                 $0.topToBottom(of: previousReputationBarView, offset: barSpacing)
             } else {
-                $0.top(to: guides[1], offset: barSpacing)
+                $0.top(to: secondGuide, offset: barSpacing)
             }
             
-            $0.left(to: guides[1], offset: horizontalMargin)
+            $0.left(to: secondGuide, offset: horizontalMargin)
             $0.right(to: self)
             $0.height(barHeight)
             
             if let lastBarView = reputationBarViews.last, lastBarView == $0 {
-                $0.bottom(to: guides[1], offset: barSpacing)
+                $0.bottom(to: secondGuide, offset: barSpacing)
             }
             
             previousReputationBarView = $0

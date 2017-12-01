@@ -23,15 +23,15 @@
 
 NSString *const LaunchedBefore = @"LaunchedBefore";
 NSString *const RequiresSignIn = @"RequiresSignIn";
+NSString *const ChatSertificateName = @"token";
 
 @import WebRTC;
 
-@interface AppDelegate ()
+@interface AppDelegate()
 
 @property (nonatomic) UIWindow *screenProtectionWindow;
 
 @property (nonatomic, copy, readwrite) NSString *token;
-@property (nonatomic) NSString *voipToken;
 
 @end
 
@@ -42,6 +42,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
 {
     NSString *tokenChatServiceBaseURL = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TokenChatServiceBaseURL"];
     [OWSSignalService setBaseURLPath:tokenChatServiceBaseURL];
+    [OWSHTTPSecurityPolicy setCertificateServiceName:ChatSertificateName];
 
     // Set the seed the generator for rand().
     //
@@ -277,7 +278,7 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
     [[TSAccountManager sharedInstance] storeLocalNumber:[Cereal shared].address];
 
     if (![storageManager database]) {
-        [CrashlyticsLogger log:@"Failed to create chat databse for the suer" attributes:nil];
+        [CrashlyticsLogger log:@"Failed to create chat databse for the user" attributes:nil];
     }
 
     self.messageSender = [[OWSMessageSender alloc] initWithNetworkManager:self.networkManager storageManager:storageManager contactsManager:self.contactsManager contactsUpdater:self.contactsUpdater];
@@ -428,18 +429,13 @@ NSString *const RequiresSignIn = @"RequiresSignIn";
             });
         }
     }];
-
-
-    PKPushRegistry *voipRegistry = [[PKPushRegistry alloc] initWithQueue:dispatch_get_main_queue()];
-    voipRegistry.delegate = self;
-    voipRegistry.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
 }
 
 - (void)updateRemoteNotificationCredentials {
     NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
 
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:nil success:^{
-        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@,\n|| - voip: %@\n||\n||------- \n", self.token, self.voipToken);
+        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n", self.token);
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
 

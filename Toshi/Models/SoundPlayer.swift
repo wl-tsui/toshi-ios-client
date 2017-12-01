@@ -30,9 +30,9 @@ public struct SoundPlayer {
 
     static let shared = SoundPlayer()
 
-    fileprivate var sounds = [SystemSoundID]()
+    private var sounds = [SystemSoundID]()
 
-    fileprivate init() {
+    private init() {
         sounds = [
             self.soundID(for: .messageSent)
         ]

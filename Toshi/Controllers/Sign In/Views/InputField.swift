@@ -74,7 +74,7 @@ class InputField: UIView {
         return view
     }()
 
-    fileprivate lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
+    private lazy var feedbackGenerator: UIImpactFeedbackGenerator = {
         UIImpactFeedbackGenerator(style: .light)
     }()
 

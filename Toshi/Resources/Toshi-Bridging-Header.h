@@ -77,6 +77,7 @@
 #import <SignalServiceKit/TSThread.h>
 #import <SignalServiceKit/TSContactThread.h>
 #import <SignalServiceKit/TSGroupThread.h>
+#import <SignalServiceKit/OWSHTTPSecurityPolicy.h>
 
 #import <25519/Randomness.h>
 

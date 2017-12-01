@@ -27,7 +27,7 @@ let alertText = "We have made changes to make\nToshi compatible with other\nserv
 
 final class AddressChangeAlertController: AlertController {
 
-    fileprivate lazy var textView: UITextView = {
+    private lazy var textView: UITextView = {
         let textView = UITextView(withAutoLayout: true)
         textView.dataDetectorTypes = [.all]
         textView.text = alertText
@@ -38,13 +38,13 @@ final class AddressChangeAlertController: AlertController {
         return textView
     }()
 
-    fileprivate lazy var content: UIView = {
+    private lazy var content: UIView = {
         let view = UIView(withAutoLayout: true)
 
         return view
     }()
 
-    fileprivate lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.font = UIFont.systemFont(ofSize: 19.0)
         label.text = "Toshi Address Changes"

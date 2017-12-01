@@ -24,7 +24,7 @@ class OfflineAlertView: UIView {
     public let displayTransform = CGAffineTransform(translationX: 0, y: -OfflineAlertView.height)
     var heightConstraint: NSLayoutConstraint?
 
-    fileprivate lazy var textLabel: UILabel = {
+    private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
 
         textLabel.font = Theme.regular(size: 14)

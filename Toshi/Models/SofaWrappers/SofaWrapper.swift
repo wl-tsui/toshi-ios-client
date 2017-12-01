@@ -122,11 +122,12 @@ open class SofaWrapper: SofaWrapperProtocol {
     }
 
     static public func addFiatStringIfNecessary(to content: [String: Any], for sofaType: SofaType) -> [String: Any]? {
-        if let fiatValueString = content["fiatValueString"] as? String {
+        guard content["fiatValueString"] as? String == nil else {
+            // Fiat value is already in there
             return content
-        } else {
-            return SofaWrapper.addFiatValueToContent(content, for: sofaType)
         }
+        
+        return SofaWrapper.addFiatValueToContent(content, for: sofaType)
     }
 
     static private func addFiatValueToContent(_ content: String, for sofaType: SofaType) -> String? {

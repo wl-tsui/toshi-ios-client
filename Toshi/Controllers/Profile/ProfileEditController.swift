@@ -19,8 +19,8 @@ import SweetFoundation
 
 open class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationControllerDelegate {
 
-    fileprivate static let profileVisibilitySectionTitle = Localized("Profile visibility")
-    fileprivate static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
+    private static let profileVisibilitySectionTitle = Localized("Profile visibility")
+    private static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
 
     var scrollViewBottomInset: CGFloat = 0.0
 
@@ -44,20 +44,20 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         keyboardWillHide(notification)
     }
 
-    fileprivate let editingSections = [ProfileEditSection(items: [ProfileEditItem(.username), ProfileEditItem(.displayName), ProfileEditItem(.about), ProfileEditItem(.location)]),
+    private let editingSections = [ProfileEditSection(items: [ProfileEditItem(.username), ProfileEditItem(.displayName), ProfileEditItem(.about), ProfileEditItem(.location)]),
                                        ProfileEditSection(items: [ProfileEditItem(.visibility)], headerTitle: profileVisibilitySectionTitle, footerTitle: profileVisibilitySectionFooter)]
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
-    fileprivate lazy var avatarImageView: AvatarImageView = {
+    private lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withAutoLayout: true)
 
         return view
     }()
 
-    fileprivate lazy var changeAvatarButton: UIButton = {
+    private lazy var changeAvatarButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
 
         let title = NSAttributedString(string: Localized("edit_profile_change_photo"), attributes: [.foregroundColor: Theme.tintColor, .font: Theme.preferredRegularMedium()])
@@ -68,7 +68,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         return view
     }()
 
-    fileprivate lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -130,7 +130,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         unregisterFromKeyboardNotifications()
     }
 
-    fileprivate lazy var headerView: UIView = {
+    private lazy var headerView: UIView = {
         let view = UIView(frame: CGRect.zero)
 
         view.backgroundColor = nil
@@ -206,7 +206,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         present(pickerTypeAlertController, animated: true)
     }
 
-    fileprivate func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
+    private func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
         imagePicker.allowsEditing = true
@@ -300,18 +300,18 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         }
     }
 
-    fileprivate func validateUserName(_ username: String) -> Bool {
+    private func validateUserName(_ username: String) -> Bool {
         let none = NSRegularExpression.MatchingOptions(rawValue: 0)
-        let range = NSRange(location: 0, length: username.characters.count)
+        let range = NSRange(location: 0, length: username.count)
 
         var isValid = true
 
         if isValid {
-            isValid = username.characters.count >= 2
+            isValid = username.count >= 2
         }
 
         if isValid {
-            isValid = username.characters.count <= 60
+            isValid = username.count <= 60
         }
 
         var regex: NSRegularExpression?
@@ -331,7 +331,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         return isValid
     }
 
-    fileprivate func completeEdit(success: Bool, message: String?) {
+    private func completeEdit(success: Bool, message: String?) {
         activityIndicator.stopAnimating()
 
         if success == true {
@@ -348,7 +348,7 @@ open class ProfileEditController: UIViewController, KeyboardAdjustable, UINaviga
         }
     }
 
-    fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         // need to initialize with large style which is available only white, thus need to set color later
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         activityIndicator.color = Theme.lightGreyTextColor
@@ -364,7 +364,7 @@ extension ProfileEditController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true, completion: nil)
     }
 
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
 
         picker.dismiss(animated: true, completion: nil)
 

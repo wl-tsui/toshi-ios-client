@@ -37,15 +37,15 @@ public extension NSDecimalNumber {
         var hexString = hexString.replacingOccurrences(of: "0x", with: "")
 
         // First we perform some sanity checks on the string. Then we chop it in 8 pieces and convert each to a UInt32.
-        assert(!hexString.characters.isEmpty, "Can't be empty")
+        assert(!hexString.isEmpty, "Can't be empty")
 
         // Assert if string isn't too long
-        assert(hexString.characters.count <= 64, "Too large")
+        assert(hexString.count <= 64, "Too large")
 
         hexString = hexString.uppercased()
 
         // Assert if string has any characters that are not 0-9 or A-F
-        for character in hexString.characters {
+        for character in hexString {
             switch character {
             case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F":
                 assert(true)
@@ -55,8 +55,8 @@ public extension NSDecimalNumber {
         }
 
         // Pad zeros
-        if hexString.characters.count < 64 {
-            for _ in 1 ... (64 - hexString.characters.count) {
+        if hexString.count < 64 {
+            for _ in 1 ... (64 - hexString.count) {
                 hexString = "0" + hexString
             }
         }

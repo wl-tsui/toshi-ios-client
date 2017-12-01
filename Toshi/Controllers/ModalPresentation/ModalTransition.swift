@@ -54,9 +54,9 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             controller.visualEffectView.alpha = 1
-        }) { didComplete in
+        }, completion: { didComplete in
             context.completeTransition(didComplete)
-        }
+        })
 
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 20, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             controller.visualEffectView.transform = .identity
@@ -69,8 +69,8 @@ final class ModalTransition: NSObject, UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeInFromCurrentStateWithUserInteraction, animations: {
             controller.visualEffectView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             controller.visualEffectView.alpha = 0
-        }) { didComplete in
+        }, completion: { didComplete in
             context.completeTransition(didComplete)
-        }
+        })
     }
 }

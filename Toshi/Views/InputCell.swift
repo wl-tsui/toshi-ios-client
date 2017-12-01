@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import Foundation
+import UIKit
 
 protocol InputCellUpdater: class {
     func inputDidUpdate(_ detailText: String?, _ switchMode: Bool)
@@ -47,7 +47,7 @@ final class InputCell: UITableViewCell, UITextFieldDelegate {
         switchControl.isOn = false
     }
 
-    @objc @IBAction fileprivate func switchValueDidChange(_: Any) {
+    @objc @IBAction private func switchValueDidChange(_: Any) {
         updater?.inputDidUpdate(textField.text, switchControl.isOn)
     }
 

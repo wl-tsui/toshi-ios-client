@@ -116,7 +116,7 @@ class PaymentController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var networkView: ActiveNetworkView = {
+    private lazy var networkView: ActiveNetworkView = {
         self.defaultActiveNetworkView()
     }()
     

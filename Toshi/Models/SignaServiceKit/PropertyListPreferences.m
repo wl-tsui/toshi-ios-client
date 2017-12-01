@@ -8,6 +8,19 @@
 #import <SignalServiceKit/Asserts.h>
 #import <SignalServiceKit/Constraints.h>
 
+#import "Toshi-Swift.h"
+
+// -- Necessary for OWS assertion use
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+#ifdef DEBUG
+static const NSUInteger ddLogLevel = DDLogLevelAll;
+#else
+static const NSUInteger ddLogLevel = DDLogLevelInfo;
+#endif
+// -- 
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 double const PropertyListPreferencesDefaultCallStreamDESBufferLevel = 0.5;
@@ -21,9 +34,7 @@ NSString *const PropertyListPreferencesKeyHasSentAMessage = @"User has sent a me
 NSString *const PropertyListPreferencesKeyHasArchivedAMessage = @"User archived a message";
 NSString *const PropertyListPreferencesKeyLastRunSignalVersion = @"SignalUpdateVersionKey";
 NSString *const PropertyListPreferencesKeyPlaySoundInForeground = @"NotificationSoundInForeground";
-NSString *const PropertyListPreferencesKeyHasRegisteredVoipPush = @"VOIPPushEnabled";
 NSString *const PropertyListPreferencesKeyLastRecordedPushToken = @"LastRecordedPushToken";
-NSString *const PropertyListPreferencesKeyLastRecordedVoipToken = @"LastRecordedVoipToken";
 NSString *const PropertyListPreferencesKeyCallKitEnabled = @"CallKitEnabled";
 NSString *const PropertyListPreferencesKeyCallKitPrivacyEnabled = @"CallKitPrivacyEnabled";
 NSString *const PropertyListPreferencesKeyCallsHideIPAddress = @"CallsHideIPAddress";
@@ -112,25 +123,9 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
     }
 }
 
-- (BOOL)hasRegisteredVOIPPush
-{
-    NSNumber *preference = [self tryGetValueForKey:PropertyListPreferencesKeyHasRegisteredVoipPush];
-    if (preference) {
-        return [preference boolValue];
-    } else {
-        return YES;
-    }
-}
-
 - (void)setScreenSecurity:(BOOL)flag
 {
     [self setValueForKey:PropertyListPreferencesKeyScreenSecurity toValue:@(flag)];
-}
-
-
-- (void)setHasRegisteredVOIPPush:(BOOL)enabled
-{
-    [self setValueForKey:PropertyListPreferencesKeyHasRegisteredVoipPush toValue:@(enabled)];
 }
 
 + (BOOL)loggingIsEnabled
@@ -328,16 +323,6 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
 - (nullable NSString *)getPushToken
 {
     return [self tryGetValueForKey:PropertyListPreferencesKeyLastRecordedPushToken];
-}
-
-- (void)setVoipToken:(NSString *)value
-{
-    [self setValueForKey:PropertyListPreferencesKeyLastRecordedVoipToken toValue:value];
-}
-
-- (nullable NSString *)getVoipToken
-{
-    return [self tryGetValueForKey:PropertyListPreferencesKeyLastRecordedVoipToken];
 }
 
 @end

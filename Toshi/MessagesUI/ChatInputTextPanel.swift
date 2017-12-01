@@ -29,9 +29,9 @@ class ChatInputTextPanel: UIView {
 
     static let defaultHeight: CGFloat = 44
 
-    fileprivate let inputContainerInsets = UIEdgeInsets(top: 1, left: 41, bottom: 7, right: 0)
-    fileprivate let maximumInputContainerHeight: CGFloat = 175
-    fileprivate var inputContainerHeight: CGFloat = ChatInputTextPanel.defaultHeight {
+    private let inputContainerInsets = UIEdgeInsets(top: 1, left: 41, bottom: 7, right: 0)
+    private let maximumInputContainerHeight: CGFloat = 175
+    private var inputContainerHeight: CGFloat = ChatInputTextPanel.defaultHeight {
         didSet {
             if self.inputContainerHeight != oldValue {
                 delegate?.inputTextPanelDidChangeHeight(self.inputContainerHeight)
@@ -39,7 +39,7 @@ class ChatInputTextPanel: UIView {
         }
     }
 
-    fileprivate func inputContainerHeight(for textViewHeight: CGFloat) -> CGFloat {
+    private func inputContainerHeight(for textViewHeight: CGFloat) -> CGFloat {
         return min(maximumInputContainerHeight, max(ChatInputTextPanel.defaultHeight, textViewHeight + inputContainerInsets.top + inputContainerInsets.bottom))
     }
 
@@ -62,7 +62,7 @@ class ChatInputTextPanel: UIView {
         return view
     }()
 
-    fileprivate lazy var attachButton: UIButton = {
+    private lazy var attachButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
         view.setImage(#imageLiteral(resourceName: "TGAttachButton").withRenderingMode(.alwaysTemplate), for: .normal)
         view.tintColor = Theme.tintColor
@@ -72,7 +72,7 @@ class ChatInputTextPanel: UIView {
         return view
     }()
 
-    fileprivate lazy var sendButton: RoundIconButton = {
+    private lazy var sendButton: RoundIconButton = {
         let view = RoundIconButton(imageName: "send-button", circleDiameter: 27)
         view.isEnabled = false
         view.addTarget(self, action: #selector(send(_:)), for: .touchUpInside)
@@ -88,7 +88,7 @@ class ChatInputTextPanel: UIView {
         }
     }
 
-    fileprivate lazy var sendButtonWidth: NSLayoutConstraint = {
+    private lazy var sendButtonWidth: NSLayoutConstraint = {
         self.sendButton.width(0)
     }()
 

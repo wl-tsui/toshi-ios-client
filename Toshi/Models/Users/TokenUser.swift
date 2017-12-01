@@ -107,8 +107,8 @@ public class TokenUser: NSObject, NSCoding {
     private var userSettings: [String: Any] = [:]
     private(set) var cachedCurrencyLocale: Locale?
 
-    fileprivate static var _current: TokenUser?
-    @objc fileprivate(set) static var current: TokenUser? {
+    private static var _current: TokenUser?
+    @objc private(set) static var current: TokenUser? {
         get {
             if _current == nil {
                 _current = retrieveCurrentUserFromStore()
@@ -179,7 +179,13 @@ public class TokenUser: NSObject, NSCoding {
     }
 
     static func name(from username: String) -> String {
-        return username.hasPrefix("@") ? username.substring(from: username.index(after: username.startIndex)) : username
+        guard username.hasPrefix("@") else {
+            // Does not need to be cleaned up
+            return username
+        }
+
+        let index = username.index(username.startIndex, offsetBy: 1)
+        return String(username[index...])
     }
 
     static func user(with data: Data, shouldUpdate: Bool = true) -> TokenUser? {

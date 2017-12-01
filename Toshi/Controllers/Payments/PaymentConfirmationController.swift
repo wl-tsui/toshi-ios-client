@@ -21,12 +21,12 @@ class PaymentConfirmationController: AlertController {
 
     static let contentWidth: CGFloat = 310
 
-    fileprivate var userInfo: UserInfo
-    fileprivate var value = NSDecimalNumber.zero
+    private var userInfo: UserInfo
+    private var value = NSDecimalNumber.zero
 
-    fileprivate var review: String = ""
+    private var review: String = ""
 
-    fileprivate lazy var networkView: ActiveNetworkView = {
+    private lazy var networkView: ActiveNetworkView = {
         self.defaultActiveNetworkView()
     }()
 
@@ -53,14 +53,19 @@ class PaymentConfirmationController: AlertController {
         super.viewDidLoad()
 
         setupCustomContentView()
+        
+        fetchScores()
 
         setupActiveNetworkView()
 
         showActiveNetworkViewIfNeeded()
     }
 
-    fileprivate func setupCustomContentView() {
-        if let customView = Bundle.main.loadNibNamed("PaymentRequestInfoView", owner: nil, options: nil)?.first as? PaymentRequestInfoView {
+    private func setupCustomContentView() {
+        guard let nibViews = Bundle.main.loadNibNamed("PaymentRequestInfoView", owner: nil, options: nil), let customView = nibViews.first as? PaymentRequestInfoView else {
+            assertionFailure("Could not load Payment Request Info View from nib")
+            return
+        }
 
             customView.translatesAutoresizingMaskIntoConstraints = false
             customView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -79,12 +84,13 @@ class PaymentConfirmationController: AlertController {
             customView.mode = (userInfo.isLocal == true) ? Mode.localUser : Mode.remoteUser
 
             customContentView = customView
-
-            RatingsClient.shared.scores(for: userInfo.address) { [weak self] score in
-                if let view = self?.customContentView as? PaymentRequestInfoView {
-                    view.ratingView.set(rating: Float(score.averageRating), animated: true)
-                    view.ratingCountLabel.text = "(\(score.reviewCount))"
-                }
+    }
+    
+    func fetchScores() {
+        RatingsClient.shared.scores(for: userInfo.address) { [weak self] score in
+            if let view = self?.customContentView as? PaymentRequestInfoView {
+                view.ratingView.set(rating: Float(score.averageRating), animated: true)
+                view.ratingCountLabel.text = "(\(score.reviewCount))"
             }
         }
     }

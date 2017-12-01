@@ -38,11 +38,11 @@ open class Message: NSObject {
         return nil
     }
 
-    fileprivate lazy var attachmentsCache: NSCache<NSString, UIImage> = {
+    private lazy var attachmentsCache: NSCache<NSString, UIImage> = {
         NSCache<NSString, UIImage>()
     }()
 
-    fileprivate func streamImage(for stream: TSAttachmentStream) -> UIImage? {
+    private func streamImage(for stream: TSAttachmentStream) -> UIImage? {
         var image: UIImage?
 
         if let cachedImage = self.attachmentsCache.object(forKey: self.uniqueIdentifier() as NSString) {

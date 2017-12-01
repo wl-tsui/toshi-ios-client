@@ -51,7 +51,6 @@ extension String {
                 emojiOnly = true
             default:
                 emojiOnly = false
-                break
             }
         }
 

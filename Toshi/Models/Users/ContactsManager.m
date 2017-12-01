@@ -3,6 +3,7 @@
 #import <SignalServiceKit/SignalRecipient.h>
 
 #import "ContactsManager.h"
+#import "Contact.h"
 
 #import "Toshi-Swift.h"
 

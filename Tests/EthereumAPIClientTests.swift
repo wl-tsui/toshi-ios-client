@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class EthereumAPIClientTests: QuickSpec {
 
     override func spec() {
@@ -133,4 +132,3 @@ class EthereumAPIClientTests: QuickSpec {
         }
     }
 }
-//swiftlint:enable force_cast

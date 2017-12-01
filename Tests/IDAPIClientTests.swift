@@ -19,7 +19,6 @@ import Quick
 import Nimble
 import Teapot
 
-//swiftlint:disable force_cast
 class IDAPIClientTests: QuickSpec {
     override func spec() {
         describe("the id API Client") {
@@ -159,7 +158,7 @@ class IDAPIClientTests: QuickSpec {
 
                     waitUntil { done in
                         subject.getLatestPublicUsers { users, error in
-                            print(error)
+                            print(error ?? "Error was nil!")
                             expect(error).to(beNil())
                             expect(users!.count).to(equal(2))
                             expect(users!.first!.about).to(equal("Latest public"))
@@ -374,5 +373,3 @@ class IDAPIClientTests: QuickSpec {
         }
     }
 }
-
-//swiftlint:enable force_cast

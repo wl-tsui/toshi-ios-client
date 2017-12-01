@@ -28,9 +28,9 @@ class RateUserController: ModalPresentable {
 
     weak var delegate: RateUserControllerDelegate?
 
-    fileprivate var user: TokenUser
+    private var user: TokenUser
 
-    fileprivate var review: String = ""
+    private var review: String = ""
 
     lazy var reviewContainer: UIView = {
         let view = UIView(withAutoLayout: true)
@@ -155,11 +155,11 @@ class RateUserController: ModalPresentable {
         }
     }
 
-    fileprivate lazy var inputFieldHeight: NSLayoutConstraint = {
+    private lazy var inputFieldHeight: NSLayoutConstraint = {
         self.inputField.heightAnchor.constraint(equalToConstant: RateUserController.defaultInputHeight)
     }()
 
-    fileprivate lazy var contentViewVerticalCenter: NSLayoutConstraint = {
+    private lazy var contentViewVerticalCenter: NSLayoutConstraint = {
         self.visualEffectView.centerYAnchor.constraint(equalTo: self.background.centerYAnchor)
     }()
 
@@ -287,12 +287,12 @@ class RateUserController: ModalPresentable {
         reviewContainer.addGestureRecognizer(pressGesture)
     }
 
-    @objc fileprivate dynamic func keyboardWillShow(_ notification: Notification) {
+    @objc private dynamic func keyboardWillShow(_ notification: Notification) {
         let info = KeyboardInfo(notification.userInfo)
         keyboardHeight = info.endFrame.height
     }
 
-    @objc fileprivate dynamic func keyboardWillHide(_: Notification) {
+    @objc private dynamic func keyboardWillHide(_: Notification) {
         keyboardHeight = 0
     }
 }

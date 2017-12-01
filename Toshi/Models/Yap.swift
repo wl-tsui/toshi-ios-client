@@ -37,7 +37,7 @@ protocol Singleton: class {
     }
 }
 
-fileprivate struct UserDB {
+private struct UserDB {
 
     static let password = "DBPWD"
 
@@ -127,7 +127,7 @@ public final class Yap: NSObject, Singleton {
         removeDatabaseFileAndPassword()
     }
 
-    fileprivate func removeDatabaseFileAndPassword() {
+    private func removeDatabaseFileAndPassword() {
         KeychainSwift().delete(UserDB.password)
         UserDefaults.standard.removeObject(forKey: UserDB.password)
 
@@ -136,7 +136,7 @@ public final class Yap: NSObject, Singleton {
         deleteFileIfNeeded(at: UserDB.shmFilePath)
     }
 
-    fileprivate func createDBForCurrentUser() {
+    private func createDBForCurrentUser() {
         let options = YapDatabaseOptions()
         options.corruptAction = .fail
 
@@ -173,11 +173,11 @@ public final class Yap: NSObject, Singleton {
         }
     }
 
-    fileprivate func createBackupDirectoryIfNeeded() {
+    private func createBackupDirectoryIfNeeded() {
         createdDirectoryIfNeeded(at: UserDB.Backup.directoryPath)
     }
 
-    fileprivate func createdDirectoryIfNeeded(at path: String) {
+    private func createdDirectoryIfNeeded(at path: String) {
         if FileManager.default.fileExists(atPath: path) == false {
             do {
                 try FileManager.default.createDirectory(atPath: path, withIntermediateDirectories: false, attributes: nil)
@@ -185,20 +185,20 @@ public final class Yap: NSObject, Singleton {
         }
     }
 
-    fileprivate func useBackedDBIfNeeded() {
+    private func useBackedDBIfNeeded() {
         if TokenUser.current != nil, FileManager.default.fileExists(atPath: UserDB.Backup.dbFilePath) {
             CrashlyticsLogger.log("Using backup database for signed in user")
             try? FileManager.default.moveItem(atPath: UserDB.Backup.dbFilePath, toPath: UserDB.dbFilePath)
         }
     }
 
-    fileprivate func deleteFileIfNeeded(at path: String) {
+    private func deleteFileIfNeeded(at path: String) {
         if FileManager.default.fileExists(atPath: path) {
             try? FileManager.default.removeItem(atPath: path)
         }
     }
 
-    fileprivate func backupUserDBFile() {
+    private func backupUserDBFile() {
         guard let user = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Yap backup"])
             fatalError("No current user while backing up user db file")

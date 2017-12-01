@@ -18,7 +18,7 @@ import SweetUIKit
 
 class PassphraseCopyController: UIViewController {
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 

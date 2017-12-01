@@ -22,11 +22,11 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     
     let thread: TSThread
     
-    fileprivate var isVisible: Bool = false
-    fileprivate lazy var viewModel = ChatViewModel(output: self, thread: self.thread)
-    fileprivate lazy var imagesCache: NSCache<NSString, UIImage> = NSCache()
+    private var isVisible: Bool = false
+    private lazy var viewModel = ChatViewModel(output: self, thread: self.thread)
+    private lazy var imagesCache: NSCache<NSString, UIImage> = NSCache()
 
-    fileprivate var textInputHeight: CGFloat = ChatInputTextPanel.defaultHeight {
+    private var textInputHeight: CGFloat = ChatInputTextPanel.defaultHeight {
         didSet {
             if isVisible {
                 updateContentInset()
@@ -35,7 +35,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         }
     }
 
-    fileprivate var heightOfKeyboard: CGFloat = 0 {
+    private var heightOfKeyboard: CGFloat = 0 {
         didSet {
             if isVisible, heightOfKeyboard != oldValue {
                 updateContentInset()
@@ -44,7 +44,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         }
     }
 
-    fileprivate lazy var avatarImageView: AvatarImageView = {
+    private lazy var avatarImageView: AvatarImageView = {
         let avatar = AvatarImageView(image: UIImage())
         avatar.bounds.size = CGSize(width: 34, height: 34)
         avatar.set(height: 34.0)
@@ -57,14 +57,14 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         return avatar
     }()
 
-    fileprivate lazy var ethereumPromptView: ChatFloatingHeaderView = {
+    private lazy var ethereumPromptView: ChatFloatingHeaderView = {
         let view = ChatFloatingHeaderView(withAutoLayout: true)
         view.delegate = self
 
         return view
     }()
 
-    fileprivate lazy var networkView = defaultActiveNetworkView()
+    private lazy var networkView = defaultActiveNetworkView()
     
     private lazy var buttonsView: ChatButtonsView = {
         let view = ChatButtonsView()
@@ -95,8 +95,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         return view
     }()
 
-    fileprivate lazy var textInputView = ChatInputTextPanel(withAutoLayout: true)
-    fileprivate lazy var activityView = self.defaultActivityIndicator()
+    private lazy var textInputView = ChatInputTextPanel(withAutoLayout: true)
+    private lazy var activityView = self.defaultActivityIndicator()
     
     private var textInputViewBottomConstraint: NSLayoutConstraint?
     private var textInputViewHeightConstraint: NSLayoutConstraint?
@@ -190,22 +190,23 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         preferLargeTitleIfPossible(true)
     }
 
-    fileprivate func updateBalance() {
+    private func updateBalance() {
 
         viewModel.fetchAndUpdateBalance(cachedCompletion: { [weak self] cachedBalance, _ in
             self?.set(balance: cachedBalance)
 
-        }) { [weak self] fetchedBalance, error in
+        }, fetchedCompletion: { [weak self] fetchedBalance, error in
             if let error = error {
                 let alertController = UIAlertController.errorAlert(error as NSError)
                 Navigator.presentModally(alertController)
             } else {
                 self?.set(balance: fetchedBalance)
             }
-        }
+        })
+        
     }
 
-    fileprivate func addSubviewsAndConstraints() {
+    private func addSubviewsAndConstraints() {
         view.addSubview(tableView)
         view.addSubview(textInputView)
         view.addSubview(buttonsView)
@@ -240,7 +241,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         }
     }
 
-    fileprivate func updateConstraints() {
+    private func updateConstraints() {
         textInputViewBottomConstraint?.constant = heightOfKeyboard < -textInputHeight ? heightOfKeyboard + textInputHeight + ChatButtonsView.height : 0
         textInputViewHeightConstraint?.constant = textInputHeight
         
@@ -250,14 +251,14 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         view.layoutIfNeeded()
     }
 
-    @objc fileprivate func showContactProfile(_ sender: UITapGestureRecognizer) {
+    @objc private func showContactProfile(_ sender: UITapGestureRecognizer) {
         if let contact = self.viewModel.contact, sender.state == .ended {
             let contactController = ProfileViewController(contact: contact)
             navigationController?.pushViewController(contactController, animated: true)
         }
     }
 
-    @objc fileprivate func handleBalanceUpdate(_ notification: Notification) {
+    @objc private func handleBalanceUpdate(_ notification: Notification) {
         guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
         set(balance: balance)
     }
@@ -272,18 +273,18 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         becomeFirstResponder()
     }
 
-    fileprivate func adjustToLastMessage() {
+    private func adjustToLastMessage() {
         let buttonsMessage = viewModel.messages.flatMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
         buttonsView.buttons = buttonsMessage?.buttons
     }
 
-    fileprivate func scrollToBottom(animated: Bool = true) {
+    private func scrollToBottom(animated: Bool = true) {
         guard self.tableView.numberOfRows(inSection: 0) > 0 else { return }
 
         self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .bottom, animated: true)
     }
 
-    fileprivate func adjustToPaymentState(_ state: PaymentState, at indexPath: IndexPath) {
+    private func adjustToPaymentState(_ state: PaymentState, at indexPath: IndexPath) {
         guard let message = self.viewModel.messageModels.element(at: indexPath.row), message.type == .paymentRequest || message.type == .payment, let signalMessage = message.signalMessage else { return }
 
         signalMessage.paymentState = state
@@ -295,7 +296,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         tableView.endUpdates()
     }
 
-    fileprivate func image(for message: MessageModel) -> UIImage {
+    private func image(for message: MessageModel) -> UIImage {
         var image = UIImage()
         if let cachedImage = self.imagesCache.object(forKey: message.identifier as NSString) {
             image = cachedImage
@@ -313,13 +314,13 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         return image
     }
 
-    fileprivate func set(balance: NSDecimalNumber) {
+    private func set(balance: NSDecimalNumber) {
         ethereumPromptView.balance = balance
     }
 
     // MARK: - Control handling
 
-    fileprivate func didTapControlButton(_ button: SofaMessage.Button) {
+    private func didTapControlButton(_ button: SofaMessage.Button) {
         if let action = button.action as? String {
             let prefix = "Webview::"
             guard action.hasPrefix(prefix) else { return }
@@ -337,7 +338,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         }
     }
     
-    fileprivate func approvePaymentForIndexPath(_ indexPath: IndexPath) {
+    private func approvePaymentForIndexPath(_ indexPath: IndexPath) {
         guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return }
         
         adjustToPaymentState(.pendingConfirmation, at: indexPath)
@@ -357,7 +358,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         }
     }
     
-    fileprivate func declinePaymentForIndexPath(_ indexPath: IndexPath) {
+    private func declinePaymentForIndexPath(_ indexPath: IndexPath) {
         adjustToPaymentState(.rejected, at: indexPath)
         
         DispatchQueue.main.asyncAfter(seconds: 2.0) {
@@ -372,7 +373,7 @@ extension ChatViewController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: true, completion: nil)
     }
 
-    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
 
         picker.dismiss(animated: true, completion: nil)
 
@@ -640,7 +641,7 @@ extension ChatViewController: ChatViewModelOutput {
         self.adjustToLastMessage()
     }
 
-    fileprivate func sendGreetingTriggerIfNeeded() {
+    private func sendGreetingTriggerIfNeeded() {
         if let contact = self.viewModel.contact, contact.isApp && self.viewModel.messages.isEmpty {
             // If contact is an app, and there are no messages between current user and contact
             // we send the app an empty regular sofa message. This ensures that Signal won't display it,
@@ -706,7 +707,7 @@ extension ChatViewController: ChatInputTextPanelDelegate {
         present(pickerTypeAlertController, animated: true)
     }
 
-    fileprivate func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
+    private func presentImagePicker(sourceType: UIImagePickerControllerSourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
         imagePicker.delegate = self

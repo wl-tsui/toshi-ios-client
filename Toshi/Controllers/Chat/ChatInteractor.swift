@@ -24,7 +24,7 @@ protocol ChatInteractorOutput: class {
 
 final class ChatInteractor: NSObject {
 
-    fileprivate weak var output: ChatInteractorOutput?
+    private weak var output: ChatInteractorOutput?
     private(set) var thread: TSThread
 
     init(output: ChatInteractorOutput?, thread: TSThread) {
@@ -38,15 +38,15 @@ final class ChatInteractor: NSObject {
         self.messageSender = appDelegate.messageSender
     }
 
-    fileprivate var etherAPIClient: EthereumAPIClient {
+    private var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
     }
 
-    fileprivate var idAPIClient: IDAPIClient {
+    private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
     }
 
-    fileprivate var messageSender: MessageSender?
+    private var messageSender: MessageSender?
 
     func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: @escaping ((Bool) -> Void) = { Bool in }) {
         let timestamp = NSDate.ows_millisecondTimeStamp()
@@ -149,9 +149,9 @@ final class ChatInteractor: NSObject {
     func fetchAndUpdateBalance(cachedCompletion: @escaping BalanceCompletion, fetchedCompletion: @escaping BalanceCompletion) {
         etherAPIClient.getBalance(cachedBalanceCompletion: { cachedBalance, _ in
             cachedCompletion(cachedBalance, nil)
-        }) { fetchedBalance, error in
+        }, fetchedBalanceCompletion: { fetchedBalance, error in
             fetchedCompletion(fetchedBalance, error)
-        }
+        })
     }
 
     func sendPayment(with parameters: [String: Any], completion: ((Bool) -> Void)? = nil) {
@@ -371,7 +371,7 @@ final class ChatInteractor: NSObject {
         interactor.sendMessage(sofaWrapper: initWrapper)
     }
 
-    fileprivate static func requestContactsRefresh() {
+    private static func requestContactsRefresh() {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         appDelegate?.contactsManager.refreshContacts()
     }

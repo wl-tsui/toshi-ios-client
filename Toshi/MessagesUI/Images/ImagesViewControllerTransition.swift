@@ -162,7 +162,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             mask.frame = self.isPresenting ? imageFrame : messagesFrame
             scalingImageView.center = CGPoint(x: endFrame.width / 2, y: endFrame.height / 2)
             scalingImageView.transform = self.isPresenting ? .identity : scale
-        }) { _ in
+        }, completion: { _ in
             fadingBackground.removeFromSuperview()
             mask.removeFromSuperview()
             cornerView.removeFromSuperview()
@@ -171,6 +171,6 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             fullsize.isHidden = false
 
             context.completeTransition(!context.transitionWasCancelled)
-        }
+        })
     }
 }

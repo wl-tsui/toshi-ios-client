@@ -30,8 +30,8 @@ final class SofaCommand: SofaWrapper {
 
     convenience init(button: SofaMessage.Button) {
         let json: [String: Any] = [
-            "body": button.label,
-            "value": button.value!
+            "body": button.label as Any,
+            "value": button.value as Any
         ]
 
         self.init(content: json)

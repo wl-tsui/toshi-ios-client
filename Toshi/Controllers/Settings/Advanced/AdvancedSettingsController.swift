@@ -18,7 +18,7 @@ import SweetUIKit
 
 class AdvancedSettingsController: UITableViewController {
 
-    @IBOutlet fileprivate weak var networkNameLabel: UILabel!
+    @IBOutlet private weak var networkNameLabel: UILabel!
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

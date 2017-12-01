@@ -30,7 +30,7 @@ class BalanceController: UIViewController {
         return refreshControl
     }()
 
-    fileprivate let reuseIdentifier = "BalanceControllerCell"
+    private let reuseIdentifier = "BalanceControllerCell"
 
     private var isAccountSecured: Bool {
         return TokenUser.current?.verified ?? false
@@ -91,7 +91,7 @@ class BalanceController: UIViewController {
 
         EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, error in
             self?.balance = cachedBalance
-        }) { [weak self] fetchedBalance, error in
+        }, fetchedBalanceCompletion: { [weak self] fetchedBalance, error in
             if let error = error {
                 Navigator.presentModally(UIAlertController.errorAlert(error as NSError))
                 completion?(false)
@@ -99,7 +99,7 @@ class BalanceController: UIViewController {
                 self?.balance = fetchedBalance
                 completion?(true)
             }
-        }
+        })
     }
 }
 
