@@ -134,6 +134,8 @@
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
+		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */; };
 		40F452374014D1BCC886E826 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */; };
 		6A369A3A1FBF2AB50099C2FF /* RLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A369A391FBF2AB50099C2FF /* RLPTests.swift */; };
@@ -845,6 +847,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */,
 				E676835A1F4467450014B2D4 /* Nimble.framework in Copy Frameworks */,
 				E67683571F44649F0014B2D4 /* Quick.framework in Copy Frameworks */,
 				9FE86E031F0BC14F00A7F71E /* SweetUIKit.framework in Copy Frameworks */,
@@ -913,6 +916,7 @@
 		30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
+		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUserTests.swift; sourceTree = "<group>"; };
 		3F0DBA781E2F9F3F471A6BAD /* Pods-CocoaPods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Tests/Pods-CocoaPods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DE939A571E431967E87D37E /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
@@ -1170,6 +1174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */,
 				9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */,
 				E67683561F4464980014B2D4 /* Quick.framework in Frameworks */,
 				9FE86E041F0BC15900A7F71E /* SweetUIKit.framework in Frameworks */,
@@ -1338,6 +1343,7 @@
 		27842ECF00E36BC79A5918DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				339959AC1FCEE74F00D69A01 /* EarlGrey.framework */,
 				E67683581F44673E0014B2D4 /* Nimble.framework */,
 				2BF6343C1F7C3D0B00235C67 /* Reachability.framework */,
 				E67683551F4464980014B2D4 /* Quick.framework */,
