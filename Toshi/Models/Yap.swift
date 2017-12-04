@@ -71,7 +71,7 @@ public final class Yap: NSObject, Singleton {
     }
 
     @objc public static var isUserDatabasePasswordAccessible: Bool {
-        return UserDefaults.standard.bool(forKey: UserDB.password)
+        return UserDefaultsWrapper.isDatabasePasswordAccessible
     }
 
     @objc public static var inconsistentStateDescription = inconsistencyError.description
@@ -100,7 +100,7 @@ public final class Yap: NSObject, Singleton {
             dbPassword = keychain.getData(address) ?? Randomness.generateRandomBytes(60).base64EncodedString().data(using: .utf8)!
         }
         keychain.set(dbPassword, forKey: UserDB.password, withAccess: .accessibleAfterFirstUnlockThisDeviceOnly)
-        UserDefaults.standard.set(true, forKey: UserDB.password)
+        UserDefaultsWrapper.isDatabasePasswordAccessible = true
 
         createDBForCurrentUser()
 
@@ -129,7 +129,7 @@ public final class Yap: NSObject, Singleton {
 
     private func removeDatabaseFileAndPassword() {
         KeychainSwift().delete(UserDB.password)
-        UserDefaults.standard.removeObject(forKey: UserDB.password)
+        UserDefaultsWrapper.isDatabasePasswordAccessible = false
 
         deleteFileIfNeeded(at: UserDB.dbFilePath)
         deleteFileIfNeeded(at: UserDB.walFilePath)
@@ -220,7 +220,7 @@ public final class Yap: NSObject, Singleton {
         try? FileManager.default.moveItem(atPath: UserDB.dbFilePath, toPath: UserDB.Backup.dbFilePath)
 
         KeychainSwift().delete(UserDB.password)
-        UserDefaults.standard.removeObject(forKey: UserDB.password)
+        UserDefaultsWrapper.isDatabasePasswordAccessible = false
     }
 
     /// Insert a object into the database using the main thread default connection.

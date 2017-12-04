@@ -72,7 +72,6 @@
 		2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		2B44A13A1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
 		2B44A13B1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
-		2B44A13C1F4AED1200B9C760 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
 		2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */; };
@@ -94,7 +93,6 @@
 		2BA888EB1F600ED500B03D8E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA888EA1F600ED500B03D8E /* Currency.swift */; };
 		2BA888EC1F600ED500B03D8E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA888EA1F600ED500B03D8E /* Currency.swift */; };
 		2BA888ED1F600ED500B03D8E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA888EA1F600ED500B03D8E /* Currency.swift */; };
-		2BA888EE1F60156D00B03D8E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA888EA1F600ED500B03D8E /* Currency.swift */; };
 		2BAB90A91EC1194B005D98C6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A21EC1194B005D98C6 /* CoreGraphics.framework */; };
 		2BAB90AA1EC1194B005D98C6 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A31EC1194B005D98C6 /* CoreImage.framework */; };
 		2BAB90AB1EC1194B005D98C6 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90A41EC1194B005D98C6 /* ImageIO.framework */; };
@@ -136,6 +134,12 @@
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
 		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		33CF51351FD184AB00293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
+		33CF51361FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
+		33CF51371FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
+		33CF51391FD1952500293FD1 /* StringCaseListable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51381FD1952500293FD1 /* StringCaseListable.swift */; };
+		33CF513A1FD1952500293FD1 /* StringCaseListable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51381FD1952500293FD1 /* StringCaseListable.swift */; };
+		33CF513B1FD1952500293FD1 /* StringCaseListable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51381FD1952500293FD1 /* StringCaseListable.swift */; };
 		33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */; };
 		40F452374014D1BCC886E826 /* libPods-CocoaPods-Development.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */; };
 		6A369A3A1FBF2AB50099C2FF /* RLPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A369A391FBF2AB50099C2FF /* RLPTests.swift */; };
@@ -143,12 +147,10 @@
 		6ACC21621FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
 		6ACC21631FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
 		6ACC21641FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
-		6ACC21651FBDE72E002345D0 /* RLP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACC21611FBDE72E002345D0 /* RLP.swift */; };
 		6AE44D971F45C38B00F5AF02 /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE44D961F45C38B00F5AF02 /* CurrencyPicker.swift */; };
 		6AE44D981F45C38B00F5AF02 /* CurrencyPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE44D961F45C38B00F5AF02 /* CurrencyPicker.swift */; };
 		8446632B1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */; };
 		8446632C1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */; };
-		8446632D1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */; };
 		848D82221F23D50900BBFA66 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		848D82231F23D50A00BBFA66 /* NetworkSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */; };
 		84AED6FB1F42EBCB003C38E8 /* String+Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AED6FA1F42EBCB003C38E8 /* String+Regex.swift */; };
@@ -163,10 +165,8 @@
 		84FFE1E41F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */; };
 		84FFE1E51F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */; };
 		84FFE1E81F3C7F39008CEEF2 /* EthereumAddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E71F3C7F39008CEEF2 /* EthereumAddressTests.swift */; };
-		84FFE1E91F3C82F8008CEEF2 /* EthereumAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */; };
 		84FFE1EB1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */; };
 		84FFE1EC1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */; };
-		84FFE1ED1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
 		9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
 		9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
@@ -288,8 +288,6 @@
 		9FE18B281E2D135F00940DC8 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE18B271E2D135F00940DC8 /* ContactCell.swift */; };
 		9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE398401E2E225600386FAF /* ProfileItemCell.swift */; };
 		9FE533871F0B9C4C00B0C2B5 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
-		9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */; };
-		9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
 		9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		9FE86E021F0BC0AB00A7F71E /* SweetSwift.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -697,11 +695,8 @@
 		D197B0EE47ED98F7705E95B1 /* PersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */; };
 		D197B11DD70DB5696FFC4FD2 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
 		D197B133E8FE4FD69F1AA511 /* IDAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B8C43D9AEF28A5170A /* IDAPIClientTests.swift */; };
-		D197B1C8F23C146673D27610 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */; };
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
-		D197B1E9F8277FEB55771F0E /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
-		D197B21E44FC770D3632265C /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197B22F0A1803EEBB6819FE /* searchContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4747DA95DF531E0C300 /* searchContacts.json */; };
 		D197B22FB4CEE1C4761BCEB7 /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197B2A45E12329713413EAE /* createUnsignedTransaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BB03F2BFF88371C66F25 /* createUnsignedTransaction.json */; };
@@ -720,12 +715,8 @@
 		D197B42A7E9E693AC60C9299 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197B4425A9FE7A36B983DE1 /* getLatestPublicUsers.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B707B59B3F92F8A4B3EC /* getLatestPublicUsers.json */; };
 		D197B47D98009339295B1A5C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B19EAB3E25CAEDCC5C86 /* ProfileViewController.swift */; };
-		D197B4C46B755554DA3550F2 /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
-		D197B54E550A80E09BFE6501 /* RatingsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F54A7221E951F1500FEB67B /* RatingsClient.swift */; };
 		D197B54F2788A7DF91A035AE /* ToshiErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */; };
 		D197B590E4C59A08CB4AD88A /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
-		D197B5BB47AF86207A16EB1F /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
-		D197B5BBD23C7E20BC4DAE55 /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		D197B5E0F04D0A7529EC6342 /* TestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */; };
 		D197B6174378B26EDA051439 /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
 		D197B61F77E710DF67E4FBD2 /* UINotificationName+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */; };
@@ -747,7 +738,6 @@
 		D197B8B87F4A0DCA761DE9D6 /* retrieveUser.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B8E798FCD39B97824BBA /* retrieveUser.json */; };
 		D197B93806978360C8100D50 /* score.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BB0710786F9F642F4318 /* score.json */; };
 		D197B93C624C3E8D1F43B232 /* getCurrencies.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B175422C9602CE00CF65 /* getCurrencies.json */; };
-		D197B9489797708FF150253E /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197B95C65F5A93A5012EA5B /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
 		D197B968EE5E2CE52CC92F1D /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B99E1E1E4A6020699D14 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B19EAB3E25CAEDCC5C86 /* ProfileViewController.swift */; };
@@ -772,10 +762,8 @@
 		D197BDD5424805C3D7F2163A /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
 		D197BDE01E75D36B5D636838 /* PersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */; };
 		D197BDE13FECEEDB7511144E /* user.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B12C40488CB1523BB212 /* user.json */; };
-		D197BDFBE08A1B9DE0962EAB /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
 		D197BE71058CA3432F48BF1C /* AppsAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B00DD27312EDFE1B9ECB /* AppsAPIClientTests.swift */; };
 		D197BE83E68416D3FA0AE9BF /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDBBB0DE754639B7005B /* ProfileEditController.swift */; };
-		D197BEB8664994CE2E938479 /* SofaInitialRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */; };
 		D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */; };
 		D197BF10EA25C4BEEC42204E /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197BF264BEDC2A9EABFA2FA /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
@@ -785,16 +773,8 @@
 		D197BFF1B944A12C9733439F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7A2C3032B73635553CD /* ProfileView.swift */; };
 		D197BFFC874FC46F485BE295 /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
-		E60A52A51F28DB710032CAC0 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
 		E60A52A61F28DC010032CAC0 /* CacheExpiry+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F48C1561E9CD911008BA637 /* CacheExpiry+Default.swift */; };
 		E60A52A71F28DC5B0032CAC0 /* DevelopmentTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */; };
-		E60A52A81F28DC750032CAC0 /* TokenUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* TokenUser.swift */; };
-		E60A52A91F28DC8D0032CAC0 /* idAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD81E28D7D800A70E07 /* idAPIClient.swift */; };
-		E60A52AA1F28DD410032CAC0 /* AvatarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE6FB0E1EFC0C1600B0B848 /* AvatarManager.swift */; };
-		E60A52AB1F28E0F30032CAC0 /* Yap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAD31E27DE8800A70E07 /* Yap.swift */; };
-		E60A52AC1F28E0FD0032CAC0 /* Cereal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238FA1E24F9BF004BEEE0 /* Cereal.swift */; };
-		E60A52AF1F28E6A60032CAC0 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
-		E60A52B01F28E6FF0032CAC0 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
 		E60A52B11F28E7830032CAC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E561ED84F6A0036E9B7 /* Extensions.swift */; };
 		E67683561F4464980014B2D4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67683551F4464980014B2D4 /* Quick.framework */; };
 		E67683571F44649F0014B2D4 /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E67683551F4464980014B2D4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -917,6 +897,8 @@
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
+		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
+		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
 		33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUserTests.swift; sourceTree = "<group>"; };
 		3F0DBA781E2F9F3F471A6BAD /* Pods-CocoaPods-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Tests/Pods-CocoaPods-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4DE939A571E431967E87D37E /* Pods-CocoaPods-Development.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Development.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development.release.xcconfig"; sourceTree = "<group>"; };
@@ -1436,6 +1418,7 @@
 			isa = PBXGroup;
 			children = (
 				339959AA1FCED3D700D69A01 /* DLog.swift */,
+				33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1784,6 +1767,7 @@
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
+				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2758,55 +2742,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E60A52AA1F28DD410032CAC0 /* AvatarManager.swift in Sources */,
 				E60A52A71F28DC5B0032CAC0 /* DevelopmentTokenURLPaths.swift in Sources */,
-				84FFE1E91F3C82F8008CEEF2 /* EthereumAddress.swift in Sources */,
 				E60A52A61F28DC010032CAC0 /* CacheExpiry+Default.swift in Sources */,
-				E60A52AC1F28E0FD0032CAC0 /* Cereal.swift in Sources */,
-				E60A52A91F28DC8D0032CAC0 /* idAPIClient.swift in Sources */,
 				84FFE1E81F3C7F39008CEEF2 /* EthereumAddressTests.swift in Sources */,
 				9FE5338B1F0B9CF100B0C2B5 /* Theme.swift in Sources */,
-				E60A52AF1F28E6A60032CAC0 /* EthereumAPIClient.swift in Sources */,
-				84FFE1ED1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
 				6A369A3A1FBF2AB50099C2FF /* RLPTests.swift in Sources */,
 				84C459021F41B7AA00D534B8 /* QRCodeIntentTests.swift in Sources */,
-				E60A52A51F28DB710032CAC0 /* AppsAPIClient.swift in Sources */,
 				6AAB66321FC4508600C45149 /* CerealTests.swift in Sources */,
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
-				8446632D1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
-				E60A52B01F28E6FF0032CAC0 /* NetworkSwitcher.swift in Sources */,
-				9FE533891F0B9CBC00B0C2B5 /* NSDecimalNumber+Additions.swift in Sources */,
 				E60A52B11F28E7830032CAC0 /* Extensions.swift in Sources */,
 				84AED6FE1F42ED91003C38E8 /* String+Regex.swift in Sources */,
-				9FE533881F0B9C5500B0C2B5 /* EthereumConverter.swift in Sources */,
-				E60A52AB1F28E0F30032CAC0 /* Yap.swift in Sources */,
 				33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */,
-				6ACC21651FBDE72E002345D0 /* RLP.swift in Sources */,
-				2BA888EE1F60156D00B03D8E /* Currency.swift in Sources */,
-				E60A52A81F28DC750032CAC0 /* TokenUser.swift in Sources */,
 				D197B9D646686EF7FE2D78B8 /* UINotificationName+Additions.swift in Sources */,
 				D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */,
-				2B44A13C1F4AED1200B9C760 /* ExchangeRateAPIClient.swift in Sources */,
 				D197BD8E4D43B3EFF276694E /* TestAppDelegate.m in Sources */,
 				D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */,
 				D197BE71058CA3432F48BF1C /* AppsAPIClientTests.swift in Sources */,
 				D197B35BF9744D2F37972747 /* EthereumAPIClientTests.swift in Sources */,
 				D197B6C89BDD1FE57CA3DA33 /* RatingsClientTests.swift in Sources */,
-				D197B54E550A80E09BFE6501 /* RatingsClient.swift in Sources */,
 				D197BB5265BB1DA3032B68AA /* ExchangeRateAPIClientTests.swift in Sources */,
 				D197B133E8FE4FD69F1AA511 /* IDAPIClientTests.swift in Sources */,
 				D197B76039E4B9C45F980CCF /* ReachabilityManager.swift in Sources */,
-				D197B4C46B755554DA3550F2 /* CrashlyticsClient.swift in Sources */,
-				D197B9489797708FF150253E /* ToshiError.swift in Sources */,
 				D197B54F2788A7DF91A035AE /* ToshiErrorTests.swift in Sources */,
 				D197B0896EF91C2CCF4C5D78 /* SofaIdentifierTests.swift in Sources */,
-				D197B1E9F8277FEB55771F0E /* SofaWrapper.swift in Sources */,
-				D197BDFBE08A1B9DE0962EAB /* SofaMessage.swift in Sources */,
-				D197B5BBD23C7E20BC4DAE55 /* SofaPayment.swift in Sources */,
-				D197B1C8F23C146673D27610 /* SofaPaymentRequest.swift in Sources */,
-				D197B21E44FC770D3632265C /* SofaInitialResponse.swift in Sources */,
-				D197BEB8664994CE2E938479 /* SofaInitialRequest.swift in Sources */,
-				D197B5BB47AF86207A16EB1F /* SofaCommand.swift in Sources */,
 				D197B329C25288ECA41EC3C8 /* SofaWrapperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2959,6 +2917,7 @@
 				2B953AC71FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
 				A9E1DCE01F1E2777001A4ABE /* IconLabelButton.swift in Sources */,
 				2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */,
+				33CF513B1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
 				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
 				A9AC74121E78064500365029 /* TextLabel.swift in Sources */,
@@ -2969,6 +2928,7 @@
 				9F78D9D51EE93EFF003A0B95 /* PaymentConfirmationController.swift in Sources */,
 				9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */,
 				A963D5311F288E8900297FDF /* MessagesCornerView.swift in Sources */,
+				33CF51371FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */,
 				A9E691CF1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */,
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
 				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
@@ -3097,6 +3057,7 @@
 				A9AC74081E77E37500365029 /* ActionButton.swift in Sources */,
 				9FAACCB31E30E1EE00FB871D /* FavoritesNavigationController.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
+				33CF51391FD1952500293FD1 /* StringCaseListable.swift in Sources */,
 				A9CADC361F94C5B10096D017 /* ReputationBarView.swift in Sources */,
 				9F5B9BA11EBB530B006448F0 /* RatingView.swift in Sources */,
 				A91D72AF1F8786A70093420C /* ChatButtonsCollectionViewCell.swift in Sources */,
@@ -3109,6 +3070,7 @@
 				A97600301F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				14E4D8D01E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
+				33CF51351FD184AB00293FD1 /* UserDefaultsWrapper.swift in Sources */,
 				6ACC21621FBDE72E002345D0 /* RLP.swift in Sources */,
 				A96B19011F87CCE1002E5B52 /* Collection+Additions.swift in Sources */,
 				9F9238FB1E24F9BF004BEEE0 /* Cereal.swift in Sources */,
@@ -3336,6 +3298,7 @@
 				2B953AC61FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
 				A9603F061F4DABDC00BF57B1 /* IconLabelButton.swift in Sources */,
 				A9603F091F4DABDC00BF57B1 /* Emptiable.swift in Sources */,
+				33CF513A1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
 				A9603F0A1F4DABDC00BF57B1 /* InputField.swift in Sources */,
 				A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */,
 				A9603F131F4DABDC00BF57B1 /* TextLabel.swift in Sources */,
@@ -3346,6 +3309,7 @@
 				A9603F231F4DABDC00BF57B1 /* PaymentConfirmationController.swift in Sources */,
 				A9603F2A1F4DABDC00BF57B1 /* TokenUser.swift in Sources */,
 				A9603F2C1F4DABDC00BF57B1 /* MessagesCornerView.swift in Sources */,
+				33CF51361FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */,
 				A9E691CE1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */,
 				A9603F2F1F4DABDC00BF57B1 /* ContactActionView.swift in Sources */,
 				A9603F321F4DABDC00BF57B1 /* BlurView.swift in Sources */,

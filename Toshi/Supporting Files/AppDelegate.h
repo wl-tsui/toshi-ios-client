@@ -22,7 +22,6 @@
 #import <PushKit/PushKit.h>
 #import <UserNotifications/UserNotifications.h>
 
-extern NSString * _Nonnull const RequiresSignIn;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 

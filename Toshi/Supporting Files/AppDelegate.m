@@ -21,8 +21,6 @@
 
 #import <AxolotlKit/SessionCipher.h>
 
-NSString *const LaunchedBefore = @"LaunchedBefore";
-NSString *const RequiresSignIn = @"RequiresSignIn";
 NSString *const ChatSertificateName = @"token";
 
 @import WebRTC;
@@ -123,8 +121,7 @@ NSString *const ChatSertificateName = @"token";
     [self.window makeKeyAndVisible];
 
     if (![Yap isUserDatabaseFileAccessible] || ![Yap isUserDatabasePasswordAccessible]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [UserDefaultsWrapper setAddressChangeAlertShown:YES]; //suppress alert for users created >=v1.1.2
 
         [self presentSplash];
     } else {
@@ -134,13 +131,13 @@ NSString *const ChatSertificateName = @"token";
 
 - (void)showNetworkAlertIfNeeded {
     // To drive this point really home we could show this for every launch instead.
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"DidShowMoneyAlert"]) {
+    if (![UserDefaultsWrapper moneyAlertShown]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"network-alert-title", nil) message:NSLocalizedString(@"network-alert-text", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alert-ok-action-title", nil) style:UIAlertActionStyleCancel handler:nil]];
         alert.view.tintColor = Theme.tintColor;
 
         [self.window.rootViewController presentViewController:alert animated:YES completion:^{
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DidShowMoneyAlert"];
+            [UserDefaultsWrapper setMoneyAlertShown:YES];
         }];
     }
 }
@@ -155,12 +152,11 @@ NSString *const ChatSertificateName = @"token";
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidSignOut" object:nil];
         [AvatarManager.shared cleanCache];
 
-        [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+        [UserDefaultsWrapper clearAllDefaultsForThisApplication];
         [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotifications];
         [[TSStorageManager sharedManager] resetSignalStorageWithBackup:TokenUser.current.verified];
         [[Yap sharedInstance] wipeStorage];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [UserDefaultsWrapper setRequiresSignIn:YES];
 
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
@@ -217,8 +213,7 @@ NSString *const ChatSertificateName = @"token";
 - (void)didCreateUser {
     [self.contactsManager refreshContacts];
 
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [UserDefaultsWrapper setRequiresSignIn:NO];
 
     [Navigator presentAddressChangeAlertIfNeeded];
 }
@@ -256,7 +251,7 @@ NSString *const ChatSertificateName = @"token";
 
 - (BOOL)isFirstLaunch
 {
-    return  [[NSUserDefaults standardUserDefaults] boolForKey:LaunchedBefore] == NO;
+    return ([UserDefaultsWrapper launchedBefore] == NO);
 }
 
 - (void)setupTSKitEnv {
@@ -287,7 +282,7 @@ NSString *const ChatSertificateName = @"token";
 
     [TextSecureKitEnv setSharedEnv:sharedEnv];
 
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:LaunchedBefore];
+    [UserDefaultsWrapper setLaunchedBefore:YES];
 }
 
 - (BOOL)isSendingIdentityApprovalRequired

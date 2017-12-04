@@ -17,8 +17,6 @@ import UIKit
 
 public class FavoritesNavigationController: UINavigationController {
 
-    static let selectedContactKey = "Restoration::SelectedContact"
-
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
@@ -39,17 +37,17 @@ public class FavoritesNavigationController: UINavigationController {
     }
 
     public override func popViewController(animated: Bool) -> UIViewController? {
-        UserDefaults.standard.removeObject(forKey: FavoritesNavigationController.selectedContactKey)
+        UserDefaultsWrapper.selectedContact = nil
         return super.popViewController(animated: animated)
     }
 
     public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: FavoritesNavigationController.selectedContactKey)
+        UserDefaultsWrapper.selectedContact = nil
         return super.popToRootViewController(animated: animated)
     }
 
     public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: FavoritesNavigationController.selectedContactKey)
+        UserDefaultsWrapper.selectedContact = nil
         return super.popToViewController(viewController, animated: animated)
     }
 }

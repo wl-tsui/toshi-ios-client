@@ -196,7 +196,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
 
         displayContacts()
 
-        if let address = UserDefaults.standard.string(forKey: FavoritesNavigationController.selectedContactKey), !isPresentedModally {
+        if let address = UserDefaultsWrapper.selectedContact, !isPresentedModally {
             // This doesn't restore a contact if they are not our contact, but a search result
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(with: address) else { return }
@@ -473,8 +473,8 @@ extension FavoritesController: UITableViewDelegate {
             } else {
                 let contactController = ProfileViewController(contact: contact)
                 self.navigationController?.pushViewController(contactController, animated: true)
-                
-                UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
+                            
+                UserDefaultsWrapper.selectedContact = contact.address
             }
         }
     }

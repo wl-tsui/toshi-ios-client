@@ -30,8 +30,6 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         case me
     }
 
-    let tabBarSelectedIndexKey = "TabBarSelectedIndex"
-
     public var currentNavigationController: UINavigationController? {
         return selectedViewController as? UINavigationController
     }
@@ -91,7 +89,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
         let recentViewController = RecentViewController()
 
-        if let address = UserDefaults.standard.string(forKey: self.messagingController.selectedThreadAddressKey), let thread = recentViewController.thread(withAddress: address) {
+        if let address = UserDefaultsWrapper.selectedThreadAddress, let thread = recentViewController.thread(withAddress: address) {
             messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]
         } else {
             messagingController.viewControllers = [recentViewController]
@@ -113,8 +111,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         tabBar.barTintColor = Theme.viewBackgroundColor
         tabBar.unselectedItemTintColor = Theme.unselectedItemTintColor
 
-        let index = UserDefaults.standard.integer(forKey: tabBarSelectedIndexKey)
-        selectedIndex = index
+        selectedIndex = UserDefaultsWrapper.tabBarSelectedIndex
     }
 
     func openPaymentMessage(to address: String, parameters: [String: Any]? = nil) {
@@ -197,7 +194,7 @@ extension TabBarController: UITabBarControllerDelegate {
         automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets
 
         if let index = self.viewControllers?.index(of: viewController) {
-            UserDefaults.standard.set(index, forKey: tabBarSelectedIndexKey)
+            UserDefaultsWrapper.tabBarSelectedIndex = index
         }
     }
 }

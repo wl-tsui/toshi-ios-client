@@ -2,6 +2,7 @@ import XCTest
 import UIKit
 import Quick
 import Nimble
+@testable import Toshi
 
 class EthereumConverterTests: QuickSpec {
 

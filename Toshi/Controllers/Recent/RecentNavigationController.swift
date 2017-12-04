@@ -17,8 +17,6 @@ import UIKit
 
 public class RecentNavigationController: UINavigationController {
 
-    let selectedThreadAddressKey = "Restoration::SelectedThread"
-
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
@@ -100,24 +98,24 @@ public class RecentNavigationController: UINavigationController {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ChatViewController {
-            UserDefaults.standard.setValue(viewController.thread.contactIdentifier(), forKey: selectedThreadAddressKey)
+            UserDefaultsWrapper.selectedThreadAddress = viewController.thread.contactIdentifier()
         }
     }
 
     public override func popViewController(animated: Bool) -> UIViewController? {
-        UserDefaults.standard.removeObject(forKey: selectedThreadAddressKey)
+        UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popViewController(animated: animated)
     }
 
     public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: selectedThreadAddressKey)
+        UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popToRootViewController(animated: animated)
     }
 
     public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: selectedThreadAddressKey)
+        UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popToViewController(viewController, animated: animated)
     }

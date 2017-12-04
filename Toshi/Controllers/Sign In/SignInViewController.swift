@@ -120,7 +120,7 @@ final class SignInViewController: UIViewController {
             if let user = user {
 
                 Cereal.shared = validCereal
-                UserDefaults.standard.set(false, forKey: RequiresSignIn)
+                UserDefaultsWrapper.requiresSignIn = false
 
                 TokenUser.createCurrentUser(with: user.dict)
                 idClient.migrateCurrentUserIfNeeded()
