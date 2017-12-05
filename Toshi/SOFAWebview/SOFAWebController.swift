@@ -17,11 +17,12 @@ import UIKit
 import SweetUIKit
 import WebKit
 
-class SOFAWebController: UIViewController {
+final class SOFAWebController: UIViewController {
 
     enum Method: String {
         case getAccounts
         case signTransaction
+        case signPersonalMessage
         case publishTransaction
         case approveTransaction
     }
@@ -53,6 +54,7 @@ class SOFAWebController: UIViewController {
         var userScript: WKUserScript = WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         
         configuration.userContentController.add(self, name: Method.getAccounts.rawValue)
+        configuration.userContentController.add(self, name: Method.signPersonalMessage.rawValue)
         configuration.userContentController.add(self, name: Method.signTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.publishTransaction.rawValue)
         configuration.userContentController.add(self, name: Method.approveTransaction.rawValue)
@@ -186,6 +188,38 @@ extension SOFAWebController: WKScriptMessageHandler {
         case .getAccounts:
             let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
             jsCallback(callbackId: callbackId, payload: payload)
+        case .signPersonalMessage:
+            guard let messageBody = message.body as? [String: Any], let msgParams = messageBody["msgParams"] as? [String: Any], let messageEncodedString = msgParams["data"] as? String else {
+                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+                return
+            }
+
+            if let messageData = messageEncodedString.hexadecimalData, let decodedString = String(data: messageData, encoding: .utf8) {
+
+                DispatchQueue.main.async {
+                    self.presentPersonalMessageSignAlert(decodedString, signHandler: { [weak self] in
+                        let composedString = "\u{0019}Ethereum Signed Message:\n" + String(messageData.count) + decodedString
+
+                        if let resultData = composedString.data(using: .utf8) {
+                            var signature = "0x\(Cereal.shared.signWithWallet(hex: resultData.hexEncodedString()))"
+
+                            let index = signature.index(signature.startIndex, offsetBy: 130)
+                            if let suffix = Int(signature.suffix(from: index)) {
+                                let resultSuffix = suffix + 27
+
+                                let truncated = signature.dropLast(2)
+                                let suffixHex = String(format: "%2X", resultSuffix)
+
+                                signature = truncated + suffixHex
+                                self?.jsCallback(callbackId: callbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
+                            }
+                        }
+                    })
+                }
+            }
+
+            jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+
         case .signTransaction:
             guard let messageBody = message.body as? [String: Any], let tx = messageBody["tx"] as? [String: Any] else {
                 jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
@@ -256,6 +290,16 @@ extension SOFAWebController: WKScriptMessageHandler {
             let payload = "{\\\"error\\\": null, \\\"result\\\": true}"
             jsCallback(callbackId: callbackId, payload: payload)
         }
+    }
+
+    private func presentPersonalMessageSignAlert(_ message: String, signHandler: @escaping (() -> Void)) {
+        let alert = UIAlertController(title: "\"CryptoKitties\" is requesting\nyour Signature", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Sign", style: .default, handler: { _ in
+            signHandler()
+        }))
+
+        Navigator.presentModally(alert)
     }
 }
 
