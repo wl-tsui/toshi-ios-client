@@ -42,12 +42,12 @@ class SOFAWebController: UIViewController {
         if let filepath = Bundle.main.path(forResource: "sofa-web3", ofType: "js") {
             do {
                 js += try String(contentsOfFile: filepath)
-                print("Loaded sofa.js")
+                DLog("Loaded sofa.js")
             } catch {
-                print("Failed to load sofa.js")
+                DLog("Failed to load sofa.js")
             }
         } else {
-            print("Sofa.js not found in bundle")
+            DLog("Sofa.js not found in bundle")
         }
         
         var userScript: WKUserScript = WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
@@ -167,18 +167,18 @@ extension SOFAWebController: WKScriptMessageHandler {
 
         webView.evaluateJavaScript("javascript:" + js) { jsReturnValue, error in
             if let error = error {
-                print("Error: \(error)")
+                DLog("Error: \(error)")
             } else if let newCount = jsReturnValue as? Int {
-                print("Returned value: \(newCount)")
+                DLog("Returned value: \(newCount)")
             } else {
-                print("No return from JS")
+                DLog("No return from JS")
             }
         }
     }
 
     func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
-        guard let method = Method(rawValue: message.name) else { return print("failed \(message.name)") }
-        guard let callbackId = (message.body as? NSDictionary)?.value(forKey: "callback") as? String else { return print("missing callback id") }
+        guard let method = Method(rawValue: message.name) else { return DLog("failed \(message.name)") }
+        guard let callbackId = (message.body as? NSDictionary)?.value(forKey: "callback") as? String else { return DLog("missing callback id") }
 
         self.callbackId = callbackId
 

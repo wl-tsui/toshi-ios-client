@@ -121,7 +121,7 @@ public final class NetworkSwitcher {
             if success {
                 self.switchedNetwork = network
             } else {
-                print("Error deregistering - No connection")
+                DLog("Error deregistering - No connection")
             }
         }
     }
@@ -146,7 +146,7 @@ public final class NetworkSwitcher {
                     let notification = Notification(name: .SwitchedNetworkChanged)
                     NotificationCenter.default.post(notification)
                 } else {
-                    print("Error registering - No connection")
+                    DLog("Error registering - No connection")
                     self.activateNetwork(nil)
                 }
             }

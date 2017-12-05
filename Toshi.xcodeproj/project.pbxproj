@@ -132,6 +132,9 @@
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
 		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		33CF51351FD184AB00293FD1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */; };
@@ -2750,6 +2753,7 @@
 				84C459021F41B7AA00D534B8 /* QRCodeIntentTests.swift in Sources */,
 				6AAB66321FC4508600C45149 /* CerealTests.swift in Sources */,
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
+				33CF51311FD181F700293FD1 /* DLog.swift in Sources */,
 				E60A52B11F28E7830032CAC0 /* Extensions.swift in Sources */,
 				84AED6FE1F42ED91003C38E8 /* String+Regex.swift in Sources */,
 				33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */,
@@ -2790,6 +2794,7 @@
 				2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
 				9F78D9DD1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
+				33CF51331FD181FA00293FD1 /* DLog.swift in Sources */,
 				A9A9F9A51F8B70850010F877 /* ChatFloatingHeaderView.swift in Sources */,
 				A9E1DCDE1F1E276B001A4ABE /* MessagesPaymentCell.swift in Sources */,
 				9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
@@ -3171,6 +3176,7 @@
 				A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */,
 				A9A9F9A41F8B70840010F877 /* ChatFloatingHeaderView.swift in Sources */,
 				A9603D851F4DABDC00BF57B1 /* MessagesPaymentCell.swift in Sources */,
+				33CF51321FD181FA00293FD1 /* DLog.swift in Sources */,
 				A9603D891F4DABDC00BF57B1 /* UIColor+Additions.swift in Sources */,
 				A9603D8C1F4DABDC00BF57B1 /* BackgroundNotificationHandler.swift in Sources */,
 				A9603D8F1F4DABDC00BF57B1 /* MessagesBasicCell.swift in Sources */,

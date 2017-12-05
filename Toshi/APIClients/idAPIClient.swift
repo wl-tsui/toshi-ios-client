@@ -140,7 +140,7 @@ import Teapot
             switch result {
             case .success(let json, _):
                 guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
-                    print("No response json - Fetch timestamp")
+                    DLog("No response json - Fetch timestamp")
                     completion(nil, .invalidResponseJSON)
                     return
                 }
@@ -206,7 +206,7 @@ import Teapot
                         TokenUser.createCurrentUser(with: json)
                         status = .registered
                     case .failure(_, _, let error):
-                        print(error)
+                        DLog("\(error)")
                         status = .failed
                     }
 
@@ -254,7 +254,7 @@ import Teapot
 
                     succeeded = true
                 case .failure(_, _, let error):
-                    print(error)
+                    DLog("\(error)")
                     toshiError = ToshiError(withTeapotError: error)
                 }
 
@@ -294,7 +294,7 @@ import Teapot
                 switch result {
                 case .success(let json, let response):
                     guard response.statusCode == 200, let json = json?.dictionary else {
-                        print("Invalid response - Update user")
+                        DLog("Invalid response - Update user")
                         completion(false, ToshiError(withType: .invalidResponseStatus, description: "User could not be updated", responseStatus: response.statusCode))
                         return
                     }
@@ -337,7 +337,7 @@ import Teapot
 
                 resultUser = TokenUser(json: json)
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
             }
 
             DispatchQueue.main.async {
@@ -369,7 +369,7 @@ import Teapot
                 }
                 NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
             }
 
             DispatchQueue.main.async {
@@ -402,7 +402,7 @@ import Teapot
 
                 results = contacts
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
             }
 
             DispatchQueue.main.async {
@@ -439,7 +439,7 @@ import Teapot
 
                 results = contacts
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
             }
 
@@ -477,7 +477,7 @@ import Teapot
 
                 results = contacts
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
             }
 
@@ -520,7 +520,7 @@ import Teapot
                 switch result {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
-                        print("Invalid response - Report user")
+                        DLog("Invalid response - Report user")
                         completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to report user could not be completed", responseStatus: response.statusCode))
                         return
                     }
@@ -562,7 +562,7 @@ import Teapot
                 switch result {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
-                        print("Invalid response - Login")
+                        DLog("Invalid response - Login")
                         completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to login as admin could not be completed", responseStatus: response.statusCode))
                         return
                     }

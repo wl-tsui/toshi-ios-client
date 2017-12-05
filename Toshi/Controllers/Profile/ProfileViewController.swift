@@ -285,10 +285,10 @@ extension ProfileViewController: PaymentControllerDelegate {
                     let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 
                     strongSelf.messageSender?.send(outgoingMessage, success: {
-                        print("message sent")
+                        DLog("message sent")
                     }, failure: { error in
                         CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
-                        print(error)
+                        DLog("\(error)")
                     })
                 }
             }

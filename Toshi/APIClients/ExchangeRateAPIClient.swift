@@ -92,7 +92,7 @@ public final class ExchangeRateAPIClient {
 
                 completion(Decimal(doubleValue))
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
                 completion(nil)
             }
         }
@@ -127,7 +127,7 @@ public final class ExchangeRateAPIClient {
                 strongSelf.currenciesCachedData.objects = validResults
                 strongSelf.cache.setObject(strongSelf.currenciesCachedData, forKey: strongSelf.currenciesCacheKey)
             case .failure(_, _, let error):
-                print(error.localizedDescription)
+                DLog(error.localizedDescription)
             }
 
             DispatchQueue.main.async {

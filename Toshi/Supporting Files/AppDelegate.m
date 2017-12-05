@@ -255,7 +255,10 @@ NSString *const ChatSertificateName = @"token";
 }
 
 - (void)setupTSKitEnv {
-    NSLog(@"Setting up Signal KIT environment");
+    [OCDLog alog:@"Setting up Signal KIT environment"
+        filePath:__FILE__
+        function:__FUNCTION__
+            line:__LINE__];
 
     // ensure this is called from main queue for the first time
     // otherwise app crashes, because of some code path differences between
@@ -427,17 +430,26 @@ NSString *const ChatSertificateName = @"token";
 }
 
 - (void)updateRemoteNotificationCredentials {
-    NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
+    [OCDLog alog:[NSString stringWithFormat:@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered])]
+        filePath:__FILE__
+        function:__FUNCTION__
+            line:__LINE__];
 
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:nil success:^{
-        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n", self.token);
+        [OCDLog alog:[NSString stringWithFormat:@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n", self.token]
+            filePath:__FILE__
+            function:__FUNCTION__
+                line:__LINE__];
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
 
         [[EthereumAPIClient shared] registerForSwitchedNetworkPushNotificationsIfNeededWithCompletion:nil];
 
     } failure:^(NSError *error) {
-        NSLog(@"\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: %@\n||------- \n", error.localizedDescription);
+        [OCDLog alog:[NSString stringWithFormat:@"\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: %@\n||------- \n", error.localizedDescription]
+            filePath:__FILE__
+            function:__FUNCTION__
+                line:__LINE__];
         [CrashlyticsLogger log:@"Failed to register for PNs" attributes:@{@"error": error.localizedDescription}];
     }];
 }
@@ -460,7 +472,10 @@ NSString *const ChatSertificateName = @"token";
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"Failed to register for remote notifications. %@", error);
+    [OCDLog alog:[NSString stringWithFormat:@"Failed to register for remote notifications. %@", error]
+        filePath:__FILE__
+        function:__FUNCTION__
+            line:__LINE__];
 }
 
 @end

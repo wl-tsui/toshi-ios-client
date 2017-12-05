@@ -101,7 +101,7 @@ class RatingsClient: NSObject {
             case .success(let json, _):
 
                 guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
-                    print("Invalid response - Fetch timestamp")
+                    DLog("Invalid response - Fetch timestamp")
                     completion(nil, .invalidPayload)
                     return
                 }

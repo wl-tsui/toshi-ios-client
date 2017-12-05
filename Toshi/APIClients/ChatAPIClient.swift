@@ -47,9 +47,9 @@ public class ChatAPIClient: NSObject {
                     completion(timestamp)
                 }
             case .failure(let json, let response, let error):
-                print(error)
-                print(response)
-                print(json ?? "")
+                DLog("\(error)")
+                DLog("\(response)")
+                DLog(String(describing: json))
             }
         }
     }
@@ -79,16 +79,16 @@ public class ChatAPIClient: NSObject {
                 switch result {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
-                        print("Could not register user. Status code \(response.statusCode)")
+                        DLog("Could not register user. Status code \(response.statusCode)")
                         completion(false)
                         return
                     }
 
                     TSAccountManager.sharedInstance().storeServerAuthToken(parameters.password, signalingKey: parameters.signalingKey)
-                    print("Successfully registered chat user with address: \(cereal.address)")
+                    ALog("Successfully registered chat user with address: \(cereal.address)")
                     succeeded = true
                 case .failure(_, _, let error):
-                    print(error)
+                    DLog("\(error)")
                     succeeded = false
                 }
 

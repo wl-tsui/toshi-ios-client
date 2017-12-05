@@ -157,8 +157,8 @@ open class RecentViewController: SweetTableController, Emptiable {
             }
         }
 
-        // No need to animate the table view if not being presented.
-        // Avoids an issue where table view will actually cause a crash on update
+        // No need to animate the tableview if not being presented.
+        // Avoids an issue where tableview will actually cause a crash on update
         // during a chat update.
         if navigationController?.topViewController == self && tabBarController?.selectedViewController == navigationController {
             tableView.beginUpdates()
@@ -202,11 +202,11 @@ open class RecentViewController: SweetTableController, Emptiable {
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() {
-            print("Updating contact info for address: \(address).")
+            DLog("Updating contact info for address: \(address).")
 
             idAPIClient.retrieveUser(username: address) { contact in
                 if let contact = contact {
-                    print("Updated contact info for \(contact.username)")
+                    DLog("Updated contact info for \(contact.username)")
                 }
             }
         }

@@ -24,7 +24,7 @@ struct APIKeys {
         guard let filePath = Bundle.main.path(forResource: "APIKeys", ofType: "plist", inDirectory: "APIKeys"),
             let plist = NSDictionary(contentsOfFile: filePath),
             let value = plist.object(forKey: keyname) as? String else {
-                print("Can't load API Keys plist file")
+                DLog("Can't load API Keys plist file")
                 return nil
         }
 
@@ -36,7 +36,7 @@ public final class APIKeysManager: NSObject {
 
     @objc public static func setup() {
         guard let fabricKey = APIKeys.key(named: APIKeys.Fabric) else {
-            print("Can't load Fabric API Key")
+            DLog("Can't load Fabric API Key")
             return
         }
 

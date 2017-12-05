@@ -41,11 +41,11 @@ class AccountManager: NSObject {
                 fulfill()
             }
         }.then {
-            print("\(self.TAG) verification code looks well formed.")
+            DLog("\(self.TAG) verification code looks well formed.")
 
             return self.registerForTextSecure(verificationCode: verificationCode)
         }.then {
-            print("\(self.TAG) successfully registered for TextSecure")
+            DLog("\(self.TAG) successfully registered for TextSecure")
         }
     }
 
@@ -53,7 +53,7 @@ class AccountManager: NSObject {
         return firstly {
             self.updateTextSecurePushTokens(pushToken: pushToken)
         }.then {
-            print("\(self.TAG) Successfully updated text secure push tokens.")
+            DLog("\(self.TAG) Successfully updated text secure push tokens.")
         }
     }
 

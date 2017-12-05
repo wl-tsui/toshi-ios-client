@@ -170,7 +170,10 @@
                 }
                 
                 if (signalAccountMap[signalAccount.recipientId]) {
-                    NSLog(@"Ignoring duplicate contact: %@, %@", signalAccount.recipientId, contact.fullName);
+                    [OCDLog dlog:[NSString stringWithFormat:@"Ignoring duplicate contact: %@, %@", signalAccount.recipientId, contact.fullName]
+                        filePath:__FILE__
+                        function:__FUNCTION__
+                            line:__LINE__];                    
                     continue;
                 }
                 

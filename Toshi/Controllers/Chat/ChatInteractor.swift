@@ -60,10 +60,10 @@ final class ChatInteractor: NSObject {
         DispatchQueue.main.async {
             self.messageSender?.send(signalMessage, success: {
                 completion(true)
-                print("message sent")
+                DLog("message sent")
             }, failure: { error in
                 completion(false)
-                print(error)
+                DLog("\(error)")
             })
         }
     }
@@ -78,9 +78,9 @@ final class ChatInteractor: NSObject {
         guard let datasource = DataSourceValue.dataSource(with: imageData, fileExtension: "png") else { return }
 
         messageSender?.sendAttachmentData(datasource, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
-            print("Success")
+            DLog("Success")
         }, failure: { error in
-            print("Failure: \(error)")
+            DLog("Failure: \(error)")
         })
     }
 
@@ -95,10 +95,10 @@ final class ChatInteractor: NSObject {
 
         messageSender?.sendAttachmentData(datasource, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
             self.output?.didFinishRequest()
-            print("Success")
+            DLog("Success")
         }, failure: { error in
             self.output?.didFinishRequest()
-            print("Failure: \(error)")
+            DLog("Failure: \(error)")
         })
     }
 
@@ -333,7 +333,7 @@ final class ChatInteractor: NSObject {
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
 
         guard let data = UIImageJPEGRepresentation(image, 0.7) else {
-            print("Cant convert selected image to data")
+            DLog("Cant convert selected image to data")
             return
         }
 
@@ -342,9 +342,9 @@ final class ChatInteractor: NSObject {
         guard let datasource = DataSourceValue.dataSource(with: data, fileExtension: "jpeg") else { return }
 
         self.messageSender?.sendAttachmentData(datasource, contentType: "image/jpeg", sourceFilename: "File.jpeg", in: outgoingMessage, success: {
-            print("Success")
+            DLog("Success")
         }, failure: { error in
-            print("Failure: \(error)")
+            DLog("Failure: \(error)")
         })
     }
 }
