@@ -30,6 +30,20 @@ class BrowseEntityCollectionViewCell: UICollectionViewCell {
         return label
     }()
 
+    private lazy var downloadOperationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        queue.name = "Browse entity cell avatar download queue"
+
+        return queue
+    }()
+
+    var imageViewPath: String? {
+        didSet {
+            retrieveAvatar()
+        }
+    }
+
     private(set) lazy var ratingView = RatingView(numberOfStars: 5)
 
     private(set) lazy var verticalPositionGuide = UILayoutGuide()
@@ -78,8 +92,34 @@ class BrowseEntityCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        downloadOperationQueue.cancelAllOperations()
+
         nameLabel.text = nil
         avatarImageView.image = nil
         ratingView.set(rating: 0)
+    }
+
+    private func retrieveAvatar() {
+
+        let operation = BlockOperation()
+        operation.addExecutionBlock { [weak self] in
+
+            guard operation.isCancelled == false else { return }
+            guard let path = self?.imageViewPath else { return }
+
+            AvatarManager.shared.avatar(for: path) { [weak self] image, downloadedImagePath in
+
+                DispatchQueue.main.async {
+                    guard operation.isCancelled == false else { return }
+                    guard let path = self?.imageViewPath else { return }
+
+                    if downloadedImagePath == path {
+                        self?.avatarImageView.image = image
+                    }
+                }
+            }
+        }
+
+        downloadOperationQueue.addOperation(operation)
     }
 }
