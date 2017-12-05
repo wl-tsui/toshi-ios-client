@@ -30,7 +30,8 @@ enum UserDefaultsKey: String, StringCaseListable {
     selectedApp = "Restoration::SelectedApp",
     selectedContact = "Restoration::SelectedContact",
     selectedThreadAddress = "Restoration::SelectedThread",
-    tabBarSelectedIndex = "TabBarSelectedIndex"
+    tabBarSelectedIndex = "TabBarSelectedIndex",
+    chatRegistrationUpdateTriggered = "Restoration::ChatRegistrationUpdateTriggered"
 }
 
 /// A wrapper for NSUserDefaults to facilitate type-safe fetching
@@ -98,6 +99,17 @@ class UserDefaultsWrapper: NSObject {
         }
         set {
             setValue(newValue, for: .addressChangeAlertShown)
+        }
+    }
+
+    /// Looks at whether user's prekeys were checked once after db loss issue
+    /// and in case of failure chat registration was executed
+    @objc static var chatRegistrationUpdateTriggered: Bool {
+        get {
+            return bool(for: .chatRegistrationUpdateTriggered)
+        }
+        set {
+            setValue(newValue, for: .chatRegistrationUpdateTriggered)
         }
     }
     
