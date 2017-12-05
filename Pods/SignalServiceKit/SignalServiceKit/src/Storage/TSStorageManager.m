@@ -290,8 +290,7 @@ void setDatabaseInitialized()
     // this can be deleting any existing database file (if we're recovering
     // from a corrupt keychain).
 
-    // We use YapDatabaseCorruptAction_Rename option for database files which will create new one in case of failure
-    // documentation: https://github.com/yapstudios/YapDatabase/blob/master/YapDatabase/YapDatabaseOptions.h#L44
+    [self prepareDatabasePasswordIfNeededForKey:self.accountName];
 
     YapDatabaseOptions *options = [[YapDatabaseOptions alloc] init];
     options.corruptAction       = YapDatabaseCorruptAction_Fail;
@@ -302,7 +301,6 @@ void setDatabaseInitialized()
         return [strongSelf databasePasswordForKey:strongSelf.accountName];
     };
 
-    [self prepareDatabasePasswordIfNeededForKey:self.accountName];
     _database = [[YapDatabase alloc] initWithPath:[self dbPathWithName:databaseName]
                                        serializer:NULL
                                      deserializer:[[self class] logOnFailureDeserializer]
@@ -358,6 +356,26 @@ void setDatabaseInitialized()
     _keysDBReadWriteConnection = self.newKeysDatabaseConnection;
 
     return YES;
+}
+
+- (nullable NSString *)corruptedChatDBFilePath
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSURL *fileURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    NSString *path = [fileURL path];
+
+    NSString *dbPath = [self dbPathWithName:databaseName];
+    NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+
+    NSString *corruptedDBFilePath;
+    NSString *corruptedDBFile = [[dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.corrupt'"]] firstObject];
+
+    if (corruptedDBFile) {
+        corruptedDBFilePath = [path stringByAppendingPathComponent:corruptedDBFile];
+    }
+
+    return corruptedDBFilePath;
 }
 
 /**

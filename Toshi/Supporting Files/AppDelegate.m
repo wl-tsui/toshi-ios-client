@@ -65,6 +65,8 @@ NSString *const ChatSertificateName = @"token";
     BOOL shouldProceedToDBSetup = ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground);
     if (shouldProceedToDBSetup) {
 
+        [self logCorruptedChatDBFileIfPresent];
+
         if ([self __tryToOpenDB]) {
             [self configureForCurrentSession];
         } else {
@@ -86,6 +88,14 @@ NSString *const ChatSertificateName = @"token";
     }
 
     return YES;
+}
+
+- (void)logCorruptedChatDBFileIfPresent
+{
+    NSString *corruptedFilePath = [[TSStorageManager sharedManager] corruptedChatDBFilePath];
+    if (corruptedFilePath) {
+        [CrashlyticsLogger log:@"Corrupted chat DB file present in the file system" attributes:@{@"CorruptedFilePath": corruptedFilePath}];
+    }
 }
 
 + (NSString *)documentsPath
