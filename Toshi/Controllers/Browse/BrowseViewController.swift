@@ -136,7 +136,7 @@ class BrowseViewController: SearchableCollectionController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         preferLargeTitleIfPossible(true)
         loadItems()
         
@@ -147,6 +147,7 @@ class BrowseViewController: SearchableCollectionController {
         }
         
         searchBar.text = nil
+        hideOpenURLButtonIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

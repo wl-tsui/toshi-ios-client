@@ -237,3 +237,5 @@
 "toshi_generic_error" = "Something went wrong";
 
 "error_title" = "Error";
+"sign_action_title" = "Sign";
+"sign_alert_title" = "This webpage is requesting your signature";
