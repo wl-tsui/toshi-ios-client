@@ -164,10 +164,8 @@ class BrowseViewController: SearchableCollectionController {
         collectionView.scrollIndicatorInsets.bottom = bottomInset
     }
     
-    func dismissSearchIfNeeded() {
-        if let searchText = searchBar.text, searchText.length > 0 {
-            searchController.dismiss(animated: false, completion: nil)
-        }
+    func dismissSearch() {
+        searchController.dismiss(animated: false, completion: nil)
     }
     
     private func showResults(_ apps: [TokenUser]?, at index: Int, _ error: Error? = nil) {
