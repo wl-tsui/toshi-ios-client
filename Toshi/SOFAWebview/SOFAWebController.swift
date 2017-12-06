@@ -216,9 +216,9 @@ extension SOFAWebController: WKScriptMessageHandler {
                         }
                     })
                 }
+            } else {
+                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
             }
-
-            jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
 
         case .signTransaction:
             guard let messageBody = message.body as? [String: Any], let tx = messageBody["tx"] as? [String: Any] else {
