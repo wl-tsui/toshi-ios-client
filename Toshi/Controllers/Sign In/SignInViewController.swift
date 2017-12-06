@@ -213,7 +213,7 @@ extension SignInViewController: ActivityIndicating {
 
 extension SignInViewController: UIGestureRecognizerDelegate {
     
-    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
@@ -311,7 +311,7 @@ extension SignInViewController: UICollectionViewDataSource {
 
 extension SignInViewController: UITextFieldDelegate {
 
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let indexPath = activeIndexPath else { return false }
         guard let text = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else { return false }
         
