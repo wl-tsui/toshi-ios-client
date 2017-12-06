@@ -17,9 +17,9 @@ import Foundation
 import Teapot
 import AwesomeCache
 
-public typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
+typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
 
-public class EthereumAPIClient: NSObject {
+class EthereumAPIClient: NSObject {
 
     @objc static let shared: EthereumAPIClient = EthereumAPIClient()
 
@@ -61,7 +61,7 @@ public class EthereumAPIClient: NSObject {
         super.init()
     }
 
-    public func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: ToshiError?) -> Void)) {
+    func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: ToshiError?) -> Void)) {
         let json = RequestParameter(parameters)
 
         self.activeTeapot.post("/v1/tx/skel", parameters: json) { result in
@@ -82,7 +82,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
+    func sendSignedTransaction(originalTransaction: String, transactionSignature: String, completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
         let params = [
             "tx": originalTransaction,
             "signature": transactionSignature
@@ -90,7 +90,7 @@ public class EthereumAPIClient: NSObject {
         sendSignedTransaction(params: params, completion: completion)
     }
 
-    public func sendSignedTransaction(signedTransaction: String, completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
+    func sendSignedTransaction(signedTransaction: String, completion: @escaping ((_ success: Bool, _ json: RequestParameter?, _ error: ToshiError?) -> Void)) {
         let params = [
             "tx": signedTransaction
         ]
@@ -143,7 +143,7 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    public func getBalance(address: String = Cereal.shared.paymentAddress, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
+    func getBalance(address: String = Cereal.shared.paymentAddress, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
 
         let cachedBalance: NSDecimalNumber = self.cache.object(forKey: EthereumAPIClient.CachedBalanceKey) ?? .zero
         cachedBalanceCompletion(cachedBalance, nil)
@@ -175,14 +175,14 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    @objc public func registerForMainNetworkPushNotifications() {
+    @objc func registerForMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
             self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _, _ in }
         }
     }
 
-    @objc public func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
+    @objc func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard NetworkSwitcher.shared.isDefaultNetworkActive == false else {
             completion?(true, nil)
             return
@@ -196,14 +196,14 @@ public class EthereumAPIClient: NSObject {
         }
     }
 
-    @objc public func deregisterFromMainNetworkPushNotifications() {
+    @objc func deregisterFromMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
             self.deregisterFromPushNotifications(timestamp, teapot: self.mainTeapot)
         }
     }
 
-    public func deregisterFromSwitchedNetworkPushNotifications(completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
+    func deregisterFromSwitchedNetworkPushNotifications(completion: @escaping ((_ success: Bool, _ message: String?) -> Void) = { (Bool, String) in }) {
 
         timestamp(switchedNetworkTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }

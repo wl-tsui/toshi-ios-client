@@ -19,10 +19,10 @@ import CameraScanner
 
 let TabBarItemTitleOffset: CGFloat = -3.0
 
-open class TabBarController: UITabBarController, OfflineAlertDisplaying {
+class TabBarController: UITabBarController, OfflineAlertDisplaying {
     let offlineAlertView = defaultOfflineAlertView()
 
-    public enum Tab {
+    enum Tab {
         case browsing
         case messaging
         case scanner
@@ -30,7 +30,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         case me
     }
 
-    public var currentNavigationController: UINavigationController? {
+    var currentNavigationController: UINavigationController? {
         return selectedViewController as? UINavigationController
     }
 
@@ -49,14 +49,14 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return reachabilityManager
     }()
 
-    internal lazy var scannerController: ScannerViewController = {
+    lazy var scannerController: ScannerViewController = {
         let controller = ScannerController(instructions: "Scan QR code", types: [.qrCode])
         controller.delegate = self
 
         return controller
     }()
 
-    internal lazy var placeholderScannerController: UIViewController = {
+    lazy var placeholderScannerController: UIViewController = {
         let controller = UIViewController()
         controller.tabBarItem = UITabBarItem(title: Localized("tab_bar_title_scan"), image: #imageLiteral(resourceName: "tab3"), tag: 0)
         controller.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
@@ -64,12 +64,12 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return controller
     }()
 
-    internal var browseViewController: BrowseNavigationController!
-    internal var messagingController: RecentNavigationController!
-    internal var favoritesController: FavoritesNavigationController!
-    internal var settingsController: SettingsNavigationController!
+    var browseViewController: BrowseNavigationController!
+    var messagingController: RecentNavigationController!
+    var favoritesController: FavoritesNavigationController!
+    var settingsController: SettingsNavigationController!
 
-    public init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
 
         delegate = self
@@ -78,11 +78,11 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         setupOfflineAlertView(hidden: true)
     }
 
-    public required init?(coder _: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError()
     }
 
-    @objc public func setupControllers() {
+    @objc func setupControllers() {
         browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
         favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
 
@@ -129,7 +129,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         }
     }
 
-    public func displayMessage(forAddress address: String, completion: ((Any?) -> Void)? = nil) {
+    func displayMessage(forAddress address: String, completion: ((Any?) -> Void)? = nil) {
         if let index = viewControllers?.index(of: messagingController) {
             selectedIndex = index
         }
@@ -137,11 +137,11 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         messagingController.openThread(withAddress: address, completion: completion)
     }
 
-    public func openThread(_ thread: TSThread, animated: Bool = true) {
+    func openThread(_ thread: TSThread, animated: Bool = true) {
         messagingController.openThread(thread, animated: animated)
     }
 
-    public func `switch`(to tab: Tab) {
+    func `switch`(to tab: Tab) {
         switch tab {
         case .browsing:
             selectedIndex = 0
@@ -161,7 +161,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
         Navigator.presentModally(scannerController)
     }
 
-    @objc public func openDeepLinkURL(_ url: URL) {
+    @objc func openDeepLinkURL(_ url: URL) {
         if url.user == "username" {
             guard let username = url.host else { return }
 
@@ -177,7 +177,7 @@ open class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
 extension TabBarController: UITabBarControllerDelegate {
 
-    public func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController != browseViewController {
             guard let browseViewController = browseViewController.viewControllers.first as? BrowseViewController else { return true }
             browseViewController.dismissSearchIfNeeded()
@@ -192,7 +192,7 @@ extension TabBarController: UITabBarControllerDelegate {
         return true
     }
 
-    public func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
         SoundPlayer.playSound(type: .menuButton)
 
         automaticallyAdjustsScrollViewInsets = viewController.automaticallyAdjustsScrollViewInsets
@@ -205,11 +205,11 @@ extension TabBarController: UITabBarControllerDelegate {
 
 extension TabBarController: ScannerViewControllerDelegate {
 
-    public func scannerViewControllerDidCancel(_: ScannerViewController) {
+    func scannerViewControllerDidCancel(_: ScannerViewController) {
         dismiss(animated: true)
     }
 
-    public func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
+    func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
         
         guard reachabilityManager.reachability?.currentReachabilityStatus != .notReachable else {
             let alert = UIAlertController(title: Localized("error-alert-title"), message: Localized("offline_alert_message"), preferredStyle: .alert)

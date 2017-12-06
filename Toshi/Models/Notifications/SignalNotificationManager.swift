@@ -15,9 +15,9 @@
 
 import UIKit
 
-public class SignalNotificationManager: NSObject, NotificationsProtocol {
+class SignalNotificationManager: NSObject, NotificationsProtocol {
 
-    public func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
+    func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
 
         guard UIApplication.shared.applicationState == .background || Navigator.tabbarController?.selectedViewController != Navigator.tabbarController?.messagingController else {
             return
@@ -44,11 +44,11 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
         center.add(request, withCompletionHandler: nil)
     }
 
-    public func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
+    func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
         DLog("Error: \(error), in thread: \(thread).")
     }
 
-    @objc public static func updateUnreadMessagesNumber() {
+    @objc static func updateUnreadMessagesNumber() {
         DispatchQueue.main.async {
             let unreadMessagesCount = Int(OWSMessageManager.shared().unreadMessagesCount())
 
