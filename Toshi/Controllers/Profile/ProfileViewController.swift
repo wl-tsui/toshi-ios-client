@@ -240,8 +240,6 @@ extension ProfileViewController: PaymentControllerDelegate {
         defer { dismiss(animated: true) }
         guard let value = valueInWei else { return }
 
-        let etherAPIClient = EthereumAPIClient.shared
-
         let parameters: [String: Any] = [
             "from": Cereal.shared.paymentAddress,
             "to": self.contact.paymentAddress,
@@ -250,47 +248,58 @@ extension ProfileViewController: PaymentControllerDelegate {
 
         showActivityIndicator()
 
-        etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
+        let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
+        let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
+        let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, self.contact.name)
 
-            guard let transaction = transaction else {
-                self?.hideActivityIndicator()
-                let alert = UIAlertController.dismissableAlert(title: Localized("payment_error_message"), message: error?.localizedDescription)
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
+            self?.hideActivityIndicator()
+            }, approveHandler: { [weak self] transaction, _ in
+                self?.sendPayment(with: parameters, transaction: transaction)
+        })
+    }
+
+    private func sendPayment(with parameters: [String: Any], transaction: String?) {
+        showActivityIndicator()
+
+        let etherAPIClient = EthereumAPIClient.shared
+
+        guard let transaction = transaction else {
+            self.hideActivityIndicator()
+
+            return
+        }
+
+        let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+
+        etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, error in
+            guard let strongSelf = self else { return }
+
+            strongSelf.hideActivityIndicator()
+
+            guard success else {
+                let alert = UIAlertController.dismissableAlert(title: Localized("payment_error_message"), message: error?.description ?? ToshiError.genericError.description)
                 Navigator.presentModally(alert)
-
                 return
             }
 
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+            if let json = json?.dictionary, let value = parameters["value"] as? String {
+                guard let txHash = json["tx_hash"] as? String else {
+                    CrashlyticsLogger.log("Error recovering transaction hash.")
+                    fatalError("Error recovering transaction hash.") }
+                let payment = SofaPayment(txHash: txHash, valueHex: value)
 
-            etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, error in
-                guard let strongSelf = self else { return }
+                // send message to thread
+                let thread = ChatInteractor.getOrCreateThread(for: strongSelf.contact.address)
+                let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+                let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
 
-                strongSelf.hideActivityIndicator()
-
-                guard success else {
-                    let alert = UIAlertController.dismissableAlert(title: Localized("payment_error_message"), message: error?.description ?? ToshiError.genericError.description)
-                    Navigator.presentModally(alert)
-                    return
-                }
-
-                if let json = json?.dictionary {
-                    guard let txHash = json["tx_hash"] as? String else {
-                        CrashlyticsLogger.log("Error recovering transaction hash.")
-                        fatalError("Error recovering transaction hash.") }
-                    let payment = SofaPayment(txHash: txHash, valueHex: value.toHexString)
-
-                    // send message to thread
-                    let thread = ChatInteractor.getOrCreateThread(for: strongSelf.contact.address)
-                    let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-                    let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
-
-                    strongSelf.messageSender?.send(outgoingMessage, success: {
-                        DLog("message sent")
-                    }, failure: { error in
-                        CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
-                        DLog("\(error)")
-                    })
-                }
+                strongSelf.messageSender?.send(outgoingMessage, success: {
+                    DLog("message sent")
+                }, failure: { error in
+                    CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
+                    DLog("\(error)")
+                })
             }
         }
     }

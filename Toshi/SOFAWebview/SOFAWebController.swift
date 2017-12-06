@@ -32,8 +32,6 @@ final class SOFAWebController: UIViewController {
     }
 
     private let rcpUrl = ToshiWebviewRPCURLPath
-
-    private var callbackId = ""
     
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
@@ -182,8 +180,6 @@ extension SOFAWebController: WKScriptMessageHandler {
         guard let method = Method(rawValue: message.name) else { return DLog("failed \(message.name)") }
         guard let callbackId = (message.body as? NSDictionary)?.value(forKey: "callback") as? String else { return DLog("missing callback id") }
 
-        self.callbackId = callbackId
-
         switch method {
         case .getAccounts:
             let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
@@ -197,7 +193,7 @@ extension SOFAWebController: WKScriptMessageHandler {
             if let messageData = messageEncodedString.hexadecimalData, let decodedString = String(data: messageData, encoding: .utf8) {
 
                 DispatchQueue.main.async {
-                    self.presentPersonalMessageSignAlert(decodedString, signHandler: { [weak self] in
+                    self.presentPersonalMessageSignAlert(decodedString, callbackId: callbackId, signHandler: { [weak self] callbackId in
                         let composedString = "\u{0019}Ethereum Signed Message:\n" + String(messageData.count) + decodedString
 
                         if let resultData = composedString.data(using: .utf8) {
@@ -221,48 +217,50 @@ extension SOFAWebController: WKScriptMessageHandler {
             }
 
         case .signTransaction:
-            guard let messageBody = message.body as? [String: Any], let tx = messageBody["tx"] as? [String: Any] else {
+            guard let messageBody = message.body as? [String: Any], let transaction = messageBody["tx"] as? [String: Any] else {
                 jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
                 return
             }
 
             var parameters: [String: Any] = [:]
-            if let from = tx["from"] {
+            if let from = transaction["from"] {
                 parameters["from"] = from
             }
-            if let to = tx["to"] {
+            if let to = transaction["to"] {
                 parameters["to"] = to
             }
-            if let value = tx["value"] {
+            if let value = transaction["value"] {
                 parameters["value"] = value
             } else {
                 parameters["value"] = "0x0"
             }
-            if let data = tx["data"] {
+            if let data = transaction["data"] {
                 parameters["data"] = data
             }
-            if let gas = tx["gas"] {
+            if let gas = transaction["gas"] {
                 parameters["gas"] = gas
             }
-            if let gasPrice = tx["gasPrice"] {
+            if let gasPrice = transaction["gasPrice"] {
                 parameters["gasPrice"] = gasPrice
             }
 
-            if let to = tx["to"] as? String {
+            if let to = transaction["to"] as? String, let value = parameters["value"] as? String {
                 IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
                     var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
-
                     if let user = user {
                         userInfo.avatarPath = user.avatarPath
                         userInfo.username = user.username
                         userInfo.name = user.name
                         userInfo.isLocal = true
                     }
-                    self?.displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
+
+                    let decimalValue = NSDecimalNumber(hexadecimalString: value)
+                    let fiatValueString = EthereumConverter.fiatValueString(forWei: decimalValue, exchangeRate: ExchangeRateClient.exchangeRate)
+                    let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
+                    let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user?.name ?? to)
+
+                    self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, callbackId: callbackId)
                 }
-            } else {
-                let userInfo = UserInfo(address: "", paymentAddress: "", avatarPath: nil, name: "New Contract", username: "", isLocal: false)
-                displayPaymentConfirmation(userInfo: userInfo, parameters: parameters)
             }
         case .publishTransaction:
             guard let messageBody = message.body as? [String: Any],
@@ -271,33 +269,64 @@ extension SOFAWebController: WKScriptMessageHandler {
                 return
             }
 
-            etherAPIClient.sendSignedTransaction(signedTransaction: signedTransaction) { [weak self] success, json, error in
-                guard let strongSelf = self else { return }
+            self.sendSignedTransaction(signedTransaction, with: callbackId, completion: { [weak self] callBackId, payload in
+                self?.jsCallback(callbackId: callbackId, payload: payload)
+            })
 
-                guard success, let json = json?.dictionary else {
-                    strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: "{\\\"error\\\": \\\"\(error?.description ?? "Error sending transaction")\\\"}")
-                    return
-                }
-
-                guard let txHash = json["tx_hash"] as? String else {
-                    strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: "{\\\"error\\\": \\\"Error recovering transaction hash\\\"}")
-                    return
-                }
-
-                strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: "{\\\"result\\\":\\\"\(txHash)\\\"}")
-            }
         case .approveTransaction:
             let payload = "{\\\"error\\\": null, \\\"result\\\": true}"
             jsCallback(callbackId: callbackId, payload: payload)
         }
     }
 
-    private func presentPersonalMessageSignAlert(_ message: String, signHandler: @escaping (() -> Void)) {
+    private func sendSignedTransaction(_ transaction: String, with callBackId: String, completion: @escaping ((String, String) -> Void)) {
+
+        etherAPIClient.sendSignedTransaction(signedTransaction: transaction) { [weak self] success, json, error in
+            guard success, let json = json?.dictionary else {
+                completion(callBackId, "{\\\"error\\\": \\\"\(error?.description ?? "Error sending transaction")\\\"}")
+
+                return
+            }
+
+            guard let txHash = json["tx_hash"] as? String else {
+                completion(callBackId, "{\\\"error\\\": \\\"Error recovering transaction hash\\\"}")
+
+                return
+            }
+
+            completion(callBackId, "{\\\"result\\\":\\\"\(txHash)\\\"}")
+        }
+    }
+
+    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, callbackId: String) {
+
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, _ in
+            self?.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, callbackId: callbackId)
+            }, cancelHandler: { [weak self] in
+                let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
+                self?.jsCallback(callbackId: callbackId, payload: payload)
+        })
+    }
+
+    private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo, transaction: String?, callbackId: String) {
+
+        let payload: String
+
+        if let transaction = transaction, let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: transaction) {
+            payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
+        } else {
+            payload = SOFAResponseConstants.skeletonErrorJSON
+        }
+
+        jsCallback(callbackId: callbackId, payload: payload)
+    }
+
+    private func presentPersonalMessageSignAlert(_ message: String, callbackId: String, signHandler: @escaping ((String) -> Void)) {
 
         let alert = UIAlertController(title: Localized("sign_alert_title"), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: Localized("sign_action_title"), style: .default, handler: { _ in
-            signHandler()
+            signHandler(callbackId)
         }))
 
         Navigator.presentModally(alert)
@@ -310,24 +339,10 @@ struct SOFAResponseConstants {
 
 extension SOFAWebController: PaymentPresentable {
     func paymentApproved(with parameters: [String: Any], userInfo _: UserInfo) {
-        etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, _ in
-            guard let strongSelf = self else { return }
-
-            let payload: String
-
-            if let tx = transaction,
-               let encodedSignedTransaction = Cereal.shared.signEthereumTransactionWithWallet(hex: tx) {
-                payload = "{\\\"result\\\":\\\"\(encodedSignedTransaction)\\\"}"
-            } else {
-                payload = SOFAResponseConstants.skeletonErrorJSON
-            }
-
-            strongSelf.jsCallback(callbackId: strongSelf.callbackId, payload: payload)
-        }
+        //we do not use this currently
     }
 
     func paymentDeclined() {
-        let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
-        jsCallback(callbackId: callbackId, payload: payload)
+        //we dnt use this currently
     }
 }
