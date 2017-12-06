@@ -11,7 +11,7 @@
 
 
 /* Browse */
-"browse-navigation-title" = "Browse";
+"browse-navigation-title" = "Search";
 "browse-search-placeholder" = "Search or type the url";
 
 "browse-top-rated-apps" = "Top Rated";
@@ -219,7 +219,7 @@
 "favorites_navigation_title_new_chat" = "New Chat";
 
 /* Tab Bar */
-"tab_bar_title_browse" = "Browse";
+"tab_bar_title_browse" = "Search";
 "tab_bar_title_recent" = "Recent";
 "tab_bar_title_scan" = "Scan";
 "tab_bar_title_favorites" = "Favorites";
