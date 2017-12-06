@@ -45,7 +45,7 @@ public class SignalNotificationManager: NSObject, NotificationsProtocol {
     }
 
     public func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
-        print("Error: \(error), in thread: \(thread).")
+        DLog("Error: \(error), in thread: \(thread).")
     }
 
     @objc public static func updateUnreadMessagesNumber() {

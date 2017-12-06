@@ -60,8 +60,7 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
 
 - (void)clear {
     @synchronized(self) {
-        NSString *appDomain = NSBundle.mainBundle.bundleIdentifier;
-        [NSUserDefaults.standardUserDefaults removePersistentDomainForName:appDomain];
+        [UserDefaultsWrapper clearAllDefaultsForThisApplication];
     }
 }
 
@@ -130,13 +129,7 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
 
 + (BOOL)loggingIsEnabled
 {
-    NSNumber *preference = [NSUserDefaults.standardUserDefaults objectForKey:PropertyListPreferencesKeyEnableDebugLog];
-
-    if (preference) {
-        return [preference boolValue];
-    } else {
-        return YES;
-    }
+    return [UserDefaultsWrapper isDebugLoggingEnabled];
 }
 
 + (void)setLoggingEnabled:(BOOL)flag
@@ -144,8 +137,7 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
     // Logging preferences are stored in UserDefaults instead of the database, so that we can (optionally) start
     // logging before the database is initialized. This is important because sometimes there are problems *with* the
     // database initialization, and without logging it would be hard to track down.
-    [NSUserDefaults.standardUserDefaults setObject:@(flag) forKey:PropertyListPreferencesKeyEnableDebugLog];
-    [NSUserDefaults.standardUserDefaults synchronize];
+    [UserDefaultsWrapper setIsDebugLoggingEnabled:flag];
 }
 
 - (void)setHasSentAMessage:(BOOL)enabled
@@ -160,16 +152,14 @@ NSString *const PropertyListPreferencesKeyIsSendingIdentityApprovalRequired = @"
 
 + (nullable NSString *)lastRanVersion
 {
-    return [NSUserDefaults.standardUserDefaults objectForKey:PropertyListPreferencesKeyLastRunSignalVersion];
+    return [UserDefaultsWrapper lastRunSignalVersion];
 }
 
 + (NSString *)setAndGetCurrentVersion
 {
     NSString *currentVersion =
         [NSString stringWithFormat:@"%@", NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"]];
-    [NSUserDefaults.standardUserDefaults setObject:currentVersion
-                                            forKey:PropertyListPreferencesKeyLastRunSignalVersion];
-    [NSUserDefaults.standardUserDefaults synchronize];
+    [UserDefaultsWrapper setLastRunSignalVersion:currentVersion];
     return currentVersion;
 }
 

@@ -16,8 +16,6 @@
 import UIKit
 
 public class BrowseNavigationController: UINavigationController {
-    
-    static let selectedAppKey = "Restoration::SelectedApp"
 
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
@@ -25,7 +23,7 @@ public class BrowseNavigationController: UINavigationController {
     
     public override init(rootViewController: UIViewController) {
         
-        if let profileData = UserDefaults.standard.data(forKey: BrowseNavigationController.selectedAppKey) {
+        if let profileData = UserDefaultsWrapper.selectedApp {
             super.init(nibName: nil, bundle: nil)
             guard let json = (try? JSONSerialization.jsonObject(with: profileData, options: [])) as? [String: Any] else { return }
             
@@ -54,22 +52,22 @@ public class BrowseNavigationController: UINavigationController {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ProfileViewController {
-            UserDefaults.standard.setValue(viewController.contact.json, forKey: BrowseNavigationController.selectedAppKey)
+            UserDefaultsWrapper.selectedApp = viewController.contact.json
         }
     }
 
     public override func popViewController(animated: Bool) -> UIViewController? {
-        UserDefaults.standard.removeObject(forKey: BrowseNavigationController.selectedAppKey)
+        UserDefaultsWrapper.selectedApp = nil
         return super.popViewController(animated: animated)
     }
 
     public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: BrowseNavigationController.selectedAppKey)
+        UserDefaultsWrapper.selectedApp = nil
         return super.popToRootViewController(animated: animated)
     }
 
     public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        UserDefaults.standard.removeObject(forKey: BrowseNavigationController.selectedAppKey)
+        UserDefaultsWrapper.selectedApp = nil
         return super.popToViewController(viewController, animated: animated)
     }
 }

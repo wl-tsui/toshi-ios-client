@@ -58,7 +58,7 @@ public class ProfileEditItem {
         self.type = type
         
         guard let user = TokenUser.current else {
-            CrashlyticsLogger.log("No current user during session", attributes: [.occured: "Profile edit item"])
+            CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Profile edit item"])
             fatalError("No current user on Profile edit item")
         }
         

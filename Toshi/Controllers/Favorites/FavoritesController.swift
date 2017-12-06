@@ -196,7 +196,7 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
 
         displayContacts()
 
-        if let address = UserDefaults.standard.string(forKey: FavoritesNavigationController.selectedContactKey), !isPresentedModally {
+        if let address = UserDefaultsWrapper.selectedContact, !isPresentedModally {
             // This doesn't restore a contact if they are not our contact, but a search result
             DispatchQueue.main.asyncAfter(seconds: 0.0) {
                 guard let contact = self.contact(with: address) else { return }
@@ -368,11 +368,11 @@ open class FavoritesController: SweetTableController, KeyboardAdjustable, Emptia
     private func updateContactIfNeeded(at indexPath: IndexPath) {
         guard let contact = contact(at: indexPath) else { return }
 
-        print("Updating contact infor for address: \(contact.address).")
+        DLog("Updating contact info for address: \(contact.address).")
 
         idAPIClient.findContact(name: contact.address) { [weak self] contact in
             if let contact = contact {
-                print("Added contact info for \(contact.username)")
+                DLog("Added contact info for \(contact.username)")
 
                 self?.tableView.beginUpdates()
                 self?.tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -473,8 +473,8 @@ extension FavoritesController: UITableViewDelegate {
             } else {
                 let contactController = ProfileViewController(contact: contact)
                 self.navigationController?.pushViewController(contactController, animated: true)
-                
-                UserDefaults.standard.setValue(contact.address, forKey: FavoritesNavigationController.selectedContactKey)
+                            
+                UserDefaultsWrapper.selectedContact = contact.address
             }
         }
     }

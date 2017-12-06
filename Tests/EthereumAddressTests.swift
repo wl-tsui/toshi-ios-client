@@ -1,5 +1,6 @@
 import XCTest
 import UIKit
+@testable import Toshi
 
 class EthereumAddressTests: XCTestCase {
     let canonicalAddress = "0x037be053f866be6ee6dda11f258bd871b701a8d7"

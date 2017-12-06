@@ -18,6 +18,7 @@ import UIKit
 import Quick
 import Nimble
 import Teapot
+@testable import Toshi
 
 class IDAPIClientTests: QuickSpec {
     override func spec() {
@@ -158,7 +159,7 @@ class IDAPIClientTests: QuickSpec {
 
                     waitUntil { done in
                         subject.getLatestPublicUsers { users, error in
-                            print(error ?? "Error was nil!")
+                            DLog(String(describing: error))
                             expect(error).to(beNil())
                             expect(users!.count).to(equal(2))
                             expect(users!.first!.about).to(equal("Latest public"))

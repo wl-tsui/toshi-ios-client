@@ -90,7 +90,7 @@ public class UserBootstrapParameter {
         }
 
         guard let identityKeyPair = identityManager.identityKeyPair() else {
-            CrashlyticsLogger.log("No identity key pair", attributes: [.occured: "User bootstrap parameters init"])
+            CrashlyticsLogger.log("No identity key pair", attributes: [.occurred: "User bootstrap parameters init"])
             fatalError("No ID key pair for current user!")
         }
 

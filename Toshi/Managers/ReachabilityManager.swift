@@ -41,7 +41,7 @@ class ReachabilityManager {
         do {
             try reachability?.startNotifier()
         } catch {
-            print("Unable to start notifier")
+            DLog("Unable to start notifier")
         }
     }
 }

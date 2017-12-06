@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (int)getOrGenerateResortID;
 
+- (nullable NSString *)corruptedChatDBFilePath;
+
 /**
  * Returns NO if:
  *

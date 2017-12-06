@@ -15,6 +15,7 @@
 
 import Foundation
 import XCTest
+@testable import Toshi
 
 class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
 

@@ -136,7 +136,7 @@ class BrowseViewController: SearchableCollectionController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         preferLargeTitleIfPossible(true)
         loadItems()
         
@@ -147,6 +147,7 @@ class BrowseViewController: SearchableCollectionController {
         }
         
         searchBar.text = nil
+        hideOpenURLButtonIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -299,13 +300,7 @@ extension BrowseViewController: UISearchBarDelegate {
                     cell.nameLabel.text = item.isApp ? item.category : item.username
                 }
 
-                cacheQueue.async {
-                    let image = AvatarManager.shared.cachedAvatar(for: item.avatarPath)
-                    DispatchQueue.main.async {
-                        let cell = sectionedCollectionView.cellForItem(at: indexPath) as? BrowseEntityCollectionViewCell
-                        cell?.avatarImageView.image = image
-                    }
-                }
+                cell.imageViewPath = item.avatarPath
 
                 if let averageRating = item.averageRating {
                     cell.ratingView.set(rating: averageRating)

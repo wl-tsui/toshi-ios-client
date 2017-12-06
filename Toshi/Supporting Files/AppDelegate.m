@@ -21,8 +21,6 @@
 
 #import <AxolotlKit/SessionCipher.h>
 
-NSString *const LaunchedBefore = @"LaunchedBefore";
-NSString *const RequiresSignIn = @"RequiresSignIn";
 NSString *const ChatSertificateName = @"token";
 
 @import WebRTC;
@@ -67,6 +65,8 @@ NSString *const ChatSertificateName = @"token";
     BOOL shouldProceedToDBSetup = ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground);
     if (shouldProceedToDBSetup) {
 
+        [self logCorruptedChatDBFileIfPresent];
+
         if ([self __tryToOpenDB]) {
             [self configureForCurrentSession];
         } else {
@@ -88,6 +88,14 @@ NSString *const ChatSertificateName = @"token";
     }
 
     return YES;
+}
+
+- (void)logCorruptedChatDBFileIfPresent
+{
+    NSString *corruptedFilePath = [[TSStorageManager sharedManager] corruptedChatDBFilePath];
+    if (corruptedFilePath) {
+        [CrashlyticsLogger log:@"Corrupted chat DB file present in the file system" attributes:@{@"CorruptedFilePath": corruptedFilePath}];
+    }
 }
 
 + (NSString *)documentsPath
@@ -123,8 +131,7 @@ NSString *const ChatSertificateName = @"token";
     [self.window makeKeyAndVisible];
 
     if (![Yap isUserDatabaseFileAccessible] || ![Yap isUserDatabasePasswordAccessible]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:[NSString addressChangeAlertShown]]; //suppress alert for users created >=v1.1.2
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [UserDefaultsWrapper setAddressChangeAlertShown:YES]; //suppress alert for users created >=v1.1.2
 
         [self presentSplash];
     } else {
@@ -134,13 +141,13 @@ NSString *const ChatSertificateName = @"token";
 
 - (void)showNetworkAlertIfNeeded {
     // To drive this point really home we could show this for every launch instead.
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"DidShowMoneyAlert"]) {
+    if (![UserDefaultsWrapper moneyAlertShown]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"network-alert-title", nil) message:NSLocalizedString(@"network-alert-text", nil) preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"alert-ok-action-title", nil) style:UIAlertActionStyleCancel handler:nil]];
         alert.view.tintColor = Theme.tintColor;
 
         [self.window.rootViewController presentViewController:alert animated:YES completion:^{
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"DidShowMoneyAlert"];
+            [UserDefaultsWrapper setMoneyAlertShown:YES];
         }];
     }
 }
@@ -155,12 +162,11 @@ NSString *const ChatSertificateName = @"token";
         [[NSNotificationCenter defaultCenter] postNotificationName:@"UserDidSignOut" object:nil];
         [AvatarManager.shared cleanCache];
 
-        [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+        [UserDefaultsWrapper clearAllDefaultsForThisApplication];
         [[EthereumAPIClient shared] deregisterFromMainNetworkPushNotifications];
         [[TSStorageManager sharedManager] resetSignalStorageWithBackup:TokenUser.current.verified];
         [[Yap sharedInstance] wipeStorage];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RequiresSignIn];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [UserDefaultsWrapper setRequiresSignIn:YES];
 
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
@@ -217,8 +223,7 @@ NSString *const ChatSertificateName = @"token";
 - (void)didCreateUser {
     [self.contactsManager refreshContacts];
 
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:RequiresSignIn];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [UserDefaultsWrapper setRequiresSignIn:NO];
 
     [Navigator presentAddressChangeAlertIfNeeded];
 }
@@ -256,11 +261,14 @@ NSString *const ChatSertificateName = @"token";
 
 - (BOOL)isFirstLaunch
 {
-    return  [[NSUserDefaults standardUserDefaults] boolForKey:LaunchedBefore] == NO;
+    return ([UserDefaultsWrapper launchedBefore] == NO);
 }
 
 - (void)setupTSKitEnv {
-    NSLog(@"Setting up Signal KIT environment");
+    [OCDLog alog:@"Setting up Signal KIT environment"
+        filePath:__FILE__
+        function:__FUNCTION__
+            line:__LINE__];
 
     // ensure this is called from main queue for the first time
     // otherwise app crashes, because of some code path differences between
@@ -287,7 +295,7 @@ NSString *const ChatSertificateName = @"token";
 
     [TextSecureKitEnv setSharedEnv:sharedEnv];
 
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:LaunchedBefore];
+    [UserDefaultsWrapper setLaunchedBefore:YES];
 }
 
 - (BOOL)isSendingIdentityApprovalRequired
@@ -371,6 +379,33 @@ NSString *const ChatSertificateName = @"token";
 {
     [self configureAndPresentWindow];
     [SignalNotificationManager updateUnreadMessagesNumber];
+
+    [self tryRegisteringPrekeysIfNeeded];
+}
+
+- (void)tryRegisteringPrekeysIfNeeded
+{
+    if ([UserDefaultsWrapper chatRegistrationUpdateTriggered] == NO) {
+
+        [TSPreKeyManager registerPreKeysWithMode:RefreshPreKeysMode_SignedAndOneTime
+                                         success:^{
+                                             [UserDefaultsWrapper setChatRegistrationUpdateTriggered:YES];
+                                         } failure:^(NSError *error) {
+                                             [CrashlyticsLogger log:@"Failed registering prekeys - triggering Chat register" attributes:nil];
+
+                                             if (error.code == 401) {
+                                                 [ChatAPIClient.shared registerUserWithCompletion:^(BOOL success) {
+                                                     if (success) {
+                                                         [UserDefaultsWrapper setChatRegistrationUpdateTriggered:YES];
+                                                         
+                                                         [CrashlyticsLogger log:@"Successfully registered user with chat service after forced trigger" attributes:nil];
+                                                     } else {
+                                                         [CrashlyticsLogger log:@"Failed to register user with chat service after forced trigger" attributes:nil];
+                                                     }
+                                                 }];
+                                             }
+                                         }];
+    }
 }
 
 - (void)deactivateScreenProtection
@@ -432,17 +467,26 @@ NSString *const ChatSertificateName = @"token";
 }
 
 - (void)updateRemoteNotificationCredentials {
-    NSLog(@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered]));
+    [OCDLog alog:[NSString stringWithFormat:@"\n||--------------------\n||\n|| --- Account is registered: %@ \n||\n||--------------------\n\n", @([TSAccountManager isRegistered])]
+        filePath:__FILE__
+        function:__FUNCTION__
+            line:__LINE__];
 
     [[TSAccountManager sharedInstance] registerForPushNotificationsWithPushToken:self.token voipToken:nil success:^{
-        NSLog(@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n", self.token);
+        [OCDLog alog:[NSString stringWithFormat:@"\n\n||------- \n||\n|| - TOKEN: chat PN register - SUCCESS: token: %@\n", self.token]
+            filePath:__FILE__
+            function:__FUNCTION__
+                line:__LINE__];
 
         [[EthereumAPIClient shared] registerForMainNetworkPushNotifications];
 
         [[EthereumAPIClient shared] registerForSwitchedNetworkPushNotificationsIfNeededWithCompletion:nil];
 
     } failure:^(NSError *error) {
-        NSLog(@"\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: %@\n||------- \n", error.localizedDescription);
+        [OCDLog alog:[NSString stringWithFormat:@"\n\n||------- \n|| - TOKEN: chat PN register - FAILURE: %@\n||------- \n", error.localizedDescription]
+            filePath:__FILE__
+            function:__FUNCTION__
+                line:__LINE__];
         [CrashlyticsLogger log:@"Failed to register for PNs" attributes:@{@"error": error.localizedDescription}];
     }];
 }
@@ -465,7 +509,10 @@ NSString *const ChatSertificateName = @"token";
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"Failed to register for remote notifications. %@", error);
+    [OCDLog alog:[NSString stringWithFormat:@"Failed to register for remote notifications. %@", error]
+        filePath:__FILE__
+        function:__FUNCTION__
+            line:__LINE__];
 }
 
 @end

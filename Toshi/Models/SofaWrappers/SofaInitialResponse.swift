@@ -16,7 +16,7 @@
 import Foundation
 
 // Each key is a value that came from the init request as stated above.
-// Example: SofaInitialResponse(contant: ["paymentAddress": "0xa2a0134f1df987bc388dbcb635dfeed4ce497e2a", "language": "en"])
+// Example: SofaInitialResponse(content: ["paymentAddress": "0xa2a0134f1df987bc388dbcb635dfeed4ce497e2a", "language": "en"])
 final class SofaInitialResponse: SofaWrapper {
     public override var type: SofaType {
         return .initialResponse

@@ -15,6 +15,8 @@
 
 import Foundation
 import XCTest
+import EtherealCereal
+@testable import Toshi
 
 class RLPTests: XCTestCase {
 

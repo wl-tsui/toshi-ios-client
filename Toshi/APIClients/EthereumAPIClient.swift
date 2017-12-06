@@ -73,7 +73,7 @@ public class EthereumAPIClient: NSObject {
                 resultString = json?.dictionary!["tx"] as? String
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error, errorDescription: Localized("payment_error_message"))
-                print(error)
+                DLog("\(error)")
             }
 
             DispatchQueue.main.async {
@@ -109,7 +109,7 @@ public class EthereumAPIClient: NSObject {
             let path = "/v1/tx"
 
             guard let data = try? JSONSerialization.data(withJSONObject: params, options: []), let payloadString = String(data: data, encoding: .utf8) else {
-                print("Invalid payload, request could not be executed")
+                DLog("Invalid payload, request could not be executed")
                 completion(false, nil, .invalidPayload)
                 return
             }
@@ -165,7 +165,7 @@ public class EthereumAPIClient: NSObject {
 
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error)
-                print(error)
+                DLog("\(error)")
             }
 
             DispatchQueue.main.async {
@@ -221,7 +221,7 @@ public class EthereumAPIClient: NSObject {
                 completion(String(timestamp), nil)
             case .failure(_, _, let error):
                 completion(nil, ToshiError(withTeapotError: error))
-                print(error)
+                DLog("\(error)")
             }
         }
     }
@@ -253,10 +253,10 @@ public class EthereumAPIClient: NSObject {
         teapot.post(path, parameters: json, headerFields: headerFields) { result in
             switch result {
             case .success(let json, let response):
-                print("\n +++ Registered for :\(teapot.baseURL)")
+                DLog("\n +++ Registered for :\(teapot.baseURL)")
                 completion?(true, "json: \(json?.dictionary ?? [String: Any]()) response: \(response)")
             case .failure(let json, let response, let error):
-                print(error)
+                DLog("\(error)")
                 completion?(false, "json: \(json?.dictionary ?? [String: Any]()) response: \(response), error: \(error)")
             }
         }
@@ -291,10 +291,10 @@ public class EthereumAPIClient: NSObject {
             teapot.post(path, parameters: json, headerFields: headerFields) { result in
                 switch result {
                 case .success(let json, let response):
-                    print("\n --- DE-registered from :\(teapot.baseURL)")
+                    DLog("\n --- DE-registered from :\(teapot.baseURL)")
                     completion(true, "json:\(json?.dictionary ?? [String: Any]()), response: \(response)")
                 case .failure(let json, let response, let error):
-                    print(error)
+                    DLog("\(error)")
                     completion(false, "json:\(json?.dictionary ?? [String: Any]()), response: \(response), error: \(error)")
                 }
             }

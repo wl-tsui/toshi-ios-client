@@ -140,8 +140,8 @@ final class AvatarManager: NSObject {
                     strongSelf.imageCache.setObject(image, forKey: path)
                     resultImage = image
                 case .failure(let response, let error):
-                    print(response)
-                    print(error)
+                    DLog("\(response)")
+                    DLog("\(error)")
                 }
 
                 DispatchQueue.main.async {

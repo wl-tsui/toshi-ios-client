@@ -124,7 +124,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         let activeNetworkViewHeight = activeNetworkView.heightConstraint?.constant ?? 0
         let topInset = ChatFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
         
-        // The tableview is inverted 180 degrees
+        // The table view is inverted 180 degrees
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: topInset + 2 + 10, right: 0)
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: topInset + 2, right: 0)
     }

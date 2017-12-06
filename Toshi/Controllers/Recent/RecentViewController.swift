@@ -211,11 +211,11 @@ open class RecentViewController: SweetTableController, Emptiable {
 
     func updateContactIfNeeded(at indexPath: IndexPath) {
         if let thread = self.thread(at: indexPath), let address = thread.contactIdentifier() {
-            print("Updating contact infor for address: \(address).")
+            DLog("Updating contact info for address: \(address).")
 
             idAPIClient.retrieveUser(username: address) { contact in
                 if let contact = contact {
-                    print("Updated contact info for \(contact.username)")
+                    DLog("Updated contact info for \(contact.username)")
                 }
             }
         }

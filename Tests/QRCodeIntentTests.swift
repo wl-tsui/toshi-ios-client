@@ -1,5 +1,6 @@
 import XCTest
 import UIKit
+@testable import Toshi
 
 class QRCodeIntentTests: XCTestCase {
     struct UnexpectedNilError: Error {}

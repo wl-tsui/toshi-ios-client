@@ -18,6 +18,7 @@ import UIKit
 import Quick
 import Nimble
 import Teapot
+@testable import Toshi
 
 class AppsAPIClientTests: QuickSpec {
     override func spec() {

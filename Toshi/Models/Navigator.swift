@@ -68,7 +68,7 @@ public class Navigator: NSObject {
     }
 
     @objc public static func presentAddressChangeAlertIfNeeded() {
-        guard UserDefaults.standard.bool(forKey: AddressChangeAlertShown) == false else { return }
+        guard UserDefaultsWrapper.addressChangeAlertShown == false else { return }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let alertController = AddressChangeAlertController()
@@ -77,8 +77,7 @@ public class Navigator: NSObject {
 
             self.presentModally(alertController)
 
-            UserDefaults.standard.set(true, forKey: AddressChangeAlertShown)
-            UserDefaults.standard.synchronize()
+            UserDefaultsWrapper.addressChangeAlertShown = true
         }
     }
 
