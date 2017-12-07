@@ -217,7 +217,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         tableView.right(to: view)
 
         textInputView.left(to: view)
-        textInputViewBottomConstraint = textInputView.bottom(to: view)
+        textInputViewBottomConstraint = textInputView.bottom(to: layoutGuide())
         textInputView.right(to: view)
         textInputViewHeightConstraint = textInputView.height(ChatInputTextPanel.defaultHeight)
         
