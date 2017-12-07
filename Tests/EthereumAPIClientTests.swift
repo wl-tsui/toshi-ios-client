@@ -34,12 +34,34 @@ class EthereumAPIClientTests: QuickSpec {
                     let parameters: [String: Any] = [
                         "from": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
                         "to": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
-                        "value": 1000
+                        "value": "0x330a41d05c8a780a"
                     ]
 
                     waitUntil { done in
                         subject.createUnsignedTransaction(parameters: parameters) { transaction, error in
                             expect(transaction).toNot(beNil())
+                            expect(error).to(beNil())
+                            done()
+                        }
+                    }
+                }
+
+                it("fetches the transaction Skeleton") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClientTests.self), mockFilename: "transactionSkeleton")
+                    mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
+                    subject = EthereumAPIClient(mockTeapot: mockTeapot)
+
+                    let parameters: [String: Any] = [
+                        "from": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
+                        "to": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
+                        "value": "0x330a41d05c8a780a"
+                    ]
+
+                    waitUntil() { done in
+                        subject.transactionSkeleton(for: parameters) { skeleton, error in
+                            expect(skeleton.gas).to(equal("0x5208"))
+                            expect(skeleton.gasPrice).to(equal("0xa02ffee00"))
+                            expect(skeleton.transaction).to(equal("0xf085746f6b656e850a02ffee0082520894011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f8712103c5eee63dc80748080"))
                             expect(error).to(beNil())
                             done()
                         }
@@ -54,10 +76,10 @@ class EthereumAPIClientTests: QuickSpec {
                     waitUntil(timeout: 3) { done in
                         let originalTransaction = "0xf085746f6b658d8504a817c800825208945c156634bc3aed611e71550fb8a54480b480cd3b8718972b8c63638a80748080"
                         let transactionSignature = "0x4f80931676670df5b7a919aeaa56ae1d0c2db1792e6e252ee66a30007022200e44f61e710dbd9b24bed46338bed73f21e3a1f28ac791452fde598913867ebbb701"
-                        subject.sendSignedTransaction(originalTransaction: originalTransaction, transactionSignature: transactionSignature) { success, json, message in
+                        subject.sendSignedTransaction(originalTransaction: originalTransaction, transactionSignature: transactionSignature) { success, json, error in
                             expect(success).to(beTruthy())
                             expect(json).toNot(beNil())
-                            expect(message).to(beNil())
+                            expect(error).to(beNil())
                             done()
                         }
                     }
@@ -92,6 +114,28 @@ class EthereumAPIClientTests: QuickSpec {
                             expect(error).toNot(beNil())
                             expect(error!.description).to(equal("Error creating transaction"))
                             expect(transaction).to(beNil())
+                            done()
+                        }
+                    }
+                }
+
+                it("fetches the transaction Skeleton") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClientTests.self), mockFilename: "transactionSkeleton", statusCode: .unauthorized)
+                    mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
+                    subject = EthereumAPIClient(mockTeapot: mockTeapot)
+
+                    let parameters: [String: Any] = [
+                        "from": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
+                        "to": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
+                        "value": "0x330a41d05c8a780a"
+                    ]
+
+                    waitUntil() { done in
+                        subject.transactionSkeleton(for: parameters) { skeleton, error in
+                            expect(skeleton.gas).to(beNil())
+                            expect(skeleton.gasPrice).to(beNil())
+                            expect(skeleton.transaction).to(beNil())
+                            expect(error).toNot(beNil())
                             done()
                         }
                     }

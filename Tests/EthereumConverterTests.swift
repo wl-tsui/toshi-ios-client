@@ -25,6 +25,14 @@ class EthereumConverterTests: QuickSpec {
                     expect(ethereumValueString).to(equal("3.5000 ETH"))
                 }
 
+                it("returns the string representation of the ethereum network fees") {
+                    let ethereumNetworkFeeString = EthereumConverter.estimatedEthereumNetworkFeeString(for: wei, exchangeRate: exchangeRate)
+
+                    let dollarSting = String(format: "$100%@00 USD", TokenUser.current?.cachedCurrencyLocale?.decimalSeparator ?? ".")
+                    let feeString = String(format: Localized("payment_estimated_fee"), dollarSting, "1.0000 ETH")
+                    expect(ethereumNetworkFeeString).to(equal(feeString))
+                }
+
                 it("returns a string representation in eht for a given wei value") {
                     let ethereumValueString = EthereumConverter.ethereumValueString(forWei: wei)
 
