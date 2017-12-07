@@ -66,7 +66,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     var browseViewController: BrowseNavigationController!
     var messagingController: RecentNavigationController!
-    var favoritesController: FavoritesNavigationController!
+    var profilesController: ProfilesNavigationController!
     var settingsController: SettingsNavigationController!
 
     init() {
@@ -84,7 +84,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     @objc func setupControllers() {
         browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
-        favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
+        profilesController = ProfilesNavigationController(rootViewController: ProfilesViewController(type: .favorites))
 
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
         let recentViewController = RecentViewController()
@@ -101,7 +101,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
             self.browseViewController,
             self.messagingController,
             self.placeholderScannerController,
-            self.favoritesController,
+            self.profilesController,
             self.settingsController
         ]
 
@@ -168,7 +168,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
             idAPIClient.retrieveUser(username: username) { [weak self] contact in
                 guard let contact = contact else { return }
 
-                let contactController = ProfileViewController(contact: contact)
+                let contactController = ProfileViewController(profile: contact)
                 (self?.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
             }
         }
@@ -311,8 +311,8 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             self?.dismiss(animated: true) {
                 self?.switch(to: .favorites)
-                let contactController = ProfileViewController(contact: contact)
-                self?.favoritesController.pushViewController(contactController, animated: true)
+                let contactController = ProfileViewController(profile: contact)
+                self?.profilesController.pushViewController(contactController, animated: true)
             }
         }
     }

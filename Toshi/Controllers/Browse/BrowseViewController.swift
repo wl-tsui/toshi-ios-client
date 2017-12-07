@@ -358,7 +358,7 @@ extension BrowseViewController: BrowseCollectionViewCellSelectionDelegate {
     func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView) {
         
         if let section = items.element(at: collectionView.section), let item = section.element(at: indexPath.item) {
-            Navigator.push(ProfileViewController(contact: item))
+            Navigator.push(ProfileViewController(profile: item))
         }
     }
 }

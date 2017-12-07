@@ -17,31 +17,33 @@ import UIKit
 
 class SignalNotificationManager: NSObject, NotificationsProtocol {
 
-    func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
-
-        guard UIApplication.shared.applicationState == .background || Navigator.tabbarController?.selectedViewController != Navigator.tabbarController?.messagingController else {
-            return
+    public func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
+        
+        DispatchQueue.main.async {
+            guard UIApplication.shared.applicationState == .background || Navigator.tabbarController?.selectedViewController != Navigator.tabbarController?.messagingController else {
+                return
+            }
+            
+            defer { SignalNotificationManager.updateUnreadMessagesNumber() }
+            
+            let content = UNMutableNotificationContent()
+            content.title = thread.name()
+            content.threadIdentifier = thread.uniqueId
+            
+            if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
+                content.body = sofa.body
+            } else {
+                content.body = Localized("APN_Message")
+            }
+            
+            content.sound = UNNotificationSound(named: "PN.m4a")
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            
+            let center = UNUserNotificationCenter.current()
+            center.add(request, withCompletionHandler: nil)
         }
-
-        defer { SignalNotificationManager.updateUnreadMessagesNumber() }
-
-        let content = UNMutableNotificationContent()
-        content.title = thread.name()
-        content.threadIdentifier = thread.uniqueId
-
-        if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
-            content.body = sofa.body
-        } else {
-            content.body = "New message."
-        }
-
-        content.sound = UNNotificationSound(named: "PN.m4a")
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
-        let center = UNUserNotificationCenter.current()
-        center.add(request, withCompletionHandler: nil)
     }
 
     func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
@@ -51,7 +53,7 @@ class SignalNotificationManager: NSObject, NotificationsProtocol {
     @objc static func updateUnreadMessagesNumber() {
         DispatchQueue.main.async {
             let unreadMessagesCount = Int(OWSMessageManager.shared().unreadMessagesCount())
-
+            
             if unreadMessagesCount > 0 {
                 Navigator.tabbarController?.messagingController.tabBarItem.badgeValue = "\(unreadMessagesCount)"
                 Navigator.tabbarController?.messagingController.tabBarItem.badgeColor = .red

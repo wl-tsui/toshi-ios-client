@@ -110,8 +110,8 @@ class RecentViewController: SweetTableController, Emptiable {
     }
     
     @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
-        let favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
-        Navigator.presentModally(favoritesController)
+        let profilesViewController = ProfilesNavigationController(rootViewController: ProfilesViewController(type: .newChat))
+        Navigator.presentModally(profilesViewController)
     }
 
     private func addSubviewsAndConstraints() {
@@ -130,9 +130,8 @@ class RecentViewController: SweetTableController, Emptiable {
         let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
 
         // If changes do not affect current view, update and return without updating collection view
-        // swiftlint:disable force_cast
+        // swiftlint:disable:next force_cast
         let threadViewConnection = uiDatabaseConnection.ext(TSThreadDatabaseViewExtensionName) as! YapDatabaseViewConnection
-        // swiftlint:enable force_cast
 
         let hasChangesForCurrentView = threadViewConnection.hasChanges(for: notifications)
         guard hasChangesForCurrentView else {

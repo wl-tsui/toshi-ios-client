@@ -202,9 +202,8 @@ final class ChatViewModel {
         // If changes do not affect current view, update and return without updating collection view
         // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
         // table/collection view backing model.
-        // swiftlint:disable force_cast
+        // swiftlint:disable:next force_cast
         let messageViewConnection = uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
-        // swiftlint:enable force_cast
         if messageViewConnection.hasChanges(for: notifications) == false {
             uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)

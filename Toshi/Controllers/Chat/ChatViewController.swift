@@ -253,7 +253,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
     @objc private func showContactProfile(_ sender: UITapGestureRecognizer) {
         if let contact = self.viewModel.contact, sender.state == .ended {
-            let contactController = ProfileViewController(contact: contact)
+            let contactController = ProfileViewController(profile: contact)
             navigationController?.pushViewController(contactController, animated: true)
         }
     }
@@ -561,7 +561,7 @@ extension ChatViewController: MessagesBasicCellDelegate {
         IDAPIClient.shared.findContact(name: authorId) { [weak self] user in
             guard let retrievedUser = user else { return }
 
-            let contactController = ProfileViewController(contact: retrievedUser)
+            let contactController = ProfileViewController(profile: retrievedUser)
             self?.navigationController?.pushViewController(contactController, animated: true)
         }
     }

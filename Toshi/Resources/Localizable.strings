@@ -119,6 +119,11 @@
 "edit_profile_title" = "Edit profile";
 "edit_profile_change_photo" = "Change profile photo";
 
+/* Profile actions */
+"profile_action_message" = "Message";
+"profile_action_add_favorite" = "Favorite";
+"profile_action_pay" = "Pay";
+
 /* Image Picker related */
 
 "image-picker-select-source-title" = "Select source";
@@ -126,10 +131,12 @@
 "image-picker-library-action-title" = "Library";
 
 /* Profile QR Code */
+
 "profile_qr_code_title" = "My QR Code";
 "profile_qr_code_subtitle" = "Use this QR code to let others add you on Toshi.";
 
 /* Deposit Money */
+
 "deposit_money_title" = "Deposit Money";
 "deposit_money_header_text" = "You can add money to your account in a variety of ways.";
 "deposit_money_1_title" = "1. Send ETH from another wallet";
@@ -218,9 +225,12 @@
 /* Text Editing Options */
 "text_editing_options_paste" = "Paste";
 
-/* Favorites */
-"favorites_navigation_title" = "Favorites";
-"favorites_navigation_title_new_chat" = "New Chat";
+/* Profiles */
+"profiles_navigation_title_favorites" = "Favorites";
+"profiles_navigation_title_new_chat" = "New Chat";
+"profiles_navigation_title_new_group_chat" = "New Group Chat";
+"profiles_add_to_group_prefix" = "To: ";
+"profiles_empty_group_placeholder" = "(Add Contacts)";
 
 /* Tab Bar */
 "tab_bar_title_browse" = "Search";
@@ -243,3 +253,9 @@
 "error_title" = "Error";
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
+
+/* Group Chat */
+"profiles_new_group" = "New Group";
+
+/* Sharing */
+"sharing_action_item" = "Get Toshi, available for iOS and Android! (https://www.toshi.org)";

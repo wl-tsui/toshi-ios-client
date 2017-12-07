@@ -15,20 +15,24 @@
 
 import UIKit
 
-class BrowseNavigationController: UINavigationController {
-
+final class ProfilesNavigationController: UINavigationController {
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
     
+    // MARK: - Initialization
+    
     override init(rootViewController: UIViewController) {
-        
-        if let profileData = UserDefaultsWrapper.selectedApp {
+        if let rootViewController = rootViewController as? ProfilesViewController, let address = UserDefaultsWrapper.selectedContact, rootViewController.type != .newChat {
             super.init(nibName: nil, bundle: nil)
-            guard let json = (try? JSONSerialization.jsonObject(with: profileData, options: [])) as? [String: Any] else { return }
             
-            viewControllers = [rootViewController, ProfileViewController(profile: TokenUser(json: json))]
-            configureTabBarItem()
+            rootViewController.dataSource.databaseConnection.read { [weak self] transaction in
+                if let data = transaction.object(forKey: address, inCollection: TokenUser.favoritesCollectionKey) as? Data, let user = TokenUser.user(with: data) {
+                    self?.viewControllers = [rootViewController, ProfileViewController(profile: user)]
+                    self?.configureTabBarItem()
+                }
+            }
         } else {
             super.init(rootViewController: rootViewController)
         }
@@ -43,31 +47,27 @@ class BrowseNavigationController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureTabBarItem() {
-        tabBarItem = UITabBarItem(title: Localized("tab_bar_title_browse"), image: #imageLiteral(resourceName: "tab1"), tag: 0)
+    // MARK: - Configuration
+    
+    private func configureTabBarItem() {
+        tabBarItem = UITabBarItem(title: Localized("tab_bar_title_favorites"), image: #imageLiteral(resourceName: "tab4"), tag: 1)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
-
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        super.pushViewController(viewController, animated: animated)
-
-        if let viewController = viewController as? ProfileViewController {
-            UserDefaultsWrapper.selectedApp = viewController.profile.json
-        }
-    }
-
+    
+    // MARK: - Overrides around chaging VC
+    
     override func popViewController(animated: Bool) -> UIViewController? {
-        UserDefaultsWrapper.selectedApp = nil
+        UserDefaultsWrapper.selectedContact = nil
         return super.popViewController(animated: animated)
     }
-
+    
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        UserDefaultsWrapper.selectedApp = nil
+        UserDefaultsWrapper.selectedContact = nil
         return super.popToRootViewController(animated: animated)
     }
-
+    
     override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        UserDefaultsWrapper.selectedApp = nil
+        UserDefaultsWrapper.selectedContact = nil
         return super.popToViewController(viewController, animated: animated)
     }
 }
