@@ -763,6 +763,7 @@
 		D197B21E44FC770D3632265C /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197B22F0A1803EEBB6819FE /* searchContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4747DA95DF531E0C300 /* searchContacts.json */; };
 		D197B22FB4CEE1C4761BCEB7 /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
+		D197B2859F1B1E4BE895E760 /* transactionSkeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BFC186F1EEBDC8FD45B1 /* transactionSkeleton.json */; };
 		D197B2A45E12329713413EAE /* createUnsignedTransaction.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BB03F2BFF88371C66F25 /* createUnsignedTransaction.json */; };
 		D197B30022F9B4D9D27325F7 /* getTopRatedApps.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B06C962A9EC5993916F9 /* getTopRatedApps.json */; };
 		D197B329C25288ECA41EC3C8 /* SofaWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6AD4DEFD836C0ECA908 /* SofaWrapperTests.swift */; };
@@ -1236,6 +1237,7 @@
 		D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAppDelegate.m; sourceTree = "<group>"; };
 		D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClientTests.swift; sourceTree = "<group>"; };
 		D197BDBBB0DE754639B7005B /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
+		D197BFC186F1EEBDC8FD45B1 /* transactionSkeleton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactionSkeleton.json; sourceTree = "<group>"; };
 		E1A95D541E6EF092002762DA /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		E2C0C38CD39DA83E3AE9415C /* Pods-CocoaPods-Debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Debug.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Debug/Pods-CocoaPods-Debug.debug.xcconfig"; sourceTree = "<group>"; };
 		E67683551F4464980014B2D4 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = Carthage/Build/iOS/Quick.framework; sourceTree = "<group>"; };
@@ -2168,6 +2170,7 @@
 				D197B003D276C7AD76B6A223 /* getBalance.json */,
 				D197B5835BCEB0D7A2DA6967 /* timestamp.json */,
 				D197B654F730E653B7C6F444 /* sendSignedTransaction.json */,
+				D197BFC186F1EEBDC8FD45B1 /* transactionSkeleton.json */,
 			);
 			path = EthereumAPIClient;
 			sourceTree = "<group>";
@@ -2419,6 +2422,7 @@
 				D197B8B87F4A0DCA761DE9D6 /* retrieveUser.json in Resources */,
 				D197B4425A9FE7A36B983DE1 /* getLatestPublicUsers.json in Resources */,
 				D197BDE13FECEEDB7511144E /* user.json in Resources */,
+				D197B2859F1B1E4BE895E760 /* transactionSkeleton.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

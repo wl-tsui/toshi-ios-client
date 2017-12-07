@@ -217,7 +217,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         tableView.right(to: view)
 
         textInputView.left(to: view)
-        textInputViewBottomConstraint = textInputView.bottom(to: view)
+        textInputViewBottomConstraint = textInputView.bottom(to: layoutGuide())
         textInputView.right(to: view)
         textInputViewHeightConstraint = textInputView.height(ChatInputTextPanel.defaultHeight)
         
@@ -226,7 +226,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         buttonsView.bottomToTop(of: textInputView)
         buttonsView.trailingToSuperview()
         
-        ethereumPromptView.top(to: view, offset: 64)
+        ethereumPromptView.top(to: layoutGuide())
         ethereumPromptView.left(to: view)
         ethereumPromptView.right(to: view)
         ethereumPromptView.height(ChatFloatingHeaderView.height)
@@ -603,6 +603,7 @@ extension ChatViewController: MessagesPaymentCellDelegate {
 
                 self?.hideActivityIndicator()
             }, approveHandler: { [weak self] transaction, error in
+
 
                 if let error = error {
                     Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: error.description)

@@ -35,7 +35,7 @@ final class PaymentConfirmation {
                 let fee = gasPriceValue.decimalValue * gasValue.decimalValue
                 let decimalNumberFee = NSDecimalNumber(decimal: fee)
 
-                estimatedFeesString = EthereumConverter.estimatedEthereumNetworkFeeString(for: decimalNumberFee)
+                estimatedFeesString = EthereumConverter.estimatedEthereumNetworkFeeString(for: decimalNumberFee, exchangeRate: ExchangeRateClient.exchangeRate)
 
                 messageText.append("\n\n\(estimatedFeesString)")
 

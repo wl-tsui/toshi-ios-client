@@ -55,11 +55,10 @@ struct EthereumConverter {
     ///
     /// - Parameter valueInWei: the value in wei
     /// - Returns: the string representation
-    public static func estimatedEthereumNetworkFeeString(for valueInWei: NSDecimalNumber) -> String {
+    public static func estimatedEthereumNetworkFeeString(for valueInWei: NSDecimalNumber, exchangeRate: Decimal) -> String {
         let feeEthValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
 
-        let rate = ExchangeRateClient.exchangeRate
-        let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: valueInWei, exchangeRate: rate)
+        let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: valueInWei, exchangeRate: exchangeRate)
 
         return String(format: Localized("payment_estimated_fee"), fiatValueString, feeEthValueString)
     }
