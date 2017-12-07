@@ -54,7 +54,7 @@ final class AvatarTitleSubtitleDetailsCell: BasicTableViewCell {
 
     private func setupDetailsLabel() {
         detailsLabel.centerY(to: contentView)
-        detailsLabel.right(to: contentView, offset:  -BasicTableViewCell.horizontalMargin)
+        detailsLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
     }
 
     override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
