@@ -17,6 +17,7 @@ import Foundation
 import Teapot
 import AwesomeCache
 
+typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?)
 typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
 
 class EthereumAPIClient: NSObject {
@@ -72,7 +73,7 @@ class EthereumAPIClient: NSObject {
         }
     }
 
-    public func transactionSkeleton(for parameters: [String: Any], completion: @escaping ((_ skeleton: (gas: String?, gasPrice: String?, transaction: String?), _ error: ToshiError?) -> Void)) {
+    public func transactionSkeleton(for parameters: [String: Any], completion: @escaping ((_ skeleton: TransactionSkeleton, _ error: ToshiError?) -> Void)) {
 
         let json = RequestParameter(parameters)
 

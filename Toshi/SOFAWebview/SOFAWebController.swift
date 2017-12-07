@@ -193,7 +193,7 @@ extension SOFAWebController: WKScriptMessageHandler {
             if let messageData = messageEncodedString.hexadecimalData, let decodedString = String(data: messageData, encoding: .utf8) {
 
                 DispatchQueue.main.async {
-                    self.presentPersonalMessageSignAlert(decodedString, callbackId: callbackId, signHandler: { [weak self] callbackId in
+                    self.presentPersonalMessageSignAlert(decodedString, callbackId: callbackId, signHandler: { [weak self] returnedCallbackId in
                         let composedString = "\u{0019}Ethereum Signed Message:\n" + String(messageData.count) + decodedString
 
                         if let resultData = composedString.data(using: .utf8) {
@@ -207,7 +207,7 @@ extension SOFAWebController: WKScriptMessageHandler {
                                 let suffixHex = String(format: "%2X", resultSuffix)
 
                                 signature = truncated + suffixHex
-                                self?.jsCallback(callbackId: callbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
+                                self?.jsCallback(callbackId: returnedCallbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
                             }
                         }
                     })
@@ -269,8 +269,8 @@ extension SOFAWebController: WKScriptMessageHandler {
                 return
             }
 
-            self.sendSignedTransaction(signedTransaction, with: callbackId, completion: { [weak self] callBackId, payload in
-                self?.jsCallback(callbackId: callbackId, payload: payload)
+            self.sendSignedTransaction(signedTransaction, with: callbackId, completion: { [weak self] returnedCallbackId, payload in
+                self?.jsCallback(callbackId: returnedCallbackId, payload: payload)
             })
 
         case .approveTransaction:
@@ -279,22 +279,22 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
-    private func sendSignedTransaction(_ transaction: String, with callBackId: String, completion: @escaping ((String, String) -> Void)) {
+    private func sendSignedTransaction(_ transaction: String, with callbackId: String, completion: @escaping ((String, String) -> Void)) {
 
-        etherAPIClient.sendSignedTransaction(signedTransaction: transaction) { [weak self] success, json, error in
+        etherAPIClient.sendSignedTransaction(signedTransaction: transaction) { success, json, error in
             guard success, let json = json?.dictionary else {
-                completion(callBackId, "{\\\"error\\\": \\\"\(error?.description ?? "Error sending transaction")\\\"}")
+                completion(callbackId, "{\\\"error\\\": \\\"\(error?.description ?? "Error sending transaction")\\\"}")
 
                 return
             }
 
             guard let txHash = json["tx_hash"] as? String else {
-                completion(callBackId, "{\\\"error\\\": \\\"Error recovering transaction hash\\\"}")
+                completion(callbackId, "{\\\"error\\\": \\\"Error recovering transaction hash\\\"}")
 
                 return
             }
 
-            completion(callBackId, "{\\\"result\\\":\\\"\(txHash)\\\"}")
+            completion(callbackId, "{\\\"result\\\":\\\"\(txHash)\\\"}")
         }
     }
 
