@@ -226,7 +226,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         buttonsView.bottomToTop(of: textInputView)
         buttonsView.trailingToSuperview()
         
-        ethereumPromptView.top(to: view, offset: 64)
+        ethereumPromptView.top(to: layoutGuide())
         ethereumPromptView.left(to: view)
         ethereumPromptView.right(to: view)
         ethereumPromptView.height(ChatFloatingHeaderView.height)
