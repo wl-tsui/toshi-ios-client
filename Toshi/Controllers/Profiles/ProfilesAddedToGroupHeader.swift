@@ -56,7 +56,7 @@ class ProfilesAddedToGroupHeader: UIView {
         
         let toAttributedString = NSMutableAttributedString(string: Localized("profiles_add_to_group_prefix"), attributes: nonNameAttributes)
         
-        let nameStrings = sortedProfiles.map { NSAttributedString(string: $0.name, attributes: [ .foregroundColor: Theme.tintColor ]) }
+        let nameStrings = sortedProfiles.map { NSAttributedString(string: $0.nameOrDisplayName, attributes: [ .foregroundColor: Theme.tintColor ]) }
         
         // `join(with:)` doesn't work on attributed strings, so:
         let singleNamesString = nameStrings.reduce(NSMutableAttributedString(), { accumulated, next in

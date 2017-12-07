@@ -83,6 +83,17 @@ class TokenUser: NSObject, NSCoding {
     var displayUsername: String {
         return "@\(username)"
     }
+    
+    /// Returns the display username if the user's name is empty. Useful for places where we're trying to mostly display names, but some users haven't set them.
+    var nameOrDisplayName: String {
+        guard !name.isEmpty else {
+            
+            return displayUsername
+        }
+        
+        return name
+    }
+    
     @objc private(set) var username = ""
     private(set) var about = ""
     private(set) var location = ""
