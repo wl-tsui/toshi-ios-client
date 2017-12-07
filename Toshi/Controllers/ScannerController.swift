@@ -53,6 +53,31 @@ class ScannerController: ScannerViewController {
     override func setupToolbarItems() {
         toolbar.setItems([self.cancelItem], animated: true)
     }
+
+    func approvePayment(with parameters: [String: Any], userInfo: UserInfo, transaction: String?, error: ToshiError?) {
+        isStatusBarHidden = false
+        guard !userInfo.isLocal else {
+            if let tabbarController = self.presentingViewController as? TabBarController {
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters, transaction: transaction)
+            }
+
+            return
+        }
+
+        showActivityIndicator()
+
+        guard let transaction = transaction else {
+                self.hideActivityIndicator()
+                self.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
+                self.startScanning()
+
+                return
+        }
+
+        let signedTransaction = self.createSignedTransaction(from: transaction)
+
+        sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)
+    }
 }
 
 extension ScannerController: ActivityIndicating {
@@ -84,7 +109,8 @@ extension ScannerController: PaymentPresentable {
         isStatusBarHidden = false
         guard !userInfo.isLocal else {
             if let tabbarController = self.presentingViewController as? TabBarController {
-                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters)
+                // we do not use that alert view currently, need to adjust unsigned tramsaction here, pass nil now
+                tabbarController.openPaymentMessage(to: userInfo.address, parameters: parameters, transaction: nil)
             }
 
             return
@@ -100,8 +126,8 @@ extension ScannerController: PaymentPresentable {
                     self?.hideActivityIndicator()
                     self?.presentPaymentError(withErrorMessage: error?.localizedDescription ?? ToshiError.genericError.description)
                     self?.startScanning()
-                
-                return
+
+                    return
             }
 
             self?.sendTransaction(originalTransaction: transaction, signedTransaction: signedTransaction)

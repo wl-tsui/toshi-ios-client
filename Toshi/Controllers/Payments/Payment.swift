@@ -16,46 +16,47 @@ class PaymentManager {
             "to": paymentAddress,
             "value": valueInWei.toHexString
         ]
-        
-        EthereumAPIClient.shared.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
-            
+
+        let fiatValueString = EthereumConverter.fiatValueString(forWei: valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
+        let ethValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
+        let message = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, paymentAddress)
+
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: message, approveHandler: { [weak self] transaction, error in
+
             guard let transaction = transaction else {
-                
+
                 if let error = error {
                     DispatchQueue.main.async {
                         self?.showPaymentFailedMessage(for: error.description)
                     }
                 }
-                
+
                 return
             }
-            
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-            EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
+            self?.send(with: parameters, transaction: transaction, completion: completion)
+        })
+    }
 
-                DispatchQueue.main.async {
-                    guard success else {
-                        self?.showPaymentFailedMessage(for: error?.description ?? ToshiError.genericError.description)
-                        return
-                    }
+    private func send(with parameters: [String: Any], transaction: String, completion: @escaping SuccessCompletion) {
 
-                    self?.showPaymentSucceededMessage(completion)
+        let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+
+        EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
+
+            DispatchQueue.main.async {
+                guard success else {
+                    self?.showPaymentFailedMessage(for: error?.description ?? ToshiError.genericError.description)
+                    return
                 }
+
+                self?.showPaymentSucceededMessage(completion)
             }
         }
     }
     
     func showPaymentFailedMessage(for errorMessage: String) {
-        let alertController = UIAlertController(title: Localized("payment_message_failure_title"), message: errorMessage, preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: Localized("payment_message_button"), style: .default) { _ in
-            alertController.dismiss(animated: true, completion: nil)
-        }
-        
-        alertController.addAction(action)
-        
-        Navigator.presentModally(alertController)
+        Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: errorMessage)
     }
     
     func showPaymentSucceededMessage(_ completion: @escaping SuccessCompletion) {

@@ -120,20 +120,28 @@ final class ChatInteractor: NSObject {
                 "value": value.toHexString
             ]
 
-            self?.sendPayment(with: parameters, completion: completion)
+            let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
+            let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
+            let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user.name)
+
+            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, error in
+
+                guard let transaction = transaction else {
+
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            Navigator.presentDismissableAlert(title: Localized("payment_message_failure_title"), message: error.description)
+                        }
+                    }
+
+                    return
+                }
+
+                self?.sendPayment(with: parameters, transaction: transaction, completion: completion)
+                }, cancelHandler: { [weak self] in
+                    self?.output?.didFinishRequest()
+            })
         }
-    }
-
-    func sendPayment(to destinationAddress: String, in value: NSDecimalNumber, completion: ((Bool) -> Void)? = nil) {
-        guard EthereumAddress.validate(destinationAddress) else { return }
-
-        let parameters: [String: Any] = [
-          "from": Cereal.shared.paymentAddress,
-          "to": destinationAddress,
-          "value": value.toHexString
-        ]
-
-        self.sendPayment(with: parameters, completion: completion)
     }
 
     func fetchAndUpdateBalance(cachedCompletion: @escaping BalanceCompletion, fetchedCompletion: @escaping BalanceCompletion) {
@@ -144,45 +152,40 @@ final class ChatInteractor: NSObject {
         })
     }
 
-    func sendPayment(with parameters: [String: Any], completion: ((Bool) -> Void)? = nil) {
-        etherAPIClient.createUnsignedTransaction(parameters: parameters) { [weak self] transaction, error in
+    func sendPayment(with parameters: [String: Any], transaction: String?, completion: ((Bool) -> Void)? = nil) {
 
-            guard let transaction = transaction else {
-                if let error = error as Error? {
-                    self?.output?.didFinishRequest()
-                    self?.output?.didCatchError(error.localizedDescription)
+        guard let transaction = transaction else {
+            self.output?.didFinishRequest()
+            completion?(false)
+
+            return
+        }
+
+        let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+
+        self.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, error in
+
+            self?.output?.didFinishRequest()
+
+            guard success, let json = json?.dictionary else {
+                DispatchQueue.main.async {
+                    self?.output?.didCatchError(error?.description ?? ToshiError.genericError.description)
                     completion?(false)
                 }
-
                 return
             }
 
-            let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
+            guard let txHash = json["tx_hash"] as? String else {
+                CrashlyticsLogger.log("Error recovering transaction hash.")
+                fatalError("Error recovering transaction hash.")
+            }
+            guard let value = parameters["value"] as? String else { return }
 
-            self?.etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, json, error in
+            let payment = SofaPayment(txHash: txHash, valueHex: value)
+            self?.sendMessage(sofaWrapper: payment)
 
-                self?.output?.didFinishRequest()
-
-                guard success, let json = json?.dictionary else {
-                    DispatchQueue.main.async {
-                        self?.output?.didCatchError(error?.description ?? ToshiError.genericError.description)
-                        completion?(false)
-                    }
-                    return
-                }
-
-                guard let txHash = json["tx_hash"] as? String else {
-                    CrashlyticsLogger.log("Error recovering transaction hash.")
-                    fatalError("Error recovering transaction hash.")
-                }
-                guard let value = parameters["value"] as? String else { return }
-
-                let payment = SofaPayment(txHash: txHash, valueHex: value)
-                self?.sendMessage(sofaWrapper: payment)
-
-                DispatchQueue.main.async {
-                    completion?(true)
-                }
+            DispatchQueue.main.async {
+                completion?(true)
             }
         }
     }

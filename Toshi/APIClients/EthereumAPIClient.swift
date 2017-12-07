@@ -61,23 +61,37 @@ class EthereumAPIClient: NSObject {
         super.init()
     }
 
-    func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: ToshiError?) -> Void)) {
+    public func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: ToshiError?) -> Void)) {
+
+        transactionSkeleton(for: parameters) { skeleton, error in
+            let transaction = skeleton.transaction
+
+            DispatchQueue.main.async {
+                completion(transaction, error)
+            }
+        }
+    }
+
+    public func transactionSkeleton(for parameters: [String: Any], completion: @escaping ((_ skeleton: (gas: String?, gasPrice: String?, transaction: String?), _ error: ToshiError?) -> Void)) {
+
         let json = RequestParameter(parameters)
 
         self.activeTeapot.post("/v1/tx/skel", parameters: json) { result in
-            var resultString: String?
+            var resultJson: [String: Any]?
             var resultError: ToshiError?
 
             switch result {
             case .success(let json, _):
-                resultString = json?.dictionary!["tx"] as? String
+                resultJson = json?.dictionary
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error, errorDescription: Localized("payment_error_message"))
                 DLog("\(error)")
             }
 
             DispatchQueue.main.async {
-                completion(resultString, resultError)
+
+                let skeleton = (gas: resultJson?["gas"] as? String, gasPrice: resultJson?["gas_price"] as? String, transaction: resultJson?["tx"] as? String)
+                completion(skeleton, resultError)
             }
         }
     }

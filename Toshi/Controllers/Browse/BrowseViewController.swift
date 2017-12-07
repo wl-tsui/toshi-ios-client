@@ -147,7 +147,7 @@ class BrowseViewController: SearchableCollectionController {
         }
         
         searchBar.text = nil
-        hideOpenURLButtonIfNeeded()
+        hideOpenURLButtonIfNeeded(animated: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,10 +164,8 @@ class BrowseViewController: SearchableCollectionController {
         collectionView.scrollIndicatorInsets.bottom = bottomInset
     }
     
-    func dismissSearchIfNeeded() {
-        if let searchText = searchBar.text, searchText.length > 0 {
-            searchController.dismiss(animated: false, completion: nil)
-        }
+    func dismissSearch() {
+        searchController.dismiss(animated: false, completion: nil)
     }
     
     private func showResults(_ apps: [TokenUser]?, at index: Int, _ error: Error? = nil) {
@@ -242,9 +240,14 @@ class BrowseViewController: SearchableCollectionController {
         }, completion: nil)
     }
     
-    private func hideOpenURLButtonIfNeeded() {
+    private func hideOpenURLButtonIfNeeded(animated: Bool = true) {
         openURLButtonTopAnchor?.constant = 0
-        
+
+        guard animated else {
+            self.openURLButton.isHidden = true
+            return
+        }
+
         UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .easeOutFromCurrentStateWithUserInteraction, animations: {
             self.view.layoutIfNeeded()
         }, completion: { _ in

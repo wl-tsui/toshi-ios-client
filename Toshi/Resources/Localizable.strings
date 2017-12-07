@@ -43,7 +43,11 @@
 "payment_next_button" = "Next";
 "payment_qr_scanner_instructions" = "Scan QR Code";
 
+"payment_confirmation_warning_message" = "Do you want to send %@ (%@) to %@?";
+
 "payment_error_message" = "Error creating transaction";
+
+"payment_estimated_fee" = "The estimated Ethereum network fees are %@ (%@)";
 
 
 "payment_message_failure_title" = "Failed";
