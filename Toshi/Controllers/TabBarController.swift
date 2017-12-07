@@ -137,7 +137,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         messagingController.openThread(withAddress: address, completion: completion)
     }
 
-    func openThread(_ thread: TSThread, animated: Bool = true) {
+    public func openThread(_ thread: TSThread, animated: Bool = true) {
         messagingController.openThread(thread, animated: animated)
     }
 

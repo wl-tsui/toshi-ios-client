@@ -83,10 +83,11 @@ class RecentViewController: SweetTableController, Emptiable {
 
         addSubviewsAndConstraints()
 
-        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ChatCell.self)
+        tableView.tableFooterView = UIView(frame: .zero)
+
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
     }
