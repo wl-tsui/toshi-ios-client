@@ -38,3 +38,4 @@ Carthage/Build/.*.version
 /.idea
 
 Toshi/Resources/APIKeys/APIKeys.plist
+local_config.sh
