@@ -39,8 +39,9 @@ platform :ios do
     setup_circle_ci
 
     if !is_ci
+      # Open-source note: This file is kept private to developers who can release.
       sh ". ./local_config.sh"
-    end 
+    end
   end
 
   ##########################
@@ -68,7 +69,7 @@ platform :ios do
       team_id: Toshi::TeamId::Developer,
       app_identifier: [
                         Toshi::BundleIdentifier::Debug,
-                        # TODO: Re-enable once figured out 
+                        # TODO: Re-enable once figured out
                       #  Toshi::BundleIdentifier::Development,
                         Toshi::BundleIdentifier::Distribution,
                       ]
