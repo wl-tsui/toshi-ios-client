@@ -2150,6 +2150,7 @@
 				7DB323CB6F55ADD50CC301AC /* [CP] Embed Pods Frameworks */,
 				0807F205F2A93A39CF185D36 /* [CP] Copy Pods Resources */,
 				2BC408521EF2C22A0044C242 /* Fabric Run Script */,
+				3361C7C31FD99D0900E5600C /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -2196,6 +2197,7 @@
 				A9603F8E1F4DABDC00BF57B1 /* [CP] Embed Pods Frameworks */,
 				A9603F8F1F4DABDC00BF57B1 /* [CP] Copy Pods Resources */,
 				A9603F901F4DABDC00BF57B1 /* Fabric Run Script */,
+				3361C7C21FD99BDD00E5600C /* SwiftLint Run Script */,
 			);
 			buildRules = (
 			);
@@ -2531,6 +2533,34 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" d6f421ea196993dc3048f7ba96ef27a75a55b2a2 2a282eff9d37c538d0a30d8fc979703d081109781ba8d92078c71c563f76ce66";
+		};
+		3361C7C21FD99BDD00E5600C /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
+		};
+		3361C7C31FD99D0900E5600C /* SwiftLint Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
 		};
 		4380A44F194F905C73188527 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
