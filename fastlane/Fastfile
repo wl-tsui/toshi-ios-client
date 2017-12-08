@@ -1,0 +1,164 @@
+require "./toshi.rb"
+
+default_platform :ios
+
+######################
+# Pre-defined values #
+######################
+
+# Signing types as defined by Match
+class SigningType
+  Development = "development"
+  AppStore = "appstore"
+  Enterprise = "enterprise"
+end
+
+class FolderPath
+  # The root fastlane folder
+  Fastlane = "fastlane"
+  # The output folder for test coverage data
+  TestOutput = "test_output"
+end
+
+# Files to ignore in code coverage, as an array of strings. Wildcards may be used.
+coverage_files_to_ignore = [
+  'Pods/*',
+  'Carthage/*',
+  'GitHub/*',
+  'danger/*',
+]
+
+################
+# Actual lanes #
+################
+
+platform :ios do
+
+  before_all do
+    # Happier setup with Match and keychain.
+    setup_circle_ci
+  end
+
+  ##########################
+  # PROVISIONING & SIGNING #
+  ##########################
+
+  def match_fetch(options)
+    bundle_ids = options[:app_identifier]
+    apple_dev_team = options[:team_id]
+    signing_type = options[:type]
+    match(
+      git_url: Toshi::MatchInfo::RepoUrl,
+      type: signing_type,
+      team_id: apple_dev_team,
+      git_branch: Toshi::MatchInfo::Branch,
+      readonly: true,
+      app_identifier: bundle_ids,
+      username: Toshi::Username,
+    )
+  end
+
+  def match_dev
+    match_fetch(
+      type: SigningType::Development,
+      team_id: Toshi::TeamId::Developer,
+      app_identifier: [
+                        Toshi::BundleIdentifier::Debug,
+                        # TODO: Re-enable once figured out 
+                      #  Toshi::BundleIdentifier::Development,
+                        Toshi::BundleIdentifier::Distribution,
+                      ]
+    )
+  end
+
+  def match_enterprise
+    match_fetch(
+      type: SigningType::Enterprise,
+      team_id: Toshi::TeamId::Enterprise,
+      app_identifier: Toshi::BundleIdentifier::Development,
+    )
+  end
+
+  def match_release
+    match_fetch(
+      type: SigningType::AppStore,
+      team_id: Toshi::TeamId::Developer,
+      app_identifier: Toshi::BundleIdentifier::Distribution,
+    )
+  end
+
+  ############
+  # BUILDING #
+  ############
+
+  def build_app_store
+     # TODO
+  end
+
+  def build_enterprise
+    # TODO
+  end
+
+  def build_development
+    # TODO
+  end
+
+  ###########
+  # TESTING #
+  ###########
+
+  def run_unit_tests
+    # TODO
+  end
+
+  def run_ui_tests
+    # TODO
+  end
+
+  #############
+  # UPLOADING #
+  #############
+
+  def upload_beta
+    # TODO
+  end
+
+  def upload_to_itc
+    # TODO
+  end
+
+  ################
+  # PUBLIC LANES #
+  ################
+
+  desc "Fetches all available keys and certs for this project"
+  lane :match_fetch_all_the_things do
+    match_dev
+    # Todo: Enable once enterprise is set up
+    # match_enterprise
+    match_release
+  end
+
+  desc "Builds and uploads a signed version of the app to iTunes Connect"
+  lane :itc do
+    match_release
+    build_app_store
+    upload_to_itc
+  end
+
+  desc "Builds and uploads an enterprise-signed app to...somewhere!"
+  lane :beta do
+    match_enterprise
+    build_enterprise
+    upload_beta
+  end
+
+  desc "Builds and tests the application in development"
+  lane :ci_test do
+    match_dev
+    build_development
+    run_unit_tests
+    run_ui_tests
+  end
+
+end
