@@ -300,7 +300,15 @@ extension SOFAWebController: WKScriptMessageHandler {
 
     private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, callbackId: String) {
 
-        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, _ in
+        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, error in
+
+            guard error == nil else {
+                let payload = SOFAResponseConstants.skeletonErrorJSON
+                self?.jsCallback(callbackId: callbackId, payload: payload)
+
+                return
+            }
+
             self?.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, callbackId: callbackId)
             }, cancelHandler: { [weak self] in
                 let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
