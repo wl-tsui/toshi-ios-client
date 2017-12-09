@@ -243,6 +243,9 @@ extension SOFAWebController: WKScriptMessageHandler {
             if let gasPrice = transaction["gasPrice"] {
                 parameters["gasPrice"] = gasPrice
             }
+            if let nonce = transaction["nonce"] {
+                parameters["nonce"] = nonce
+            }
 
             if let to = transaction["to"] as? String, let value = parameters["value"] as? String {
                 IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
