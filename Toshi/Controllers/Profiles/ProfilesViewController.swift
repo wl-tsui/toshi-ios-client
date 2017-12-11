@@ -254,8 +254,9 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     }
     
     private func displayContacts() {
-        dataSource.reloadData()
-        showOrHideEmptyState()
+        dataSource.reloadData { [weak self] in
+            self?.showOrHideEmptyState()
+        }
     }
     
     // MARK: - Action Handling

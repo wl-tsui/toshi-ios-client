@@ -86,14 +86,18 @@ class ProfilesDataSource: NSObject {
     
     // MARK: - Table View Reloading
     
-    func reloadData() {
+    func reloadData(completion: (() -> Void)? = nil) {
         if #available(iOS 11.0, *) {
             // Must perform batch updates on iOS 11 or you'll get super-wonky layout because of the headers.
             tableView?.performBatchUpdates({
                 self.tableView?.reloadData()
-            }, completion: nil)
+            }, completion: { [weak self] _ in
+                completion?()
+                self?.tableView?.layoutIfNeeded()
+            })
         } else {
             tableView?.reloadData()
+            completion?()
         }
     }
     
