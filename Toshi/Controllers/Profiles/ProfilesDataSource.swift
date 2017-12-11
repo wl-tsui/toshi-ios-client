@@ -18,7 +18,7 @@ class ProfilesDataSource: NSObject {
     
     var isEmpty: Bool {
         let currentItemCount = mappings.numberOfItems(inSection: 0)
-        return (currentItemCount > 0)
+        return (currentItemCount == 0)
     }
     
     private(set) lazy var databaseConnection: YapDatabaseConnection = {
