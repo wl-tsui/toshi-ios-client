@@ -57,7 +57,7 @@ class EthereumAPIClientTests: QuickSpec {
                         "value": "0x330a41d05c8a780a"
                     ]
 
-                    waitUntil() { done in
+                    waitUntil { done in
                         subject.transactionSkeleton(for: parameters) { skeleton, error in
                             expect(skeleton.gas).to(equal("0x5208"))
                             expect(skeleton.gasPrice).to(equal("0xa02ffee00"))
@@ -130,7 +130,7 @@ class EthereumAPIClientTests: QuickSpec {
                         "value": "0x330a41d05c8a780a"
                     ]
 
-                    waitUntil() { done in
+                    waitUntil { done in
                         subject.transactionSkeleton(for: parameters) { skeleton, error in
                             expect(skeleton.gas).to(beNil())
                             expect(skeleton.gasPrice).to(beNil())
