@@ -267,7 +267,9 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     }
     
     private func showOrHideEmptyState() {
-        emptyView.isHidden = (searchController.isActive || !dataSource.isEmpty)
+        let emptyViewHidden = (searchController.isActive || !dataSource.isEmpty)
+        emptyView.isHidden = emptyViewHidden
+        tableView.tableHeaderView?.isHidden = !emptyViewHidden
     }
     
     @objc private func didTapCancel(_ button: UIBarButtonItem) {
