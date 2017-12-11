@@ -68,12 +68,12 @@ final class ChatInteractor: NSObject {
         }
     }
 
-    func send(image: UIImage) {
+    func send(image: UIImage, in message: TSOutgoingMessage? = nil) {
         guard let imageData = UIImagePNGRepresentation(image) else { return }
 
         let wrapper = SofaMessage(body: "")
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: wrapper.content)
+        let outgoingMessage = message ?? TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: wrapper.content)
 
         guard let datasource = DataSourceValue.dataSource(with: imageData, fileExtension: "png") else { return }
 
@@ -307,6 +307,66 @@ final class ChatInteractor: NSObject {
         return thread!
     }
 
+    public static func updateGroup(with groupModel: TSGroupModel) {
+        var thread: TSGroupThread?
+        TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
+            thread = TSGroupThread.getOrCreateThread(with: groupModel, transaction: transaction)
+
+            guard thread != nil else { return }
+            thread!.groupModel = groupModel
+            thread!.save(with: transaction)
+        }
+
+        sendGroupUpdateMessage(to: thread!, with: groupModel)
+    }
+
+    public static func createGroup(with recipientsIds: NSMutableArray, name: String, avatar: UIImage) {
+
+        let groupId = Randomness.generateRandomBytes(32)
+
+        guard let groupModel = TSGroupModel(title: name, memberIds: recipientsIds, image: avatar, groupId: groupId) else { return }
+
+        var thread: TSGroupThread?
+        TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
+            thread = TSGroupThread.getOrCreateThread(with: groupModel, transaction: transaction)
+        }
+
+        guard thread != nil else { return }
+
+        ProfileManager.shared().addThread(toProfileWhitelist: thread!)
+
+        Navigator.tabbarController?.openThread(thread!)
+
+        sendInitialGroupMessage(to: thread!)
+    }
+
+    private static func sendGroupUpdateMessage(to thread: TSGroupThread, with groupModel: TSGroupModel) {
+        DispatchQueue.global(qos: .background).async {
+            let timestamp = NSDate.ows_millisecondTimeStamp()
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.update)
+            outgoingMessage.body = "GROUP_UPDATED"
+
+            let interactor = ChatInteractor(output: nil, thread: thread)
+            interactor.send(image: groupModel.groupImage, in: outgoingMessage)
+        }
+    }
+
+    private static func sendInitialGroupMessage(to thread: TSGroupThread) {
+        DispatchQueue.global(qos: .background).async {
+            let timestamp = NSDate.ows_millisecondTimeStamp()
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.new)
+            outgoingMessage.body = "GROUP_CREATED"
+
+            let interactor = ChatInteractor(output: nil, thread: thread)
+
+            if let groupAvatar = thread.groupModel.groupImage {
+                interactor.send(image: groupAvatar, in: outgoingMessage)
+            } else {
+                interactor.send(outgoingMessage)
+            }
+        }
+    }
+
     @objc static func triggerBotGreeting() {
         guard let botAddress = Bundle.main.infoDictionary?["InitialGreetingAddress"] as? String else { return }
 
@@ -323,7 +383,7 @@ final class ChatInteractor: NSObject {
         appDelegate?.contactsManager.refreshContacts()
     }
 
-    func sendImage(_ image: UIImage) {
+    func sendImage(_ image: UIImage, in message: TSOutgoingMessage? = nil) {
 
         let wrapper = SofaMessage(body: "")
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
@@ -333,7 +393,7 @@ final class ChatInteractor: NSObject {
             return
         }
 
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
+        let outgoingMessage = message ?? TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
 
         guard let datasource = DataSourceValue.dataSource(with: data, fileExtension: "jpeg") else { return }
 

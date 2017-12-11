@@ -51,6 +51,7 @@ public struct TableCellDataComponents: OptionSet {
     static let titleSwitchControl: TableCellDataComponents = [.title, .switchControl]
     static let titleSubtitleSwitchControl: TableCellDataComponents = [.titleSwitchControl, .subtitle]
     static let titleSubtitleSwitchControlLeftImage: TableCellDataComponents = [.titleLeftImage, .subtitle, .switchControl]
+    static let titleSubtitleDoubleImage: TableCellDataComponents = [.titleSubtitle, .doubleImage]
     static let titleSubtitleDoubleImageImage: TableCellDataComponents = [.titleSubtitle, .doubleImage]
 }
 
@@ -100,7 +101,7 @@ public final class TableCellData {
         if switchState != nil {
             components.insert(.switchControl)
         }
-        
+
         if doubleImage != nil {
             components.insert(.doubleImage)
         }

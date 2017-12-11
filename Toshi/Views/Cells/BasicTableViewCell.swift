@@ -18,9 +18,11 @@ import UIKit
 import TinyConstraints
 
 protocol BasicCellActionDelegate: class {
-    func didTapLeftImage(_ cell: BasicTableViewCell)
+
     func didChangeSwitchState(_ cell: BasicTableViewCell, _ state: Bool)
+    func didTapLeftImage(_ cell: BasicTableViewCell)
     func didFinishTitleInput(_ cell: BasicTableViewCell, text: String?)
+    func titleShouldChangeCharactersInRange(_ cell: BasicTableViewCell, text: String?, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
 }
 
 //extension with default implementation which is alternative for optional functions in protocols
@@ -33,11 +35,11 @@ extension BasicCellActionDelegate {
 class BasicTableViewCell: UITableViewCell {
 
     static let horizontalMargin: CGFloat = 16.0
-    static let verticalMargin: CGFloat = 10.0
+    static let verticalMargin: CGFloat = 15.0
     static let interItemMargin: CGFloat = 10.0
     static let imageSize: CGFloat = 38.0
     static let doubleImageSize: CGFloat = 48.0
-    static let imageMargin: CGFloat = 6.0
+    static let imageMargin: CGFloat = 10.0
     static let doubleImageMargin: CGFloat = 16.0
     static let largeVerticalMargin: CGFloat = 22.0
 
@@ -153,5 +155,9 @@ extension BasicTableViewCell: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.actionDelegate?.didFinishTitleInput(self, text: textField.text)
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return actionDelegate?.titleShouldChangeCharactersInRange(self, text: textField.text, shouldChangeCharactersIn: range, replacementString: string) ?? true
     }
 }

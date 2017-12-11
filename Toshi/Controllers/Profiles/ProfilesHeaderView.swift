@@ -49,7 +49,7 @@ final class ProfilesHeaderView: UIView {
                 addGroupHeader.edgesToSuperview(excluding: .top)
                 addGroupHeader.height(groupHeaderHeight)
             }
-        case .newGroupChat:
+        case .newGroupChat, .updateGroupChat:
             let addedToGroupHeader = ProfilesAddedToGroupHeader(margin: 16)
             addSubview(addedToGroupHeader)
             addedHeader = addedToGroupHeader

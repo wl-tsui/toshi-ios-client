@@ -87,9 +87,10 @@ class RecentViewController: SweetTableController, Emptiable {
         tableView.delegate = self
         tableView.register(ChatCell.self)
         tableView.tableFooterView = UIView(frame: .zero)
-
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
+
+        emptyView.isHidden = true
     }
 
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
@@ -111,7 +112,8 @@ class RecentViewController: SweetTableController, Emptiable {
     }
     
     @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
-        let profilesViewController = ProfilesNavigationController(rootViewController: ProfilesViewController(type: .newChat))
+        let datasource = ProfilesDataSource(type: .newChat)
+        let profilesViewController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource, output: self))
         Navigator.presentModally(profilesViewController)
     }
 
@@ -149,20 +151,12 @@ class RecentViewController: SweetTableController, Emptiable {
         guard isDatabaseChanged else { return }
 
         if let insertedRow = yapDatabaseChanges.rowChanges.first(where: { $0.type == .insert }) {
-
             if let newIndexPath = insertedRow.newIndexPath {
-                if let thread = self.thread(at: newIndexPath) {
-
-                    if let contactIdentifier = thread.contactIdentifier() {
-                        IDAPIClient.shared.updateContact(with: contactIdentifier)
-                    }
-
-                    if thread.isGroupThread() && ProfileManager.shared().isThread(inProfileWhitelist: thread) == false {
-                        ProfileManager.shared().addThread(toProfileWhitelist: thread)
-
-                        (thread as? TSGroupThread)?.groupModel.groupMemberIds.forEach { AvatarManager.shared.downloadAvatar(for: $0) }
-                    }
-                }
+                processNewThread(at: newIndexPath)
+            }
+        } else if let updatedRow = yapDatabaseChanges.rowChanges.first(where: { $0.type == .update }) {
+            if let indexPath = updatedRow.indexPath {
+                processUpdateThread(at: indexPath)
             }
         }
 
@@ -201,6 +195,44 @@ class RecentViewController: SweetTableController, Emptiable {
         }
 
         showEmptyStateIfNeeded()
+    }
+
+    private func processNewThread(at indexPath: IndexPath) {
+        if let thread = self.thread(at: indexPath) {
+
+            if let contactIdentifier = thread.contactIdentifier() {
+                IDAPIClient.shared.updateContact(with: contactIdentifier)
+            }
+
+            if thread.isGroupThread() && ProfileManager.shared().isThread(inProfileWhitelist: thread) == false {
+                ProfileManager.shared().addThread(toProfileWhitelist: thread)
+
+                (thread as? TSGroupThread)?.groupModel.groupMemberIds.forEach { memberId in
+
+                    idAPIClient.updateContact(with: memberId)
+                    AvatarManager.shared.downloadAvatar(for: memberId)
+                }
+            }
+        }
+    }
+
+    private func processUpdateThread(at indexPath: IndexPath) {
+        if let thread = self.thread(at: indexPath) {
+
+            if let topChatViewController = Navigator.topViewController as? ChatViewController {
+                topChatViewController.updateThread(thread)
+            }
+
+            if thread.isGroupThread() && ProfileManager.shared().isThread(inProfileWhitelist: thread) == false {
+                ProfileManager.shared().addThread(toProfileWhitelist: thread)
+
+                (thread as? TSGroupThread)?.groupModel.groupMemberIds.forEach { memberId in
+
+                    idAPIClient.updateContact(with: memberId)
+                    AvatarManager.shared.downloadAvatar(for: memberId)
+                }
+            }
+        }
     }
 
     private func showEmptyStateIfNeeded() {
@@ -266,6 +298,22 @@ class RecentViewController: SweetTableController, Emptiable {
         }
 
         return thread
+    }
+}
+
+extension RecentViewController: ProfilesListCompletionOutput {
+
+    func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String]) {
+        controller.dismiss(animated: true, completion: nil)
+
+        guard let selectedProfileAddress = selectedProfilesIds.first else { return }
+
+        ChatInteractor.getOrCreateThread(for: selectedProfileAddress)
+
+        DispatchQueue.main.async {
+            Navigator.tabbarController?.displayMessage(forAddress: selectedProfileAddress)
+            self.dismiss(animated: true)
+        }
     }
 }
 

@@ -229,6 +229,7 @@
 "profiles_navigation_title_favorites" = "Favorites";
 "profiles_navigation_title_new_chat" = "New Chat";
 "profiles_navigation_title_new_group_chat" = "New Group Chat";
+"profiles_navigation_title_update_group_chat" = "Update group";
 "profiles_add_to_group_prefix" = "To: ";
 "profiles_empty_group_placeholder" = "(Add Contacts)";
 
@@ -253,6 +254,18 @@
 "transaction_skeleton_error_description" = "Unable to estimate Ethereum network fees";
 
 "error_title" = "Error";
+
+/* Group chat */
+"new_group_title" = "New Group";
+"group_info_title" = "Group Info";
+"create_group_button_title" = "Create";
+"update_group_button_title" = "Update";
+"new_group_settings_header_title" = "Group settings";
+"new_group_add_participants_action_title" = "Add Participants";
+"group_participants_header_title" = "%d Participants";
+"new_group_public_settings_title" = "Public";
+"new_group_notifications_settings_title" = "Notifications";
+
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
 

@@ -21,6 +21,7 @@ public enum ProfilesViewControllerType {
     case favorites
     case newChat
     case newGroupChat
+    case updateGroupChat
     
     var title: String {
         switch self {
@@ -30,8 +31,14 @@ public enum ProfilesViewControllerType {
             return Localized("profiles_navigation_title_new_chat")
         case .newGroupChat:
             return Localized("profiles_navigation_title_new_group_chat")
+        case .updateGroupChat:
+            return Localized("profiles_navigation_title_update_group_chat")
         }
     }
+}
+
+protocol ProfilesListCompletionOutput: class {
+    func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String])
 }
 
 // MARK: - Profiles View Controller
@@ -39,40 +46,22 @@ public enum ProfilesViewControllerType {
 final class ProfilesViewController: UITableViewController, Emptiable {
     
     let type: ProfilesViewControllerType
-    
+
     var scrollViewBottomInset: CGFloat = 0
+    private(set) weak var output: ProfilesListCompletionOutput?
+
     let emptyView = EmptyView(title: Localized("favorites_empty_title"), description: Localized("favorites_empty_description"), buttonTitle: Localized("invite_friends_action_title"))
     
     var scrollView: UIScrollView {
         return tableView
     }
-    
-    private var filtering: YapDatabaseViewFiltering {
-        let searchText = searchController.searchBar.text?.lowercased() ?? ""
-        let filteringBlock: YapDatabaseViewFilteringWithObjectBlock = { transaction, group, colelction, key, object in
-            guard searchText.length > 0 else { return true }
-            guard let data = object as? Data, let deserialised = (try? JSONSerialization.jsonObject(with: data, options: [])), var json = deserialised as? [String: Any], let username = json[TokenUser.Constants.username] as? String else { return false }
-            
-            return username.lowercased().contains(searchText)
-        }
-        
-        return YapDatabaseViewFiltering.withObjectBlock(filteringBlock)
-    }
-    
+
     // MARK: - Lazy Vars
     
     private lazy var cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel(_:)))
     private lazy var doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone(_:)))
     private lazy var addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd(_:)))
-    private lazy var filteredView = YapDatabaseFilteredView(parentViewName: TokenUser.viewExtensionName, filtering: filtering)
-    
-    private lazy var databaseConnection: YapDatabaseConnection = {
-        let database = Yap.sharedInstance.database
-        let dbConnection = database!.newConnection()
-        
-        return dbConnection
-    }()
-    
+
     private lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchResultsUpdater = self
@@ -97,24 +86,27 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         
         return controller
     }()
+
+    private var isMultipleSelectionMode: Bool {
+        return type == .newGroupChat || type == .updateGroupChat
+    }
     
-    lazy var dataSource: ProfilesDataSource = {
-        let dataSource = ProfilesDataSource(tableView: tableView, type: type, selectionDelegate: self)
-        
-        return dataSource
-    }()
+    private(set) var dataSource: ProfilesDataSource
     
     // MARK: - Initialization
     
-    required public init(type: ProfilesViewControllerType) {
-        self.type = type
+    required public init(datasource: ProfilesDataSource, output: ProfilesListCompletionOutput? = nil) {
+
+        self.dataSource = datasource
+
+        self.type = datasource.type
+
         super.init(nibName: nil, bundle: nil)
+
+        self.dataSource.changesOutput = self
         
         title = type.title
-        
-        setupForCurrentUserNotifications()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
+        self.output = output
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -130,16 +122,28 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         setupNavigationBarButtons()
 
         definesPresentationContext = true
+
+        tableView.estimatedRowHeight = 80
+        tableView.backgroundColor = Theme.viewBackgroundColor
+        tableView.separatorStyle = .none
+
+        tableView.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.reuseIdentifier)
         
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         appearance.setTitleColor(Theme.greyTextColor, for: .normal)
         
-        setupEmptyView()
+        updateHeaderWithSelections()
+
         displayContacts()
+        setupEmptyView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        if dataSource.type == .favorites {
+            dataSource.excludedProfilesIds = []
+        }
         
         preferLargeTitleIfPossible(true)
         showOrHideEmptyState()
@@ -158,6 +162,79 @@ final class ProfilesViewController: UITableViewController, Emptiable {
             view.clipsToBounds = false
         }
         searchController.searchBar.superview?.clipsToBounds = false
+    }
+
+    public override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch type {
+        case .favorites,
+             .newChat:
+            guard let profile = dataSource.profile(at: indexPath) else { return }
+            didSelectProfile(profile: profile)
+        case .newGroupChat, .updateGroupChat:
+            dataSource.updateSelection(at: indexPath)
+            updateHeaderWithSelections()
+            reloadData()
+            navigationItem.rightBarButtonItem?.isEnabled = dataSource.rightBarButtonEnabled()
+        }
+    }
+
+    public override func numberOfSections(in tableView: UITableView) -> Int {
+        return dataSource.numberOfSections()
+    }
+
+    public override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSource.numberOfItems(in: section)
+    }
+
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier, for: indexPath) as? ProfileCell else {
+            assertionFailure("This is not a profile cell!")
+            return UITableViewCell()
+        }
+
+        guard let profile = dataSource.profile(at: indexPath) else {
+            assertionFailure("Could not get profile at indexPath: \(indexPath)")
+            return cell
+        }
+
+        cell.avatarPath = profile.avatarPath
+        cell.name = profile.name
+        cell.displayUsername = profile.displayUsername
+
+        if isMultipleSelectionMode {
+            cell.selectionStyle = .none
+            cell.isCheckmarkShowing = true
+            cell.isCheckmarkChecked = dataSource.isProfileSelected(profile)
+        }
+
+        return cell
+    }
+
+    private var isMultipleSelectionSetup: Bool {
+        return type == .newGroupChat || type == .updateGroupChat
+    }
+
+    private func updateHeaderWithSelections() {
+        guard isMultipleSelectionSetup else { return }
+        guard
+            let header = tableView?.tableHeaderView as? ProfilesHeaderView,
+            let selectedProfilesView = header.addedHeader else {
+                assertionFailure("Couldn't access header!")
+                return
+        }
+
+        selectedProfilesView.updateDisplay(with: dataSource.selectedProfiles)
+    }
+
+    private func didSelectProfile(profile: TokenUser) {
+        searchController.searchBar.resignFirstResponder()
+
+        if type == .newChat {
+            output?.didFinish(self, selectedProfilesIds: [profile.address])
+        } else {
+            navigationController?.pushViewController(ProfileViewController(profile: profile), animated: true)
+            UserDefaultsWrapper.selectedContact = profile.address
+        }
     }
     
     // MARK: - View Setup
@@ -186,78 +263,15 @@ final class ProfilesViewController: UITableViewController, Emptiable {
             navigationItem.leftBarButtonItem = cancelButton
         case .favorites:
             navigationItem.rightBarButtonItem = addButton
-        case .newGroupChat:
+        case .newGroupChat, .updateGroupChat:
             navigationItem.rightBarButtonItem = doneButton
             doneButton.isEnabled = false
         }
     }
-    
-    // MARK: - Notification setup
-    
-    @objc private func userCreated(_ notification: Notification) {
-        DispatchQueue.main.async {
-            self.setupForCurrentUserNotifications()
-        }
-    }
-    
-    private func setupForCurrentUserNotifications() {
-        guard TokenUser.current != nil else { return }
-        
-        registerTokenContactsDatabaseView()
-        
-        dataSource.databaseConnection.asyncRead { [weak self] transaction in
-            self?.dataSource.mappings.update(with: transaction)
-        }
-    }
 
-    // MARK: - Database handling
-    
-    private func contactSorting() -> YapDatabaseViewSorting {
-        let viewSorting = YapDatabaseViewSorting.withObjectBlock { (_, _, _, _, object1, _, _, object2) -> ComparisonResult in
-            if let data1 = object1 as? Data, let data2 = object2 as? Data,
-                let contact1 = TokenUser.user(with: data1),
-                let contact2 = TokenUser.user(with: data2) {
-                
-                return contact1.username.compare(contact2.username)
-            }
-            
-            return .orderedAscending
-        }
-        
-        return viewSorting
-    }
-    
-    @discardableResult
-    private func registerTokenContactsDatabaseView() -> Bool {
-        guard let database = Yap.sharedInstance.database else { fatalError("couldn't instantiate the database") }
-        // Check if it's already registered.
-        guard database.registeredExtension(TokenUser.viewExtensionName) == nil else { return true }
-        
-        let viewGrouping = YapDatabaseViewGrouping.withObjectBlock { (_, _, _, object) -> String? in
-            if (object as? Data) != nil {
-                return TokenUser.favoritesCollectionKey
-            }
-            
-            return nil
-        }
-        
-        let viewSorting = contactSorting()
-        
-        let options = YapDatabaseViewOptions()
-        options.allowedCollections = YapWhitelistBlacklist(whitelist: Set([TokenUser.favoritesCollectionKey]))
-        
-        let databaseView = YapDatabaseAutoView(grouping: viewGrouping, sorting: viewSorting, versionTag: "1", options: options)
-        
-        let mainViewIsRegistered: Bool = database.register(databaseView, withName: TokenUser.viewExtensionName)
-        let filteredViewIsRegistered = database.register(filteredView, withName: ProfilesDataSource.filteredProfilesKey)
-        
-        return mainViewIsRegistered && filteredViewIsRegistered
-    }
-    
     private func displayContacts() {
-        dataSource.reloadData { [weak self] in
-            self?.showOrHideEmptyState()
-        }
+        reloadData()
+        showOrHideEmptyState()
     }
     
     // MARK: - Action Handling
@@ -302,53 +316,36 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     }
     
     @objc private func didTapDone(_ button: UIBarButtonItem) {
-        guard type == .newGroupChat else {
-            assertionFailure("Done button is only set up to handle creating a new group!")
-            
-            return
-        }
-        
         guard dataSource.selectedProfiles.count > 0 else {
             assertionFailure("No selected profiles?!")
-            
+
             return
         }
-        
-        //TODO: Push to group chat settings screen
-        let usernames = dataSource.selectedProfiles.map { $0.name }.joined(separator: "\n")
-        let alert = UIAlertController(title: "Coming soon!", message: "Group chat is under development. Soon you can talk to:\n\(usernames)", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(ok)
-        self.present(alert, animated: true)
-    }
-}
 
-// MARK: - Profile Selection Delegate
+        let membersIdsArray = dataSource.selectedProfiles.sorted { $0.username < $1.username }.map { $0.address }
 
-extension ProfilesViewController: ProfileSelectionDelegate {
-    
-    func didSelectProfile(profile: TokenUser) {
-        searchController.searchBar.resignFirstResponder()
-        
-        if type == .newChat {
-            ChatInteractor.getOrCreateThread(for: profile.address)
-            
-            DispatchQueue.main.async {
-                Navigator.tabbarController?.displayMessage(forAddress: profile.address)
-                self.dismiss(animated: true)
-            }
-        } else {
-            navigationController?.pushViewController(ProfileViewController(profile: profile), animated: true)
-            UserDefaultsWrapper.selectedContact = profile.address
+        if type == .updateGroupChat {
+            navigationController?.popViewController(animated: true)
+            output?.didFinish(self, selectedProfilesIds: membersIdsArray)
+        } else if type == .newGroupChat {
+            guard let groupModel = TSGroupModel(title: "", memberIds: NSMutableArray(array: membersIdsArray), image: UIImage(named: "avatar-edit"), groupId: nil) else { return }
+
+            let viewModel = NewGroupViewModel(groupModel)
+            let groupViewController = GroupViewController(viewModel, configurator: NewGroupConfigurator())
+            navigationController?.pushViewController(groupViewController, animated: true)
         }
     }
 
-    func selectedProfileCountUpdated(to count: Int) {
-        // Groups must consist of at least two other members
-        if count > 1 {
-            doneButton.isEnabled = true
+    // MARK: - Table View Reloading
+
+    func reloadData() {
+        if #available(iOS 11.0, *) {
+            // Must perform batch updates on iOS 11 or you'll get super-wonky layout because of the headers.
+            tableView?.performBatchUpdates({
+                self.tableView?.reloadData()
+            }, completion: nil)
         } else {
-            doneButton.isEnabled = false
+            tableView?.reloadData()
         }
     }
 }
@@ -371,14 +368,8 @@ extension ProfilesViewController: UISearchBarDelegate {
 extension ProfilesViewController: UISearchResultsUpdating {
     
     public func updateSearchResults(for searchController: UISearchController) {
-        
-        databaseConnection.readWrite { [weak self] transaction in
-            guard let strongSelf = self else { return }
-            guard let filterTransaction = transaction.ext(ProfilesDataSource.filteredProfilesKey) as? YapDatabaseFilteredViewTransaction else { return }
-            
-            let tag = Date().timeIntervalSinceReferenceDate
-            filterTransaction.setFiltering(strongSelf.filtering, versionTag: String(describing: tag))
-        }
+
+        self.dataSource.searchText = searchController.searchBar.text ?? ""
     }
 }
 
@@ -387,7 +378,41 @@ extension ProfilesViewController: UISearchResultsUpdating {
 extension ProfilesViewController: ProfilesAddGroupHeaderDelegate {
     
     func newGroup() {
-        let groupChatSelection = ProfilesViewController(type: .newGroupChat)
+        let datasource = ProfilesDataSource(type: .newGroupChat)
+        let groupChatSelection = ProfilesViewController(datasource: datasource)
         navigationController?.pushViewController(groupChatSelection, animated: true)
+    }
+}
+
+extension ProfilesViewController: ProfilesDatasourceChangesOutput {
+
+    func datasourceDidChange(_ datasource: ProfilesDataSource, yapDatabaseChanges: [YapDatabaseViewRowChange]) {
+
+        if navigationController?.topViewController == self && tabBarController?.selectedViewController == navigationController {
+            tableView?.beginUpdates()
+
+            for rowChange in yapDatabaseChanges {
+
+                switch rowChange.type {
+                case .delete:
+                    guard let indexPath = rowChange.indexPath else { continue }
+                    tableView?.deleteRows(at: [indexPath], with: .none)
+                case .insert:
+                    guard let newIndexPath = rowChange.newIndexPath else { continue }
+                    tableView?.insertRows(at: [newIndexPath], with: .none)
+                case .move:
+                    guard let newIndexPath = rowChange.newIndexPath, let indexPath = rowChange.indexPath else { continue }
+                    tableView?.deleteRows(at: [indexPath], with: .none)
+                    tableView?.insertRows(at: [newIndexPath], with: .none)
+                case .update:
+                    guard let indexPath = rowChange.indexPath else { continue }
+                    tableView?.reloadRows(at: [indexPath], with: .none)
+                }
+            }
+
+            tableView?.endUpdates()
+        } else {
+            tableView.reloadData()
+        }
     }
 }
