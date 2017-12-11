@@ -35,9 +35,9 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         }
     }
 
-    private var keyboardScreenPositionOffset: CGFloat = 0 {
+    private var heightOfKeyboard: CGFloat = 0 {
         didSet {
-            if isVisible, keyboardScreenPositionOffset != oldValue {
+            if isVisible, heightOfKeyboard != oldValue {
                 updateContentInset()
                 updateConstraints()
             }
@@ -132,8 +132,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         let topInset = ChatFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
         
         // The table view is inverted 180 degrees
-        tableView.contentInset = UIEdgeInsets(top: buttonsView.frame.height + 10, left: 0, bottom: topInset + 2 + 10, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: buttonsView.frame.height, left: 0, bottom: topInset + 2, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: topInset + 2 + 10, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: topInset + 2, right: 0)
     }
     
     override func viewDidLoad() {
@@ -192,7 +192,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         super.viewWillDisappear(animated)
 
         isVisible = false
-        keyboardScreenPositionOffset = 0
+        heightOfKeyboard = 0
 
         viewModel.saveDraftIfNeeded(inputViewText: textInputView.text)
 
@@ -228,27 +228,16 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         tableView.right(to: view)
 
         textInputView.left(to: view)
-        if #available(iOS 11.0, *) {
-            textInputViewBottomConstraint = textInputView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-            textInputViewBottomConstraint?.isActive = true
-        } else {
-            textInputViewBottomConstraint = textInputView.bottom(to: view)
-        }
+        textInputViewBottomConstraint = textInputView.bottom(to: layoutGuide())
         textInputView.right(to: view)
         textInputViewHeightConstraint = textInputView.height(ChatInputTextPanel.defaultHeight)
         
-        buttonsView.bottom(to: tableView)
+        buttonsView.topToBottom(of: tableView)
         buttonsView.leadingToSuperview()
         buttonsView.bottomToTop(of: textInputView)
         buttonsView.trailingToSuperview()
 
-        let anchor: NSLayoutYAxisAnchor
-        if #available(iOS 11.0, *) {
-            anchor = self.view.safeAreaLayoutGuide.topAnchor
-        } else {
-            anchor = topLayoutGuide.bottomAnchor
-        }
-        ethereumPromptView.topAnchor.constraint(equalTo: anchor).isActive = true // .top(to: view, offset: 64)
+        ethereumPromptView.top(to: layoutGuide())
         ethereumPromptView.left(to: view)
         ethereumPromptView.right(to: view)
         ethereumPromptView.height(ChatFloatingHeaderView.height)
@@ -264,8 +253,11 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     private func updateConstraints() {
-        textInputViewBottomConstraint?.constant = keyboardScreenPositionOffset
+        textInputViewBottomConstraint?.constant = heightOfKeyboard < -textInputHeight ? heightOfKeyboard + textInputHeight + ChatButtonsView.height : 0
         textInputViewHeightConstraint?.constant = textInputHeight
+
+        keyboardAwareInputView.height = ChatButtonsView.height + textInputHeight
+        keyboardAwareInputView.invalidateIntrinsicContentSize()
 
         view.layoutIfNeeded()
     }
@@ -302,9 +294,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     private func adjustToLastMessage() {
         let buttonsMessage = viewModel.messages.flatMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
         buttonsView.buttons = buttonsMessage?.buttons
-
-        view.layoutIfNeeded()
-        updateContentInset()
     }
 
     private func scrollToBottom(animated: Bool = true) {
@@ -829,7 +818,7 @@ extension ChatViewController: UIViewControllerTransitioningDelegate {
 
 extension ChatViewController: KeyboardAwareAccessoryViewDelegate {
     func inputView(_: KeyboardAwareInputAccessoryView, shouldUpdatePosition keyboardOriginYDistance: CGFloat) {
-        keyboardScreenPositionOffset = keyboardOriginYDistance
+        heightOfKeyboard = keyboardOriginYDistance
     }
 
     override var inputAccessoryView: UIView? {
