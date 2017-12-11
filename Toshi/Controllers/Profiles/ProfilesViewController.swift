@@ -142,6 +142,7 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         super.viewWillAppear(animated)
         
         preferLargeTitleIfPossible(true)
+        showOrHideEmptyState()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -123,7 +123,8 @@ class ProfilesDataSource: NSObject {
         guard isDatabaseChanged else { return }
         
         guard tableView?.superview != nil else {
-            // The tableview hasn't been set up yet, and this will crash.
+            // The table view is not being displayed, we can do a full reload instead.
+            tableView?.reloadData()
             
             return
         }
@@ -165,10 +166,7 @@ extension ProfilesDataSource: UITableViewDataSource {
     }
     
     open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier, for: indexPath) as? ProfileCell else {
-            assertionFailure("This is not a profile cell!")
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeue(ProfileCell.self, for: indexPath)
         
         guard let rowProfile = profile(at: indexPath) else {
             assertionFailure("Could not get profile at indexPath: \(indexPath)")
