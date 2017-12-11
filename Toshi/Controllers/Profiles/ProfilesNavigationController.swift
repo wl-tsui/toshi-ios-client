@@ -27,7 +27,7 @@ final class ProfilesNavigationController: UINavigationController {
         if let rootViewController = rootViewController as? ProfilesViewController, let address = UserDefaultsWrapper.selectedContact, rootViewController.type != .newChat {
             super.init(nibName: nil, bundle: nil)
             
-            rootViewController.dataSource.databaseConnection.read { [weak self] transaction in
+            rootViewController.dataSource.uiDatabaseConnection.read { [weak self] transaction in
                 if let data = transaction.object(forKey: address, inCollection: TokenUser.favoritesCollectionKey) as? Data, let user = TokenUser.user(with: data) {
                     self?.viewControllers = [rootViewController, ProfileViewController(profile: user)]
                     self?.configureTabBarItem()

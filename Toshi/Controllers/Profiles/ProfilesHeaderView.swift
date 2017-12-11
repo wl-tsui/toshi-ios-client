@@ -45,7 +45,7 @@ final class ProfilesHeaderView: UIView {
                 addSearchBar(searchBar, bottomPinnedTo: addGroupHeader)
                 addGroupHeader.edgesToSuperview(excluding: .top)
             }
-        case .newGroupChat:
+        case .newGroupChat, .updateGroupChat:
             let addedToGroupHeader = ProfilesAddedToGroupHeader(margin: 16)
             addSubview(addedToGroupHeader)
             addedHeader = addedToGroupHeader

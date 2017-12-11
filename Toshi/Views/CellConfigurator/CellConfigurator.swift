@@ -30,7 +30,7 @@ class CellConfigurator {
             cell.subtitleLabel.text = cellData.subtitle
         }
         if cellData.components.contains(.switchControl) {
-            cell.switchControl.isOn = cellData.switchState == true
+            cell.switchControl.isOn = (cellData.switchState == true)
         }
         if cellData.components.contains(.details) {
             cell.detailsLabel.text = cellData.details

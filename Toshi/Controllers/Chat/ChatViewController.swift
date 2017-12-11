@@ -20,7 +20,7 @@ import AVFoundation
 
 final class ChatViewController: UIViewController, UINavigationControllerDelegate {
     
-    let thread: TSThread
+    var thread: TSThread
     
     private var isVisible: Bool = false
     private lazy var viewModel = ChatViewModel(output: self, thread: self.thread)
@@ -51,7 +51,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         avatar.set(width: 34.0)
         avatar.isUserInteractionEnabled = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showContactProfile))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showThreadOrRecipientDetails))
         avatar.addGestureRecognizer(tap)
 
         return avatar
@@ -119,6 +119,13 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func updateThread(_ thread: TSThread) {
+        self.thread = thread
+
+        title = thread.name()
+        updateChatAvatar()
+    }
     
     func updateContentInset() {
         let activeNetworkViewHeight = activeNetworkView.heightConstraint?.constant ?? 0
@@ -157,6 +164,15 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         tabBarController?.tabBar.isHidden = true
 
+        updateChatAvatar()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
+
+        updateContentInset()
+        updateBalance()
+    }
+
+    private func updateChatAvatar() {
         if let avatarPath = viewModel.contact?.avatarPath {
             AvatarManager.shared.avatar(for: avatarPath, completion: { [weak self] image, _ in
                 self?.avatarImageView.image = image
@@ -164,11 +180,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         } else if thread.isGroupThread() {
             avatarImageView.image = (thread as? TSGroupThread)?.groupModel.groupImage
         }
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
-
-        updateContentInset()
-        updateBalance()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -259,8 +270,15 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         view.layoutIfNeeded()
     }
 
-    @objc private func showContactProfile(_ sender: UITapGestureRecognizer) {
-        if let contact = self.viewModel.contact, sender.state == .ended {
+    @objc fileprivate func showThreadOrRecipientDetails(_ sender: UITapGestureRecognizer) {
+
+        if let groupThread = thread as? TSGroupThread {
+            let groupModel = groupThread.groupModel
+            let viewModel = GroupInfoViewModel(groupModel)
+
+            let groupViewController = GroupViewController(viewModel, configurator: GroupInfoConfigurator())
+            Navigator.push(groupViewController)
+        } else if let contact = self.viewModel.contact, sender.state == .ended {
             let contactController = ProfileViewController(profile: contact)
             navigationController?.pushViewController(contactController, animated: true)
         }
