@@ -18,6 +18,7 @@ import UIKit
 import TinyConstraints
 
 protocol BasicCellActionDelegate: class {
+
     func didChangeSwitchState(_ cell: BasicTableViewCell, _ state: Bool)
     func didTapLeftImage(_ cell: BasicTableViewCell)
     func didFinishTitleInput(_ cell: BasicTableViewCell, text: String?)
@@ -42,7 +43,7 @@ class BasicTableViewCell: UITableViewCell {
     static let doubleImageMargin: CGFloat = 16.0
     static let largeVerticalMargin: CGFloat = 22.0
 
-    var actionDelegate: BasicCellActionDelegate?
+    weak var actionDelegate: BasicCellActionDelegate?
 
     lazy var titleTextField: UITextField = {
         let titleTextField = UITextField()

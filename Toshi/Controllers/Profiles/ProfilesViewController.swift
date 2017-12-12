@@ -117,6 +117,8 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.register(ProfileCell.self)
 
         setupTableHeader()
         setupNavigationBarButtons()
@@ -127,8 +129,6 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         tableView.backgroundColor = Theme.viewBackgroundColor
         tableView.separatorStyle = .none
 
-        tableView.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.reuseIdentifier)
-        
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         appearance.setTitleColor(Theme.greyTextColor, for: .normal)
         
@@ -142,6 +142,7 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         super.viewWillAppear(animated)
         
         preferLargeTitleIfPossible(true)
+        showOrHideEmptyState()
 
         guard dataSource.type == .updateGroupChat else { return }
         dataSource.excludedProfilesIds = []
@@ -185,11 +186,8 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     }
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier, for: indexPath) as? ProfileCell else {
-            assertionFailure("This is not a profile cell!")
-            return UITableViewCell()
-        }
-
+        let cell = tableView.dequeue(ProfileCell.self, for: indexPath)
+        
         guard let profile = dataSource.profile(at: indexPath) else {
             assertionFailure("Could not get profile at indexPath: \(indexPath)")
             return cell
@@ -254,7 +252,7 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     private func setupEmptyView() {
         view.addSubview(emptyView)
         emptyView.actionButton.addTarget(self, action: #selector(emptyViewButtonPressed(_:)), for: .touchUpInside)
-        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: tableView.tableHeaderView?.frame.height ?? 0, left: 0, bottom: 0, right: 0))
+        emptyView.edges(to: layoutGuide())
         showOrHideEmptyState()
     }
     
@@ -283,7 +281,9 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     }
     
     private func showOrHideEmptyState() {
-        emptyView.isHidden = (searchController.isActive || !dataSource.isEmpty)
+        let emptyViewHidden = (searchController.isActive || !dataSource.isEmpty)
+        emptyView.isHidden = emptyViewHidden
+        tableView.tableHeaderView?.isHidden = !emptyViewHidden
     }
     
     @objc private func didTapCancel(_ button: UIBarButtonItem) {
