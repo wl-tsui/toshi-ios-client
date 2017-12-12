@@ -250,7 +250,7 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     private func setupEmptyView() {
         view.addSubview(emptyView)
         emptyView.actionButton.addTarget(self, action: #selector(emptyViewButtonPressed(_:)), for: .touchUpInside)
-        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: tableView.tableHeaderView?.frame.height ?? 0, left: 0, bottom: 0, right: 0))
+        emptyView.edges(to: layoutGuide())
         showOrHideEmptyState()
     }
     
