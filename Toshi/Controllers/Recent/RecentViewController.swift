@@ -333,10 +333,7 @@ extension RecentViewController: UITableViewDelegate {
     func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
             if let thread = self.thread(at: indexPath) {
-
-                TSStorageManager.shared().dbReadWriteConnection?.asyncReadWrite { transaction in
-                    thread.remove(with: transaction)
-                }
+                ChatInteractor.deleteThread(thread)
             }
         }
 

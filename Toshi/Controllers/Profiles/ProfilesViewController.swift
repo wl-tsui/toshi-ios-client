@@ -140,12 +140,11 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        if dataSource.type == .favorites {
-            dataSource.excludedProfilesIds = []
-        }
         
         preferLargeTitleIfPossible(true)
+
+        guard dataSource.type == .updateGroupChat else { return }
+        dataSource.excludedProfilesIds = []
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -245,7 +244,10 @@ final class ProfilesViewController: UITableViewController, Emptiable {
             tableView.tableHeaderView = ProfilesHeaderView(type: type, delegate: self)
         } else {
             tableView.tableHeaderView = ProfilesHeaderView(with: searchController.searchBar, type: type, delegate: self)
-            tableView.layoutIfNeeded()
+
+            if Navigator.topViewController == self {
+                tableView.layoutIfNeeded()
+            }
         }
     }
     
