@@ -112,9 +112,9 @@ class RecentViewController: SweetTableController, Emptiable {
     }
     
     @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
-        let datasource = ProfilesDataSource(type: .newChat)
-        let profilesViewController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource, output: self))
-        Navigator.presentModally(profilesViewController)
+        let profilesViewController = ProfilesViewController(type: .newChat, delegate: self)
+        let navController = ProfilesNavigationController(rootViewController: profilesViewController)
+        Navigator.presentModally(navController)
     }
 
     private func addSubviewsAndConstraints() {
@@ -301,15 +301,14 @@ class RecentViewController: SweetTableController, Emptiable {
     }
 }
 
-extension RecentViewController: ProfilesListCompletionOutput {
+extension RecentViewController: ProfileListDelegate {
 
-    func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String]) {
-        controller.dismiss(animated: true, completion: nil)
-
-        guard let selectedProfileAddress = selectedProfilesIds.first else { return }
-
+    func viewController(_ viewController: ProfilesViewController, selected profile: TokenUser) {
+        viewController.dismiss(animated: true, completion: nil)
+        
+        let selectedProfileAddress = profile.address
         ChatInteractor.getOrCreateThread(for: selectedProfileAddress)
-
+        
         DispatchQueue.main.async {
             Navigator.tabbarController?.displayMessage(forAddress: selectedProfileAddress)
             self.dismiss(animated: true)

@@ -16,12 +16,39 @@
 import TinyConstraints
 import UIKit
 
+protocol SelectProfilesViewControllerDelegate: class {
+    
+    func viewController(_ viewController: SelectProfilesViewController, didSelect profileIds: [String])
+}
+
 // A view controller to allow selection of an arbitrary number of profiles.
 class SelectProfilesViewController: UIViewController {
     
     var selectedProfiles = [TokenUser]() {
         didSet {
-            updateCollectionAndTableViews()
+            updateUIFromSelectedProfiles()
+        }
+    }
+    
+    enum SelectionType {
+        case
+        newGroupChat,
+        updateGroupChat
+        
+        var title: String {
+            switch self {
+            case .newGroupChat:
+                return Localized("profiles_navigation_title_new_group_chat")
+            case .updateGroupChat:
+                return Localized("profiles_navigation_title_update_group_chat")
+            }
+        }
+    }
+    
+    weak var delegate: SelectProfilesViewControllerDelegate?
+    var type: SelectionType = .newGroupChat {
+        didSet {
+            title = type.title
         }
     }
     
@@ -47,10 +74,10 @@ class SelectProfilesViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var tableViewDataSource = SelectProfilesTableViewDataSource(with: tableView, selectionDelegate: self)
+    private(set) lazy var tableViewDataSource = SelectProfilesTableViewDataSource(with: tableView, selectionDelegate: self)
 
     private lazy var doneButton: UIBarButtonItem = {
-        let barButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
+        let barButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone(_:)))
         return barButton
     }()
     
@@ -58,6 +85,8 @@ class SelectProfilesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = type.title
         
         setupCollectionView()
         setupTableView()
@@ -88,15 +117,39 @@ class SelectProfilesViewController: UIViewController {
     
     // MARK: - Updating
     
-    private func updateCollectionAndTableViews() {
+    private func updateUIFromSelectedProfiles() {
         tableViewDataSource.update(with: selectedProfiles)
         collectionViewDataSource.update(with: selectedProfiles)
+        
+        doneButton.isEnabled = rightBarButtonEnabled()
     }
     
     // MARK: - Action targets
     
-    @objc private func doneButtonTapped() {
-        DLog("Done!")
+    @objc private func didTapDone(_ button: UIBarButtonItem) {
+        guard selectedProfiles.count > 0 else {
+            assertionFailure("No selected profiles?!")
+            
+            return
+        }
+        
+        let membersIdsArray = selectedProfiles.sorted { $0.username < $1.username }.map { $0.address }
+        
+        switch type {
+        case .updateGroupChat:
+            navigationController?.popViewController(animated: true)
+            delegate?.viewController(self, didSelect: membersIdsArray)
+        case .newGroupChat:
+            guard let groupModel = TSGroupModel(title: "", memberIds: NSMutableArray(array: membersIdsArray), image: UIImage(named: "avatar-edit"), groupId: nil) else { return }
+            
+            let viewModel = NewGroupViewModel(groupModel)
+            let groupViewController = GroupViewController(viewModel, configurator: NewGroupConfigurator())
+            navigationController?.pushViewController(groupViewController, animated: true)
+        }
+    }
+    
+    func rightBarButtonEnabled() -> Bool {
+        return selectedProfiles.count > 1
     }
 }
 
@@ -120,7 +173,7 @@ extension SelectProfilesViewController: SelectProfilesDelegate {
         }
         
         selectedProfiles.append(profile)
-        updateCollectionAndTableViews()
+        updateUIFromSelectedProfiles()
     }
     
     func deselected(profile: TokenUser) {
@@ -130,6 +183,6 @@ extension SelectProfilesViewController: SelectProfilesDelegate {
         }
         
         selectedProfiles.remove(at: indexToRemove)
-        updateCollectionAndTableViews()
+        updateUIFromSelectedProfiles()
     }
 }

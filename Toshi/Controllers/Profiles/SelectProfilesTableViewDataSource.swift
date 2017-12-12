@@ -30,12 +30,25 @@ class SelectProfilesTableViewDataSource: NSObject {
         case
         selectedProfiles,
         unselectedProfiles
+        
+        var adjustedSection: Int {
+            switch self {
+            case .selectedProfiles:
+                assertionFailure("This should be handled internally, not through adjustments")
+                return 0
+            default:
+                return rawValue - 1
+            }
+        }
     }
     
-    private var selectedProfiles = [TokenUser]()
+    private(set) lazy var dataController = ProfilesDataController()
     
-    // TODO: Replace with something database backed
-    private var unselectedProfiles = [TokenUser]()
+    private var selectedProfiles = [TokenUser]() {
+        didSet {
+            dataController.excludedProfilesIds = selectedProfiles.map { $0.address }
+        }
+    }
     
     private weak var tableView: UITableView?
     private weak var selectionDelegate: SelectProfilesDelegate?
@@ -55,7 +68,14 @@ class SelectProfilesTableViewDataSource: NSObject {
         case .selectedProfiles:
             return selectedProfiles[indexPath.row]
         case .unselectedProfiles:
-            return unselectedProfiles[indexPath.row]
+            let adjustedIndexPath = IndexPath(row: indexPath.row, section: SelectProfilesSection.unselectedProfiles.adjustedSection)
+            guard let profile = dataController.profile(at: adjustedIndexPath) else {
+                let errorNote = "Could not access profile at indexPath: \(indexPath), adjusted: \(adjustedIndexPath)"
+                CrashlyticsLogger.log(errorNote)
+                fatalError(errorNote)
+            }
+            
+            return profile
         }
     }
     
@@ -79,7 +99,7 @@ extension SelectProfilesTableViewDataSource: UITableViewDataSource {
         case .selectedProfiles:
             return selectedProfiles.count
         case .unselectedProfiles:
-            return unselectedProfiles.count
+            return dataController.numberOfItems(in: SelectProfilesSection.unselectedProfiles.adjustedSection)
         }
     }
     
@@ -108,12 +128,12 @@ extension SelectProfilesTableViewDataSource: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let selectionDelegate = selectionDelegate else { return }
         
+        let profile = self.profile(at: indexPath)
+        
         switch SelectProfilesSection.forIndex(indexPath.section) {
         case .selectedProfiles:
-            let profile = selectedProfiles[indexPath.row]
             selectionDelegate.deselected(profile: profile)
         case .unselectedProfiles:
-            let profile = unselectedProfiles[indexPath.row]
             selectionDelegate.selected(profile: profile)
         }
     }

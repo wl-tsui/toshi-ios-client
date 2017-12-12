@@ -49,20 +49,6 @@ final class ProfilesHeaderView: UIView {
                 addGroupHeader.edgesToSuperview(excluding: .top)
                 addGroupHeader.height(groupHeaderHeight)
             }
-        case .newGroupChat, .updateGroupChat:
-            let addedToGroupHeader = ProfilesAddedToGroupHeader(margin: 16)
-            addSubview(addedToGroupHeader)
-            addedHeader = addedToGroupHeader
-            
-            if #available(iOS 11, *) {
-                addedToGroupHeader.edgesToSuperview()
-            } else {
-                let eyeballedFrameHeight: CGFloat = 60
-                frame = CGRect(origin: .zero, size: CGSize(width: (searchBar?.frame.width ?? 0), height: (searchBar?.frame.height ?? 0) + eyeballedFrameHeight))
-                addSearchBar(searchBar)
-                let searchBarHeight = searchBar?.frame.height ?? 0
-                addedToGroupHeader.edgesToSuperview(insets: UIEdgeInsets(top: searchBarHeight, left: 0, bottom: 0, right: 0))
-            }
         }
     }
     

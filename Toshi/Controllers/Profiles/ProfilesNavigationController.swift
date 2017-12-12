@@ -27,11 +27,10 @@ final class ProfilesNavigationController: UINavigationController {
         if let rootViewController = rootViewController as? ProfilesViewController, let address = UserDefaultsWrapper.selectedContact, rootViewController.type != .newChat {
             super.init(nibName: nil, bundle: nil)
             
-            rootViewController.dataSource.uiDatabaseConnection.read { [weak self] transaction in
-                if let data = transaction.object(forKey: address, inCollection: TokenUser.favoritesCollectionKey) as? Data, let user = TokenUser.user(with: data) {
-                    self?.viewControllers = [rootViewController, ProfileViewController(profile: user)]
-                    self?.configureTabBarItem()
-                }
+            rootViewController.dataController.profile(for: address) { [weak self] user in
+                guard let user = user else { return }
+                self?.viewControllers = [rootViewController, ProfileViewController(profile: user)]
+                self?.configureTabBarItem()
             }
         } else {
             super.init(rootViewController: rootViewController)

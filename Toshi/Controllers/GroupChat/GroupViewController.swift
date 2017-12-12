@@ -296,11 +296,9 @@ extension GroupViewController: UITableViewDelegate {
             let selectedUserId = viewModel.participantsIDs[indexPath.row - 1]
             showUserInfo(with: selectedUserId)
         case .addParticipant:
-            let datasource = ProfilesDataSource(type: .updateGroupChat)
-            datasource.excludedProfilesIds = viewModel.participantsIDs
-            let profilesViewController = ProfilesViewController(datasource: datasource, output: self)
-
-            navigationController?.pushViewController(profilesViewController, animated: true)
+            let selectProfilesController = SelectProfilesViewController()
+            selectProfilesController.tableViewDataSource.dataController.excludedProfilesIds = viewModel.participantsIDs
+            navigationController?.pushViewController(selectProfilesController, animated: true)
         case .exitGroup:
             presentExitGroupAlert()
         default:
@@ -321,10 +319,10 @@ extension GroupViewController: UINavigationControllerDelegate {
     }
 }
 
-extension GroupViewController: ProfilesListCompletionOutput {
+extension GroupViewController: SelectProfilesViewControllerDelegate {
 
-    func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String]) {
-        viewModel.updateParticipantsIds(to: selectedProfilesIds)
+    func viewController(_ viewController: SelectProfilesViewController, didSelect profileIds: [String]) {
+        viewModel.updateParticipantsIds(to: profileIds)
     }
 }
 
