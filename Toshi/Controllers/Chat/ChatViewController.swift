@@ -265,8 +265,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     @objc fileprivate func showThreadOrRecipientDetails(_ sender: UITapGestureRecognizer) {
 
         if let groupThread = thread as? TSGroupThread {
-            let groupModel = groupThread.groupModel
-            let viewModel = GroupInfoViewModel(groupModel)
+            let viewModel = GroupInfoViewModel(groupThread)
 
             let groupViewController = GroupViewController(viewModel, configurator: GroupInfoConfigurator())
             Navigator.push(groupViewController)

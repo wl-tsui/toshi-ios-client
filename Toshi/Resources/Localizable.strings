@@ -266,6 +266,11 @@
 "new_group_public_settings_title" = "Public";
 "new_group_notifications_settings_title" = "Notifications";
 
+"group_info_leave_group_title" = "Leave Group";
+"group_info_leave_confirmation_message" = "Do you want to leave this group?";
+"group_info_leave_action_title" = "Leave";
+"group_info_leave_group_failure_message" = "Failed to leave the group.\nPlease try again.";
+
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
 
