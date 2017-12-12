@@ -195,9 +195,15 @@
 		33643DC81FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
 		33643DC91FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
 		33643DCA1FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
+		338088C51FDFEFDB0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
 		338088CA1FE005120057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		338088CB1FE013BD0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		338088CC1FE013BE0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
+		338088D01FE0148B0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
+		338088D41FE0148B0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
+		338088D61FE023800057052F /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088D51FE023800057052F /* TextInputCell.swift */; };
+		338088D71FE029F80057052F /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088D51FE023800057052F /* TextInputCell.swift */; };
+		338088D81FE029F80057052F /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088D51FE023800057052F /* TextInputCell.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
 		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1002,7 +1008,9 @@
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
+		338088C41FDFEFDB0057052F /* UserNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameCell.swift; sourceTree = "<group>"; };
 		338088C91FE005120057052F /* CountableIntEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountableIntEnum.swift; sourceTree = "<group>"; };
+		338088D51FE023800057052F /* TextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputCell.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -2068,6 +2076,8 @@
 				A96823C61FBC89F3000993FE /* ProfilesNavigationController.swift */,
 				A9BCB35F1FCD693A0047CCA7 /* ProfilesDataSource.swift */,
 				A96823C71FBC89F3000993FE /* ProfilesViewController.swift */,
+				338088C41FDFEFDB0057052F /* UserNameCell.swift */,
+				338088D51FE023800057052F /* TextInputCell.swift */,
 			);
 			path = Profiles;
 			sourceTree = "<group>";
@@ -3056,6 +3066,7 @@
 				A9CADC301F94B1DA0096D017 /* BrowseSearchResultView.swift in Sources */,
 				A91629171F3C85D6008A7F36 /* Payment.swift in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
+				338088D81FE029F80057052F /* TextInputCell.swift in Sources */,
 				A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */,
 				9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */,
 				2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
@@ -3192,6 +3203,7 @@
 				A9CADC261F94B1C90096D017 /* BrowseNavigationController.swift in Sources */,
 				D197B0D75181D93C82A98BD6 /* OfflineAlertView.swift in Sources */,
 				D197BDD5424805C3D7F2163A /* ReachabilityManager.swift in Sources */,
+				338088D41FE0148B0057052F /* UserNameCell.swift in Sources */,
 				A9A9F9AD1F8B70E80010F877 /* Collection+Additions.swift in Sources */,
 				D197B9EF12AE7FEC28E43542 /* ToshiError.swift in Sources */,
 				D197B3DE723A39F67001ACC7 /* SofaWrapper.swift in Sources */,
@@ -3274,6 +3286,7 @@
 				A9CADC1B1F94AF2D0096D017 /* BrowseViewController.swift in Sources */,
 				2B44A13A1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */,
 				A9BF33B11E76DF67009A51AA /* PassphraseVerifyController.swift in Sources */,
+				338088D61FE023800057052F /* TextInputCell.swift in Sources */,
 				9F54A7231E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				2B435CB11F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */,
 				A9F61F7F1E72E22900D892E5 /* SettingsSectionHeader.swift in Sources */,
@@ -3326,6 +3339,7 @@
 				9F5B9BA11EBB530B006448F0 /* RatingView.swift in Sources */,
 				A91D72AF1F8786A70093420C /* ChatButtonsCollectionViewCell.swift in Sources */,
 				2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */,
+				338088C51FDFEFDB0057052F /* UserNameCell.swift in Sources */,
 				A9202E591ED84F6A0036E9B7 /* ImageCell.swift in Sources */,
 				2B4E25F61FCCCDE3004614D5 /* TitleSwitchCell.swift in Sources */,
 				A9CADC221F94AF2D0096D017 /* BrowseNavigationController.swift in Sources */,
@@ -3492,6 +3506,7 @@
 				A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */,
 				A9603DDD1F4DABDC00BF57B1 /* MessagesStatusCell.swift in Sources */,
 				A9603DEF1F4DABDC00BF57B1 /* Navigator.swift in Sources */,
+				338088D71FE029F80057052F /* TextInputCell.swift in Sources */,
 				A9603DF21F4DABDC00BF57B1 /* ProfileEditItem .swift in Sources */,
 				A9603DF91F4DABDC00BF57B1 /* PassphraseWordView.swift in Sources */,
 				A9603DFE1F4DABDC00BF57B1 /* ExchangeRateAPIClient.swift in Sources */,
@@ -3628,6 +3643,7 @@
 				A9CADC251F94B1C80096D017 /* BrowseNavigationController.swift in Sources */,
 				D197BBDFE322BAFD2D036076 /* OfflineAlertView.swift in Sources */,
 				D197B683AEBC4A7B8F0FF197 /* ReachabilityManager.swift in Sources */,
+				338088D01FE0148B0057052F /* UserNameCell.swift in Sources */,
 				A9A9F9AC1F8B70E80010F877 /* Collection+Additions.swift in Sources */,
 				D197BFB3C85D103063F9C87E /* ToshiError.swift in Sources */,
 				D197B590E4C59A08CB4AD88A /* SofaWrapper.swift in Sources */,
