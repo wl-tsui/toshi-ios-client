@@ -117,6 +117,8 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.register(ProfileCell.self)
 
         setupTableHeader()
         setupNavigationBarButtons()
@@ -127,8 +129,6 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         tableView.backgroundColor = Theme.viewBackgroundColor
         tableView.separatorStyle = .none
 
-        tableView.register(ProfileCell.self, forCellReuseIdentifier: ProfileCell.reuseIdentifier)
-        
         let appearance = UIButton.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         appearance.setTitleColor(Theme.greyTextColor, for: .normal)
         
@@ -187,11 +187,8 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     }
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.reuseIdentifier, for: indexPath) as? ProfileCell else {
-            assertionFailure("This is not a profile cell!")
-            return UITableViewCell()
-        }
-
+        let cell = tableView.dequeue(ProfileCell.self, for: indexPath)
+        
         guard let profile = dataSource.profile(at: indexPath) else {
             assertionFailure("Could not get profile at indexPath: \(indexPath)")
             return cell
