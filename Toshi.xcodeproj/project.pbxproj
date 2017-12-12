@@ -198,12 +198,15 @@
 		338088C11FDFE8660057052F /* SelectProfilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C01FDFE8660057052F /* SelectProfilesViewController.swift */; };
 		338088C31FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */; };
 		338088C51FDFEFDB0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
+		338088C81FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */; };
 		338088CA1FE005120057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		338088CB1FE013BD0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		338088CC1FE013BE0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
+		338088CD1FE0148B0057052F /* SelectProfilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C01FDFE8660057052F /* SelectProfilesViewController.swift */; };
 		338088CE1FE0148B0057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */; };
 		338088CF1FE0148B0057052F /* SelectProfilesTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */; };
 		338088D01FE0148B0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
+		338088D11FE0148B0057052F /* SelectProfilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C01FDFE8660057052F /* SelectProfilesViewController.swift */; };
 		338088D21FE0148B0057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */; };
 		338088D31FE0148B0057052F /* SelectProfilesTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */; };
 		338088D41FE0148B0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
@@ -1014,6 +1017,7 @@
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
+		338088C01FDFE8660057052F /* SelectProfilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProfilesViewController.swift; sourceTree = "<group>"; };
 		338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProfilesCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		338088C41FDFEFDB0057052F /* UserNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameCell.swift; sourceTree = "<group>"; };
 		338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProfilesTableViewDataSource.swift; sourceTree = "<group>"; };
@@ -2084,6 +2088,7 @@
 				A96823C61FBC89F3000993FE /* ProfilesNavigationController.swift */,
 				A9BCB35F1FCD693A0047CCA7 /* ProfilesDataSource.swift */,
 				A96823C71FBC89F3000993FE /* ProfilesViewController.swift */,
+				338088C01FDFE8660057052F /* SelectProfilesViewController.swift */,
 				338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */,
 				338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */,
 				338088C41FDFEFDB0057052F /* UserNameCell.swift */,
@@ -3232,6 +3237,7 @@
 				D197B99E1E1E4A6020699D14 /* ProfileViewController.swift in Sources */,
 				D197BFF1B944A12C9733439F /* ProfileView.swift in Sources */,
 				D197B6DFB8BD6A1EBEEF4BA5 /* DoubleAvatarTitleSubtitleCell.swift in Sources */,
+				338088D11FE0148B0057052F /* SelectProfilesViewController.swift in Sources */,
 				D197B4F1934405EADD429871 /* DoubleImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3322,6 +3328,7 @@
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				A9E691C11F7A496800317DB1 /* SignInView.swift in Sources */,
 				9FB228861EEEA45B00CCAA1D /* PropertyListPreferences.m in Sources */,
+				338088C11FDFE8660057052F /* SelectProfilesViewController.swift in Sources */,
 				9FF6AF9F1E83DE04001B5907 /* AvatarImageView.swift in Sources */,
 				2BC85F7F1F0F946600BCB171 /* InputCell.swift in Sources */,
 				A9E1DCD41F1E1989001A4ABE /* MessagesPaymentCell.swift in Sources */,
@@ -3676,6 +3683,7 @@
 				D197B47D98009339295B1A5C /* ProfileViewController.swift in Sources */,
 				D197BBA31772C24F264C2D3B /* ProfileView.swift in Sources */,
 				D197BBAFEA21AFA96FF5EB30 /* DoubleAvatarTitleSubtitleCell.swift in Sources */,
+				338088CD1FE0148B0057052F /* SelectProfilesViewController.swift in Sources */,
 				D197BDCFFA301DDA7C290BBB /* DoubleImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
