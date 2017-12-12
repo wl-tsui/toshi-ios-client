@@ -17,7 +17,7 @@ public protocol CountableIntEnum {
     init?(rawValue: Int)
 }
 
-//MARK: Default Implementation
+// MARK: Default Implementation
 public extension CountableIntEnum {
     
     /**
