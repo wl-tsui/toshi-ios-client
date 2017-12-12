@@ -195,11 +195,17 @@
 		33643DC81FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
 		33643DC91FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
 		33643DCA1FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
+		338088C11FDFE8660057052F /* SelectProfilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C01FDFE8660057052F /* SelectProfilesViewController.swift */; };
+		338088C31FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */; };
 		338088C51FDFEFDB0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
 		338088CA1FE005120057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		338088CB1FE013BD0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		338088CC1FE013BE0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
+		338088CE1FE0148B0057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */; };
+		338088CF1FE0148B0057052F /* SelectProfilesTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */; };
 		338088D01FE0148B0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
+		338088D21FE0148B0057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */; };
+		338088D31FE0148B0057052F /* SelectProfilesTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */; };
 		338088D41FE0148B0057052F /* UserNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C41FDFEFDB0057052F /* UserNameCell.swift */; };
 		338088D61FE023800057052F /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088D51FE023800057052F /* TextInputCell.swift */; };
 		338088D71FE029F80057052F /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088D51FE023800057052F /* TextInputCell.swift */; };
@@ -1008,7 +1014,9 @@
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
+		338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProfilesCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		338088C41FDFEFDB0057052F /* UserNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameCell.swift; sourceTree = "<group>"; };
+		338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProfilesTableViewDataSource.swift; sourceTree = "<group>"; };
 		338088C91FE005120057052F /* CountableIntEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountableIntEnum.swift; sourceTree = "<group>"; };
 		338088D51FE023800057052F /* TextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputCell.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
@@ -2076,6 +2084,8 @@
 				A96823C61FBC89F3000993FE /* ProfilesNavigationController.swift */,
 				A9BCB35F1FCD693A0047CCA7 /* ProfilesDataSource.swift */,
 				A96823C71FBC89F3000993FE /* ProfilesViewController.swift */,
+				338088C21FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift */,
+				338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */,
 				338088C41FDFEFDB0057052F /* UserNameCell.swift */,
 				338088D51FE023800057052F /* TextInputCell.swift */,
 			);
@@ -3043,6 +3053,7 @@
 				33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */,
 				A9CADC281F94B1CC0096D017 /* BrowseAllViewController.swift in Sources */,
+				338088D31FE0148B0057052F /* SelectProfilesTableViewDataSource.swift in Sources */,
 				A9E1DCDD1F1E2768001A4ABE /* MessagesImageCell.swift in Sources */,
 				A91D72B11F8786A70093420C /* ChatButtonsCollectionViewCell.swift in Sources */,
 				2B4E26051FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */,
@@ -3094,6 +3105,7 @@
 				84D678F01EE049930026D7F1 /* SplashViewController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
 				A9AC74091E77E37500365029 /* ActionButton.swift in Sources */,
+				338088D21FE0148B0057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */,
 				2B369E381EE59959002A44A3 /* Message.swift in Sources */,
 				A9BF33B41E76F8D0009A51AA /* PassphraseCopyController.swift in Sources */,
 				149F9A801E72E29A00FB74AA /* ProfileItemCell.swift in Sources */,
@@ -3263,6 +3275,7 @@
 				33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */,
 				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
+				338088C81FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift in Sources */,
 				A91D72A71F8782DC0093420C /* ChatButtonsView.swift in Sources */,
 				9F48C1571E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
 				2B4E26031FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */,
@@ -3366,6 +3379,7 @@
 				A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ProfileCell.swift in Sources */,
 				A9202E721ED854010036E9B7 /* ChatInputTextPanel.swift in Sources */,
+				338088C31FDFEAF70057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */,
 				A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */,
 				9F78D9D41EE93EFF003A0B95 /* PaymentConfirmationController.swift in Sources */,
 				E6B8577A1F25F3D700979650 /* AddressChangeAlertController.swift in Sources */,
@@ -3483,6 +3497,7 @@
 				33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				A9603DA81F4DABDC00BF57B1 /* MessagesImageCell.swift in Sources */,
 				A91D72B01F8786A70093420C /* ChatButtonsCollectionViewCell.swift in Sources */,
+				338088CF1FE0148B0057052F /* SelectProfilesTableViewDataSource.swift in Sources */,
 				A9603DAB1F4DABDC00BF57B1 /* Yap.swift in Sources */,
 				A9603DAF1F4DABDC00BF57B1 /* UIScrollView+Keyboard.swift in Sources */,
 				2B4E26041FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */,
@@ -3534,6 +3549,7 @@
 				A9603E2E1F4DABDC00BF57B1 /* ActionButton.swift in Sources */,
 				A9603E2F1F4DABDC00BF57B1 /* Message.swift in Sources */,
 				A9603E3A1F4DABDC00BF57B1 /* PassphraseCopyController.swift in Sources */,
+				338088CE1FE0148B0057052F /* SelectProfilesCollectionViewDataSource.swift in Sources */,
 				A9603E441F4DABDC00BF57B1 /* ProfileItemCell.swift in Sources */,
 				A9603E471F4DABDC00BF57B1 /* MessageModel.swift in Sources */,
 				A9603E481F4DABDC00BF57B1 /* PropertyListPreferences.m in Sources */,
