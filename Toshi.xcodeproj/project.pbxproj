@@ -558,7 +558,6 @@
 		A9603F041F4DABDC00BF57B1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
 		A9603F061F4DABDC00BF57B1 /* IconLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */; };
 		A9603F091F4DABDC00BF57B1 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
-		A9603F0A1F4DABDC00BF57B1 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		A9603F131F4DABDC00BF57B1 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74101E78064500365029 /* TextLabel.swift */; };
 		A9603F141F4DABDC00BF57B1 /* AppsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143186B81E49C4EA0025E9B7 /* AppsAPIClient.swift */; };
@@ -750,8 +749,6 @@
 		A9E691D31F7A49B800317DB1 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B91F7A496700317DB1 /* SignInView.swift */; };
 		A9E691D41F7A49BB00317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
 		A9E691D51F7A49BC00317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
-		A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
-		A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CD51E85291600160637 /* KeyboardInfo.swift */; };
@@ -1204,7 +1201,6 @@
 		A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletableTextField.swift; sourceTree = "<group>"; };
 		A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInExplanation.swift; sourceTree = "<group>"; };
 		A9E691BD1F7A496800317DB1 /* SignInLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInLayout.swift; sourceTree = "<group>"; };
-		A9ED6CCC1E82B57E00160637 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		A9ED6CCF1E83CD8400160637 /* Footnote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Footnote.swift; sourceTree = "<group>"; };
 		A9ED6CD51E85291600160637 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
 		A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeader.swift; sourceTree = "<group>"; };
@@ -2174,7 +2170,6 @@
 		A9ED6CCB1E82B56D00160637 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A9ED6CCC1E82B57E00160637 /* InputField.swift */,
 				9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */,
 				9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */,
 			);
@@ -3171,7 +3166,6 @@
 				2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */,
 				A96823CD1FBC89F3000993FE /* ProfilesViewController.swift in Sources */,
 				33CF513B1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
-				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
 				338088CC1FE013BE0057052F /* CountableIntEnum.swift in Sources */,
 				A9AC74121E78064500365029 /* TextLabel.swift in Sources */,
@@ -3395,7 +3389,6 @@
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
-				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
 				8446632B1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
 				143186B91E49C4EA0025E9B7 /* AppsAPIClient.swift in Sources */,
@@ -3609,7 +3602,6 @@
 				A9603F091F4DABDC00BF57B1 /* Emptiable.swift in Sources */,
 				A96823CC1FBC89F3000993FE /* ProfilesViewController.swift in Sources */,
 				33CF513A1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
-				A9603F0A1F4DABDC00BF57B1 /* InputField.swift in Sources */,
 				A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */,
 				338088CB1FE013BD0057052F /* CountableIntEnum.swift in Sources */,
 				A9603F131F4DABDC00BF57B1 /* TextLabel.swift in Sources */,
