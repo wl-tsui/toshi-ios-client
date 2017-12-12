@@ -31,7 +31,7 @@ final class ProfilesHeaderView: UIView {
             if #available(iOS 11, *) {
                 // Do nothing, search bar should already be set up
             } else {
-                self.frame = CGRect(origin: .zero, size: (searchBar?.frame.size ?? .zero))
+                frame = CGRect(origin: .zero, size: (searchBar?.frame.size ?? .zero))
                 addSearchBar(searchBar)
             }
         case .newChat:
