@@ -195,6 +195,9 @@
 		33643DC81FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
 		33643DC91FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
 		33643DCA1FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */; };
+		338088CA1FE005120057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
+		338088CB1FE013BD0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
+		338088CC1FE013BE0057052F /* CountableIntEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338088C91FE005120057052F /* CountableIntEnum.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		339959AD1FCEE74F00D69A01 /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
 		339959AE1FCEE75B00D69A01 /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1002,6 +1005,7 @@
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
+		338088C91FE005120057052F /* CountableIntEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountableIntEnum.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -1941,6 +1945,7 @@
 			children = (
 				D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */,
 				2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */,
+				338088C91FE005120057052F /* CountableIntEnum.swift */,
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
@@ -3168,6 +3173,7 @@
 				33CF513B1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
 				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
+				338088CC1FE013BE0057052F /* CountableIntEnum.swift in Sources */,
 				A9AC74121E78064500365029 /* TextLabel.swift in Sources */,
 				149F9AAC1E72E29A00FB74AA /* AppsAPIClient.swift in Sources */,
 				149F9AAD1E72E29A00FB74AA /* QRCodeController.swift in Sources */,
@@ -3402,6 +3408,7 @@
 				D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */,
 				6AE44D971F45C38B00F5AF02 /* CurrencyPicker.swift in Sources */,
 				2B4E25EA1FCCCD71004614D5 /* AvatarTitleSubtitleCell.swift in Sources */,
+				338088CA1FE005120057052F /* CountableIntEnum.swift in Sources */,
 				D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */,
 				D197B401E977724E946A55BE /* ActiveNetworkDisplaying.swift in Sources */,
 				D197B61F77E710DF67E4FBD2 /* UINotificationName+Additions.swift in Sources */,
@@ -3604,6 +3611,7 @@
 				33CF513A1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
 				A9603F0A1F4DABDC00BF57B1 /* InputField.swift in Sources */,
 				A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */,
+				338088CB1FE013BD0057052F /* CountableIntEnum.swift in Sources */,
 				A9603F131F4DABDC00BF57B1 /* TextLabel.swift in Sources */,
 				A9603F141F4DABDC00BF57B1 /* AppsAPIClient.swift in Sources */,
 				A9603F181F4DABDC00BF57B1 /* QRCodeController.swift in Sources */,
