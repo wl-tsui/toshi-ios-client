@@ -13,13 +13,10 @@ class MessagesTextCell: MessagesBasicCell {
                 bubbleView.backgroundColor = nil
                 textView.font = Theme.emoji()
             } else {
-                textView.attributedText = TextTransformer.attributedUsernameString(to: messageText, textColor: messageColor, linkColor: linkColor, font: Theme.preferredRegularText())
+                let usernameLinkColor = isOutGoing ? Theme.lightTextColor : Theme.tintColor
+                textView.attributedText = TextTransformer.attributedUsernameString(to: messageText, textColor: messageColor, linkColor: usernameLinkColor, font: Theme.preferredRegularText())
             }
         }
-    }
-
-    private var linkColor: UIColor {
-        return isOutGoing ? .white : .black
     }
 
     private var messageColor: UIColor {
@@ -40,7 +37,7 @@ class MessagesTextCell: MessagesBasicCell {
         view.textContainer.lineFragmentPadding = 0
         view.textContainer.maximumNumberOfLines = 0
 
-        view.linkTextAttributes = [NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue, NSAttributedStringKey.foregroundColor.rawValue: linkColor]
+        view.linkTextAttributes = [NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue]
 
         return view
     }()
