@@ -88,9 +88,11 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             view.contentInsetAdjustmentBehavior = .never
         }
 
+        view.register(UITableViewCell.self)
         view.register(MessagesImageCell.self)
         view.register(MessagesPaymentCell.self)
         view.register(MessagesTextCell.self)
+        view.register(StatusCell.self)
 
         return view
     }()
@@ -463,24 +465,41 @@ extension ChatViewController: UITableViewDataSource {
     }
 
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
 
         let messageModel = viewModel.messageModels[indexPath.item]
-        let cell = tableView.dequeueReusableCell(withIdentifier: messageModel.reuseIdentifier, for: indexPath)
-        
-        if let cell = cell as? MessagesBasicCell {
 
-            if !messageModel.isOutgoing, let incomingSignalMessage = messageModel.signalMessage as? TSIncomingMessage, let userId = incomingSignalMessage.authorId as String? {
-                AvatarManager.shared.avatar(for: userId, completion: { image, _ in
-                    cell.avatarImageView.image = image
-                })
-            }
-
-            cell.isOutGoing = messageModel.isOutgoing
-            cell.positionType = positionType(for: indexPath)
-            cell.delegate = self
-
-            updateMessageState(messageModel, in: cell)
+        if messageModel.sofaWrapper?.type == SofaType.status {
+            cell = dequeueStatusCell(message: messageModel, indexPath: indexPath)
+        } else {
+            cell = dequeueMessageBasicCell(messageModel: messageModel, indexPath: indexPath)
         }
+
+        cell.transform = self.tableView.transform
+
+        return cell
+    }
+
+    private func dequeueStatusCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(StatusCell.self, for: indexPath)
+        cell.textLabel?.attributedText = message.attributedText
+
+        return cell
+    }
+
+    private func dequeueMessageBasicCell(messageModel: MessageModel, indexPath: IndexPath) -> MessagesBasicCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: messageModel.reuseIdentifier, for: indexPath) as? MessagesBasicCell else { fatalError("Couldn't deqeueu MessagesBasicCell")}
+        if !messageModel.isOutgoing, let incomingSignalMessage = messageModel.signalMessage as? TSIncomingMessage, let userId = incomingSignalMessage.authorId as String? {
+            AvatarManager.shared.avatar(for: userId, completion: { image, _ in
+                cell.avatarImageView.image = image
+            })
+        }
+
+        cell.isOutGoing = messageModel.isOutgoing
+        cell.positionType = positionType(for: indexPath)
+        cell.delegate = self
+
+        updateMessageState(messageModel, in: cell)
 
         if let cell = cell as? MessagesImageCell, messageModel.type == .image {
             cell.messageImage = messageModel.image
@@ -501,8 +520,6 @@ extension ChatViewController: UITableViewDataSource {
         } else if let cell = cell as? MessagesTextCell, messageModel.type == .simple {
             cell.messageText = messageModel.text
         }
-
-        cell.transform = self.tableView.transform
 
         return cell
     }
@@ -595,7 +612,7 @@ extension MessageModel {
         case .paymentRequest, .payment:
             return MessagesPaymentCell.reuseIdentifier
         case .status:
-            return MessagesStatusCell.reuseIdentifier
+            return StatusCell.reuseIdentifier
         }
     }
 }
