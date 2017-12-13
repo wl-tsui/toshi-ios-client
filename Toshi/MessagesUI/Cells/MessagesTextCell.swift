@@ -52,7 +52,7 @@ class MessagesTextCell: MessagesBasicCell {
 
     private lazy var usernameDetector: NSRegularExpression = {
         do {
-            return try NSRegularExpression(pattern: " ?(@[a-zA-Z][a-zA-Z0-9_]{2,59}) ?", options: [.caseInsensitive, .useUnicodeWordBoundaries])
+            return try NSRegularExpression(pattern: " ?(@[a-z][a-z0-9_]{2,59}) ?", options: [.caseInsensitive, .useUnicodeWordBoundaries])
         } catch {
             fatalError("Couldn't instantiate usernameDetector, invalid pattern for regular expression")
         }
