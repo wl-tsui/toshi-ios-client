@@ -99,19 +99,18 @@ class MessagesTextCell: MessagesBasicCell {
             let range = NSRange(location: 0, length: text.string.utf16.count)
             text.addAttributes([.kern: -0.4], range: range)
 
-            usernameDetector.enumerateMatches(in: text.string, options: [], range: range) { [weak self] result, _, _ in
+            // It's always good practice to traverse and modify strings from the end to the start.
+            // If any of those changes affect the string length, all the subsequent ranges will be invalidated
+            // causing all sort of hard to diagnose problems.
+            let matches = usernameDetector.matches(in: text.string, options: [], range: range).reversed()
+            for match in matches {
+                let attributes: [NSAttributedStringKey: Any] = [
+                    .link: "toshi://username:\((text.string as NSString).substring(with: match.range(at: 1)))",
+                    .foregroundColor: (isOutGoing ? Theme.lightTextColor : Theme.tintColor),
+                    .underlineStyle: NSUnderlineStyle.styleSingle.rawValue
+                ]
 
-                guard let strongSelf = self else { return }
-
-                if let result = result {
-                    let attributes: [NSAttributedStringKey: Any] = [
-                        .link: "toshi://username:\((text.string as NSString).substring(with: result.range(at: 1)))",
-                        .foregroundColor: (strongSelf.isOutGoing ? Theme.lightTextColor : Theme.tintColor),
-                        .underlineStyle: NSUnderlineStyle.styleSingle.rawValue
-                    ]
-
-                    text.addAttributes(attributes, range: result.range(at: 1))
-                }
+                text.addAttributes(attributes, range: match.range(at: 1))
             }
 
             textView.attributedText = text
