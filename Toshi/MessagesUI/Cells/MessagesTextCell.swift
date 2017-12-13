@@ -91,8 +91,12 @@ class MessagesTextCell: MessagesBasicCell {
         guard frame.isEmpty == false else { return }
 
         if let text = textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
-            let range = NSRange(location: 0, length: text.string.length)
-            
+            // string.count returns the number of rendered characters on a string
+            // but NSAttributedString attributes operate on the utf16 codepoints.
+            // If a string is using clusters such as emoji, the range will mismatch.
+            // A visible side-effect of this miscounted string lenght was usernames
+            // at the end of strings with emoji not being matched completely.
+            let range = NSRange(location: 0, length: text.string.utf16.count)
             text.addAttributes([.kern: -0.4], range: range)
 
             usernameDetector.enumerateMatches(in: text.string, options: [], range: range) { [weak self] result, _, _ in
