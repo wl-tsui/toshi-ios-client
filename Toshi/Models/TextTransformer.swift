@@ -25,7 +25,7 @@ public struct TextTransformer {
         // string.count returns the number of rendered characters on a string
         // but NSAttributedString attributes operate on the utf16 codepoints.
         // If a string is using clusters such as emoji, the range will mismatch.
-        // A visible side-effect of this miscounted string lenght was usernames
+        // A visible side-effect of this miscounted string length was usernames
         // at the end of strings with emoji not being matched completely.
         let range = NSRange(location: 0, length: attributedText.string.utf16.count)
         attributedText.addAttributes([.kern: -0.4], range: range)
