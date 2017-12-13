@@ -16,7 +16,11 @@
 import TinyConstraints
 import UIKit
 
+// The cell to display a user's name when adding a user to a list of selected users.
 class UserNameCell: UICollectionViewCell {
+    
+    private let margin: CGFloat = 2
+    private lazy var cornerRadius = (margin * 2)
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -27,12 +31,21 @@ class UserNameCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                nameLabel.backgroundColor = Theme.tintColor
+                backgroundColor = Theme.tintColor
                 nameLabel.textColor = Theme.inputFieldBackgroundColor
             } else {
                 nameLabel.textColor = Theme.tintColor
-                nameLabel.backgroundColor = Theme.inputFieldBackgroundColor
+                backgroundColor = Theme.inputFieldBackgroundColor
             }
+        }
+    }
+    
+    var name: String? {
+        get {
+            return nameLabel.text
+        }
+        set {
+            nameLabel.text = newValue
         }
     }
     
@@ -41,6 +54,8 @@ class UserNameCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        layer.cornerRadius = cornerRadius
+        clipsToBounds = true
         setupNameLabel()
     }
         
@@ -52,12 +67,26 @@ class UserNameCell: UICollectionViewCell {
     
     private func setupNameLabel() {
         contentView.addSubview(nameLabel)
-        nameLabel.edgesToSuperview()
+        
+        nameLabel.edgesToSuperview(insets: UIEdgeInsets(top: margin,
+                                                        left: margin,
+                                                        bottom: margin,
+                                                        right: -margin))
     }
     
     // MARK: - Public API
-    
-    func setText(_ text: String) {
-        nameLabel.text = text
+
+    func labelSize() -> CGSize {
+        guard let name = name else { return .zero }
+        
+        let sizeConstraint = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        let frame = (name as NSString).boundingRect(with: sizeConstraint,
+                                                    options: [.usesLineFragmentOrigin],
+                                                    attributes: [
+                                                        .font: nameLabel.font!
+                                                    ],
+                                                    context: nil)
+        return CGSize(width: ceil(frame.width) + (margin * 2),
+                      height: ceil(frame.height) + (margin * 2))
     }
 }

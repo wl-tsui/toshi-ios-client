@@ -64,7 +64,8 @@ class TextInputCell: UICollectionViewCell {
                                                         .font: textField.font!
                                                     ],
                                                     context: nil)
-        return frame.size
+        return CGSize(width: ceil(frame.width),
+                      height: ceil(frame.height))
     }
     
 }
