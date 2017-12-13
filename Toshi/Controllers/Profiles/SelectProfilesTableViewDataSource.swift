@@ -58,6 +58,7 @@ class SelectProfilesTableViewDataSource: NSObject {
         self.selectionDelegate = selectionDelegate
         super.init()
 
+        dataController.changesOutput = self
         tableView.register(ProfileCell.self)
         tableView.delegate = self
         tableView.dataSource = self
@@ -84,7 +85,8 @@ class SelectProfilesTableViewDataSource: NSObject {
     func update(with selectedProfiles: [TokenUser]) {
         self.selectedProfiles = selectedProfiles
         
-        tableView?.reloadData()
+        // Only reload the selected profiles section, the data controller will handle the other section
+        tableView?.reloadSections(IndexSet(integer: SelectProfilesSection.selectedProfiles.rawValue), with: .automatic)
     }
 }
 
@@ -135,6 +137,43 @@ extension SelectProfilesTableViewDataSource: UITableViewDelegate {
             selectionDelegate.deselected(profile: profile)
         case .unselectedProfiles:
             selectionDelegate.selected(profile: profile)
+        }
+    }
+}
+
+extension SelectProfilesTableViewDataSource: ProfilesDataControllerChangesOutput {
+    
+    private func adjustSection(for indexPath: IndexPath) -> IndexPath {
+        return IndexPath(row: indexPath.row, section: indexPath.section + 1)
+    }
+    
+    func dataControllerDidChange(_ dataController: ProfilesDataController, yapDatabaseChanges: [YapDatabaseViewRowChange]) {
+        guard let tableView = tableView else { return }
+        
+        if tableView.superview != nil {
+            tableView.beginUpdates()
+            
+            for rowChange in yapDatabaseChanges {
+                switch rowChange.type {
+                case .delete:
+                    guard let indexPath = rowChange.indexPath else { continue }
+                    tableView.deleteRows(at: [adjustSection(for: indexPath)], with: .automatic)
+                case .insert:
+                    guard let newIndexPath = rowChange.newIndexPath else { continue }
+                    tableView.insertRows(at: [adjustSection(for: newIndexPath)], with: .automatic)
+                case .move:
+                    guard let newIndexPath = rowChange.newIndexPath, let indexPath = rowChange.indexPath else { continue }
+                    tableView.deleteRows(at: [adjustSection(for: indexPath)], with: .fade)
+                    tableView.insertRows(at: [adjustSection(for: newIndexPath)], with: .automatic)
+                case .update:
+                    guard let indexPath = rowChange.indexPath else { continue }
+                    tableView.reloadRows(at: [adjustSection(for: indexPath)], with: .automatic)
+                }
+            }
+            
+            tableView.endUpdates()
+        } else {
+            tableView.reloadData()
         }
     }
 }
