@@ -22,7 +22,7 @@ protocol SelectProfilesViewControllerDelegate: class {
 }
 
 // A view controller to allow selection of an arbitrary number of profiles.
-class SelectProfilesViewController: UIViewController {
+final class SelectProfilesViewController: UIViewController {
     
     var selectedProfiles = [TokenUser]() {
         didSet {
@@ -63,6 +63,7 @@ class SelectProfilesViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
 
@@ -94,6 +95,18 @@ class SelectProfilesViewController: UIViewController {
         edgesForExtendedLayout = []
         
         navigationItem.rightBarButtonItem = doneButton
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        updateUIFromSelectedProfiles()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        tableViewDataSource.resetDatabaseExclusions()
     }
     
     // MARK: - View Setup

@@ -24,7 +24,7 @@ protocol SelectProfilesDelegate: class {
     func deselected(profile: TokenUser)
 }
 
-class SelectProfilesTableViewDataSource: NSObject {
+final class SelectProfilesTableViewDataSource: NSObject {
     
     private enum SelectProfilesSection: Int, CountableIntEnum {
         case
@@ -87,6 +87,10 @@ class SelectProfilesTableViewDataSource: NSObject {
         
         // Only reload the selected profiles section, the data controller will handle the other section
         tableView?.reloadSections(IndexSet(integer: SelectProfilesSection.selectedProfiles.rawValue), with: .automatic)
+    }
+    
+    func resetDatabaseExclusions() {
+        dataController.excludedProfilesIds = []
     }
 }
 

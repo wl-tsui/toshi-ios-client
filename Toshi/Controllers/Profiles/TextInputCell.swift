@@ -16,7 +16,9 @@
 import UIKit
 
 // A collection view cell to facilitate collecting text input
-class TextInputCell: UICollectionViewCell {
+final class TextInputCell: UICollectionViewCell {
+    
+    static let sizingCell = TextInputCell(frame: .zero)
     
     private(set) lazy var textField: UITextField = {
         let textField = UITextField()
@@ -50,22 +52,4 @@ class TextInputCell: UICollectionViewCell {
         let margin: CGFloat = 4
         textField.edgesToSuperview(insets: UIEdgeInsets(top: margin, left: margin, bottom: margin, right: -margin))
     }
-    
-    // MARK: - Sizing helpers
-    
-    func textFieldSize(forWidth width: CGFloat) -> CGSize {
-        guard let text = textField.text else { return CGSize(width: 0, height: textField.frame.height) }
-        
-        let sizeConstraint = CGSize(width: width, height: textField.frame.height)
-        
-        let frame = (text as NSString).boundingRect(with: sizeConstraint,
-                                                    options: [.usesLineFragmentOrigin],
-                                                    attributes: [
-                                                        .font: textField.font!
-                                                    ],
-                                                    context: nil)
-        return CGSize(width: ceil(frame.width),
-                      height: ceil(frame.height))
-    }
-    
 }

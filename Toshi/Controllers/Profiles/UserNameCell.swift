@@ -17,7 +17,9 @@ import TinyConstraints
 import UIKit
 
 // The cell to display a user's name when adding a user to a list of selected users.
-class UserNameCell: UICollectionViewCell {
+final class UserNameCell: UICollectionViewCell {
+    
+    static let sizingCell = UserNameCell(frame: .zero)
     
     private let margin: CGFloat = 2
     private lazy var cornerRadius = (margin * 2)
@@ -72,21 +74,5 @@ class UserNameCell: UICollectionViewCell {
                                                         left: margin,
                                                         bottom: margin,
                                                         right: -margin))
-    }
-    
-    // MARK: - Public API
-
-    func labelSize() -> CGSize {
-        guard let name = name else { return .zero }
-        
-        let sizeConstraint = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-        let frame = (name as NSString).boundingRect(with: sizeConstraint,
-                                                    options: [.usesLineFragmentOrigin],
-                                                    attributes: [
-                                                        .font: nameLabel.font!
-                                                    ],
-                                                    context: nil)
-        return CGSize(width: ceil(frame.width) + (margin * 2),
-                      height: ceil(frame.height) + (margin * 2))
     }
 }

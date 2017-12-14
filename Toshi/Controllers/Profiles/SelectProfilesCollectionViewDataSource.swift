@@ -25,7 +25,7 @@ protocol ProfileSearchDelegate: class {
 // MARK: - Select Profiles Collection View Data Source
 
 /// Data source for type-ahead header allowing selection of users similar to iMessage
-class SelectProfilesCollectionViewDataSource: NSObject {
+final class SelectProfilesCollectionViewDataSource: NSObject {
     
     private enum SelectProfilesSection: Int, CountableIntEnum {
         case
@@ -33,12 +33,17 @@ class SelectProfilesCollectionViewDataSource: NSObject {
         textEntry
     }
     
+    private let headerPrefix = "To:"
+    
     private(set) var selectedProfiles = [TokenUser]()
     
     private weak var collectionView: UICollectionView?
     private weak var searchDelegate: ProfileSearchDelegate?
     
     private var currentlySelectedProfile: TokenUser?
+    private weak var textField: UITextField?
+    
+    private var cachedHeaderSize: CGSize?
     
     init(with collectionView: UICollectionView, searchDelegate: ProfileSearchDelegate) {
         super.init()
@@ -46,6 +51,7 @@ class SelectProfilesCollectionViewDataSource: NSObject {
         self.collectionView = collectionView
         
         collectionView.register(UserNameCell.self)
+        collectionView.register(PrefixHeader.self, ofKind: UICollectionElementKindSectionHeader)
         collectionView.register(TextInputCell.self)
         
         collectionView.delegate = self
@@ -57,6 +63,7 @@ class SelectProfilesCollectionViewDataSource: NSObject {
     func update(with selectedProfiles: [TokenUser]) {
         self.selectedProfiles = selectedProfiles
         collectionView?.reloadData()
+        collectionView?.invalidateIntrinsicContentSize()
     }
 }
 
@@ -86,15 +93,23 @@ extension SelectProfilesCollectionViewDataSource: UICollectionViewDataSource {
             return cellForTextInput(in: collectionView)
         }
     }
-    
+        
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        //TODO: Fix
-        return UICollectionReusableView()
+        guard let header = collectionView.dequeue(PrefixHeader.self, ofKind: UICollectionElementKindSectionHeader, for: indexPath) else {
+            fatalError("No prefix header for you!")
+        }
+        header.prefix = headerPrefix
+        
+        return header
     }
     
     private func cellForTextInput(in collectionView: UICollectionView) -> TextInputCell {
-        let cell = collectionView.dequeue(TextInputCell.self, for: IndexPath(item: 1, section: SelectProfilesSection.textEntry.rawValue))
+        let inputIndexPath = IndexPath(item: 0, section: SelectProfilesSection.textEntry.rawValue)
+        
+        let cell = collectionView.dequeue(TextInputCell.self, for: inputIndexPath)
+        
         cell.textField.delegate = self
+        textField = cell.textField
         
         return cell
     }
@@ -104,7 +119,7 @@ extension SelectProfilesCollectionViewDataSource: UICollectionViewDataSource {
         let name = profile.nameOrDisplayName
         
         let cell = collectionView.dequeue(UserNameCell.self, for: indexPath)
-        cell.setText(name)
+        cell.name = name
         
         return cell
     }
@@ -119,8 +134,7 @@ extension SelectProfilesCollectionViewDataSource: UICollectionViewDelegate {
         case .alreadySelectedProfiles:
             currentlySelectedProfile = selectedProfiles[indexPath.row]
         case .textEntry:
-            // TODO: Make the text input the first responder
-            break
+            textField?.becomeFirstResponder()
         }
     }
     
@@ -135,6 +149,45 @@ extension SelectProfilesCollectionViewDataSource: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Collection View Delegate for Flow Layout
+
+extension SelectProfilesCollectionViewDataSource: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch SelectProfilesSection.forIndex(indexPath.section) {
+        case .alreadySelectedProfiles:
+            let sizingCell = UserNameCell.sizingCell
+            let profile = self.selectedProfiles[indexPath.row]
+            sizingCell.name = profile.nameOrDisplayName
+            
+            return sizingCell.layoutAndPredictSize(for: .compressed)
+        case .textEntry:
+            let sizingCell = TextInputCell.sizingCell
+            sizingCell.textField.text = textField?.text
+            
+            return sizingCell.layoutAndPredictSize(for: .compressed)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        guard section == SelectProfilesSection.alreadySelectedProfiles.rawValue else { return .zero }
+        
+        if let headerSize = cachedHeaderSize {
+            
+            return headerSize
+        } else {
+            let sizingHeader = PrefixHeader.sizingHeader
+            sizingHeader.prefix = headerPrefix
+            let headerSize = sizingHeader.layoutAndPredictSize(for: .compressed)
+            cachedHeaderSize = headerSize
+            
+            return headerSize
+        }
+    }
+}
+
+// MARK: - Text Field Delegate
+
 extension SelectProfilesCollectionViewDataSource: UITextFieldDelegate {
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -143,7 +196,17 @@ extension SelectProfilesCollectionViewDataSource: UITextFieldDelegate {
         
         return true
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let margin: CGFloat = 16
+        return UIEdgeInsets(top: margin,
+                            left: margin,
+                            bottom: -margin,
+                            right: -margin)
+    }
 }
+
+// MARK: - Text Field Delete Delegate
 
 extension SelectProfilesCollectionViewDataSource: TextFieldDeleteDelegate {
     

@@ -186,6 +186,12 @@
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
+		33272C221FE1923000C051FF /* PrefixHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33272C211FE1923000C051FF /* PrefixHeader.swift */; };
+		33272C281FE1995400C051FF /* UIView+LayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33272C271FE1995400C051FF /* UIView+LayoutSize.swift */; };
+		33272C291FE19AD600C051FF /* UIView+LayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33272C271FE1995400C051FF /* UIView+LayoutSize.swift */; };
+		33272C2A1FE19AD700C051FF /* UIView+LayoutSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33272C271FE1995400C051FF /* UIView+LayoutSize.swift */; };
+		33272C2B1FE19ADA00C051FF /* PrefixHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33272C211FE1923000C051FF /* PrefixHeader.swift */; };
+		33272C2C1FE19ADB00C051FF /* PrefixHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33272C211FE1923000C051FF /* PrefixHeader.swift */; };
 		33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
@@ -791,7 +797,6 @@
 		D197B1DF02A3FA1A8E60AD65 /* EthereumConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7EC7030BE4C4508AACD /* EthereumConverterTests.swift */; };
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B1E9BB5E12653D8EE2CC /* SofaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEBA12E2D8F04A0F846 /* SofaStatus.swift */; };
-		D197B1E9F8277FEB55771F0E /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
 		D197B2196AD7EBEE1F16354C /* DoubleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B52C452CE2763BB4976A /* DoubleImageView.swift */; };
 		D197B22F0A1803EEBB6819FE /* searchContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4747DA95DF531E0C300 /* searchContacts.json */; };
 		D197B22FB4CEE1C4761BCEB7 /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
@@ -815,7 +820,6 @@
 		D197B4425A9FE7A36B983DE1 /* getLatestPublicUsers.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B707B59B3F92F8A4B3EC /* getLatestPublicUsers.json */; };
 		D197B47D98009339295B1A5C /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B19EAB3E25CAEDCC5C86 /* ProfileViewController.swift */; };
 		D197B4827BED8F3A5BAB5CB8 /* SofaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEBA12E2D8F04A0F846 /* SofaStatus.swift */; };
-		D197B4C46B755554DA3550F2 /* CrashlyticsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */; };
 		D197B4F1934405EADD429871 /* DoubleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B52C452CE2763BB4976A /* DoubleImageView.swift */; };
 		D197B54F2788A7DF91A035AE /* ToshiErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */; };
 		D197B57BA2EA6533D6523DB0 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
@@ -860,8 +864,8 @@
 		D197BADE7B88BF0539D8646B /* SofaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEBA12E2D8F04A0F846 /* SofaStatus.swift */; };
 		D197BB5265BB1DA3032B68AA /* ExchangeRateAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */; };
 		D197BBA31772C24F264C2D3B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B7A2C3032B73635553CD /* ProfileView.swift */; };
-		D197BBDB018E3C6EE3CA3B1B /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
 		D197BBAFEA21AFA96FF5EB30 /* DoubleAvatarTitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B79A895911F06FFC781C /* DoubleAvatarTitleSubtitleCell.swift */; };
+		D197BBDB018E3C6EE3CA3B1B /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
 		D197BBDFE322BAFD2D036076 /* OfflineAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD136059B5C238CB3425 /* OfflineAlertView.swift */; };
 		D197BBE91E49D7B9DCD1B17D /* String+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B695935159A20363BBF9 /* String+nsRange.swift */; };
 		D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
@@ -1027,6 +1031,8 @@
 		2F1B2E5A8052289054B2DCDD /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
+		33272C211FE1923000C051FF /* PrefixHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefixHeader.swift; sourceTree = "<group>"; };
+		33272C271FE1995400C051FF /* UIView+LayoutSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+LayoutSize.swift"; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
 		338088C01FDFE8660057052F /* SelectProfilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProfilesViewController.swift; sourceTree = "<group>"; };
@@ -1909,6 +1915,7 @@
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
 				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
+				33272C271FE1995400C051FF /* UIView+LayoutSize.swift */,
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
 				2BF634501F7D568C00235C67 /* UIImage+Utils.h */,
 				2BF634511F7D568C00235C67 /* UIImage+Utils.m */,
@@ -2113,6 +2120,7 @@
 				338088C71FDFF7CD0057052F /* SelectProfilesTableViewDataSource.swift */,
 				338088C41FDFEFDB0057052F /* UserNameCell.swift */,
 				338088D51FE023800057052F /* TextInputCell.swift */,
+				33272C211FE1923000C051FF /* PrefixHeader.swift */,
 			);
 			path = Profiles;
 			sourceTree = "<group>";
@@ -3118,6 +3126,7 @@
 				A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */,
 				A997B1011EF94B4F00A143FE /* DepositMoneyItem.swift in Sources */,
 				A9A9F9A71F8B708A0010F877 /* ChatInteractor.swift in Sources */,
+				33272C2A1FE19AD700C051FF /* UIView+LayoutSize.swift in Sources */,
 				848D82231F23D50A00BBFA66 /* NetworkSettingsController.swift in Sources */,
 				84AED6FC1F42EBCB003C38E8 /* String+Regex.swift in Sources */,
 				2B953ACC1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */,
@@ -3191,6 +3200,7 @@
 				2B6C18FF1FCD531E00DE432B /* NewGroupConfigurator.swift in Sources */,
 				9F78D9D21EE93E68003A0B95 /* ModalTransition.swift in Sources */,
 				2BC85F801F0F946600BCB171 /* InputCell.swift in Sources */,
+				33272C2C1FE19ADB00C051FF /* PrefixHeader.swift in Sources */,
 				33643DCA1FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */,
 				2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */,
 				2B4E25F01FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
@@ -3417,6 +3427,7 @@
 				9F78D9D41EE93EFF003A0B95 /* PaymentConfirmationController.swift in Sources */,
 				E6B8577A1F25F3D700979650 /* AddressChangeAlertController.swift in Sources */,
 				84FFE1E41F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */,
+				33272C221FE1923000C051FF /* PrefixHeader.swift in Sources */,
 				2B6C18FD1FCD531E00DE432B /* NewGroupConfigurator.swift in Sources */,
 				33643DC81FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */,
 				2BE66A0C1EF910B6007A7130 /* KeyboardAdjustable.swift in Sources */,
@@ -3471,6 +3482,7 @@
 				D197B5E0F04D0A7529EC6342 /* TestAppDelegate.m in Sources */,
 				D197B0D6785893BC3224D40D /* OfflineAlertDisplaying.swift in Sources */,
 				D197B9D47550D571260DB146 /* OfflineAlertView.swift in Sources */,
+				33272C281FE1995400C051FF /* UIView+LayoutSize.swift in Sources */,
 				D197B3CEF63EDE26D11F3F32 /* ReachabilityManager.swift in Sources */,
 				D197BD08F09124F7B83238F9 /* ToshiError.swift in Sources */,
 				D197B95C65F5A93A5012EA5B /* SofaWrapper.swift in Sources */,
@@ -3569,6 +3581,7 @@
 				A9A9F9A61F8B70890010F877 /* ChatInteractor.swift in Sources */,
 				A9603E0C1F4DABDC00BF57B1 /* NetworkSettingsController.swift in Sources */,
 				A9603E0E1F4DABDC00BF57B1 /* String+Regex.swift in Sources */,
+				33272C291FE19AD600C051FF /* UIView+LayoutSize.swift in Sources */,
 				A95D315C1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
 				A9603E1A1F4DABDC00BF57B1 /* PaymentRequestMetadata.swift in Sources */,
 				2B953ACB1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */,
@@ -3642,6 +3655,7 @@
 				2B6C18FE1FCD531E00DE432B /* NewGroupConfigurator.swift in Sources */,
 				A9603ED11F4DABDC00BF57B1 /* InputCell.swift in Sources */,
 				A9603ED61F4DABDC00BF57B1 /* ProfileEditConfigurator.swift in Sources */,
+				33272C2B1FE19ADA00C051FF /* PrefixHeader.swift in Sources */,
 				33643DC91FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */,
 				A9603EDA1F4DABDC00BF57B1 /* UserBootstrapParameters.swift in Sources */,
 				2B4E25EF1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
