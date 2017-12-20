@@ -15,7 +15,7 @@
 "browse-search-placeholder" = "Search Toshi";
 
 "browse-top-rated-apps" = "Top Rated";
-"browse-featured-apps" = "Featured";
+"browse-featured-dapps" = "Featured Dapps";
 "browse-top-rated-public-users" = "Top Rated Public Users";
 "browse-latest-public-users" = "Latest Public Users";
 
@@ -249,3 +249,6 @@
 "error_title" = "Error";
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
+
+/* Dapps */
+"dapp_button_enter" = "Enter";
