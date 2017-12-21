@@ -33,6 +33,10 @@ platform :ios do
     # Happier setup with Match and keychain.
     setup_circle_ci
 
+    # Make sure Fastlane is using UTF-8
+    ENV["LC_ALL"]="en_US.UTF-8"
+    ENV["LANG"]="en_US.UTF-8"
+
     if !is_ci
       # Open-source note: This file is kept private to developers who can release.
       sh ". ./local_config.sh"
@@ -116,7 +120,7 @@ platform :ios do
         output_directory: FolderPath::TestOutput,
         derived_data_path: FolderPath::DerivedData,
         clean: true,
-        skip_build: true, #the test action will already kick off a build, don't build twice
+        skip_build: true, #the. ./ test action will already kick off a build, don't build twice
     )
   end
 
