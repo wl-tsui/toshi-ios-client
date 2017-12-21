@@ -22,6 +22,8 @@ import Teapot
     case existing = 0, registered, failed
 }
 
+typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
+
 @objc class IDAPIClient: NSObject, CacheExpiryDefault {
     @objc static let shared: IDAPIClient = IDAPIClient()
 
@@ -222,7 +224,9 @@ import Teapot
     func updateAvatar(_ avatar: UIImage, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
-                completion(false, error)
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
                 return
             }
 
@@ -243,7 +247,9 @@ import Teapot
                 switch result {
                 case .success(let json, _):
                     guard let userDict = json?.dictionary else {
-                        completion(false, .invalidResponseJSON)
+                        DispatchQueue.main.async {
+                            completion(false, .invalidResponseJSON)
+                        }
                         return
                     }
 
@@ -269,7 +275,9 @@ import Teapot
     func updateUser(_ userDict: [String: Any], completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void)) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
-                completion(false, error)
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
                 return
             }
 
@@ -277,7 +285,9 @@ import Teapot
             let path = "/v1/user"
 
             guard let payload = try? JSONSerialization.data(withJSONObject: userDict, options: []), let payloadString = String(data: payload, encoding: .utf8) else {
-                completion(false, .invalidPayload)
+                DispatchQueue.main.async {
+                    completion(false, .invalidPayload)
+                }
                 return
             }
 
@@ -295,7 +305,9 @@ import Teapot
                 case .success(let json, let response):
                     guard response.statusCode == 200, let json = json?.dictionary else {
                         DLog("Invalid response - Update user")
-                        completion(false, ToshiError(withType: .invalidResponseStatus, description: "User could not be updated", responseStatus: response.statusCode))
+                        DispatchQueue.main.async {
+                            completion(false, ToshiError(withType: .invalidResponseStatus, description: "User could not be updated", responseStatus: response.statusCode))
+                        }
                         return
                     }
 
@@ -331,7 +343,9 @@ import Teapot
             switch result {
             case .success(let json, _):
                 guard let json = json?.dictionary else {
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                     return
                 }
 
@@ -350,7 +364,9 @@ import Teapot
 
         self.teapot.get("/v1/user/\(name)") { [weak self] (result: NetworkResult) in
             guard let strongSelf = self else {
-                completion(nil)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
                 return
             }
 
@@ -359,7 +375,9 @@ import Teapot
             switch result {
             case .success(let json, _):
                 guard let json = json?.dictionary else {
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
                     return
                 }
 
@@ -386,7 +404,9 @@ import Teapot
             switch result {
             case .success(let json, _):
                 guard let dictionary = json?.dictionary, var json = dictionary["results"] as? [[String: Any]] else {
-                    completion([])
+                    DispatchQueue.main.async {
+                        completion([])
+                    }
                     return
                 }
 
@@ -424,7 +444,9 @@ import Teapot
             switch result {
             case .success(let json, _):
                 guard let strongSelf = self, let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
-                    completion([], nil)
+                    DispatchQueue.main.async {
+                        completion([], nil)
+                    }
                     return
                 }
 
@@ -462,7 +484,9 @@ import Teapot
             switch result {
             case .success(let json, _):
                 guard let strongSelf = self, let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
-                    completion([], nil)
+                    DispatchQueue.main.async {
+                        completion([], nil)
+                    }
                     return
                 }
 
@@ -490,7 +514,9 @@ import Teapot
     func reportUser(address: String, reason: String = "", completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void) = { (Bool, String) in }) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
-                completion(false, error)
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
                 return
             }
 
@@ -503,7 +529,9 @@ import Teapot
             ]
 
             guard let payloadData = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: payloadData, encoding: .utf8) else {
-                completion(false, .invalidPayload)
+                DispatchQueue.main.async {
+                    completion(false, .invalidPayload)
+                }
                 return
             }
 
@@ -521,7 +549,9 @@ import Teapot
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
                         DLog("Invalid response - Report user")
-                        completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to report user could not be completed", responseStatus: response.statusCode))
+                        DispatchQueue.main.async {
+                            completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to report user could not be completed", responseStatus: response.statusCode))
+                        }
                         return
                     }
 
@@ -544,7 +574,9 @@ import Teapot
     func adminLogin(loginToken: String, completion: @escaping ((_ success: Bool, _ error: ToshiError?) -> Void) = { (Bool, String) in }) {
         fetchTimestamp { timestamp, error in
             guard let timestamp = timestamp else {
-                completion(false, error)
+                DispatchQueue.main.async {
+                    completion(false, error)
+                }
                 return
             }
 
@@ -563,7 +595,9 @@ import Teapot
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
                         DLog("Invalid response - Login")
-                        completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to login as admin could not be completed", responseStatus: response.statusCode))
+                        DispatchQueue.main.async {
+                            completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to login as admin could not be completed", responseStatus: response.statusCode))
+                        }
                         return
                     }
 
@@ -579,6 +613,52 @@ import Teapot
                 DispatchQueue.main.async {
                     completion(succeeded, toshiError)
                 }
+            }
+        }
+    }
+    
+    /// Gets a list of partner Dapps from the server. Does not cache.
+    ///
+    /// - Parameters:
+    ///   - limit: The limit of Dapps to fetch.
+    ///   - completion: The completion closure to execute when the request completes
+    ///                 - dapps: A list of dapps, or nil
+    ///                 - toshiError: A toshiError if any error was encountered, or nil
+    func getDapps(limit: Int = 10, completion: @escaping DappCompletion) {
+        let path = "/v1/dapps?limit=\(limit)"
+        teapot.get(path) { result in
+            var dapps: [Dapp] = []
+            var resultError: ToshiError?
+            
+            switch result {
+            case .success(let json, _):
+                guard let data = json?.data else {
+                    DispatchQueue.main.async {
+                        completion([], nil)
+                    }
+                    return
+                }
+    
+                let dappResults: DappResults
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    dappResults = try jsonDecoder.decode(DappResults.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(nil, .invalidPayload)
+                    }
+                    return
+                }
+                
+                dappResults.results.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarUrlString) }
+                dapps = dappResults.results
+            case .failure(_, _, let error):
+                DLog(error.localizedDescription)
+                resultError = ToshiError(withTeapotError: error)
+            }
+            
+            DispatchQueue.main.async {
+                completion(dapps, resultError)
             }
         }
     }
