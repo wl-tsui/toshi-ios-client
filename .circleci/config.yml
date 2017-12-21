@@ -12,7 +12,7 @@ jobs:
                 name: Install with bundler
                 command: bundle install
             - run:
-                name: Run tests
+                name: Run tests with Fastlane
                 command: bundle exec fastlane ci_test
             - run:
                 name: Danger
