@@ -34,4 +34,9 @@ class Toshi
     Distribution = "org.toshi.distribution"
   end
 
+  class File
+    ProjectFile = "Toshi.xcodeproj"
+    WorkspaceFile = "Toshi.xcworkspace"
+  end
+
 end

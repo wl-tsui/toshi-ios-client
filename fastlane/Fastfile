@@ -17,16 +17,11 @@ class FolderPath
   # The root fastlane folder
   Fastlane = "fastlane"
   # The output folder for test coverage data
-  TestOutput = "test_output"
-end
+  TestOutput = File.join(Fastlane, "test_output")
 
-# Files to ignore in code coverage, as an array of strings. Wildcards may be used.
-coverage_files_to_ignore = [
-  'Pods/*',
-  'Carthage/*',
-  'GitHub/*',
-  'danger/*',
-]
+  # The location where derived data should be placed.
+  DerivedData = File.join(Fastlane, "DerivedData")
+end
 
 ################
 # Actual lanes #
@@ -113,7 +108,40 @@ platform :ios do
   ###########
 
   def run_unit_tests
-    # TODO
+    # Build and run the non-UI tests
+    scan(
+        workspace: Toshi::Files::WorkspaceFile,
+        scheme: Toshi::BuildScheme::Tests,
+        skip_slack: !is_ci, # only let us know if we're on CI
+        output_directory: FolderPath::TestOutput,
+        derived_data_path: FolderPath::DerivedData,
+        clean: true,
+        skip_build: true, #the test action will already kick off a build, don't build twice
+    )
+  end
+
+  def run_coverage
+    # Files to ignore in code coverage, as an array of strings. Wildcards may be used.
+    coverage_files_to_ignore = [
+      'Pods/*',
+      'Carthage/*',
+      'GitHub/*',
+      'danger/*',
+    ]
+
+    # Run Code Coverage
+    slather(
+         cobertura_xml: true,
+         proj: Toshi::Files::ProjectFile,
+         workspace: Toshi::Files::WorkspaceFile,
+         input_format: 'profdata',
+         scheme: Toshi::BuildScheme::Tests,
+         use_bundle_exec: true,
+         build_directory: FolderPath::DerivedData,
+         output_directory: FolderPath::TestOutput,
+         ignore: coverage_files_to_ignore,
+         jenkins: is_ci,
+    )
   end
 
   def run_ui_tests
@@ -163,7 +191,8 @@ platform :ios do
     match_dev
     build_development
     run_unit_tests
-    run_ui_tests
+    # run_ui_tests TODO: Reenable when we have UI Tests
+    run_coverage
   end
 
 end
