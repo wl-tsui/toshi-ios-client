@@ -249,6 +249,7 @@
 "error_title" = "Error";
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
+"eth_sign_warning" = "Warning: Only sign messages from sites you fully trust as signing messages can have dangerous side effects.";
 
 /* Dapps */
 "dapp_button_enter" = "Enter";
