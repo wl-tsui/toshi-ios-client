@@ -3,7 +3,7 @@ version: 2
 jobs:
     build-and-test:
         macos:
-            xcode: "9.1.0"
+            xcode: "9.2.0"
         # Use custom shell per https://circleci.com/docs/2.0/testing-ios/#using-custom-versions-of-cocoapods-and-other-ruby-gems
         shell: /bin/bash --login -eo pipefail
         steps:
@@ -13,7 +13,7 @@ jobs:
                 command: bundle install
             - run:
                 name: Run tests
-                command: set -o pipefail && xcodebuild clean build test -workspace Toshi.xcworkspace -scheme "Tests" -destination 'platform=iOS Simulator,name=iPhone 7' | xcpretty --color && exit ${PIPESTATUS[0]}
+                command: bundle exec fastlane ci_test
             - run:
                 name: Danger
                 command: bundle exec danger
