@@ -110,7 +110,7 @@ platform :ios do
   def run_unit_tests
     # Build and run the non-UI tests
     scan(
-        workspace: Toshi::Files::WorkspaceFile,
+        workspace: Toshi::File::WorkspaceFile,
         scheme: Toshi::BuildScheme::Tests,
         skip_slack: !is_ci, # only let us know if we're on CI
         output_directory: FolderPath::TestOutput,
@@ -132,8 +132,8 @@ platform :ios do
     # Run Code Coverage
     slather(
          cobertura_xml: true,
-         proj: Toshi::Files::ProjectFile,
-         workspace: Toshi::Files::WorkspaceFile,
+         proj: Toshi::File::ProjectFile,
+         workspace: Toshi::File::WorkspaceFile,
          input_format: 'profdata',
          scheme: Toshi::BuildScheme::Tests,
          use_bundle_exec: true,
