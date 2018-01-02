@@ -59,6 +59,9 @@ platform :ios do
     bundle_ids = options[:app_identifier]
     apple_dev_team = options[:team_id]
     signing_type = options[:type]
+
+    username = is_ci ? Toshi::Username : nil
+
     match(
       git_url: Toshi::MatchInfo::RepoUrl,
       type: signing_type,
@@ -66,7 +69,7 @@ platform :ios do
       git_branch: Toshi::MatchInfo::Branch,
       readonly: true,
       app_identifier: bundle_ids,
-      username: Toshi::Username,
+      username: username,
     )
   end
 
