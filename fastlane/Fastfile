@@ -33,6 +33,9 @@ platform :ios do
     # Happier setup with Match and keychain.
     setup_circle_ci
 
+    # Check if osxkeychain exists
+    sh "git credential-osxkeychain"
+
     # Make sure Fastlane is using UTF-8
     ENV["LC_ALL"]="en_US.UTF-8"
     ENV["LANG"]="en_US.UTF-8"
