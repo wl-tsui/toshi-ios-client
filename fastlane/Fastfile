@@ -29,12 +29,17 @@ end
 
 platform :ios do
 
+  ##################
+  # SETUP/TEARDOWN #
+  ##################
+
   before_all do
     # Happier setup with Match and keychain.
     setup_circle_ci
 
-    # Check if osxkeychain exists
-    sh "git credential-osxkeychain"
+    # Store the access token for match
+    access_token=ENV["MATCH_GITHUB_ACCESS_TOKEN"]
+    sh "git credential-osxkeychain store protocol=https host=github.com username=#{Toshi::Username} password=#{access_token}"
 
     # Make sure Fastlane is using UTF-8
     ENV["LC_ALL"]="en_US.UTF-8"
@@ -44,6 +49,11 @@ platform :ios do
       # Open-source note: This file is kept private to developers who can release.
       sh ". ./local_config.sh"
     end
+  end
+
+  after_all do
+    # Nuke the access token for match 
+    sh "git credential-osxkeychain erase protocol=https host=github.com username=#{Toshi::Username}"
   end
 
   ##########################
