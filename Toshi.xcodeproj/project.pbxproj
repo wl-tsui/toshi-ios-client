@@ -158,6 +158,7 @@
 		33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */; };
 		33C034341FFE6A4500A9C59C /* EarlGreyRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034331FFE6A4500A9C59C /* EarlGreyRobot.swift */; };
 		33C0343B1FFE7BA700A9C59C /* SignInRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0343A1FFE7BA700A9C59C /* SignInRobot.swift */; };
+		33C0343D1FFE7FF000A9C59C /* MyProfileRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0343C1FFE7FF000A9C59C /* MyProfileRobot.swift */; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -969,6 +970,7 @@
 		33C034331FFE6A4500A9C59C /* EarlGreyRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyRobot.swift; sourceTree = "<group>"; };
 		33C034361FFE6E0000A9C59C /* Tests_UI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests_UI-Bridging-Header.h"; sourceTree = "<group>"; };
 		33C0343A1FFE7BA700A9C59C /* SignInRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRobot.swift; sourceTree = "<group>"; };
+		33C0343C1FFE7FF000A9C59C /* MyProfileRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileRobot.swift; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
 		33D2ECFB1FFD1F3900AEFC4D /* contact.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = contact.json; sourceTree = "<group>"; };
@@ -1536,6 +1538,7 @@
 			children = (
 				33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */,
 				33C034331FFE6A4500A9C59C /* EarlGreyRobot.swift */,
+				33C0343C1FFE7FF000A9C59C /* MyProfileRobot.swift */,
 				33C0343A1FFE7BA700A9C59C /* SignInRobot.swift */,
 				33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */,
 			);
@@ -3234,6 +3237,7 @@
 				33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */,
 				33C0343B1FFE7BA700A9C59C /* SignInRobot.swift in Sources */,
 				33C034341FFE6A4500A9C59C /* EarlGreyRobot.swift in Sources */,
+				33C0343D1FFE7FF000A9C59C /* MyProfileRobot.swift in Sources */,
 				33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
