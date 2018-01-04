@@ -56,3 +56,9 @@ extension EarlGreyRobot: BasicRobot {
             .perform(grey_tap())
     }
 }
+
+// MARK: - Mix-in Robots
+
+extension EarlGreyRobot: MyProfileRobot { /*mix-in */ }
+extension EarlGreyRobot: SplashScreenRobot { /* mix-in */ }
+extension EarlGreyRobot: SignInRobot { /* mix-in */ }
