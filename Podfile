@@ -34,6 +34,10 @@ abstract_target 'CocoaPods' do
 	
   end
   
+  target 'Tests_UI' do
+      
+  end
+  
   # Disable Code Coverage for Pods projects
   post_install do |installer_representation|
       installer_representation.pods_project.targets.each do |target|
