@@ -14,7 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 @testable import Toshi
-import XCTestCase
+import XCTest
 
 // MARK: - Robot to deal with the "Me" tab in the app
 
