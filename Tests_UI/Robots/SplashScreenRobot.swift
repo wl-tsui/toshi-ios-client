@@ -16,7 +16,7 @@
 import Foundation
 @testable import Toshi
 
-// MARK: - Robot to deal with the splash screen which shows on first launch or after logout. 
+// MARK: - Robot to deal with the splash screen which shows on first launch or after logout.
 
 protocol SplashScreenRobot: BasicRobot { }
 

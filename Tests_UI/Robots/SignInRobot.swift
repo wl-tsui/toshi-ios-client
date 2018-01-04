@@ -45,7 +45,7 @@ enum SignInScreenButton {
  
 }
 
-//MARK: - Default Implementation
+// MARK: - Default Implementation
 
 extension SignInRobot {
     
