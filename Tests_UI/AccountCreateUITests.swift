@@ -22,22 +22,6 @@ class AccountCreateUITests: XCTestCase {
     lazy var signInRobot: SignInRobot = EarlGreyRobot()
     lazy var splashRobot: SplashScreenRobot = EarlGreyRobot()
     
-    // MARK: - Test Lifecycle
-    
-    override func setUp() {
-        super.setUp()
-        
-        self.signInRobot = EarlGreyRobot()
-        self.splashRobot = EarlGreyRobot()
-    }
-    
-    override func tearDown() {
-        self.splashRobot = nil
-        self.signInRobot = nil
-        
-        super.tearDown()
-    }
-    
     // MARK: - Tests
     
     // MARK: Account Creation
