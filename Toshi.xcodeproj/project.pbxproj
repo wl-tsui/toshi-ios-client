@@ -153,6 +153,7 @@
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33C034351FFE6D8800A9C59C /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
+		33C0343F1FFE90D800A9C59C /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -858,6 +859,17 @@
 				9F3FF8401EB36A8E002D0293 /* WebRTC.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		33C0343E1FFE90C100A9C59C /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				33C0343F1FFE90D800A9C59C /* EarlGrey.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		9FE86E011F0BC09E00A7F71E /* Copy Frameworks */ = {
@@ -2250,6 +2262,7 @@
 				33C0341E1FFE69E700A9C59C /* Sources */,
 				33C0341F1FFE69E700A9C59C /* Frameworks */,
 				33C034201FFE69E700A9C59C /* Resources */,
+				33C0343E1FFE90C100A9C59C /* Copy Frameworks */,
 				BFCFA709BD872D0000AB74F7 /* [CP] Embed Pods Frameworks */,
 				C75A6D54495C521D5224A180 /* [CP] Copy Pods Resources */,
 			);
