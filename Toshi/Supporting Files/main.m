@@ -21,7 +21,10 @@
 int main(int argc, char* argv[]) {
     @autoreleasepool {
         BOOL runningTests = NSClassFromString(@"XCTestCase") != nil || NSClassFromString(@"QuickSpec") != nil;
-        if(runningTests) {
+       
+        BOOL runningUITests = (NSClassFromString(@"GREYActions") != nil);
+        
+        if (runningTests && !runningUITests) {
             return UIApplicationMain(argc, argv, nil, NSStringFromClass([TestAppDelegate class]));
         }
 
