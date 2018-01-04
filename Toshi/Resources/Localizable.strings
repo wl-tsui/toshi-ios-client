@@ -166,6 +166,7 @@
 "sign-out-failure-title" = "Could not sign out";
 "sign-out-failure-message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
 "cancel_action_title" = "Cancel";
+"back_action_title" = "Back";
 
 /* Block user Alerts */
 "block_action_title" = "Block";
