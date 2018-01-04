@@ -154,6 +154,7 @@
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33C034351FFE6D8800A9C59C /* EarlGrey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; };
 		33C0343F1FFE90D800A9C59C /* EarlGrey.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 339959AC1FCEE74F00D69A01 /* EarlGrey.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -960,6 +961,7 @@
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C034261FFE69E700A9C59C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicRobot.swift; sourceTree = "<group>"; };
 		33C034361FFE6E0000A9C59C /* Tests_UI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests_UI-Bridging-Header.h"; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
@@ -1516,10 +1518,19 @@
 		33C034231FFE69E700A9C59C /* Tests_UI */ = {
 			isa = PBXGroup;
 			children = (
+				33C0342E1FFE6A2000A9C59C /* Robots */,
 				33C034261FFE69E700A9C59C /* Info.plist */,
 				33C034361FFE6E0000A9C59C /* Tests_UI-Bridging-Header.h */,
 			);
 			path = Tests_UI;
+			sourceTree = "<group>";
+		};
+		33C0342E1FFE6A2000A9C59C /* Robots */ = {
+			isa = PBXGroup;
+			children = (
+				33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */,
+			);
+			path = Robots;
 			sourceTree = "<group>";
 		};
 		6AE44D951F45C37A00F5AF02 /* LocalCurrency */ = {
@@ -3211,6 +3222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
