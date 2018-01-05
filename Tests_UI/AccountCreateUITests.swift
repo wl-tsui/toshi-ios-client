@@ -46,7 +46,16 @@ class AccountCreateUITests: XCTestCase {
             .validateTermsDialogGone()
             .validateOffSplashScreen()
         
-        // TODO: Log out for next test
+        self.tabBarRobot
+            .validateTabBarShowing()
+            .select(item: .me)
+    
+        self.myProfileRobot
+            .validateOnMyProfileScreen()
+            .select(cell: .signOut)
+            .validateNoFundsSignOutDialogShowing()
+            .select(signOutOption: .delete)
+            .validateNoFundsSignOutDialogGone()
     }
     
     func testCreateAccountThenReadTerms() {
