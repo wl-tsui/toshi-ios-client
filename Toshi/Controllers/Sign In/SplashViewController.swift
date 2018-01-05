@@ -49,6 +49,7 @@ final class SplashViewController: UIViewController {
         label.textColor = Theme.viewBackgroundColor
         label.numberOfLines = 0
         label.text = Localized("welcome_title")
+        label.isAccessibilityElement = true
 
         return label
     }()
