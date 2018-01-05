@@ -147,6 +147,7 @@
 		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC51FD6D32800229BE2 /* PasswordValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */; };
+		33674E3F1FFFA6CE00089BF7 /* fetchUsersFromIDs.json in Resources */ = {isa = PBXBuildFile; fileRef = 33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */; };
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -934,6 +935,7 @@
 		3332E0BB1FE979C800CC1C8A /* DappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappViewController.swift; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
+		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -2102,15 +2104,16 @@
 			children = (
 				33D2ECFB1FFD1F3900AEFC4D /* contact.json */,
 				33FD936C1FE95F4E0082B9D8 /* dapps.json */,
+				33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */,
 				D197B707B59B3F92F8A4B3EC /* getLatestPublicUsers.json */,
+				D197BA847282226E502C8CEE /* getTopRatedPublicUsers.json */,
 				D197B29F0030A48233E69AD9 /* nonExistingUser.json */,
+				D197B8E798FCD39B97824BBA /* retrieveUser.json */,
 				D197B12C40488CB1523BB212 /* user.json */,
 				33F6D22D1FFD18E100AB0DCC /* userAfterImageUpdate.json */,
 				33F6D22F1FFD1BEC00AB0DCC /* userAfterDataUpdate.json */,
-				D197BA847282226E502C8CEE /* getTopRatedPublicUsers.json */,
 				D197B4747DA95DF531E0C300 /* searchContacts.json */,
 				D197B3AC0E3346D86F7A4559 /* testImage.png */,
-				D197B8E798FCD39B97824BBA /* retrieveUser.json */,
 			);
 			path = IDAPIClient;
 			sourceTree = "<group>";
@@ -2335,6 +2338,7 @@
 				D197B30022F9B4D9D27325F7 /* getTopRatedApps.json in Resources */,
 				D197B74275EBC3A229F0D4D9 /* timestamp.json in Resources */,
 				D197B9DDD90826832295B645 /* getRate.json in Resources */,
+				33674E3F1FFFA6CE00089BF7 /* fetchUsersFromIDs.json in Resources */,
 				D197B93C624C3E8D1F43B232 /* getCurrencies.json in Resources */,
 				D197B93806978360C8100D50 /* score.json in Resources */,
 				D197B637C5223A239BA0EF67 /* getTopRatedPublicUsers.json in Resources */,

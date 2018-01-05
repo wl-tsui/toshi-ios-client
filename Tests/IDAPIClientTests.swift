@@ -215,6 +215,50 @@ class IDAPIClientTests: QuickSpec {
                         }
                     }
                 }
+                
+                it("gets a bunch of users from their IDs") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "fetchUsersFromIDs")
+                    subject = IDAPIClient(teapot: mockTeapot)
+                    
+                    let ids = [
+                        "0xe629d9ff7a3f0abe637bed15988759abc2822fb8",
+                        "0x1c0e100fcf093c64cdaa54562c84c8fa0171a38c",
+                        "0xeedde9afd8ac67e3564f69d0c1a144e9d7536af1"
+                    ]
+                    
+                    waitUntil { done in
+                        subject.fetchUsers(with: ids) { users, error in
+                            expect(users).toNot(beNil())
+                            expect(error).to(beNil())
+                            
+                            expect(users?.count).to(equal(3))
+                            
+                            expect(users?.map { $0.address }).to(equal(ids))
+                            expect(users?.map { $0.username }).to(equal([
+                                "NodeOnlyBot1",
+                                "tristan",
+                                "user03555"
+                            ]))
+                            expect(users?.map { $0.name }).to(equal([
+                                "Node Only Bot",
+                                "Tristan",
+                                ""
+                            ]))
+                            expect(users?.map { $0.isApp }).to(equal([
+                                true,
+                                false,
+                                false
+                            ]))
+                            expect(users?.map { $0.isPublic }).to(equal([
+                                false,
+                                true,
+                                false
+                            ]))
+                        
+                            done()
+                        }
+                    }
+                }
 
                 it("gets top rated public users") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getTopRatedPublicUsers")
@@ -469,6 +513,31 @@ class IDAPIClientTests: QuickSpec {
                         subject.searchContacts(name: search) { users in
                             expect(users.count).to(equal(0))
                             
+                            done()
+                        }
+                    }
+                }
+                
+                it("gets a bunch of users from their IDs") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self),
+                                                mockFilename: "fetchUsersFromIDs",
+                                                statusCode: .unauthorized)
+                    subject = IDAPIClient(teapot: mockTeapot)
+                    
+                    let ids = [
+                        "0xe629d9ff7a3f0abe637bed15988759abc2822fb8",
+                        "0x1c0e100fcf093c64cdaa54562c84c8fa0171a38c",
+                        "0xeedde9afd8ac67e3564f69d0c1a144e9d7536af1"
+                    ]
+                    
+                    waitUntil { done in
+                        subject.fetchUsers(with: ids) { users, error in
+                            expect(users).to(beNil())
+                            expect(error).toNot(beNil())
+                            
+                            expect(error?.responseStatus).to(equal(401))
+                            expect(error?.type).to(equal(.invalidResponseStatus))
+
                             done()
                         }
                     }
