@@ -93,3 +93,4 @@ extension EarlGreyRobot: BasicRobot {
 extension EarlGreyRobot: MyProfileRobot { /*mix-in */ }
 extension EarlGreyRobot: SplashScreenRobot { /* mix-in */ }
 extension EarlGreyRobot: SignInRobot { /* mix-in */ }
+extension EarlGreyRobot: TabBarRobot { /* mix-in */ }

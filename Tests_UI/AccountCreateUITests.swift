@@ -21,6 +21,7 @@ class AccountCreateUITests: XCTestCase {
     lazy var myProfileRobot: MyProfileRobot = EarlGreyRobot()
     lazy var signInRobot: SignInRobot = EarlGreyRobot()
     lazy var splashRobot: SplashScreenRobot = EarlGreyRobot()
+    lazy var tabBarRobot: TabBarRobot = EarlGreyRobot()
     
     // MARK: - Tests
     

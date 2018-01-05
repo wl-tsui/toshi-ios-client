@@ -149,6 +149,7 @@
 		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC51FD6D32800229BE2 /* PasswordValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */; };
 		33674E3F1FFFA6CE00089BF7 /* fetchUsersFromIDs.json in Resources */ = {isa = PBXBuildFile; fileRef = 33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */; };
+		33674E411FFFF43900089BF7 /* TabBarRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E401FFFF43900089BF7 /* TabBarRobot.swift */; };
 		33674E441FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
 		33674E451FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
 		33674E461FFFF8D600089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
@@ -965,6 +966,7 @@
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
 		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
+		33674E401FFFF43900089BF7 /* TabBarRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRobot.swift; sourceTree = "<group>"; };
 		33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
@@ -1549,6 +1551,7 @@
 				33C0343C1FFE7FF000A9C59C /* MyProfileRobot.swift */,
 				33C0343A1FFE7BA700A9C59C /* SignInRobot.swift */,
 				33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */,
+				33674E401FFFF43900089BF7 /* TabBarRobot.swift */,
 			);
 			path = Robots;
 			sourceTree = "<group>";
@@ -3246,6 +3249,7 @@
 				33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */,
 				33C0342D1FFE6A1800A9C59C /* AccountCreateUITests.swift in Sources */,
 				33C0343B1FFE7BA700A9C59C /* SignInRobot.swift in Sources */,
+				33674E411FFFF43900089BF7 /* TabBarRobot.swift in Sources */,
 				33C034341FFE6A4500A9C59C /* EarlGreyRobot.swift in Sources */,
 				33C0343D1FFE7FF000A9C59C /* MyProfileRobot.swift in Sources */,
 				33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */,
