@@ -84,9 +84,9 @@ extension MyProfileRobot {
     func select(cell: MyProfileCell,
                 file: StaticString = #file,
                 line: UInt = #line) -> MyProfileRobot {
-        tapViewWith(accessibilityLabel: cell.accessibilityLabel,
-                    file: file,
-                    line: line)
+        tapButtonWith(accessibilityLabel: cell.accessibilityLabel,
+                      file: file,
+                      line: line)
         
         return self
     }
@@ -95,9 +95,9 @@ extension MyProfileRobot {
     func select(signOutOption: SignOutDialogOption,
                 file: StaticString = #file,
                 line: UInt = #line) -> MyProfileRobot {
-        tapViewWith(accessibilityLabel: signOutOption.accessibilityLabel,
-                    file: file,
-                    line: line)
+        tapButtonWith(accessibilityLabel: signOutOption.accessibilityLabel,
+                      file: file,
+                      line: line)
         
         return self
     }

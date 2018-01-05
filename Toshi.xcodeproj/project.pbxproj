@@ -149,6 +149,9 @@
 		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC51FD6D32800229BE2 /* PasswordValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */; };
 		33674E3F1FFFA6CE00089BF7 /* fetchUsersFromIDs.json in Resources */ = {isa = PBXBuildFile; fileRef = 33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */; };
+		33674E441FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
+		33674E451FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
+		33674E461FFFF8D600089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -962,6 +965,7 @@
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
 		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
+		33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1521,6 +1525,7 @@
 				339959AA1FCED3D700D69A01 /* DLog.swift */,
 				33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */,
 				33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */,
+				33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3106,6 +3111,7 @@
 				2B953ACC1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */,
 				A95D315D1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
 				8446632C1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
+				33674E441FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */,
 				A9E691CD1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
 				A9CADC241F94B1C50096D017 /* BrowseViewController.swift in Sources */,
 				A9CADC2C1F94B1D30096D017 /* SearchResultCell.swift in Sources */,
@@ -3317,6 +3323,7 @@
 				2B953ACA1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */,
 				A9E691C51F7A496800317DB1 /* SignInLayout.swift in Sources */,
 				9FEB8C8B1E6832120088D5A6 /* NSData+ows_StripToken.m in Sources */,
+				33674E461FFFF8D600089BF7 /* AccessibilityIdentifier.swift in Sources */,
 				A9BA6B7F1EF7D864007C3206 /* DepositMoneyItem.swift in Sources */,
 				9FE398411E2E225600386FAF /* ProfileItemCell.swift in Sources */,
 				A9E691C11F7A496800317DB1 /* SignInView.swift in Sources */,
@@ -3515,6 +3522,7 @@
 				2B953ACB1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */,
 				A9E691CC1F7A49AB00317DB1 /* SignInFooterView.swift in Sources */,
 				A9CADC231F94B1C50096D017 /* BrowseViewController.swift in Sources */,
+				33674E451FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */,
 				A9CADC2B1F94B1D30096D017 /* SearchResultCell.swift in Sources */,
 				A9603E1D1F4DABDC00BF57B1 /* RatingsClient.swift in Sources */,
 				A9603E1F1F4DABDC00BF57B1 /* AvatarManager.swift in Sources */,

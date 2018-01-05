@@ -54,9 +54,9 @@ extension SignInRobot {
     func select(button: SignInScreenButton,
                 file: StaticString = #file,
                 line: UInt = #line) -> SignInRobot {
-        tapViewWith(accessibilityLabel: button.accessibilityLabel,
-                    file: file,
-                    line: line)
+        tapButtonWith(accessibilityLabel: button.accessibilityLabel,
+                      file: file,
+                      line: line)
         
         return self
     }

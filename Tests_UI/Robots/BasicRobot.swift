@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import Foundation
+@testable import Toshi
 import XCTest
 
 // MARK: - Robot UI testing pattern.
@@ -25,7 +26,7 @@ protocol BasicRobot {
     
     // MARK: - Is it there?
     
-    /// Runs an action where the implementation's test framework validates that a view is presently visible.
+    /// Runs an action where the implementation's test framework validates that a view is presently visible based on its accessibility label.
     ///
     /// - Parameters:
     ///   - accessibilityLabel: The Accessibility Label of the view to look for. This would be read out loud to VoiceOver users.
@@ -35,7 +36,17 @@ protocol BasicRobot {
                                 file: StaticString,
                                 line: UInt)
     
-    /// Runs an action where the implementation's test framework validates that a view is not presently visible.
+    /// Runs an action where the implementation's test framework validates that a view is presently visible based on its accessibility identifier.
+    ///
+    /// - Parameters:
+    ///   - accessibilityIdentifier: The Accessibility Identifier of the view to look for. This would only be available to tests, and NOT to VoiceOver users.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func confirmViewVisibleWith(accessibilityIdentifier: AccessibilityIdentifier,
+                                file: StaticString,
+                                line: UInt)
+    
+    /// Runs an action where the implementation's test framework validates that a view is not presently visible based on its accessibility label.
     ///
     /// - Parameters:
     ///   - accessibilityLabel: The Accessibility Label of the view to look for. This would be read out loud to VoiceOver users.
@@ -45,15 +56,25 @@ protocol BasicRobot {
                              file: StaticString,
                              line: UInt)
     
+    /// Runs an action where the implementation's test framework validates that a view is not presently visible based on its accessibility identifier.
+    ///
+    /// - Parameters:
+    ///   - accessibilityIdentifier: The Accessibility Identifier of the view to look for. This would only be available to tests, and NOT to VoiceOver users.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func confirmViewGoneWith(accessibilityIdentifier: AccessibilityIdentifier,
+                             file: StaticString,
+                             line: UInt)
+    
     // MARK: - Tapping
     
-    /// Runs an action where the implementation's test framework taps on a view.
+    /// Runs an action where the implementation's test framework taps on a button based on its accessibility label.
     ///
     /// - Parameters:
     ///   - accessibilityLabel: The Accessibility Label of the view to tap. This would be read out loud to VoiceOver users.
     ///   - file: The file from which this method is being called.
     ///   - line: The line from which this method is being called.
-    func tapViewWith(accessibilityLabel: String,
-                     file: StaticString,
-                     line: UInt)
+    func tapButtonWith(accessibilityLabel: String,
+                       file: StaticString,
+                       line: UInt)
 }

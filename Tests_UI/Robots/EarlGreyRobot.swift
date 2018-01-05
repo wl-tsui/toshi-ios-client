@@ -14,7 +14,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import EarlGrey
-import Foundation
+import UIKit
+@testable import Toshi
 import XCTest
 
 // MARK: - Concrete implementation of Robot pattern for Earl Grey
@@ -24,8 +25,32 @@ class EarlGreyRobot {
     private func viewWith(label: String,
                           file: StaticString,
                           line: UInt) -> GREYElementInteraction {
+        // Accessibility replaces newlines with spaces.
+        let labelWithoutNewlines = label.replacingOccurrences(of: "\n", with: " ")
+        
         return earlFromFile(file: file, line: line)
-            .selectElement(with: grey_accessibilityLabel(label))
+            .selectElement(with: grey_allOf([
+                grey_accessibilityLabel(labelWithoutNewlines)
+            ]))
+            .atIndex(0)
+    }
+    
+    private func buttonWith(label: String,
+                            file: StaticString,
+                            line: UInt) -> GREYElementInteraction {
+        return earlFromFile(file: file, line: line)
+            .selectElement(with: grey_allOf([
+                grey_accessibilityLabel(label),
+                grey_accessibilityTrait(UIAccessibilityTraitButton)
+            ]))
+            .atIndex(0)
+    }
+    
+    private func viewWith(identifier: String,
+                          file: StaticString,
+                          line: UInt) -> GREYElementInteraction {
+        return earlFromFile(file: file, line: line)
+            .selectElement(with: grey_accessibilityID(identifier))
     }
     
     private func earlFromFile(file: StaticString, line: UInt) -> EarlGreyImpl {
@@ -37,10 +62,13 @@ class EarlGreyRobot {
 
 extension EarlGreyRobot: BasicRobot {
     
-    func confirmViewVisibleWith(accessibilityLabel: String,
-                                file: StaticString,
-                                line: UInt) {
+    func confirmViewVisibleWith(accessibilityLabel: String, file: StaticString, line: UInt) {
         viewWith(label: accessibilityLabel, file: file, line: line)
+            .assert(with: grey_sufficientlyVisible())
+    }
+    
+    func confirmViewVisibleWith(accessibilityIdentifier: AccessibilityIdentifier, file: StaticString, line: UInt) {
+        viewWith(identifier: accessibilityIdentifier.rawValue, file: file, line: line)
             .assert(with: grey_sufficientlyVisible())
     }
     
@@ -48,11 +76,14 @@ extension EarlGreyRobot: BasicRobot {
         viewWith(label: accessibilityLabel, file: file, line: line)
             .assert(with: grey_notVisible())
     }
+    
+    func confirmViewGoneWith(accessibilityIdentifier: AccessibilityIdentifier, file: StaticString, line: UInt) {
+        viewWith(identifier: accessibilityIdentifier.rawValue, file: file, line: line)
+            .assert(with: grey_notVisible())
+    }
 
-    func tapViewWith(accessibilityLabel: String,
-                     file: StaticString,
-                     line: UInt) {
-        viewWith(label: accessibilityLabel, file: file, line: line)
+    func tapButtonWith(accessibilityLabel: String, file: StaticString, line: UInt) {
+        buttonWith(label: accessibilityLabel, file: file, line: line)
             .perform(grey_tap())
     }
 }

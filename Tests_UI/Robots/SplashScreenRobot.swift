@@ -67,9 +67,9 @@ extension SplashScreenRobot {
     func select(button: SplashScreenButton,
                 file: StaticString = #file,
                 line: UInt = #line) -> SplashScreenRobot {
-        tapViewWith(accessibilityLabel: button.accessibilityLabel,
-                    file: file,
-                    line: line)
+        tapButtonWith(accessibilityLabel: button.accessibilityLabel,
+                      file: file,
+                      line: line)
         
         return self
     }
@@ -77,9 +77,9 @@ extension SplashScreenRobot {
     func select(termsOption: TermsOption,
                 file: StaticString = #file,
                 line: UInt = #line) -> SplashScreenRobot {
-        tapViewWith(accessibilityLabel: termsOption.accessibilityLabel,
-                    file: file,
-                    line: line)
+        tapButtonWith(accessibilityLabel: termsOption.accessibilityLabel,
+                      file: file,
+                      line: line)
         
         return self
     }
