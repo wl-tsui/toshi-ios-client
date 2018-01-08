@@ -79,7 +79,7 @@ extension PaymentPresentable where Self: UIViewController {
     }
 
     func presentSuccessAlert(with actionBlock: ((UIAlertAction) -> Swift.Void)?) {
-        let alertController = UIAlertController(title: "Done", message: "Payment succeeded", preferredStyle: .alert)
+        let alertController = UIAlertController(title: Localized("done_action_title"), message: "Payment succeeded", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { action in
             actionBlock?(action)
         }
