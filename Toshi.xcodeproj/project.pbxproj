@@ -2311,6 +2311,7 @@
 				33C0341E1FFE69E700A9C59C /* Sources */,
 				33C0341F1FFE69E700A9C59C /* Frameworks */,
 				33C034201FFE69E700A9C59C /* Resources */,
+				33816A692003C27600FE81BD /* Carthage Copy Frameworks */,
 				33C0343E1FFE90C100A9C59C /* Copy Frameworks */,
 				BFCFA709BD872D0000AB74F7 /* [CP] Embed Pods Frameworks */,
 				C75A6D54495C521D5224A180 /* [CP] Copy Pods Resources */,
@@ -2744,6 +2745,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"";
+		};
+		33816A692003C27600FE81BD /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/EarlGrey.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/EarlGrey.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		4380A44F194F905C73188527 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3859,7 +3876,7 @@
 				);
 				INFOPLIST_FILE = Tests_UI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks ${SRCROOT}/Carthage/Build/iOS";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.toshiapp.Tests-UI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -3893,7 +3910,7 @@
 				);
 				INFOPLIST_FILE = Tests_UI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks ${SRCROOT}/Carthage/Build/iOS";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.toshiapp.Tests-UI";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Tests_UI/Tests_UI-Bridging-Header.h";
