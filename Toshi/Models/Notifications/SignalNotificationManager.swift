@@ -24,30 +24,32 @@ class SignalNotificationManager: NSObject, NotificationsProtocol {
     }
 
     func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
-
-        guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
-            return
+        
+        DispatchQueue.main.async {
+            guard UIApplication.shared.applicationState == .background || SignalNotificationManager.tabbarController?.selectedViewController != SignalNotificationManager.tabbarController?.messagingController else {
+                return
+            }
+            
+            defer { SignalNotificationManager.updateUnreadMessagesNumber() }
+            
+            let content = UNMutableNotificationContent()
+            content.title = thread.name()
+            content.threadIdentifier = thread.uniqueId
+            
+            if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
+                content.body = sofa.body
+            } else {
+                content.body = "New message."
+            }
+            
+            content.sound = UNNotificationSound(named: "PN.m4a")
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            
+            let center = UNUserNotificationCenter.current()
+            center.add(request, withCompletionHandler: nil)
         }
-
-        defer { SignalNotificationManager.updateUnreadMessagesNumber() }
-
-        let content = UNMutableNotificationContent()
-        content.title = thread.name()
-        content.threadIdentifier = thread.uniqueId
-
-        if let body = incomingMessage.body, let sofa = SofaWrapper.wrapper(content: body) as? SofaMessage {
-            content.body = sofa.body
-        } else {
-            content.body = "New message."
-        }
-
-        content.sound = UNNotificationSound(named: "PN.m4a")
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
-        let center = UNUserNotificationCenter.current()
-        center.add(request, withCompletionHandler: nil)
     }
 
     func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
