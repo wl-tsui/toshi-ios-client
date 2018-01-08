@@ -19,6 +19,7 @@
 #import "TSOutgoingMessage+Addtions.h"
 
 #import "AppDelegate.h"
+#import "TestAppDelegate.h"
 #import "ContactsManager.h"
 
 #import "UIImage+Utils.h"

@@ -35,7 +35,6 @@
 		149F9A9B1E72E29A00FB74AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
 		149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
-		149F9AA31E72E29A00FB74AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
 		149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
@@ -153,6 +152,12 @@
 		33674E441FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
 		33674E451FFFF8D500089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
 		33674E461FFFF8D600089BF7 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */; };
+		3367F8D72003A9B400DE1557 /* UIApplication+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8D62003A9B400DE1557 /* UIApplication+Testing.swift */; };
+		3367F8D82003AAF800DE1557 /* UIApplication+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8D62003A9B400DE1557 /* UIApplication+Testing.swift */; };
+		3367F8D92003AAF800DE1557 /* UIApplication+Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8D62003A9B400DE1557 /* UIApplication+Testing.swift */; };
+		3367F8DB2003ABA000DE1557 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DA2003ABA000DE1557 /* main.swift */; };
+		3367F8DC2003ACD600DE1557 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DA2003ABA000DE1557 /* main.swift */; };
+		3367F8DD2003ACD700DE1557 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DA2003ABA000DE1557 /* main.swift */; };
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -279,7 +284,6 @@
 		9F8C340D1E71530A005178F9 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
 		9F8C340F1E715C7A005178F9 /* menuButton.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340E1E715C7A005178F9 /* menuButton.m4a */; };
 		9F8DEC0D1E38A58900F12CDA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */; };
-		9F9238B61E24F1D2004BEEE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		9F9238B91E24F1D2004BEEE0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */; };
 		9F9238C41E24F1D2004BEEE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
 		9F9238D41E24F42A004BEEE0 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238D31E24F42A004BEEE0 /* ChatCell.swift */; };
@@ -523,7 +527,6 @@
 		A9603EF11F4DABDC00BF57B1 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC740A1E77E62900365029 /* UIView+Additions.swift */; };
 		A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
 		A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */; };
-		A9603EF71F4DABDC00BF57B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9238B51E24F1D2004BEEE0 /* main.m */; };
 		A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
 		A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		A9603F041F4DABDC00BF57B1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
@@ -968,6 +971,8 @@
 		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
 		33674E401FFFF43900089BF7 /* TabBarRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRobot.swift; sourceTree = "<group>"; };
 		33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
+		3367F8D62003A9B400DE1557 /* UIApplication+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Testing.swift"; sourceTree = "<group>"; };
+		3367F8DA2003ABA000DE1557 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1046,7 +1051,6 @@
 		9F8C340E1E715C7A005178F9 /* menuButton.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = menuButton.m4a; sourceTree = "<group>"; };
 		9F8DEC0C1E38A58900F12CDA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9F9238B11E24F1D2004BEEE0 /* Toshi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Toshi.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F9238B51E24F1D2004BEEE0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9F9238B71E24F1D2004BEEE0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9F9238B81E24F1D2004BEEE0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9F9238C01E24F1D2004BEEE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1679,7 +1683,7 @@
 				9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */,
 				D197BC29CA8C5D37D1FA122F /* TestAppDelegate.h */,
 				D197BD2C5E7FC428D7ADB559 /* TestAppDelegate.m */,
-				9F9238B51E24F1D2004BEEE0 /* main.m */,
+				3367F8DA2003ABA000DE1557 /* main.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1826,6 +1830,7 @@
 				9F3FF7FF1EB36122002D0293 /* TSOutgoingMessage+Addtions.m */,
 				9FCF13261E52FB160078FF7F /* TSThread+Additions.h */,
 				9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */,
+				3367F8D62003A9B400DE1557 /* UIApplication+Testing.swift */,
 				9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */,
 				D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */,
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
@@ -3056,6 +3061,7 @@
 				84FFE1EC1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */,
 				A976002E1F8F711C00D1C79E /* ChatMenuTableViewController.swift in Sources */,
 				9F88EA041EE0402F00267573 /* PassphraseView.swift in Sources */,
+				3367F8D92003AAF800DE1557 /* UIApplication+Testing.swift in Sources */,
 				2BC7CA2A1F7BA6D000033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				84FFE1E51F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */,
 				9F78D9D91EE93F36003A0B95 /* AlertController.swift in Sources */,
@@ -3189,7 +3195,6 @@
 				A9AC740C1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */,
 				A997B0FE1EF94B4600A143FE /* DepositMoneyBulletPoint.swift in Sources */,
-				149F9AA31E72E29A00FB74AA /* main.m in Sources */,
 				9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
 				149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */,
@@ -3214,6 +3219,7 @@
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
 				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
 				A9CADC341F94B1E10096D017 /* BrowseCollectionViewCell.swift in Sources */,
+				3367F8DD2003ACD700DE1557 /* main.swift in Sources */,
 				D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */,
 				2BD0A4D31FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
 				D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */,
@@ -3269,6 +3275,7 @@
 				A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */,
 				2BC7CA2C1F7BA6D200033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				A9E1DCDB1F1E1A72001A4ABE /* IconLabelView.swift in Sources */,
+				3367F8D72003A9B400DE1557 /* UIApplication+Testing.swift in Sources */,
 				2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
 				9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */,
 				9FAC46ED1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
@@ -3389,6 +3396,7 @@
 				84FFE1E41F3C7D09008CEEF2 /* EthereumAddress.swift in Sources */,
 				9F3CF6A51FE14BBA00043530 /* TextTransformer.swift in Sources */,
 				2BE66A0C1EF910B6007A7130 /* KeyboardAdjustable.swift in Sources */,
+				3367F8DB2003ABA000DE1557 /* main.swift in Sources */,
 				A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */,
 				A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */,
 				9F78D9D81EE93F36003A0B95 /* AlertController.swift in Sources */,
@@ -3410,7 +3418,6 @@
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
 				2BE6FB0F1EFC0C1600B0B848 /* AvatarManager.swift in Sources */,
 				2B953AC51FAC9E1A005A5BF3 /* NSString+OWS.m in Sources */,
-				9F9238B61E24F1D2004BEEE0 /* main.m in Sources */,
 				A91D72AB1F8785E10093420C /* ChatButtonsCollectionViewLayout.swift in Sources */,
 				A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */,
 				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
@@ -3468,6 +3475,7 @@
 				A9603D461F4DABDC00BF57B1 /* PassphraseView.swift in Sources */,
 				2BC7CA2B1F7BA6D100033E35 /* UIViewController+NavigationBar.swift in Sources */,
 				A9603D561F4DABDC00BF57B1 /* EthereumAddress.swift in Sources */,
+				3367F8D82003AAF800DE1557 /* UIApplication+Testing.swift in Sources */,
 				A9603D611F4DABDC00BF57B1 /* AlertController.swift in Sources */,
 				A9603D6D1F4DABDC00BF57B1 /* SOFAWebController.swift in Sources */,
 				A9603D711F4DABDC00BF57B1 /* ModalPresentationController.swift in Sources */,
@@ -3600,7 +3608,6 @@
 				2BA0D8901F7551B9000B8500 /* NSLayoutConstraint+Additions.swift in Sources */,
 				A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */,
 				A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */,
-				A9603EF71F4DABDC00BF57B1 /* main.m in Sources */,
 				A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */,
 				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,
 				A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */,
@@ -3626,6 +3633,7 @@
 				A9603F2F1F4DABDC00BF57B1 /* ContactActionView.swift in Sources */,
 				A9603F321F4DABDC00BF57B1 /* BlurView.swift in Sources */,
 				A9CADC331F94B1E00096D017 /* BrowseCollectionViewCell.swift in Sources */,
+				3367F8DC2003ACD600DE1557 /* main.swift in Sources */,
 				A9603F331F4DABDC00BF57B1 /* ActiveNetworkView.swift in Sources */,
 				2BD0A4D21FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
 				A9603F341F4DABDC00BF57B1 /* ActiveNetworkDisplaying.swift in Sources */,
