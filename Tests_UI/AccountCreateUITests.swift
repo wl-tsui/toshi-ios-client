@@ -59,6 +59,20 @@ class AccountCreateUITests: XCTestCase {
     }
     
     func testCreateAccountThenReadTerms() {
+        self.splashRobot
+            .validateOnSplashScreen()
+            .select(button: .createNewAccount)
+            .validateTermsDialogShowing()
+            .select(termsOption: .read)
+            .validateTermsDialogGone()
+            .validateFullTermsShowing()
+            .select(termsScreenOption: .done)
+            .validateFullTermsGone()
+            .validateTermsDialogShowing()
+            
+            // Dismiss the dialog for the next test.
+            .select(termsOption: .cancel)
+            .validateTermsDialogGone()
         
     }
     

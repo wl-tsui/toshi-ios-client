@@ -57,6 +57,18 @@ enum TermsOption {
     }
 }
 
+enum TermsScreenOption {
+    case
+    done
+    
+    var accessibilityLabel: String {
+        switch self {
+        case .done:
+            return Localized("done_action_title")
+        }
+    }
+}
+
 // MARK: - Default Implementation
 
 extension SplashScreenRobot {
@@ -74,10 +86,22 @@ extension SplashScreenRobot {
         return self
     }
     
+    @discardableResult
     func select(termsOption: TermsOption,
                 file: StaticString = #file,
                 line: UInt = #line) -> SplashScreenRobot {
         tapButtonWith(accessibilityLabel: termsOption.accessibilityLabel,
+                      file: file,
+                      line: line)
+        
+        return self
+    }
+    
+    @discardableResult
+    func select(termsScreenOption option: TermsScreenOption,
+                file: StaticString = #file,
+                line: UInt = #line) -> SplashScreenRobot {
+        tapButtonWith(accessibilityLabel: option.accessibilityLabel,
                       file: file,
                       line: line)
         
@@ -132,6 +156,26 @@ extension SplashScreenRobot {
                             file: file,
                             line: line)
         confirmViewGoneWith(accessibilityLabel: TermsOption.read.accessibilityLabel,
+                            file: file,
+                            line: line)
+        
+        return self
+    }
+    
+    @discardableResult
+    func validateFullTermsShowing(file: StaticString = #file,
+                                  line: UInt = #line) -> SplashScreenRobot {
+        confirmViewGoneWith(accessibilityLabel: "Toshi Terms of Service",
+                            file: file,
+                            line: line)
+        
+        return self
+    }
+    
+    @discardableResult
+    func validateFullTermsGone(file: StaticString = #file,
+                               line: UInt = #line) -> SplashScreenRobot {
+        confirmViewGoneWith(accessibilityLabel: "Toshi Terms of Service",
                             file: file,
                             line: line)
         
