@@ -167,7 +167,7 @@
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
-		33C0342D1FFE6A1800A9C59C /* AccountCreateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342C1FFE6A1800A9C59C /* AccountCreateUITests.swift */; };
+		33C0342D1FFE6A1800A9C59C /* SplashScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */; };
 		33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */; };
 		33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */; };
 		33C034341FFE6A4500A9C59C /* EarlGreyRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034331FFE6A4500A9C59C /* EarlGreyRobot.swift */; };
@@ -985,7 +985,7 @@
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C034261FFE69E700A9C59C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		33C0342C1FFE6A1800A9C59C /* AccountCreateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCreateUITests.swift; sourceTree = "<group>"; };
+		33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenUITests.swift; sourceTree = "<group>"; };
 		33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicRobot.swift; sourceTree = "<group>"; };
 		33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenRobot.swift; sourceTree = "<group>"; };
 		33C034331FFE6A4500A9C59C /* EarlGreyRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarlGreyRobot.swift; sourceTree = "<group>"; };
@@ -1549,7 +1549,7 @@
 			isa = PBXGroup;
 			children = (
 				33C0342E1FFE6A2000A9C59C /* Robots */,
-				33C0342C1FFE6A1800A9C59C /* AccountCreateUITests.swift */,
+				33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */,
 				33C034261FFE69E700A9C59C /* Info.plist */,
 				33C034361FFE6E0000A9C59C /* Tests_UI-Bridging-Header.h */,
 			);
@@ -3265,7 +3265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */,
-				33C0342D1FFE6A1800A9C59C /* AccountCreateUITests.swift in Sources */,
+				33C0342D1FFE6A1800A9C59C /* SplashScreenUITests.swift in Sources */,
 				33C0343B1FFE7BA700A9C59C /* SignInRobot.swift in Sources */,
 				33674E411FFFF43900089BF7 /* TabBarRobot.swift in Sources */,
 				33C034341FFE6A4500A9C59C /* EarlGreyRobot.swift in Sources */,

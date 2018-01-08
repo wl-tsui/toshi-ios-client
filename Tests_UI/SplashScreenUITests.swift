@@ -17,7 +17,7 @@ import EarlGrey
 @testable import Toshi
 import XCTest
 
-class AccountCreateUITests: XCTestCase {
+class SplashScreenUITests: XCTestCase {
     
     lazy var myProfileRobot: MyProfileRobot = EarlGreyRobot()
     lazy var signInRobot: SignInRobot = EarlGreyRobot()
@@ -38,7 +38,8 @@ class AccountCreateUITests: XCTestCase {
             .validateOnSplashScreen()
     }
     
-    func testCreateAccountThenAgree() {
+    //TODO: Re-enable once we have logging out working better https://toshiapp.atlassian.net/browse/IOS-441
+    func skip_testCreateAccountThenAgree() {
         self.splashRobot
             .validateOnSplashScreen()
             .select(button: .createNewAccount)
@@ -74,15 +75,8 @@ class AccountCreateUITests: XCTestCase {
             .validateTestAlertShowing(withMessage: TestOnlyString.readTermsAlertMessage(termsURL: expectedTermsURL))
             .dismissTestAlert()
             .validateTestAlertGone()
-            
-            // TODO: Re-enable below when Earl Grey figures their shit out with SFSafariViewController.
-//            .validateFullTermsShowing()
-//            .select(termsScreenOption: .done)
-//            .validateFullTermsGone()
-//            .validateTermsDialogShowing()
-//            // Dismiss the dialog for the next test.
-//            .select(termsOption: .cancel)
-//            .validateTermsDialogGone()
+        
+            // TODO: Re-enable using full terms check when Earl Grey figures their shit out with SFSafariViewController.
     }
     
     func testSignIn() {
