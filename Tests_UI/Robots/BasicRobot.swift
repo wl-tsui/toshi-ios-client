@@ -68,13 +68,73 @@ protocol BasicRobot {
     
     // MARK: - Tapping
     
+    /// Runs an action where an implementation's test framework taps on a generic view based on its accessibility label.
+    ///
+    /// - Parameters:
+    ///   - accessibilityLabel: The Accessibility Label of the button to tap. This would be read out loud to VoiceOver users.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func tapViewWith(accessibilityLabel: String, file: StaticString, line: UInt)
+    
     /// Runs an action where the implementation's test framework taps on a button based on its accessibility label.
     ///
     /// - Parameters:
-    ///   - accessibilityLabel: The Accessibility Label of the view to tap. This would be read out loud to VoiceOver users.
+    ///   - accessibilityLabel: The Accessibility Label of the button to tap. This would be read out loud to VoiceOver users.
     ///   - file: The file from which this method is being called.
     ///   - line: The line from which this method is being called.
     func tapButtonWith(accessibilityLabel: String,
                        file: StaticString,
                        line: UInt)
+    
+    /// Runs an action where the implementation's test framework taps on a cell based on its accessibility label.
+    ///
+    /// - Parameters:
+    ///   - accessibilityLabel: The Accessibility Label of the cell to tap. This would be read out loud to VoiceOver users.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func tapCellWith(accessibilityLabel: String,
+                     file: StaticString,
+                     line: UInt)
+}
+
+extension BasicRobot {
+    
+    // MARK: - Universal actions
+    
+    @discardableResult
+    func dismissTestAlert(file: StaticString = #file,
+                          line: UInt = #line) -> Self {
+        tapViewWith(accessibilityLabel: TestOnlyString.okButtonTitle,
+                    file: file,
+                    line: line)
+        
+        return self
+    }
+    
+    // MARK: - Universal Validators
+    
+    @discardableResult
+    func validateTestAlertShowing(withMessage message: String,
+                                  file: StaticString = #file,
+                                  line: UInt = #line) -> Self {
+        confirmViewVisibleWith(accessibilityLabel: TestOnlyString.testAlertTitle,
+                               file: file,
+                               line: line)
+        confirmViewVisibleWith(accessibilityLabel: message,
+                               file: file,
+                               line: line)
+        
+        return self
+    }
+    
+    @discardableResult
+    func validateTestAlertGone(file: StaticString = #file,
+                               line: UInt = #line) -> Self {
+        confirmViewGoneWith(accessibilityLabel: TestOnlyString.testAlertTitle,
+                            file: file,
+                            line: line)
+        
+        return self
+    }
+    
 }

@@ -84,9 +84,9 @@ extension MyProfileRobot {
     func select(cell: MyProfileCell,
                 file: StaticString = #file,
                 line: UInt = #line) -> MyProfileRobot {
-        tapButtonWith(accessibilityLabel: cell.accessibilityLabel,
-                      file: file,
-                      line: line)
+        tapCellWith(accessibilityLabel: cell.accessibilityLabel,
+                    file: file,
+                    line: line)
         
         return self
     }

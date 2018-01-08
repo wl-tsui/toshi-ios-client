@@ -22,6 +22,19 @@ import XCTest
 
 class EarlGreyRobot {
     
+    private func retriveElementOfClass<T>(_ clazz: T.Type, _ completion: @escaping (T?) -> Void) -> GREYActionBlock where T: AnyObject {
+        return GREYActionBlock(name: "Get element of class \(T.self)",
+            constraints: grey_kindOfClass(T.self),
+            perform: { element, _ in
+                guard let typedElement = element as? T else {
+                    return false
+                }
+                
+                completion(typedElement)
+                return true
+        })
+    }
+    
     private func viewWith(label: String,
                           file: StaticString,
                           line: UInt) -> GREYElementInteraction {
@@ -44,6 +57,20 @@ class EarlGreyRobot {
                 grey_accessibilityTrait(UIAccessibilityTraitButton)
             ]))
             .atIndex(0)
+    }
+    
+    private func cellWith(label: String,
+                          file: StaticString,
+                          line: UInt) -> GREYElementInteraction {
+        return self.earlFromFile(file: file, line: line)
+            .selectElement(with: grey_allOf([
+                grey_descendant(grey_accessibilityLabel(label)),
+                grey_sufficientlyVisible(),
+                grey_kindOfClass(UITableViewCell.self)
+            ]))
+            .usingSearch(grey_scrollInDirection(.down, 100),
+                         onElementWith: grey_kindOfClass(UITableView.self))
+
     }
     
     private func viewWith(identifier: String,
@@ -84,6 +111,16 @@ extension EarlGreyRobot: BasicRobot {
 
     func tapButtonWith(accessibilityLabel: String, file: StaticString, line: UInt) {
         buttonWith(label: accessibilityLabel, file: file, line: line)
+            .perform(grey_tap())
+    }
+    
+    func tapCellWith(accessibilityLabel: String, file: StaticString, line: UInt) {
+        cellWith(label: accessibilityLabel, file: file, line: line)
+            .perform(grey_tap())
+    }
+    
+    func tapViewWith(accessibilityLabel: String, file: StaticString, line: UInt) {
+        viewWith(label: accessibilityLabel, file: file, line: line)
             .perform(grey_tap())
     }
 }

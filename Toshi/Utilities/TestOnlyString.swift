@@ -15,9 +15,17 @@
 
 import Foundation
 
-// Strings which will only be used during testing and thus do not need to be localized or instantiated.
+// Strings which will only be used during UI testing and thus do not need to be localized or instantiated.
 enum TestOnlyString {
+    
+    // MARK: - Static strings
+    
     static let okButtonTitle = "OK"
-    static let readTermsAlertMessage = "Go read the terms and conditions!"
     static let testAlertTitle = "TEST ALERT"
+
+    // MARK: - Dynamic strings
+    
+    static func readTermsAlertMessage(termsURL: URL) -> String {
+        return "Go read the terms and conditions at \(termsURL.absoluteString)"
+    }
 }
