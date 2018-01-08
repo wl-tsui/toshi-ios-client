@@ -158,6 +158,12 @@
 		3367F8DB2003ABA000DE1557 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DA2003ABA000DE1557 /* main.swift */; };
 		3367F8DC2003ACD600DE1557 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DA2003ABA000DE1557 /* main.swift */; };
 		3367F8DD2003ACD700DE1557 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DA2003ABA000DE1557 /* main.swift */; };
+		3367F8DF2003B28900DE1557 /* UIViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DE2003B28900DE1557 /* UIViewController+TestHelpers.swift */; };
+		3367F8E12003B3F800DE1557 /* TestOnlyString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8E02003B3F800DE1557 /* TestOnlyString.swift */; };
+		3367F8E22003B45400DE1557 /* TestOnlyString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8E02003B3F800DE1557 /* TestOnlyString.swift */; };
+		3367F8E32003B45400DE1557 /* TestOnlyString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8E02003B3F800DE1557 /* TestOnlyString.swift */; };
+		3367F8E42003B45900DE1557 /* UIViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DE2003B28900DE1557 /* UIViewController+TestHelpers.swift */; };
+		3367F8E52003B45A00DE1557 /* UIViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367F8DE2003B28900DE1557 /* UIViewController+TestHelpers.swift */; };
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -973,6 +979,8 @@
 		33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		3367F8D62003A9B400DE1557 /* UIApplication+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Testing.swift"; sourceTree = "<group>"; };
 		3367F8DA2003ABA000DE1557 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		3367F8DE2003B28900DE1557 /* UIViewController+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+TestHelpers.swift"; sourceTree = "<group>"; };
+		3367F8E02003B3F800DE1557 /* TestOnlyString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOnlyString.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1532,6 +1540,7 @@
 				33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */,
 				33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */,
 				33674E421FFFF85200089BF7 /* AccessibilityIdentifier.swift */,
+				3367F8E02003B3F800DE1557 /* TestOnlyString.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1835,6 +1844,7 @@
 				D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */,
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
 				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
+				3367F8DE2003B28900DE1557 /* UIViewController+TestHelpers.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
 				2BF634501F7D568C00235C67 /* UIImage+Utils.h */,
@@ -3158,6 +3168,7 @@
 				2BC4084F1EF186000044C242 /* PaymentPresentable.swift in Sources */,
 				A9BF33B31E76F8D0009A51AA /* PassphraseEnableController.swift in Sources */,
 				A9E691C91F7A49A100317DB1 /* SignInCell.swift in Sources */,
+				3367F8E32003B45400DE1557 /* TestOnlyString.swift in Sources */,
 				9F5B9BA21EBB530B006448F0 /* RatingView.swift in Sources */,
 				A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				149F9A8D1E72E29A00FB74AA /* Theme.swift in Sources */,
@@ -3219,6 +3230,7 @@
 				9F9B25561ECB1BC0007B435A /* ContactActionView.swift in Sources */,
 				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
 				A9CADC341F94B1E10096D017 /* BrowseCollectionViewCell.swift in Sources */,
+				3367F8E52003B45A00DE1557 /* UIViewController+TestHelpers.swift in Sources */,
 				3367F8DD2003ACD700DE1557 /* main.swift in Sources */,
 				D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */,
 				2BD0A4D31FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
@@ -3274,6 +3286,7 @@
 				A91D72A21F877FFA0093420C /* ChatFloatingHeaderView.swift in Sources */,
 				A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */,
 				2BC7CA2C1F7BA6D200033E35 /* UIViewController+NavigationBar.swift in Sources */,
+				3367F8DF2003B28900DE1557 /* UIViewController+TestHelpers.swift in Sources */,
 				A9E1DCDB1F1E1A72001A4ABE /* IconLabelView.swift in Sources */,
 				3367F8D72003A9B400DE1557 /* UIApplication+Testing.swift in Sources */,
 				2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
@@ -3298,6 +3311,7 @@
 				2B20BBDF1F7A595700844315 /* APIKeys.swift in Sources */,
 				9F54A7201E951F0600FEB67B /* RateUserController.swift in Sources */,
 				A91D72A71F8782DC0093420C /* ChatButtonsView.swift in Sources */,
+				3367F8E12003B3F800DE1557 /* TestOnlyString.swift in Sources */,
 				9F48C1571E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
 				A9E1DCDA1F1E1A72001A4ABE /* IconLabelButton.swift in Sources */,
 				9F78D9DC1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
@@ -3572,6 +3586,7 @@
 				A9E691C81F7A49A100317DB1 /* SignInCell.swift in Sources */,
 				A9603E901F4DABDC00BF57B1 /* RatingView.swift in Sources */,
 				2B2C84611F99EEF100D18CAC /* DepositMoneyHeader.swift in Sources */,
+				3367F8E22003B45400DE1557 /* TestOnlyString.swift in Sources */,
 				A97600311F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				A9603E911F4DABDC00BF57B1 /* Theme.swift in Sources */,
 				A9603E951F4DABDC00BF57B1 /* ChatInputTextPanel.swift in Sources */,
@@ -3633,6 +3648,7 @@
 				A9603F2F1F4DABDC00BF57B1 /* ContactActionView.swift in Sources */,
 				A9603F321F4DABDC00BF57B1 /* BlurView.swift in Sources */,
 				A9CADC331F94B1E00096D017 /* BrowseCollectionViewCell.swift in Sources */,
+				3367F8E42003B45900DE1557 /* UIViewController+TestHelpers.swift in Sources */,
 				3367F8DC2003ACD600DE1557 /* main.swift in Sources */,
 				A9603F331F4DABDC00BF57B1 /* ActiveNetworkView.swift in Sources */,
 				2BD0A4D21FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
