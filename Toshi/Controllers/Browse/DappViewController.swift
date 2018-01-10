@@ -107,7 +107,7 @@ final class DappViewController: UIViewController {
         if #available(iOS 11.0, *) {
             topAnchor = view.safeAreaLayoutGuide.topAnchor
         } else {
-            topAnchor = view.topAnchor
+            topAnchor = topLayoutGuide.bottomAnchor
         }
         
         primaryStackView.top(to: view, topAnchor, offset: 16)
