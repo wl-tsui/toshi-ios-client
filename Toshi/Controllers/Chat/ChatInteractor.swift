@@ -47,6 +47,8 @@ final class ChatInteractor: NSObject {
 
     private var messageSender: MessageSender?
 
+    // MARK: - Sending
+    
     func sendMessage(sofaWrapper: SofaWrapper, date: Date = Date(), completion: @escaping ((Bool) -> Void) = { Bool in }) {
         let timestamp = NSDate.ows_millisecondTimeStamp()
 
@@ -61,26 +63,34 @@ final class ChatInteractor: NSObject {
             self.messageSender?.send(signalMessage, success: {
                 completion(true)
                 DLog("message sent")
-            }, failure: { error in
+            }, failure: { [weak self] error in
                 completion(false)
                 DLog("\(error)")
+                self?.logSendErrorIfRecipientUnregistered(error: error)
             })
         }
     }
 
-    func send(image: UIImage) {
+    func send(image: UIImage, in message: TSOutgoingMessage? = nil, completion: ((Bool) -> Void)? = nil) {
         guard let imageData = UIImagePNGRepresentation(image) else { return }
 
         let wrapper = SofaMessage(body: "")
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: wrapper.content)
+        let outgoingMessage = message ?? TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: wrapper.content)
 
         guard let datasource = DataSourceValue.dataSource(with: imageData, fileExtension: "png") else { return }
 
         messageSender?.sendAttachmentData(datasource, contentType: "image/jpeg", sourceFilename: "image.jpeg", in: outgoingMessage, success: {
             DLog("Success")
-        }, failure: { error in
+            DispatchQueue.main.async {
+                completion?(true)
+            }
+        }, failure: { [weak self] error in
             DLog("Failure: \(error)")
+            self?.logSendErrorIfRecipientUnregistered(error: error)
+            DispatchQueue.main.async {
+                completion?(false)
+            }
         })
     }
 
@@ -93,12 +103,13 @@ final class ChatInteractor: NSObject {
 
         guard let datasource = DataSourceValue.dataSource(with: videoData, fileExtension: "mov") else { return }
 
-        messageSender?.sendAttachmentData(datasource, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: {
-            self.output?.didFinishRequest()
+        messageSender?.sendAttachmentData(datasource, contentType: "video/mp4", sourceFilename: "video.mp4", in: outgoingMessage, success: { [weak self] in
+            self?.output?.didFinishRequest()
             DLog("Success")
-        }, failure: { error in
-            self.output?.didFinishRequest()
+        }, failure: { [weak self] error in
+            self?.output?.didFinishRequest()
             DLog("Failure: \(error)")
+            self?.logSendErrorIfRecipientUnregistered(error: error)
         })
     }
 
@@ -177,6 +188,16 @@ final class ChatInteractor: NSObject {
             }
         }
     }
+    
+    private func logSendErrorIfRecipientUnregistered(error: Error?) {
+        guard let error = error else { return }
+
+        if error.localizedDescription == "ERROR_DESCRIPTION_UNREGISTERED_RECIPIENT" {
+            CrashlyticsLogger.nonFatal("Could not send message because recipient was unregistered", error: (error as NSError), attributes: nil)
+        }
+    }
+    
+    // MARK: - Receiving
 
     func handleInvalidKeyError(_: TSInvalidIdentityKeyErrorMessage) {
     }
@@ -186,15 +207,18 @@ final class ChatInteractor: NSObject {
     /// - Parameters:
     ///   - interaction: the interaction to handle. Incoming/outgoing messages, wrapping SOFA structures.
     ///   - shouldProcessCommands: If true, will process a sofa wrapper. This means replying to requests, displaying payment UI etc.
-    ///
-
-    func handleSignalMessage(_ signalMessage: TSMessage, shouldProcessCommands: Bool = false) -> Message {
+    ///   - shouldUpdateGroupMembers: If true will go over group members IDs and update with calling id service and download avatar
+    func handleSignalMessage(_ signalMessage: TSMessage, shouldProcessCommands: Bool = false, shouldUpdateGroupMembers: Bool = false) -> Message {
         if let invalidKeyErrorMessage = signalMessage as? TSInvalidIdentityKeySendingErrorMessage {
             DispatchQueue.main.async {
                 self.handleInvalidKeyError(invalidKeyErrorMessage)
             }
 
             return Message(sofaWrapper: nil, signalMessage: invalidKeyErrorMessage, date: invalidKeyErrorMessage.dateForSorting(), isOutgoing: false)
+        }
+
+        if let infoMessage = signalMessage as? TSInfoMessage {
+            return handleSignalInfoMessage(infoMessage, shouldUpdateGroupMembers: shouldUpdateGroupMembers)
         }
 
         if shouldProcessCommands {
@@ -271,7 +295,7 @@ final class ChatInteractor: NSObject {
             SoundPlayer.playSound(type: .messageReceived)
         }
     }
-
+    
     @discardableResult static func getOrCreateThread(for address: String) -> TSThread {
         var thread: TSThread?
 
@@ -302,6 +326,206 @@ final class ChatInteractor: NSObject {
         return thread!
     }
 
+    // MARK: - Groups
+    
+    public static func updateGroup(with groupModel: TSGroupModel, completion: @escaping ((Bool) -> Void)) {
+        var thread: TSGroupThread?
+        TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
+            thread = TSGroupThread.getOrCreateThread(with: groupModel, transaction: transaction)
+
+            guard thread != nil else { return }
+            thread!.groupModel = groupModel
+            thread!.save(with: transaction)
+        }
+
+        sendGroupUpdateMessage(to: thread!, with: groupModel, completion: completion)
+    }
+
+    public static func createGroup(with recipientsIds: NSMutableArray, name: String, avatar: UIImage, completion: @escaping ((Bool) -> Void)) {
+
+        let groupId = Randomness.generateRandomBytes(16)
+
+        guard let groupModel = TSGroupModel(title: name, memberIds: recipientsIds, image: avatar, groupId: groupId) else { return }
+
+        var thread: TSGroupThread?
+        TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
+            thread = TSGroupThread.getOrCreateThread(with: groupModel, transaction: transaction)
+        }
+
+        guard thread != nil else { return }
+
+        ProfileManager.shared().addThread(toProfileWhitelist: thread!)
+
+        Navigator.tabbarController?.openThread(thread!)
+
+        sendInitialGroupMessage(to: thread!, completion: completion)
+    }
+
+    private func handleSignalInfoMessage(_ infoMessage: TSInfoMessage, shouldUpdateGroupMembers: Bool = false) -> Message {
+        let customMessage = infoMessage.customMessage
+        let updateInfoString = infoMessage.additionalInfoString
+        let authorId = infoMessage.authorId
+
+        if let thread = infoMessage.thread as? TSGroupThread, let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+
+            var object = ""
+            var subject = ""
+            var statusType = SofaStatus.StatusType.none
+
+            if let author = appDelegate.contactsManager.tokenContact(forAddress: authorId) {
+                subject = author.nameOrDisplayName
+                switch customMessage {
+                case GroupBecameMemberMessage:
+                    statusType = .becameMember
+                    subject = updateInfoString
+                case GroupTitleChangedMessage:
+                    statusType = .rename
+                    object = updateInfoString
+                case GroupAvatarChangedMessage:
+                    statusType = .changePhoto
+                case GroupMemberLeftMessage:
+                    statusType = .leave
+                case GroupMemberJoinedMessage:
+                    statusType = .added
+
+                    if shouldUpdateGroupMembers {
+                        thread.updateGroupMembers()
+                    }
+
+                    object = userWhoJoinedNamesString(for: updateInfoString)
+
+                    if shouldUpdateGroupMembers {
+                        ChatInteractor.requestContactsRefresh()
+                    }
+
+                default:
+                    break
+                }
+            } else if infoMessage.customMessage == GroupCreateMessage {
+                statusType = .created
+                subject = updateInfoString
+            } else {
+                idAPIClient.updateContact(with: authorId)
+            }
+
+            let status = SofaStatus(content: "SOFA::Status:{\"type\":\"\(statusType.rawValue)\",\"subject\":\"\(subject)\",\"object\":\"\(object)\"}")
+            let message = Message(sofaWrapper: status, signalMessage: infoMessage, date: infoMessage.dateForSorting(), isOutgoing: false)
+
+            return message
+        }
+
+        return Message(sofaWrapper: nil, signalMessage: infoMessage, date: infoMessage.dateForSorting(), isOutgoing: false)
+    }
+
+    private func userWhoJoinedNamesString(for infoMessageString: String) -> String {
+        let namesOrAddresses = infoMessageString.components(separatedBy: ",")
+        var resultNames: [String] = []
+
+        for nameOrAddress in namesOrAddresses.map({ $0.trimmingCharacters(in: .whitespacesAndNewlines) }) {
+            resultNames.append(nameOrTruncatedAddress(for: nameOrAddress))
+        }
+
+        return resultNames.joined(separator: ", ")
+    }
+
+    private func nameOrTruncatedAddress(for nameOrAddress: String) -> String {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nameOrAddress }
+
+        if nameOrAddress.hasAddressPrefix {
+            let validDisplayName = appDelegate.contactsManager.displayName(forPhoneIdentifier: nameOrAddress)
+            if !validDisplayName.isEmpty {
+                return validDisplayName
+            } else {
+                return nameOrAddress.truncate(length: 10)
+            }
+        }
+
+        return nameOrAddress
+    }
+
+    private static func sendGroupUpdateMessage(to thread: TSGroupThread, with groupModel: TSGroupModel, completion: @escaping ((Bool) -> Void)) {
+        DispatchQueue.global(qos: .background).async {
+            let timestamp = NSDate.ows_millisecondTimeStamp()
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.update)
+            outgoingMessage.body = "GROUP_UPDATED"
+
+            let interactor = ChatInteractor(output: nil, thread: thread)
+            interactor.send(image: groupModel.groupImage, in: outgoingMessage, completion: completion)
+        }
+    }
+
+    private static func sendInitialGroupMessage(to thread: TSGroupThread, completion: @escaping ((Bool) -> Void)) {
+        DispatchQueue.global(qos: .background).async {
+            let timestamp = NSDate.ows_millisecondTimeStamp()
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.new)
+            outgoingMessage.update(withCustomMessage: GroupCreateMessage)
+
+            let interactor = ChatInteractor(output: nil, thread: thread)
+
+            if let groupAvatar = thread.groupModel.groupImage {
+                interactor.send(image: groupAvatar, in: outgoingMessage, completion: completion)
+            } else {
+                interactor.send(outgoingMessage, completion: completion)
+            }
+        }
+    }
+
+    static func sendLeaveGroupMessage(_ thread: TSGroupThread, completion: ((Bool) -> Void)? = nil) {
+
+        DispatchQueue.global(qos: .background).async {
+            let timestamp = NSDate.ows_millisecondTimeStamp()
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.quit)
+            outgoingMessage.body = "GROUP_CREATED"
+
+            let interactor = ChatInteractor(output: nil, thread: thread)
+            interactor.send(outgoingMessage, completion: { success in
+                if success {
+                    ChatInteractor.deleteThread(thread)
+                    DLog("Successfully left a group")
+                } else {
+                    DLog("Failed to leave a group")
+                }
+                
+                guard let completion = completion else { return }
+                DispatchQueue.main.async {
+                    completion(success)
+                }
+            })
+
+            var newGroupMembersIds = thread.groupModel.groupMemberIds
+
+            if let userAddressIndex = newGroupMembersIds?.index(of: Cereal.shared.address) {
+                newGroupMembersIds?.remove(at: userAddressIndex)
+            }
+
+            thread.groupModel.groupMemberIds = newGroupMembersIds
+            thread.save()
+        }
+    }
+    
+    static func sendRequestForGroupInfo(for thread: TSGroupThread, completion: @escaping (Bool) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            let timestamp = NSDate.ows_millisecondTimeStamp()
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.requestInfo)
+            outgoingMessage.body = "REQUEST_INFO"
+            
+            let interactor = ChatInteractor(output: nil, thread: thread)
+            
+            interactor.send(outgoingMessage, completion: completion)
+        }
+    }
+    
+    // MARK: - Deletion
+    
+    static func deleteThread(_ thread: TSThread) {
+        TSStorageManager.shared().dbReadWriteConnection?.asyncReadWrite { transaction in
+            thread.remove(with: transaction)
+            thread.markAllAsRead(with: transaction)
+        }
+    }
+    
+    // MARK: - Bots
+
     @objc static func triggerBotGreeting() {
         guard let botAddress = Bundle.main.infoDictionary?["InitialGreetingAddress"] as? String else { return }
 
@@ -312,13 +536,15 @@ final class ChatInteractor: NSObject {
         let initWrapper = SofaInitialResponse(initialRequest: initialRequest)
         interactor.sendMessage(sofaWrapper: initWrapper)
     }
+    
+    // MARK: - Updating Contacts
 
     private static func requestContactsRefresh() {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         appDelegate?.contactsManager.refreshContacts()
     }
 
-    func sendImage(_ image: UIImage) {
+    func sendImage(_ image: UIImage, in message: TSOutgoingMessage? = nil) {
 
         let wrapper = SofaMessage(body: "")
         let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
@@ -328,7 +554,7 @@ final class ChatInteractor: NSObject {
             return
         }
 
-        let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
+        let outgoingMessage = message ?? TSOutgoingMessage(timestamp: timestamp, in: self.thread, messageBody: wrapper.content)
 
         guard let datasource = DataSourceValue.dataSource(with: data, fileExtension: "jpeg") else { return }
 
@@ -337,5 +563,37 @@ final class ChatInteractor: NSObject {
         }, failure: { error in
             DLog("Failure: \(error)")
         })
+    }
+
+    static func acceptThread(_ thread: TSThread) {
+        thread.isPendingAccept = false
+        thread.save()
+
+        if let contactIdentifier = thread.contactIdentifier() {
+
+            if Yap.sharedInstance.containsObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey) {
+                Yap.sharedInstance.removeObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey)
+            }
+
+            IDAPIClient.shared.updateContact(with: contactIdentifier)
+        }
+    }
+
+    static func declineThread(_ thread: TSThread, completion: ((Bool) -> Void)? = nil) {
+        if let groupThread = thread as? TSGroupThread {
+            sendLeaveGroupMessage(groupThread, completion: completion)
+        } else if let contactIdentifier = thread.contactIdentifier() {
+
+            if Yap.sharedInstance.containsObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey) {
+                Yap.sharedInstance.removeObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey)
+            }
+
+            thread.isPendingAccept = false
+            thread.save()
+
+            OWSBlockingManager.shared().addBlockedPhoneNumber(contactIdentifier)
+            deleteThread(thread)
+            completion?(true)
+        }
     }
 }

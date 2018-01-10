@@ -77,8 +77,8 @@ final class DappViewController: UIViewController {
         stackView.addArrangedSubview(descriptionLabel)
         stackView.addArrangedSubview(urlLabel)
         stackView.addArrangedSubview(enterButton)
-        
-        enterButton.height(44)
+
+        enterButton.heightConstraint.constant = 44
         
         return stackView
     }()
@@ -103,7 +103,7 @@ final class DappViewController: UIViewController {
         view.addSubview(primaryStackView)
         
         let topAnchor: NSLayoutYAxisAnchor
-        
+
         if #available(iOS 11.0, *) {
             topAnchor = view.safeAreaLayoutGuide.topAnchor
         } else {
@@ -111,6 +111,7 @@ final class DappViewController: UIViewController {
         }
         
         primaryStackView.top(to: view, topAnchor, offset: 16)
+
         primaryStackView.leftToSuperview(offset: 16)
         primaryStackView.rightToSuperview(offset: 16)
     

@@ -361,10 +361,9 @@ extension BrowseViewController: BrowseCollectionViewCellSelectionDelegate {
     }
     
     func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView) {
-
         if let section = items.element(at: collectionView.section) {
             if let user = section.element(at: indexPath.item) as? TokenUser {
-                Navigator.push(ProfileViewController(contact: user))
+                Navigator.push(ProfileViewController(profile: user))
             } else if let dapp = section.element(at: indexPath.item) as? Dapp {
                 Navigator.push(DappViewController(with: dapp))
             }

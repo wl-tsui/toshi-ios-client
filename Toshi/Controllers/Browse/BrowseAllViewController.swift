@@ -85,9 +85,8 @@ class BrowseAllViewController: UITableViewController {
     }
 
     override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         if let contact = searchResults.element(at: indexPath.row) as? TokenUser {
-            Navigator.push(ProfileViewController(contact: contact))
+            Navigator.push(ProfileViewController(profile: contact))
         } else if let dapp = searchResults.element(at: indexPath.row) as? Dapp {
             Navigator.push(DappViewController(with: dapp))
         }
