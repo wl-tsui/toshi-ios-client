@@ -97,12 +97,6 @@ class ProfileViewController: UIViewController {
 
         profileView?.setProfile(profile)
 
-        AvatarManager.shared.avatar(for: profile.avatarPath) { [weak self] image, _ in
-            if image != nil {
-                self?.profileView?.avatarImageView.image = image
-            }
-        }
-
         updateButton()
     }
 

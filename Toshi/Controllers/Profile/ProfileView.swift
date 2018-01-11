@@ -51,6 +51,17 @@ class ProfileView: UIView {
 
         aboutContentLabel.text = user.about
         locationContentLabel.text = user.location
+        
+        if !aboutContentLabel.hasContent && !locationContentLabel.hasContent {
+            aboutContentLabel.isHidden = true
+            locationContentLabel.isHidden = true
+        }
+        
+        AvatarManager.shared.avatar(for: user.avatarPath) { [weak self] image, _ in
+            if image != nil {
+                self?.avatarImageView.image = image
+            }
+        }
     }
 
     lazy var avatarImageView = AvatarImageView()

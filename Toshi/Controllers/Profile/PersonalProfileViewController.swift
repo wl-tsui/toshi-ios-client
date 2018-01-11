@@ -56,10 +56,6 @@ class PersonalProfileViewController: UIViewController {
 
         if let currentUser = TokenUser.current {
             personalProfileView?.setProfile(currentUser)
-
-            AvatarManager.shared.avatar(for: currentUser.avatarPath) { [weak self] image, _ in
-                self?.personalProfileView?.avatarImageView.image = image
-            }
         }
     }
 
