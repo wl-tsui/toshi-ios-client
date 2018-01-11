@@ -286,21 +286,24 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             SoundPlayer.playSound(type: .scanned)
 
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] transaction, error in
+            let paymentController = PaymentConfirmationViewController(with: parameters)
+            navigationController?.pushViewController(paymentController, animated: true)
 
-                guard error == nil else {
-                    self?.scannerController.startScanning()
-                    return
-                }
-
-                if let scannerController = self?.scannerController as? ScannerController {
-                    scannerController.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, error: error)
-                } else {
-                    scannerController.startScanning()
-                }
-            }, cancelHandler: {
-                scannerController.startScanning()
-            })
+//            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] transaction, error in
+//
+//                guard error == nil else {
+//                    self?.scannerController.startScanning()
+//                    return
+//                }
+//
+//                if let scannerController = self?.scannerController as? ScannerController {
+//                    scannerController.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, error: error)
+//                } else {
+//                    scannerController.startScanning()
+//                }
+//            }, cancelHandler: {
+//                scannerController.startScanning()
+//            })
 
         } else {
             scannerController.startScanning()

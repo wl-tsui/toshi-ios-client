@@ -825,6 +825,7 @@
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B1E9BB5E12653D8EE2CC /* SofaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEBA12E2D8F04A0F846 /* SofaStatus.swift */; };
 		D197B1EB92E75AA88459C940 /* AcceptDeclineButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B18261400D5175ADC6C7 /* AcceptDeclineButtonsView.swift */; };
+		D197B20920768C8CC915FE33 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */; };
 		D197B2103355CD8C1BFE1537 /* AcceptDeclineButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B18261400D5175ADC6C7 /* AcceptDeclineButtonsView.swift */; };
 		D197B2196AD7EBEE1F16354C /* DoubleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B52C452CE2763BB4976A /* DoubleImageView.swift */; };
 		D197B22F0A1803EEBB6819FE /* searchContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B4747DA95DF531E0C300 /* searchContacts.json */; };
@@ -869,6 +870,7 @@
 		D197B6EB6C3157476638ABE6 /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
 		D197B6F01E52F247B8982310 /* String+nsRangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */; };
 		D197B74275EBC3A229F0D4D9 /* timestamp.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B5835BCEB0D7A2DA6967 /* timestamp.json */; };
+		D197B74EC4D752C175A731F5 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */; };
 		D197B76039E4B9C45F980CCF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB02C1FCC52F69B81E12 /* ReachabilityManager.swift */; };
 		D197B76575751DB2103547AB /* ChatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B9998A8A84CC265C1772 /* ChatButton.swift */; };
 		D197B77259031691F95DA6AA /* PersonalProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */; };
@@ -915,6 +917,7 @@
 		D197BEE006020E4B5FB967B1 /* DoubleAvatarTitleSubtitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B79A895911F06FFC781C /* DoubleAvatarTitleSubtitleCell.swift */; };
 		D197BF10EA25C4BEEC42204E /* OfflineAlertDisplaying.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */; };
 		D197BF264BEDC2A9EABFA2FA /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
+		D197BF2D11D80236CC181D5D /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */; };
 		D197BF84F829C3200A677BE0 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
 		D197BFB3C85D103063F9C87E /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197BFEFB82271BBE1152E9E /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
@@ -1337,6 +1340,7 @@
 		D197BB03F2BFF88371C66F25 /* createUnsignedTransaction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = createUnsignedTransaction.json; sourceTree = "<group>"; };
 		D197BB0710786F9F642F4318 /* score.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = score.json; sourceTree = "<group>"; };
 		D197BB4FC8D408B73FE253E5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentConfirmationViewController.swift; sourceTree = "<group>"; };
 		D197BBCB2066BD96A45C417B /* PersonalProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalProfileViewController.swift; sourceTree = "<group>"; };
 		D197BBE7ED942198265AED9B /* String+nsRangeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+nsRangeTests.swift"; sourceTree = "<group>"; };
 		D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SofaInitialRequest.swift; sourceTree = "<group>"; };
@@ -2052,6 +2056,7 @@
 				9F78D9D31EE93EFF003A0B95 /* PaymentConfirmationController.swift */,
 				9F21E0621E546A03000E90C6 /* PaymentController.swift */,
 				A91629101F3C64FE008A7F36 /* PaymentNavigationController.swift */,
+				D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */,
 			);
 			path = Payments;
 			sourceTree = "<group>";
@@ -3371,6 +3376,7 @@
 				D197B4F1934405EADD429871 /* DoubleImageView.swift in Sources */,
 				D197B1EB92E75AA88459C940 /* AcceptDeclineButtonsView.swift in Sources */,
 				D197B4C9ACAC2B6A418AB2E2 /* ChatButton.swift in Sources */,
+				D197BF2D11D80236CC181D5D /* PaymentConfirmationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3606,6 +3612,7 @@
 				D197B2196AD7EBEE1F16354C /* DoubleImageView.swift in Sources */,
 				D197B14BC2EF3AC740372100 /* AcceptDeclineButtonsView.swift in Sources */,
 				D197B1573E01CAB1B093EBB9 /* ChatButton.swift in Sources */,
+				D197B74EC4D752C175A731F5 /* PaymentConfirmationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3841,6 +3848,7 @@
 				D197BDCFFA301DDA7C290BBB /* DoubleImageView.swift in Sources */,
 				D197B2103355CD8C1BFE1537 /* AcceptDeclineButtonsView.swift in Sources */,
 				D197B76575751DB2103547AB /* ChatButton.swift in Sources */,
+				D197B20920768C8CC915FE33 /* PaymentConfirmationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

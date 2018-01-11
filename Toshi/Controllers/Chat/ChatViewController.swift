@@ -748,15 +748,18 @@ extension ChatViewController: MessagesPaymentCellDelegate {
         if let parameters = transactionParameter(for: indexPath) {
             showActivityIndicator()
 
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
+            let paymentController = PaymentConfirmationViewController(with: parameters)
+            navigationController?.pushViewController(paymentController, animated: true)
 
-                self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] transaction, error in
-
-                guard error == nil else { return }
-
-                self?.approvePaymentForIndexPath(indexPath, transaction: transaction)
-            })
+//            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
+//
+//                self?.hideActivityIndicator()
+//            }, approveHandler: { [weak self] transaction, error in
+//
+//                guard error == nil else { return }
+//
+//                self?.approvePaymentForIndexPath(indexPath, transaction: transaction)
+//            })
         }
     }
 

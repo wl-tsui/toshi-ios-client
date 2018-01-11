@@ -252,14 +252,17 @@ extension ProfileViewController: PaymentControllerDelegate {
         let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
         let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, self.profile.name)
 
-        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
-            self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] transaction, error in
-
-                guard error == nil else { return }
-                
-                self?.sendPayment(with: parameters, transaction: transaction)
-        })
+        let paymentController = PaymentConfirmationViewController(with: parameters)
+        navigationController?.pushViewController(paymentController, animated: true)
+        
+//        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
+//            self?.hideActivityIndicator()
+//            }, approveHandler: { [weak self] transaction, error in
+//
+//                guard error == nil else { return }
+//
+//                self?.sendPayment(with: parameters, transaction: transaction)
+//        })
     }
 
     private func sendPayment(with parameters: [String: Any], transaction: String?) {
