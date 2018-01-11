@@ -210,6 +210,9 @@
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
+		3312F68020077C0100881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
+		3312F6812007801A00881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
+		3312F6822007801B00881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
 		3332E0BC1FE979C800CC1C8A /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
@@ -1072,6 +1075,7 @@
 		2F1B2E5A8052289054B2DCDD /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
+		3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingBackgroundNavBar.swift; sourceTree = "<group>"; };
 		3332E0BB1FE979C800CC1C8A /* DappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappViewController.swift; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
@@ -1890,6 +1894,7 @@
 				A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */,
 				A9BF33B61E76F918009A51AA /* CheckboxControl.swift */,
 				A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */,
+				3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */,
 				9F9B25541ECB1BC0007B435A /* ProfileActionView.swift */,
 				A9ED6CCF1E83CD8400160637 /* Footnote.swift */,
 				2BC85F7E1F0F946600BCB171 /* InputCell.swift */,
@@ -3197,6 +3202,7 @@
 				2B4E25FC1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				A91D72A91F8782DC0093420C /* ChatButtonsView.swift in Sources */,
+				3312F6822007801B00881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
 				33FD936F1FE960F10082B9D8 /* Dapp.swift in Sources */,
 				A9CADC2E1F94B1D60096D017 /* OpenURLButton.swift in Sources */,
 				2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
@@ -3432,6 +3438,7 @@
 				2B4E25FA1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
 				A9CADC1D1F94AF2D0096D017 /* SearchResultCell.swift in Sources */,
 				2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */,
+				3312F68020077C0100881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
 				33FD936B1FE953480082B9D8 /* Dapp.swift in Sources */,
 				9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */,
 				A91629111F3C64FE008A7F36 /* PaymentNavigationController.swift in Sources */,
@@ -3667,6 +3674,7 @@
 				2B4E25FB1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
 				A9CADC2D1F94B1D60096D017 /* OpenURLButton.swift in Sources */,
 				A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */,
+				3312F6812007801A00881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
 				33FD936E1FE960F00082B9D8 /* Dapp.swift in Sources */,
 				A9603DC11F4DABDC00BF57B1 /* CacheExpiry+Default.swift in Sources */,
 				A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */,
