@@ -49,6 +49,7 @@ class ProfileViewController: UIViewController {
             edgesForExtendedLayout = .bottom
         }
 
+        // TODO: UPDATE & Localize
         title = "Contact"
     }
 
@@ -58,9 +59,9 @@ class ProfileViewController: UIViewController {
 
     override func loadView() {
         if profile.isCurrentUser {
-            view = ProfileView(viewType: .personalProfileReadOnly)
+            view = ProfileView(viewType: .personalProfileReadOnly, navBarDelegate: self)
         } else {
-            view = ProfileView(viewType: .profile)
+            view = ProfileView(viewType: .profile, navBarDelegate: self)
         }
     }
 
@@ -92,6 +93,8 @@ class ProfileViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
 
         preferLargeTitleIfPossible(false)
 
@@ -102,6 +105,8 @@ class ProfileViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
 
         preferLargeTitleIfPossible(true)
     }
@@ -124,8 +129,9 @@ class ProfileViewController: UIViewController {
             let fontColor = isProfileAdded ? Theme.tintColor : Theme.lightGreyTextColor
             let title = isProfileAdded ? "Favorited" : "Favorite"
 
-            strongSelf.profileView?.actionView.addFavoriteButton.titleLabel.text = title
-            strongSelf.profileView?.actionView.addFavoriteButton.tintColor = fontColor
+            //TODO: Fix
+//            strongSelf.profileView?.actionView.addFavoriteButton.titleLabel.text = title
+//            strongSelf.profileView?.actionView.addFavoriteButton.tintColor = fontColor
         }
     }
 
@@ -304,7 +310,7 @@ extension ProfileViewController: PaymentControllerDelegate {
 }
 
 extension ProfileViewController: ProfileViewDelegate {
-    func didTapMessageProfileButton(in view: ProfileView) {
+    func didTapMessage(in profileView: ProfileView) {
         // create thread if needed
         let thread = ChatInteractor.getOrCreateThread(for: profile.address)
         thread.isPendingAccept = false
@@ -319,7 +325,7 @@ extension ProfileViewController: ProfileViewDelegate {
         }
     }
 
-    func didTapAddProfileButton(in view: ProfileView) {
+    func didTapFavorite(in profileView: ProfileView) {
         if Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey) {
             Yap.sharedInstance.removeObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
         } else {
@@ -328,7 +334,7 @@ extension ProfileViewController: ProfileViewDelegate {
         }
     }
 
-    func didTapPayButton(in view: ProfileView) {
+    func didTapPay(in profileView: ProfileView) {
         let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
         paymentController.delegate = self
 
@@ -338,5 +344,16 @@ extension ProfileViewController: ProfileViewDelegate {
 
     func didTapRateUser(in view: ProfileView) {
         presentUserRatingPrompt(profile: profile)
+    }
+}
+
+extension ProfileViewController: DisappearingBackgroundNavBarDelegate {
+    
+    func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
+        didSelectMoreButton()
     }
 }

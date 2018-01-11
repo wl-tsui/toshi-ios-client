@@ -13,19 +13,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import UIKit
 import SweetUIKit
-import CoreImage
+import UIKit
 
 protocol PersonalProfileViewDelegate: class {
-    func didTapEditProfileButton(in view: ProfileView)
+    func didTapEditProfile(in profileView: ProfileView)
 }
 
 protocol ProfileViewDelegate: class {
-    func didTapMessageProfileButton(in view: ProfileView)
-    func didTapAddProfileButton(in view: ProfileView)
-    func didTapPayButton(in view: ProfileView)
-    func didTapRateUser(in view: ProfileView)
+    func didTapMessage(in profileView: ProfileView)
+    func didTapPay(in profileView: ProfileView)
+    func didTapRateUser(in profileView: ProfileView)
 }
 
 class ProfileView: UIView {
@@ -34,13 +32,55 @@ class ProfileView: UIView {
         case profile
         case personalProfile
         case personalProfileReadOnly
+        
+        private var isSomeoneElsesProfile: Bool {
+            switch self {
+            case .profile:
+                return true
+            default:
+                return false
+            }
+        }
+        
+        var shouldShowEditProfileButton: Bool {
+            switch self {
+            case .personalProfile:
+                return true
+            default:
+                return false
+            }
+        }
+        
+        var shouldShowMoreButton: Bool {
+            return isSomeoneElsesProfile
+        }
+        
+        var shouldShowRateUserButton: Bool {
+            return isSomeoneElsesProfile
+        }
+        
+        var shouldShowPayButton: Bool {
+            return isSomeoneElsesProfile
+        }
     }
 
     weak var personalProfileDelegate: PersonalProfileViewDelegate?
     weak var profileDelegate: ProfileViewDelegate?
+    weak var navBarDelegate: DisappearingBackgroundNavBarDelegate?
+    
+    private let margin: CGFloat = 15
+    
+    private let tinyInterItemSpacing: CGFloat = 5
+    private let mediumInterItemSpacing: CGFloat = 10
+    private let largeInterItemSpacing: CGFloat = 20
+    private let giantInterItemSpacing: CGFloat = 40
+    private let belowTableViewStyleLabelSpacing: CGFloat = 8
+    
+    private let avatarSide: CGFloat = 60
+    private let disappearingNavBarHeight: CGFloat = 44
+    private let buttonHeight: CGFloat = 44
 
     func setProfile(_ user: TokenUser) {
-
         if !user.name.isEmpty {
             nameLabel.text = user.name
             usernameLabel.text = user.displayUsername
@@ -55,6 +95,7 @@ class ProfileView: UIView {
         if !aboutContentLabel.hasContent && !locationContentLabel.hasContent {
             aboutContentLabel.isHidden = true
             locationContentLabel.isHidden = true
+            aboutTopSeparatorView.isHidden = true
         }
         
         AvatarManager.shared.avatar(for: user.avatarPath) { [weak self] image, _ in
@@ -63,13 +104,48 @@ class ProfileView: UIView {
             }
         }
     }
+    
+    lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
+        let navBar = DisappearingBackgroundNavBar(delegate: navBarDelegate)
+        navBar.setupLeftAsBackButton()
 
-    lazy var avatarImageView = AvatarImageView()
+        return navBar
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.showsVerticalScrollIndicator = true
+        view.delaysContentTouches = false
+        
+        return view
+    }()
+    
+    /// The view containing all content within the scroll view.
+    private lazy var containerView = UIView()
+    
+    private lazy var topSpacer: UIView = {
+        let view = UIView()
+        view.backgroundColor = Theme.viewBackgroundColor
+    
+        return view
+    }()
+    
+    lazy var profileDetailsStackView: UIStackView = {
+        let view = UIStackView()
+        view.addBackground(with: Theme.viewBackgroundColor)
+        view.axis = .vertical
+        view.alignment = .center
+        
+        return view
+    }()
+
+    private lazy var avatarImageView = AvatarImageView()
 
     lazy var nameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = Theme.preferredTitle2()
+        view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
         return view
@@ -78,12 +154,46 @@ class ProfileView: UIView {
     lazy var usernameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
+        view.textAlignment = .center
         view.font = Theme.preferredRegularMedium()
         view.adjustsFontForContentSizeCategory = true
         view.textColor = Theme.greyTextColor
 
         return view
     }()
+    
+    lazy var messageUserButton: ActionButton = {
+        let button = ActionButton(margin: margin)
+        button.setButtonStyle(.primary)
+        button.title = "Message"
+        button.addTarget(self, action: #selector(didTapMessageButton), for: .touchUpInside)
+        
+        //TODO figure out style
+        return button
+    }()
+    
+    lazy var payButton: ActionButton = {
+        let button = ActionButton(margin: margin)
+        button.setButtonStyle(.secondary)
+        button.title = "Pay"
+        button.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
+        
+        //TODO figure out style
+        return button
+    }()
+    
+    private lazy var editProfileButton: UIButton = {
+        let view = UIButton()
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor]), for: .normal)
+        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
+        view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
+        view.titleLabel?.adjustsFontForContentSizeCategory = true
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
+    lazy var aboutTopSeparatorView = BorderView()
 
     lazy var aboutContentLabel: UILabel = {
         let view = UILabel()
@@ -103,75 +213,38 @@ class ProfileView: UIView {
 
         return view
     }()
-
-    private lazy var actionsSeparatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.borderColor
-        view.set(height: 1.0 / UIScreen.main.scale)
-
-        return view
-    }()
-
-    lazy var actionView: ProfileActionView = {
-        let view = ProfileActionView()
-
-        view.messageButton.addTarget(self, action: #selector(self.didTapMessageProfileButton), for: .touchUpInside)
-        view.addFavoriteButton.addTarget(self, action: #selector(self.didTapAddProfileButton), for: .touchUpInside)
-        view.payButton.addTarget(self, action: #selector(self.didTapPayButton), for: .touchUpInside)
-
-        return view
-    }()
-
-    private lazy var editProfileButton: UIButton = {
-        let view = UIButton()
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor]), for: .normal)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
-        view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
-        view.titleLabel?.adjustsFontForContentSizeCategory = true
-        view.clipsToBounds = true
-        
-        return view
-    }()
+    
+    private lazy var aboutBottomSeparatorView = BorderView()
 
     lazy var reputationTitle: UILabel = {
         let view = UILabel()
         view.font = Theme.preferredFootnote()
         view.textColor = Theme.sectionTitleColor
+        
+        //TODO: Localize
         view.text = "REPUTATION"
         view.adjustsFontForContentSizeCategory = true
-
+        
         return view
     }()
 
-    private lazy var contentBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.viewBackgroundColor
-
+    lazy var reputationStackView: UIStackView = {
+        let view = UIStackView()
+        view.addBackground(with: Theme.viewBackgroundColor)
+        view.axis = .vertical
+        view.alignment = .center
+        
         return view
     }()
-
-    private lazy var contentSeparatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.lightGrayBackgroundColor
-        view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = 1.0 / UIScreen.main.scale
-        view.set(height: 1.0 / UIScreen.main.scale)
-
-        return view
-    }()
-
-    private lazy var reputationSeparatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.lightGrayBackgroundColor
-        view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = 1.0 / UIScreen.main.scale
-        view.set(height: 1.0 / UIScreen.main.scale)
-
-        return view
-    }()
+    
+    private lazy var reputationTopSeparatorView = BorderView()
+    
+    private(set) lazy var reputationView = ReputationView()
 
     lazy var rateThisUserButton: UIButton = {
         let view = UIButton()
+        
+        // TODO: Localize
         view.setTitle("Rate this user", for: .normal)
         view.setTitleColor(Theme.tintColor, for: .normal)
         view.setTitleColor(Theme.greyTextColor, for: .highlighted)
@@ -179,43 +252,18 @@ class ProfileView: UIView {
         view.titleLabel?.adjustsFontForContentSizeCategory = true
         view.clipsToBounds = true
 
-        view.addTarget(self, action: #selector(self.didTapRateUser), for: .touchUpInside)
+        view.addTarget(self, action: #selector(didTapRateUserButton), for: .touchUpInside)
         
         return view
     }()
 
-    private lazy var bottomSeparatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.lightGrayBackgroundColor
-        view.layer.borderColor = Theme.borderColor.cgColor
-        view.layer.borderWidth = 1.0 / UIScreen.main.scale
-        view.set(height: 1.0 / UIScreen.main.scale)
+    private lazy var reputationBottomSeparatorView = BorderView()
 
-        return view
-    }()
-
-    lazy var reputationView = ReputationView()
-
-    lazy var reputationBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Theme.viewBackgroundColor
-
-        return view
-    }()
-
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.showsVerticalScrollIndicator = true
-        view.delaysContentTouches = false
-
-        return view
-    }()
-
-    private lazy var container = UIView()
-
-    init(viewType: ViewType) {
+    init(viewType: ViewType, navBarDelegate: DisappearingBackgroundNavBarDelegate) {
         super.init(frame: CGRect.zero)
-
+        
+        self.navBarDelegate = navBarDelegate
+        
         addSubviewsAndConstraints(for: viewType)
     }
 
@@ -224,164 +272,167 @@ class ProfileView: UIView {
     }
 
     private func addSubviewsAndConstraints(for viewType: ViewType) {
-        let editProfileButtonHeight: CGFloat
-        let actionSeparatorMargin: CGFloat
-        let rateThisUserButtonHeight: CGFloat
+        setupScrollView(navBarHeight: disappearingNavBarHeight)
+        setupDisappearingNavBar(height: disappearingNavBarHeight, for: viewType)
+        setupContainerView(in: scrollView, for: viewType)
+    }
 
-        switch viewType {
-        case .profile:
-            editProfileButtonHeight = 0.0
-            actionSeparatorMargin = 8.0
-            actionView.alpha = 1.0
-            rateThisUserButtonHeight = 44.0
-        case .personalProfile:
-            editProfileButtonHeight = 50.0
-            actionSeparatorMargin = 0.0
-            actionView.alpha = 0.0
-            rateThisUserButtonHeight = 0.0
-        case .personalProfileReadOnly:
-            editProfileButtonHeight = 0.0
-            actionSeparatorMargin = 0.0
-            actionsSeparatorView.alpha = 0.0
-            actionView.alpha = 0.0
-            rateThisUserButtonHeight = 0.0
-        }
-
-        let margin: CGFloat = 15
-        let avatarSize = CGSize(width: 60, height: 60)
-
+    // MARK: Outer layout
+    
+    private func setupScrollView(navBarHeight: CGFloat) {
         addSubview(scrollView)
         scrollView.edges(to: self)
+        
+        //TODO: Allow scrolling under fake nav bar
+    }
+    
+    private func setupDisappearingNavBar(height: CGFloat, for viewType: ViewType) {
+        addSubview(disappearingNavBar)
+        
+        disappearingNavBar.topToSuperview(usingSafeArea: true)
+        disappearingNavBar.leftToSuperview()
+        disappearingNavBar.rightToSuperview()
+        disappearingNavBar.height(height)
+    
+        if viewType.shouldShowMoreButton {
+            // TODO: Setup more button.
+        }
+    }
+    
+    private func setupContainerView(in scrollView: UIScrollView, for viewType: ViewType) {
+        assert(scrollView.superview != nil)
+        scrollView.addSubview(containerView)
+        
+        containerView.edges(to: scrollView)
+        containerView.width(to: scrollView)
+        
+        addTopSpacer(to: containerView)
+        addProfileDetailsStackView(to: containerView, below: topSpacer, for: viewType)
+        addReputationTitle(to: containerView, below: profileDetailsStackView)
+        addReputationStackView(to: containerView, below: reputationTitle, for: viewType)
+    }
+    
+    private func addTopSpacer(to container: UIView) {
+        assert(container.superview != nil)
+        container.addSubview(topSpacer)
+        
+        topSpacer.edgesToSuperview(excluding: .bottom)
+        topSpacer.height(60) // eyeballed
+    }
+    
+    private func addProfileDetailsStackView(to container: UIView, below viewToPinToBottomOf: UIView, for viewType: ViewType) {
+        container.addSubview(profileDetailsStackView)
+        profileDetailsStackView.leftToSuperview()
+        profileDetailsStackView.rightToSuperview()
+        profileDetailsStackView.topToBottom(of: viewToPinToBottomOf)
+        
+        profileDetailsStackView.addAndCenterPin(view: avatarImageView)
+        avatarImageView.height(avatarSide)
+        avatarImageView.width(avatarSide)
+        profileDetailsStackView.addSpacing(margin, after: avatarImageView)
+        
+        profileDetailsStackView.addAndStandardPin(view: nameLabel)
+        profileDetailsStackView.addSpacing(tinyInterItemSpacing, after: nameLabel)
 
-        scrollView.addSubview(container)
-        container.edges(to: scrollView)
-        container.width(to: scrollView)
-
-        container.addSubview(contentBackgroundView)
-
-        contentBackgroundView.top(to: container)
-        contentBackgroundView.left(to: container)
-        contentBackgroundView.right(to: container)
-
-        contentBackgroundView.addSubview(avatarImageView)
-        contentBackgroundView.addSubview(nameLabel)
-        contentBackgroundView.addSubview(usernameLabel)
-        contentBackgroundView.addSubview(aboutContentLabel)
-        contentBackgroundView.addSubview(locationContentLabel)
-        contentBackgroundView.addSubview(actionsSeparatorView)
-        contentBackgroundView.addSubview(actionView)
-        contentBackgroundView.addSubview(editProfileButton)
-        contentBackgroundView.addSubview(contentSeparatorView)
-
+        profileDetailsStackView.addAndStandardPin(view: usernameLabel)
+        
+        addButtonsAndSpacing(for: viewType, to: profileDetailsStackView, after: usernameLabel)
+        
+        profileDetailsStackView.addAndStandardPin(view: aboutTopSeparatorView)
+        aboutTopSeparatorView.addHeightConstraint()
+        profileDetailsStackView.addSpacing(largeInterItemSpacing, after: aboutTopSeparatorView)
+        
+        profileDetailsStackView.addAndStandardPin(view: aboutContentLabel, margin: margin)
+        profileDetailsStackView.addSpacing(mediumInterItemSpacing, after: aboutContentLabel)
+        
+        profileDetailsStackView.addAndStandardPin(view: locationContentLabel, margin: margin)
+        profileDetailsStackView.addSpacing(largeInterItemSpacing, after: locationContentLabel)
+        
+        profileDetailsStackView.addAndStandardPin(view: aboutBottomSeparatorView)
+        aboutBottomSeparatorView.addHeightConstraint()
+    }
+    
+    private func addButtonsAndSpacing(for viewType: ViewType, to stackView: UIStackView, after previousView: UIView) {
+        var lastView: UIView?
+        switch viewType {
+        case .profile:
+            stackView.addAndStandardPin(view: messageUserButton, margin: margin)
+            stackView.addSpacing(mediumInterItemSpacing, after: messageUserButton)
+            stackView.addAndStandardPin(view: payButton, margin: margin)
+            lastView = payButton
+        case .personalProfile:
+            stackView.addAndStandardPin(view: editProfileButton, margin: margin)
+            lastView = editProfileButton
+        case .personalProfileReadOnly:
+            break
+        }
+        
+        if let view = lastView {
+            profileDetailsStackView.addSpacing(giantInterItemSpacing, after: previousView)
+            stackView.addSpacing(largeInterItemSpacing, after: view)
+        } else {
+            stackView.addSpacing(largeInterItemSpacing, after: previousView)
+        }
+    }
+    
+    private func addReputationTitle(to container: UIView, below viewToPinToBottomOf: UIView) {
         container.addSubview(reputationTitle)
-
-        container.addSubview(reputationBackgroundView)
-
-        reputationBackgroundView.topToBottom(of: contentBackgroundView, offset: 66)
-        reputationBackgroundView.left(to: container)
-        reputationBackgroundView.bottom(to: container)
-        reputationBackgroundView.right(to: container)
-
-        reputationBackgroundView.addSubview(reputationSeparatorView)
-        reputationBackgroundView.addSubview(reputationView)
-        reputationBackgroundView.addSubview(rateThisUserButton)
-        reputationBackgroundView.addSubview(bottomSeparatorView)
-
-        avatarImageView.size(avatarSize)
-        avatarImageView.origin(to: contentBackgroundView, insets: CGVector(dx: margin, dy: margin * 2))
-
-        let nameContainer = UILayoutGuide()
-        contentBackgroundView.addLayoutGuide(nameContainer)
-
-        nameContainer.top(to: contentBackgroundView, offset: margin * 2)
-        nameContainer.leftToRight(of: avatarImageView, offset: margin)
-        nameContainer.right(to: contentBackgroundView, offset: -margin)
-
-        nameLabel.height(25, relation: .equalOrGreater, priority: .defaultHigh)
-        nameLabel.top(to: nameContainer)
-        nameLabel.left(to: nameContainer)
-        nameLabel.right(to: nameContainer)
-
-        usernameLabel.height(25, relation: .equalOrGreater, priority: .defaultHigh)
-        usernameLabel.topToBottom(of: nameLabel)
-
-        usernameLabel.left(to: nameContainer)
-        usernameLabel.bottom(to: nameContainer)
-        usernameLabel.right(to: nameContainer)
-
-        aboutContentLabel.topToBottom(of: nameContainer, offset: margin)
-        aboutContentLabel.left(to: contentBackgroundView, offset: margin)
-        aboutContentLabel.right(to: contentBackgroundView, offset: -margin)
-
-        locationContentLabel.topToBottom(of: aboutContentLabel, offset: 7)
-        locationContentLabel.left(to: contentBackgroundView, offset: margin)
-        locationContentLabel.right(to: contentBackgroundView, offset: -margin)
-
-        actionsSeparatorView.height(.lineHeight)
-        actionsSeparatorView.topToBottom(of: locationContentLabel, offset: margin)
-        actionsSeparatorView.left(to: contentBackgroundView, offset: actionSeparatorMargin)
-        actionsSeparatorView.right(to: contentBackgroundView, offset: -actionSeparatorMargin)
-
-        actionView.height(80.0)
-        actionView.topToBottom(of: actionsSeparatorView)
-        actionView.left(to: contentBackgroundView)
-        actionView.right(to: contentBackgroundView)
-
-        let topView = viewType == .profile ? actionView : actionsSeparatorView
-        editProfileButton.topToBottom(of: topView)
-        editProfileButton.height(editProfileButtonHeight)
-        editProfileButton.left(to: contentBackgroundView)
-        editProfileButton.right(to: contentBackgroundView)
-
-        contentSeparatorView.height(.lineHeight)
-        contentSeparatorView.topToBottom(of: editProfileButton)
-        contentSeparatorView.left(to: contentBackgroundView)
-        contentSeparatorView.right(to: contentBackgroundView)
-        contentSeparatorView.bottom(to: contentBackgroundView)
-
-        reputationTitle.bottomToTop(of: reputationBackgroundView, offset: -7)
-        reputationTitle.left(to: container, offset: 16)
-        reputationTitle.right(to: container, offset: -16)
-        reputationTitle.height(60, relation: .equalOrLess)
-
-        reputationSeparatorView.height(.lineHeight)
-        reputationSeparatorView.top(to: reputationBackgroundView)
-        reputationSeparatorView.left(to: reputationBackgroundView)
-        reputationSeparatorView.right(to: reputationBackgroundView)
-
-        reputationView.topToBottom(of: reputationSeparatorView, offset: 40)
-        reputationView.left(to: reputationBackgroundView, offset: 34)
-        reputationView.right(to: reputationBackgroundView, offset: -40)
-
-        rateThisUserButton.topToBottom(of: reputationView, offset: 20)
-        rateThisUserButton.left(to: reputationBackgroundView)
-        rateThisUserButton.right(to: reputationBackgroundView)
-        rateThisUserButton.height(rateThisUserButtonHeight)
-
-        bottomSeparatorView.height(.lineHeight)
-        bottomSeparatorView.topToBottom(of: rateThisUserButton)
-        bottomSeparatorView.left(to: reputationBackgroundView)
-        bottomSeparatorView.right(to: reputationBackgroundView)
-        bottomSeparatorView.bottom(to: reputationBackgroundView)
+        
+        reputationTitle.leftToSuperview(offset: margin)
+        reputationTitle.rightToSuperview(offset: -margin)
+        reputationTitle.topToBottom(of: viewToPinToBottomOf, offset: giantInterItemSpacing)
     }
-
-    @objc private func didTapMessageProfileButton() {
-        profileDelegate?.didTapMessageProfileButton(in: self)
+    
+    private func addReputationStackView(to container: UIView, below viewToPinToBottomOf: UIView, for viewType: ViewType) {
+        container.addSubview(reputationStackView)
+        
+        reputationStackView.leftToSuperview()
+        reputationStackView.rightToSuperview()
+        reputationStackView.topToBottom(of: viewToPinToBottomOf, offset: belowTableViewStyleLabelSpacing)
+        reputationStackView.bottom(to: container, offset: -66) // eyeballed
+        
+        reputationStackView.addAndStandardPin(view: reputationTopSeparatorView)
+        reputationTopSeparatorView.addHeightConstraint()
+        reputationStackView.addSpacing(largeInterItemSpacing, after: reputationTopSeparatorView)
+        
+        addReputationView(to: reputationStackView)
+        
+        if viewType.shouldShowRateUserButton {
+            reputationStackView.addAndStandardPin(view: rateThisUserButton)
+            rateThisUserButton.height(buttonHeight)
+        }
+        
+        reputationStackView.addAndStandardPin(view: reputationBottomSeparatorView)
+        reputationBottomSeparatorView.addHeightConstraint()
     }
+    
+    private func addReputationView(to stackView: UIStackView) {
+        let container = UIView()
+        container.addSubview(reputationView)
+        reputationView.topToSuperview()
+        reputationView.leftToSuperview(offset: 34) // eyeballed
+        reputationView.rightToSuperview(offset: -40) // eyeballed
+        reputationView.bottomToSuperview()
 
-    @objc private func didTapAddProfileButton() {
-        profileDelegate?.didTapAddProfileButton(in: self)
+        stackView.addAndStandardPin(view: container)
+        stackView.addSpacing(margin, after: container)
+    }
+    
+    // MARK: - Action Targets
+
+    @objc private func didTapMessageButton() {
+        profileDelegate?.didTapMessage(in: self)
     }
 
     @objc private func didTapPayButton() {
-        profileDelegate?.didTapPayButton(in: self)
+        profileDelegate?.didTapPay(in: self)
     }
 
     @objc private func didTapEditProfileButton() {
-        personalProfileDelegate?.didTapEditProfileButton(in: self)
+        personalProfileDelegate?.didTapEditProfile(in: self)
     }
 
-    @objc private func didTapRateUser() {
+    @objc private func didTapRateUserButton() {
         profileDelegate?.didTapRateUser(in: self)
     }
 }

@@ -37,7 +37,7 @@ class PersonalProfileViewController: UIViewController {
     }
 
     override func loadView() {
-        view = ProfileView(viewType: .personalProfile)
+        view = ProfileView(viewType: .personalProfile, navBarDelegate: self)
     }
 
     override func viewDidLoad() {
@@ -72,8 +72,19 @@ class PersonalProfileViewController: UIViewController {
 }
 
 extension PersonalProfileViewController: PersonalProfileViewDelegate {
-    func didTapEditProfileButton(in view: ProfileView) {
+    func didTapEditProfile(in view: ProfileView) {
         let editController = ProfileEditController()
         navigationController?.pushViewController(editController, animated: true)
+    }
+}
+
+extension PersonalProfileViewController: DisappearingBackgroundNavBarDelegate {
+    
+    func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
+        assertionFailure("There should not be a right button when looking at your own profile")
     }
 }
