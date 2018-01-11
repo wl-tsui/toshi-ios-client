@@ -13,21 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import TinyConstraints
 import UIKit
 
-class BorderView: UIView {
+extension UILabel {
     
-    init() {
-        super.init(frame: .zero)
-        self.backgroundColor = Theme.borderColor
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        fatalError("Use the parameterless init!")
-    }
-    
-    func addHeightConstraint(of height: CGFloat = .lineHeight) {
-        self.height(height)
+    /// - Returns: true if there is text of length greater than zero, false if not
+    var hasContent: Bool {
+        guard let text = self.text else { return false }
+        
+        return text.length > 0
     }
 }

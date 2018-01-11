@@ -53,4 +53,39 @@ extension UIStackView {
             view.centerY(to: self)
         }
     }
+    
+    /// Adds a background view to force a background color to be drawn.
+    /// https://stackoverflow.com/a/42256646/681493
+    ///
+    /// - Parameter color: The color for the background.
+    func addBackground(with color: UIColor) {
+        let background = UIView()
+        background.backgroundColor = color
+        
+        self.addSubview(background)
+        background.edgesToSuperview()
+    }
+    
+    /// Backwards compatibile way to add custom spacing between views of a stack view
+    /// NOTE: When iOS 11 support is dropped, this should be removed and `setCustomSpacing` should be used directly.
+    ///
+    /// - Parameters:
+    ///   - spacing: The amount of spacing to add.
+    ///   - view: The view to add the spacing after (to the right for horizontal, below for vertical)
+    func addSpacing(_ spacing: CGFloat, after view: UIView) {
+        if #available(iOS 11, *) {
+            self.setCustomSpacing(spacing, after: view)
+        } else {
+            let spacerView = UIView()
+            spacerView.backgroundColor = .clear
+            self.insertSubview(spacerView, belowSubview: view)
+
+            switch self.axis {
+            case .vertical:
+                spacerView.height(spacing)
+            case .horizontal:
+                spacerView.width(spacing)
+            }
+        }
+    }
 }
