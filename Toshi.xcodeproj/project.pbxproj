@@ -213,6 +213,12 @@
 		3312F68020077C0100881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
 		3312F6812007801A00881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
 		3312F6822007801B00881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
+		3312F6842007A59400881B97 /* UIStackView+StandardPinning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F6832007A59400881B97 /* UIStackView+StandardPinning.swift */; };
+		3312F6882007A93000881B97 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F6872007A93000881B97 /* BorderView.swift */; };
+		3312F6892007A93600881B97 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F6872007A93000881B97 /* BorderView.swift */; };
+		3312F68A2007A93600881B97 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F6872007A93000881B97 /* BorderView.swift */; };
+		3312F68B2007B24000881B97 /* UIStackView+StandardPinning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F6832007A59400881B97 /* UIStackView+StandardPinning.swift */; };
+		3312F68C2007B24100881B97 /* UIStackView+StandardPinning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F6832007A59400881B97 /* UIStackView+StandardPinning.swift */; };
 		3332E0BC1FE979C800CC1C8A /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
@@ -1076,6 +1082,8 @@
 		30B89C992242CEAAB91C1B7C /* libPods-CocoaPods-Development.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Development.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		318D95BEC238C264CB653DE9 /* Pods-CocoaPods-Distribution.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.debug.xcconfig"; sourceTree = "<group>"; };
 		3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingBackgroundNavBar.swift; sourceTree = "<group>"; };
+		3312F6832007A59400881B97 /* UIStackView+StandardPinning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+StandardPinning.swift"; sourceTree = "<group>"; };
+		3312F6872007A93000881B97 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		3332E0BB1FE979C800CC1C8A /* DappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappViewController.swift; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
@@ -1891,6 +1899,7 @@
 				D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */,
 				9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */,
 				D197BB4FC8D408B73FE253E5 /* BlurView.swift */,
+				3312F6872007A93000881B97 /* BorderView.swift */,
 				A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */,
 				A9BF33B61E76F918009A51AA /* CheckboxControl.swift */,
 				A94BDE141E800EF800B2F0CF /* ConfirmationButton.swift */,
@@ -1995,6 +2004,7 @@
 				2BF634511F7D568C00235C67 /* UIImage+Utils.m */,
 				D197B669EF87D9D6642E12BA /* UINotificationName+Additions.swift */,
 				2BE66A081EF9027B007A7130 /* UIScrollView+Keyboard.swift */,
+				3312F6832007A59400881B97 /* UIStackView+StandardPinning.swift */,
 				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
@@ -3196,6 +3206,7 @@
 				A9A9F9A91F8B70910010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AB1F8B70B90010F877 /* ChatViewController.swift in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
+				3312F68A2007A93600881B97 /* BorderView.swift in Sources */,
 				A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */,
 				A9A9F9A11F8B70770010F877 /* RecentViewController.swift in Sources */,
 				2B0EF82B1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
@@ -3279,6 +3290,7 @@
 				2B4E25E81FCCCD5D004614D5 /* TitleCell.swift in Sources */,
 				A9202E6D1ED8501E0036E9B7 /* ImageCell.swift in Sources */,
 				9FF6AFA01E83DE04001B5907 /* AvatarImageView.swift in Sources */,
+				3312F68C2007B24100881B97 /* UIStackView+StandardPinning.swift in Sources */,
 				14A769E11E72EC70007B4C1A /* DistributionTokenURLPaths.swift in Sources */,
 				149F9A901E72E29A00FB74AA /* CryptoTools.m in Sources */,
 				2B6C19031FCDA4C600DE432B /* GroupInfoViewModel.swift in Sources */,
@@ -3544,6 +3556,7 @@
 				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
 				A9BA6B791EF7CEAD007C3206 /* DepositMoneyController.swift in Sources */,
+				3312F6882007A93000881B97 /* BorderView.swift in Sources */,
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
@@ -3604,6 +3617,7 @@
 				2B6C19051FCDA4D900DE432B /* GroupViewModelProtocol.swift in Sources */,
 				D197BE83E68416D3FA0AE9BF /* ProfileEditController.swift in Sources */,
 				D197B7826883306A72319E51 /* ProfileViewController.swift in Sources */,
+				3312F6842007A59400881B97 /* UIStackView+StandardPinning.swift in Sources */,
 				D197B4267BE0D9E6F9357723 /* ProfileView.swift in Sources */,
 				D197BADE7B88BF0539D8646B /* SofaStatus.swift in Sources */,
 				D197B57BA2EA6533D6523DB0 /* StatusCell.swift in Sources */,
@@ -3668,6 +3682,7 @@
 				A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */,
 				A9603DB71F4DABDC00BF57B1 /* BalanceController.swift in Sources */,
 				A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */,
+				3312F6892007A93600881B97 /* BorderView.swift in Sources */,
 				2B0EF82A1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				A9603DB91F4DABDC00BF57B1 /* RateUserController.swift in Sources */,
 				A91D72A81F8782DC0093420C /* ChatButtonsView.swift in Sources */,
@@ -3751,6 +3766,7 @@
 				2B4E25E71FCCCD5D004614D5 /* TitleCell.swift in Sources */,
 				A9603EA61F4DABDC00BF57B1 /* AvatarImageView.swift in Sources */,
 				A9603EB01F4DABDC00BF57B1 /* CryptoTools.m in Sources */,
+				3312F68B2007B24000881B97 /* UIStackView+StandardPinning.swift in Sources */,
 				A9603EB11F4DABDC00BF57B1 /* IconLabelView.swift in Sources */,
 				A9603EB51F4DABDC00BF57B1 /* NetworkSwitcher.swift in Sources */,
 				2B6C19021FCDA4C600DE432B /* GroupInfoViewModel.swift in Sources */,
