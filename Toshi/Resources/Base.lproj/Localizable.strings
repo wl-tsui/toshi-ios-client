@@ -290,6 +290,8 @@
 "status_type_make_public" = "%@ set the group as public.";
 "status_type_make_private" = "%@ set the group as private.";
 
+"current_user_pronoun" = "You";
+
 /* Group Chat */
 "profiles_new_group" = "New Group";
 "accept_button_title" = "Accept";

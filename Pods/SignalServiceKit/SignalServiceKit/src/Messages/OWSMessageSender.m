@@ -1337,17 +1337,18 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
         // TODO: Why is this necessary?
         [message save];
     } else if (message.groupMetaMessage == TSGroupMetaMessageQuit) {
+        // No custom message needed for current user leave message
         [[[TSInfoMessage alloc] initWithTimestamp:message.timestamp
                                          inThread:thread
                                       messageType:TSInfoMessageTypeGroupQuit
-                                    customMessage:message.customMessage] save];
+                                    customMessage:@""] save];
     } else {
         [[[TSInfoMessage alloc] initWithTimestamp:message.timestamp
-                                         authorId:@""
+                                         authorId:[[TSAccountManager sharedInstance] localNumber]
                                          inThread:thread
                                       messageType:TSInfoMessageTypeGroupUpdate
-                                    customMessage:message.customMessage
-                             additionalInfoString:thread.name] save];
+                                    customMessage:message.customInfo[GroupUpdateTypeSting]
+                             additionalInfoString:message.customInfo[GroupInfoString]] save];
     }
 }
 
