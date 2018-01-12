@@ -100,6 +100,18 @@ class ChatFloatingHeaderView: UIView {
         return view
     }()
 
+    var shouldShowPayButton: Bool = true {
+        didSet {
+            payButton.isHidden = !shouldShowPayButton
+        }
+    }
+
+    var shouldShowRequestButton: Bool = true {
+        didSet {
+            requestButton.isHidden = !shouldShowRequestButton
+        }
+    }
+
     lazy var backgroundBlur: BlurView = {
         let view = BlurView()
         view.translatesAutoresizingMaskIntoConstraints = false
