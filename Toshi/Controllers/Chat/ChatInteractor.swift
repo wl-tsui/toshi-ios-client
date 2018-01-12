@@ -247,6 +247,7 @@ final class ChatInteractor: NSObject {
             if interaction.hasAttachments() {
                 message.messageType = "Image"
             } else if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
+                // TODO: Figure out what this should be instead of actionable https://toshiapp.atlassian.net/browse/IOS-456
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.medium(size: 17)])
                 message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate).string, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.regular(size: 15)])
