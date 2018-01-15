@@ -56,14 +56,18 @@ class PersonalProfileViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        preferLargeTitleIfPossible(false)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
 
         if let currentUser = TokenUser.current {
             personalProfileView?.setProfile(currentUser)
         }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillDisappear(animated)
+    }
+    
     private func updateReputation() {
         guard let currentUser = TokenUser.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Profile Controller"])
