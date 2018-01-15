@@ -311,3 +311,5 @@
 "profile_reputation_section_header" = "REPUTATION";
 "profile_rate_user" = "Rate User";
 "profile_rate_bot" = "Rate Bot";
+"profile_favorite_action" = "Save to Favorites";
+"profile_unfavorite_action" = "Remove from Favorites";

@@ -78,8 +78,6 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = Theme.lightGrayBackgroundColor
 
         updateReputation()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(yapDatabaseDidChange(notification:)), name: .YapDatabaseModified, object: nil)
     }
 
     private lazy var uiDatabaseConnection: YapDatabaseConnection = {
@@ -98,8 +96,6 @@ class ProfileViewController: UIViewController {
         preferLargeTitleIfPossible(false)
 
         profileView?.setProfile(profile)
-
-        updateButton()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -109,29 +105,9 @@ class ProfileViewController: UIViewController {
 
         preferLargeTitleIfPossible(true)
     }
-
-    @objc
-    private func yapDatabaseDidChange(notification _: NSNotification) {
-        let notifications = uiDatabaseConnection.beginLongLivedReadTransaction()
-
-        if uiDatabaseConnection.hasChange(forKey: profile.address, inCollection: TokenUser.favoritesCollectionKey, in: notifications) {
-            updateButton()
-        }
-    }
     
-    private func updateButton() {
-        uiDatabaseConnection.read { [weak self] transaction in
-            guard let strongSelf = self else { return }
-
-            let isProfileAdded = transaction.object(forKey: strongSelf.profile.address, inCollection: TokenUser.favoritesCollectionKey) != nil
-
-            let fontColor = isProfileAdded ? Theme.tintColor : Theme.lightGreyTextColor
-            let title = isProfileAdded ? "Favorited" : "Favorite"
-
-            //TODO: Fix
-//            strongSelf.profileView?.actionView.addFavoriteButton.titleLabel.text = title
-//            strongSelf.profileView?.actionView.addFavoriteButton.tintColor = fontColor
-        }
+    private func isCurrentUserFavorite() -> Bool {
+        return Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
     }
 
     private func presentUserRatingPrompt(profile: TokenUser) {
@@ -144,6 +120,14 @@ class ProfileViewController: UIViewController {
     @objc private func didSelectMoreButton() {
         let actions = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let address = profile.address
+        
+        let title = isCurrentUserFavorite() ? Localized("profile_unfavorite_action") : Localized("profile_favorite_action")
+        
+        let favoriteAction = UIAlertAction(title: title, style: .default) { _ in
+            self.didSelectFavorite()
+        }
+        
+        actions.addAction(favoriteAction)
 
         if profile.isBlocked {
             let unblockAction = UIAlertAction(title: Localized("unblock_action_title"), style: .destructive) { _ in
@@ -199,6 +183,15 @@ class ProfileViewController: UIViewController {
         alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
         Navigator.presentModally(alert)
+    }
+    
+    private func didSelectFavorite() {
+        if isCurrentUserFavorite() {
+            Yap.sharedInstance.removeObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
+        } else {
+            Yap.sharedInstance.insert(object: profile.json, for: profile.address, in: TokenUser.favoritesCollectionKey)
+            SoundPlayer.playSound(type: .addedProfile)
+        }
     }
 
     private func updateReputation() {
@@ -321,15 +314,6 @@ extension ProfileViewController: ProfileViewDelegate {
             if let navController = self.navigationController as? BrowseNavigationController {
                 _ = navController.popToRootViewController(animated: false)
             }
-        }
-    }
-
-    func didTapFavorite(in profileView: ProfileView) {
-        if Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey) {
-            Yap.sharedInstance.removeObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
-        } else {
-            Yap.sharedInstance.insert(object: profile.json, for: profile.address, in: TokenUser.favoritesCollectionKey)
-            SoundPlayer.playSound(type: .addedProfile)
         }
     }
 
