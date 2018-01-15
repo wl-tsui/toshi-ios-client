@@ -905,14 +905,29 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
         view.layoutIfNeeded()
         textInputView.inputField.resignFirstResponder()
 
-        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
-        paymentController.delegate = self
-        
-        let navigationController = PaymentNavigationController(rootViewController: paymentController)
-        Navigator.presentModally(navigationController)
+        viewModel.interactor.retrieveRecipientAddress() { address in
+            let paymentRouter = PaymentRouter(withAddress: address)
+            paymentRouter.delegate = self
+            paymentRouter.present()
+        }
+//
+//        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
+//        paymentController.delegate = self
+//
+//        let navigationController = PaymentNavigationController(rootViewController: paymentController)
+//        Navigator.presentModally(navigationController)
     }
 }
 
+extension ChatViewController: PaymentRouterDelegate {
+    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {
+       print("cancel was pressed")
+    }
+
+    func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter) {
+       print("payment succeeded")
+    }
+}
 extension ChatViewController: PaymentControllerDelegate {
 
     func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {

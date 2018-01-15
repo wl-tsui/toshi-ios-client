@@ -113,6 +113,18 @@ final class ChatInteractor: NSObject {
         })
     }
 
+    // need to write a test for this
+    func retrieveRecipientAddress(completion: @escaping (String) -> Void) {
+        guard let tokenId = thread.contactIdentifier() else { return }
+
+        idAPIClient.retrieveUser(username: tokenId) { [weak self] user in
+            guard let user = user else { return }
+
+            completion(user.paymentAddress)
+        }
+    }
+
+    // this method will be moved to the PaymentRouter logic
     func sendPayment(in value: NSDecimalNumber?, completion: ((Bool) -> Void)? = nil) {
         guard let value = value else {
             return
