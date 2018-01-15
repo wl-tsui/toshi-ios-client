@@ -122,7 +122,7 @@ class ProfileView: UIView {
     lazy var nameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = Theme.displayName()
+        view.font = Theme.preferredDisplayName()
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 

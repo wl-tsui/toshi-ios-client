@@ -201,7 +201,7 @@ extension Theme {
         return dynamicType(for: regular(size: 16), withStyle: .title3, inSizeRange: range)
     }
     
-    static func displayName(range: ClosedRange<CGFloat> = 25...35) -> UIFont {
+    static func preferredDisplayName(range: ClosedRange<CGFloat> = 25...35) -> UIFont {
         return dynamicType(for: bold(size: 25), withStyle: .title2, inSizeRange: range)
     }
     
