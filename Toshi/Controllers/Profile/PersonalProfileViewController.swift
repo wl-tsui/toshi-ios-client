@@ -56,7 +56,7 @@ class PersonalProfileViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
 
         if let currentUser = TokenUser.current {
             personalProfileView?.setProfile(currentUser)
@@ -64,7 +64,7 @@ class PersonalProfileViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
     }
     
