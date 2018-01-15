@@ -148,7 +148,6 @@ class DisappearingBackgroundNavBar: UIView {
         leftButton.setImage(templateImage, for: .normal)
         leftButton.accessibilityLabel = accessibilityLabel
         leftButton.isHidden = false
-        
     }
     
     /// Takes an image, turns it into an always-template image, then sets it to the right button and un-hides the right button.
