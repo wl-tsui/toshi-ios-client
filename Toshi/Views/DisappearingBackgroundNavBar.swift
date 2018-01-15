@@ -196,9 +196,9 @@ class DisappearingBackgroundNavBar: UIView {
             curve = [.curveEaseIn]
         }
         
-        UIView.animate(withDuration: duration, delay: 0, options: curve, animations: {
+        UIView.animate(withDuration: duration, delay: 0, options: curve) {
             view.alpha = targetAlpha
-        })
+        }
     }
     
     // MARK: - Action Targets
