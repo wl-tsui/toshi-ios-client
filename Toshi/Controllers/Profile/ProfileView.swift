@@ -233,11 +233,7 @@ class ProfileView: UIView {
     // MARK: - Setter
     
     func setProfile(_ user: TokenUser) {
-        if !user.name.isEmpty {
-            nameLabel.text = user.name
-        } else {
-            nameLabel.text = nil
-        }
+        nameLabel.text = user.name.isEmpty ? nil : user.name
         
         usernameLabel.text = user.displayUsername
         disappearingNavBar.setTitle(user.nameOrDisplayName)
