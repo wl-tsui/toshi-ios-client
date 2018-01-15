@@ -336,29 +336,29 @@ class ProfileView: UIView {
         profileDetailsStackView.rightToSuperview()
         profileDetailsStackView.topToBottom(of: viewToPinToBottomOf)
         
-        profileDetailsStackView.addAndCenterPin(view: avatarImageView)
+        profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
         avatarImageView.height(avatarSide)
         avatarImageView.width(avatarSide)
         profileDetailsStackView.addSpacing(margin, after: avatarImageView)
         
-        profileDetailsStackView.addAndStandardPin(view: nameLabel)
+        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
         profileDetailsStackView.addSpacing(smallInterItemSpacing, after: nameLabel)
 
-        profileDetailsStackView.addAndStandardPin(view: usernameLabel)
+        profileDetailsStackView.addWithDefaultConstraints(view: usernameLabel)
         
         addButtonsAndSpacing(for: viewType, to: profileDetailsStackView, after: usernameLabel)
         
-        profileDetailsStackView.addAndStandardPin(view: aboutTopSeparatorView)
+        profileDetailsStackView.addWithDefaultConstraints(view: aboutTopSeparatorView)
         aboutTopSeparatorView.addHeightConstraint()
         profileDetailsStackView.addSpacing(largeInterItemSpacing, after: aboutTopSeparatorView)
         
-        profileDetailsStackView.addAndStandardPin(view: aboutContentLabel, margin: margin)
+        profileDetailsStackView.addWithDefaultConstraints(view: aboutContentLabel, margin: margin)
         profileDetailsStackView.addSpacing(mediumInterItemSpacing, after: aboutContentLabel)
         
-        profileDetailsStackView.addAndStandardPin(view: locationContentLabel, margin: margin)
+        profileDetailsStackView.addWithDefaultConstraints(view: locationContentLabel, margin: margin)
         profileDetailsStackView.addSpacing(largeInterItemSpacing, after: locationContentLabel)
         
-        profileDetailsStackView.addAndStandardPin(view: aboutBottomSeparatorView)
+        profileDetailsStackView.addWithDefaultConstraints(view: aboutBottomSeparatorView)
         aboutBottomSeparatorView.addHeightConstraint()
     }
     
@@ -366,12 +366,12 @@ class ProfileView: UIView {
         var lastView: UIView?
         switch viewType {
         case .profile:
-            stackView.addAndStandardPin(view: messageUserButton, margin: margin)
+            stackView.addWithDefaultConstraints(view: messageUserButton, margin: margin)
             stackView.addSpacing(mediumInterItemSpacing, after: messageUserButton)
-            stackView.addAndStandardPin(view: payButton, margin: margin)
+            stackView.addWithDefaultConstraints(view: payButton, margin: margin)
             lastView = payButton
         case .personalProfile:
-            stackView.addAndStandardPin(view: editProfileButton, margin: margin)
+            stackView.addWithDefaultConstraints(view: editProfileButton, margin: margin)
             lastView = editProfileButton
         case .personalProfileReadOnly:
             break
@@ -401,20 +401,20 @@ class ProfileView: UIView {
         reputationStackView.topToBottom(of: viewToPinToBottomOf, offset: belowTableViewStyleLabelSpacing)
         reputationStackView.bottom(to: container, offset: -66) // eyeballed
         
-        reputationStackView.addAndStandardPin(view: reputationTopSeparatorView)
+        reputationStackView.addWithDefaultConstraints(view: reputationTopSeparatorView)
         reputationTopSeparatorView.addHeightConstraint()
         reputationStackView.addSpacing(largeInterItemSpacing, after: reputationTopSeparatorView)
         
         addReputationView(to: reputationStackView)
         
         if viewType.shouldShowRateUserButton {
-            reputationStackView.addAndStandardPin(view: rateThisUserButton)
+            reputationStackView.addWithDefaultConstraints(view: rateThisUserButton)
             rateThisUserButton.height(buttonHeight)
         } else {
             reputationStackView.addSpacing(largeInterItemSpacing, after: reputationView.superview!)
         }
         
-        reputationStackView.addAndStandardPin(view: reputationBottomSeparatorView)
+        reputationStackView.addWithDefaultConstraints(view: reputationBottomSeparatorView)
         reputationBottomSeparatorView.addHeightConstraint()
     }
     
@@ -426,7 +426,7 @@ class ProfileView: UIView {
         reputationView.centerXToSuperview(offset: -6) //eyeballed
         reputationView.bottomToSuperview()
 
-        stackView.addAndStandardPin(view: container)
+        stackView.addWithDefaultConstraints(view: container)
         stackView.addSpacing(margin, after: container)
     }
     

@@ -18,14 +18,14 @@ import UIKit
 
 extension UIStackView {
     
-    /// Adds given view as an arranged subview standard-pins it based on the axis of the stack view.
-    /// A vertical stack view will cause a subview to be pinned to the left and right, since top and bottom are handled by the stack view
-    /// A horizontal stack view will cause a subview to be pinned to the top and bottom, since left and right are handled by the stack view.
+    /// Adds given view as an arranged subview and constrains it to either the left and right or top and bottom of the caller, based on the caller's axis.
+    /// A vertical stack view will cause a subview to be constrained to the left and right, since top and bottom are handled by the stack view.
+    /// A horizontal stack view will cause a subview to be constrained to the top and bottom, since left and right are handled by the stack view.
     ///
     /// - Parameters:
-    ///   - view: The view to add and pin.
+    ///   - view: The view to add and constrain.
     ///   - margin: Any additional margin to add. Defaults to zero. Will be the same on both sides it is applied to.
-    func addAndStandardPin(view: UIView, margin: CGFloat = 0) {
+    func addWithDefaultConstraints(view: UIView, margin: CGFloat = 0) {
         self.addArrangedSubview(view)
         
         switch self.axis {
@@ -38,12 +38,12 @@ extension UIStackView {
         }
     }
     
-    /// Adds the given view as an arranged subview, and pins it to the center of the opposite axis of the stack view.
-    /// A vertical stack view will cause a subview to be pinned to the center X of the stackview.
-    /// A horizontal stack view will cause a subview to be pinned to the center Y of the stackview.
+    /// Adds the given view as an arranged subview, and constrains it to the center of the opposite axis of the stack view.
+    /// A vertical stack view will cause a subview to be constrained to the center X of the stackview.
+    /// A horizontal stack view will cause a subview to be constrained to the center Y of the stackview.
     ///
-    /// - Parameter view: The view to add and pin.
-    func addAndCenterPin(view: UIView) {
+    /// - Parameter view: The view to add and constrain.
+    func addWithCenterConstraint(view: UIView) {
         self.addArrangedSubview(view)
         
         switch self.axis {
