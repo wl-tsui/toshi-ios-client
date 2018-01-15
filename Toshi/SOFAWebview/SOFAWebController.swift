@@ -120,7 +120,6 @@ final class SOFAWebController: UIViewController {
         view.addSubview(webView)
         view.addSubview(toolbar)
 
-
         toolbar.height(44)
         toolbar.bottom(to: layoutGuide())
         toolbar.left(to: view)

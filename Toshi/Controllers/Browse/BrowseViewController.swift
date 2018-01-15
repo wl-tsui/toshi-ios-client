@@ -222,13 +222,15 @@ class BrowseViewController: SearchableCollectionController {
     
     @objc private func reload(searchText: String) {
         
-        if searchText.isValidURL {
-            let title = NSAttributedString(string: searchText, attributes: openButtonAttributes)
-            openURLButton.setAttributedTitle(title)
+        if
+            let possibleURLString = searchText.asPossibleURLString,
+            possibleURLString.isValidURL {
+                let title = NSAttributedString(string: possibleURLString, attributes: openButtonAttributes)
+                openURLButton.setAttributedTitle(title)
             
-            searchResultView.searchResults = []
+                searchResultView.searchResults = []
             
-            showOpenURLButton()
+                showOpenURLButton()
         } else {
             hideOpenURLButtonIfNeeded()
             IDAPIClient.shared.searchContacts(name: searchText) { [weak self] users in
@@ -266,7 +268,11 @@ class BrowseViewController: SearchableCollectionController {
     }
     
     @objc private func didTapOpenURL(_ button: UIControl) {
-        guard let string = searchController.searchBar.text, let url = URL(string: string) else { return }
+        guard
+            let searchText = searchController.searchBar.text,
+            let possibleURLString = searchText.asPossibleURLString,
+            let url = URL(string: possibleURLString)
+            else { return }
         
         let sofaController = SOFAWebController()
         
