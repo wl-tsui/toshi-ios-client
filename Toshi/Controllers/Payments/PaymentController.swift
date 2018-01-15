@@ -36,7 +36,8 @@ enum PaymentControllerPaymentType {
 enum PaymentControllerContinueOption {
     case next
     case send
-    
+
+    // this should always be next now
     var buttonTitle: String {
         switch self {
         case .next:

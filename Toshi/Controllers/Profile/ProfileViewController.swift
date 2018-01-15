@@ -236,8 +236,6 @@ extension ProfileViewController: RateUserControllerDelegate {
 extension ProfileViewController: PaymentControllerDelegate {
 
     func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
-        
-        defer { dismiss(animated: true) }
         guard let value = valueInWei else { return }
 
         let parameters: [String: Any] = [
@@ -253,7 +251,7 @@ extension ProfileViewController: PaymentControllerDelegate {
         let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, self.profile.name)
 
         let paymentController = PaymentConfirmationViewController(with: parameters)
-        navigationController?.pushViewController(paymentController, animated: true)
+        controller.navigationController?.pushViewController(paymentController, animated: true)
         
 //        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
 //            self?.hideActivityIndicator()

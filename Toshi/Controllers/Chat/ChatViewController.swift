@@ -488,16 +488,21 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         guard let parameters = transactionParameter(for: indexPath) else { return }
 
-        showActivityIndicator()
+        let paymentConfirmationController = PaymentConfirmationViewController(with: parameters)
+        let navigationController = PaymentNavigationController(rootViewController: paymentConfirmationController)
+        Navigator.presentModally(navigationController)
 
-        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
-            let state: PaymentState = success ? .approved : .failed
-            self?.adjustToPaymentState(state, at: indexPath)
-            DispatchQueue.main.asyncAfter(seconds: 2.0) {
-                self?.hideActivityIndicator()
-                self?.updateBalance()
-            }
-        }
+
+//        showActivityIndicator()
+//
+//        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
+//            let state: PaymentState = success ? .approved : .failed
+//            self?.adjustToPaymentState(state, at: indexPath)
+//            DispatchQueue.main.asyncAfter(seconds: 2.0) {
+//                self?.hideActivityIndicator()
+//                self?.updateBalance()
+//            }
+//        }
     }
     
     private func declinePaymentForIndexPath(_ indexPath: IndexPath) {
@@ -911,21 +916,32 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
 extension ChatViewController: PaymentControllerDelegate {
 
     func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
-        defer { dismiss(animated: true) }
         guard let valueInWei = valueInWei else { return }
 
         switch controller.paymentType {
         case .request:
+            defer { dismiss(animated: true) }
+            
             let paymentRequest = SofaPaymentRequest(valueInWei: valueInWei)
             viewModel.interactor.sendMessage(sofaWrapper: paymentRequest)
 
         case .send:
-            showActivityIndicator()
-            viewModel.interactor.sendPayment(in: valueInWei, completion: { [weak self] success in
-                if success {
-                    self?.updateBalance()
-                }
-            })
+            let parameters: [String: Any] = [
+                "from": Cereal.shared.paymentAddress,
+                //how can i get the to paymentaddress here?
+//                "to": controller.paymentAddress,
+                "value": valueInWei.toHexString
+            ]
+
+            let paymentConfirmationController = PaymentConfirmationViewController(with: parameters)
+            controller.navigationController?.pushViewController(paymentConfirmationController, animated: true)
+
+//            showActivityIndicator()
+//            viewModel.interactor.sendPayment(in: valueInWei, completion: { [weak self] success in
+//                if success {
+//                    self?.updateBalance()
+//                }
+//            })
         }
     }
 }
