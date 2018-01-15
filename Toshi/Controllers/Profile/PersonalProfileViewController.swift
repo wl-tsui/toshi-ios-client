@@ -28,7 +28,12 @@ class PersonalProfileViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
 
-        edgesForExtendedLayout = .bottom
+        if #available(iOS 11.0, *) {
+            edgesForExtendedLayout = .all
+        } else {
+            edgesForExtendedLayout = .bottom
+        }
+        
         title = Localized("profile_title")
     }
 

@@ -31,6 +31,8 @@ class DisappearingBackgroundNavBar: UIView {
     
     weak var delegate: DisappearingBackgroundNavBarDelegate?
     
+    static let defaultHeight: CGFloat = 64
+    
     private lazy var leftButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
         button.tintColor = Theme.tintColor
@@ -91,7 +93,7 @@ class DisappearingBackgroundNavBar: UIView {
         addSubview(leftButton)
         
         leftButton.leftToSuperview(offset: interItemSpacing)
-        leftButton.centerYToSuperview()
+        leftButton.centerYToSuperview(offset: 10)
         
         leftButton.isHidden = true
     }
@@ -100,7 +102,7 @@ class DisappearingBackgroundNavBar: UIView {
         addSubview(rightButton)
         
         rightButton.rightToSuperview(offset: interItemSpacing)
-        rightButton.centerYToSuperview()
+        rightButton.centerYToSuperview(offset: 10)
         
         rightButton.isHidden = true
     }
@@ -111,7 +113,7 @@ class DisappearingBackgroundNavBar: UIView {
         
         addSubview(titleLabel)
         
-        titleLabel.centerYToSuperview()
+        titleLabel.centerYToSuperview(offset: 10)
         titleLabel.leftToRight(of: leftButton, offset: interItemSpacing)
         titleLabel.rightToLeft(of: rightButton, offset: interItemSpacing)
         
@@ -152,6 +154,9 @@ class DisappearingBackgroundNavBar: UIView {
         rightButton.isHidden = false
     }
     
+    /// Sets a string as the title. Does *not* automatically show it.
+    ///
+    /// - Parameter text: The text to set as the title.
     func setTitle(_ text: String) {
         titleLabel.text = text
     }

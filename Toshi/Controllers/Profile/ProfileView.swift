@@ -28,6 +28,8 @@ protocol ProfileViewDelegate: class {
 
 class ProfileView: UIView {
 
+    // MARK: - ViewType
+    
     enum ViewType {
         case profile
         case personalProfile
@@ -63,6 +65,8 @@ class ProfileView: UIView {
             return isSomeoneElsesProfile
         }
     }
+    
+    // MARK: - Properties
 
     weak var personalProfileDelegate: PersonalProfileViewDelegate?
     weak var profileDelegate: ProfileViewDelegate?
@@ -77,38 +81,7 @@ class ProfileView: UIView {
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
     
     private let avatarSide: CGFloat = 60
-    private let disappearingNavBarHeight: CGFloat = 44
     private let buttonHeight: CGFloat = 44
-
-    func setProfile(_ user: TokenUser) {
-        if !user.name.isEmpty {
-            nameLabel.text = user.name
-            usernameLabel.text = user.displayUsername
-        } else {
-            nameLabel.text = user.displayUsername
-            usernameLabel.text = nil
-        }
-
-        if user.isApp {
-            payButton.isHidden = true
-            rateThisUserButton.setTitle(Localized("profile_rate_bot"), for: .normal)
-        }
-        
-        aboutContentLabel.text = user.about
-        locationContentLabel.text = user.location
-        
-        if !aboutContentLabel.hasContent && !locationContentLabel.hasContent {
-            aboutContentLabel.isHidden = true
-            locationContentLabel.isHidden = true
-            aboutTopSeparatorView.isHidden = true
-        }
-        
-        AvatarManager.shared.avatar(for: user.avatarPath) { [weak self] image, _ in
-            if image != nil {
-                self?.avatarImageView.image = image
-            }
-        }
-    }
     
     lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: navBarDelegate)
@@ -121,6 +94,9 @@ class ProfileView: UIView {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = true
         view.delaysContentTouches = false
+        if #available(iOS 11, *) {
+            view.contentInsetAdjustmentBehavior = .never
+        }
         
         return view
     }()
@@ -256,6 +232,41 @@ class ProfileView: UIView {
     }()
 
     private lazy var reputationBottomSeparatorView = BorderView()
+        
+    // MARK: - Setter
+    
+    func setProfile(_ user: TokenUser) {
+        if !user.name.isEmpty {
+            nameLabel.text = user.name
+            usernameLabel.text = user.displayUsername
+        } else {
+            nameLabel.text = user.displayUsername
+            usernameLabel.text = nil
+        }
+        
+        if user.isApp {
+            if payButton.superview != nil {
+                profileDetailsStackView.removeArrangedSubviewAndSpacingAfter(arrangedSubview: payButton)
+            }
+            
+            rateThisUserButton.setTitle(Localized("profile_rate_bot"), for: .normal)
+        }
+        
+        aboutContentLabel.text = user.about
+        locationContentLabel.text = user.location
+        
+        if !aboutContentLabel.hasContent && !locationContentLabel.hasContent {
+            profileDetailsStackView.removeArrangedSubviewAndSpacingAfter(arrangedSubview: aboutContentLabel)
+            profileDetailsStackView.removeArrangedSubviewAndSpacingAfter(arrangedSubview: locationContentLabel)
+            profileDetailsStackView.removeArrangedSubviewAndSpacingAfter(arrangedSubview: aboutTopSeparatorView)
+        }
+        
+        AvatarManager.shared.avatar(for: user.avatarPath) { [weak self] image, _ in
+            if image != nil {
+                self?.avatarImageView.image = image
+            }
+        }
+    }
 
     // MARK: - Initialization & Setup
 
@@ -272,8 +283,9 @@ class ProfileView: UIView {
     }
 
     private func addSubviewsAndConstraints(for viewType: ViewType) {
-        setupScrollView(navBarHeight: disappearingNavBarHeight)
-        setupDisappearingNavBar(height: disappearingNavBarHeight, for: viewType)
+        let navBarHeight = DisappearingBackgroundNavBar.defaultHeight
+        setupScrollView(navBarHeight: navBarHeight)
+        setupDisappearingNavBar(height: navBarHeight, for: viewType)
         setupContainerView(in: scrollView, for: viewType)
     }
 
@@ -281,17 +293,18 @@ class ProfileView: UIView {
     
     private func setupScrollView(navBarHeight: CGFloat) {
         addSubview(scrollView)
-        scrollView.edges(to: self)
-        
-        //TODO: Allow scrolling under fake nav bar
+        scrollView.edgesToSuperview(excluding: .bottom)
+        if #available(iOS 11, *) {
+            scrollView.bottom(to: self.safeAreaLayoutGuide)
+        } else {
+            scrollView.bottom(to: self)
+        }
     }
     
     private func setupDisappearingNavBar(height: CGFloat, for viewType: ViewType) {
         addSubview(disappearingNavBar)
         
-        disappearingNavBar.topToSuperview(usingSafeArea: true)
-        disappearingNavBar.leftToSuperview()
-        disappearingNavBar.rightToSuperview()
+        disappearingNavBar.edgesToSuperview(excluding: .bottom)
         disappearingNavBar.height(height)
     
         if viewType.shouldShowMoreButton {
@@ -303,7 +316,7 @@ class ProfileView: UIView {
         assert(scrollView.superview != nil)
         scrollView.addSubview(containerView)
         
-        containerView.edges(to: scrollView)
+        containerView.edgesToSuperview()
         containerView.width(to: scrollView)
         
         addTopSpacer(to: containerView)
@@ -317,7 +330,7 @@ class ProfileView: UIView {
         container.addSubview(topSpacer)
         
         topSpacer.edgesToSuperview(excluding: .bottom)
-        topSpacer.height(60) // eyeballed
+        topSpacer.height(DisappearingBackgroundNavBar.defaultHeight)
     }
     
     private func addProfileDetailsStackView(to container: UIView, below viewToPinToBottomOf: UIView, for viewType: ViewType) {
@@ -400,6 +413,8 @@ class ProfileView: UIView {
         if viewType.shouldShowRateUserButton {
             reputationStackView.addAndStandardPin(view: rateThisUserButton)
             rateThisUserButton.height(buttonHeight)
+        } else {
+            reputationStackView.addSpacing(largeInterItemSpacing, after: reputationView.superview!)
         }
         
         reputationStackView.addAndStandardPin(view: reputationBottomSeparatorView)
@@ -410,8 +425,8 @@ class ProfileView: UIView {
         let container = UIView()
         container.addSubview(reputationView)
         reputationView.topToSuperview()
-        reputationView.leftToSuperview(offset: 34) // eyeballed
-        reputationView.rightToSuperview(offset: -40) // eyeballed
+        reputationView.widthToSuperview(multiplier: 0.66)
+        reputationView.centerXToSuperview(offset: -6) //eyeballed
         reputationView.bottomToSuperview()
 
         stackView.addAndStandardPin(view: container)

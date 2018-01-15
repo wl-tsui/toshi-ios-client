@@ -66,6 +66,8 @@ extension UIStackView {
         background.edgesToSuperview()
     }
     
+    private static let spacerTag = 12345
+    
     /// Backwards compatibile way to add custom spacing between views of a stack view
     /// NOTE: When iOS 11 support is dropped, this should be removed and `setCustomSpacing` should be used directly.
     ///
@@ -74,18 +76,65 @@ extension UIStackView {
     ///   - view: The view to add the spacing after (to the right for horizontal, below for vertical)
     func addSpacing(_ spacing: CGFloat, after view: UIView) {
         if #available(iOS 11, *) {
-            self.setCustomSpacing(spacing, after: view)
+            setCustomSpacing(spacing, after: view)
         } else {
             let spacerView = UIView()
+            spacerView.tag = UIStackView.spacerTag
             spacerView.backgroundColor = .clear
-            self.insertSubview(spacerView, belowSubview: view)
+            
+            guard let indexOfViewToInsertAfter = self.arrangedSubviews.index(of: view) else {
+                assertionFailure("You need to insert after one of the arranged subviews of this stack view!")
+                return
+            }
+            
+            insertArrangedSubview(spacerView, at: (indexOfViewToInsertAfter + 1))
+            spacerView.setContentCompressionResistancePriority(.required, for: axis)
 
-            switch self.axis {
+            switch axis {
             case .vertical:
                 spacerView.height(spacing)
+                spacerView.left(to: self)
+                spacerView.right(to: self)
             case .horizontal:
                 spacerView.width(spacing)
+                spacerView.top(to: self)
+                spacerView.bottom(to: self)
             }
+        }
+    }
+    
+    /// Removes the arranged view and any spacer view added below it.
+    /// Just removes the arranged subview in iOS 11, also nukes any spacer views directly below it in iOS 10.
+    ///
+    /// - Parameter view: The arranged subview to remove.
+    func removeArrangedSubviewAndSpacingAfter(arrangedSubview view: UIView) {
+        if #available(iOS 11, *) {
+            removeArrangedSubview(view)
+            view.removeFromSuperview()
+        } else {
+            guard let indexOfArrangedSubview = self.arrangedSubviews.index(of: view) else {
+                assertionFailure("You can only do this with arranged subviews already in the view!")
+                
+                return
+            }
+            
+            let spacerViewIndex = indexOfArrangedSubview + 1
+            guard self.arrangedSubviews.count > spacerViewIndex else {
+                // There is no spacer to remove, just remove the main view.
+                removeArrangedSubview(view)
+                view.removeFromSuperview()
+                
+                return
+            }
+            
+            let spacerView = arrangedSubviews[spacerViewIndex]
+            if spacerView.tag == UIStackView.spacerTag {
+                removeArrangedSubview(spacerView)
+                spacerView.removeFromSuperview()
+            } // else, thisis not a spacer view, don't remove it.
+            
+            removeArrangedSubview(view)
+            view.removeFromSuperview()
         }
     }
 }
