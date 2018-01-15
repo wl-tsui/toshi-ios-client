@@ -63,6 +63,7 @@ extension PaymentRouter: PaymentControllerDelegate {
     func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
         guard let value = valueInWei else { return }
         paymentViewModel.setValue(value)
+        present()
     }
 
 }
