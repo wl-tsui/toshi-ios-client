@@ -125,6 +125,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     private var ethereumPromptViewHeightConstraint: NSLayoutConstraint?
     private var hiddenEthereumPromptViewHeightConstraint: NSLayoutConstraint?
 
+    var paymentRouter: PaymentRouter?
+
     convenience init(thread: TSThread, forPreviewState previewState: Bool = false) {
         self.init(thread: thread)
 
@@ -905,10 +907,10 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
         view.layoutIfNeeded()
         textInputView.inputField.resignFirstResponder()
 
-        viewModel.interactor.retrieveRecipientAddress() { address in
-            let paymentRouter = PaymentRouter(withAddress: address)
-            paymentRouter.delegate = self
-            paymentRouter.present()
+        viewModel.interactor.retrieveRecipientAddress() { [weak self] address in
+            self?.paymentRouter = PaymentRouter(withAddress: address)
+            self?.paymentRouter?.delegate = self
+            self?.paymentRouter?.present()
         }
 //
 //        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
