@@ -89,6 +89,11 @@ class ProfileView: UIView {
             usernameLabel.text = nil
         }
 
+        if user.isApp {
+            payButton.isHidden = true
+            rateThisUserButton.setTitle(Localized("profile_rate_bot"), for: .normal)
+        }
+        
         aboutContentLabel.text = user.about
         locationContentLabel.text = user.location
         
@@ -165,29 +170,26 @@ class ProfileView: UIView {
     lazy var messageUserButton: ActionButton = {
         let button = ActionButton(margin: margin)
         button.setButtonStyle(.primary)
-        button.title = "Message"
+        button.title = Localized("profile_message_button_title")
         button.addTarget(self, action: #selector(didTapMessageButton), for: .touchUpInside)
         
-        //TODO figure out style
         return button
     }()
     
     lazy var payButton: ActionButton = {
         let button = ActionButton(margin: margin)
         button.setButtonStyle(.secondary)
-        button.title = "Pay"
+        button.title = Localized("profile_pay_button_title")
         button.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
         
-        //TODO figure out style
         return button
     }()
     
-    private lazy var editProfileButton: UIButton = {
-        let view = UIButton()
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.tintColor]), for: .normal)
-        view.setAttributedTitle(NSAttributedString(string: "Edit Profile", attributes: [.font: Theme.preferredRegular(), .foregroundColor: Theme.lightGreyTextColor]), for: .highlighted)
+    private lazy var editProfileButton: ActionButton = {
+        let view = ActionButton(margin: margin)
+        view.setButtonStyle(.secondary)
+        view.title = Localized("profile_edit_button_title")
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
-        view.titleLabel?.adjustsFontForContentSizeCategory = true
         view.clipsToBounds = true
         
         return view
@@ -220,9 +222,7 @@ class ProfileView: UIView {
         let view = UILabel()
         view.font = Theme.preferredFootnote()
         view.textColor = Theme.sectionTitleColor
-        
-        //TODO: Localize
-        view.text = "REPUTATION"
+        view.text = Localized("profile_reputation_section_header")
         view.adjustsFontForContentSizeCategory = true
         
         return view
@@ -243,9 +243,7 @@ class ProfileView: UIView {
 
     lazy var rateThisUserButton: UIButton = {
         let view = UIButton()
-        
-        // TODO: Localize
-        view.setTitle("Rate this user", for: .normal)
+        view.setTitle(Localized("profile_rate_user"), for: .normal)
         view.setTitleColor(Theme.tintColor, for: .normal)
         view.setTitleColor(Theme.greyTextColor, for: .highlighted)
         view.titleLabel?.font = Theme.preferredRegular()
@@ -258,6 +256,8 @@ class ProfileView: UIView {
     }()
 
     private lazy var reputationBottomSeparatorView = BorderView()
+
+    // MARK: - Initialization & Setup
 
     init(viewType: ViewType, navBarDelegate: DisappearingBackgroundNavBarDelegate) {
         super.init(frame: CGRect.zero)

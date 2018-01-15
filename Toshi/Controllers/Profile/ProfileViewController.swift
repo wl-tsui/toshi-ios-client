@@ -49,8 +49,7 @@ class ProfileViewController: UIViewController {
             edgesForExtendedLayout = .bottom
         }
 
-        // TODO: UPDATE & Localize
-        title = "Contact"
+        title = Localized("profile_title")
     }
 
     required init?(coder _: NSCoder) {
@@ -221,7 +220,7 @@ extension ProfileViewController: RateUserControllerDelegate {
             RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) { [weak self] success, error in
                 guard success == true else {
                     let alert = UIAlertController(title: Localized("error_title"), message: error?.description, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default))
 
                     Navigator.presentModally(alert)
                     return

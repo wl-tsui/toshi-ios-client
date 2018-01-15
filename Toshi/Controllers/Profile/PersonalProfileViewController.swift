@@ -29,7 +29,7 @@ class PersonalProfileViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         edgesForExtendedLayout = .bottom
-        title = "Profile"
+        title = Localized("profile_title")
     }
 
     required init?(coder _: NSCoder) {
