@@ -238,12 +238,12 @@ class ProfileView: UIView {
     func setProfile(_ user: TokenUser) {
         if !user.name.isEmpty {
             nameLabel.text = user.name
-            usernameLabel.text = user.displayUsername
         } else {
-            nameLabel.text = user.displayUsername
-            usernameLabel.text = nil
+            nameLabel.text = nil
         }
         
+        usernameLabel.text = user.displayUsername
+
         if user.isApp {
             if payButton.superview != nil {
                 profileDetailsStackView.removeArrangedSubviewAndSpacingAfter(arrangedSubview: payButton)
