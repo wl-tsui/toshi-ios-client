@@ -74,7 +74,7 @@ class ProfileView: UIView {
     
     private let margin: CGFloat = 15
     
-    private let tinyInterItemSpacing: CGFloat = 5
+    private let smallInterItemSpacing: CGFloat = 5
     private let mediumInterItemSpacing: CGFloat = 10
     private let largeInterItemSpacing: CGFloat = 20
     private let giantInterItemSpacing: CGFloat = 40
@@ -346,7 +346,7 @@ class ProfileView: UIView {
         profileDetailsStackView.addSpacing(margin, after: avatarImageView)
         
         profileDetailsStackView.addAndStandardPin(view: nameLabel)
-        profileDetailsStackView.addSpacing(tinyInterItemSpacing, after: nameLabel)
+        profileDetailsStackView.addSpacing(smallInterItemSpacing, after: nameLabel)
 
         profileDetailsStackView.addAndStandardPin(view: usernameLabel)
         
