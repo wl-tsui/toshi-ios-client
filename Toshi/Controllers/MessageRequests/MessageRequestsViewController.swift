@@ -67,6 +67,11 @@ final class MessagesRequestsViewController: SweetTableController {
             navigationController?.popViewController(animated: animated)
         }
     }
+
+    private func openThread(_ thread: TSThread) {
+        let chatViewController = ChatViewController(thread: thread)
+        navigationController?.pushViewController(chatViewController, animated: true)
+    }
 }
 
 extension MessagesRequestsViewController: UITableViewDataSource {
@@ -81,7 +86,7 @@ extension MessagesRequestsViewController: UITableViewDataSource {
 
         guard let thread = dataSource.unacceptedThread(at: indexPath) else { return UITableViewCell(frame: .zero) }
 
-        var avatar = thread.avatar() ?? UIImage(named: "avatar-placeholder")
+        let avatar = thread.avatar() ?? UIImage(named: "avatar-placeholder")
         var subtitle = "..."
         var title = ""
 
@@ -118,6 +123,8 @@ extension MessagesRequestsViewController: BasicCellActionDelegate {
         guard let thread = dataSource.unacceptedThread(at: indexPath) else { return }
 
         ChatInteractor.acceptThread(thread)
+
+        openThread(thread)
     }
 
     func didTapSecondActionButton(_ cell: BasicTableViewCell) {

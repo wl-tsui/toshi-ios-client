@@ -5,7 +5,7 @@ inhibit_all_warnings!
 abstract_target 'CocoaPods' do
   # Things which can't be installed via Carthage because of C code
   pod 'AxolotlKit',  git: 'https://github.com/WhisperSystems/SignalProtocolKit.git'
-  pod 'SignalServiceKit', git: 'https://github.com/toshiapp/Signal-iOS.git', commit: "0af2163d63449815b5bf311cf828da2fef67f9aa"
+  pod 'SignalServiceKit', git: 'https://github.com/toshiapp/Signal-iOS.git', commit: "067fd117ea501c418276f087600ae51d91520854"
 
   # Grabs from the head of this repo, which allows SignalServiceKit to compile properly
   pod 'SocketRocket', git: 'https://github.com/facebook/SocketRocket.git'
