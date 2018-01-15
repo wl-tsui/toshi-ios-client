@@ -912,12 +912,6 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
             self?.paymentRouter?.delegate = self
             self?.paymentRouter?.present()
         }
-//
-//        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
-//        paymentController.delegate = self
-//
-//        let navigationController = PaymentNavigationController(rootViewController: paymentController)
-//        Navigator.presentModally(navigationController)
     }
 }
 
@@ -927,7 +921,8 @@ extension ChatViewController: PaymentRouterDelegate {
     }
 
     func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter) {
-       print("payment succeeded")
+        print("payment succeeded")
+        self?.updateBalance()
     }
 }
 extension ChatViewController: PaymentControllerDelegate {
@@ -935,30 +930,11 @@ extension ChatViewController: PaymentControllerDelegate {
     func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
         guard let valueInWei = valueInWei else { return }
 
-        switch controller.paymentType {
-        case .request:
+        if controller.paymentType == .request {
             defer { dismiss(animated: true) }
             
             let paymentRequest = SofaPaymentRequest(valueInWei: valueInWei)
             viewModel.interactor.sendMessage(sofaWrapper: paymentRequest)
-
-        case .send:
-            let parameters: [String: Any] = [
-                "from": Cereal.shared.paymentAddress,
-                //how can i get the to paymentaddress here?
-//                "to": controller.paymentAddress,
-                "value": valueInWei.toHexString
-            ]
-
-            let paymentConfirmationController = PaymentConfirmationViewController(with: parameters)
-            controller.navigationController?.pushViewController(paymentConfirmationController, animated: true)
-
-//            showActivityIndicator()
-//            viewModel.interactor.sendPayment(in: valueInWei, completion: { [weak self] success in
-//                if success {
-//                    self?.updateBalance()
-//                }
-//            })
         }
     }
 }
