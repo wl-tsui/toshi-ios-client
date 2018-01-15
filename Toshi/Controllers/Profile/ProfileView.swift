@@ -308,7 +308,7 @@ class ProfileView: UIView {
         disappearingNavBar.height(height)
     
         if viewType.shouldShowMoreButton {
-            // TODO: Setup more button.
+            disappearingNavBar.setRightButtonImage(#imageLiteral(resourceName: "more"), accessibilityLabel: Localized("accessibility_more"))
         }
     }
     

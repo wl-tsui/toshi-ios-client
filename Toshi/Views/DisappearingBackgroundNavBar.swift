@@ -94,7 +94,8 @@ class DisappearingBackgroundNavBar: UIView {
         
         leftButton.leftToSuperview(offset: interItemSpacing)
         leftButton.centerYToSuperview(offset: 10)
-        
+        leftButton.setContentHuggingPriority(.required, for: .horizontal)
+
         leftButton.isHidden = true
     }
     
@@ -103,6 +104,7 @@ class DisappearingBackgroundNavBar: UIView {
         
         rightButton.rightToSuperview(offset: interItemSpacing)
         rightButton.centerYToSuperview(offset: 10)
+        rightButton.setContentHuggingPriority(.required, for: .horizontal)
         
         rightButton.isHidden = true
     }
@@ -133,25 +135,32 @@ class DisappearingBackgroundNavBar: UIView {
     
     /// Sets up the left button to appear to be a back button.
     func setupLeftAsBackButton() {
-        setLeftButtonImage(#imageLiteral(resourceName: "web_back"))
+        setLeftButtonImage(#imageLiteral(resourceName: "web_back"), accessibilityLabel: Localized("accessibility_back"))
     }
     
     /// Takes an image, turns it into an always-template image, then sets it to the left button and un-hides the left button.
     ///
-    /// - Parameter image: The image to set on the left button as a template image.
-    func setLeftButtonImage(_ image: UIImage) {
+    /// - Parameters:
+    ///   - image: The image to set on the left button as a template image.
+    ///   - accessibilityLabel: The accessibility label which should be read to voice over users describing the left button.
+    func setLeftButtonImage(_ image: UIImage, accessibilityLabel: String) {
         let templateImage = image.withRenderingMode(.alwaysTemplate)
         leftButton.setImage(templateImage, for: .normal)
+        leftButton.accessibilityLabel = accessibilityLabel
         leftButton.isHidden = false
+        
     }
     
     /// Takes an image, turns it into an always-template image, then sets it to the right button and un-hides the right button.
     ///
-    /// - Parameter image: The image to set on the right button on
-    func setRightButtonImage(_ image: UIImage) {
+    /// - Parameters:
+    ///   - image: The image to set on the right button as a template image.
+    ///   - accessibilityLabel: The accessibility label which should be read to voice over users describing the right button.
+    func setRightButtonImage(_ image: UIImage, accessibilityLabel: String) {
         let templateImage = image.withRenderingMode(.alwaysTemplate)
         rightButton.setImage(templateImage, for: .normal)
         rightButton.isHidden = false
+        rightButton.accessibilityLabel = accessibilityLabel
     }
     
     /// Sets a string as the title. Does *not* automatically show it.
