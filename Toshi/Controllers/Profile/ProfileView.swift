@@ -101,9 +101,6 @@ class ProfileView: UIView {
         return view
     }()
     
-    /// The view containing all content within the scroll view.
-    private lazy var containerView = UIView()
-    
     private lazy var topSpacer: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.viewBackgroundColor
@@ -287,7 +284,7 @@ class ProfileView: UIView {
         let navBarHeight = DisappearingBackgroundNavBar.defaultHeight
         setupScrollView(navBarHeight: navBarHeight)
         setupDisappearingNavBar(height: navBarHeight, for: viewType)
-        setupContainerView(in: scrollView, for: viewType)
+        setupContent(in: scrollView, for: viewType)
     }
 
     // MARK: Outer layout
@@ -313,8 +310,11 @@ class ProfileView: UIView {
         }
     }
     
-    private func setupContainerView(in scrollView: UIScrollView, for viewType: ViewType) {
+    private func setupContent(in scrollView: UIScrollView, for viewType: ViewType) {
         assert(scrollView.superview != nil)
+        
+        let containerView = UIView()
+        
         scrollView.addSubview(containerView)
         
         containerView.edgesToSuperview()
