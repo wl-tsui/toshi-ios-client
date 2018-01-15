@@ -125,7 +125,7 @@ class ProfileView: UIView {
     lazy var nameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
-        view.font = Theme.preferredTitle2()
+        view.font = Theme.displayName()
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
@@ -243,6 +243,7 @@ class ProfileView: UIView {
         }
         
         usernameLabel.text = user.displayUsername
+        disappearingNavBar.setTitle(user.nameOrDisplayName)
 
         if user.isApp {
             if payButton.superview != nil {
