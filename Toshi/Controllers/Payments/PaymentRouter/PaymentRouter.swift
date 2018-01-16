@@ -33,7 +33,7 @@ class PaymentRouter {
     // I purposefully created this method so the caller is aware that this object will present a VC
     func present() {
         //here should be decided what controller should be presented first
-        guard let value = paymentViewmodel.value else {
+        guard let value = paymentViewModel.value else {
             presentPaymentValueController()
             return
         }
@@ -67,7 +67,7 @@ class PaymentRouter {
         presentViewControllerOnNavigator(paymentConfirmationController)
     }
 
-    private func presentViewControllerOnNavigator(_ controller: PaymentController) {
+    private func presentViewControllerOnNavigator(_ controller: UIViewController) {
 
         if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
             paymentNavigationController.pushViewController(controller, animated: true)

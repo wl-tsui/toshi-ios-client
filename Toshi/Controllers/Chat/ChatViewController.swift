@@ -914,7 +914,7 @@ extension ChatViewController: PaymentRouterDelegate {
 
     func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter) {
         print("payment succeeded")
-        self?.updateBalance()
+        self.updateBalance()
     }
 }
 extension ChatViewController: PaymentControllerDelegate {
