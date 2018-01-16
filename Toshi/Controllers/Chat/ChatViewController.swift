@@ -490,11 +490,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         guard let parameters = transactionParameter(for: indexPath) else { return }
 
-        let paymentConfirmationController = PaymentConfirmationViewController(with: parameters)
-        let navigationController = PaymentNavigationController(rootViewController: paymentConfirmationController)
-        Navigator.presentModally(navigationController)
-
-
 //        showActivityIndicator()
 //
 //        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
@@ -754,9 +749,6 @@ extension ChatViewController: MessagesPaymentCellDelegate {
 
         if let parameters = transactionParameter(for: indexPath) {
             showActivityIndicator()
-
-            let paymentController = PaymentConfirmationViewController(with: parameters)
-            navigationController?.pushViewController(paymentController, animated: true)
 
 //            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
 //

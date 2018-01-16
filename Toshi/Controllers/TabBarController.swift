@@ -286,9 +286,6 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             SoundPlayer.playSound(type: .scanned)
 
-            let paymentController = PaymentConfirmationViewController(with: parameters)
-            navigationController?.pushViewController(paymentController, animated: true)
-
 //            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] transaction, error in
 //
 //                guard error == nil else {

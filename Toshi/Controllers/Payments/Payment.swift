@@ -21,10 +21,6 @@ class PaymentManager {
         let ethValueString = EthereumConverter.ethereumValueString(forWei: valueInWei)
         let message = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, paymentAddress)
 
-        let paymentConfirmationController = PaymentConfirmationViewController(with: parameters)
-        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
-            paymentNavigationController.pushViewController(paymentConfirmationController, animated: true)
-        }
 //        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: message, approveHandler: { [weak self] transaction, _ in
 //
 //            guard let transaction = transaction else { return }

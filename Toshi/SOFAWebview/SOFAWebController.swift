@@ -327,7 +327,6 @@ extension SOFAWebController: WKScriptMessageHandler {
 
     private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, callbackId: String) {
 
-        let paymentController = PaymentConfirmationViewController(with: parameters)
 //        navigationController.pushViewController(paymentController, animated: true)
         
 //        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, error in
