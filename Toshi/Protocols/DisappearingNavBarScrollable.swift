@@ -24,6 +24,9 @@ protocol DisappearingNavBarScrollable: class {
     /// The nav bar to adjust
     var navBar: DisappearingBackgroundNavBar { get }
     
+    /// If disappearing is enabled at present. Defaults to true.
+    var disappearingEnabled: Bool { get }
+    
     /// The parent view of both the nav bar and the scroll view
     var navAndScrollParent: UIView { get }
     
@@ -64,6 +67,10 @@ extension DisappearingNavBarScrollable {
     
     var topSpacerHeight: CGFloat {
         return navBarHeight
+    }
+    
+    var disappearingEnabled: Bool {
+        return true
     }
 }
 
@@ -120,17 +127,9 @@ extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
     }
     
     func updateNavBarHiddenState() {
-        guard !scrollView.frame.equalTo(.zero) else {
-            // View hasn't been set up yet
-            
-            return
-        }
-        
-        guard !navBarAnimationInProgress else {
-            // Let the animation finish.
-            
-            return
-        }
+        guard disappearingEnabled else { return }
+        guard !scrollView.frame.equalTo(.zero) else { /* View hasn't been set up yet. */ return }
+        guard !navBarAnimationInProgress else { /* Let the animation finish. */ return }
 
         let updatedBounds = triggerView.convert(triggerView.bounds, to: navAndScrollParent)
         let centerYOfTarget = updatedBounds.midY
@@ -138,11 +137,7 @@ extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
         let shouldBeShowing = (centerYOfTarget < navBarHeight)
         let isShowing = navBar.isBackgroundShowing
         
-        guard shouldBeShowing != isShowing else {
-            // Nothing more to do here.
-            
-            return
-        }
+        guard shouldBeShowing != isShowing else { /* Nothing more to do here. */ return }
         
         navBarAnimationInProgress = true
         navBar.showTitleAndBackground(shouldBeShowing, animated: true) { [weak self] _ in
