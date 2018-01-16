@@ -51,10 +51,6 @@ protocol DisappearingNavBarScrollable: class {
     ///
     /// - Parameter contentView: The content view to add scrollable content to.
     func addScrollableContent(to contentView: UIView)
-    
-    /// Updates the nav bar's hidden state based on whether the top of the target view has been scrolled past the bottom of the nav bar.
-    /// NOTE: This should generally be called from `scrollViewDidScroll`.
-    func updateNavBarHiddenState()
 }
 
 // MARK: - Default implementation for all types
@@ -72,33 +68,21 @@ extension DisappearingNavBarScrollable {
     var disappearingEnabled: Bool {
         return true
     }
-}
-
-// MARK: - Default implementation for UIViewControllers
-
-extension DisappearingNavBarScrollable where Self: UIViewController, Self: UIScrollViewDelegate {
-    
-    var navAndScrollParent: UIView {
-        return view
-    }
-}
-
-// MARK: - Default Implementation for anything conforming to UIScrollViewDelegate
-
-extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
     
     /// Sets up the navigation bar and all scrolling content.
-    func setupNavBarAndScrollingContent() {
+    ///
+    /// - Parameter scrollViewDelegate: The scroll view delegate to set on the scroll view.
+    func setupNavBarAndScrollingContent(withScrollViewDelegate scrollViewDelegate: UIScrollViewDelegate) {
         navAndScrollParent.addSubview(scrollView)
         
         scrollView.edgesToSuperview()
-        scrollView.delegate = self
+        scrollView.delegate = scrollViewDelegate
         
         navAndScrollParent.addSubview(navBar)
         
         navBar.edgesToSuperview(excluding: .bottom)
         navBar.height(navBarHeight)
-
+        
         setupContentView(in: scrollView)
     }
     
@@ -112,25 +96,13 @@ extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
         addScrollableContent(to: contentView)
     }
     
-    /// Adds and returns a spacer view to the top of the scroll view's content view the same height as the nav bar (so content can scroll under it)
-    ///
-    /// - Parameter contentView: The content view to add the spacer to
-    /// - Returns: The spacer view so other views can be constrained to it.
-    func addTopSpacer(to contentView: UIView) -> UIView {
-        let spacer = UIView(withAutoLayout: false)
-        spacer.backgroundColor = Theme.viewBackgroundColor
-        contentView.addSubview(spacer)
-        spacer.edgesToSuperview(excluding: .bottom)
-        spacer.height(topSpacerHeight)
-        
-        return spacer
-    }
-    
+    /// Updates the nav bar's hidden state based on whether the top of the target view has been scrolled past the bottom of the nav bar.
+    /// NOTE: This should generally be called from `scrollViewDidScroll`.
     func updateNavBarHiddenState() {
         guard disappearingEnabled else { return }
         guard !scrollView.frame.equalTo(.zero) else { /* View hasn't been set up yet. */ return }
         guard !navBarAnimationInProgress else { /* Let the animation finish. */ return }
-
+        
         let updatedBounds = triggerView.convert(triggerView.bounds, to: navAndScrollParent)
         let centerYOfTarget = updatedBounds.midY
         
@@ -146,5 +118,37 @@ extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
             // Update the state one more time in case the user kept scrolling after the animation.
             self?.updateNavBarHiddenState()
         }
+    }
+    
+    /// Adds and returns a spacer view to the top of the scroll view's content view the same height as the nav bar (so content can scroll under it)
+    ///
+    /// - Parameter contentView: The content view to add the spacer to
+    /// - Returns: The spacer view so other views can be constrained to it.
+    func addTopSpacer(to contentView: UIView) -> UIView {
+        let spacer = UIView(withAutoLayout: false)
+        spacer.backgroundColor = Theme.viewBackgroundColor
+        contentView.addSubview(spacer)
+        spacer.edgesToSuperview(excluding: .bottom)
+        spacer.height(topSpacerHeight)
+        
+        return spacer
+    }
+}
+
+// MARK: - Default implementation for UIViewControllers
+
+extension DisappearingNavBarScrollable where Self: UIViewController {
+    
+    var navAndScrollParent: UIView {
+        return view
+    }
+}
+
+// MARK: - Default Implementation for anything conforming to UIScrollViewDelegate
+
+extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
+    
+    func setupNavBarAndScrollingContent() {
+        setupNavBarAndScrollingContent(withScrollViewDelegate: self)
     }
 }
