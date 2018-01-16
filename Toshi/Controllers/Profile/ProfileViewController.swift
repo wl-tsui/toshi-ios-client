@@ -474,12 +474,7 @@ class ProfileViewController: UIViewController {
         } else {
             disappearingNavBar.setTitle(profile.nameOrDisplayName)
         }
-        
-        //TODO: Remove!
-        if isBotProfile && profile.name == "Spambot" {
-            aboutContentLabel.text = "We eat ham and jam and spam a lot, and I like to push the pram a lot"
-        }
-        
+
         if aboutStackView.superview != nil {
             // This is all in a section and should be hidden at once
             let shouldShowAboutSection = (aboutContentLabel.hasContent || locationContentLabel.hasContent)
@@ -500,7 +495,6 @@ class ProfileViewController: UIViewController {
     // MARK: Button targets
     
     @objc private func didTapMessageButton() {
-        // create thread if needed
         let thread = ChatInteractor.getOrCreateThread(for: profile.address)
         thread.isPendingAccept = false
         thread.save()
