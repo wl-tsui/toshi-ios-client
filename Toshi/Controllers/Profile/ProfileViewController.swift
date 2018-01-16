@@ -539,17 +539,7 @@ class ProfileViewController: UIViewController {
     
     private func didSelectBlockedState(_ shouldBeBlocked: Bool) {
         if shouldBeBlocked {
-            // Alert to confirm before actually blocking.
-            let alert = UIAlertController(title: Localized("block_alert_title"), message: Localized("block_alert_message"), preferredStyle: .alert)
-            
-            let blockAction = UIAlertAction(title: Localized("block_action_title"), style: .default) { [weak self] _ in
-                self?.blockUser()
-            }
-            alert.addAction(blockAction)
-            
-            alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
-            
-            Navigator.presentModally(alert)
+            presentBlockConfirmationAlert()
         } else {
             unblockUser()
         }
@@ -557,7 +547,7 @@ class ProfileViewController: UIViewController {
     
     private func didSelectReportUser() {
         self.idAPIClient.reportUser(address: profile.address) { [weak self] success, error in
-            self?.showReportUserFeedbackAlert(success, message: error?.description)
+            self?.presentReportUserFeedbackAlert(success, message: error?.description)
         }
     }
     
@@ -604,8 +594,21 @@ class ProfileViewController: UIViewController {
         
         Navigator.presentModally(actionSheet)
     }
+    
+    private func presentBlockConfirmationAlert() {
+        let alert = UIAlertController(title: Localized("block_alert_title"), message: Localized("block_alert_message"), preferredStyle: .alert)
+        
+        let blockAction = UIAlertAction(title: Localized("block_action_title"), style: .default) { [weak self] _ in
+            self?.blockUser()
+        }
+        alert.addAction(blockAction)
+        
+        alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
+        
+        Navigator.presentModally(alert)
+    }
 
-    private func showReportUserFeedbackAlert(_ success: Bool, message: String?) {
+    private func presentReportUserFeedbackAlert(_ success: Bool, message: String?) {
         guard success else {
             let alert = UIAlertController.dismissableAlert(title: Localized("error_title"), message: message)
             Navigator.presentModally(alert)
@@ -617,7 +620,7 @@ class ProfileViewController: UIViewController {
         Navigator.presentModally(alert)
     }
     
-    private func showFeebackErrorAlert(error: ToshiError?) {
+    private func presentSubmitRatingErrorAlert(error: ToshiError?) {
         let alert = UIAlertController(title: Localized("error_title"), message: error?.description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default))
         
@@ -677,7 +680,7 @@ extension ProfileViewController: RateUserControllerDelegate {
         dismiss(animated: true) {
             RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) { [weak self] success, error in
                 guard success == true else {
-                    self?.showFeebackErrorAlert(error: error)
+                    self?.presentSubmitRatingErrorAlert(error: error)
                     
                     return
                 }
