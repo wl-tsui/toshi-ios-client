@@ -19,12 +19,38 @@ import CoreImage
 import TinyConstraints
 
 class ProfileViewController: UIViewController {
+    
+    var profile: TokenUser {
+        didSet {
+            configureForCurrentProfile()
+        }
+    }
+    
+    private let isReadOnlyMode: Bool
+    
+    private var isBotProfile: Bool {
+        return profile.isApp
+    }
+    
+    private var isForCurrentUserProfile: Bool {
+        return profile.isCurrentUser
+    }
+    
+    private var shouldShowMoreButton: Bool {
+        return !isForCurrentUserProfile
+    }
+    
+    private var isCurrentUserEditMode: Bool {
+        return (isForCurrentUserProfile && !isReadOnlyMode)
+    }
+    
+    private var shouldShowRateButton: Bool {
+        return !isForCurrentUserProfile
+    }
 
     private lazy var activityView: UIActivityIndicatorView = {
         self.defaultActivityIndicator()
     }()
-
-    var profile: TokenUser
 
     private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
@@ -32,14 +58,138 @@ class ProfileViewController: UIViewController {
 
     private var messageSender: MessageSender? {
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-
         return appDelegate?.messageSender
     }
+    
+    private let belowTableViewStyleLabelSpacing: CGFloat = 8
+    
+    lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
+        let navBar = DisappearingBackgroundNavBar(delegate: self)
+        navBar.setupLeftAsBackButton()
+        
+        return navBar
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.showsVerticalScrollIndicator = true
+        view.delaysContentTouches = false
+        if #available(iOS 11, *) {
+            view.contentInsetAdjustmentBehavior = .never
+        }
+        
+        return view
+    }()
+    
+    private lazy var avatarImageView = AvatarImageView()
+    
+    lazy var nameLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredDisplayName()
+        view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
+        
+        return view
+    }()
+    
+    lazy var usernameLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.textAlignment = .center
+        view.font = Theme.preferredRegularMedium()
+        view.adjustsFontForContentSizeCategory = true
+        view.textColor = Theme.greyTextColor
+        
+        return view
+    }()
+    
+    lazy var messageUserButton: ActionButton = {
+        let button = ActionButton(margin: .defaultMargin)
+        button.setButtonStyle(.primary)
+        button.title = Localized("profile_message_button_title")
+        button.addTarget(self, action: #selector(didTapMessageButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var payButton: ActionButton = {
+        let button = ActionButton(margin: .defaultMargin)
+        button.setButtonStyle(.secondary)
+        button.title = Localized("profile_pay_button_title")
+        button.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var editProfileButton: ActionButton = {
+        let view = ActionButton(margin: .defaultMargin)
+        view.setButtonStyle(.secondary)
+        view.title = Localized("profile_edit_button_title")
+        view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
+        view.clipsToBounds = true
+        
+        return view
+    }()
+    
+    lazy var aboutContentLabel: UILabel = {
+        let view = UILabel()
+        view.font = Theme.preferredRegular()
+        view.adjustsFontForContentSizeCategory = true
+        view.numberOfLines = 0
+        
+        return view
+    }()
+    
+    lazy var locationContentLabel: UILabel = {
+        let view = UILabel()
+        view.font = Theme.preferredRegularMedium()
+        view.adjustsFontForContentSizeCategory = true
+        view.textColor = Theme.lightGreyTextColor
+        view.numberOfLines = 0
+        
+        return view
+    }()
+    
+    private lazy var aboutStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        
+        return stackView
+    }()
+    
+    lazy var reputationTitle: UILabel = {
+        let view = UILabel()
+        view.font = Theme.preferredFootnote()
+        view.textColor = Theme.sectionTitleColor
+        view.text = Localized("profile_reputation_section_header")
+        view.adjustsFontForContentSizeCategory = true
+        
+        return view
+    }()
+    
+    private lazy var reputationView = ReputationView()
+    
+    private lazy var rateThisUserButton: UIButton = {
+        let view = UIButton()
+        view.setTitleColor(Theme.tintColor, for: .normal)
+        view.setTitleColor(Theme.greyTextColor, for: .highlighted)
+        view.titleLabel?.font = Theme.preferredRegular()
+        view.titleLabel?.adjustsFontForContentSizeCategory = true
+        view.clipsToBounds = true
+        
+        view.addTarget(self, action: #selector(didTapRateUserButton), for: .touchUpInside)
+        
+        return view
+    }()
+    
+    // MARK: - Initialization
 
-    private var profileView: ProfileView? { return view as? ProfileView }
-
-    init(profile: TokenUser) {
+    init(profile: TokenUser, readOnlyMode: Bool = true) {
         self.profile = profile
+        self.isReadOnlyMode = readOnlyMode
 
         super.init(nibName: nil, bundle: nil)
 
@@ -55,107 +205,404 @@ class ProfileViewController: UIViewController {
     required init?(coder _: NSCoder) {
         fatalError("The method `init?(coder)` is not implemented for this class.")
     }
-
-    override func loadView() {
-        if profile.isCurrentUser {
-            view = ProfileView(viewType: .personalProfileReadOnly, navBarDelegate: self)
-        } else {
-            view = ProfileView(viewType: .profile, navBarDelegate: self)
-        }
-    }
+    
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupActivityIndicator()
-
-        profileView?.profileDelegate = self
-
-        if !profile.isCurrentUser {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "more"), style: .plain, target: self, action: #selector(didSelectMoreButton))
-        }
-
+        
         view.backgroundColor = Theme.lightGrayBackgroundColor
+        setupActivityIndicator()
+        
+        let navBarHeight = DisappearingBackgroundNavBar.defaultHeight
+        setupScrollView(navBarHeight: navBarHeight)
+        setupDisappearingNavBar(height: navBarHeight)
+        setupContent(in: scrollView)
 
+        configureForCurrentProfile()
         updateReputation()
     }
-
-    private lazy var uiDatabaseConnection: YapDatabaseConnection = {
-        let database = Yap.sharedInstance.database!
-        let dbConnection = database.newConnection()
-        dbConnection.beginLongLivedReadTransaction()
-
-        return dbConnection
-    }()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: animated)
-
-        preferLargeTitleIfPossible(false)
-
-        profileView?.setProfile(profile)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         
         super.viewWillDisappear(animated)
-
-        preferLargeTitleIfPossible(true)
     }
     
-    private func isCurrentUserFavorite() -> Bool {
-        return Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
+    // MARK: - View Setup
+    
+    private func setupScrollView(navBarHeight: CGFloat) {
+        view.addSubview(scrollView)
+        scrollView.edgesToSuperview(excluding: .bottom)
+        scrollView.bottom(to: layoutGuide())
+    }
+    
+    private func setupDisappearingNavBar(height: CGFloat) {
+        view.addSubview(disappearingNavBar)
+        
+        disappearingNavBar.edgesToSuperview(excluding: .bottom)
+        disappearingNavBar.height(height)
+        
+        if shouldShowMoreButton {
+            disappearingNavBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized("accessibility_more"))
+        }
+        
+        if isCurrentUserEditMode {
+            disappearingNavBar.showTitleLabel(true, animated: false)
+            disappearingNavBar.showBackground(true, animated: false)
+        }
+    }
+    
+    private func setupContent(in scrollView: UIScrollView) {
+        assert(scrollView.superview != nil)
+        
+        let containerView = UIView()
+        
+        scrollView.addSubview(containerView)
+        
+        containerView.edgesToSuperview()
+        containerView.width(to: scrollView)
+        
+        let topSpacer = addTopSpacer(to: containerView)
+        let profileContainer = addProfileDetailsSection(to: containerView, below: topSpacer)
+        
+        addReputationTitle(to: containerView, below: profileContainer)
+        addReputationSection(to: containerView, below: reputationTitle)
+    }
+    
+    // MARK: Profile
+    
+    private func addTopSpacer(to container: UIView) -> UIView {
+        // Top spacer allows content to slide under the nav bar
+        let topSpacer = UIView()
+        topSpacer.backgroundColor = Theme.viewBackgroundColor
+        
+        container.addSubview(topSpacer)
+        
+        topSpacer.edgesToSuperview(excluding: .bottom)
+        
+        var spacerHeight = DisappearingBackgroundNavBar.defaultHeight
+        if isCurrentUserEditMode {
+            spacerHeight += .giantInterItemSpacing
+        }
+        
+        topSpacer.height(spacerHeight)
+        
+        return topSpacer
+    }
+    
+    private func addProfileDetailsSection(to container: UIView, below viewToPinToBottomOf: UIView) -> UIView {
+        let profileDetailsStackView = UIStackView()
+        profileDetailsStackView.addBackground(with: Theme.viewBackgroundColor)
+        profileDetailsStackView.axis = .vertical
+        profileDetailsStackView.alignment = .center
+        
+        container.addSubview(profileDetailsStackView)
+        profileDetailsStackView.leftToSuperview()
+        profileDetailsStackView.rightToSuperview()
+        profileDetailsStackView.topToBottom(of: viewToPinToBottomOf)
+        
+        let margin = CGFloat.defaultMargin
+        
+        profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
+        avatarImageView.height(.defaultAvatarHeight)
+        avatarImageView.width(.defaultAvatarHeight)
+        profileDetailsStackView.addSpacing(margin, after: avatarImageView)
+        
+        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
+        
+        if isBotProfile {
+            setupRestOfBotProfileSection(in: profileDetailsStackView, after: nameLabel, margin: margin)
+        } else {
+            profileDetailsStackView.addSpacing(.smallInterItemSpacing, after: nameLabel)
+            profileDetailsStackView.addWithDefaultConstraints(view: usernameLabel)
+            
+            if isCurrentUserEditMode {
+                setupRestOfEditableProfileSection(in: profileDetailsStackView, after: usernameLabel, margin: margin)
+            } else {
+                setupRestOfStandardProfileSection(in: profileDetailsStackView, after: usernameLabel, margin: margin)
+            }
+        }
+        
+        return profileDetailsStackView
+    }
+    
+    private func setupRestOfBotProfileSection(in stackView: UIStackView, after lastAddedView: UIView, margin: CGFloat) {
+        stackView.addSpacing(.giantInterItemSpacing, after: lastAddedView)
+        
+        stackView.addWithDefaultConstraints(view: aboutContentLabel, margin: .defaultMargin)
+        stackView.addSpacing(.largeInterItemSpacing, after: aboutContentLabel)
+        
+        stackView.addWithDefaultConstraints(view: messageUserButton, margin: .defaultMargin)
+        stackView.addSpacing(.largeInterItemSpacing, after: messageUserButton)
+        
+        let bottomBorder = BorderView()
+        stackView.addWithDefaultConstraints(view: bottomBorder)
+        bottomBorder.addHeightConstraint()
+    }
+    
+    private func setupRestOfEditableProfileSection(in stackView: UIStackView, after lastAddedView: UIView, margin: CGFloat) {
+        stackView.addSpacing(.giantInterItemSpacing, after: lastAddedView)
+        
+        setupProfileAboutSection(in: stackView, withTopBorder: false, margin: margin)
+        
+        stackView.addWithDefaultConstraints(view: editProfileButton, margin: .defaultMargin)
+        stackView.addSpacing(.largeInterItemSpacing, after: editProfileButton)
+        
+        let bottomBorder = BorderView()
+        stackView.addWithDefaultConstraints(view: bottomBorder)
+        bottomBorder.addHeightConstraint()
+    }
+    
+    private func setupRestOfStandardProfileSection(in stackView: UIStackView, after lastAddedView: UIView, margin: CGFloat) {
+        if isForCurrentUserProfile {
+            // You can't message or pay yourself.
+            stackView.addSpacing(.largeInterItemSpacing, after: lastAddedView)
+        } else {
+            // You *can* message or pay other users.
+            stackView.addSpacing(.giantInterItemSpacing, after: lastAddedView)
+
+            stackView.addWithDefaultConstraints(view: messageUserButton, margin: margin)
+            stackView.addSpacing(.mediumInterItemSpacing, after: messageUserButton)
+            
+            stackView.addWithDefaultConstraints(view: payButton, margin: margin)
+            stackView.addSpacing(.largeInterItemSpacing, after: payButton)
+        }
+        
+        setupProfileAboutSection(in: stackView, withTopBorder: true, margin: margin)
+        
+        let bottomBorder = BorderView()
+        stackView.addWithDefaultConstraints(view: bottomBorder)
+        bottomBorder.addHeightConstraint()
+    }
+    
+    private func setupProfileAboutSection(in stackView: UIStackView, withTopBorder: Bool, margin: CGFloat) {
+        stackView.addWithDefaultConstraints(view: aboutStackView)
+        
+        if withTopBorder {
+            let topBorder = BorderView()
+            aboutStackView.addWithDefaultConstraints(view: topBorder)
+            topBorder.addHeightConstraint()
+            aboutStackView.addSpacing(.largeInterItemSpacing, after: topBorder)
+        }
+        
+        aboutStackView.addWithDefaultConstraints(view: aboutContentLabel, margin: margin)
+        aboutStackView.addSpacing(.mediumInterItemSpacing, after: aboutContentLabel)
+        
+        aboutStackView.addWithDefaultConstraints(view: locationContentLabel, margin: margin)
+
+        // This needs a spacer on both iOS 10 and 11 since adding custom spacing doesn't do anything if there's not another view below it.
+        let belowLocationSpacerView = UIView()
+        belowLocationSpacerView.backgroundColor = .clear
+        aboutStackView.addWithDefaultConstraints(view: belowLocationSpacerView)
+        belowLocationSpacerView.height(.largeInterItemSpacing)
     }
 
+    // MARK: Reputation
+    
+    private func addReputationTitle(to container: UIView, below viewToPinToBottomOf: UIView) {
+        container.addSubview(reputationTitle)
+        
+        reputationTitle.leftToSuperview(offset: .defaultMargin)
+        reputationTitle.rightToSuperview(offset: -.defaultMargin)
+        reputationTitle.topToBottom(of: viewToPinToBottomOf, offset: .giantInterItemSpacing)
+    }
+    
+    private func addReputationSection(to container: UIView, below viewToPinToBottomOf: UIView) {
+        let reputationStackView = UIStackView()
+        reputationStackView.addBackground(with: Theme.viewBackgroundColor)
+        reputationStackView.axis = .vertical
+        reputationStackView.alignment = .center
+        
+        container.addSubview(reputationStackView)
+        
+        reputationStackView.leftToSuperview()
+        reputationStackView.rightToSuperview()
+        reputationStackView.topToBottom(of: viewToPinToBottomOf, offset: belowTableViewStyleLabelSpacing)
+        reputationStackView.bottom(to: container, offset: -66) // eyeballed
+        
+        let topBorder = BorderView()
+        reputationStackView.addWithDefaultConstraints(view: topBorder)
+        topBorder.addHeightConstraint()
+        reputationStackView.addSpacing(.largeInterItemSpacing, after: topBorder)
+        
+        addReputationView(to: reputationStackView)
+        
+        if shouldShowRateButton {
+            reputationStackView.addWithDefaultConstraints(view: rateThisUserButton)
+            rateThisUserButton.height(.defaultButtonHeight)
+
+        } else {
+            reputationStackView.addSpacing(.largeInterItemSpacing, after: reputationView.superview!)
+        }
+        
+        let bottomBorder = BorderView()
+        reputationStackView.addWithDefaultConstraints(view: bottomBorder)
+        bottomBorder.addHeightConstraint()
+    }
+    
+    private func addReputationView(to stackView: UIStackView) {
+        let container = UIView()
+        container.addSubview(reputationView)
+        reputationView.topToSuperview()
+        reputationView.widthToSuperview(multiplier: 0.66)
+        reputationView.centerXToSuperview(offset: -6) //eyeballed
+        reputationView.bottomToSuperview()
+        
+        stackView.addWithDefaultConstraints(view: container)
+        stackView.addSpacing(.defaultMargin, after: container)
+    }
+    
+    // MARK: - Configuration
+    
+    private func configureForCurrentProfile() {
+        // Set nils for empty strings to make the views collapse in the stack view
+        nameLabel.text = profile.name.isEmpty ? nil : profile.name
+        aboutContentLabel.text = profile.about.isEmpty ? nil : profile.about
+        locationContentLabel.text = profile.location.isEmpty ? nil : profile.location
+        
+        usernameLabel.text = profile.displayUsername
+        
+        if isCurrentUserEditMode {
+            disappearingNavBar.setTitle("Me")
+        } else {
+            disappearingNavBar.setTitle(profile.nameOrDisplayName)
+        }
+        
+        //TODO: Remove!
+        if isBotProfile && profile.name == "Spambot" {
+            aboutContentLabel.text = "We eat ham and jam and spam a lot, and I like to push the pram a lot"
+        }
+        
+        if aboutStackView.superview != nil {
+            // This is all in a section and should be hidden at once
+            let shouldShowAboutSection = (aboutContentLabel.hasContent || locationContentLabel.hasContent)
+            aboutStackView.isHidden = !shouldShowAboutSection
+        } else {
+            aboutContentLabel.isHidden = !aboutContentLabel.hasContent
+        }
+        
+        AvatarManager.shared.avatar(for: profile.avatarPath) { [weak self] image, _ in
+            if image != nil {
+                self?.avatarImageView.image = image
+            }
+        }
+    }
+    
+    // MARK: - Action Targets
+    
+    // MARK: Button targets
+    
+    @objc private func didTapMessageButton() {
+        // create thread if needed
+        let thread = ChatInteractor.getOrCreateThread(for: profile.address)
+        thread.isPendingAccept = false
+        thread.save()
+        
+        DispatchQueue.main.async {
+            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.address)
+            
+            if let navController = self.navigationController as? BrowseNavigationController {
+                _ = navController.popToRootViewController(animated: false)
+            }
+        }
+    }
+    
+    @objc private func didTapPayButton() {
+        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
+        paymentController.delegate = self
+        
+        let navigationController = UINavigationController(rootViewController: paymentController)
+        Navigator.presentModally(navigationController)
+    }
+    
+    @objc private func didTapEditProfileButton() {
+        let editController = ProfileEditController()
+        navigationController?.pushViewController(editController, animated: true)
+    }
+    
+    @objc private func didTapRateUserButton() {
+        presentUserRatingPrompt(profile: profile)
+    }
+    
+    @objc private func didSelectMoreButton() {
+        presentMoreActionSheet()
+    }
+    
+    // MARK: Action sheet targets
+    
+    private func didSelectBlockedState(_ shouldBeBlocked: Bool) {
+        if shouldBeBlocked {
+            // Alert to confirm before actually blocking.
+            let alert = UIAlertController(title: Localized("block_alert_title"), message: Localized("block_alert_message"), preferredStyle: .alert)
+            
+            let blockAction = UIAlertAction(title: Localized("block_action_title"), style: .default) { [weak self] _ in
+                self?.blockUser()
+            }
+            alert.addAction(blockAction)
+            
+            alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
+            
+            Navigator.presentModally(alert)
+        } else {
+            unblockUser()
+        }
+    }
+    
+    private func didSelectReportUser() {
+        self.idAPIClient.reportUser(address: profile.address) { [weak self] success, error in
+            self?.showReportUserFeedbackAlert(success, message: error?.description)
+        }
+    }
+    
+    private func didSelectFavoriteState(_ shouldBeFavorited: Bool) {
+        if shouldBeFavorited {
+            favoriteUser()
+        } else {
+            unfavoriteUser()
+        }
+    }
+
+    // MARK: - Alerts
+    
     private func presentUserRatingPrompt(profile: TokenUser) {
         let rateUserController = RateUserController(user: profile)
         rateUserController.delegate = self
 
         Navigator.presentModally(rateUserController)
     }
-
-    @objc private func didSelectMoreButton() {
-        let actions = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let address = profile.address
+    
+    private func presentMoreActionSheet() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let title = isCurrentUserFavorite() ? Localized("profile_unfavorite_action") : Localized("profile_favorite_action")
+        let currentFavoriteState = isCurrentUserFavorite()
+        let favoriteTitle = isCurrentUserFavorite() ? Localized("profile_unfavorite_action") : Localized("profile_favorite_action")
+        let favoriteAction = UIAlertAction(title: favoriteTitle, style: .default) { _ in
+            self.didSelectFavoriteState(!currentFavoriteState)
+        }
+        actionSheet.addAction(favoriteAction)
         
-        let favoriteAction = UIAlertAction(title: title, style: .default) { _ in
-            self.didSelectFavorite()
+        let currentBlockState = profile.isBlocked
+        let blockTitle = currentBlockState ? Localized("unblock_action_title") : Localized("block_action_title")
+        let blockAction = UIAlertAction(title: blockTitle, style: .destructive) { [weak self] _ in
+            self?.didSelectBlockedState(!currentBlockState)
         }
+        actionSheet.addAction(blockAction)
         
-        actions.addAction(favoriteAction)
-
-        if profile.isBlocked {
-            let unblockAction = UIAlertAction(title: Localized("unblock_action_title"), style: .destructive) { _ in
-                OWSBlockingManager.shared().removeBlockedPhoneNumber(address)
-
-                let alert = UIAlertController.dismissableAlert(title: Localized("unblock_user_title"), message: Localized("unblock_user_message"))
-                Navigator.presentModally(alert)
-            }
-
-            actions.addAction(unblockAction)
-        } else {
-            let blockUserAction = UIAlertAction(title: Localized("block_action_title"), style: .destructive) { _ in
-                self.didSelectBlockUser()
-            }
-
-            actions.addAction(blockUserAction)
+        let reportAction = UIAlertAction(title: Localized("report_action_title"), style: .destructive) { [weak self] _ in
+            self?.didSelectReportUser()
         }
-
-        let reportAction = UIAlertAction(title: Localized("report_action_title"), style: .destructive) { _ in
-            self.idAPIClient.reportUser(address: address) { success, error in
-                self.showReportUserFeedbackAlert(success, message: error?.description)
-            }
-        }
-
-        actions.addAction(reportAction)
-        actions.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
-
-        Navigator.presentModally(actions)
+        actionSheet.addAction(reportAction)
+        
+        actionSheet.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
+        
+        Navigator.presentModally(actionSheet)
     }
 
     private func showReportUserFeedbackAlert(_ success: Bool, message: String?) {
@@ -169,37 +616,53 @@ class ProfileViewController: UIViewController {
         let alert = UIAlertController.dismissableAlert(title: Localized("report_feedback_alert_title"), message: Localized("report_feedback_alert_message"))
         Navigator.presentModally(alert)
     }
-
-    private func didSelectBlockUser() {
-        let alert = UIAlertController(title: Localized("block_alert_title"), message: Localized("block_alert_message"), preferredStyle: .alert)
-        let blockAction = UIAlertAction(title: Localized("block_action_title"), style: .default) { _ in
-            OWSBlockingManager.shared().addBlockedPhoneNumber(self.profile.address)
-
-            let alert = UIAlertController.dismissableAlert(title: Localized("block_feedback_alert_title"), message: Localized("block_feedback_alert_message"))
-            Navigator.presentModally(alert)
-        }
-
-        alert.addAction(blockAction)
-        alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
-
+    
+    private func showFeebackErrorAlert(error: ToshiError?) {
+        let alert = UIAlertController(title: Localized("error_title"), message: error?.description, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default))
+        
         Navigator.presentModally(alert)
     }
     
-    private func didSelectFavorite() {
-        if isCurrentUserFavorite() {
-            Yap.sharedInstance.removeObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
-        } else {
-            Yap.sharedInstance.insert(object: profile.json, for: profile.address, in: TokenUser.favoritesCollectionKey)
-            SoundPlayer.playSound(type: .addedProfile)
-        }
-    }
+    // MARK: - Other helpers
 
     private func updateReputation() {
         RatingsClient.shared.scores(for: profile.address) { [weak self] ratingScore in
-            self?.profileView?.reputationView.setScore(ratingScore)
+            self?.reputationView.setScore(ratingScore)
         }
     }
+    
+    // MARK: - User helpers
+    
+    private func blockUser() {
+        OWSBlockingManager.shared().addBlockedPhoneNumber(profile.address)
+        
+        let alert = UIAlertController.dismissableAlert(title: Localized("block_feedback_alert_title"), message: Localized("block_feedback_alert_message"))
+        Navigator.presentModally(alert)
+    }
+    
+    private func unblockUser() {
+        OWSBlockingManager.shared().removeBlockedPhoneNumber(profile.address)
+        
+        let alert = UIAlertController.dismissableAlert(title: Localized("unblock_user_title"), message: Localized("unblock_user_message"))
+        Navigator.presentModally(alert)
+    }
+
+    private func favoriteUser() {
+        Yap.sharedInstance.insert(object: profile.json, for: profile.address, in: TokenUser.favoritesCollectionKey)
+        SoundPlayer.playSound(type: .addedProfile)
+    }
+    
+    private func unfavoriteUser() {
+        Yap.sharedInstance.removeObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
+    }
+    
+    private func isCurrentUserFavorite() -> Bool {
+        return Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
+    }
 }
+
+// MARK: - Activity Indicating
 
 extension ProfileViewController: ActivityIndicating {
     var activityIndicator: UIActivityIndicatorView {
@@ -207,15 +670,15 @@ extension ProfileViewController: ActivityIndicating {
     }
 }
 
+// MARK: - Rate User Controller Delegate
+
 extension ProfileViewController: RateUserControllerDelegate {
     func didRate(_ user: TokenUser, rating: Int, review: String) {
         dismiss(animated: true) {
             RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) { [weak self] success, error in
                 guard success == true else {
-                    let alert = UIAlertController(title: Localized("error_title"), message: error?.description, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default))
-
-                    Navigator.presentModally(alert)
+                    self?.showFeebackErrorAlert(error: error)
+                    
                     return
                 }
 
@@ -224,6 +687,8 @@ extension ProfileViewController: RateUserControllerDelegate {
         }
     }
 }
+
+// MARK: - Payment Controller Delegate
 
 extension ProfileViewController: PaymentControllerDelegate {
 
@@ -301,34 +766,7 @@ extension ProfileViewController: PaymentControllerDelegate {
     }
 }
 
-extension ProfileViewController: ProfileViewDelegate {
-    func didTapMessage(in profileView: ProfileView) {
-        // create thread if needed
-        let thread = ChatInteractor.getOrCreateThread(for: profile.address)
-        thread.isPendingAccept = false
-        thread.save()
-
-        DispatchQueue.main.async {
-            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.address)
-
-            if let navController = self.navigationController as? BrowseNavigationController {
-                _ = navController.popToRootViewController(animated: false)
-            }
-        }
-    }
-
-    func didTapPay(in profileView: ProfileView) {
-        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
-        paymentController.delegate = self
-
-        let navigationController = UINavigationController(rootViewController: paymentController)
-        Navigator.presentModally(navigationController)
-    }
-
-    func didTapRateUser(in view: ProfileView) {
-        presentUserRatingPrompt(profile: profile)
-    }
-}
+// MARK: - Disappearing Background Nav Bar Delegate
 
 extension ProfileViewController: DisappearingBackgroundNavBarDelegate {
     
@@ -337,6 +775,12 @@ extension ProfileViewController: DisappearingBackgroundNavBarDelegate {
     }
     
     func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
+        guard shouldShowMoreButton else {
+            assertionFailure("Probably shouldn't be able to tap a button that shouldn't be showing")
+            
+            return
+        }
+        
         didSelectMoreButton()
     }
 }
