@@ -41,7 +41,7 @@ class ProfileViewController: UIViewController {
     }
     
     private var isProfileEditable: Bool {
-        return (isForCurrentUserProfile && !isReadOnlyMode)
+        return (!isReadOnlyMode && isForCurrentUserProfile)
     }
     
     private var shouldShowRateButton: Bool {
