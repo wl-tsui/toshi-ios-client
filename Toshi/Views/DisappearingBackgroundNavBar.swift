@@ -58,15 +58,22 @@ class DisappearingBackgroundNavBar: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel(withAutoLayout: false)
+        label.font = Theme.preferredSemibold()
+        label.textAlignment = .center
         
         return label
     }()
     
-    private lazy var backgroundView: UIVisualEffectView = {
-        let visualEffectView = UIVisualEffectView(withAutoLayout: true)
-        visualEffectView.effect = UIBlurEffect(style: .regular)
+    private lazy var backgroundView: UIView = {
+        let view = UIView(withAutoLayout: true)
+        view.backgroundColor = .white
         
-        return visualEffectView
+        let bottomBorder = BorderView()
+        view.addSubview(bottomBorder)
+        bottomBorder.edgesToSuperview(excluding: .top)
+        bottomBorder.addHeightConstraint()
+        
+        return view
     }()
     
     // MARK: - Initialization
