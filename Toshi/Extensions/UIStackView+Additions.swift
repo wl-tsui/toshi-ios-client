@@ -102,34 +102,4 @@ extension UIStackView {
             }
         }
     }
-    
-    /// Removes the arranged view and any spacer view added below it.
-    /// Just removes the arranged subview in iOS 11, also nukes any spacer views directly below it in iOS 10.
-    ///
-    /// - Parameter view: The arranged subview to remove.
-    func removeArrangedSubviewAndSpacingAfter(arrangedSubview view: UIView) {
-        if #available(iOS 11, *) {
-            removeArrangedSubview(view)
-            view.removeFromSuperview()
-        } else {
-            guard let indexOfArrangedSubview = self.arrangedSubviews.index(of: view) else {
-                assertionFailure("You can only do this with arranged subviews already in the view!")
-                
-                return
-            }
-            
-            let spacerViewIndex = indexOfArrangedSubview + 1
-            if self.arrangedSubviews.count > spacerViewIndex {
-                let spacerView = arrangedSubviews[spacerViewIndex]
-                if spacerView.tag == UIStackView.spacerTag {
-                    removeArrangedSubview(spacerView)
-                    spacerView.removeFromSuperview()
-                } // else, this is not a spacer view, don't remove it.
-            } // else, there is no view below the given view to remove.
-            
-            // In any case, remove the given view
-            removeArrangedSubview(view)
-            view.removeFromSuperview()
-        }
-    }
 }
