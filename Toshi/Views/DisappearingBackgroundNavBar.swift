@@ -24,7 +24,7 @@ protocol DisappearingBackgroundNavBarDelegate: class {
 }
 
 /// A view to allow a fake nav bar that can appear and disappear as the user scrolls, but allowing its buttons to stay in place.
-class DisappearingBackgroundNavBar: UIView {
+final class DisappearingBackgroundNavBar: UIView {
     
     private let animationSpeed = 0.25
     private let interItemSpacing: CGFloat = 8

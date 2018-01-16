@@ -16,7 +16,7 @@
 import TinyConstraints
 import UIKit
 
-class BorderView: UIView {
+final class BorderView: UIView {
     
     init() {
         super.init(frame: .zero)
