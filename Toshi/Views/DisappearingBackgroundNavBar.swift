@@ -102,7 +102,9 @@ final class DisappearingBackgroundNavBar: UIView {
         leftButton.leftToSuperview(offset: interItemSpacing)
         leftButton.centerYToSuperview(offset: 10)
         leftButton.setContentHuggingPriority(.required, for: .horizontal)
-
+        leftButton.width(min: .defaultButtonHeight)
+        leftButton.height(min: .defaultButtonHeight)
+        
         leftButton.isHidden = true
     }
     
@@ -112,6 +114,8 @@ final class DisappearingBackgroundNavBar: UIView {
         rightButton.rightToSuperview(offset: interItemSpacing)
         rightButton.centerYToSuperview(offset: 10)
         rightButton.setContentHuggingPriority(.required, for: .horizontal)
+        rightButton.width(min: .defaultButtonHeight)
+        rightButton.height(min: .defaultButtonHeight)
         
         rightButton.isHidden = true
     }
@@ -155,6 +159,15 @@ final class DisappearingBackgroundNavBar: UIView {
         leftButton.setImage(templateImage, for: .normal)
         leftButton.accessibilityLabel = accessibilityLabel
         leftButton.isHidden = false
+        
+        let imageWidth = image.size.width
+        let differenceFromDefault = .defaultButtonHeight - imageWidth
+        if differenceFromDefault > 0 {
+            leftButton.imageEdgeInsets = UIEdgeInsets(top: 0,
+                                                      left: -differenceFromDefault,
+                                                      bottom: 0,
+                                                      right: 0)
+        }
     }
     
     /// Takes an image, turns it into an always-template image, then sets it to the right button and un-hides the right button.
@@ -167,6 +180,15 @@ final class DisappearingBackgroundNavBar: UIView {
         rightButton.setImage(templateImage, for: .normal)
         rightButton.isHidden = false
         rightButton.accessibilityLabel = accessibilityLabel
+        
+        let imageWidth = image.size.width
+        let differenceFromDefault = .defaultButtonHeight - imageWidth
+        if differenceFromDefault > 0 {
+            rightButton.imageEdgeInsets = UIEdgeInsets(top: 0,
+                                                       left: 0,
+                                                       bottom: 0,
+                                                       right: -differenceFromDefault)
+        }
     }
     
     /// Sets a string as the title. Does *not* automatically show it.
