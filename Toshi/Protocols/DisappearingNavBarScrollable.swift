@@ -1,15 +1,24 @@
+// Copyright (c) 2018 Token Browser, Inc
 //
-//  DisappearingNavBarScrollable.swift
-//  Debug
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
-//  Created by Ellen Shapiro (Work) on 1/16/18.
-//  Copyright © 2018 Bakken&Baeck. All rights reserved.
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import TinyConstraints
 import SweetUIKit
 import UIKit
 
+/// A protocol to centralize the logic of showing the disappearing navigation bar when the user scrolls.
+/// NOTE: Almost anything implementing this will want to be a UIScrollViewDelegate.
 protocol DisappearingNavBarScrollable: class {
     
     /// The nav bar to adjust
@@ -38,6 +47,7 @@ protocol DisappearingNavBarScrollable: class {
     func addScrollableContent(to contentView: UIView)
     
     /// Updates the nav bar's hidden state based on whether the top of the target view has been scrolled past the bottom of the nav bar.
+    /// NOTE: This should generally be called from `scrollViewDidScroll`.
     func updateNavBarHiddenState()
 }
 
