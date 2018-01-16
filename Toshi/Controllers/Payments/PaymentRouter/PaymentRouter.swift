@@ -62,7 +62,7 @@ class PaymentRouter {
 
     private func presentPaymentConfirmationController(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
         let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address)
-//        paymentConfirmationController.delegate = self
+        paymentConfirmationController.delegate = self
 
         presentViewControllerOnNavigator(paymentConfirmationController)
     }
