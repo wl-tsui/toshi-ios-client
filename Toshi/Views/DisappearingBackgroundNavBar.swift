@@ -26,7 +26,7 @@ protocol DisappearingBackgroundNavBarDelegate: class {
 /// A view to allow a fake nav bar that can appear and disappear as the user scrolls, but allowing its buttons to stay in place.
 final class DisappearingBackgroundNavBar: UIView {
     
-    private let animationSpeed = 0.25
+    private let animationSpeed = 0.20 // Any slower than this and there's weird scrollview bouncing. Any faster and it's not really noticeable.
     private let interItemSpacing: CGFloat = 8
     
     weak var delegate: DisappearingBackgroundNavBarDelegate?
