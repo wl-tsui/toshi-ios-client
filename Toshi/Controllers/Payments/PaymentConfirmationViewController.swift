@@ -15,9 +15,27 @@
 
 import Foundation
 
+protocol PaymentConfirmationViewControllerDelegate: class {
+    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController)
+}
+
 class PaymentConfirmationViewController: UIViewController {
 
+    weak var delegate: PaymentConfirmationViewControllerDelegate?
+
+    let paymentManager: PaymentManager
+
+    private lazy var testButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("test", for: .normal)
+        button.addTarget(self, action: #selector(didTapTestButton), for: .touchUpInside)
+
+        return button
+    }()
+
     init(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
+        paymentManager = PaymentManager(withValue: value, andPaymentAddress: address)
+
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -31,9 +49,30 @@ class PaymentConfirmationViewController: UIViewController {
         view.backgroundColor = .red
 
         addSubviewsAndConstraints()
+
+        paymentManager.transactionSkeleton { [weak self] message in
+            self?.testButton.setTitle(message, for: .normal)
+        }
     }
 
     private func addSubviewsAndConstraints() {
+        view.addSubview(testButton)
 
+        testButton.centerX(to: view)
+        testButton.centerY(to: view)
+        testButton.size(CGSize(width: 300, height: 44))
+    }
+
+    @objc func didTapTestButton() {
+        paymentManager.sendPayment() { [weak self] error in
+            guard let weakSelf = self else { return }
+
+            guard error == nil else {
+                // handle error
+                return
+            }
+
+            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf)
+        }
     }
 }

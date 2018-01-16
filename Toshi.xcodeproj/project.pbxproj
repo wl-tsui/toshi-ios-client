@@ -446,8 +446,8 @@
 		A91629121F3C660E008A7F36 /* PaymentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629101F3C64FE008A7F36 /* PaymentNavigationController.swift */; };
 		A91629131F3C6611008A7F36 /* PaymentAddressInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A916290E1F3C3A02008A7F36 /* PaymentAddressInputView.swift */; };
 		A91629141F3C6614008A7F36 /* PaymentAddressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A916290C1F3B5828008A7F36 /* PaymentAddressController.swift */; };
-		A91629161F3C7CFD008A7F36 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* Payment.swift */; };
-		A91629171F3C85D6008A7F36 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* Payment.swift */; };
+		A91629161F3C7CFD008A7F36 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* PaymentManager.swift */; };
+		A91629171F3C85D6008A7F36 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* PaymentManager.swift */; };
 		A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
 		A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9181D211EDD8154005B63F6 /* RoundIconButton.swift */; };
 		A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
@@ -527,7 +527,7 @@
 		A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */; };
 		A9603DC11F4DABDC00BF57B1 /* CacheExpiry+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F48C1561E9CD911008BA637 /* CacheExpiry+Default.swift */; };
 		A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
-		A9603DC91F4DABDC00BF57B1 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* Payment.swift */; };
+		A9603DC91F4DABDC00BF57B1 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* PaymentManager.swift */; };
 		A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */; };
 		A9603DDD1F4DABDC00BF57B1 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
 		A9603DEF1F4DABDC00BF57B1 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
@@ -1215,7 +1215,7 @@
 		A916290C1F3B5828008A7F36 /* PaymentAddressController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentAddressController.swift; sourceTree = "<group>"; };
 		A916290E1F3C3A02008A7F36 /* PaymentAddressInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentAddressInputView.swift; sourceTree = "<group>"; };
 		A91629101F3C64FE008A7F36 /* PaymentNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentNavigationController.swift; sourceTree = "<group>"; };
-		A91629151F3C7CFD008A7F36 /* Payment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		A91629151F3C7CFD008A7F36 /* PaymentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentManager.swift; sourceTree = "<group>"; };
 		A9180FB01F5452A000DC668E /* MessagesErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesErrorView.swift; sourceTree = "<group>"; };
 		A9181D211EDD8154005B63F6 /* RoundIconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundIconButton.swift; sourceTree = "<group>"; };
 		A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdvancedSettings.storyboard; sourceTree = "<group>"; };
@@ -2060,7 +2060,7 @@
 		9FCF132B1E531B380078FF7F /* Payments */ = {
 			isa = PBXGroup;
 			children = (
-				A91629151F3C7CFD008A7F36 /* Payment.swift */,
+				A91629151F3C7CFD008A7F36 /* PaymentManager.swift */,
 				A916290C1F3B5828008A7F36 /* PaymentAddressController.swift */,
 				A916290E1F3C3A02008A7F36 /* PaymentAddressInputView.swift */,
 				9F78D9D31EE93EFF003A0B95 /* PaymentConfirmationController.swift */,
@@ -3231,7 +3231,7 @@
 				9F48C1581E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
 				9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				A9CADC301F94B1DA0096D017 /* BrowseSearchResultView.swift in Sources */,
-				A91629171F3C85D6008A7F36 /* Payment.swift in Sources */,
+				A91629171F3C85D6008A7F36 /* PaymentManager.swift in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
 				A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */,
 				9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */,
@@ -3478,7 +3478,7 @@
 				2B369E371EE59958002A44A3 /* Message.swift in Sources */,
 				E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */,
 				A96823C81FBC89F3000993FE /* ProfilesNavigationController.swift in Sources */,
-				A91629161F3C7CFD008A7F36 /* Payment.swift in Sources */,
+				A91629161F3C7CFD008A7F36 /* PaymentManager.swift in Sources */,
 				A9202E631ED84F6A0036E9B7 /* MessageModel.swift in Sources */,
 				A9202E5C1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift in Sources */,
 				A95D315B1F8289C900B0FED1 /* TextEditingOptionsViewController.swift in Sources */,
@@ -3705,7 +3705,7 @@
 				A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */,
 				A9BCB3611FCD693A0047CCA7 /* ProfilesDataSource.swift in Sources */,
 				A9CADC2F1F94B1D90096D017 /* BrowseSearchResultView.swift in Sources */,
-				A9603DC91F4DABDC00BF57B1 /* Payment.swift in Sources */,
+				A9603DC91F4DABDC00BF57B1 /* PaymentManager.swift in Sources */,
 				A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */,
 				A9603DDD1F4DABDC00BF57B1 /* MessagesStatusCell.swift in Sources */,
 				A9603DEF1F4DABDC00BF57B1 /* Navigator.swift in Sources */,

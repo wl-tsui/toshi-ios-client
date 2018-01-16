@@ -91,3 +91,14 @@ extension PaymentRouter: PaymentAddressControllerDelegate {
         present()
     }
 }
+
+
+extension PaymentRouter: PaymentConfirmationViewControllerDelegate {
+    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController) {
+        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
+            paymentNavigationController.dismiss(animated: true) {
+                self.delegate?.paymentRouterDidSucceedPayment(paymentRouter: self)
+            }
+        }
+    }
+}
