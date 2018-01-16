@@ -63,7 +63,7 @@ class ProfileViewController: UIViewController {
     
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
     
-    lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
+    private lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: self)
         navBar.setupLeftAsBackButton()
         
@@ -83,7 +83,7 @@ class ProfileViewController: UIViewController {
     
     private lazy var avatarImageView = AvatarImageView()
     
-    lazy var nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
         view.font = Theme.preferredDisplayName()
@@ -93,7 +93,7 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    lazy var usernameLabel: UILabel = {
+    private lazy var usernameLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
         view.textAlignment = .center
@@ -104,7 +104,7 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    lazy var messageUserButton: ActionButton = {
+    private lazy var messageUserButton: ActionButton = {
         let button = ActionButton(margin: .defaultMargin)
         button.setButtonStyle(.primary)
         button.title = Localized("profile_message_button_title")
@@ -113,7 +113,7 @@ class ProfileViewController: UIViewController {
         return button
     }()
     
-    lazy var payButton: ActionButton = {
+    private lazy var payButton: ActionButton = {
         let button = ActionButton(margin: .defaultMargin)
         button.setButtonStyle(.secondary)
         button.title = Localized("profile_pay_button_title")
@@ -132,7 +132,7 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    lazy var aboutContentLabel: UILabel = {
+    private lazy var aboutContentLabel: UILabel = {
         let view = UILabel()
         view.font = Theme.preferredRegular()
         view.adjustsFontForContentSizeCategory = true
@@ -141,7 +141,7 @@ class ProfileViewController: UIViewController {
         return view
     }()
     
-    lazy var locationContentLabel: UILabel = {
+    private lazy var locationContentLabel: UILabel = {
         let view = UILabel()
         view.font = Theme.preferredRegularMedium()
         view.adjustsFontForContentSizeCategory = true
@@ -160,7 +160,7 @@ class ProfileViewController: UIViewController {
         return stackView
     }()
     
-    lazy var reputationTitle: UILabel = {
+    private lazy var reputationTitle: UILabel = {
         let view = UILabel()
         view.font = Theme.preferredFootnote()
         view.textColor = Theme.sectionTitleColor
