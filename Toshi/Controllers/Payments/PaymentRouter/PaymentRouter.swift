@@ -30,32 +30,51 @@ class PaymentRouter {
       self.paymentViewModel = PaymentViewModel(recipientAddress: address, value: value)
     }
 
+    // I purposefully created this method so the caller is aware that this object will present a VC
     func present() {
         //here should be decided what controller should be presented first
-
-        if paymentViewModel.value == nil {
+        guard let value = paymentViewmodel.value else {
             presentPaymentValueController()
-        } else if paymentViewModel.recipientAddress == nil {
-            presentRecipientAddressController()
-        } else {
-            presentPaymentConfirmationController()
+            return
         }
+
+        guard let address =  paymentViewModel.recipientAddress else {
+            presentRecipientAddressController(withValue: value)
+            return
+        }
+
+        presentPaymentConfirmationController(withValue: value, andRecipientAddress: address)
     }
 
     private func presentPaymentValueController() {
         let paymentValueController = PaymentController(withPaymentType: .send, continueOption: .next)
         paymentValueController.delegate = self
 
-        let navigationController = PaymentNavigationController(rootViewController: paymentValueController)
-        Navigator.presentModally(navigationController)
+        presentViewControllerOnNavigator(paymentValueController)
     }
 
-    private func presentRecipientAddressController() {
+    private func presentRecipientAddressController(withValue value: NSDecimalNumber) {
+        let addressController = PaymentAddressController(with: value)
+//        addressController.delegate = self
 
+        presentViewControllerOnNavigator(addressController)
     }
 
-    private func presentPaymentConfirmationController() {
+    private func presentPaymentConfirmationController(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
+        let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address)
+//        paymentConfirmationController.delegate = self
 
+        presentViewControllerOnNavigator(paymentConfirmationController)
+    }
+
+    private func presentViewControllerOnNavigator(_ controller: PaymentController) {
+
+        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
+            paymentNavigationController.pushViewController(controller, animated: true)
+        } else {
+            let navigationController = PaymentNavigationController(rootViewController: controller)
+            Navigator.presentModally(navigationController)
+        }
     }
 }
 

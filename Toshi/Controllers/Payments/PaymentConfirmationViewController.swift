@@ -17,7 +17,7 @@ import Foundation
 
 class PaymentConfirmationViewController: UIViewController {
 
-    init(with parameters: [String: Any]) {
+    init(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
         super.init(nibName: nil, bundle: nil)
     }
 
