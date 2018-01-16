@@ -162,7 +162,7 @@ final class DappViewController: UIViewController {
 extension DappViewController: DisappearingNavBarScrollable {
     
     var triggerView: UIView {
-        return titleLabel
+        return avatarImageView
     }
     
     func addScrollableContent(to contentView: UIView) {
