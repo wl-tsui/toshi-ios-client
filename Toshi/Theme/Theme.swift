@@ -22,26 +22,16 @@ extension CGFloat {
     static var lineHeight: CGFloat {
         return 1 / UIScreen.main.scale
     }
-    
-    /// The default height of buttons. Current value: 44
+
     static let defaultButtonHeight: CGFloat = 44
-    
-    /// The default margin from the sides of the view. Current value: 15
     static let defaultMargin: CGFloat = 15
 
-    /// The default height of an avatar (implicitly also the width). Current value: 60
+    /// NOTE: Implicitly also the default avatar width.
     static let defaultAvatarHeight: CGFloat = 60
     
-    /// A small amount of inter-item spacing. Current value: 5
     static let smallInterItemSpacing: CGFloat = 5
-    
-    /// A medium amount of inter-item spacing. Current value: 10
     static let mediumInterItemSpacing: CGFloat = 10
-    
-    /// A large amount of inter-item spacing. Current value: 20
     static let largeInterItemSpacing: CGFloat = 20
-    
-    /// A giant amount of inter-item spacing. Current value: 40
     static let giantInterItemSpacing: CGFloat = 40
 }
 
