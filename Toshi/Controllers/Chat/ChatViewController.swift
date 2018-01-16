@@ -916,6 +916,27 @@ extension ChatViewController: PaymentRouterDelegate {
     func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter) {
         print("payment succeeded")
         self.updateBalance()
+
+        //show payment message
+//        if let txHash = transactionHash, let value = parameters["value"] as? String {
+//            let payment = SofaPayment(txHash: txHash, valueHex: value)
+//
+//            // send message to thread
+//            let thread = ChatInteractor.getOrCreateThread(for: strongSelf.profile.address)
+//            let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+//            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
+//
+//            strongSelf.messageSender?.send(outgoingMessage, success: {
+//                DLog("message sent")
+//            }, failure: { error in
+//                DLog("\(error)")
+//                if error.localizedDescription == "ERROR_DESCRIPTION_UNREGISTERED_RECIPIENT" {
+//                    CrashlyticsLogger.nonFatal("Could not send payment because recipient was unregistered", error: (error as NSError), attributes: nil)
+//                } else {
+//                    CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
+//                }
+//            })
+//        }
     }
 }
 
