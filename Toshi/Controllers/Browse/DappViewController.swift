@@ -166,7 +166,7 @@ extension DappViewController: DisappearingNavBarScrollable {
     }
     
     func addScrollableContent(to contentView: UIView) {
-        let spacer = addTopSpacerForNavBarHeight(to: contentView)
+        let spacer = addTopSpacer(to: contentView)
         setupPrimaryStackView(in: contentView, below: spacer)
     }
 }

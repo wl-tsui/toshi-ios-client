@@ -27,8 +27,11 @@ protocol DisappearingNavBarScrollable: class {
     /// The parent view of both the nav bar and the scroll view
     var navAndScrollParent: UIView { get }
     
-    /// The height of the navigation bar
+    /// The height of the navigation bar. Defaults to the class's default height.
     var navBarHeight: CGFloat { get }
+    
+    /// The height of the top spacer which can be scrolled under the nav bar. Defaults to the nav bar height.
+    var topSpacerHeight: CGFloat { get }
     
     /// The scroll view the nav bar should scroll underneath
     var scrollView: UIScrollView { get }
@@ -51,6 +54,19 @@ protocol DisappearingNavBarScrollable: class {
     func updateNavBarHiddenState()
 }
 
+// MARK: - Default implementation for all types
+
+extension DisappearingNavBarScrollable {
+    
+    var navBarHeight: CGFloat {
+        return DisappearingBackgroundNavBar.defaultHeight
+    }
+    
+    var topSpacerHeight: CGFloat {
+        return navBarHeight
+    }
+}
+
 // MARK: - Default implementation for UIViewControllers
 
 extension DisappearingNavBarScrollable where Self: UIViewController, Self: UIScrollViewDelegate {
@@ -63,10 +79,6 @@ extension DisappearingNavBarScrollable where Self: UIViewController, Self: UIScr
 // MARK: - Default Implementation for anything conforming to UIScrollViewDelegate
 
 extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
-    
-    var navBarHeight: CGFloat {
-        return DisappearingBackgroundNavBar.defaultHeight
-    }
     
     /// Sets up the navigation bar and all scrolling content.
     func setupNavBarAndScrollingContent() {
@@ -97,11 +109,12 @@ extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
     ///
     /// - Parameter contentView: The content view to add the spacer to
     /// - Returns: The spacer view so other views can be constrained to it.
-    func addTopSpacerForNavBarHeight(to contentView: UIView) -> UIView {
+    func addTopSpacer(to contentView: UIView) -> UIView {
         let spacer = UIView(withAutoLayout: false)
+        spacer.backgroundColor = Theme.viewBackgroundColor
         contentView.addSubview(spacer)
         spacer.edgesToSuperview(excluding: .bottom)
-        spacer.height(navBarHeight)
+        spacer.height(topSpacerHeight)
         
         return spacer
     }
