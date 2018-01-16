@@ -21,6 +21,6 @@ extension UILabel {
     var hasContent: Bool {
         guard let text = self.text else { return false }
         
-        return text.length > 0
+        return !text.isEmpty
     }
 }
