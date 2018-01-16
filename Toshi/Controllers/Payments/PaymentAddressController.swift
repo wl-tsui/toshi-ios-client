@@ -3,9 +3,15 @@ import UIKit
 import TinyConstraints
 import CameraScanner
 
+protocol PaymentAddressControllerDelegate: class {
+    func paymentAddressControllerFinished(with address: String, on controller: PaymentAddressController)
+}
+
 class PaymentAddressController: UIViewController {
 
     private let valueInWei: NSDecimalNumber
+
+    weak var delegate: PaymentAddressControllerDelegate?
 
     private lazy var valueLabel: UILabel = {
         let value: String = EthereumConverter.fiatValueString(forWei: self.valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
@@ -46,7 +52,7 @@ class PaymentAddressController: UIViewController {
         return controller
     }()
 
-    private lazy var sendBarButton = UIBarButtonItem(title: Localized("payment_send_button"), style: .plain, target: self, action: #selector(sendBarButtonTapped(_:)))
+    private lazy var sendBarButton = UIBarButtonItem(title: Localized("payment_send_button"), style: .plain, target: self, action: #selector(nextBarButtonTapped(_:)))
 
     init(with valueInWei: NSDecimalNumber) {
         self.valueInWei = valueInWei
@@ -95,27 +101,10 @@ class PaymentAddressController: UIViewController {
         addressInputView.addressTextField.resignFirstResponder()
     }
 
-    @objc func sendBarButtonTapped(_ item: UIBarButtonItem) {
-        sendPayment()
-    }
-
-    func sendPayment() {
+    @objc func nextBarButtonTapped(_ item: UIBarButtonItem) {
         guard let paymentAddress = addressInputView.addressTextField.text else { return }
 
-        Payment.send(valueInWei, to: paymentAddress) { [weak self] _ in
-            self?.dismiss(animated: true, completion: nil)
-        }
-    }
-}
-
-extension PaymentAddressController: PaymentAddressInputDelegate {
-
-    func didRequestScanner() {
-        Navigator.presentModally(scannerController)
-    }
-    
-    func didRequestSendPayment() {
-        sendPayment()
+        delegate?.paymentAddressControllerFinished(with: paymentAddress, on: self)
     }
 }
 
@@ -162,5 +151,12 @@ extension PaymentAddressController: ScannerViewControllerDelegate {
         self.addressInputView.paymentAddress = address
         SoundPlayer.playSound(type: .scanned)
         scannerController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PaymentAddressController: PaymentAddressInputDelegate {
+
+    func didRequestScanner() {
+        Navigator.presentModally(scannerController)
     }
 }

@@ -16,7 +16,7 @@
 import UIKit
 
 protocol PaymentControllerDelegate: class {
-    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController)
+    func paymentValueControllerFinished(with valueInWei: NSDecimalNumber, on controller: PaymentController)
 }
 
 enum PaymentControllerPaymentType {
@@ -184,7 +184,9 @@ class PaymentController: UIViewController {
     }
     
     @objc func continueItemTapped(_ item: UIBarButtonItem) {
-        delegate?.paymentControllerFinished(with: valueInWei, for: self)
+        guard let value = valueInWei else { return }
+
+        delegate?.paymentValueControllerFinished(with: value, on: self)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

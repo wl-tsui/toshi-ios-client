@@ -4,7 +4,6 @@ import TinyConstraints
 
 protocol PaymentAddressInputDelegate: class {
     func didRequestScanner()
-    func didRequestSendPayment()
 }
 
 class PaymentAddressInputView: UIView {
@@ -95,7 +94,7 @@ class PaymentAddressInputView: UIView {
 extension PaymentAddressInputView: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        delegate?.didRequestSendPayment()
+//        delegate?.didRequestSendPayment()
         return false
     }
 }

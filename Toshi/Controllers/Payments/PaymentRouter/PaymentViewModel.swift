@@ -16,10 +16,13 @@
 import Foundation
 
 struct PaymentViewModel {
-    let recipientAddress: String?
+    var recipientAddress: String?
     var value: NSDecimalNumber?
 
     mutating func setValue(_ weiValue: NSDecimalNumber) {
         value = weiValue
+    }
+    mutating func setAddress(_ address: String) {
+        recipientAddress = address
     }
 }
