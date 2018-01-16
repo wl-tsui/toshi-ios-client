@@ -97,6 +97,12 @@ extension DisappearingNavBarScrollable where Self: UIScrollViewDelegate {
     }
     
     func updateNavBarHiddenState() {
+        guard !scrollView.frame.equalTo(.zero) else {
+            // View hasn't been set up yet
+            
+            return
+        }
+        
         guard !navBarAnimationInProgress else {
             // Let the animation finish.
             
