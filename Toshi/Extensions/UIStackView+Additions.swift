@@ -119,7 +119,7 @@ extension UIStackView {
             }
             
             let spacerViewIndex = indexOfArrangedSubview + 1
-            if self.arrangedSubviews.count > spacerViewIndex  {
+            if self.arrangedSubviews.count > spacerViewIndex {
                 let spacerView = arrangedSubviews[spacerViewIndex]
                 if spacerView.tag == UIStackView.spacerTag {
                     removeArrangedSubview(spacerView)
