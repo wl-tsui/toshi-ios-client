@@ -72,16 +72,7 @@ class ProfileView: UIView {
     weak var profileDelegate: ProfileViewDelegate?
     weak var navBarDelegate: DisappearingBackgroundNavBarDelegate?
     
-    private let margin: CGFloat = 15
-    
-    private let smallInterItemSpacing: CGFloat = 5
-    private let mediumInterItemSpacing: CGFloat = 10
-    private let largeInterItemSpacing: CGFloat = 20
-    private let giantInterItemSpacing: CGFloat = 40
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
-    
-    private let avatarSide: CGFloat = 60
-    private let buttonHeight: CGFloat = 44
     
     lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: navBarDelegate)
@@ -141,7 +132,7 @@ class ProfileView: UIView {
     }()
     
     lazy var messageUserButton: ActionButton = {
-        let button = ActionButton(margin: margin)
+        let button = ActionButton(margin: .defaultMargin)
         button.setButtonStyle(.primary)
         button.title = Localized("profile_message_button_title")
         button.addTarget(self, action: #selector(didTapMessageButton), for: .touchUpInside)
@@ -150,7 +141,7 @@ class ProfileView: UIView {
     }()
     
     lazy var payButton: ActionButton = {
-        let button = ActionButton(margin: margin)
+        let button = ActionButton(margin: .defaultMargin)
         button.setButtonStyle(.secondary)
         button.title = Localized("profile_pay_button_title")
         button.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
@@ -159,7 +150,7 @@ class ProfileView: UIView {
     }()
     
     private lazy var editProfileButton: ActionButton = {
-        let view = ActionButton(margin: margin)
+        let view = ActionButton(margin: .defaultMargin)
         view.setButtonStyle(.secondary)
         view.title = Localized("profile_edit_button_title")
         view.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
@@ -336,13 +327,15 @@ class ProfileView: UIView {
         profileDetailsStackView.rightToSuperview()
         profileDetailsStackView.topToBottom(of: viewToPinToBottomOf)
         
+        let margin = CGFloat.defaultMargin
+        
         profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
-        avatarImageView.height(avatarSide)
-        avatarImageView.width(avatarSide)
+        avatarImageView.height(.defaultAvatarHeight)
+        avatarImageView.width(.defaultAvatarHeight)
         profileDetailsStackView.addSpacing(margin, after: avatarImageView)
         
         profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
-        profileDetailsStackView.addSpacing(smallInterItemSpacing, after: nameLabel)
+        profileDetailsStackView.addSpacing(.smallInterItemSpacing, after: nameLabel)
 
         profileDetailsStackView.addWithDefaultConstraints(view: usernameLabel)
         
@@ -350,24 +343,25 @@ class ProfileView: UIView {
         
         profileDetailsStackView.addWithDefaultConstraints(view: aboutTopSeparatorView)
         aboutTopSeparatorView.addHeightConstraint()
-        profileDetailsStackView.addSpacing(largeInterItemSpacing, after: aboutTopSeparatorView)
+        profileDetailsStackView.addSpacing(.largeInterItemSpacing, after: aboutTopSeparatorView)
         
         profileDetailsStackView.addWithDefaultConstraints(view: aboutContentLabel, margin: margin)
-        profileDetailsStackView.addSpacing(mediumInterItemSpacing, after: aboutContentLabel)
+        profileDetailsStackView.addSpacing(.mediumInterItemSpacing, after: aboutContentLabel)
         
         profileDetailsStackView.addWithDefaultConstraints(view: locationContentLabel, margin: margin)
-        profileDetailsStackView.addSpacing(largeInterItemSpacing, after: locationContentLabel)
+        profileDetailsStackView.addSpacing(.largeInterItemSpacing, after: locationContentLabel)
         
         profileDetailsStackView.addWithDefaultConstraints(view: aboutBottomSeparatorView)
         aboutBottomSeparatorView.addHeightConstraint()
     }
     
     private func addButtonsAndSpacing(for viewType: ViewType, to stackView: UIStackView, after previousView: UIView) {
+        let margin = CGFloat.defaultMargin
         var lastView: UIView?
         switch viewType {
         case .profile:
             stackView.addWithDefaultConstraints(view: messageUserButton, margin: margin)
-            stackView.addSpacing(mediumInterItemSpacing, after: messageUserButton)
+            stackView.addSpacing(.mediumInterItemSpacing, after: messageUserButton)
             stackView.addWithDefaultConstraints(view: payButton, margin: margin)
             lastView = payButton
         case .personalProfile:
@@ -378,19 +372,19 @@ class ProfileView: UIView {
         }
         
         if let view = lastView {
-            profileDetailsStackView.addSpacing(giantInterItemSpacing, after: previousView)
-            stackView.addSpacing(largeInterItemSpacing, after: view)
+            profileDetailsStackView.addSpacing(.giantInterItemSpacing, after: previousView)
+            stackView.addSpacing(.largeInterItemSpacing, after: view)
         } else {
-            stackView.addSpacing(largeInterItemSpacing, after: previousView)
+            stackView.addSpacing(.largeInterItemSpacing, after: previousView)
         }
     }
     
     private func addReputationTitle(to container: UIView, below viewToPinToBottomOf: UIView) {
         container.addSubview(reputationTitle)
         
-        reputationTitle.leftToSuperview(offset: margin)
-        reputationTitle.rightToSuperview(offset: -margin)
-        reputationTitle.topToBottom(of: viewToPinToBottomOf, offset: giantInterItemSpacing)
+        reputationTitle.leftToSuperview(offset: .defaultMargin)
+        reputationTitle.rightToSuperview(offset: -.defaultMargin)
+        reputationTitle.topToBottom(of: viewToPinToBottomOf, offset: .giantInterItemSpacing)
     }
     
     private func addReputationStackView(to container: UIView, below viewToPinToBottomOf: UIView, for viewType: ViewType) {
@@ -403,15 +397,15 @@ class ProfileView: UIView {
         
         reputationStackView.addWithDefaultConstraints(view: reputationTopSeparatorView)
         reputationTopSeparatorView.addHeightConstraint()
-        reputationStackView.addSpacing(largeInterItemSpacing, after: reputationTopSeparatorView)
+        reputationStackView.addSpacing(.largeInterItemSpacing, after: reputationTopSeparatorView)
         
         addReputationView(to: reputationStackView)
         
         if viewType.shouldShowRateUserButton {
             reputationStackView.addWithDefaultConstraints(view: rateThisUserButton)
-            rateThisUserButton.height(buttonHeight)
+            rateThisUserButton.height(.defaultButtonHeight)
         } else {
-            reputationStackView.addSpacing(largeInterItemSpacing, after: reputationView.superview!)
+            reputationStackView.addSpacing(.largeInterItemSpacing, after: reputationView.superview!)
         }
         
         reputationStackView.addWithDefaultConstraints(view: reputationBottomSeparatorView)
@@ -427,7 +421,7 @@ class ProfileView: UIView {
         reputationView.bottomToSuperview()
 
         stackView.addWithDefaultConstraints(view: container)
-        stackView.addSpacing(margin, after: container)
+        stackView.addSpacing(.defaultMargin, after: container)
     }
     
     // MARK: - Action Targets
