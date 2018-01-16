@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController {
         return !isForCurrentUserProfile
     }
     
-    private var isCurrentUserEditMode: Bool {
+    private var isProfileEditable: Bool {
         return (isForCurrentUserProfile && !isReadOnlyMode)
     }
     
@@ -253,7 +253,7 @@ class ProfileViewController: UIViewController {
             disappearingNavBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized("accessibility_more"))
         }
         
-        if isCurrentUserEditMode {
+        if isProfileEditable {
             disappearingNavBar.showTitleLabel(true, animated: false)
             disappearingNavBar.showBackground(true, animated: false)
         }
@@ -288,7 +288,7 @@ class ProfileViewController: UIViewController {
         topSpacer.edgesToSuperview(excluding: .bottom)
         
         var spacerHeight = DisappearingBackgroundNavBar.defaultHeight
-        if isCurrentUserEditMode {
+        if isProfileEditable {
             spacerHeight += .giantInterItemSpacing
         }
         
@@ -323,7 +323,7 @@ class ProfileViewController: UIViewController {
             profileDetailsStackView.addSpacing(.smallInterItemSpacing, after: nameLabel)
             profileDetailsStackView.addWithDefaultConstraints(view: usernameLabel)
             
-            if isCurrentUserEditMode {
+            if isProfileEditable {
                 setupRestOfEditableProfileSection(in: profileDetailsStackView, after: usernameLabel, margin: margin)
             } else {
                 setupRestOfStandardProfileSection(in: profileDetailsStackView, after: usernameLabel, margin: margin)
@@ -469,8 +469,8 @@ class ProfileViewController: UIViewController {
         
         usernameLabel.text = profile.displayUsername
         
-        if isCurrentUserEditMode {
-            disappearingNavBar.setTitle("Me")
+        if isProfileEditable {
+            disappearingNavBar.setTitle(Localized("profile_me_title"))
         } else {
             disappearingNavBar.setTitle(profile.nameOrDisplayName)
         }

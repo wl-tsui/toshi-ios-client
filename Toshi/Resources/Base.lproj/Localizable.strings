@@ -305,6 +305,7 @@
 
 /* Profile */
 "profile_title" = "Profile";
+"profile_me_title" = "Me";
 "profile_message_button_title" = "Message";
 "profile_pay_button_title" = "Pay";
 "profile_edit_button_title" = "Edit Profile";
