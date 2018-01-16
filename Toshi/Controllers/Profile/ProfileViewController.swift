@@ -63,14 +63,16 @@ class ProfileViewController: UIViewController {
     
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
     
-    private lazy var disappearingNavBar: DisappearingBackgroundNavBar = {
+    lazy var navBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: self)
         navBar.setupLeftAsBackButton()
         
         return navBar
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    var navBarAnimationInProgress: Bool = false
+    
+    lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = true
         view.delaysContentTouches = false
@@ -213,11 +215,17 @@ class ProfileViewController: UIViewController {
         
         view.backgroundColor = Theme.lightGrayBackgroundColor
         setupActivityIndicator()
+
+        setupNavBarAndScrollingContent()
+        navBar.setupLeftAsBackButton()
         
-        let navBarHeight = DisappearingBackgroundNavBar.defaultHeight
-        setupScrollView(navBarHeight: navBarHeight)
-        setupDisappearingNavBar(height: navBarHeight)
-        setupContent(in: scrollView)
+        if shouldShowMoreButton {
+            navBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized("accessibility_more"))
+        }
+        
+        if isProfileEditable {
+            navBar.showTitleAndBackground(true, animated: false)
+        }
 
         configureForCurrentProfile()
         updateReputation()
@@ -237,38 +245,7 @@ class ProfileViewController: UIViewController {
     
     // MARK: - View Setup
     
-    private func setupScrollView(navBarHeight: CGFloat) {
-        view.addSubview(scrollView)
-        scrollView.edgesToSuperview(excluding: .bottom)
-        scrollView.bottom(to: layoutGuide())
-    }
-    
-    private func setupDisappearingNavBar(height: CGFloat) {
-        view.addSubview(disappearingNavBar)
-        
-        disappearingNavBar.edgesToSuperview(excluding: .bottom)
-        disappearingNavBar.height(height)
-        
-        if shouldShowMoreButton {
-            disappearingNavBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized("accessibility_more"))
-        }
-        
-        if isProfileEditable {
-            disappearingNavBar.showTitleLabel(true, animated: false)
-            disappearingNavBar.showBackground(true, animated: false)
-        }
-    }
-    
-    private func setupContent(in scrollView: UIScrollView) {
-        assert(scrollView.superview != nil)
-        
-        let containerView = UIView()
-        
-        scrollView.addSubview(containerView)
-        
-        containerView.edgesToSuperview()
-        containerView.width(to: scrollView)
-        
+    private func setupContent(in containerView: UIView) {
         let topSpacer = addTopSpacer(to: containerView)
         let profileContainer = addProfileDetailsSection(to: containerView, below: topSpacer)
         
@@ -277,25 +254,6 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: Profile
-    
-    private func addTopSpacer(to container: UIView) -> UIView {
-        // Top spacer allows content to slide under the nav bar
-        let topSpacer = UIView()
-        topSpacer.backgroundColor = Theme.viewBackgroundColor
-        
-        container.addSubview(topSpacer)
-        
-        topSpacer.edgesToSuperview(excluding: .bottom)
-        
-        var spacerHeight = DisappearingBackgroundNavBar.defaultHeight
-        if isProfileEditable {
-            spacerHeight += .giantInterItemSpacing
-        }
-        
-        topSpacer.height(spacerHeight)
-        
-        return topSpacer
-    }
     
     private func addProfileDetailsSection(to container: UIView, below viewToPinToBottomOf: UIView) -> UIView {
         let profileDetailsStackView = UIStackView()
@@ -470,9 +428,9 @@ class ProfileViewController: UIViewController {
         usernameLabel.text = profile.displayUsername
         
         if isProfileEditable {
-            disappearingNavBar.setTitle(Localized("profile_me_title"))
+            navBar.setTitle(Localized("profile_me_title"))
         } else {
-            disappearingNavBar.setTitle(profile.nameOrDisplayName)
+            navBar.setTitle(profile.nameOrDisplayName)
         }
 
         if aboutStackView.superview != nil {
@@ -760,6 +718,40 @@ extension ProfileViewController: PaymentControllerDelegate {
                 })
             }
         }
+    }
+}
+
+// MARK: - Disappearing Nav Bar Scrollable
+
+extension ProfileViewController: DisappearingNavBarScrollable {
+    
+    var triggerView: UIView {
+        return avatarImageView
+    }
+    
+    func addScrollableContent(to contentView: UIView) {
+        setupContent(in: contentView)
+    }
+    
+    var disappearingEnabled: Bool {
+        return !isProfileEditable
+    }
+    
+    var topSpacerHeight: CGFloat {
+        if isProfileEditable {
+            return navBarHeight + .giantInterItemSpacing
+        } else {
+            return navBarHeight
+        }
+    }
+}
+
+// MARK: - Scroll View Delegate
+
+extension ProfileViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateNavBarHiddenState()
     }
 }
 
