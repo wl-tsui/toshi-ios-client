@@ -238,6 +238,7 @@
 		33731683200901BD0055975E /* String+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33731682200901BD0055975E /* String+AdditionsTests.swift */; };
 		33816A6B2003CBF200FE81BD /* MessageParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		339B4FCE200E5151008E1A92 /* DisappearingNavBarScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -1085,6 +1086,7 @@
 		33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageParsingTests.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
+		339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingNavBarScrollable.swift; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
 		33CF513E1FD56E8200293FD1 /* ProfilesAddGroupHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesAddGroupHeader.swift; sourceTree = "<group>"; };
@@ -2066,11 +2068,12 @@
 			children = (
 				D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */,
 				2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */,
-				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
+				339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */,
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
+				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
+				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
 				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
 				2BE3C4FA1FD7EE2E001F6919 /* PaymentConfirmation.swift */,
-				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
 				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 			);
 			path = Protocols;
@@ -3427,6 +3430,7 @@
 				A9E1DCDA1F1E1A72001A4ABE /* IconLabelButton.swift in Sources */,
 				9F78D9DC1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
+				339B4FCE200E5151008E1A92 /* DisappearingNavBarScrollable.swift in Sources */,
 				A9CADC1F1F94AF2D0096D017 /* BrowseSearchResultView.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				A91D72A41F877FFA0093420C /* ChatViewController.swift in Sources */,

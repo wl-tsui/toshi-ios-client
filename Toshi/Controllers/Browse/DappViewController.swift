@@ -14,15 +14,15 @@ final class DappViewController: UIViewController {
     
     private let dapp: Dapp
     
-    private let avatarHeight: CGFloat = 60
-    
-    // MARK: Normal Views
+    // MARK: Views
     
     private lazy var avatarImageView = AvatarImageView()
     
-    private lazy var mainLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = Theme.preferredTitle2()
+        label.font = Theme.preferredDisplayName()
+        label.textAlignment = .center
+        
         return label
     }()
     
@@ -40,7 +40,7 @@ final class DappViewController: UIViewController {
     }()
     
     private lazy var enterButton: ActionButton = {
-        let button = ActionButton(margin: 30)
+        let button = ActionButton(margin: .defaultMargin)
         button.title = Localized("dapp_button_enter")
         button.addTarget(self,
                          action: #selector(didTapEnterButton(_:)),
@@ -49,39 +49,18 @@ final class DappViewController: UIViewController {
         return button
     }()
     
-    // MARK: StackViews
+    // MARK: Non-computed properties for DisappearingNavBarScrollable
     
-    private lazy var headerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 16
-        stackView.alignment = .center
+    var navBarAnimationInProgress: Bool = false
+    
+    lazy var navBar: DisappearingBackgroundNavBar = {
+        let navBar = DisappearingBackgroundNavBar(delegate: self)
+        navBar.setupLeftAsBackButton()
         
-        stackView.addArrangedSubview(avatarImageView)
-        
-        avatarImageView.height(avatarHeight)
-        avatarImageView.width(avatarHeight)
-        
-        stackView.addArrangedSubview(mainLabel)
-        
-        return stackView
+        return navBar
     }()
     
-    private lazy var primaryStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        
-        stackView.addArrangedSubview(headerStackView)
-        stackView.addArrangedSubview(descriptionLabel)
-        stackView.addArrangedSubview(urlLabel)
-        stackView.addArrangedSubview(enterButton)
-
-        enterButton.heightConstraint.constant = 44
-        
-        return stackView
-    }()
+    lazy var scrollView = UIScrollView()
     
     // MARK: - Initialization
     
@@ -100,30 +79,68 @@ final class DappViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(primaryStackView)
-        
-        let topAnchor: NSLayoutYAxisAnchor
-
-        if #available(iOS 11.0, *) {
-            topAnchor = view.safeAreaLayoutGuide.topAnchor
-        } else {
-            topAnchor = topLayoutGuide.bottomAnchor
-        }
-        
-        primaryStackView.top(to: view, topAnchor, offset: 16)
-
-        primaryStackView.leftToSuperview(offset: 16)
-        primaryStackView.rightToSuperview(offset: 16)
-    
+        setupNavBarAndScrollingContent()
         configure(for: dapp)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+        super.viewWillDisappear(animated)
+    }
+    
+    // MARK: - View setup
+    
+    private func setupPrimaryStackView(in containerView: UIView, below viewToPinToBottomOf: UIView) {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        
+        let margin = CGFloat.defaultMargin
+        
+        containerView.addSubview(stackView)
+        stackView.topToBottom(of: viewToPinToBottomOf)
+        stackView.leftToSuperview(offset: margin)
+        stackView.rightToSuperview(offset: margin)
+        stackView.bottomToSuperview()
+        
+        stackView.addWithCenterConstraint(view: avatarImageView)
+        avatarImageView.height(.defaultAvatarHeight)
+        avatarImageView.width(.defaultAvatarHeight)
+        stackView.addSpacing(margin, after: avatarImageView)
+
+        stackView.addWithDefaultConstraints(view: titleLabel)
+        stackView.addSpacing(.giantInterItemSpacing, after: titleLabel)
+        
+        stackView.addWithDefaultConstraints(view: descriptionLabel)
+        stackView.addSpacing(.mediumInterItemSpacing, after: descriptionLabel)
+        
+        stackView.addWithDefaultConstraints(view: urlLabel)
+        stackView.addSpacing(.largeInterItemSpacing, after: urlLabel)
+        
+        stackView.addWithDefaultConstraints(view: enterButton, margin: margin)
+        enterButton.heightConstraint.constant = .defaultButtonHeight
+        
+        stackView.addSpacerView(with: .largeInterItemSpacing)
     }
     
     // MARK: - Configuration
     
     private func configure(for dapp: Dapp) {
-        title = dapp.name
-        mainLabel.text = dapp.name
+        navBar.setTitle(dapp.name)
+        titleLabel.text = dapp.name
         descriptionLabel.text = dapp.description
+        
+        //TODO: Remove temp for loop
+        for _ in 0..<3 {
+            descriptionLabel.text = descriptionLabel.text! + "\n\n\(dapp.description)"
+        }
+        
         urlLabel.text = dapp.url.absoluteString
         
         AvatarManager.shared.avatar(for: dapp.avatarUrlString, completion: { [weak self] image, _ in
@@ -138,5 +155,36 @@ final class DappViewController: UIViewController {
         sofaWebController.load(url: dapp.url)
         
         navigationController?.pushViewController(sofaWebController, animated: true)
+        preferLargeTitleIfPossible(false)
+    }
+}
+
+extension DappViewController: DisappearingNavBarScrollable {
+    
+    var triggerView: UIView {
+        return titleLabel
+    }
+    
+    func addScrollableContent(to contentView: UIView) {
+        let spacer = addTopSpacerForNavBarHeight(to: contentView)
+        setupPrimaryStackView(in: contentView, below: spacer)
+    }
+}
+
+extension DappViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateNavBarHiddenState()
+    }
+}
+
+extension DappViewController: DisappearingBackgroundNavBarDelegate {
+    
+    func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
+        assertionFailure("Nothing should be happening here")
     }
 }

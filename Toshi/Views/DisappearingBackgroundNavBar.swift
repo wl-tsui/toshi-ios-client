@@ -200,19 +200,19 @@ final class DisappearingBackgroundNavBar: UIView {
     
     // MARK: - Show/Hide
     
-    func showBottomBorder(_ shouldShow: Bool, animated: Bool = true) {
-        showView(bottomBorder, shouldShow: shouldShow, animated: animated)
+    func showTitleAndBackground(_ shouldShow: Bool, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+        showViews([titleLabel, backgroundView], shouldShow: shouldShow, animated: animated, completion: completion)
     }
     
-    func showTitleLabel(_ shouldShow: Bool, animated: Bool = true) {
-        showView(titleLabel, shouldShow: shouldShow, animated: animated)
+    func showTitleLabel(_ shouldShow: Bool, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+        showViews([titleLabel], shouldShow: shouldShow, animated: animated, completion: completion)
     }
     
-    func showBackground(_ shouldShow: Bool, animated: Bool = true) {
-        showView(backgroundView, shouldShow: shouldShow, animated: animated)
+    func showBackground(_ shouldShow: Bool, animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
+        showViews([backgroundView], shouldShow: shouldShow, animated: animated, completion: completion)
     }
     
-    private func showView(_ view: UIView, shouldShow: Bool, animated: Bool) {
+    private func showViews(_ views: [UIView], shouldShow: Bool, animated: Bool, completion: ((Bool) -> Void)?) {
         let duration: TimeInterval = animated ? animationSpeed : 0
         
         let targetAlpha: CGFloat
@@ -226,8 +226,16 @@ final class DisappearingBackgroundNavBar: UIView {
         }
         
         UIView.animate(withDuration: duration, delay: 0, options: curve, animations: {
-            view.alpha = targetAlpha
-        })
+            for view in views {
+                view.alpha = targetAlpha
+            }
+        }, completion: completion)
+    }
+    
+    // MARK: - Helpers for external callers
+    
+    var isBackgroundShowing: Bool {
+        return (backgroundView.alpha > 0)
     }
     
     // MARK: - Action Targets
