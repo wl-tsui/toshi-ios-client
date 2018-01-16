@@ -3,11 +3,18 @@ import UIKit
 import TinyConstraints
 
 class BalanceController: UIViewController {
+    private let reuseIdentifier = "BalanceControllerCell"
+
+    private var paymentRouter: PaymentRouter?
 
     var balance: NSDecimalNumber? {
         didSet {
             tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
         }
+    }
+
+    private var isAccountSecured: Bool {
+        return TokenUser.current?.verified ?? false
     }
 
     private lazy var tableView: UITableView = {
@@ -29,12 +36,6 @@ class BalanceController: UIViewController {
 
         return refreshControl
     }()
-
-    private let reuseIdentifier = "BalanceControllerCell"
-
-    private var isAccountSecured: Bool {
-        return TokenUser.current?.verified ?? false
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,12 +109,9 @@ extension BalanceController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if indexPath.row == 1 {
-            
-            let paymentController = PaymentController(withPaymentType: .send, continueOption: .next)
-            paymentController.delegate = self
-            
-            let navigationController = PaymentNavigationController(rootViewController: paymentController)
-            Navigator.presentModally(navigationController)
+            paymentRouter = PaymentRouter()
+            paymentRouter?.delegate = self
+            paymentRouter?.present()
             
         } else if indexPath.row == 2 {
             guard let current = TokenUser.current else { return }
@@ -168,12 +166,13 @@ extension BalanceController: UITableViewDataSource {
     }
 }
 
-extension BalanceController: PaymentControllerDelegate {
-    
-    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
-        guard let valueInWei = valueInWei else { return }
-        
-        let paymentAddressController = PaymentAddressController(with: valueInWei)
-        controller.navigationController?.pushViewController(paymentAddressController, animated: true)
+extension BalanceController: PaymentRouterDelegate {
+
+    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {
+        print("payment cancelled")
+    }
+
+    func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter) {
+        print("payment succeeded!")
     }
 }
