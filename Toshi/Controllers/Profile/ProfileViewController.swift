@@ -217,7 +217,6 @@ class ProfileViewController: UIViewController {
         setupActivityIndicator()
 
         setupNavBarAndScrollingContent()
-        navBar.setupLeftAsBackButton()
         
         if shouldShowMoreButton {
             navBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized("accessibility_more"))
