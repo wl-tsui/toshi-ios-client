@@ -30,10 +30,10 @@
 
 "recent_messages_section_header_title" = "Messages";
 "messages_requests_title" = "Message Requests";
-
 "payment_request_message_preview_string" = "Payment request";
 "payment_message_preview_string" = "Payment";
 "attachment_message_preview_string" = "Attachment";
+
 /* Balance */
 "balance_navigation_title" = "Balance";
 "balance_action_send" = "Send";
@@ -290,6 +290,8 @@
 "status_type_make_public" = "%@ set the group as public.";
 "status_type_make_private" = "%@ set the group as private.";
 
+"current_user_pronoun" = "You";
+
 /* Group Chat */
 "profiles_new_group" = "New Group";
 "accept_button_title" = "Accept";
@@ -300,3 +302,19 @@
 
 /* Dapps */
 "dapp_button_enter" = "Enter";
+
+/* Profile */
+"profile_title" = "Profile";
+"profile_me_title" = "Me";
+"profile_message_button_title" = "Message";
+"profile_pay_button_title" = "Pay";
+"profile_edit_button_title" = "Edit Profile";
+"profile_reputation_section_header" = "REPUTATION";
+"profile_rate_user" = "Rate User";
+"profile_rate_bot" = "Rate Bot";
+"profile_favorite_action" = "Save to Favorites";
+"profile_unfavorite_action" = "Remove from Favorites";
+
+/* Accessibility */
+"accessibility_back" = "Back";
+"accessibility_more" = "More";

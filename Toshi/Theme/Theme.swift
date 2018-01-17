@@ -18,9 +18,21 @@ import SweetUIKit
 
 extension CGFloat {
     
+    /// The height of a single pixel on the screen.
     static var lineHeight: CGFloat {
         return 1 / UIScreen.main.scale
     }
+
+    static let defaultButtonHeight: CGFloat = 44
+    static let defaultMargin: CGFloat = 15
+
+    /// NOTE: Implicitly also the default avatar width.
+    static let defaultAvatarHeight: CGFloat = 60
+    
+    static let smallInterItemSpacing: CGFloat = 5
+    static let mediumInterItemSpacing: CGFloat = 10
+    static let largeInterItemSpacing: CGFloat = 20
+    static let giantInterItemSpacing: CGFloat = 40
 }
 
 final class Theme: NSObject {}
@@ -199,6 +211,10 @@ extension Theme {
 
     static func preferredTitle3(range: ClosedRange<CGFloat> = 20...30) -> UIFont {
         return dynamicType(for: regular(size: 16), withStyle: .title3, inSizeRange: range)
+    }
+    
+    static func preferredDisplayName(range: ClosedRange<CGFloat> = 25...35) -> UIFont {
+        return dynamicType(for: bold(size: 25), withStyle: .title2, inSizeRange: range)
     }
     
     static func preferredRegular(range: ClosedRange<CGFloat> = 17...30) -> UIFont {

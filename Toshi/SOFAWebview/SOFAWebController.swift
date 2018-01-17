@@ -38,7 +38,7 @@ final class SOFAWebController: UIViewController {
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
         
-        var js = "window.SOFA = {config: {rcpUrl: '" + self.rcpUrl + "'}}; "
+        var js = "window.SOFA = {config: {accounts: ['"+Cereal.shared.paymentAddress+"'], rcpUrl: '" + self.rcpUrl + "'}}; "
         
         if let filepath = Bundle.main.path(forResource: "sofa-web3", ofType: "js") {
             do {
@@ -119,7 +119,6 @@ final class SOFAWebController: UIViewController {
 
         view.addSubview(webView)
         view.addSubview(toolbar)
-
 
         toolbar.height(44)
         toolbar.bottom(to: layoutGuide())

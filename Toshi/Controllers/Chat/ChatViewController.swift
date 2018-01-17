@@ -283,6 +283,9 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         view.addSubview(buttonsView)
         view.addSubview(ethereumPromptView)
 
+        ethereumPromptView.shouldShowPayButton = !thread.isGroupThread()
+        ethereumPromptView.shouldShowRequestButton = !thread.isGroupThread()
+
         tableView.top(to: view)
         tableView.left(to: view)
         tableView.right(to: view)

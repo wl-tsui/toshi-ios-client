@@ -833,7 +833,6 @@ NS_ASSUME_NONNULL_BEGIN
     TSOutgoingMessage *message = [[TSOutgoingMessage alloc] initWithTimestamp:[NSDate ows_millisecondTimeStamp]
                                                                      inThread:gThread
                                                              groupMetaMessage:TSGroupMetaMessageUpdate];
-    [message updateWithCustomMessage:updateGroupInfoString transaction:transaction];
     // Only send this group update to the requester.
     [message updateWithSingleGroupRecipient:envelope.source transaction:transaction];
 

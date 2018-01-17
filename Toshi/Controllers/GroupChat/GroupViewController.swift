@@ -102,7 +102,7 @@ final class GroupViewController: UIViewController {
 
         scrollViewBottomInset = tableView.contentInset.bottom
 
-        if let _ = viewModel as? NewGroupViewModel {
+        if (viewModel as? NewGroupViewModel) != nil {
            letGroupTitleCellBecomeFirstResponder()
         }
     }

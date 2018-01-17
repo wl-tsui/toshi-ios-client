@@ -259,6 +259,7 @@ final class ChatInteractor: NSObject {
             if interaction.hasAttachments() {
                 message.messageType = "Image"
             } else if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
+                // TODO: Figure out what this should be instead of actionable https://toshiapp.atlassian.net/browse/IOS-456
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: "Payment sent", attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.medium(size: 17)])
                 message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate).string, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.regular(size: 15)])
@@ -342,15 +343,28 @@ final class ChatInteractor: NSObject {
     
     public static func updateGroup(with groupModel: TSGroupModel, completion: @escaping ((Bool) -> Void)) {
         var thread: TSGroupThread?
+        var oldModel: TSGroupModel?
+
         TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
             thread = TSGroupThread.getOrCreateThread(with: groupModel, transaction: transaction)
 
-            guard thread != nil else { return }
-            thread!.groupModel = groupModel
-            thread!.save(with: transaction)
+            oldModel = thread?.groupModel
+
+            guard let fetchedThread = thread else {
+                CrashlyticsLogger.log("Failed to retrieve thread from DB while updating")
+                return
+            }
+
+            fetchedThread.groupModel = groupModel
+            fetchedThread.save(with: transaction)
         }
 
-        sendGroupUpdateMessage(to: thread!, with: groupModel, completion: completion)
+        guard let updatedThread = thread, let oldGroupModel = oldModel else {
+            CrashlyticsLogger.log("Failed to retrieve thread and old group model from DB while updating")
+            return
+        }
+
+        sendGroupUpdateMessage(to: updatedThread, from: oldGroupModel, to: groupModel, completion: completion)
     }
 
     public static func createGroup(with recipientsIds: NSMutableArray, name: String, avatar: UIImage, completion: @escaping ((Bool) -> Void)) {
@@ -386,38 +400,41 @@ final class ChatInteractor: NSObject {
 
             if let author = appDelegate.contactsManager.tokenContact(forAddress: authorId) {
                 subject = author.nameOrDisplayName
-                switch customMessage {
-                case GroupBecameMemberMessage:
-                    statusType = .becameMember
-                    subject = updateInfoString
-                case GroupTitleChangedMessage:
-                    statusType = .rename
-                    object = updateInfoString
-                case GroupAvatarChangedMessage:
-                    statusType = .changePhoto
-                case GroupMemberLeftMessage:
-                    statusType = .leave
-                case GroupMemberJoinedMessage:
-                    statusType = .added
-
-                    if shouldUpdateGroupMembers {
-                        thread.updateGroupMembers()
-                    }
-
-                    object = userWhoJoinedNamesString(for: updateInfoString)
-
-                    if shouldUpdateGroupMembers {
-                        ChatInteractor.requestContactsRefresh()
-                    }
-
-                default:
-                    break
-                }
-            } else if infoMessage.customMessage == GroupCreateMessage {
-                statusType = .created
-                subject = updateInfoString
+            } else if authorId == Cereal.shared.address {
+                subject = Localized("current_user_pronoun")
             } else {
                 idAPIClient.updateContact(with: authorId)
+            }
+
+            switch customMessage {
+            case GroupCreateMessage:
+                statusType = .created
+                subject = updateInfoString
+            case GroupBecameMemberMessage:
+                statusType = .becameMember
+                subject = updateInfoString
+            case GroupTitleChangedMessage:
+                statusType = .rename
+                object = updateInfoString
+            case GroupAvatarChangedMessage:
+                statusType = .changePhoto
+            case GroupMemberLeftMessage:
+                statusType = .leave
+            case GroupMemberJoinedMessage:
+                statusType = .added
+
+                if shouldUpdateGroupMembers {
+                    thread.updateGroupMembers()
+                }
+
+                object = userWhoJoinedNamesString(for: updateInfoString)
+
+                if shouldUpdateGroupMembers {
+                    ChatInteractor.requestContactsRefresh()
+                }
+
+            default:
+                break
             }
 
             let status = SofaStatus(content: "SOFA::Status:{\"type\":\"\(statusType.rawValue)\",\"subject\":\"\(subject)\",\"object\":\"\(object)\"}")
@@ -455,14 +472,17 @@ final class ChatInteractor: NSObject {
         return nameOrAddress
     }
 
-    private static func sendGroupUpdateMessage(to thread: TSGroupThread, with groupModel: TSGroupModel, completion: @escaping ((Bool) -> Void)) {
+    private static func sendGroupUpdateMessage(to thread: TSGroupThread, from oldGroupViewModel: TSGroupModel, to newGroupModel: TSGroupModel, completion: @escaping ((Bool) -> Void)) {
         DispatchQueue.global(qos: .background).async {
             let timestamp = NSDate.ows_millisecondTimeStamp()
             let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.update)
-            outgoingMessage.body = "GROUP_UPDATED"
+
+            if let updateGroupInfo = oldGroupViewModel.getInfoAboutUpdate(to: newGroupModel) {
+                outgoingMessage.update(withCustomInfo: updateGroupInfo)
+            }
 
             let interactor = ChatInteractor(output: nil, thread: thread)
-            interactor.send(image: groupModel.groupImage, in: outgoingMessage, completion: completion)
+            interactor.send(image: newGroupModel.groupImage, in: outgoingMessage, completion: completion)
         }
     }
 
@@ -470,7 +490,8 @@ final class ChatInteractor: NSObject {
         DispatchQueue.global(qos: .background).async {
             let timestamp = NSDate.ows_millisecondTimeStamp()
             let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.new)
-            outgoingMessage.update(withCustomMessage: GroupCreateMessage)
+            let customInfo = [GroupUpdateTypeSting: GroupCreateMessage]
+            outgoingMessage.update(withCustomInfo: customInfo)
 
             let interactor = ChatInteractor(output: nil, thread: thread)
 
@@ -487,7 +508,6 @@ final class ChatInteractor: NSObject {
         DispatchQueue.global(qos: .background).async {
             let timestamp = NSDate.ows_millisecondTimeStamp()
             let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, groupMetaMessage: TSGroupMetaMessage.quit)
-            outgoingMessage.body = "GROUP_CREATED"
 
             let interactor = ChatInteractor(output: nil, thread: thread)
             interactor.send(outgoingMessage, completion: { success in
