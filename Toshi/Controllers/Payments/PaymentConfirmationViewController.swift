@@ -25,12 +25,65 @@ class PaymentConfirmationViewController: UIViewController {
 
     let paymentManager: PaymentManager
 
-    private lazy var testButton: ActionButton = {
+    private lazy var avatarImageView = AvatarImageView()
+
+    private lazy var recipientLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredRegular()
+        view.textColor = Theme.lightGreyTextColor
+        view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
+
+        view.text = "Recipient"
+
+        return view
+    }()
+
+    private lazy var nameLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredDisplayName()
+        view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
+
+        view.text = "Marijn"
+
+        return view
+    }()
+
+    private lazy var fetchingNetworkFeesLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredRegular()
+        view.textColor = Theme.lightGreyTextColor
+        view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
+
+        view.text = "Fetching estimated network fees..."
+
+        return view
+    }()
+
+    private lazy var payButton: ActionButton = {
         let button = ActionButton(margin: 15)
-        button.title = "test"
-        button.addTarget(self, action: #selector(didTapTestButton), for: .touchUpInside)
+        button.title = "Pay"
+        button.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
 
         return button
+    }()
+
+    private lazy var balanceLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredFootnote()
+        view.textColor = Theme.lightGreyTextColor
+        view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
+
+        view.text = "Your balance is ...."
+
+        return view
     }()
 
     init(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
@@ -51,20 +104,68 @@ class PaymentConfirmationViewController: UIViewController {
         view.backgroundColor = Theme.viewBackgroundColor
 
         paymentManager.transactionSkeleton { [weak self] message in
-            self?.testButton.title = message
+            self?.payButton.title = message
         }
     }
 
     private func addSubviewsAndConstraints() {
-        view.addSubview(testButton)
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.delaysContentTouches = false
+        if #available(iOS 11, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
 
-        testButton.centerX(to: view)
-        testButton.centerY(to: view)
-        testButton.left(to: view, offset: 15)
-        testButton.right(to: view, offset: -15)
+        view.addSubview(scrollView)
+        scrollView.edges(to: layoutGuide())
+
+        let containerView = UIView()
+        scrollView.addSubview(containerView)
+
+        containerView.edgesToSuperview()
+        containerView.width(to: scrollView)
+
+        let confirmPaymentStackView = UIStackView()
+        confirmPaymentStackView.addBackground(with: Theme.viewBackgroundColor)
+        confirmPaymentStackView.axis = .vertical
+        confirmPaymentStackView.alignment = .center
+
+        containerView.addSubview(confirmPaymentStackView)
+        confirmPaymentStackView.leftToSuperview()
+        confirmPaymentStackView.rightToSuperview()
+        confirmPaymentStackView.top(to: layoutGuide())
+
+        let profileDetailsStackView = UIStackView()
+        profileDetailsStackView.addBackground(with: Theme.viewBackgroundColor)
+        profileDetailsStackView.axis = .vertical
+        profileDetailsStackView.alignment = .center
+
+        confirmPaymentStackView.addWithCenterConstraint(view: profileDetailsStackView)
+
+        let margin = CGFloat.defaultMargin
+
+        profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
+        avatarImageView.height(.defaultAvatarHeight)
+        avatarImageView.width(.defaultAvatarHeight)
+        profileDetailsStackView.addSpacing(margin, after: avatarImageView)
+
+        profileDetailsStackView.addWithDefaultConstraints(view: recipientLabel)
+        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
+
+        let receiptStackView = UIStackView()
+        receiptStackView.addBackground(with: Theme.viewBackgroundColor)
+        receiptStackView.axis = .vertical
+        receiptStackView.alignment = .center
+
+        confirmPaymentStackView.addWithCenterConstraint(view: receiptStackView)
+        receiptStackView.addWithDefaultConstraints(view: fetchingNetworkFeesLabel)
+
+        confirmPaymentStackView.addWithCenterConstraint(view: payButton)
+        confirmPaymentStackView.addWithCenterConstraint(view: balanceLabel)
+
     }
 
-    @objc func didTapTestButton() {
+    @objc func didTapPayButton() {
         paymentManager.sendPayment() { [weak self] error in
             guard let weakSelf = self else { return }
 
