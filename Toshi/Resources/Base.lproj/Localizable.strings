@@ -320,6 +320,12 @@
 "accessibility_more" = "More";
 
 /* Payment Confirmation */
+"confirmation_title" = "Confirm Payment";
+"confirmation_recipient" = "Recipient";
 "confirmation_amount" = "Amount";
-"confirmation_estimated_network_fees" = "Est. Nework Fees";
-"confirmation_total" = "Est. Nework Fees";
+"confirmation_estimated_network_fees" = "Est. Network Fees";
+"confirmation_total" = "Total";
+"confirmation_pay" = "Pay";
+"confirmation_fetching_estimated_network_fees" = "Fetching est. network fees...";
+"confirmation_your_balance" = "Your balance";
+"confirmation_insufficient_balance" = "Insufficient balance";
