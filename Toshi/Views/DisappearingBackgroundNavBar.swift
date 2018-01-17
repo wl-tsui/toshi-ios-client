@@ -133,7 +133,8 @@ final class DisappearingBackgroundNavBar: UIView {
         titleCenterYConstraint = titleLabel.centerYToSuperview(offset: defaultOffset)
         titleLabel.leftToRight(of: leftButton, offset: interItemSpacing)
         titleLabel.rightToLeft(of: rightButton, offset: interItemSpacing)
-        
+        titleLabel.centerXToSuperview()
+
         titleLabel.alpha = 0
     }
     
