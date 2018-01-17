@@ -16,10 +16,39 @@
 import Foundation
 
 class ReceiptLineView: UIView {
+
+    private lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredRegular()
+        view.textColor = Theme.lightGreyTextColor
+        view.textAlignment = .right
+        view.adjustsFontForContentSizeCategory = true
+
+        return titleLabel
+    }()
+
+    private lazy var amountLabel: UILabel = {
+        let amountLabel = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredRegular()
+        view.textColor = Theme.darkTextColor
+        view.adjustsFontForContentSizeCategory = true
+
+        return amountLabel
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = .red
+
+        addSubview(titleLabel)
+        addSubview(amountLabel)
+
+        titleLabel.left(to: self)
+        titleLabel.top(to: self)
+        titleLabel.bottom(to: self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -27,6 +56,6 @@ class ReceiptLineView: UIView {
     }
 
     func setTitle(_ localized: String) {
-        // set title to title label
+        titleLabel.text = title
     }
 }
