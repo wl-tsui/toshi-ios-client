@@ -253,6 +253,8 @@
 		33EED15B1FE92C8B00C51EAC /* TSGroupModel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */; };
 		33EED15C1FE92E2600C51EAC /* TSGroupModel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */; };
 		33EED15D1FE92E2600C51EAC /* TSGroupModel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */; };
+		33F00DA6200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */; };
+		33F00DA7200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */; };
 		33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */; };
 		33F6D22E1FFD18E200AB0DCC /* userAfterImageUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F6D22D1FFD18E100AB0DCC /* userAfterImageUpdate.json */; };
 		33F6D2301FFD1BED00AB0DCC /* userAfterDataUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F6D22F1FFD1BEC00AB0DCC /* userAfterDataUpdate.json */; };
@@ -3195,6 +3197,7 @@
 				149F9A6F1E72E29A00FB74AA /* Yap.swift in Sources */,
 				2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */,
 				2B695CBA1EF9B9A80025119B /* KeyboardAdjustable.swift in Sources */,
+				33F00DA7200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */,
 				A9A9F9A91F8B70910010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AB1F8B70B90010F877 /* ChatViewController.swift in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
@@ -3666,6 +3669,7 @@
 				A9603DB01F4DABDC00BF57B1 /* KeyboardAdjustable.swift in Sources */,
 				A9A9F9A81F8B70900010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AA1F8B70B80010F877 /* ChatViewController.swift in Sources */,
+				33F00DA6200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */,
 				A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */,
 				A9603DB71F4DABDC00BF57B1 /* BalanceController.swift in Sources */,
 				A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */,
