@@ -35,7 +35,7 @@ class PaymentConfirmationViewController: UIViewController {
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
-        view.text = "Recipient"
+        view.text = Localized("confirmation_recipient")
 
         return view
     }()
@@ -60,7 +60,7 @@ class PaymentConfirmationViewController: UIViewController {
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
-        view.text = "Fetching estimated network fees..."
+        view.text = Localized("confirmation_fetching_estimated_network_fees")
 
         return view
     }()
@@ -75,7 +75,7 @@ class PaymentConfirmationViewController: UIViewController {
 
     private lazy var payButton: ActionButton = {
         let button = ActionButton(margin: 15)
-        button.title = "Pay"
+        button.title = Localized("confirmation_pay")
         button.addTarget(self, action: #selector(didTapPayButton), for: .touchUpInside)
 
         return button
@@ -89,7 +89,7 @@ class PaymentConfirmationViewController: UIViewController {
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
-        view.text = "Your balance is ...."
+        view.text = Localized("confirmation_your_balance")
 
         return view
     }()
@@ -108,6 +108,8 @@ class PaymentConfirmationViewController: UIViewController {
         super.viewDidLoad()
 
         addSubviewsAndConstraints()
+
+        title = Localized("confirmation_title")
 
         view.backgroundColor = Theme.viewBackgroundColor
 
