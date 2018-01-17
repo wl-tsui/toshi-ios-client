@@ -19,21 +19,21 @@ class ReceiptLineView: UIView {
 
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        view.numberOfLines = 0
-        view.font = Theme.preferredRegular()
-        view.textColor = Theme.lightGreyTextColor
-        view.textAlignment = .right
-        view.adjustsFontForContentSizeCategory = true
+        titleLabel.numberOfLines = 0
+        titleLabel.font = Theme.preferredRegular()
+        titleLabel.textColor = Theme.lightGreyTextColor
+        titleLabel.textAlignment = .right
+        titleLabel.adjustsFontForContentSizeCategory = true
 
         return titleLabel
     }()
 
     private lazy var amountLabel: UILabel = {
         let amountLabel = UILabel()
-        view.numberOfLines = 0
-        view.font = Theme.preferredRegular()
-        view.textColor = Theme.darkTextColor
-        view.adjustsFontForContentSizeCategory = true
+        amountLabel.numberOfLines = 0
+        amountLabel.font = Theme.preferredRegular()
+        amountLabel.textColor = Theme.darkTextColor
+        amountLabel.adjustsFontForContentSizeCategory = true
 
         return amountLabel
     }()
@@ -55,7 +55,7 @@ class ReceiptLineView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setTitle(_ localized: String) {
+    func setTitle(_ title: String) {
         titleLabel.text = title
     }
 }
