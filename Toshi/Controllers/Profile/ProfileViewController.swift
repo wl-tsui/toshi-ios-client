@@ -393,6 +393,11 @@ class ProfileViewController: UIViewController {
             reputationStackView.addWithDefaultConstraints(view: rateThisUserButton)
             rateThisUserButton.height(.defaultButtonHeight)
 
+            if isBotProfile {
+                rateThisUserButton.setTitle(Localized("profile_rate_user"), for: .normal)
+            } else {
+                rateThisUserButton.setTitle(Localized("profile_rate_user"), for: .normal)
+            }
         } else {
             reputationStackView.addSpacing(.largeInterItemSpacing, after: reputationView.superview!)
         }
@@ -421,7 +426,11 @@ class ProfileViewController: UIViewController {
         nameLabel.text = profile.name.isEmpty ? nil : profile.name
         aboutContentLabel.text = profile.about.isEmpty ? nil : profile.about
         locationContentLabel.text = profile.location.isEmpty ? nil : profile.location
-        
+
+        if isBotProfile {
+            aboutContentLabel.text = "Some text about this bot which would look totally different in production."
+        }
+
         usernameLabel.text = profile.displayUsername
         
         if isProfileEditable {
