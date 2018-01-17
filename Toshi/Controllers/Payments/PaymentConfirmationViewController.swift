@@ -25,9 +25,9 @@ class PaymentConfirmationViewController: UIViewController {
 
     let paymentManager: PaymentManager
 
-    private lazy var testButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("test", for: .normal)
+    private lazy var testButton: ActionButton = {
+        let button = ActionButton(margin: 15)
+        button.title = "test"
         button.addTarget(self, action: #selector(didTapTestButton), for: .touchUpInside)
 
         return button
@@ -46,12 +46,12 @@ class PaymentConfirmationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .red
-
         addSubviewsAndConstraints()
 
+        view.backgroundColor = Theme.viewBackgroundColor
+
         paymentManager.transactionSkeleton { [weak self] message in
-            self?.testButton.setTitle(message, for: .normal)
+            self?.testButton.title = message
         }
     }
 
@@ -60,7 +60,8 @@ class PaymentConfirmationViewController: UIViewController {
 
         testButton.centerX(to: view)
         testButton.centerY(to: view)
-        testButton.size(CGSize(width: 300, height: 44))
+        testButton.left(to: view, offset: 15)
+        testButton.right(to: view, offset: -15)
     }
 
     @objc func didTapTestButton() {
