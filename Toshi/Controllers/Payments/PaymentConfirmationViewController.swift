@@ -65,6 +65,14 @@ class PaymentConfirmationViewController: UIViewController {
         return view
     }()
 
+    private lazy var receiptView: ReceiptView = {
+        let view = ReceiptView()
+
+        view.isHidden = true
+
+        return view
+    }()
+
     private lazy var payButton: ActionButton = {
         let button = ActionButton(margin: 15)
         button.title = "Pay"
@@ -135,6 +143,7 @@ class PaymentConfirmationViewController: UIViewController {
         confirmPaymentStackView.rightToSuperview()
         confirmPaymentStackView.top(to: layoutGuide())
 
+        // Profile Stack View
         let profileDetailsStackView = UIStackView()
         profileDetailsStackView.addBackground(with: Theme.viewBackgroundColor)
         profileDetailsStackView.axis = .vertical
@@ -148,10 +157,12 @@ class PaymentConfirmationViewController: UIViewController {
         avatarImageView.height(.defaultAvatarHeight)
         avatarImageView.width(.defaultAvatarHeight)
         profileDetailsStackView.addSpacing(margin, after: avatarImageView)
+        profileDetailsStackView.addSpacing(.giantInterItemSpacing, after: lastAddedView)
 
         profileDetailsStackView.addWithDefaultConstraints(view: recipientLabel)
         profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
 
+        // Receipt Stack View
         let receiptStackView = UIStackView()
         receiptStackView.addBackground(with: Theme.viewBackgroundColor)
         receiptStackView.axis = .vertical
@@ -159,8 +170,9 @@ class PaymentConfirmationViewController: UIViewController {
 
         confirmPaymentStackView.addWithCenterConstraint(view: receiptStackView)
         receiptStackView.addWithDefaultConstraints(view: fetchingNetworkFeesLabel)
+        receiptStackView.addWithDefaultConstraints(view: receiptView)
 
-        confirmPaymentStackView.addWithCenterConstraint(view: payButton)
+        confirmPaymentStackView.addWithDefaultConstraints(view: payButton, margin: margin)
         confirmPaymentStackView.addWithCenterConstraint(view: balanceLabel)
 
     }

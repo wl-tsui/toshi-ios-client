@@ -318,3 +318,8 @@
 /* Accessibility */
 "accessibility_back" = "Back";
 "accessibility_more" = "More";
+
+/* Payment Confirmation */
+"confirmation_amount" = "Amount";
+"confirmation_estimated_network_fees" = "Est. Nework Fees";
+"confirmation_total" = "Est. Nework Fees";
