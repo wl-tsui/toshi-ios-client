@@ -50,9 +50,7 @@ final class DappViewController: UIViewController {
     }()
     
     // MARK: Non-computed properties for DisappearingNavBarScrollable
-    
-    var navBarAnimationInProgress: Bool = false
-    
+        
     lazy var navBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: self)
         navBar.setupLeftAsBackButton()
@@ -161,8 +159,12 @@ final class DappViewController: UIViewController {
 
 extension DappViewController: DisappearingNavBarScrollable {
     
-    var triggerView: UIView {
+    var backgroundTriggerView: UIView {
         return avatarImageView
+    }
+
+    var titleTriggerView: UIView {
+        return titleLabel
     }
     
     func addScrollableContent(to contentView: UIView) {
@@ -174,7 +176,7 @@ extension DappViewController: DisappearingNavBarScrollable {
 extension DappViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateNavBarHiddenState()
+        updateNavBar()
     }
 }
 

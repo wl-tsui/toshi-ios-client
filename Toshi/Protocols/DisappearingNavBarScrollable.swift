@@ -39,13 +39,12 @@ protocol DisappearingNavBarScrollable: class {
     /// The scroll view the nav bar should scroll underneath
     var scrollView: UIScrollView { get }
     
-    /// The view to use as the trigger to show or hide. When the top of this view crosses the bottom of
-    /// of the nav bar when scrolling, the nav bar will show.
-    var triggerView: UIView { get }
-    
-    /// True if a nav bar animation is in progress, false if not
-    var navBarAnimationInProgress: Bool { get set }
-    
+    /// The view to use as the trigger to show or hide the background.
+    var backgroundTriggerView: UIView { get }
+
+    // The view to use as the trigger to show or hide the title.
+    var titleTriggerView: UIView { get }
+
     /// Called when scrollable content should be programmatically added to the given container view.
     /// The size of the views added to the container will determine the scrollable area of the scroll view.
     ///
@@ -96,27 +95,55 @@ extension DisappearingNavBarScrollable {
         addScrollableContent(to: contentView)
     }
     
-    /// Updates the nav bar's hidden state based on whether the top of the target view has been scrolled past the bottom of the nav bar.
+    /// Updates the state of the nav bar based on where the target views are in relation to the bottom of the nav bar.
     /// NOTE: This should generally be called from `scrollViewDidScroll`.
-    func updateNavBarHiddenState() {
+    func updateNavBar() {
         guard disappearingEnabled else { return }
         guard !scrollView.frame.equalTo(.zero) else { /* View hasn't been set up yet. */ return }
-        guard !navBarAnimationInProgress else { /* Let the animation finish. */ return }
-        
-        let updatedBounds = triggerView.convert(triggerView.bounds, to: navAndScrollParent)
-        let centerYOfTarget = updatedBounds.midY
-        
-        let shouldBeShowing = (centerYOfTarget < navBarHeight)
-        let isShowing = navBar.isBackgroundShowing
-        
-        guard shouldBeShowing != isShowing else { /* Nothing more to do here. */ return }
-        
-        navBarAnimationInProgress = true
-        navBar.showTitleAndBackground(shouldBeShowing, animated: true) { [weak self] _ in
-            self?.navBarAnimationInProgress = false
-            
-            // Update the state one more time in case the user kept scrolling after the animation.
-            self?.updateNavBarHiddenState()
+
+        updateBackgroundAlpha()
+        updateTitleAlpha()
+    }
+
+    private func updateBackgroundAlpha() {
+        let targetInParentBounds = backgroundTriggerView.convert(backgroundTriggerView.bounds, to: navAndScrollParent)
+        let topOfTarget = targetInParentBounds.minY
+        let centerOfTarget = targetInParentBounds.midY
+
+        let differenceFromTop = navBarHeight - topOfTarget
+        let differenceFromCenter = navBarHeight - centerOfTarget
+
+        if differenceFromCenter > 0 {
+            navBar.setBackgroundAlpha(1)
+        } else if differenceFromTop < 0 {
+            navBar.setBackgroundAlpha(0)
+        } else {
+            let betweenTopAndCenter = centerOfTarget - topOfTarget
+            let percentage = differenceFromTop / betweenTopAndCenter
+            navBar.setBackgroundAlpha(percentage)
+        }
+    }
+
+    private func updateTitleAlpha() {
+        let targetInParentBounds = titleTriggerView.convert(titleTriggerView.bounds, to: navAndScrollParent)
+        let centerOfTarget = targetInParentBounds.midY
+        let bottomOfTarget = targetInParentBounds.maxY
+        let threeQuartersOfTarget = (centerOfTarget + bottomOfTarget) / 2
+
+        let differenceFromThreeQuarters = navBarHeight - threeQuartersOfTarget
+        let differenceFromBottom = navBarHeight - bottomOfTarget
+
+        if differenceFromBottom > 0 {
+            navBar.setTitleAlpha(1)
+            navBar.setTitleOffsetPercentage(from: 1)
+        } else if differenceFromThreeQuarters < 0 {
+            navBar.setTitleAlpha(0)
+            navBar.setTitleOffsetPercentage(from: 0)
+        } else {
+            let betweenThreeQuartersAndBottom = bottomOfTarget - threeQuartersOfTarget
+            let percentageComplete = differenceFromThreeQuarters / betweenThreeQuartersAndBottom
+            navBar.setTitleAlpha(percentageComplete)
+            navBar.setTitleOffsetPercentage(from: percentageComplete)
         }
     }
     

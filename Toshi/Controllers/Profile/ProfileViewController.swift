@@ -70,8 +70,6 @@ class ProfileViewController: UIViewController {
         return navBar
     }()
     
-    var navBarAnimationInProgress: Bool = false
-    
     lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.showsVerticalScrollIndicator = true
@@ -223,7 +221,7 @@ class ProfileViewController: UIViewController {
         }
         
         if isProfileEditable {
-            navBar.showTitleAndBackground(true, animated: false)
+            navBar.showTitleAndBackground()
         }
 
         configureForCurrentProfile()
@@ -724,8 +722,12 @@ extension ProfileViewController: PaymentControllerDelegate {
 
 extension ProfileViewController: DisappearingNavBarScrollable {
     
-    var triggerView: UIView {
+    var backgroundTriggerView: UIView {
         return avatarImageView
+    }
+
+    var titleTriggerView: UIView {
+        return nameLabel
     }
     
     func addScrollableContent(to contentView: UIView) {
@@ -750,7 +752,7 @@ extension ProfileViewController: DisappearingNavBarScrollable {
 extension ProfileViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateNavBarHiddenState()
+        updateNavBar()
     }
 }
 
