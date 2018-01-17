@@ -302,3 +302,19 @@
 
 /* Dapps */
 "dapp_button_enter" = "Enter";
+
+/* Profile */
+"profile_title" = "Profile";
+"profile_me_title" = "Me";
+"profile_message_button_title" = "Message";
+"profile_pay_button_title" = "Pay";
+"profile_edit_button_title" = "Edit Profile";
+"profile_reputation_section_header" = "REPUTATION";
+"profile_rate_user" = "Rate User";
+"profile_rate_bot" = "Rate Bot";
+"profile_favorite_action" = "Save to Favorites";
+"profile_unfavorite_action" = "Remove from Favorites";
+
+/* Accessibility */
+"accessibility_back" = "Back";
+"accessibility_more" = "More";
