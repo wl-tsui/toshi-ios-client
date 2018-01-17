@@ -19,15 +19,68 @@ class ReceiptView: UIView {
 
     private lazy var amountLine: ReceiptLineView = {
         let amountLine = ReceiptLineView()
-        amountLine.setTitle("")
+        amountLine.setTitle(Localized("confirmation_amount"))
 
         return amountLine
+    }()
+
+    private lazy var estimatedNetworkFeesLine: ReceiptLineView = {
+        let estimatedNetworkFeesLine = ReceiptLineView()
+        estimatedNetworkFeesLine.setTitle(Localized("confirmation_estimated_network_fees"))
+
+        return estimatedNetworkFeesLine
+    }()
+
+    private lazy var totalLine: ReceiptLineView = {
+        let totalLine = ReceiptLineView()
+        totalLine.setTitle(Localized("confirmation_total"))
+
+        return totalLine
+    }()
+
+    private lazy var ethereumAmountLabel: UILabel = {
+        let view = UILabel()
+        view.numberOfLines = 0
+        view.font = Theme.preferredFootnote()
+        view.textColor = Theme.lightGreyTextColor
+        view.textAlignment = .right
+        view.adjustsFontForContentSizeCategory = true
+
+        view.text = "Just testing 193819283 ETH"
+
+        return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = .red
+
+        let stackView = UIStackView()
+        stackView.addBackground(with: Theme.viewBackgroundColor)
+        stackView.axis = .vertical
+        stackView.alignment = .center
+
+        addSubview(stackView)
+        stackView.leftToSuperview()
+        stackView.rightToSuperview()
+        stackView.top(to: self)
+
+        stackView.addWithDefaultConstraints(view: amountLine)
+        stackView.addSpacing(.mediumInterItemSpacing, after: amountLine)
+        stackView.addWithDefaultConstraints(view: estimatedNetworkFeesLine)
+
+        let separator = UIView()
+        separator.backgroundColor = Theme.borderColor
+        separator.height(.lineHeight)
+
+        stackView.addSpacing(.largeInterItemSpacing, after: estimatedNetworkFeesLine)
+        stackView.addWithDefaultConstraints(view: separator)
+        stackView.addSpacing(.largeInterItemSpacing, after: separator)
+        stackView.addWithDefaultConstraints(view: totalLine)
+        stackView.addWithDefaultConstraints(view: ethereumAmountLabel)
+        stackView.addSpacing(.mediumInterItemSpacing, after: ethereumAmountLabel)
+
     }
 
     required init?(coder aDecoder: NSCoder) {

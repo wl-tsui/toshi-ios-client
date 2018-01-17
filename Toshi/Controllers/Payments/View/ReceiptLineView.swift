@@ -25,4 +25,8 @@ class ReceiptLineView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func setTitle(_ localized: String) {
+        // set title to title label
+    }
 }

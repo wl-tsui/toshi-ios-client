@@ -68,7 +68,7 @@ class PaymentConfirmationViewController: UIViewController {
     private lazy var receiptView: ReceiptView = {
         let view = ReceiptView()
 
-        view.isHidden = true
+//        view.isHidden = true
 
         return view
     }()
@@ -159,7 +159,6 @@ class PaymentConfirmationViewController: UIViewController {
         avatarImageView.height(.defaultAvatarHeight)
         avatarImageView.width(.defaultAvatarHeight)
         profileDetailsStackView.addSpacing(margin, after: avatarImageView)
-        profileDetailsStackView.addSpacing(.giantInterItemSpacing, after: lastAddedView)
 
         profileDetailsStackView.addWithDefaultConstraints(view: recipientLabel)
         profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
@@ -171,7 +170,7 @@ class PaymentConfirmationViewController: UIViewController {
         receiptStackView.alignment = .center
 
         confirmPaymentStackView.addWithCenterConstraint(view: receiptStackView)
-        receiptStackView.addWithDefaultConstraints(view: fetchingNetworkFeesLabel)
+//        receiptStackView.addWithDefaultConstraints(view: fetchingNetworkFeesLabel)
         receiptStackView.addWithDefaultConstraints(view: receiptView)
 
         confirmPaymentStackView.addWithDefaultConstraints(view: payButton, margin: margin)
