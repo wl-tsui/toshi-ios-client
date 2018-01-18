@@ -29,36 +29,27 @@ class QRCodeController: DisappearingNavBarViewController {
     }
 
     private lazy var qrCodeImageView: UIImageView = UIImageView()
+    private lazy var qrCodeImageView2: UIImageView = UIImageView()
+    private lazy var qrCodeImageView3: UIImageView = UIImageView()
 
     private lazy var subtitleLabel = TextLabel(Localized("profile_qr_code_subtitle"))
 
     convenience init(for username: String, name: String) {
         self.init(nibName: nil, bundle: nil)
 
-        title = Localized("profile_qr_code_title")
+        navBar.setTitle(Localized("profile_qr_code_title"))
 
-        qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
-    }
-
-    override func loadView() {
-        let scrollView = UIScrollView()
-
-        view = scrollView
+        let qrCodeImage = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
+        qrCodeImageView.image = qrCodeImage
+        qrCodeImageView2.image = qrCodeImage
+        qrCodeImageView3.image = qrCodeImage
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = Theme.lightGrayBackgroundColor
-        
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        preferLargeTitleIfPossible(true)
-    }
-
 
     /// The view to use as the trigger to show or hide the background.
     override var backgroundTriggerView: UIView {
@@ -70,41 +61,35 @@ class QRCodeController: DisappearingNavBarViewController {
     }
 
     override func addScrollableContent(to contentView: UIView) {
-        
-        contentView.edges(to: view)
-        contentView.width(to: view)
-        contentView.height(to: layoutGuide(), relation: .equalOrGreater)
-
         let spacer = addTopSpacer(to: contentView)
+        spacer.backgroundColor = Theme.lightGrayBackgroundColor
+
+        contentView.showDebugBorder(color: .red)
 
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(qrCodeImageView)
+        contentView.addSubview(qrCodeImageView2)
+        contentView.addSubview(qrCodeImageView3)
 
-        subtitleLabel.top(to: spacer)
-        subtitleLabel.left(to: view, offset: 20)
-        subtitleLabel.right(to: view, offset: -20)
+        subtitleLabel.topToBottom(of: spacer)
+        subtitleLabel.leftToSuperview(offset: .largeInterItemSpacing)
+        subtitleLabel.rightToSuperview(offset: .largeInterItemSpacing)
 
-        let qrCodeTopLayoutGuide = UILayoutGuide()
-        contentView.addLayoutGuide(qrCodeTopLayoutGuide)
-
-        qrCodeTopLayoutGuide.topToBottom(of: subtitleLabel)
-        qrCodeTopLayoutGuide.height(40, relation: .equalOrGreater)
-        qrCodeTopLayoutGuide.left(to: contentView)
-        qrCodeTopLayoutGuide.right(to: contentView)
-
-        qrCodeImageView.topToBottom(of: qrCodeTopLayoutGuide)
+        qrCodeImageView.topToBottom(of: subtitleLabel, offset: .giantInterItemSpacing, relation: .equalOrGreater)
         qrCodeImageView.height(300)
         qrCodeImageView.width(300)
-        qrCodeImageView.centerX(to: contentView)
+        qrCodeImageView.centerXToSuperview()
 
-        let qrCodeBottomLayoutGuide = UILayoutGuide()
-        contentView.addLayoutGuide(qrCodeBottomLayoutGuide)
+        qrCodeImageView2.topToBottom(of: qrCodeImageView, offset: .largeInterItemSpacing)
+        qrCodeImageView2.height(300)
+        qrCodeImageView2.width(300)
+        qrCodeImageView2.centerXToSuperview()
 
-        qrCodeBottomLayoutGuide.topToBottom(of: qrCodeImageView)
-        qrCodeBottomLayoutGuide.left(to: contentView)
-        qrCodeBottomLayoutGuide.right(to: contentView)
-        qrCodeBottomLayoutGuide.bottom(to: contentView)
-        qrCodeBottomLayoutGuide.height(to: qrCodeTopLayoutGuide)
+        qrCodeImageView3.topToBottom(of: qrCodeImageView2, offset: .largeInterItemSpacing)
+        qrCodeImageView3.height(300)
+        qrCodeImageView3.width(300)
+        qrCodeImageView3.centerXToSuperview()
+        qrCodeImageView3.bottomToSuperview(offset: -.largeInterItemSpacing)
     }
 }
 
