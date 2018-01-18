@@ -144,11 +144,19 @@ class PaymentConfirmationViewController: UIViewController {
 
     private func setBalance(_ balanceString: String, isSufficient: Bool) {
         if isSufficient {
-            balanceLabel.textColor = Theme.lightGreyTextColor
-            balanceLabel.text = String(format: Localized("confirmation_your_balance"), balanceString)
+            UIView.animate(withDuration: 0.2) {
+                self.balanceLabel.textColor = Theme.lightGreyTextColor
+                self.balanceLabel.text = String(format: Localized("confirmation_your_balance"), balanceString)
+
+                self.payButton.isEnabled = true
+            }
         } else {
-            balanceLabel.textColor = Theme.errorColor
-            balanceLabel.text = String(format: Localized("confirmation_insufficient_balance"), balanceString)
+            UIView.animate(withDuration: 0.2) {
+                self.balanceLabel.textColor = Theme.errorColor
+                self.balanceLabel.text = String(format: Localized("confirmation_insufficient_balance"), balanceString)
+
+                self.payButton.isEnabled = false
+            }
         }
     }
 
