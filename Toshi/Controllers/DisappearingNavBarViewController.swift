@@ -26,7 +26,7 @@ import UIKit
 /// - addScrollableContent(to:)
 ///
 /// Note that all conformances are on the main class since methods in extensions cannot be overridden.
-class DisappearingBackgroundNavBarViewController: UIViewController, DisappearingBackgroundNavBarDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+class DisappearingNavBarViewController: UIViewController, DisappearingBackgroundNavBarDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
     /// If disappearing is enabled at present.
     var disappearingEnabled: Bool {

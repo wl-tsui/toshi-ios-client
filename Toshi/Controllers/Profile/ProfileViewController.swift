@@ -18,7 +18,7 @@ import SweetUIKit
 import CoreImage
 import TinyConstraints
 
-final class ProfileViewController: DisappearingBackgroundNavBarViewController {
+final class ProfileViewController: DisappearingNavBarViewController {
     
     var profile: TokenUser {
         didSet {

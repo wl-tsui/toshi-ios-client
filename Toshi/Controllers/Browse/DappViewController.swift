@@ -17,7 +17,7 @@ import SweetUIKit
 import UIKit
 import TinyConstraints
 
-final class DappViewController: DisappearingBackgroundNavBarViewController {
+final class DappViewController: DisappearingNavBarViewController {
     
     private let dapp: Dapp
     
