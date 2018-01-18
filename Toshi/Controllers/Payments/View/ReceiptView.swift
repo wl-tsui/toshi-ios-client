@@ -65,6 +65,7 @@ class ReceiptView: UIView {
         stackView.leftToSuperview()
         stackView.rightToSuperview()
         stackView.top(to: self)
+        stackView.bottom(to: self)
 
         stackView.addWithDefaultConstraints(view: amountLine)
         stackView.addSpacing(.mediumInterItemSpacing, after: amountLine)

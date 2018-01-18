@@ -118,64 +118,65 @@ class PaymentConfirmationViewController: UIViewController {
         }
     }
 
-    private func addSubviewsAndConstraints() {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = true
-        scrollView.delaysContentTouches = false
-        if #available(iOS 11, *) {
-            scrollView.contentInsetAdjustmentBehavior = .never
-        }
-
-        view.addSubview(scrollView)
-        scrollView.edges(to: layoutGuide())
-
-        let containerView = UIView()
-        scrollView.addSubview(containerView)
-
-        containerView.edgesToSuperview()
-        containerView.width(to: scrollView)
-
-        let confirmPaymentStackView = UIStackView()
-        confirmPaymentStackView.addBackground(with: Theme.viewBackgroundColor)
-        confirmPaymentStackView.axis = .vertical
-        confirmPaymentStackView.alignment = .center
-
-        containerView.addSubview(confirmPaymentStackView)
-        confirmPaymentStackView.leftToSuperview()
-        confirmPaymentStackView.rightToSuperview()
-        confirmPaymentStackView.top(to: layoutGuide())
-
-        // Profile Stack View
+    private lazy var profileDetailsStackView: UIStackView = {
         let profileDetailsStackView = UIStackView()
         profileDetailsStackView.addBackground(with: Theme.viewBackgroundColor)
         profileDetailsStackView.axis = .vertical
         profileDetailsStackView.alignment = .center
 
-        confirmPaymentStackView.addWithCenterConstraint(view: profileDetailsStackView)
+        return profileDetailsStackView
+    }()    
 
-        let margin = CGFloat.defaultMargin
+    private func addSubviewsAndConstraints() {
+
+        let profileDetailsTopLayoutGuide = UILayoutGuide()
+        let profileDetailsBottomLayoutGuide = UILayoutGuide()
+
+        view.addLayoutGuide(profileDetailsTopLayoutGuide)
+        view.addSubview(profileDetailsStackView)
+        view.addLayoutGuide(profileDetailsBottomLayoutGuide)
+
+        view.addSubview(receiptView)
+
+        view.addSubview(payButton)
+        view.addSubview(balanceLabel)
+
+        profileDetailsTopLayoutGuide.height(10, relation: .equalOrGreater)
+        profileDetailsTopLayoutGuide.top(to: layoutGuide())
+        profileDetailsTopLayoutGuide.left(to: view)
+        profileDetailsTopLayoutGuide.right(to: view)
+
+        profileDetailsStackView.topToBottom(of: profileDetailsTopLayoutGuide)
+        profileDetailsStackView.left(to: view)
+        profileDetailsStackView.right(to: view)
 
         profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
+        profileDetailsTopLayoutGuide.bottomToTop(of: profileDetailsStackView)
+        
         avatarImageView.height(.defaultAvatarHeight)
         avatarImageView.width(.defaultAvatarHeight)
-        profileDetailsStackView.addSpacing(margin, after: avatarImageView)
+        profileDetailsStackView.addSpacing(.defaultMargin, after: avatarImageView)
 
         profileDetailsStackView.addWithDefaultConstraints(view: recipientLabel)
         profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
 
-        // Receipt Stack View
-        let receiptStackView = UIStackView()
-        receiptStackView.addBackground(with: Theme.viewBackgroundColor)
-        receiptStackView.axis = .vertical
-        receiptStackView.alignment = .center
+        profileDetailsBottomLayoutGuide.height(to: profileDetailsTopLayoutGuide)
+        profileDetailsBottomLayoutGuide.topToBottom(of: profileDetailsStackView)
+        profileDetailsBottomLayoutGuide.left(to: view)
+        profileDetailsBottomLayoutGuide.right(to: view)
 
-        confirmPaymentStackView.addWithCenterConstraint(view: receiptStackView)
-//        receiptStackView.addWithDefaultConstraints(view: fetchingNetworkFeesLabel)
-        receiptStackView.addWithDefaultConstraints(view: receiptView)
+        receiptView.topToBottom(of: profileDetailsBottomLayoutGuide)
+        receiptView.left(to: view)
+        receiptView.right(to: view)
+        receiptView.bottomToTop(of: payButton)
 
-        confirmPaymentStackView.addWithDefaultConstraints(view: payButton, margin: margin)
-        confirmPaymentStackView.addWithCenterConstraint(view: balanceLabel)
+        payButton.bottomToTop(of: balanceLabel, offset: -CGFloat.largeInterItemSpacing)
+        payButton.left(to: view, offset: CGFloat.defaultMargin)
+        payButton.right(to: view, offset: -CGFloat.defaultMargin)
 
+        balanceLabel.bottom(to: layoutGuide(), offset: -CGFloat.largeInterItemSpacing)
+        balanceLabel.left(to: view, offset: CGFloat.defaultMargin)
+        balanceLabel.right(to: view, offset: -CGFloat.defaultMargin)
     }
 
     @objc func didTapPayButton() {
