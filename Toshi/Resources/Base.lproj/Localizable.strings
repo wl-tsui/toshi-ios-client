@@ -325,5 +325,6 @@
 "confirmation_total" = "Total";
 "confirmation_pay" = "Pay";
 "confirmation_fetching_estimated_network_fees" = "Fetching est. network fees...";
+"confirmation_fetching_balance" = "Fetching balance...";
 "confirmation_your_balance" = "Your balance: %@";
 "confirmation_insufficient_balance" = "Insufficient balance: %@";

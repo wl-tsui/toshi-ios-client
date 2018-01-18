@@ -91,6 +91,8 @@ class PaymentConfirmationViewController: UIViewController {
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
+        view.text = Localized("confirmation_fetching_balance")
+
         return view
     }()
 
