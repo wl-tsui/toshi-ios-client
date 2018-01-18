@@ -110,6 +110,7 @@ class PaymentConfirmationViewController: UIViewController {
         addSubviewsAndConstraints()
 
         title = Localized("confirmation_title")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelItemTapped(_:)))
 
         view.backgroundColor = Theme.viewBackgroundColor
 
@@ -182,6 +183,10 @@ class PaymentConfirmationViewController: UIViewController {
         profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
     }
 
+    @objc func cancelItemTapped(_ item: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     @objc func didTapPayButton() {
         paymentManager.sendPayment() { [weak self] error in
             guard let weakSelf = self else { return }

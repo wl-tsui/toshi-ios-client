@@ -64,7 +64,12 @@ class PaymentRouter {
         let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address)
         paymentConfirmationController.delegate = self
 
-        presentViewControllerOnNavigator(paymentConfirmationController)
+//        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
+//            paymentNavigationController.present(paymentConfirmationController, animated: true)
+//        } else {
+            let navigationController = PaymentNavigationController(rootViewController: paymentConfirmationController)
+            Navigator.presentModally(navigationController)
+//        }
     }
 
     private func presentViewControllerOnNavigator(_ controller: UIViewController) {
