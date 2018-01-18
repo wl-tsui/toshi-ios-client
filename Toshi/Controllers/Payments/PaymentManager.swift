@@ -23,7 +23,7 @@ class PaymentManager {
        self.paymentAddress = address
     }
 
-    func transactionSkeleton(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
+    func fetchPaymentInfo(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
         EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
             guard error == nil else {
                 // Handle error

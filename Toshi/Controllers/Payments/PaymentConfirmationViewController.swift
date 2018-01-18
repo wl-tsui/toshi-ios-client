@@ -118,7 +118,7 @@ class PaymentConfirmationViewController: UIViewController {
 
         payButton.showSpinner()
 
-        paymentManager.transactionSkeleton { [weak self] paymentInfo in
+        paymentManager.fetchPaymentInfo { [weak self] paymentInfo in
             DispatchQueue.main.async {
                 self?.payButton.hideSpinner()
                 self?.receiptView.setPaymentInfo(paymentInfo)
