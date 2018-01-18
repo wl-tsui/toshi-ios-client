@@ -116,13 +116,13 @@ class PaymentConfirmationViewController: UIViewController {
 
         view.backgroundColor = Theme.viewBackgroundColor
 
-        paymentManager.transactionSkeleton { [weak self] fiatString, estimatedFeesString, totalString, ethereumAmount in
+        paymentManager.transactionSkeleton { [weak self] fiatString, estimatedFeesString, totalFiatString, totalEthereumString in
             DispatchQueue.main.async {
 
                 self?.receiptView.setFiatValue(fiatString)
                 self?.receiptView.setEstimatedFeesValue(estimatedFeesString)
-                self?.receiptView.setTotalValue(totalString)
-                self?.receiptView.setEthereumAmountValue(ethereumAmount)
+                self?.receiptView.setTotalValue(totalFiatString)
+                self?.receiptView.setEthereumAmountValue(totalEthereumString)
 
                 self?.receiptView.alpha = 1
 

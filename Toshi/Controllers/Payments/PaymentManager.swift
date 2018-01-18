@@ -21,7 +21,7 @@ class PaymentManager {
        self.paymentAddress = address
     }
 
-    func transactionSkeleton(completion: @escaping ((_ fiatString: String, _ estimatedFeesString: String, _ totalString: String, _ ethereumAmount: String) -> Void)) {
+    func transactionSkeleton(completion: @escaping ((_ fiatString: String, _ estimatedFeesString: String, _ totalFiatString: String, _ totalEthereumString: String) -> Void)) {
         EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
             guard error == nil else {
                 // Handle error
@@ -44,10 +44,10 @@ class PaymentManager {
                 let estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: exchangeRate)
 
                 let totalWei = weakSelf.value.adding(decimalNumberFee)
-                let totalString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
-                let ethereumAmountString = EthereumConverter.ethereumValueString(forWei: totalWei)
+                let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
+                let totalEthereumString = EthereumConverter.ethereumValueString(forWei: totalWei)
 
-                completion(fiatString, estimatedFeesString, totalString, ethereumAmountString)
+                completion(fiatString, estimatedFeesString, totalFiatString, totalEthereumString)
             } else {
                 //WARNING: should deal with error
             }
