@@ -17,7 +17,7 @@ import UIKit
 import SweetUIKit
 import CoreImage
 
-class QRCodeController: UIViewController {
+class QRCodeController: DisappearingNavBarViewController {
 
     static let addUsernameBasePath = "https://app.toshi.org/add/"
     static let addUserPath = "/add/"
@@ -51,17 +51,36 @@ class QRCodeController: UIViewController {
         
         view.backgroundColor = Theme.lightGrayBackgroundColor
         
-        let contentView = UIView()
-        view.addSubview(contentView)
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(true)
+    }
+
+
+    /// The view to use as the trigger to show or hide the background.
+    override var backgroundTriggerView: UIView {
+        return subtitleLabel
+    }
+
+    override var titleTriggerView: UIView {
+        return qrCodeImageView
+    }
+
+    override func addScrollableContent(to contentView: UIView) {
+        
         contentView.edges(to: view)
         contentView.width(to: view)
         contentView.height(to: layoutGuide(), relation: .equalOrGreater)
-        
+
+        let spacer = addTopSpacer(to: contentView)
+
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(qrCodeImageView)
 
-        subtitleLabel.top(to: contentView, offset: 13)
+        subtitleLabel.top(to: spacer)
         subtitleLabel.left(to: view, offset: 20)
         subtitleLabel.right(to: view, offset: -20)
 
@@ -77,7 +96,7 @@ class QRCodeController: UIViewController {
         qrCodeImageView.height(300)
         qrCodeImageView.width(300)
         qrCodeImageView.centerX(to: contentView)
-        
+
         let qrCodeBottomLayoutGuide = UILayoutGuide()
         contentView.addLayoutGuide(qrCodeBottomLayoutGuide)
 
@@ -86,12 +105,6 @@ class QRCodeController: UIViewController {
         qrCodeBottomLayoutGuide.right(to: contentView)
         qrCodeBottomLayoutGuide.bottom(to: contentView)
         qrCodeBottomLayoutGuide.height(to: qrCodeTopLayoutGuide)
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        preferLargeTitleIfPossible(true)
     }
 }
 
