@@ -100,10 +100,11 @@ extension PaymentRouter: PaymentAddressControllerDelegate {
 
 extension PaymentRouter: PaymentConfirmationViewControllerDelegate {
     func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController) {
-        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
-            paymentNavigationController.dismiss(animated: true) {
-                self.delegate?.paymentRouterDidSucceedPayment(paymentRouter: self)
-            }
-        }
+        Navigator.rootViewController?.dismiss(animated: true)
+        self.delegate?.paymentRouterDidSucceedPayment(paymentRouter: self)
+    }
+
+    func paymentConfirmationViewControllerDidCancel(on controller: PaymentConfirmationViewController) {
+        Navigator.rootViewController?.dismiss(animated: true)
     }
 }

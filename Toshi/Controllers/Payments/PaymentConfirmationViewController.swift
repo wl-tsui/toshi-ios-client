@@ -17,6 +17,7 @@ import Foundation
 
 protocol PaymentConfirmationViewControllerDelegate: class {
     func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController)
+    func paymentConfirmationViewControllerDidCancel(on controller: PaymentConfirmationViewController)
 }
 
 class PaymentConfirmationViewController: UIViewController {
@@ -184,19 +185,21 @@ class PaymentConfirmationViewController: UIViewController {
     }
 
     @objc func cancelItemTapped(_ item: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        delegate?.paymentConfirmationViewControllerDidCancel(on: self)
     }
-    
+
     @objc func didTapPayButton() {
         paymentManager.sendPayment() { [weak self] error in
             guard let weakSelf = self else { return }
 
-            guard error == nil else {
-                // handle error
-                return
-            }
+            DispatchQueue.main.async {
+//            guard error == nil else {
+//                // handle error
+//                return
+//            }
 
-            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf)
+                weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf)
+            }
         }
     }
 }
