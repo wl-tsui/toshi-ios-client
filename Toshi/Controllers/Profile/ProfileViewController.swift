@@ -642,10 +642,6 @@ class ProfileViewController: DisappearingBackgroundNavBarViewController {
 
     // MARK: - Background Nav Bar Delegate Overrides
 
-    override func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
-        self.navigationController?.popViewController(animated: true)
-    }
-
     override func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
         guard shouldShowMoreButton else {
             assertionFailure("Probably shouldn't be able to tap a button that shouldn't be showing")

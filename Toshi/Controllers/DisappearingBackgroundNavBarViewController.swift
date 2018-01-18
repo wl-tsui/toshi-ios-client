@@ -17,13 +17,23 @@ import TinyConstraints
 import SweetUIKit
 import UIKit
 
-class DisappearingBackgroundNavBarViewController: UIViewController, DisappearingBackgroundNavBarDelegate {
+/// A base view controller which has a scroll view and a navigation bar whose contents disappear
+/// when the bar is scrolled. Handles setup of the scroll view and disappearing navigation bar.
+///
+/// Subclasses are required to override:
+/// - backgroundTriggerView
+/// - titleTriggerView
+/// - addScrollableContent(to:)
+///
+/// Note that all conformances are on the main class since methods in extensions cannot be overridden.
+class DisappearingBackgroundNavBarViewController: UIViewController, DisappearingBackgroundNavBarDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
     /// If disappearing is enabled at present.
     var disappearingEnabled: Bool {
         return true
     }
 
+    /// The current height of the disappearing nav bar.
     var navBarHeight: CGFloat = DisappearingBackgroundNavBar.defaultHeight
 
     /// The height of the top spacer which can be scrolled under the nav bar. Defaults to the nav bar height.
@@ -41,10 +51,18 @@ class DisappearingBackgroundNavBarViewController: UIViewController, Disappearing
         fatalError("Must be overridden by subclass")
     }
 
+    /// True if the left button of the nav bar should be set up as a back button, false if not.
+    var leftAsBackButton: Bool {
+        return true
+    }
+
     /// The nav bar to adjust
     lazy var navBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: self)
-        navBar.setupLeftAsBackButton()
+
+        if leftAsBackButton {
+            navBar.setupLeftAsBackButton()
+        }
 
         return navBar
     }()
@@ -71,7 +89,8 @@ class DisappearingBackgroundNavBarViewController: UIViewController, Disappearing
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        // Even though the nav bar is hidden, keep the pop gesture recognizer working
+
+        // Keep the pop gesture recognizer working
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 
@@ -117,6 +136,31 @@ class DisappearingBackgroundNavBarViewController: UIViewController, Disappearing
         addScrollableContent(to: contentView)
     }
 
+    /// Called when scrollable content should be programmatically added to the given container view.
+    /// The size of the views added to the container will determine the scrollable area of the scroll view.
+    ///
+    /// - Parameter contentView: The content view to add scrollable content to.
+    func addScrollableContent(to contentView: UIView) {
+        fatalError("Subclasses must override and not call super")
+    }
+
+    /// Adds and returns a spacer view to the top of the scroll view's content view the same height as the nav bar (so content can scroll under it)
+    ///
+    /// - Parameter contentView: The content view to add the spacer to
+    /// - Returns: The spacer view so other views can be constrained to it.
+    func addTopSpacer(to contentView: UIView) -> UIView {
+        let spacer = UIView(withAutoLayout: false)
+        spacer.backgroundColor = Theme.viewBackgroundColor
+        contentView.addSubview(spacer)
+        spacer.edgesToSuperview(excluding: .bottom)
+        spacer.height(topSpacerHeight)
+
+        return spacer
+    }
+
+    // MARK: - Nav Bar Updating
+
+    /// Updates the height of the nav bar to account for changes to the Safe Area insets.
     func updateNavBarHeightIfNeeded() {
         guard navBarHeight != navBarTargetHeight else { /* we're good */ return }
 
@@ -131,7 +175,7 @@ class DisappearingBackgroundNavBarViewController: UIViewController, Disappearing
 
     /// Updates the state of the nav bar based on where the target views are in relation to the bottom of the nav bar.
     /// NOTE: This should generally be called from `scrollViewDidScroll`.
-    func updateNavBar() {
+    func updateNavBarAppearance() {
         guard disappearingEnabled else { return }
         guard !scrollView.frame.equalTo(.zero) else { /* View hasn't been set up yet. */ return }
 
@@ -181,55 +225,27 @@ class DisappearingBackgroundNavBarViewController: UIViewController, Disappearing
         }
     }
 
-    /// Adds and returns a spacer view to the top of the scroll view's content view the same height as the nav bar (so content can scroll under it)
-    ///
-    /// - Parameter contentView: The content view to add the spacer to
-    /// - Returns: The spacer view so other views can be constrained to it.
-    func addTopSpacer(to contentView: UIView) -> UIView {
-        let spacer = UIView(withAutoLayout: false)
-        spacer.backgroundColor = Theme.viewBackgroundColor
-        contentView.addSubview(spacer)
-        spacer.edgesToSuperview(excluding: .bottom)
-        spacer.height(topSpacerHeight)
-
-        return spacer
-    }
-
-    /// Called when scrollable content should be programmatically added to the given container view.
-    /// The size of the views added to the container will determine the scrollable area of the scroll view.
-    ///
-    /// - Parameter contentView: The content view to add scrollable content to.
-    func addScrollableContent(to contentView: UIView) {
-        assertionFailure("Subclasses must override and not call super")
-    }
-
     // MARK: - Disappearing Background Nav Bar Delegate
-    //Note: These are in the main class so they can be overridden
 
     func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
         assertionFailure("If you want this to do something, override it in the subclass")
     }
 
     func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
-        assertionFailure("If you want this to do something, override it in the subclass")
+        self.navigationController?.popViewController(animated: true)
     }
-}
 
-// MARK: - Scroll View Delegate
-
-extension DisappearingBackgroundNavBarViewController: UIScrollViewDelegate {
+    // MARK: - Scroll View Delegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateNavBar()
+        updateNavBarAppearance()
     }
-}
 
-// MARK: - Gesture Recognizer Delegate
-
-extension DisappearingBackgroundNavBarViewController: UIGestureRecognizerDelegate {
+    // MARK: - Gesture Recognizer Delegate
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        // This is overridden to allow the pop gesture to be recognized.
+        // Allow the pop gesture to be recognized
+        
         return true
     }
 }

@@ -155,14 +155,4 @@ final class DappViewController: DisappearingBackgroundNavBarViewController {
         navigationController?.pushViewController(sofaWebController, animated: true)
         preferLargeTitleIfPossible(false)
     }
-
-    // MARK: - Nav Bar Delegate Overrides
-
-    override func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
-        navigationController?.popViewController(animated: true)
-    }
-
-    override func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
-        assertionFailure("Nothing should be happening here")
-    }
 }
