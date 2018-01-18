@@ -145,20 +145,13 @@ class PaymentConfirmationViewController: UIViewController {
         profileDetailsTopLayoutGuide.top(to: layoutGuide())
         profileDetailsTopLayoutGuide.left(to: view)
         profileDetailsTopLayoutGuide.right(to: view)
+        profileDetailsTopLayoutGuide.bottomToTop(of: profileDetailsStackView)
 
         profileDetailsStackView.topToBottom(of: profileDetailsTopLayoutGuide)
         profileDetailsStackView.left(to: view)
         profileDetailsStackView.right(to: view)
 
-        profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
-        profileDetailsTopLayoutGuide.bottomToTop(of: profileDetailsStackView)
-        
-        avatarImageView.height(.defaultAvatarHeight)
-        avatarImageView.width(.defaultAvatarHeight)
-        profileDetailsStackView.addSpacing(.defaultMargin, after: avatarImageView)
-
-        profileDetailsStackView.addWithDefaultConstraints(view: recipientLabel)
-        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
+        setupProfileStackViewLayout()
 
         profileDetailsBottomLayoutGuide.height(to: profileDetailsTopLayoutGuide)
         profileDetailsBottomLayoutGuide.topToBottom(of: profileDetailsStackView)
@@ -166,17 +159,27 @@ class PaymentConfirmationViewController: UIViewController {
         profileDetailsBottomLayoutGuide.right(to: view)
 
         receiptView.topToBottom(of: profileDetailsBottomLayoutGuide)
-        receiptView.left(to: view)
-        receiptView.right(to: view)
-        receiptView.bottomToTop(of: payButton)
+        receiptView.left(to: view, offset: CGFloat.defaultMargin)
+        receiptView.right(to: view, offset: -CGFloat.defaultMargin)
+        receiptView.bottomToTop(of: payButton, offset: -CGFloat.largeInterItemSpacing)
 
-        payButton.bottomToTop(of: balanceLabel, offset: -CGFloat.largeInterItemSpacing)
         payButton.left(to: view, offset: CGFloat.defaultMargin)
         payButton.right(to: view, offset: -CGFloat.defaultMargin)
+        payButton.bottomToTop(of: balanceLabel, offset: -CGFloat.largeInterItemSpacing)
 
         balanceLabel.bottom(to: layoutGuide(), offset: -CGFloat.largeInterItemSpacing)
         balanceLabel.left(to: view, offset: CGFloat.defaultMargin)
         balanceLabel.right(to: view, offset: -CGFloat.defaultMargin)
+    }
+
+    private func setupProfileStackViewLayout() {
+        profileDetailsStackView.addWithCenterConstraint(view: avatarImageView)
+        avatarImageView.height(.defaultAvatarHeight)
+        avatarImageView.width(.defaultAvatarHeight)
+        profileDetailsStackView.addSpacing(.defaultMargin, after: avatarImageView)
+
+        profileDetailsStackView.addWithDefaultConstraints(view: recipientLabel)
+        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
     }
 
     @objc func didTapPayButton() {

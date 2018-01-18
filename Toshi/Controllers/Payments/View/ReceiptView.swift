@@ -54,8 +54,6 @@ class ReceiptView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = .red
-
         let stackView = UIStackView()
         stackView.addBackground(with: Theme.viewBackgroundColor)
         stackView.axis = .vertical
