@@ -116,8 +116,11 @@ class PaymentConfirmationViewController: UIViewController {
 
         view.backgroundColor = Theme.viewBackgroundColor
 
+        payButton.showSpinner()
+
         paymentManager.transactionSkeleton { [weak self] fiatString, estimatedFeesString, totalFiatString, totalEthereumString in
             DispatchQueue.main.async {
+                self?.payButton.hideSpinner()
 
                 self?.receiptView.setFiatValue(fiatString)
                 self?.receiptView.setEstimatedFeesValue(estimatedFeesString)
