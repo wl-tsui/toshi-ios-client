@@ -116,12 +116,6 @@ class PaymentConfirmationViewController: UIViewController {
 
         payButton.showSpinner()
 
-        paymentManager.fetchAndUpdateBalance(cachedCompletion: { [weak self] balanceString in
-            self?.setBalanceString(balanceString)
-        }, fetchedCompletion: { [weak self] balanceString in
-            self?.setBalanceString(balanceString)
-        })
-
         paymentManager.transactionSkeleton { [weak self] paymentInfo in
             DispatchQueue.main.async {
                 self?.payButton.hideSpinner()
@@ -132,7 +126,7 @@ class PaymentConfirmationViewController: UIViewController {
                     self?.fetchingNetworkFeesLabel.alpha = 0
                 }
 
-                self?.setSufficientBalance(paymentInfo.sufficientBalance)
+                self?.setBalance(paymentInfo.balanceString, isSufficient: paymentInfo.sufficientBalance)
             }
         }
     }
@@ -146,12 +140,14 @@ class PaymentConfirmationViewController: UIViewController {
         return profileDetailsStackView
     }()
 
-    private func setSufficientBalance(_ sufficientBalance: Bool) {
-
-    }
-
-    private func setBalanceString(_ balanceString: String) {
-        balanceLabel.text = String(format: Localized("confirmation_your_balance"), balanceString)
+    private func setBalance(_ balanceString: String, isSufficient: Bool) {
+        if isSufficient {
+            balanceLabel.textColor = Theme.lightGreyTextColor
+            balanceLabel.text = String(format: Localized("confirmation_your_balance"), balanceString)
+        } else {
+            balanceLabel.textColor = Theme.errorColor
+            balanceLabel.text = String(format: Localized("confirmation_insufficient_balance"), balanceString)
+        }
     }
 
     private func addSubviewsAndConstraints() {

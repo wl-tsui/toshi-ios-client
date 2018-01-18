@@ -65,4 +65,12 @@ extension NSDecimalNumber {
 
         self.init(string: decimal)
     }
+
+    //WARNING: this method needs muchos testing!
+    func isGreaterOrEqualThen(value: NSDecimalNumber) -> Bool {
+        let result = compare(value)
+
+        return (result == .orderedAscending) ? false : true
+    }
 }
+

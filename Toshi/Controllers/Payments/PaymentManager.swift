@@ -1,12 +1,11 @@
 import Foundation
 import UIKit
 
-typealias PaymentInfo = (fiatString: String, estimatedFeesString: String, totalFiatString: String, totalEthereumString: String, sufficientBalance: Bool)
+typealias PaymentInfo = (fiatString: String, estimatedFeesString: String, totalFiatString: String, totalEthereumString: String, balanceString: String, sufficientBalance: Bool)
 
 class PaymentManager {
 
     var transaction: String?
-
 
     let value: NSDecimalNumber
     let paymentAddress: String
@@ -19,25 +18,9 @@ class PaymentManager {
         ]
     }()
 
-    private var balance: NSDecimalNumber = 0
-
     init(withValue value: NSDecimalNumber, andPaymentAddress address: String) {
        self.value = value
        self.paymentAddress = address
-    }
-
-    func fetchAndUpdateBalance(cachedCompletion: @escaping ((_ balanceString: String) -> Void), fetchedCompletion: @escaping ((_ balanceString: String) -> Void)) {
-        EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { cachedBalance, _ in
-            self.balance = cachedBalance
-            let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: cachedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
-            cachedCompletion(balanceString)
-        }, fetchedBalanceCompletion: { fetchedBalance, error in
-            //WARNING: What to do when we have an error here?
-
-            self.balance = fetchedBalance
-            let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
-            fetchedCompletion(balanceString)
-        })
     }
 
     func transactionSkeleton(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
@@ -69,21 +52,20 @@ class PaymentManager {
                 let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
                 let totalEthereumString = EthereumConverter.ethereumValueString(forWei: totalWei)
 
-                let sufficientBalance = weakSelf.isBalanceSufficientFor(transactionTotalAmount: totalWei)
+                /// We don't care about the cached balance since we immediately want to know if the current balance is sufficient or not.
+                EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { _, _ in }, fetchedBalanceCompletion: { fetchedBalance, error in
+                    //WARNING: What to do when we have an error here?
 
-                let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesString: estimatedFeesString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, sufficientBalance: sufficientBalance)
-                completion(paymentInfo)
+                    let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
+                    let sufficientBalance = fetchedBalance.isGreaterOrEqualThen(value: totalWei)
+
+                    let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesString: estimatedFeesString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, balanceString: balanceString, sufficientBalance: sufficientBalance)
+                    completion(paymentInfo)
+                })
             } else {
                 //WARNING: should deal with error
             }
         }
-    }
-
-    //WARNING: this method needs muchos testing!
-    private func isBalanceSufficientFor(transactionTotalAmount: NSDecimalNumber) -> Bool {
-        let result = balance.compare(transactionTotalAmount)
-
-        return (result == .orderedAscending) ? false : true
     }
 
     func sendPayment(completion: @escaping ((_ error: ToshiError?) -> Void)) {
