@@ -238,7 +238,6 @@
 		33731683200901BD0055975E /* String+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33731682200901BD0055975E /* String+AdditionsTests.swift */; };
 		33816A6B2003CBF200FE81BD /* MessageParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
-		339B4FCE200E5151008E1A92 /* DisappearingNavBarScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -253,8 +252,9 @@
 		33EED15B1FE92C8B00C51EAC /* TSGroupModel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */; };
 		33EED15C1FE92E2600C51EAC /* TSGroupModel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */; };
 		33EED15D1FE92E2600C51EAC /* TSGroupModel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */; };
-		33F00DA6200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */; };
-		33F00DA7200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */; };
+		33EF275E2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF275D2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift */; };
+		33EF275F2010DA530056699D /* DisappearingBackgroundNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF275D2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift */; };
+		33EF27602010DA540056699D /* DisappearingBackgroundNavBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33EF275D2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift */; };
 		33F1B9A71FCC3E3900D186AB /* TokenUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */; };
 		33F6D22E1FFD18E200AB0DCC /* userAfterImageUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F6D22D1FFD18E100AB0DCC /* userAfterImageUpdate.json */; };
 		33F6D2301FFD1BED00AB0DCC /* userAfterDataUpdate.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F6D22F1FFD1BEC00AB0DCC /* userAfterDataUpdate.json */; };
@@ -1088,13 +1088,13 @@
 		33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageParsingTests.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
-		339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingNavBarScrollable.swift; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
 		33CF513E1FD56E8200293FD1 /* ProfilesAddGroupHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesAddGroupHeader.swift; sourceTree = "<group>"; };
 		33CF51401FD56EA000293FD1 /* ProfilesAddedToGroupHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesAddedToGroupHeader.swift; sourceTree = "<group>"; };
 		33D2ECFB1FFD1F3900AEFC4D /* contact.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = contact.json; sourceTree = "<group>"; };
 		33EED15A1FE92C8B00C51EAC /* TSGroupModel+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TSGroupModel+Additions.swift"; sourceTree = "<group>"; };
+		33EF275D2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisappearingBackgroundNavBarViewController.swift; sourceTree = "<group>"; };
 		33F1B9A61FCC3E3900D186AB /* TokenUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUserTests.swift; sourceTree = "<group>"; };
 		33F6D22D1FFD18E100AB0DCC /* userAfterImageUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userAfterImageUpdate.json; sourceTree = "<group>"; };
 		33F6D22F1FFD1BEC00AB0DCC /* userAfterDataUpdate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userAfterDataUpdate.json; sourceTree = "<group>"; };
@@ -1879,6 +1879,7 @@
 				9FE18B291E2D1FC700940DC8 /* Settings */,
 				A9ED6CC61E8282B700160637 /* Sign In */,
 				9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */,
+				33EF275D2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2070,7 +2071,6 @@
 			children = (
 				D197BAEA583CAF9862D17B38 /* ActiveNetworkDisplaying.swift */,
 				2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */,
-				339B4FCD200E5151008E1A92 /* DisappearingNavBarScrollable.swift */,
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
@@ -3176,6 +3176,7 @@
 				33CF51331FD181FA00293FD1 /* DLog.swift in Sources */,
 				A9A9F9A51F8B70850010F877 /* ChatFloatingHeaderView.swift in Sources */,
 				2BD0A4E11FDFE5FF00D745BF /* AvatarTitleSubtitleDoubleActionCell.swift in Sources */,
+				33EF27602010DA540056699D /* DisappearingBackgroundNavBarViewController.swift in Sources */,
 				A9E1DCDE1F1E276B001A4ABE /* MessagesPaymentCell.swift in Sources */,
 				9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				2B6C18F61FCD431800DE432B /* GroupViewController.swift in Sources */,
@@ -3197,7 +3198,6 @@
 				149F9A6F1E72E29A00FB74AA /* Yap.swift in Sources */,
 				2BE66A0A1EF908C7007A7130 /* UIScrollView+Keyboard.swift in Sources */,
 				2B695CBA1EF9B9A80025119B /* KeyboardAdjustable.swift in Sources */,
-				33F00DA7200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */,
 				A9A9F9A91F8B70910010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AB1F8B70B90010F877 /* ChatViewController.swift in Sources */,
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
@@ -3433,7 +3433,6 @@
 				A9E1DCDA1F1E1A72001A4ABE /* IconLabelButton.swift in Sources */,
 				9F78D9DC1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
-				339B4FCE200E5151008E1A92 /* DisappearingNavBarScrollable.swift in Sources */,
 				A9CADC1F1F94AF2D0096D017 /* BrowseSearchResultView.swift in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* idAPIClient.swift in Sources */,
 				A91D72A41F877FFA0093420C /* ChatViewController.swift in Sources */,
@@ -3527,6 +3526,7 @@
 				A9E691BF1F7A496800317DB1 /* SignInCell.swift in Sources */,
 				A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */,
 				2BC4084E1EF186000044C242 /* PaymentPresentable.swift in Sources */,
+				33EF275E2010D4690056699D /* DisappearingBackgroundNavBarViewController.swift in Sources */,
 				A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ProfileCell.swift in Sources */,
 				A9202E721ED854010036E9B7 /* ChatInputTextPanel.swift in Sources */,
@@ -3648,6 +3648,7 @@
 				33CF51321FD181FA00293FD1 /* DLog.swift in Sources */,
 				A9603D891F4DABDC00BF57B1 /* UIColor+Additions.swift in Sources */,
 				2BD0A4E01FDFE5FF00D745BF /* AvatarTitleSubtitleDoubleActionCell.swift in Sources */,
+				33EF275F2010DA530056699D /* DisappearingBackgroundNavBarViewController.swift in Sources */,
 				A9603D8C1F4DABDC00BF57B1 /* BackgroundNotificationHandler.swift in Sources */,
 				A9603D8F1F4DABDC00BF57B1 /* MessagesBasicCell.swift in Sources */,
 				2B6C18F51FCD431800DE432B /* GroupViewController.swift in Sources */,
@@ -3669,7 +3670,6 @@
 				A9603DB01F4DABDC00BF57B1 /* KeyboardAdjustable.swift in Sources */,
 				A9A9F9A81F8B70900010F877 /* ChatViewModel.swift in Sources */,
 				A9A9F9AA1F8B70B80010F877 /* ChatViewController.swift in Sources */,
-				33F00DA6200F80F600F54A24 /* DisappearingNavBarScrollable.swift in Sources */,
 				A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */,
 				A9603DB71F4DABDC00BF57B1 /* BalanceController.swift in Sources */,
 				A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */,

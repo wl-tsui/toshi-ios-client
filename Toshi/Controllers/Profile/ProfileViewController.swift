@@ -18,7 +18,7 @@ import SweetUIKit
 import CoreImage
 import TinyConstraints
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: DisappearingBackgroundNavBarViewController {
     
     var profile: TokenUser {
         didSet {
@@ -62,17 +62,6 @@ class ProfileViewController: UIViewController {
     }
     
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
-
-    lazy var navBarHeight: CGFloat = DisappearingBackgroundNavBar.defaultHeight
-
-    lazy var navBar: DisappearingBackgroundNavBar = {
-        let navBar = DisappearingBackgroundNavBar(delegate: self)
-        navBar.setupLeftAsBackButton()
-        
-        return navBar
-    }()
-    
-    lazy var scrollView = UIScrollView()
     
     private lazy var avatarImageView = AvatarImageView()
     
@@ -177,7 +166,29 @@ class ProfileViewController: UIViewController {
         
         return view
     }()
-    
+
+    // MARK: Superclass property overrides
+
+    override var backgroundTriggerView: UIView {
+        return avatarImageView
+    }
+
+    override var titleTriggerView: UIView {
+        return nameLabel
+    }
+
+    override var disappearingEnabled: Bool {
+        return !isProfileEditable
+    }
+
+    override var topSpacerHeight: CGFloat {
+        if isProfileEditable {
+            return navBarHeight + .giantInterItemSpacing
+        } else {
+            return navBarHeight
+        }
+    }
+
     // MARK: - Initialization
 
     init(profile: TokenUser, readOnlyMode: Bool = true) {
@@ -200,8 +211,6 @@ class ProfileViewController: UIViewController {
         
         view.backgroundColor = Theme.viewBackgroundColor
 
-        setupNavBarAndScrollingContent()
-        
         if shouldShowMoreButton {
             navBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized("accessibility_more"))
         }
@@ -216,26 +225,19 @@ class ProfileViewController: UIViewController {
         updateReputation()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-
-    @available(iOS 11.0, *)
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-
-        updateNavBarHeightIfNeeded()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-        
-        super.viewWillDisappear(animated)
-    }
-    
     // MARK: - View Setup
+
+    override func addScrollableContent(to contentView: UIView) {
+        let topSpacer = addTopSpacer(to: contentView)
+
+        let profileContainer = addProfileDetailsSection(to: contentView, below: topSpacer)
+
+        let titleContainer = addReputationTitle(to: contentView, below: profileContainer)
+
+        let reputationContainer = addReputationSection(to: contentView, below: titleContainer)
+
+        addGrayBackgroundBottom(to: contentView, below: reputationContainer)
+    }
 
     // MARK: Profile
     
@@ -637,6 +639,22 @@ class ProfileViewController: UIViewController {
     private func isCurrentUserFavorite() -> Bool {
         return Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
     }
+
+    // MARK: - Background Nav Bar Delegate Overrides
+
+    override func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
+        self.navigationController?.popViewController(animated: true)
+    }
+
+    override func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
+        guard shouldShowMoreButton else {
+            assertionFailure("Probably shouldn't be able to tap a button that shouldn't be showing")
+
+            return
+        }
+
+        didSelectMoreButton()
+    }
 }
 
 // MARK: - Activity Indicating
@@ -740,70 +758,5 @@ extension ProfileViewController: PaymentControllerDelegate {
                 })
             }
         }
-    }
-}
-
-// MARK: - Disappearing Nav Bar Scrollable
-
-extension ProfileViewController: DisappearingNavBarScrollable {
-    
-    var backgroundTriggerView: UIView {
-        return avatarImageView
-    }
-
-    var titleTriggerView: UIView {
-        return nameLabel
-    }
-    
-    func addScrollableContent(to contentView: UIView) {
-        let topSpacer = addTopSpacer(to: contentView)
-
-        let profileContainer = addProfileDetailsSection(to: contentView, below: topSpacer)
-
-        let titleContainer = addReputationTitle(to: contentView, below: profileContainer)
-
-        let reputationContainer = addReputationSection(to: contentView, below: titleContainer)
-
-        addGrayBackgroundBottom(to: contentView, below: reputationContainer)
-    }
-    
-    var disappearingEnabled: Bool {
-        return !isProfileEditable
-    }
-    
-    var topSpacerHeight: CGFloat {
-        if isProfileEditable {
-            return navBarHeight + .giantInterItemSpacing
-        } else {
-            return navBarHeight
-        }
-    }
-}
-
-// MARK: - Scroll View Delegate
-
-extension ProfileViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateNavBar()
-    }
-}
-
-// MARK: - Disappearing Background Nav Bar Delegate
-
-extension ProfileViewController: DisappearingBackgroundNavBarDelegate {
-    
-    func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
-        guard shouldShowMoreButton else {
-            assertionFailure("Probably shouldn't be able to tap a button that shouldn't be showing")
-            
-            return
-        }
-        
-        didSelectMoreButton()
     }
 }

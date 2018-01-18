@@ -17,7 +17,7 @@ import SweetUIKit
 import UIKit
 import TinyConstraints
 
-final class DappViewController: UIViewController {
+final class DappViewController: DisappearingBackgroundNavBarViewController {
     
     private let dapp: Dapp
     
@@ -56,18 +56,15 @@ final class DappViewController: UIViewController {
         return button
     }()
     
-    // MARK: Non-computed properties for DisappearingNavBarScrollable
+    // MARK: Overridden Superclass Properties
 
-    lazy var navBarHeight: CGFloat = DisappearingBackgroundNavBar.defaultHeight
+    override var backgroundTriggerView: UIView {
+        return avatarImageView
+    }
 
-    lazy var navBar: DisappearingBackgroundNavBar = {
-        let navBar = DisappearingBackgroundNavBar(delegate: self)
-        navBar.setupLeftAsBackButton()
-        
-        return navBar
-    }()
-    
-    lazy var scrollView = UIScrollView()
+    override var titleTriggerView: UIView {
+        return titleLabel
+    }
     
     // MARK: - Initialization
     
@@ -86,28 +83,15 @@ final class DappViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavBarAndScrollingContent()
         configure(for: dapp)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-
-    @available(iOS 11.0, *)
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-
-        updateNavBarHeightIfNeeded()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-        super.viewWillDisappear(animated)
-    }
-    
     // MARK: - View setup
+
+    override func addScrollableContent(to contentView: UIView) {
+        let spacer = addTopSpacer(to: contentView)
+        setupPrimaryStackView(in: contentView, below: spacer)
+    }
     
     private func setupPrimaryStackView(in containerView: UIView, below viewToPinToBottomOf: UIView) {
         let stackView = UIStackView()
@@ -171,38 +155,14 @@ final class DappViewController: UIViewController {
         navigationController?.pushViewController(sofaWebController, animated: true)
         preferLargeTitleIfPossible(false)
     }
-}
 
-extension DappViewController: DisappearingNavBarScrollable {
-    
-    var backgroundTriggerView: UIView {
-        return avatarImageView
-    }
+    // MARK: - Nav Bar Delegate Overrides
 
-    var titleTriggerView: UIView {
-        return titleLabel
-    }
-    
-    func addScrollableContent(to contentView: UIView) {
-        let spacer = addTopSpacer(to: contentView)
-        setupPrimaryStackView(in: contentView, below: spacer)
-    }
-}
-
-extension DappViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateNavBar()
-    }
-}
-
-extension DappViewController: DisappearingBackgroundNavBarDelegate {
-    
-    func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
+    override func didTapLeftButton(in navBar: DisappearingBackgroundNavBar) {
         navigationController?.popViewController(animated: true)
     }
-    
-    func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
+
+    override func didTapRightButton(in navBar: DisappearingBackgroundNavBar) {
         assertionFailure("Nothing should be happening here")
     }
 }
