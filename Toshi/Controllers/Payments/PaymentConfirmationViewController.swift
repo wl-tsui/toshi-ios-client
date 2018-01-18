@@ -91,8 +91,6 @@ class PaymentConfirmationViewController: UIViewController {
         view.textAlignment = .center
         view.adjustsFontForContentSizeCategory = true
 
-        view.text = Localized("confirmation_your_balance")
-
         return view
     }()
 
@@ -117,6 +115,12 @@ class PaymentConfirmationViewController: UIViewController {
         view.backgroundColor = Theme.viewBackgroundColor
 
         payButton.showSpinner()
+
+        paymentManager.fetchAndUpdateBalance(cachedCompletion: { [weak self] balanceString in
+            self?.setBalanceString(balanceString)
+        }, fetchedCompletion: { [weak self] balanceString in
+            self?.setBalanceString(balanceString)
+        })
 
         paymentManager.transactionSkeleton { [weak self] fiatString, estimatedFeesString, totalFiatString, totalEthereumString in
             DispatchQueue.main.async {
@@ -143,7 +147,11 @@ class PaymentConfirmationViewController: UIViewController {
         profileDetailsStackView.alignment = .center
 
         return profileDetailsStackView
-    }()    
+    }()
+
+    private func setBalanceString(_ balanceString: String) {
+        balanceLabel.text = String(format: Localized("confirmation_your_balance"), balanceString)
+    }
 
     private func addSubviewsAndConstraints() {
 

@@ -21,6 +21,18 @@ class PaymentManager {
        self.paymentAddress = address
     }
 
+    func fetchAndUpdateBalance(cachedCompletion: @escaping ((_ balanceString: String) -> Void), fetchedCompletion: @escaping ((_ balanceString: String) -> Void)) {
+        EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { cachedBalance, _ in
+            let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: cachedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
+            cachedCompletion(balanceString)
+        }, fetchedBalanceCompletion: { fetchedBalance, error in
+            //WARNING: What to do when we have an error here?
+
+            let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
+            fetchedCompletion(balanceString)
+        })
+    }
+
     func transactionSkeleton(completion: @escaping ((_ fiatString: String, _ estimatedFeesString: String, _ totalFiatString: String, _ totalEthereumString: String) -> Void)) {
         EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
             guard error == nil else {
