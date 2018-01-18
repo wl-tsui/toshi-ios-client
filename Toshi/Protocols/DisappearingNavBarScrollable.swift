@@ -30,8 +30,8 @@ protocol DisappearingNavBarScrollable: class {
     /// The parent view of both the nav bar and the scroll view
     var navAndScrollParent: UIView { get }
     
-    /// The height of the navigation bar. Defaults to the class's default height.
-    var navBarHeight: CGFloat { get }
+    /// The height of the navigation bar. Should default to the class's default height.
+    var navBarHeight: CGFloat { get set }
     
     /// The height of the top spacer which can be scrolled under the nav bar. Defaults to the nav bar height.
     var topSpacerHeight: CGFloat { get }
@@ -42,8 +42,12 @@ protocol DisappearingNavBarScrollable: class {
     /// The view to use as the trigger to show or hide the background.
     var backgroundTriggerView: UIView { get }
 
-    // The view to use as the trigger to show or hide the title.
+    /// The view to use as the trigger to show or hide the title.
     var titleTriggerView: UIView { get }
+
+    /// Updates the nav bar height if needed. Basically facilitates support for iPhone X.
+    /// Should generally be called from `viewSafeAreaInsetsDidChange()`
+    func updateNavBarHeightIfNeeded()
 
     /// Called when scrollable content should be programmatically added to the given container view.
     /// The size of the views added to the container will determine the scrollable area of the scroll view.
@@ -56,10 +60,6 @@ protocol DisappearingNavBarScrollable: class {
 
 extension DisappearingNavBarScrollable {
     
-    var navBarHeight: CGFloat {
-        return DisappearingBackgroundNavBar.defaultHeight
-    }
-    
     var topSpacerHeight: CGFloat {
         return navBarHeight
     }
@@ -67,24 +67,35 @@ extension DisappearingNavBarScrollable {
     var disappearingEnabled: Bool {
         return true
     }
+
+    private var navBarTargetHeight: CGFloat {
+        if #available(iOS 11, *) {
+            return navAndScrollParent.safeAreaInsets.top + DisappearingBackgroundNavBar.defaultHeight
+        } else {
+            return DisappearingBackgroundNavBar.defaultHeight
+        }
+    }
     
     /// Sets up the navigation bar and all scrolling content.
+    /// NOTE: Should be set up before any other views are added to the Nav + Scroll parent or there's some weirdness with the scroll view offset.
     ///
-    /// - Parameter scrollViewDelegate: The scroll view delegate to set on the scroll view.
+    /// - Parameters:
+    ///   - scrollViewDelegate: The scroll view delegate to set on the scroll view.
     func setupNavBarAndScrollingContent(withScrollViewDelegate scrollViewDelegate: UIScrollViewDelegate) {
         navAndScrollParent.addSubview(scrollView)
-        
-        scrollView.edgesToSuperview()
+
         scrollView.delegate = scrollViewDelegate
-        
+        scrollView.edgesToSuperview()
+
         navAndScrollParent.addSubview(navBar)
         
         navBar.edgesToSuperview(excluding: .bottom)
-        navBar.height(navBarHeight)
+        updateNavBarHeightIfNeeded()
+        navBar.heightConstraint = navBar.height(navBarHeight)
         
         setupContentView(in: scrollView)
     }
-    
+
     private func setupContentView(in scrollView: UIScrollView) {
         let contentView = UIView(withAutoLayout: false)
         scrollView.addSubview(contentView)
@@ -93,6 +104,18 @@ extension DisappearingNavBarScrollable {
         contentView.width(to: scrollView)
         
         addScrollableContent(to: contentView)
+    }
+
+    func updateNavBarHeightIfNeeded() {
+        guard navBarHeight != navBarTargetHeight else { /* we're good */ return }
+
+        guard
+            let heightConstraint = navBar.heightConstraint,
+            heightConstraint.constant != navBarTargetHeight
+            else { return }
+
+        navBarHeight = navBarTargetHeight
+        heightConstraint.constant = navBarHeight
     }
     
     /// Updates the state of the nav bar based on where the target views are in relation to the bottom of the nav bar.

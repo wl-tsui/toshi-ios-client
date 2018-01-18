@@ -62,7 +62,9 @@ class ProfileViewController: UIViewController {
     }
     
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
-    
+
+    lazy var navBarHeight: CGFloat = DisappearingBackgroundNavBar.defaultHeight
+
     lazy var navBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: self)
         navBar.setupLeftAsBackButton()
@@ -70,16 +72,7 @@ class ProfileViewController: UIViewController {
         return navBar
     }()
     
-    lazy var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.showsVerticalScrollIndicator = true
-        view.delaysContentTouches = false
-        if #available(iOS 11, *) {
-            view.contentInsetAdjustmentBehavior = .never
-        }
-        
-        return view
-    }()
+    lazy var scrollView = UIScrollView()
     
     private lazy var avatarImageView = AvatarImageView()
     
@@ -193,12 +186,6 @@ class ProfileViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        if #available(iOS 11.0, *) {
-            edgesForExtendedLayout = .all
-        } else {
-            edgesForExtendedLayout = .bottom
-        }
-
         title = Localized("profile_title")
     }
 
@@ -211,8 +198,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Theme.lightGrayBackgroundColor
-        setupActivityIndicator()
+        view.backgroundColor = Theme.viewBackgroundColor
 
         setupNavBarAndScrollingContent()
         
@@ -224,6 +210,8 @@ class ProfileViewController: UIViewController {
             navBar.showTitleAndBackground()
         }
 
+        setupActivityIndicator()
+
         configureForCurrentProfile()
         updateReputation()
     }
@@ -234,6 +222,13 @@ class ProfileViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
+    @available(iOS 11.0, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+
+        updateNavBarHeightIfNeeded()
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         
@@ -241,15 +236,7 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - View Setup
-    
-    private func setupContent(in containerView: UIView) {
-        let topSpacer = addTopSpacer(to: containerView)
-        let profileContainer = addProfileDetailsSection(to: containerView, below: topSpacer)
-        
-        addReputationTitle(to: containerView, below: profileContainer)
-        addReputationSection(to: containerView, below: reputationTitle)
-    }
-    
+
     // MARK: Profile
     
     private func addProfileDetailsSection(to container: UIView, below viewToPinToBottomOf: UIView) -> UIView {
@@ -270,7 +257,7 @@ class ProfileViewController: UIViewController {
         avatarImageView.width(.defaultAvatarHeight)
         profileDetailsStackView.addSpacing(margin, after: avatarImageView)
         
-        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel)
+        profileDetailsStackView.addWithDefaultConstraints(view: nameLabel, margin: margin)
         
         if isBotProfile {
             setupRestOfBotProfileSection(in: profileDetailsStackView, after: nameLabel, margin: margin)
@@ -361,15 +348,26 @@ class ProfileViewController: UIViewController {
 
     // MARK: Reputation
     
-    private func addReputationTitle(to container: UIView, below viewToPinToBottomOf: UIView) {
-        container.addSubview(reputationTitle)
-        
+    private func addReputationTitle(to container: UIView, below viewToPinToBottomOf: UIView) -> UIView {
+        let titleContainer = UIView()
+        titleContainer.backgroundColor = Theme.lightGrayBackgroundColor
+
+        container.addSubview(titleContainer)
+        titleContainer.leftToSuperview()
+        titleContainer.rightToSuperview()
+        titleContainer.topToBottom(of: viewToPinToBottomOf)
+
+        titleContainer.addSubview(reputationTitle)
+
         reputationTitle.leftToSuperview(offset: .defaultMargin)
         reputationTitle.rightToSuperview(offset: -.defaultMargin)
-        reputationTitle.topToBottom(of: viewToPinToBottomOf, offset: .giantInterItemSpacing)
+        reputationTitle.topToSuperview(offset: .giantInterItemSpacing)
+        reputationTitle.bottomToSuperview(offset: -belowTableViewStyleLabelSpacing)
+
+        return titleContainer
     }
     
-    private func addReputationSection(to container: UIView, below viewToPinToBottomOf: UIView) {
+    private func addReputationSection(to container: UIView, below viewToPinToBottomOf: UIView) -> UIView {
         let reputationStackView = UIStackView()
         reputationStackView.addBackground(with: Theme.viewBackgroundColor)
         reputationStackView.axis = .vertical
@@ -379,9 +377,8 @@ class ProfileViewController: UIViewController {
         
         reputationStackView.leftToSuperview()
         reputationStackView.rightToSuperview()
-        reputationStackView.topToBottom(of: viewToPinToBottomOf, offset: belowTableViewStyleLabelSpacing)
-        reputationStackView.bottom(to: container, offset: -66) // eyeballed
-        
+        reputationStackView.topToBottom(of: viewToPinToBottomOf)
+
         let topBorder = BorderView()
         reputationStackView.addWithDefaultConstraints(view: topBorder)
         topBorder.addHeightConstraint()
@@ -405,6 +402,8 @@ class ProfileViewController: UIViewController {
         let bottomBorder = BorderView()
         reputationStackView.addWithDefaultConstraints(view: bottomBorder)
         bottomBorder.addHeightConstraint()
+
+        return reputationStackView
     }
     
     private func addReputationView(to stackView: UIStackView) {
@@ -418,7 +417,24 @@ class ProfileViewController: UIViewController {
         stackView.addWithDefaultConstraints(view: container)
         stackView.addSpacing(.defaultMargin, after: container)
     }
-    
+
+    private func addGrayBackgroundBottom(to container: UIView, below viewToPinToBottomOf: UIView) {
+        let backgroundBottom = UIView()
+        backgroundBottom.backgroundColor = Theme.lightGrayBackgroundColor
+
+        container.addSubview(backgroundBottom)
+
+        backgroundBottom.topToBottom(of: viewToPinToBottomOf)
+        backgroundBottom.leftToSuperview()
+        backgroundBottom.rightToSuperview()
+
+        // Prevent the user from discovering the background of the superview is not gray if they scroll beyond
+        // the desired bottom spacing.
+        let backgroundHeight = UIScreen.main.bounds.height
+        backgroundBottom.height(backgroundHeight)
+        backgroundBottom.bottomToSuperview(offset: (backgroundHeight - .largeInterItemSpacing))
+    }
+
     // MARK: - Configuration
     
     private func configureForCurrentProfile() {
@@ -740,7 +756,15 @@ extension ProfileViewController: DisappearingNavBarScrollable {
     }
     
     func addScrollableContent(to contentView: UIView) {
-        setupContent(in: contentView)
+        let topSpacer = addTopSpacer(to: contentView)
+
+        let profileContainer = addProfileDetailsSection(to: contentView, below: topSpacer)
+
+        let titleContainer = addReputationTitle(to: contentView, below: profileContainer)
+
+        let reputationContainer = addReputationSection(to: contentView, below: titleContainer)
+
+        addGrayBackgroundBottom(to: contentView, below: reputationContainer)
     }
     
     var disappearingEnabled: Bool {

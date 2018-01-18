@@ -50,7 +50,9 @@ final class DappViewController: UIViewController {
     }()
     
     // MARK: Non-computed properties for DisappearingNavBarScrollable
-        
+
+    lazy var navBarHeight: CGFloat = DisappearingBackgroundNavBar.defaultHeight
+
     lazy var navBar: DisappearingBackgroundNavBar = {
         let navBar = DisappearingBackgroundNavBar(delegate: self)
         navBar.setupLeftAsBackButton()
@@ -84,6 +86,13 @@ final class DappViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    @available(iOS 11.0, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+
+        updateNavBarHeightIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

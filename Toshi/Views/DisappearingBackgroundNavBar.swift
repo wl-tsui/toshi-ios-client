@@ -30,11 +30,20 @@ final class DisappearingBackgroundNavBar: UIView {
     
     weak var delegate: DisappearingBackgroundNavBarDelegate?
 
-    static let defaultHeight: CGFloat = 64
+    private static let containerHeight: CGFloat = 44
 
-    private let defaultOffset: CGFloat = 10
+    static var defaultHeight: CGFloat {
+        if #available(iOS 11, *) {
+            return DisappearingBackgroundNavBar.containerHeight
+        } else {
+            // Take the status bar into account
+            return DisappearingBackgroundNavBar.containerHeight + 20
+        }
+    }
 
-    var titleCenterYConstraint: NSLayoutConstraint?
+    private var titleCenterYConstraint: NSLayoutConstraint?
+
+    var heightConstraint: NSLayoutConstraint?
     
     private lazy var leftButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
@@ -50,13 +59,6 @@ final class DisappearingBackgroundNavBar: UIView {
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
         
         return button
-    }()
-    
-    private lazy var bottomBorder: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.borderColor
-        
-        return view
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -79,6 +81,8 @@ final class DisappearingBackgroundNavBar: UIView {
         
         return view
     }()
+
+    private lazy var bottomBorder = BorderView()
     
     // MARK: - Initialization
     
@@ -87,10 +91,7 @@ final class DisappearingBackgroundNavBar: UIView {
         self.delegate = delegate
         
         setupBackground()
-        setupLeftButton()
-        setupRightButton()
-        setupTitleLabel(leftButton: leftButton, rightButton: rightButton)
-        setupBottomBorder()
+        setupButtonAndTitleContainer()
     }
     
     private func setupBackground() {
@@ -99,12 +100,25 @@ final class DisappearingBackgroundNavBar: UIView {
         backgroundView.edgesToSuperview()
         backgroundView.alpha = 0
     }
+
+    private func setupButtonAndTitleContainer() {
+        let container = UIView(withAutoLayout: false)
+        container.backgroundColor = .clear
+
+        addSubview(container)
+        container.edgesToSuperview(excluding: .top)
+        container.height(DisappearingBackgroundNavBar.containerHeight)
+
+        setupLeftButton(in: container)
+        setupRightButton(in: container)
+        setupTitleLabel(in: container, leftButton: leftButton, rightButton: rightButton)
+    }
     
-    private func setupLeftButton() {
-        addSubview(leftButton)
+    private func setupLeftButton(in view: UIView) {
+        view.addSubview(leftButton)
         
         leftButton.leftToSuperview(offset: interItemSpacing)
-        leftButton.centerYToSuperview(offset: defaultOffset)
+        leftButton.centerYToSuperview()
         leftButton.setContentHuggingPriority(.required, for: .horizontal)
         leftButton.width(min: .defaultButtonHeight)
         leftButton.height(min: .defaultButtonHeight)
@@ -112,11 +126,11 @@ final class DisappearingBackgroundNavBar: UIView {
         leftButton.isHidden = true
     }
     
-    private func setupRightButton() {
-        addSubview(rightButton)
+    private func setupRightButton(in view: UIView) {
+        view.addSubview(rightButton)
         
         rightButton.rightToSuperview(offset: interItemSpacing)
-        rightButton.centerYToSuperview(offset: defaultOffset)
+        rightButton.centerYToSuperview()
         rightButton.setContentHuggingPriority(.required, for: .horizontal)
         rightButton.width(min: .defaultButtonHeight)
         rightButton.height(min: .defaultButtonHeight)
@@ -124,29 +138,17 @@ final class DisappearingBackgroundNavBar: UIView {
         rightButton.isHidden = true
     }
     
-    private func setupTitleLabel(leftButton: UIButton, rightButton: UIButton) {
-        assert(leftButton.superview != nil)
-        assert(rightButton.superview != nil)
+    private func setupTitleLabel(in view: UIView, leftButton: UIButton, rightButton: UIButton) {
+        view.addSubview(titleLabel)
         
-        addSubview(titleLabel)
-        
-        titleCenterYConstraint = titleLabel.centerYToSuperview(offset: defaultOffset)
+        titleCenterYConstraint = titleLabel.centerYToSuperview()
         titleLabel.leftToRight(of: leftButton, offset: interItemSpacing)
         titleLabel.rightToLeft(of: rightButton, offset: interItemSpacing)
         titleLabel.centerXToSuperview()
 
         titleLabel.alpha = 0
     }
-    
-    private func setupBottomBorder() {
-        addSubview(bottomBorder)
-        
-        bottomBorder.edgesToSuperview(excluding: .top)
-        bottomBorder.height(CGFloat.lineHeight)
-        
-        bottomBorder.alpha = 0
-    }
-    
+
     // MARK: - Button Images
     
     /// Sets up the left button to appear to be a back button.
@@ -230,12 +232,12 @@ final class DisappearingBackgroundNavBar: UIView {
     func setTitleOffsetPercentage(from scrollPastPercentage: CGFloat) {
         guard let constraint = titleCenterYConstraint else { /* not set up yet */ return }
 
-        let navBottom = self.frame.maxY
-        let titleCenterTarget = self.frame.midY + defaultOffset
+        let containerHeight = DisappearingBackgroundNavBar.containerHeight
+        let titleHeight = titleLabel.frame.height
         let minAboveNav: CGFloat = 4 // per Marek
 
-        let minOffset = defaultOffset
-        let maxOffset = (navBottom - minAboveNav) - titleCenterTarget
+        let minOffset: CGFloat = 0
+        let maxOffset = ((containerHeight - titleHeight) / 2) - minAboveNav
         let offsetDelta = maxOffset - minOffset
 
         switch scrollPastPercentage {
