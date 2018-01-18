@@ -47,7 +47,7 @@ final class ThreadCellConfigurator: CellConfigurator {
         if thread.isGroupThread() {
             avatar = (thread as? TSGroupThread)?.groupModel.groupImage ?? UIImage(named: "avatar-placeholder")
             title = thread.name()
-        } else if let recipient = self.recipient(for: thread) {
+        } else if let recipient = ThreadCellConfigurator.recipient(for: thread) {
             avatar = AvatarManager.shared.cachedAvatar(for: recipient.avatarPath) ?? UIImage(named: "avatar-placeholder")
             title = recipient.nameOrDisplayName
         }
@@ -80,12 +80,12 @@ final class ThreadCellConfigurator: CellConfigurator {
         return TableCellData(title: title, subtitle: subtitle, leftImage: avatar, details: details, badgeText: badgeText)
     }()
 
-    private func recipient(for thread: TSThread) -> TokenUser? {
+    static func recipient(for thread: TSThread) -> TokenUser? {
         guard let recipientAddress = thread.contactIdentifier() else { return nil }
 
         var recipient: TokenUser?
 
-        let retrievedData = contactOrNonContactData(for: recipientAddress)
+        let retrievedData = contactData(for: recipientAddress)
 
         if let userData = retrievedData,
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
@@ -99,7 +99,7 @@ final class ThreadCellConfigurator: CellConfigurator {
         return recipient
     }
 
-    private func contactOrNonContactData(for address: String) -> Data? {
-        return (Yap.sharedInstance.retrieveObject(for: address, in: ThreadsDataSource.nonContactsCollectionKey) as? Data) ?? (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.favoritesCollectionKey) as? Data)
+    private static func contactData(for address: String) -> Data? {
+        return (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.storedContactKey) as? Data)
     }
 }

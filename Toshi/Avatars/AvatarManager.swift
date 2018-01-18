@@ -117,20 +117,29 @@ final class AvatarManager: NSObject {
 
     private func downloadAvatar(path: String, completion: ((UIImage?, String?) -> Void)? = nil) {
         DispatchQueue.global().async {
-
+            
             if let cachedAvatar = self.cachedAvatar(for: path) {
-                completion?(cachedAvatar, path)
+                DispatchQueue.main.async {
+                    completion?(cachedAvatar, path)
+                }
+
                 return
             }
 
             guard let url = URL(string: path), let teapot = self.teapot(for: url) else {
-                completion?(nil, path)
+                DispatchQueue.main.async {
+                    completion?(nil, path)
+                }
+                
                 return
             }
 
             teapot.get(url.relativePath) { [weak self] (result: NetworkImageResult) in
                 guard let strongSelf = self else {
-                    completion?(nil, path)
+                    DispatchQueue.main.async {
+                        completion?(nil, path)
+                    }
+
                     return
                 }
 

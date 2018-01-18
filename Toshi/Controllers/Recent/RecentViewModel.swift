@@ -34,6 +34,13 @@ final class RecentViewModel {
         return mappings
     }()
 
+    private(set) lazy var allThreadsMappings: YapDatabaseViewMappings = {
+        let mappings = YapDatabaseViewMappings(groups: [TSInboxGroup], view: TSThreadDatabaseViewExtensionName)
+        mappings.setIsReversed(true, forGroup: TSInboxGroup)
+
+        return mappings
+    }()
+
     private(set) lazy var uiDatabaseConnection: YapDatabaseConnection = {
         let database = TSStorageManager.shared().database()!
         let dbConnection = database.newConnection()
