@@ -86,22 +86,10 @@ class ReceiptView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setFiatValue(_ message: String) {
-        fiatAmountLine.setValue(message)
-    }
-
-    func setEstimatedFeesValue(_ message: String) {
-        estimatedNetworkFeesLine.setValue(message)
-    }
-
-    func setTotalValue(_ message: String) {
-        totalLine.setValue(message)
-    }
-    func setEthereumAmountValue(_ message: String) {
-        ethereumAmountLabel.text = message
-    }
-
     func setPaymentInfo(_ paymentInfo: PaymentInfo) {
-
+        fiatAmountLine.setValue(paymentInfo.fiatString)
+        estimatedNetworkFeesLine.setValue(paymentInfo.estimatedFeesString)
+        totalLine.setValue(paymentInfo.totalFiatString)
+        ethereumAmountLabel.text = paymentInfo.totalEthereumString
     }
 }
