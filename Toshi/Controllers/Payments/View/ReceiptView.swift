@@ -100,4 +100,8 @@ class ReceiptView: UIView {
     func setEthereumAmountValue(_ message: String) {
         ethereumAmountLabel.text = message
     }
+
+    func setPaymentInfo(_ paymentInfo: PaymentInfo) {
+
+    }
 }

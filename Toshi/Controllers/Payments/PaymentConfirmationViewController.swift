@@ -122,20 +122,17 @@ class PaymentConfirmationViewController: UIViewController {
             self?.setBalanceString(balanceString)
         })
 
-        paymentManager.transactionSkeleton { [weak self] fiatString, estimatedFeesString, totalFiatString, totalEthereumString in
+        paymentManager.transactionSkeleton { [weak self] paymentInfo in
             DispatchQueue.main.async {
                 self?.payButton.hideSpinner()
-
-                self?.receiptView.setFiatValue(fiatString)
-                self?.receiptView.setEstimatedFeesValue(estimatedFeesString)
-                self?.receiptView.setTotalValue(totalFiatString)
-                self?.receiptView.setEthereumAmountValue(totalEthereumString)
+                self?.receiptView.setPaymentInfo(paymentInfo)
 
                 self?.receiptView.alpha = 1
-
                 UIView.animate(withDuration: 0.2) {
                     self?.fetchingNetworkFeesLabel.alpha = 0
                 }
+
+                self?.setSufficientBalance(paymentInfo.sufficientBalance)
             }
         }
     }
@@ -148,6 +145,10 @@ class PaymentConfirmationViewController: UIViewController {
 
         return profileDetailsStackView
     }()
+
+    private func setSufficientBalance(_ sufficientBalance: Bool) {
+
+    }
 
     private func setBalanceString(_ balanceString: String) {
         balanceLabel.text = String(format: Localized("confirmation_your_balance"), balanceString)

@@ -1,9 +1,12 @@
 import Foundation
 import UIKit
 
+typealias PaymentInfo = (fiatString: String, estimatedFeesString: String, totalFiatString: String, totalEthereumString: String, sufficientBalance: Bool)
+
 class PaymentManager {
 
     var transaction: String?
+
 
     let value: NSDecimalNumber
     let paymentAddress: String
@@ -16,6 +19,8 @@ class PaymentManager {
         ]
     }()
 
+    private var balance: NSDecimalNumber = 0
+
     init(withValue value: NSDecimalNumber, andPaymentAddress address: String) {
        self.value = value
        self.paymentAddress = address
@@ -23,17 +28,19 @@ class PaymentManager {
 
     func fetchAndUpdateBalance(cachedCompletion: @escaping ((_ balanceString: String) -> Void), fetchedCompletion: @escaping ((_ balanceString: String) -> Void)) {
         EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { cachedBalance, _ in
+            self.balance = cachedBalance
             let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: cachedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
             cachedCompletion(balanceString)
         }, fetchedBalanceCompletion: { fetchedBalance, error in
             //WARNING: What to do when we have an error here?
 
+            self.balance = fetchedBalance
             let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
             fetchedCompletion(balanceString)
         })
     }
 
-    func transactionSkeleton(completion: @escaping ((_ fiatString: String, _ estimatedFeesString: String, _ totalFiatString: String, _ totalEthereumString: String) -> Void)) {
+    func transactionSkeleton(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
         EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
             guard error == nil else {
                 // Handle error
@@ -44,6 +51,7 @@ class PaymentManager {
                 guard let weakSelf = self else { return }
                 weakSelf.transaction = transaction
 
+
                 let gasPriceValue = NSDecimalNumber(hexadecimalString: gasPrice)
                 let gasValue = NSDecimalNumber(hexadecimalString: gas)
 
@@ -52,6 +60,8 @@ class PaymentManager {
 
                 let exchangeRate = ExchangeRateClient.exchangeRate
 
+
+                //WARNING: we need to test these values that the correspond with each other
                 let fiatString = EthereumConverter.fiatValueStringWithCode(forWei: weakSelf.value, exchangeRate: exchangeRate)
                 let estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: exchangeRate)
 
@@ -59,13 +69,22 @@ class PaymentManager {
                 let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
                 let totalEthereumString = EthereumConverter.ethereumValueString(forWei: totalWei)
 
-                completion(fiatString, estimatedFeesString, totalFiatString, totalEthereumString)
+                let sufficientBalance = weakSelf.isBalanceSufficientFor(transactionTotalAmount: totalWei)
+
+                let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesString: estimatedFeesString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, sufficientBalance: sufficientBalance)
+                completion(paymentInfo)
             } else {
                 //WARNING: should deal with error
             }
         }
     }
 
+    //WARNING: this method needs muchos testing!
+    private func isBalanceSufficientFor(transactionTotalAmount: NSDecimalNumber) -> Bool {
+        let result = balance.compare(transactionTotalAmount)
+
+        return (result == .orderedAscending) ? false : true
+    }
 
     func sendPayment(completion: @escaping ((_ error: ToshiError?) -> Void)) {
         guard let transaction = transaction else { return }
