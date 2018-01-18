@@ -21,17 +21,16 @@ class PaymentManager {
        self.paymentAddress = address
     }
 
-    func transactionSkeleton(completion: @escaping ((_ message: String) -> Void)) {
+    func transactionSkeleton(completion: @escaping ((_ fiatString: String, _ estimatedFeesString: String, _ totalString: String, _ ethereumAmount: String) -> Void)) {
         EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
-            var estimatedFeesString = ""
-
             guard error == nil else {
                 // Handle error
                 return
             }
 
             if let gasPrice = skeleton.gasPrice, let gas = skeleton.gas, let transaction = skeleton.transaction {
-                self?.transaction = transaction
+                guard let weakSelf = self else { return }
+                weakSelf.transaction = transaction
 
                 let gasPriceValue = NSDecimalNumber(hexadecimalString: gasPrice)
                 let gasValue = NSDecimalNumber(hexadecimalString: gas)
@@ -39,9 +38,16 @@ class PaymentManager {
                 let fee = gasPriceValue.decimalValue * gasValue.decimalValue
                 let decimalNumberFee = NSDecimalNumber(decimal: fee)
 
-                estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: ExchangeRateClient.exchangeRate)
+                let exchangeRate = ExchangeRateClient.exchangeRate
 
-                completion(estimatedFeesString)
+                let fiatString = EthereumConverter.fiatValueStringWithCode(forWei: weakSelf.value, exchangeRate: exchangeRate)
+                let estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: exchangeRate)
+
+                let totalWei = weakSelf.value.adding(decimalNumberFee)
+                let totalString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
+                let ethereumAmountString = EthereumConverter.ethereumValueString(forWei: totalWei)
+
+                completion(fiatString, estimatedFeesString, totalString, ethereumAmountString)
             } else {
                 //WARNING: should deal with error
             }

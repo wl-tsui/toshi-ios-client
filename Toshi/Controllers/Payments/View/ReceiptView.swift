@@ -17,7 +17,7 @@ import Foundation
 
 class ReceiptView: UIView {
 
-    private lazy var amountLine: ReceiptLineView = {
+    private lazy var fiatAmountLine: ReceiptLineView = {
         let amountLine = ReceiptLineView()
         amountLine.setTitle(Localized("confirmation_amount"))
 
@@ -65,8 +65,8 @@ class ReceiptView: UIView {
         stackView.top(to: self)
         stackView.bottom(to: self)
 
-        stackView.addWithDefaultConstraints(view: amountLine)
-        stackView.addSpacing(.mediumInterItemSpacing, after: amountLine)
+        stackView.addWithDefaultConstraints(view: fiatAmountLine)
+        stackView.addSpacing(.mediumInterItemSpacing, after: fiatAmountLine)
         stackView.addWithDefaultConstraints(view: estimatedNetworkFeesLine)
 
         let separator = UIView()
@@ -77,16 +77,27 @@ class ReceiptView: UIView {
         stackView.addWithDefaultConstraints(view: separator)
         stackView.addSpacing(.largeInterItemSpacing, after: separator)
         stackView.addWithDefaultConstraints(view: totalLine)
+        stackView.addSpacing(7, after: totalLine)
         stackView.addWithDefaultConstraints(view: ethereumAmountLabel)
         stackView.addSpacing(.mediumInterItemSpacing, after: ethereumAmountLabel)
-
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setFiatValue(_ message: String) {
+        fiatAmountLine.setValue(message)
+    }
+
     func setEstimatedFeesValue(_ message: String) {
         estimatedNetworkFeesLine.setValue(message)
+    }
+
+    func setTotalValue(_ message: String) {
+        totalLine.setValue(message)
+    }
+    func setEthereumAmountValue(_ message: String) {
+        ethereumAmountLabel.text = message
     }
 }
