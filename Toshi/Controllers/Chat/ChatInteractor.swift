@@ -590,11 +590,6 @@ final class ChatInteractor: NSObject {
         thread.save()
 
         if let contactIdentifier = thread.contactIdentifier() {
-
-            if Yap.sharedInstance.containsObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey) {
-                Yap.sharedInstance.removeObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey)
-            }
-
             IDAPIClient.shared.updateContact(with: contactIdentifier)
         }
     }
@@ -603,10 +598,6 @@ final class ChatInteractor: NSObject {
         if let groupThread = thread as? TSGroupThread {
             sendLeaveGroupMessage(groupThread, completion: completion)
         } else if let contactIdentifier = thread.contactIdentifier() {
-
-            if Yap.sharedInstance.containsObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey) {
-                Yap.sharedInstance.removeObject(for: contactIdentifier, in: ThreadsDataSource.nonContactsCollectionKey)
-            }
 
             thread.isPendingAccept = false
             thread.save()

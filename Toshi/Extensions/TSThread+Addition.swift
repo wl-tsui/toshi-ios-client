@@ -16,20 +16,6 @@
 import Foundation
 
 extension TSThread {
-    func recipient() -> TokenUser? {
-        guard let recipientAddress = contactIdentifier() else { return nil }
-
-        var recipient: TokenUser?
-
-        if let userData = (Yap.sharedInstance.retrieveObject(for: recipientAddress, in: ThreadsDataSource.nonContactsCollectionKey) as? Data),
-            let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
-            let json = deserialised as? [String: Any] {
-
-            recipient = TokenUser(json: json, shouldSave: false)
-        }
-
-        return recipient
-    }
 
     func avatar() -> UIImage? {
         if isGroupThread() {
@@ -49,19 +35,23 @@ extension TSThread {
             let nonContactsUsersIds = recipientsIdsSet.subtracting(Set(contactsIDs))
 
             IDAPIClient.shared.updateContacts(with: Array(nonContactsUsersIds))
-            
-            TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
-                for recipientId in groupThread.recipientIdentifiers {
-                    
-                    var recipient = SignalRecipient(textSecureIdentifier: recipientId, with: transaction)
-                    
-                    if recipient == nil {
-                        recipient = SignalRecipient(textSecureIdentifier: recipientId, relay: nil)
-                    }
-                    
-                    recipient?.save(with: transaction)
-                }
+
+            for recipientId in groupThread.recipientIdentifiers {
+                TSThread.saveRecipient(with: recipientId)
             }
+        }
+    }
+
+    static func saveRecipient(with identifier: String) {
+        TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
+
+            var recipient = SignalRecipient(textSecureIdentifier: identifier, with: transaction)
+
+            if recipient == nil {
+                recipient = SignalRecipient(textSecureIdentifier: identifier, relay: nil)
+            }
+
+            recipient?.save(with: transaction)
         }
     }
 }
