@@ -102,7 +102,9 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+        if self.presentedViewController == nil {
+            navigationController?.setNavigationBarHidden(false, animated: animated)
+        }
 
         super.viewWillDisappear(animated)
     }
