@@ -47,6 +47,13 @@ class ReceiptLineView: UIView {
         titleLabel.left(to: self)
         titleLabel.top(to: self)
         titleLabel.bottom(to: self)
+
+        amountLabel.leftToRight(of: titleLabel)
+        amountLabel.top(to: self)
+        amountLabel.bottom(to: self)
+        amountLabel.right(to: self)
+
+        amountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -55,5 +62,9 @@ class ReceiptLineView: UIView {
 
     func setTitle(_ title: String) {
         titleLabel.text = title
+    }
+
+    func setValue(_ value: String) {
+        amountLabel.text = value
     }
 }

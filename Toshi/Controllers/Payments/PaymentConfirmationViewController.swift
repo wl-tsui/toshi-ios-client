@@ -55,6 +55,7 @@ class PaymentConfirmationViewController: UIViewController {
 
     private lazy var fetchingNetworkFeesLabel: UILabel = {
         let view = UILabel()
+        view.backgroundColor = Theme.viewBackgroundColor
         view.numberOfLines = 0
         view.font = Theme.preferredRegular()
         view.textColor = Theme.lightGreyTextColor
@@ -69,7 +70,7 @@ class PaymentConfirmationViewController: UIViewController {
     private lazy var receiptView: ReceiptView = {
         let view = ReceiptView()
 
-//        view.isHidden = true
+        view.alpha = 0
 
         return view
     }()
@@ -116,7 +117,15 @@ class PaymentConfirmationViewController: UIViewController {
         view.backgroundColor = Theme.viewBackgroundColor
 
         paymentManager.transactionSkeleton { [weak self] message in
-            self?.payButton.title = message
+            DispatchQueue.main.async {
+
+                self?.receiptView.setEstimatedFeesValue(message)
+                self?.receiptView.alpha = 1
+
+                UIView.animate(withDuration: 0.2) {
+                    self?.fetchingNetworkFeesLabel.alpha = 0
+                }
+            }
         }
     }
 
@@ -139,6 +148,7 @@ class PaymentConfirmationViewController: UIViewController {
         view.addLayoutGuide(profileDetailsBottomLayoutGuide)
 
         view.addSubview(receiptView)
+        view.addSubview(fetchingNetworkFeesLabel)
 
         view.addSubview(payButton)
         view.addSubview(balanceLabel)
@@ -164,6 +174,8 @@ class PaymentConfirmationViewController: UIViewController {
         receiptView.left(to: view, offset: CGFloat.defaultMargin)
         receiptView.right(to: view, offset: -CGFloat.defaultMargin)
         receiptView.bottomToTop(of: payButton, offset: -CGFloat.largeInterItemSpacing)
+
+        fetchingNetworkFeesLabel.edges(to: receiptView)
 
         payButton.left(to: view, offset: CGFloat.defaultMargin)
         payButton.right(to: view, offset: -CGFloat.defaultMargin)
@@ -193,10 +205,10 @@ class PaymentConfirmationViewController: UIViewController {
             guard let weakSelf = self else { return }
 
             DispatchQueue.main.async {
-//            guard error == nil else {
-//                // handle error
-//                return
-//            }
+                guard error == nil else {
+                    // handle error
+                    return
+                }
 
                 weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf)
             }
