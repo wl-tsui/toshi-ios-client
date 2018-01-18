@@ -39,7 +39,7 @@ class PaymentManager {
                 let fee = gasPriceValue.decimalValue * gasValue.decimalValue
                 let decimalNumberFee = NSDecimalNumber(decimal: fee)
 
-                estimatedFeesString = EthereumConverter.estimatedEthereumNetworkFeeString(for: decimalNumberFee, exchangeRate: ExchangeRateClient.exchangeRate)
+                estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: ExchangeRateClient.exchangeRate)
 
                 completion(estimatedFeesString)
             } else {

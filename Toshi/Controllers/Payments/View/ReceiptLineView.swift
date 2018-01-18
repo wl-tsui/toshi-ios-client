@@ -22,7 +22,6 @@ class ReceiptLineView: UIView {
         titleLabel.numberOfLines = 0
         titleLabel.font = Theme.preferredRegular()
         titleLabel.textColor = Theme.lightGreyTextColor
-        titleLabel.textAlignment = .right
         titleLabel.adjustsFontForContentSizeCategory = true
 
         return titleLabel
@@ -34,6 +33,7 @@ class ReceiptLineView: UIView {
         amountLabel.font = Theme.preferredRegular()
         amountLabel.textColor = Theme.darkTextColor
         amountLabel.adjustsFontForContentSizeCategory = true
+        amountLabel.textAlignment = .right
 
         return amountLabel
     }()
