@@ -24,6 +24,7 @@ extension CGFloat {
     }
 
     static let defaultButtonHeight: CGFloat = 44
+    static let defaultBarHeight: CGFloat = 44
     static let defaultMargin: CGFloat = 15
 
     /// NOTE: Implicitly also the default avatar width.

@@ -15,7 +15,7 @@
 
 import Foundation
 
-class ReceiptLineView: UIView {
+class ReceiptLineView: UIStackView {
 
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
@@ -41,22 +41,15 @@ class ReceiptLineView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        addSubview(titleLabel)
-        addSubview(amountLabel)
+        axis = .horizontal
 
-        titleLabel.left(to: self)
-        titleLabel.top(to: self)
-        titleLabel.bottom(to: self)
-
-        amountLabel.leftToRight(of: titleLabel)
-        amountLabel.top(to: self)
-        amountLabel.bottom(to: self)
-        amountLabel.right(to: self)
+        addArrangedSubview(titleLabel)
+        addArrangedSubview(amountLabel)
 
         amountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

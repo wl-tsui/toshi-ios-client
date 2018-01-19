@@ -230,7 +230,6 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
                         success(status)
                     }
                 }
-                
             }
         }
     }
@@ -539,6 +538,37 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
 
             DispatchQueue.main.async {
                 completion(results, resultError)
+            }
+        }
+    }
+
+    func findUserWithPaymentAddress(_ paymentAddress: String, completion: @escaping ((TokenUser?) -> Void)) {
+        guard EthereumAddress.validate(paymentAddress) else {
+            assertionFailure("Bad payment address while trying to search for a user \(paymentAddress).")
+            completion(nil)
+            return
+        }
+
+        self.teapot.get("/v1/search/user?payment_address=\(paymentAddress)") { (result: NetworkResult) in
+
+            var contact: TokenUser?
+
+            switch result {
+            case .success(let json, _):
+                guard let dictionary = json?.dictionary, let jsons = dictionary["results"] as? [[String: Any]], let firstJson = jsons.first else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+
+                contact = TokenUser(json: firstJson)
+            case .failure(_, _, let error):
+                DLog(error.localizedDescription)
+            }
+
+            DispatchQueue.main.async {
+                completion(contact)
             }
         }
     }

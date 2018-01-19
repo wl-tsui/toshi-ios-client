@@ -13,21 +13,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import Foundation
 
 protocol PaymentRouterDelegate: class {
     func paymentRouterDidCancel(paymentRouter: PaymentRouter)
-    func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter)
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?)
+}
+
+extension PaymentRouterDelegate {
+    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {}
 }
 
 class PaymentRouter {
     weak var delegate: PaymentRouterDelegate?
 
+    var userInfo: UserInfo?
+    var dappInfo: DappInfo?
+    private var shouldSendSignedTransaction = true
+
     private var paymentViewModel: PaymentViewModel
 
-    init(withAddress address: String? = nil, andValue value: NSDecimalNumber? = nil) {
-      self.paymentViewModel = PaymentViewModel(recipientAddress: address, value: value)
+    init(withAddress address: String? = nil, andValue value: NSDecimalNumber? = nil, shouldSendSignedTransaction: Bool = true) {
+        self.paymentViewModel = PaymentViewModel(recipientAddress: address, value: value)
+        self.shouldSendSignedTransaction = shouldSendSignedTransaction
     }
 
     // I purposefully created this method so the caller is aware that this object will present a VC
@@ -38,7 +46,7 @@ class PaymentRouter {
             return
         }
 
-        guard let address =  paymentViewModel.recipientAddress else {
+        guard let address = paymentViewModel.recipientAddress else {
             presentRecipientAddressController(withValue: value)
             return
         }
@@ -61,20 +69,28 @@ class PaymentRouter {
     }
 
     private func presentPaymentConfirmationController(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
-        let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address)
-        paymentConfirmationController.delegate = self
 
-//        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
-//            paymentNavigationController.present(paymentConfirmationController, animated: true)
-//        } else {
+        if let dappInfo = dappInfo {
+            let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address, recipientType: .dapp(info: dappInfo), shouldSendSignedTransaction: shouldSendSignedTransaction)
+            paymentConfirmationController.delegate = self
+            paymentConfirmationController.modalPresentationStyle = .currentContext
+
+            Navigator.presentModally(paymentConfirmationController)
+        } else {
+            let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address, recipientType: .user(info: userInfo), shouldSendSignedTransaction: shouldSendSignedTransaction)
+            paymentConfirmationController.delegate = self
+
             let navigationController = PaymentNavigationController(rootViewController: paymentConfirmationController)
             Navigator.presentModally(navigationController)
-//        }
+        }
     }
 
     private func presentViewControllerOnNavigator(_ controller: UIViewController) {
 
-        if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
+        if controller is PaymentConfirmationViewController {
+            let navigationController = PaymentNavigationController(rootViewController: controller)
+            Navigator.presentModally(navigationController)
+        } else if let paymentNavigationController = Navigator.topViewController as? PaymentNavigationController {
             paymentNavigationController.pushViewController(controller, animated: true)
         } else {
             let navigationController = PaymentNavigationController(rootViewController: controller)
@@ -97,11 +113,15 @@ extension PaymentRouter: PaymentAddressControllerDelegate {
     }
 }
 
-
 extension PaymentRouter: PaymentConfirmationViewControllerDelegate {
-    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController) {
-        Navigator.rootViewController?.dismiss(animated: true)
-        self.delegate?.paymentRouterDidSucceedPayment(paymentRouter: self)
+
+    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, error: ToshiError?) {
+
+        if Navigator.topViewController is PaymentNavigationController {
+            Navigator.rootViewController?.dismiss(animated: true)
+        }
+
+        self.delegate?.paymentRouterDidSucceedPayment(self, parameters: parameters, transactionHash: transactionHash, unsignedTransaction: controller.originalUnsignedTransaction, error: error)
     }
 
     func paymentConfirmationViewControllerDidCancel(on controller: PaymentConfirmationViewController) {

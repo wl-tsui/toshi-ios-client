@@ -22,6 +22,9 @@ let TabBarItemTitleOffset: CGFloat = -3.0
 class TabBarController: UITabBarController, OfflineAlertDisplaying {
     let offlineAlertView = defaultOfflineAlertView()
 
+    var paymentRouter: PaymentRouter?
+    var payedUserInfo: UserInfo?
+
     enum Tab {
         case browsing
         case messaging
@@ -281,26 +284,16 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any], confirmationText: String) {
 
-        if parameters["value"] != nil, let scannerController = self.scannerController as? ScannerController {
+        self.payedUserInfo = userInfo
+
+        if let hexValue = parameters["value"] as? String, let destinationAddress = parameters["to"] as? String, let scannerController = self.scannerController as? ScannerController {
             scannerController.setStatusBarHidden(true)
 
             SoundPlayer.playSound(type: .scanned)
 
-//            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] transaction, error in
-//
-//                guard error == nil else {
-//                    self?.scannerController.startScanning()
-//                    return
-//                }
-//
-//                if let scannerController = self?.scannerController as? ScannerController {
-//                    scannerController.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, error: error)
-//                } else {
-//                    scannerController.startScanning()
-//                }
-//            }, cancelHandler: {
-//                scannerController.startScanning()
-//            })
+            self.paymentRouter = PaymentRouter(withAddress: destinationAddress, andValue: NSDecimalNumber(hexadecimalString: hexValue))
+            self.paymentRouter?.delegate = self
+            self.paymentRouter?.present()
 
         } else {
             scannerController.startScanning()
@@ -325,6 +318,22 @@ extension TabBarController: ScannerViewControllerDelegate {
         }
     }
 
+}
+
+extension TabBarController: PaymentRouterDelegate {
+
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+        guard error == nil, let userInfo = payedUserInfo else {
+            scannerController.startScanning()
+            return
+        }
+
+        if let scannerController = self.scannerController as? ScannerController {
+            scannerController.approvePayment(with: parameters, userInfo: userInfo, transaction: transactionHash, error: error)
+        } else {
+            scannerController.startScanning()
+        }
+    }
 }
 
 extension TabBarController: ReachabilityDelegate {

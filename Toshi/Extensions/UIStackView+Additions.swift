@@ -37,6 +37,19 @@ extension UIStackView {
             view.bottom(to: self, offset: -margin)
         }
     }
+
+    /// Adds a border view as an arranged subview and sets up its height constraint.
+    ///
+    /// - Parameter margin: The margin to use when adding the border. Defaults to zero
+    /// - Returns: The added border view.
+    @discardableResult
+    func addStandardBorder(margin: CGFloat = 0) -> BorderView {
+        let border = BorderView()
+        addWithDefaultConstraints(view: border, margin: margin)
+        border.addHeightConstraint()
+
+        return border
+    }
     
     /// Adds the given view as an arranged subview, and constrains it to the center of the opposite axis of the stack view.
     /// A vertical stack view will cause a subview to be constrained to the center X of the stackview.

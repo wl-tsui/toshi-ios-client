@@ -320,6 +320,7 @@
 /* Payment Confirmation */
 "confirmation_title" = "Confirm Payment";
 "confirmation_recipient" = "Recipient";
+"confirmation_dapp" = "Dapp";
 "confirmation_amount" = "Amount";
 "confirmation_estimated_network_fees" = "Est. Network Fees";
 "confirmation_total" = "Total";

@@ -16,16 +16,21 @@
 import Foundation
 
 extension TSThread {
+
     func recipient() -> TokenUser? {
         guard let recipientAddress = contactIdentifier() else { return nil }
 
         var recipient: TokenUser?
 
-        if let userData = (Yap.sharedInstance.retrieveObject(for: recipientAddress, in: ThreadsDataSource.nonContactsCollectionKey) as? Data),
+        let retrievedData = contactOrNonContactData(for: recipientAddress)
+
+        if let userData = retrievedData,
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
             let json = deserialised as? [String: Any] {
 
             recipient = TokenUser(json: json, shouldSave: false)
+        } else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            recipient = appDelegate.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
         }
 
         return recipient
@@ -63,5 +68,9 @@ extension TSThread {
                 }
             }
         }
+    }
+
+    private func contactOrNonContactData(for address: String) -> Data? {
+        return (Yap.sharedInstance.retrieveObject(for: address, in: ThreadsDataSource.nonContactsCollectionKey) as? Data) ?? (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.favoritesCollectionKey) as? Data)
     }
 }

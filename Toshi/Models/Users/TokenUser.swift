@@ -182,7 +182,7 @@ class TokenUser: NSObject, NSCoding {
     }
 
     var userInfo: UserInfo {
-        return UserInfo(address: address, paymentAddress: paymentAddress, avatarPath: avatarPath, name: name, username: displayUsername, isLocal: true)
+        return UserInfo(address: address, paymentAddress: paymentAddress, avatarPath: avatarPath, name: nameOrDisplayName, username: displayUsername, isLocal: true)
     }
 
     override var description: String {

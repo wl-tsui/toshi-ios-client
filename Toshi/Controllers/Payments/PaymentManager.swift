@@ -5,7 +5,7 @@ typealias PaymentInfo = (fiatString: String, estimatedFeesString: String, totalF
 
 class PaymentManager {
 
-    var transaction: String?
+    private(set) var transaction: String?
 
     let value: NSDecimalNumber
     let paymentAddress: String
@@ -68,12 +68,16 @@ class PaymentManager {
         }
     }
 
-    func sendPayment(completion: @escaping ((_ error: ToshiError?) -> Void)) {
+    func sendPayment(completion: @escaping ((_ error: ToshiError?, _ transactionHash: String?) -> Void)) {
         guard let transaction = transaction else { return }
         let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
 
-        EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, _, error in
-            completion(error)
+        print("--- SENDING PAYMENT ---")
+
+        EthereumAPIClient.shared.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { success, transactionHash, error in
+
+            print("COMPLETED Payment: SUCCESS: \(success)")
+            completion(error, transactionHash)
         }
     }
 }

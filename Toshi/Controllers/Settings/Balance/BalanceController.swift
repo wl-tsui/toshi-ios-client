@@ -168,11 +168,7 @@ extension BalanceController: UITableViewDataSource {
 
 extension BalanceController: PaymentRouterDelegate {
 
-    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {
-        print("payment cancelled")
-    }
-
-    func paymentRouterDidSucceedPayment(paymentRouter: PaymentRouter) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
         print("payment succeeded!")
     }
 }

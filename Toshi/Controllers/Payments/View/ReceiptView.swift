@@ -15,7 +15,7 @@
 
 import Foundation
 
-class ReceiptView: UIView {
+class ReceiptView: UIStackView {
 
     private lazy var fiatAmountLine: ReceiptLineView = {
         let amountLine = ReceiptLineView()
@@ -54,35 +54,28 @@ class ReceiptView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        let stackView = UIStackView()
-        stackView.addBackground(with: Theme.viewBackgroundColor)
-        stackView.axis = .vertical
-        stackView.alignment = .center
+        axis = .vertical
+        alignment = .center
 
-        addSubview(stackView)
-        stackView.leftToSuperview()
-        stackView.rightToSuperview()
-        stackView.top(to: self)
-        stackView.bottom(to: self)
+        addWithDefaultConstraints(view: fiatAmountLine)
+        addSpacing(.mediumInterItemSpacing, after: fiatAmountLine)
 
-        stackView.addWithDefaultConstraints(view: fiatAmountLine)
-        stackView.addSpacing(.mediumInterItemSpacing, after: fiatAmountLine)
-        stackView.addWithDefaultConstraints(view: estimatedNetworkFeesLine)
+        addWithDefaultConstraints(view: estimatedNetworkFeesLine)
+        addSpacing(.largeInterItemSpacing, after: estimatedNetworkFeesLine)
 
-        let separator = UIView()
-        separator.backgroundColor = Theme.borderColor
-        separator.height(.lineHeight)
+        let separator = BorderView()
+        addWithDefaultConstraints(view: separator)
+        separator.addHeightConstraint()
 
-        stackView.addSpacing(.largeInterItemSpacing, after: estimatedNetworkFeesLine)
-        stackView.addWithDefaultConstraints(view: separator)
-        stackView.addSpacing(.largeInterItemSpacing, after: separator)
-        stackView.addWithDefaultConstraints(view: totalLine)
-        stackView.addSpacing(7, after: totalLine)
-        stackView.addWithDefaultConstraints(view: ethereumAmountLabel)
-        stackView.addSpacing(.mediumInterItemSpacing, after: ethereumAmountLabel)
+        addSpacing(.largeInterItemSpacing, after: separator)
+        addWithDefaultConstraints(view: totalLine)
+        addSpacing(7, after: totalLine)
+
+        addWithDefaultConstraints(view: ethereumAmountLabel)
+        addSpacing(.mediumInterItemSpacing, after: ethereumAmountLabel)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

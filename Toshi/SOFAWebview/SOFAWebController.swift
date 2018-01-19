@@ -34,6 +34,8 @@ final class SOFAWebController: UIViewController {
     }
 
     private let rcpUrl = ToshiWebviewRPCURLPath
+    var paymentRouter: PaymentRouter?
+    var currentTransactionSignCallbackId: String?
     
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
@@ -277,8 +279,20 @@ extension SOFAWebController: WKScriptMessageHandler {
             }
 
             if let to = transaction["to"] as? String, let value = parameters["value"] as? String {
-                IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
-                    var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
+
+                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] user in
+                    let webViewTitle = self?.webView.title
+
+                    guard let url = self?.webView.url else {
+                        assertionFailure("Can't retrieve Webview url")
+                        return
+                    }
+
+                    var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: webViewTitle, username: to, isLocal: false)
+
+                    //we do not have image from a website yet
+                    var dappInfo = DappInfo(url, "", webViewTitle)
+
                     if let user = user {
                         userInfo.avatarPath = user.avatarPath
                         userInfo.username = user.username
@@ -291,8 +305,8 @@ extension SOFAWebController: WKScriptMessageHandler {
                     let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
                     let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user?.name ?? to)
 
-                    self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, callbackId: callbackId)
-                }
+                    self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, dappInfo: dappInfo, callbackId: callbackId)
+                })
             }
         case .publishTransaction:
             guard let messageBody = message.body as? [String: Any],
@@ -324,24 +338,18 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
-    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, callbackId: String) {
+    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, dappInfo: DappInfo, callbackId: String) {
 
-//        navigationController.pushViewController(paymentController, animated: true)
+        guard let destinationAddress = parameters["to"] as? String, let hexValue = parameters["value"] as? String else { return }
+        currentTransactionSignCallbackId = callbackId
+
+        paymentRouter = PaymentRouter(withAddress: destinationAddress, andValue: NSDecimalNumber(hexadecimalString: hexValue), shouldSendSignedTransaction: false)
+        paymentRouter?.delegate = self
+
+        paymentRouter?.userInfo = userInfo
+        paymentRouter?.dappInfo = dappInfo
         
-//        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, error in
-//
-//            guard error == nil else {
-//                let payload = SOFAResponseConstants.skeletonErrorJSON
-//                self?.jsCallback(callbackId: callbackId, payload: payload)
-//
-//                return
-//            }
-//
-//            self?.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, callbackId: callbackId)
-//            }, cancelHandler: { [weak self] in
-//                let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
-//                self?.jsCallback(callbackId: callbackId, payload: payload)
-//        })
+        paymentRouter?.present()
     }
 
     private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo, transaction: String?, callbackId: String) {
@@ -366,6 +374,47 @@ extension SOFAWebController: WKScriptMessageHandler {
         }))
 
         Navigator.presentModally(alert)
+    }
+}
+
+extension SOFAWebController: PaymentRouterDelegate {
+
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+
+        guard let callbackId = currentTransactionSignCallbackId else {
+            let message = "No current signed transcation callBack Id on SOFAWebVontroller when payment router finished"
+            assertionFailure(message)
+            CrashlyticsLogger.log(message, attributes: parameters)
+            return
+        }
+
+        guard let userInfo = paymentRouter.userInfo else {
+            let message = "Not found any user info on SOFAWebVontroller payment router after it finished"
+            assertionFailure(message)
+            CrashlyticsLogger.log(message, attributes: parameters)
+            return
+        }
+
+        guard error == nil else {
+            let payload = SOFAResponseConstants.skeletonErrorJSON
+            jsCallback(callbackId: callbackId, payload: payload)
+
+            return
+        }
+
+        approvePayment(with: parameters, userInfo: userInfo, transaction: unsignedTransaction, callbackId: callbackId)
+    }
+
+    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {
+        guard let callbackId = currentTransactionSignCallbackId else {
+            let message = "No current signed transcation callBack Id on SOFAWebVontroller when payment router finished"
+            assertionFailure(message)
+            CrashlyticsLogger.log(message)
+            return
+        }
+
+        let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
+        jsCallback(callbackId: callbackId, payload: payload)
     }
 }
 
