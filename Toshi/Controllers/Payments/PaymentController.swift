@@ -200,8 +200,9 @@ extension PaymentController: UITextFieldDelegate {
         guard let newValue = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else {
             return true
         }
-        
-        navigationItem.rightBarButtonItem?.isEnabled = !newValue.isEmpty
+
+        let newIntValue = Int(newValue) ?? 0
+        navigationItem.rightBarButtonItem?.isEnabled = !newValue.isEmpty && (newIntValue > 0)
 
         guard newValue.length > 0 else {
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)

@@ -114,11 +114,15 @@ final class ChatInteractor: NSObject {
     }
 
     // need to write a test for this
-    func retrieveRecipientAddress(completion: @escaping (String) -> Void) {
+    func retrieveRecipientAddress(completion: @escaping (String?) -> Void) {
         guard let tokenId = thread.contactIdentifier() else { return }
 
         idAPIClient.retrieveUser(username: tokenId) { user in
-            guard let user = user else { return }
+            guard let user = user else {
+                assertionFailure("can't retrieve recipient's payment address")
+                completion(nil)
+                return
+            }
 
             completion(user.paymentAddress)
         }

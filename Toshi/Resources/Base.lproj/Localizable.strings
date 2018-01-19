@@ -88,6 +88,8 @@
 "sign_up_with_passphrase_alert_message" = "There is no Toshi account associated with this passphrase.\nWould you like to create one?";
 "sign_up_with_passphrase_accept_action_title" = "Create new account";
 
+"transaction_error_message" = "Error completing transaction";
+
 /* Settings */
 "settings_navigation_title" = "Me";
 

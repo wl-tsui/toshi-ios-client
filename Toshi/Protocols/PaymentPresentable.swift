@@ -68,7 +68,7 @@ extension PaymentPresentable where Self: UIViewController {
     func paymentFailed() {}
 
     func presentPaymentError(withErrorMessage message: String) {
-        let alert = UIAlertController(title: "Error completing transaction", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: Localized("transaction_error_message"), message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.paymentFailed()
         }

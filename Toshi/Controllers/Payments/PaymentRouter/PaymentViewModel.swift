@@ -16,8 +16,8 @@
 import Foundation
 
 struct PaymentViewModel {
-    var recipientAddress: String?
-    var value: NSDecimalNumber?
+    private(set) var recipientAddress: String?
+    private(set) var value: NSDecimalNumber?
 
     mutating func setValue(_ weiValue: NSDecimalNumber) {
         value = weiValue

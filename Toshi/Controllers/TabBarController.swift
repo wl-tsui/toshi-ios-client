@@ -23,7 +23,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     let offlineAlertView = defaultOfflineAlertView()
 
     var paymentRouter: PaymentRouter?
-    var payedUserInfo: UserInfo?
+    var paidUserInfo: UserInfo?
 
     enum Tab {
         case browsing
@@ -284,7 +284,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any], confirmationText: String) {
 
-        self.payedUserInfo = userInfo
+        self.paidUserInfo = userInfo
 
         if let hexValue = parameters["value"] as? String, let destinationAddress = parameters["to"] as? String, let scannerController = self.scannerController as? ScannerController {
             scannerController.setStatusBarHidden(true)
@@ -323,7 +323,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 extension TabBarController: PaymentRouterDelegate {
 
     func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
-        guard error == nil, let userInfo = payedUserInfo else {
+        guard error == nil, let userInfo = paidUserInfo else {
             scannerController.startScanning()
             return
         }

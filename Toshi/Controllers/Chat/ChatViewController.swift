@@ -688,6 +688,14 @@ extension ChatViewController: UITableViewDataSource {
 
         return .single
     }
+
+    private func presentPaymentRouter(address: String?, value: NSDecimalNumber? = nil) {
+
+        self.paymentRouter = PaymentRouter(withAddress: address, andValue: value)
+        self.paymentRouter?.delegate = self
+        self.paymentRouter?.userInfo = self.thread.recipient()?.userInfo
+        self.paymentRouter?.present()
+    }
 }
 
 extension ChatViewController: MessagesBasicCellDelegate {
@@ -741,11 +749,7 @@ extension ChatViewController: MessagesPaymentCellDelegate {
         paymentRequestActiveCell = cell
 
         viewModel.interactor.retrieveRecipientAddress { [weak self] address in
-            self?.paymentRouter = PaymentRouter(withAddress: address, andValue: value)
-            self?.paymentRouter?.delegate = self
-            self?.paymentRouter?.userInfo = self?.thread.recipient()?.userInfo
-
-            self?.paymentRouter?.present()
+            self?.presentPaymentRouter(address: address, value: value)
         }
     }
 
@@ -810,7 +814,7 @@ extension ChatViewController: ChatInteractorOutput {
     func didCatchError(_ message: String) {
         hideActivityIndicator()
 
-        let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
+        let alert = UIAlertController.dismissableAlert(title: Localized("transaction_error_message"), message: message)
         Navigator.presentModally(alert)
     }
 
@@ -887,10 +891,7 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
         textInputView.inputField.resignFirstResponder()
 
         viewModel.interactor.retrieveRecipientAddress { [weak self] address in
-            self?.paymentRouter = PaymentRouter(withAddress: address)
-            self?.paymentRouter?.delegate = self
-            self?.paymentRouter?.userInfo = self?.thread.recipient()?.userInfo
-            self?.paymentRouter?.present()
+            self?.presentPaymentRouter(address: address)
         }
     }
 }
@@ -913,13 +914,13 @@ extension ChatViewController: PaymentRouterDelegate {
             return
         }
 
-        //send payment message
-
         if let paymentRequestCell = paymentRequestActiveCell, let indexPath = tableView.indexPath(for: paymentRequestCell) {
             adjustToPaymentState(.approved, at: indexPath)
         }
 
         if let txHash = transactionHash, let value = parameters["value"] as? String {
+            //send payment message
+            
             let payment = SofaPayment(txHash: txHash, valueHex: value)
 
             let timestamp = NSDate.ows_millisecondsSince1970(for: Date())

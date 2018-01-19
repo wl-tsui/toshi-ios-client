@@ -24,7 +24,7 @@ extension PaymentRouterDelegate {
     func paymentRouterDidCancel(paymentRouter: PaymentRouter) {}
 }
 
-class PaymentRouter {
+final class PaymentRouter {
     weak var delegate: PaymentRouterDelegate?
 
     var userInfo: UserInfo?
@@ -46,7 +46,7 @@ class PaymentRouter {
             return
         }
 
-        guard let address = paymentViewModel.recipientAddress else {
+        guard let address = paymentViewModel.recipientAddress, EthereumAddress.validate(address) else {
             presentRecipientAddressController(withValue: value)
             return
         }
@@ -125,6 +125,6 @@ extension PaymentRouter: PaymentConfirmationViewControllerDelegate {
     }
 
     func paymentConfirmationViewControllerDidCancel(on controller: PaymentConfirmationViewController) {
-        Navigator.rootViewController?.dismiss(animated: true)
+        Navigator.topViewController?.dismiss(animated: true)
     }
 }

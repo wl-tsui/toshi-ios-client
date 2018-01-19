@@ -30,41 +30,38 @@ class PaymentManager {
                 return
             }
 
-            if let gasPrice = skeleton.gasPrice, let gas = skeleton.gas, let transaction = skeleton.transaction {
-                guard let weakSelf = self else { return }
-                weakSelf.transaction = transaction
+            guard let gasPrice = skeleton.gasPrice, let gas = skeleton.gas, let transaction = skeleton.transaction, let weakSelf = self else { return }
+
+            weakSelf.transaction = transaction
 
 
-                let gasPriceValue = NSDecimalNumber(hexadecimalString: gasPrice)
-                let gasValue = NSDecimalNumber(hexadecimalString: gas)
+            let gasPriceValue = NSDecimalNumber(hexadecimalString: gasPrice)
+            let gasValue = NSDecimalNumber(hexadecimalString: gas)
 
-                let fee = gasPriceValue.decimalValue * gasValue.decimalValue
-                let decimalNumberFee = NSDecimalNumber(decimal: fee)
+            let fee = gasPriceValue.decimalValue * gasValue.decimalValue
+            let decimalNumberFee = NSDecimalNumber(decimal: fee)
 
-                let exchangeRate = ExchangeRateClient.exchangeRate
+            let exchangeRate = ExchangeRateClient.exchangeRate
 
 
-                //WARNING: we need to test these values that the correspond with each other
-                let fiatString = EthereumConverter.fiatValueStringWithCode(forWei: weakSelf.value, exchangeRate: exchangeRate)
-                let estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: exchangeRate)
+            //WARNING: we need to test these values that the correspond with each other
+            let fiatString = EthereumConverter.fiatValueStringWithCode(forWei: weakSelf.value, exchangeRate: exchangeRate)
+            let estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: exchangeRate)
 
-                let totalWei = weakSelf.value.adding(decimalNumberFee)
-                let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
-                let totalEthereumString = EthereumConverter.ethereumValueString(forWei: totalWei)
+            let totalWei = weakSelf.value.adding(decimalNumberFee)
+            let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: exchangeRate)
+            let totalEthereumString = EthereumConverter.ethereumValueString(forWei: totalWei)
 
-                /// We don't care about the cached balance since we immediately want to know if the current balance is sufficient or not.
-                EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { _, _ in }, fetchedBalanceCompletion: { fetchedBalance, error in
-                    //WARNING: What to do when we have an error here?
+            /// We don't care about the cached balance since we immediately want to know if the current balance is sufficient or not.
+            EthereumAPIClient.shared.getBalance(cachedBalanceCompletion: { _, _ in }, fetchedBalanceCompletion: { fetchedBalance, error in
+                //WARNING: What to do when we have an error here?
 
-                    let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
-                    let sufficientBalance = fetchedBalance.isGreaterOrEqualThen(value: totalWei)
+                let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: ExchangeRateClient.exchangeRate)
+                let sufficientBalance = fetchedBalance.isGreaterOrEqualThen(value: totalWei)
 
-                    let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesString: estimatedFeesString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, balanceString: balanceString, sufficientBalance: sufficientBalance)
-                    completion(paymentInfo)
-                })
-            } else {
-                //WARNING: should deal with error
-            }
+                let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesString: estimatedFeesString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, balanceString: balanceString, sufficientBalance: sufficientBalance)
+                completion(paymentInfo)
+            })
         }
     }
 

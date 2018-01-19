@@ -32,7 +32,7 @@ class PaymentConfirmationViewController: UIViewController {
 
     let paymentManager: PaymentManager
     private var recipientType: RecipientType
-    private var shouldSendSignedTransaction: Bool = true
+    let shouldSendSignedTransaction: Bool
 
     // MARK: - Lazy views
 
@@ -454,7 +454,7 @@ class PaymentConfirmationViewController: UIViewController {
             guard let weakSelf = self else { return }
 
             guard error == nil else {
-                let alert = UIAlertController(title: "Error completing transaction", message: (error?.description ?? ToshiError.genericError.description), preferredStyle: .alert)
+                let alert = UIAlertController(title: Localized("transaction_error_message"), message: (error?.description ?? ToshiError.genericError.description), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
                     weakSelf.dismiss(animated: true, completion: {
                         weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, error: error)
