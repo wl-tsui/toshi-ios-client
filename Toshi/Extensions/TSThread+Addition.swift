@@ -22,7 +22,7 @@ extension TSThread {
 
         var recipient: TokenUser?
 
-        let retrievedData = contactOrNonContactData(for: recipientAddress)
+        let retrievedData = contactData(for: recipientAddress)
 
         if let userData = retrievedData,
             let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
@@ -54,23 +54,27 @@ extension TSThread {
             let nonContactsUsersIds = recipientsIdsSet.subtracting(Set(contactsIDs))
 
             IDAPIClient.shared.updateContacts(with: Array(nonContactsUsersIds))
-            
-            TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
-                for recipientId in groupThread.recipientIdentifiers {
-                    
-                    var recipient = SignalRecipient(textSecureIdentifier: recipientId, with: transaction)
-                    
-                    if recipient == nil {
-                        recipient = SignalRecipient(textSecureIdentifier: recipientId, relay: nil)
-                    }
-                    
-                    recipient?.save(with: transaction)
-                }
+
+            for recipientId in groupThread.recipientIdentifiers {
+                TSThread.saveRecipient(with: recipientId)
             }
         }
     }
 
-    private func contactOrNonContactData(for address: String) -> Data? {
-        return (Yap.sharedInstance.retrieveObject(for: address, in: ThreadsDataSource.nonContactsCollectionKey) as? Data) ?? (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.favoritesCollectionKey) as? Data)
+    private func contactData(for address: String) -> Data? {
+        return (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.storedContactKey) as? Data)
+    }
+
+    static func saveRecipient(with identifier: String) {
+        TSStorageManager.shared().dbReadWriteConnection?.readWrite { transaction in
+
+            var recipient = SignalRecipient(textSecureIdentifier: identifier, with: transaction)
+
+            if recipient == nil {
+                recipient = SignalRecipient(textSecureIdentifier: identifier, relay: nil)
+            }
+
+            recipient?.save(with: transaction)
+        }
     }
 }

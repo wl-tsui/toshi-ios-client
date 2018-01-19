@@ -64,8 +64,6 @@ protocol ThreadsDataSourceOutput: class {
 
 final class ThreadsDataSource: NSObject {
 
-    static let nonContactsCollectionKey = "NonContactsCollectionKey"
-
     private var viewModel: RecentViewModel
     private var target: ThreadsDataSourceTarget
 
@@ -120,21 +118,24 @@ final class ThreadsDataSource: NSObject {
             viewModel.uiDatabaseConnection.read { [weak self] transaction in
                 self?.viewModel.acceptedThreadsMappings.update(with: transaction)
                 self?.viewModel.unacceptedThreadsMappings.update(with: transaction)
+                self?.viewModel.allThreadsMappings.update(with: transaction)
             }
 
             return
         }
 
-        let yapDatabaseChanges = threadViewConnection.getChangesFor(notifications: notifications, with: viewModel.acceptedThreadsMappings)
+        let yapDatabaseChanges = threadViewConnection.getChangesFor(notifications: notifications, with: viewModel.allThreadsMappings)
         let isDatabaseChanged = yapDatabaseChanges.rowChanges.count != 0 || yapDatabaseChanges.sectionChanges.count != 0
 
         guard isDatabaseChanged else { return }
-
+        
         if let insertedRow = yapDatabaseChanges.rowChanges.first(where: { $0.type == .insert }) {
+
             if let newIndexPath = insertedRow.newIndexPath {
                 processNewThread(at: newIndexPath)
             }
         } else if let updatedRow = yapDatabaseChanges.rowChanges.first(where: { $0.type == .update }) {
+
             if let indexPath = updatedRow.indexPath {
                 processUpdateThread(at: indexPath)
             }
@@ -211,26 +212,42 @@ final class ThreadsDataSource: NSObject {
         return thread
     }
 
-    private func processNewThread(at indexPath: IndexPath) {
-        if let thread = self.acceptedThread(at: indexPath.row, in: 0) {
+    func processNewThread(at indexPath: IndexPath) {
+        if let thread = self.thread(at: indexPath) {
+            updateNewThreadRecepientsIfNeeded(thread)
+        }
+    }
 
-            if let contactIdentifier = thread.contactIdentifier() {
+    func thread(at indexPath: IndexPath) -> TSThread? {
+        var thread: TSThread?
 
+         viewModel.uiDatabaseConnection.read { transaction in
+            guard let dbExtension = transaction.extension(TSThreadDatabaseViewExtensionName) as? YapDatabaseViewTransaction else { return }
+            guard let object = dbExtension.object(at: indexPath, with: self.viewModel.allThreadsMappings) as? TSThread else { return }
+
+            thread = object
+        }
+
+        return thread
+    }
+
+    func updateNewThreadRecepientsIfNeeded(_ thread: TSThread) {
+        DispatchQueue.main.async {
+            if let contactId = thread.contactIdentifier() {
                 guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Can't access App delegate") }
+                guard appDelegate.contactsManager.tokenContact(forAddress: contactId) == nil else { return }
+
                 let contactsIds = appDelegate.contactsManager.tokenContacts.map { $0.address }
 
-                IDAPIClient.shared.findContact(name: contactIdentifier, completion: { foundUser in
+                IDAPIClient.shared.findContact(name: contactId, completion: { foundUser in
 
                     guard let user = foundUser else { return }
 
                     AvatarManager.shared.downloadAvatar(for: user.avatarPath)
 
-                    if !contactsIds.contains(contactIdentifier) {
-                        if !Yap.sharedInstance.containsObject(for: user.address, in: ThreadsDataSource.nonContactsCollectionKey) {
-                            Yap.sharedInstance.insert(object: user.json, for: user.address, in: ThreadsDataSource.nonContactsCollectionKey)
-                        }
-                    } else {
-                        IDAPIClient.shared.updateContact(with: contactIdentifier)
+                    if !contactsIds.contains(contactId) {
+                        IDAPIClient.shared.updateContact(with: contactId)
+                        TSThread.saveRecipient(with: contactId)
                     }
                 })
             } else {
@@ -252,6 +269,15 @@ final class ThreadsDataSource: NSObject {
 
             thread.updateGroupMembers()
         }
+
+        if let unacceptedThread = self.unacceptedThread(at: indexPath) {
+
+            if let topChatViewController = Navigator.topViewController as? ChatViewController {
+                topChatViewController.updateThread(unacceptedThread)
+            }
+
+            unacceptedThread.updateGroupMembers()
+        }
     }
 
     private func loadMessages() {
@@ -260,7 +286,7 @@ final class ThreadsDataSource: NSObject {
             self?.viewModel.unacceptedThreadsMappings.update(with: transaction)
 
             DispatchQueue.main.async {
-               self?.output?.threadsDataSourceDidLoad()
+                self?.output?.threadsDataSourceDidLoad()
             }
         }
     }
