@@ -113,6 +113,7 @@
 		2B4E26031FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4E26021FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift */; };
 		2B4E26041FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4E26021FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift */; };
 		2B4E26051FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4E26021FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift */; };
+		2B5CF18320126B69001F57A2 /* fetchUsersFromPaymentAddresses.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B5CF18220126B68001F57A2 /* fetchUsersFromPaymentAddresses.json */; };
 		2B695CBA1EF9B9A80025119B /* KeyboardAdjustable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */; };
 		2B6C18F41FCD431800DE432B /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C18F31FCD431800DE432B /* GroupViewController.swift */; };
 		2B6C18F51FCD431800DE432B /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C18F31FCD431800DE432B /* GroupViewController.swift */; };
@@ -1034,6 +1035,7 @@
 		2B4E25F91FCCCE00004614D5 /* AvatarTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTitleCell.swift; sourceTree = "<group>"; };
 		2B4E25FE1FCCCE38004614D5 /* CellConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurator.swift; sourceTree = "<group>"; };
 		2B4E26021FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTitleSubtitleSwitchCell.swift; sourceTree = "<group>"; };
+		2B5CF18220126B68001F57A2 /* fetchUsersFromPaymentAddresses.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromPaymentAddresses.json; sourceTree = "<group>"; };
 		2B6C18F31FCD431800DE432B /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		2B6C18F71FCD438000DE432B /* NewGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewModel.swift; sourceTree = "<group>"; };
 		2B6C18FC1FCD531E00DE432B /* NewGroupConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupConfigurator.swift; sourceTree = "<group>"; };
@@ -2402,6 +2404,7 @@
 				D197B29F0030A48233E69AD9 /* nonExistingUser.json */,
 				D197B8E798FCD39B97824BBA /* retrieveUser.json */,
 				D197B12C40488CB1523BB212 /* user.json */,
+				2B5CF18220126B68001F57A2 /* fetchUsersFromPaymentAddresses.json */,
 				33F6D22D1FFD18E100AB0DCC /* userAfterImageUpdate.json */,
 				33F6D22F1FFD1BEC00AB0DCC /* userAfterDataUpdate.json */,
 				D197B4747DA95DF531E0C300 /* searchContacts.json */,
@@ -2647,6 +2650,7 @@
 				33F6D22E1FFD18E200AB0DCC /* userAfterImageUpdate.json in Resources */,
 				D197B0C5E61A152AFA61B5DF /* testImage.png in Resources */,
 				D197B8B87F4A0DCA761DE9D6 /* retrieveUser.json in Resources */,
+				2B5CF18320126B69001F57A2 /* fetchUsersFromPaymentAddresses.json in Resources */,
 				33D2ECFC1FFD1F3A00AEFC4D /* contact.json in Resources */,
 				D197B4425A9FE7A36B983DE1 /* getLatestPublicUsers.json in Resources */,
 				D197BDE13FECEEDB7511144E /* user.json in Resources */,

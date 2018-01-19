@@ -280,7 +280,7 @@ extension SOFAWebController: WKScriptMessageHandler {
 
             if let to = transaction["to"] as? String, let value = parameters["value"] as? String {
 
-                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] user in
+                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] user, _ in
                     let webViewTitle = self?.webView.title
 
                     guard let url = self?.webView.url else {

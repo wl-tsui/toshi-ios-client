@@ -542,33 +542,40 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
         }
     }
 
-    func findUserWithPaymentAddress(_ paymentAddress: String, completion: @escaping ((TokenUser?) -> Void)) {
+    func findUserWithPaymentAddress(_ paymentAddress: String, completion: @escaping ((TokenUser?, ToshiError?) -> Void)) {
         guard EthereumAddress.validate(paymentAddress) else {
             assertionFailure("Bad payment address while trying to search for a user \(paymentAddress).")
-            completion(nil)
+            completion(nil, nil)
             return
         }
 
         self.teapot.get("/v1/search/user?payment_address=\(paymentAddress)") { (result: NetworkResult) in
 
             var contact: TokenUser?
+            var resultError: ToshiError?
 
             switch result {
-            case .success(let json, _):
+            case .success(let json, let response):
                 guard let dictionary = json?.dictionary, let jsons = dictionary["results"] as? [[String: Any]], let firstJson = jsons.first else {
                     DispatchQueue.main.async {
-                        completion(nil)
+                        completion(nil, ToshiError(withType: .invalidResponseStatus, description: "Request to report user could not be completed", responseStatus: response.statusCode))
                     }
                     return
                 }
 
                 contact = TokenUser(json: firstJson)
-            case .failure(_, _, let error):
+            case .failure(let json, _, let error):
                 DLog(error.localizedDescription)
+
+                if let errors = json?.dictionary?["errors"] as? [[String: Any]], let errorMessage = (errors.first?["message"] as? String) {
+                    resultError = ToshiError(withTeapotError: error, errorDescription: errorMessage)
+                } else {
+                    resultError = ToshiError(withTeapotError: error)
+                }
             }
 
             DispatchQueue.main.async {
-                completion(contact)
+                completion(contact, resultError)
             }
         }
     }

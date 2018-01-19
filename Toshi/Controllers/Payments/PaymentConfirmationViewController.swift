@@ -394,7 +394,7 @@ class PaymentConfirmationViewController: UIViewController {
             // No info needs to be fetched for something that is not a user.
             return
         case .user:
-            IDAPIClient.shared.findUserWithPaymentAddress(address) { [weak self] user in
+            IDAPIClient.shared.findUserWithPaymentAddress(address) { [weak self] user, _ in
                 self?.recipientType = .user(info: user?.userInfo)
                 self?.displayRecipientDetails()
             }
