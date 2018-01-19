@@ -343,7 +343,8 @@ extension SOFAWebController: WKScriptMessageHandler {
         guard let destinationAddress = parameters["to"] as? String, let hexValue = parameters["value"] as? String else { return }
         currentTransactionSignCallbackId = callbackId
 
-        paymentRouter = PaymentRouter(withAddress: destinationAddress, andValue: NSDecimalNumber(hexadecimalString: hexValue), shouldSendSignedTransaction: false)
+        
+        paymentRouter = PaymentRouter(withAddress: destinationAddress, andValue: NSDecimalNumber(hexadecimalString: hexValue), gasPrice: parameters["gasPrice"] as? String, shouldSendSignedTransaction: false, additionalParams: parameters)
         paymentRouter?.delegate = self
 
         paymentRouter?.userInfo = userInfo

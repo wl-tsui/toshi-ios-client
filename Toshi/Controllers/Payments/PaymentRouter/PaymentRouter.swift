@@ -30,12 +30,14 @@ final class PaymentRouter {
     var userInfo: UserInfo?
     var dappInfo: DappInfo?
     private var shouldSendSignedTransaction = true
+    var additionalParamaters: [String: Any]?
 
     private var paymentViewModel: PaymentViewModel
 
-    init(withAddress address: String? = nil, andValue value: NSDecimalNumber? = nil, shouldSendSignedTransaction: Bool = true) {
-        self.paymentViewModel = PaymentViewModel(recipientAddress: address, value: value)
+    init(withAddress address: String? = nil, andValue value: NSDecimalNumber? = nil, gasPrice: String? = nil, shouldSendSignedTransaction: Bool = true, additionalParams: [String: Any]? = nil) {
+        self.paymentViewModel = PaymentViewModel(recipientAddress: address, value: value, gasPrice: gasPrice)
         self.shouldSendSignedTransaction = shouldSendSignedTransaction
+        self.additionalParamaters = additionalParams
     }
 
     // I purposefully created this method so the caller is aware that this object will present a VC
@@ -71,7 +73,7 @@ final class PaymentRouter {
     private func presentPaymentConfirmationController(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
 
         if let dappInfo = dappInfo {
-            let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address, recipientType: .dapp(info: dappInfo), shouldSendSignedTransaction: shouldSendSignedTransaction)
+            let paymentConfirmationController = PaymentConfirmationViewController(withValue: value, andRecipientAddress: address, gasPrice: paymentViewModel.gasPrice, recipientType: .dapp(info: dappInfo), shouldSendSignedTransaction: shouldSendSignedTransaction, skeletonParams: additionalParamaters)
             paymentConfirmationController.delegate = self
             paymentConfirmationController.modalPresentationStyle = .currentContext
 

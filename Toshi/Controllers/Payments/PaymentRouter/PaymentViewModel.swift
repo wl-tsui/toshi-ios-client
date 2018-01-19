@@ -18,11 +18,16 @@ import Foundation
 struct PaymentViewModel {
     private(set) var recipientAddress: String?
     private(set) var value: NSDecimalNumber?
+    private(set) var gasPrice: String?
 
     mutating func setValue(_ weiValue: NSDecimalNumber) {
         value = weiValue
     }
     mutating func setAddress(_ address: String) {
         recipientAddress = address
+    }
+
+    mutating func setGasPrice(_ gasPrice: String?) {
+        self.gasPrice = gasPrice
     }
 }

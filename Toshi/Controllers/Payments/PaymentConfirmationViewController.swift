@@ -34,6 +34,8 @@ class PaymentConfirmationViewController: UIViewController {
     private var recipientType: RecipientType
     let shouldSendSignedTransaction: Bool
 
+    private let skeletonParams: [String: Any]?
+
     // MARK: - Lazy views
 
     private lazy var avatarImageView: AvatarImageView = {
@@ -175,9 +177,10 @@ class PaymentConfirmationViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(withValue value: NSDecimalNumber, andRecipientAddress address: String, recipientType: RecipientType, shouldSendSignedTransaction: Bool = true) {
-        paymentManager = PaymentManager(withValue: value, andPaymentAddress: address)
+    init(withValue value: NSDecimalNumber, andRecipientAddress address: String, gasPrice: String? = nil, recipientType: RecipientType, shouldSendSignedTransaction: Bool = true, skeletonParams: [String: Any]? = nil) {
+        paymentManager = PaymentManager(withValue: value, andPaymentAddress: address, gasPrice: gasPrice, skeletonParams: skeletonParams)
         self.recipientType = recipientType
+        self.skeletonParams = skeletonParams
         self.shouldSendSignedTransaction = shouldSendSignedTransaction
 
         super.init(nibName: nil, bundle: nil)

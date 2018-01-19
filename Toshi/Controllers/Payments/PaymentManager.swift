@@ -9,22 +9,35 @@ class PaymentManager {
 
     let value: NSDecimalNumber
     let paymentAddress: String
+    let gasPrice: String?
+    let skeletonParams: [String: Any]?
 
     lazy var parameters: [String: Any] = {
-        return [
+
+        var params = [
             "from": Cereal.shared.paymentAddress,
             "to": paymentAddress,
             "value": value.toHexString
         ]
+
+        if let gasPrice = self.gasPrice {
+            params["gasPrice"] = gasPrice
+        }
+
+        return params
     }()
 
-    init(withValue value: NSDecimalNumber, andPaymentAddress address: String) {
-       self.value = value
-       self.paymentAddress = address
+    init(withValue value: NSDecimalNumber, andPaymentAddress address: String, gasPrice: String? = nil, skeletonParams: [String: Any]?) {
+        self.value = value
+        self.paymentAddress = address
+        self.gasPrice = gasPrice
+        self.skeletonParams = skeletonParams
     }
 
     func fetchPaymentInfo(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
-        EthereumAPIClient.shared.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
+        var targetParams = skeletonParams ?? parameters
+
+        EthereumAPIClient.shared.transactionSkeleton(for: targetParams) { [weak self] skeleton, error in
             guard error == nil else {
                 // Handle error
                 return
