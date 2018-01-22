@@ -16,6 +16,7 @@
 import UIKit
 import SweetUIKit
 import WebKit
+import TinyConstraints
 
 final class SOFAWebController: UIViewController {
 
@@ -37,7 +38,7 @@ final class SOFAWebController: UIViewController {
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
         
-        var js = "window.SOFA = {config: {rcpUrl: '" + self.rcpUrl + "'}}; "
+        var js = "window.SOFA = {config: {accounts: ['"+Cereal.shared.paymentAddress+"'], rcpUrl: '" + self.rcpUrl + "'}}; "
         
         if let filepath = Bundle.main.path(forResource: "sofa-web3", ofType: "js") {
             do {
@@ -119,15 +120,17 @@ final class SOFAWebController: UIViewController {
         view.addSubview(webView)
         view.addSubview(toolbar)
 
-        NSLayoutConstraint.activate([
-            self.toolbar.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            self.toolbar.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            self.toolbar.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
+        toolbar.height(44)
+        toolbar.bottom(to: layoutGuide())
+        toolbar.left(to: view)
+        toolbar.right(to: view)
 
-        toolbar.set(height: 44)
+        webView.top(to: view)
+        webView.left(to: view)
+        webView.right(to: view)
+        webView.bottomToTop(of: toolbar)
+
         hidesBottomBarWhenPushed = true
-        webView.fillSuperview()
     }
 
     func load(url: URL) {

@@ -47,6 +47,7 @@
 #import <SignalServiceKit/TSDatabaseView.h>
 #import <SignalServiceKit/OWSMessageSender.h>
 #import <SignalServiceKit/ContactsUpdater.h>
+#import <SignalServiceKit/TSGroupModel.h>
 
 #import <SignalServiceKit/OWSFingerprintBuilder.h>
 #import <SignalServiceKit/OWSFingerprint.h>
@@ -76,9 +77,12 @@
 #import <SignalServiceKit/TSStorageManager+SignedPreKeyStore.h>
 #import <SignalServiceKit/TSThread.h>
 #import <SignalServiceKit/TSContactThread.h>
+#import <SignalServiceKit/TSGroupThread.h>
 #import <SignalServiceKit/OWSHTTPSecurityPolicy.h>
 
 #import <25519/Randomness.h>
+
+#import "ProfileManager.h"
 
 #import <AxolotlKit/PreKeyRecord.h>
 #import <AxolotlKit/PreKeyBundle.h>

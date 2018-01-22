@@ -23,7 +23,7 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
 
 @property (atomic) TSOutgoingMessageState messageState;
 @property (atomic) BOOL hasSyncedTranscript;
-@property (atomic) NSString *customMessage;
+@property (atomic) NSDictionary *customInfo;
 @property (atomic) NSString *mostRecentFailureText;
 @property (atomic) BOOL wasDelivered;
 @property (atomic) NSString *singleGroupRecipient;
@@ -301,21 +301,21 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
     }];
 }
 
-- (void)updateWithCustomMessage:(NSString *)customMessage transaction:(YapDatabaseReadWriteTransaction *)transaction
+- (void)updateWithCustomInfo:(NSDictionary *)customInfo transaction:(YapDatabaseReadWriteTransaction *)transaction
 {
-    OWSAssert(customMessage);
+    OWSAssert(customInfo);
     OWSAssert(transaction);
 
     [self applyChangeToSelfAndLatestOutgoingMessage:transaction
                                         changeBlock:^(TSOutgoingMessage *message) {
-                                            [message setCustomMessage:customMessage];
+                                            [message setCustomInfo:customInfo];
                                         }];
 }
 
-- (void)updateWithCustomMessage:(NSString *)customMessage
+- (void)updateWithCustomInfo:(NSDictionary *)customInfo
 {
     [self.dbReadWriteConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-        [self updateWithCustomMessage:customMessage transaction:transaction];
+        [self updateWithCustomInfo:customInfo transaction:transaction];
     }];
 }
 
@@ -485,6 +485,9 @@ NSString *const kTSOutgoingMessageSentRecipientAll = @"kTSOutgoingMessageSentRec
                 [groupBuilder setType:OWSSignalServiceProtosGroupContextTypeUpdate];
                 break;
             }
+            case TSGroupMetaMessageRequestInfo:
+                [groupBuilder setType:OWSSignalServiceProtosGroupContextTypeRequestInfo];
+                break;
             default:
                 [groupBuilder setType:OWSSignalServiceProtosGroupContextTypeDeliver];
                 break;
