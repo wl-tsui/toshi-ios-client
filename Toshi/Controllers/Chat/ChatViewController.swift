@@ -20,7 +20,15 @@ import AVFoundation
 
 final class ChatViewController: UIViewController, UINavigationControllerDelegate {
     
-    let thread: TSThread
+    var previewState: Bool = false {
+        didSet {
+            if previewState == false {
+                animateFromPreviewState()
+            }
+        }
+    }
+
+    var thread: TSThread
     
     private var isVisible: Bool = false
     private lazy var viewModel = ChatViewModel(output: self, thread: self.thread)
@@ -51,7 +59,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         avatar.set(width: 34.0)
         avatar.isUserInteractionEnabled = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showContactProfile))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showThreadOrRecipientDetails))
         avatar.addGestureRecognizer(tap)
 
         return avatar
@@ -60,6 +68,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     private lazy var ethereumPromptView: ChatFloatingHeaderView = {
         let view = ChatFloatingHeaderView(withAutoLayout: true)
         view.delegate = self
+        view.clipsToBounds = true
 
         return view
     }()
@@ -88,11 +97,20 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             view.contentInsetAdjustmentBehavior = .never
         }
 
+        view.register(UITableViewCell.self)
         view.register(MessagesImageCell.self)
         view.register(MessagesPaymentCell.self)
         view.register(MessagesTextCell.self)
+        view.register(StatusCell.self)
 
         return view
+    }()
+
+    private lazy var previewButtonsView: AcceptDeclineButtonsView = {
+        let previewButtonsView = AcceptDeclineButtonsView()
+        previewButtonsView.delegate = self
+
+        return previewButtonsView
     }()
 
     private lazy var textInputView = ChatInputTextPanel(withAutoLayout: true)
@@ -100,9 +118,22 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     
     private var textInputViewBottomConstraint: NSLayoutConstraint?
     private var textInputViewHeightConstraint: NSLayoutConstraint?
-    
+
+    private var buttonsViewBottomConstraint: NSLayoutConstraint?
+    private var hiddenButtonsViewBottomConstraint: NSLayoutConstraint?
+
+    private var ethereumPromptViewHeightConstraint: NSLayoutConstraint?
+    private var hiddenEthereumPromptViewHeightConstraint: NSLayoutConstraint?
+
+    convenience init(thread: TSThread, forPreviewState previewState: Bool = false) {
+        self.init(thread: thread)
+
+        self.previewState = previewState
+    }
+
     init(thread: TSThread) {
         self.thread = thread
+        previewState = thread.isPendingAccept
 
         super.init(nibName: nil, bundle: nil)
 
@@ -119,14 +150,32 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func updateThread(_ thread: TSThread) {
+        guard thread.uniqueId == self.thread.uniqueId else { return }
+
+        self.thread = thread
+
+        title = thread.name()
+        updateChatAvatar()
+    }
     
     func updateContentInset() {
         let activeNetworkViewHeight = activeNetworkView.heightConstraint?.constant ?? 0
-        let topInset = ChatFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
-        
+
+        let bottomInset: CGFloat
+        let topInset: CGFloat
+        if previewState {
+            bottomInset = -10
+            topInset = 20
+        } else {
+            bottomInset = ChatFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
+            topInset = 10
+        }
+
         // The table view is inverted 180 degrees
-        tableView.contentInset = UIEdgeInsets(top: buttonsView.frame.height + 10, left: 0, bottom: topInset + 2 + 10, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: buttonsView.frame.height, left: 0, bottom: topInset + 2, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset + 2 + 20, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + 2, right: 0)
     }
     
     override func viewDidLoad() {
@@ -145,6 +194,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+
         preferLargeTitleIfPossible(false)
 
         isVisible = true
@@ -157,11 +208,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         tabBarController?.tabBar.isHidden = true
 
-        if let avatarPath = viewModel.contact?.avatarPath {
-            AvatarManager.shared.avatar(for: avatarPath, completion: { [weak self] image, _ in
-                self?.avatarImageView.image = image
-            })
-        }
+        updateChatAvatar()
+        requestGroupInfoIfNeeded()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
 
@@ -169,11 +217,30 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         updateBalance()
     }
 
+    private func updateChatAvatar() {
+        if let avatarPath = viewModel.contact?.avatarPath {
+            AvatarManager.shared.avatar(for: avatarPath, completion: { [weak self] image, _ in
+                self?.avatarImageView.image = image
+            })
+        } else if thread.isGroupThread() {
+            avatarImageView.image = (thread as? TSGroupThread)?.groupModel.groupImage
+        }
+    }
+    
+    private func requestGroupInfoIfNeeded() {
+        guard let groupThread = thread as? TSGroupThread else { /* Not a group thread, doesn't matter. */ return }
+        
+        guard !groupThread.groupModel.isFullyLoaded else { /* group is fully loaded, no action required */ return }
+        
+        ChatInteractor.sendRequestForGroupInfo(for: groupThread, completion: { success in
+            DLog("Did requesting group info succeed? \(success)")
+        })
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         viewModel.markAllMessagesAsRead()
-        SignalNotificationManager.updateUnreadMessagesNumber()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -185,7 +252,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         viewModel.saveDraftIfNeeded(inputViewText: textInputView.text)
 
         viewModel.markAllMessagesAsRead()
-        SignalNotificationManager.updateUnreadMessagesNumber()
 
         preferLargeTitleIfPossible(true)
     }
@@ -207,10 +273,18 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     private func addSubviewsAndConstraints() {
+        guard previewState == false else {
+            addSubviewsAndConstraintsForPreviewState()
+            return
+        }
+
         view.addSubview(tableView)
         view.addSubview(textInputView)
         view.addSubview(buttonsView)
         view.addSubview(ethereumPromptView)
+
+        ethereumPromptView.shouldShowPayButton = !thread.isGroupThread()
+        ethereumPromptView.shouldShowRequestButton = !thread.isGroupThread()
 
         tableView.top(to: view)
         tableView.left(to: view)
@@ -231,16 +305,45 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         buttonsView.bottomToTop(of: textInputView)
         buttonsView.trailingToSuperview()
 
-        let anchor: NSLayoutYAxisAnchor
-        if #available(iOS 11.0, *) {
-            anchor = self.view.safeAreaLayoutGuide.topAnchor
-        } else {
-            anchor = topLayoutGuide.bottomAnchor
-        }
-        ethereumPromptView.topAnchor.constraint(equalTo: anchor).isActive = true // .top(to: view, offset: 64)
+        ethereumPromptView.top(to: layoutGuide())
         ethereumPromptView.left(to: view)
         ethereumPromptView.right(to: view)
         ethereumPromptView.height(ChatFloatingHeaderView.height)
+    }
+
+    private func addSubviewsAndConstraintsForPreviewState() {
+        view.addSubview(tableView)
+        view.addSubview(textInputView)
+        view.addSubview(buttonsView)
+        view.addSubview(ethereumPromptView)
+        view.addSubview(previewButtonsView)
+
+        ethereumPromptView.top(to: layoutGuide())
+        ethereumPromptView.left(to: view)
+        ethereumPromptView.right(to: view)
+        ethereumPromptViewHeightConstraint = ethereumPromptView.height(ChatFloatingHeaderView.height, isActive: false)
+        hiddenEthereumPromptViewHeightConstraint = ethereumPromptView.height(0)
+
+        tableView.top(to: layoutGuide())
+        tableView.left(to: view)
+        tableView.right(to: view)
+
+        textInputView.left(to: view)
+        textInputViewBottomConstraint = textInputView.bottom(to: layoutGuide())
+        textInputView.right(to: view)
+        textInputViewHeightConstraint = textInputView.height(ChatInputTextPanel.defaultHeight)
+
+        buttonsView.topToBottom(of: tableView)
+        buttonsView.leadingToSuperview()
+        buttonsViewBottomConstraint = buttonsView.bottomToTop(of: textInputView, isActive: false)
+        hiddenButtonsViewBottomConstraint = buttonsView.top(to: textInputView)
+        buttonsView.trailingToSuperview()
+
+        buttonsView.alpha = 0.0
+
+        previewButtonsView.bottom(to: layoutGuide())
+        previewButtonsView.left(to: layoutGuide())
+        previewButtonsView.right(to: layoutGuide())
     }
 
     func sendPayment(with parameters: [String: Any], transaction: String?) {
@@ -256,12 +359,41 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         textInputViewBottomConstraint?.constant = keyboardScreenPositionOffset
         textInputViewHeightConstraint?.constant = textInputHeight
 
+        keyboardAwareInputView.height = ChatButtonsView.height + textInputHeight
+        keyboardAwareInputView.invalidateIntrinsicContentSize()
+
         view.layoutIfNeeded()
     }
 
-    @objc private func showContactProfile(_ sender: UITapGestureRecognizer) {
-        if let contact = self.viewModel.contact, sender.state == .ended {
-            let contactController = ProfileViewController(contact: contact)
+    private func animateFromPreviewState() {
+        view.layoutIfNeeded()
+
+        hiddenButtonsViewBottomConstraint?.isActive = false
+        buttonsViewBottomConstraint?.isActive = true
+
+        hiddenEthereumPromptViewHeightConstraint?.isActive = false
+        ethereumPromptViewHeightConstraint?.isActive = true
+
+        UIView.animate(withDuration: 0.2, animations: {
+            self.buttonsView.alpha = 1.0
+            self.previewButtonsView.alpha = 0.0
+            self.view.layoutIfNeeded()
+            self.updateContentInset()
+        }, completion: { _ in
+            self.previewButtonsView.removeFromSuperview()
+            self.tableView.reloadData()
+        })
+    }
+
+    @objc fileprivate func showThreadOrRecipientDetails(_ sender: UITapGestureRecognizer) {
+
+        if let groupThread = thread as? TSGroupThread {
+            let viewModel = GroupInfoViewModel(groupThread)
+
+            let groupViewController = GroupViewController(viewModel, configurator: GroupInfoConfigurator())
+            Navigator.push(groupViewController)
+        } else if let contact = self.viewModel.contact, sender.state == .ended {
+            let contactController = ProfileViewController(profile: contact)
             navigationController?.pushViewController(contactController, animated: true)
         }
     }
@@ -404,7 +536,7 @@ extension ChatViewController: UIImagePickerControllerDelegate {
             return
         }
 
-        viewModel.interactor.sendImage(image)
+        viewModel.interactor.send(image: image)
     }
 }
 
@@ -457,45 +589,65 @@ extension ChatViewController: UITableViewDataSource {
     }
 
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: UITableViewCell
 
-        let message = viewModel.messageModels[indexPath.item]
-        let cell = tableView.dequeueReusableCell(withIdentifier: message.reuseIdentifier, for: indexPath)
-        
-        if let cell = cell as? MessagesBasicCell {
+        let messageModel = viewModel.messageModels[indexPath.item]
 
-            if !message.isOutgoing, let avatarPath = self.viewModel.contact?.avatarPath {
-                AvatarManager.shared.avatar(for: avatarPath, completion: { image, _ in
-                    cell.avatarImageView.image = image
-                })
-            }
-
-            cell.isOutGoing = message.isOutgoing
-            cell.positionType = positionType(for: indexPath)
-
-            updateMessageState(message, in: cell)
+        if messageModel.sofaWrapper?.type == SofaType.status {
+            cell = dequeueStatusCell(message: messageModel, indexPath: indexPath)
+        } else {
+            cell = dequeueMessageBasicCell(messageModel: messageModel, indexPath: indexPath)
         }
 
-        if let cell = cell as? MessagesImageCell, message.type == .image {
-            cell.messageImage = message.image
-        } else if let cell = cell as? MessagesPaymentCell, (message.type == .payment) || (message.type == .paymentRequest), let signalMessage = message.signalMessage {
-            cell.titleLabel.text = message.title
-            cell.subtitleLabel.text = message.subtitle
-            cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: message.type)
+        cell.transform = self.tableView.transform
+
+        if previewState {
+            cell.isUserInteractionEnabled = false
+        }
+
+        return cell
+    }
+
+    private func dequeueStatusCell(message: MessageModel, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(StatusCell.self, for: indexPath)
+        cell.textLabel?.attributedText = message.attributedText
+
+        return cell
+    }
+
+    private func dequeueMessageBasicCell(messageModel: MessageModel, indexPath: IndexPath) -> MessagesBasicCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: messageModel.reuseIdentifier, for: indexPath) as? MessagesBasicCell else { fatalError("Couldn't deqeueu MessagesBasicCell")}
+        if !messageModel.isOutgoing, let incomingSignalMessage = messageModel.signalMessage as? TSIncomingMessage, let userId = incomingSignalMessage.authorId as String? {
+            AvatarManager.shared.avatar(for: userId, completion: { image, _ in
+                cell.avatarImageView.image = image
+            })
+        }
+
+        cell.isOutGoing = messageModel.isOutgoing
+        cell.positionType = positionType(for: indexPath)
+        cell.delegate = self
+
+        updateMessageState(messageModel, in: cell)
+
+        if let cell = cell as? MessagesImageCell, messageModel.type == .image {
+            cell.messageImage = messageModel.image
+        } else if let cell = cell as? MessagesPaymentCell, (messageModel.type == .payment) || (messageModel.type == .paymentRequest), let signalMessage = messageModel.signalMessage {
+            cell.titleLabel.text = messageModel.title
+            cell.subtitleLabel.text = messageModel.subtitle
+            cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: messageModel.type)
             cell.selectionDelegate = self
 
-            let isPaymentOpen = (message.signalMessage?.paymentState ?? .none) == .none
-            let isMessageActionable = message.isActionable
+            let isPaymentOpen = (messageModel.signalMessage?.paymentState ?? .none) == .none
+            let isMessageActionable = messageModel.isActionable
 
             let isOpenPaymentRequest = isMessageActionable && isPaymentOpen
             if isOpenPaymentRequest {
                 showActiveNetworkViewIfNeeded()
             }
 
-        } else if let cell = cell as? MessagesTextCell, message.type == .simple {
-            cell.messageText = message.text
+        } else if let cell = cell as? MessagesTextCell, messageModel.type == .simple {
+            cell.messageText = messageModel.text
         }
-
-        cell.transform = self.tableView.transform
 
         return cell
     }
@@ -515,6 +667,14 @@ extension ChatViewController: UITableViewDataSource {
         }
     }
 
+    func authorId(for message: TSMessage?) -> String? {
+        if let incomingSignalMessage = message as? TSIncomingMessage {
+            return incomingSignalMessage.authorId
+        }
+
+        return TokenUser.current?.address
+    }
+
     private func positionType(for indexPath: IndexPath) -> MessagePositionType {
 
         guard let currentMessage = viewModel.messageModels.element(at: indexPath.row) else {
@@ -522,33 +682,49 @@ extension ChatViewController: UITableViewDataSource {
             return .single
         }
 
-        guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else {
-            guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
-                // this is the first and only cell
-                return .single
-            }
+        let currentAuthorId = authorId(for: currentMessage.signalMessage)
 
-            // this is the first cell of many
-            return currentMessage.isOutgoing == nextMessage.isOutgoing ? .bottom : .single
+        guard let previousMessage = viewModel.messageModels.element(at: indexPath.row - 1) else {
+
+            guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else { return .single }
+
+            let nextAuthorId = authorId(for: nextMessage.signalMessage)
+            return currentAuthorId == nextAuthorId ? .bottom : .single
         }
+
+        let previousAuthorId = authorId(for: previousMessage.signalMessage)
 
         guard let nextMessage = viewModel.messageModels.element(at: indexPath.row + 1) else {
-            // this is the last cell
-            return currentMessage.isOutgoing == previousMessage.isOutgoing ? .top : .single
+            return currentAuthorId == previousAuthorId ? .top : .single
         }
 
-        if currentMessage.isOutgoing != previousMessage.isOutgoing, currentMessage.isOutgoing != nextMessage.isOutgoing {
-            // the previous and next messages are not from the same user
-            return .single
-        } else if currentMessage.isOutgoing == previousMessage.isOutgoing, currentMessage.isOutgoing == nextMessage.isOutgoing {
-            // the previous and next messages are from the same user
+        let nextAuthorId = authorId(for: nextMessage.signalMessage)
+
+        if currentAuthorId == previousAuthorId && currentAuthorId == nextAuthorId {
             return .middle
-        } else if currentMessage.isOutgoing == previousMessage.isOutgoing {
-            // the previous message is from the same user but the next message is not
+        } else if currentAuthorId == previousAuthorId {
             return .top
-        } else {
-            // the next message is from the same user but the previous message is not
+        } else if currentAuthorId == nextAuthorId {
             return .bottom
+        }
+
+        return .single
+    }
+}
+
+extension ChatViewController: MessagesBasicCellDelegate {
+
+    func didTapAvatarImageView(from cell: MessagesBasicCell) {
+
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        guard let message = viewModel.messageModels.element(at: indexPath.row) else { return }
+        guard let authorId = authorId(for: message.signalMessage) else { return }
+
+        IDAPIClient.shared.findContact(name: authorId) { [weak self] user in
+            guard let retrievedUser = user else { return }
+
+            let contactController = ProfileViewController(profile: retrievedUser)
+            self?.navigationController?.pushViewController(contactController, animated: true)
         }
     }
 }
@@ -564,7 +740,7 @@ extension MessageModel {
         case .paymentRequest, .payment:
             return MessagesPaymentCell.reuseIdentifier
         case .status:
-            return MessagesStatusCell.reuseIdentifier
+            return StatusCell.reuseIdentifier
         }
     }
 }
@@ -846,5 +1022,18 @@ extension ChatViewController: ChatMenuTableViewControllerDelegate {
     
     func didSelectButton(_ button: SofaMessage.Button, at indexPath: IndexPath) {
         didTapControlButton(button)
+    }
+}
+
+extension ChatViewController: AcceptDeclineButtonsViewDelegate {
+    func didSelectAccept() {
+        ChatInteractor.acceptThread(thread)
+        previewState = false
+    }
+
+    func didSelectDecline() {
+        ChatInteractor.declineThread(thread, completion: { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        })
     }
 }

@@ -202,9 +202,8 @@ final class ChatViewModel {
         // If changes do not affect current view, update and return without updating collection view
         // TODO: Since this is used in more than one place, we should look into abstracting this away, into our own
         // table/collection view backing model.
-        // swiftlint:disable force_cast
+        // swiftlint:disable:next force_cast
         let messageViewConnection = uiDatabaseConnection.ext(TSMessageDatabaseViewExtensionName) as! YapDatabaseViewConnection
-        // swiftlint:enable force_cast
         if messageViewConnection.hasChanges(for: notifications) == false {
             uiDatabaseConnection.read { transaction in
                 self.mappings.update(with: transaction)
@@ -232,7 +231,7 @@ final class ChatViewModel {
                     guard let signalMessage = dbExtension.object(at: newIndexPath, with: strongSelf.mappings) as? TSMessage else { return }
 
                     DispatchQueue.main.async {
-                        let result = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true)
+                        let result = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true, shouldUpdateGroupMembers: true)
 
                         strongSelf.messages.insert(result, at: 0)
 
@@ -258,7 +257,7 @@ final class ChatViewModel {
 
                         if let index = strongSelf.messages.index(of: message) {
 
-                            let updatedMessage = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: false)
+                            let updatedMessage = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true)
                             strongSelf.messages[index] = updatedMessage
                         }
                     }
@@ -371,6 +370,8 @@ final class ChatViewModel {
     func markAllMessagesAsRead() {
         TSStorageManager.shared().dbReadWriteConnection?.asyncReadWrite { [weak self] transaction in
             self?.thread.markAllAsRead(with: transaction)
+
+            SignalNotificationManager.updateUnreadMessagesNumber()
         }
     }
     

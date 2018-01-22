@@ -341,7 +341,10 @@ extension SettingsController: UITableViewDelegate {
 
         switch item {
         case .profile:
-            self.navigationController?.pushViewController(PersonalProfileViewController(), animated: true)
+            guard let current = TokenUser.current else { return }
+            let profileVC = ProfileViewController(profile: current, readOnlyMode: false)
+            
+            self.navigationController?.pushViewController(profileVC, animated: true)
         case .qrCode:
             guard let current = TokenUser.current else { return }
             let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
