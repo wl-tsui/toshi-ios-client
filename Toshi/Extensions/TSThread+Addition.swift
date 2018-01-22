@@ -17,11 +17,11 @@ import Foundation
 
 extension TSThread {
 
-    func avatar() -> UIImage? {
-        if isGroupThread() {
-            return (self as? TSGroupThread)?.groupModel.groupImage
+    func avatar() -> UIImage {
+        if let groupThread = self as? TSGroupThread {
+            return groupThread.groupModel.avatarOrPlaceholder
         } else {
-            return image()
+            return image() ?? #imageLiteral(resourceName: "avatar-placeholder")
         }
     }
     

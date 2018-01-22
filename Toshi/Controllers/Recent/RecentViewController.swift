@@ -111,14 +111,13 @@ final class RecentViewController: SweetTableController, Emptiable {
         let cellConfigurator = CellConfigurator()
         var cellData: TableCellData
         var accessoryType: UITableViewCellAccessoryType
-        let placeholderImage = UIImage(named: "avatar-placeholder")!
 
         let requestsTitle = Localized("messages_requests_title")
         let requestsSubtitle = LocalizedPlural("message_requests_description", for: dataSource.unacceptedThreadsCount)
-        let firstImage = firstUnacceptedThread.avatar() ?? placeholderImage
+        let firstImage = firstUnacceptedThread.avatar()
 
         if let secondUnacceptedThread = dataSource.unacceptedThread(at: IndexPath(row: 1, section: 0)) {
-            let secondImage = secondUnacceptedThread.avatar() ?? placeholderImage
+            let secondImage = secondUnacceptedThread.avatar()
             cellData = TableCellData(title: requestsTitle, subtitle: requestsSubtitle, doubleImage: (firstImage: firstImage, secondImage: secondImage))
             accessoryType = .disclosureIndicator
         } else {

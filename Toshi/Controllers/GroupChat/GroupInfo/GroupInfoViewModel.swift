@@ -38,10 +38,9 @@ final class GroupInfoViewModel {
         let groupModel = groupThread.groupModel
 
         groupInfo = GroupInfo()
-        groupInfo.title = groupModel.groupName
-
-        groupInfo.participantsIDs = groupModel.groupMemberIds
-        groupInfo.avatar = groupModel.groupImage
+        groupInfo.title = groupModel.nameOrEmptyString
+        groupInfo.participantsIDs = groupModel.participantsIdsOrEmptyArray
+        groupInfo.avatar = groupModel.avatarOrPlaceholder
 
         setup()
     }
@@ -89,7 +88,8 @@ final class GroupInfoViewModel {
     private var _sortedMembers: [TokenUser] = []
 
     @objc private func updateGroup() {
-        guard let updatedGroupModel = TSGroupModel(title: groupInfo.title, memberIds: NSMutableArray(array: groupInfo.participantsIDs), image: groupInfo.avatar, groupId: thread.groupModel.groupId) else { return }
+        let image = groupInfo.avatar
+        guard let updatedGroupModel = TSGroupModel(title: groupInfo.title, memberIds: NSMutableArray(array: groupInfo.participantsIDs), image: image, groupId: thread.groupModel.groupId) else { return }
 
         completeActionDelegate?.groupViewModelDidStartCreateOrUpdate()
 

@@ -470,7 +470,8 @@ final class ChatInteractor: NSObject {
             }
 
             let interactor = ChatInteractor(output: nil, thread: thread)
-            interactor.send(image: newGroupModel.groupImage, in: outgoingMessage, completion: completion)
+            let image = newGroupModel.avatarOrPlaceholder
+            interactor.send(image: image, in: outgoingMessage, completion: completion)
         }
     }
 

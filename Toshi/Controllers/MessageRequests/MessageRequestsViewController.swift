@@ -86,7 +86,7 @@ extension MessagesRequestsViewController: UITableViewDataSource {
 
         guard let thread = dataSource.unacceptedThread(at: indexPath) else { return UITableViewCell(frame: .zero) }
 
-        let avatar = thread.avatar() ?? UIImage(named: "avatar-placeholder")
+        let avatar = thread.avatar()
         var subtitle = "..."
         var title = ""
 

@@ -5,6 +5,8 @@
 #import "TSYapDatabaseObject.h"
 #import "ContactsManagerProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *const GroupUpdateTypeSting;
 extern NSString *const GroupInfoString;
 
@@ -18,21 +20,23 @@ extern NSString *const GroupMemberJoinedMessage;
 
 @interface TSGroupModel : TSYapDatabaseObject
 
-@property (nonatomic, strong) NSArray<NSString *> *groupMemberIds;
-@property (nonatomic, strong) NSString *groupName;
-@property (nonatomic, strong) NSData *groupId;
+@property (nonatomic, strong, nullable) NSArray<NSString *> *groupMemberIds;
+@property (nonatomic, strong, nullable) NSString *groupName;
+@property (nonatomic, strong, nullable) NSData *groupId;
 
 #if TARGET_OS_IOS
-@property (nonatomic, strong) UIImage *groupImage;
+@property (nonatomic, strong, nullable) UIImage *groupImage;
 
-- (instancetype)initWithTitle:(NSString *)title
+- (nullable instancetype)initWithTitle:(NSString *)title
                     memberIds:(NSMutableArray<NSString *> *)memberIds
-                        image:(UIImage *)image
-                      groupId:(NSData *)groupId;
+                        image:(nullable UIImage *)image
+                      groupId:(nullable NSData *)groupId;
 
 - (BOOL)isEqual:(id)other;
 - (BOOL)isEqualToGroupModel:(TSGroupModel *)model;
-- (NSDictionary *)getInfoAboutUpdateTo:(TSGroupModel *)newModel;
+- (nullable NSDictionary *)getInfoAboutUpdateTo:(TSGroupModel *)newModel;
 #endif
+
+NS_ASSUME_NONNULL_END
 
 @end

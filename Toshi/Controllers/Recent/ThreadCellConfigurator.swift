@@ -45,10 +45,10 @@ final class ThreadCellConfigurator: CellConfigurator {
         var badgeText: String?
 
         if thread.isGroupThread() {
-            avatar = (thread as? TSGroupThread)?.groupModel.groupImage ?? UIImage(named: "avatar-placeholder")
+            avatar = (thread as? TSGroupThread)?.groupModel.avatarOrPlaceholder
             title = thread.name()
         } else if let recipient = ThreadCellConfigurator.recipient(for: thread) {
-            avatar = AvatarManager.shared.cachedAvatar(for: recipient.avatarPath) ?? UIImage(named: "avatar-placeholder")
+            avatar = AvatarManager.shared.cachedAvatar(for: recipient.avatarPath) ?? #imageLiteral(resourceName: "avatar-placeholder")
             title = recipient.nameOrDisplayName
         }
 
