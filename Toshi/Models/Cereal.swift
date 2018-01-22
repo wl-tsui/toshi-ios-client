@@ -119,6 +119,10 @@ class Cereal: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
     }
 
+    func walletAddressQRCodeImage(resizeRate: CGFloat) -> UIImage {
+        return UIImage.imageQRCode(for: "\(QRCodeController.paymentWithAddressPath)\(paymentAddress)", resizeRate: resizeRate)
+    }
+
     // MARK: - Sign with id
 
     func signWithID(message: String) -> String {
