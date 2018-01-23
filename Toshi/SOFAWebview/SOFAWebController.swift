@@ -164,6 +164,22 @@ extension SOFAWebController: WKNavigationDelegate {
         backBarButtonItem.isEnabled = webView.canGoBack
         forwardBarButtonItem.isEnabled = webView.canGoForward
     }
+
+    func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
+
+        // Some webservers are asking for Server Trust Authentication, we need to properly respond with the appropriate action. Which is using SecTrustRef to authenticate it
+
+        let protectionSpace = challenge.protectionSpace
+
+        guard protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
+            let trust = protectionSpace.serverTrust else {
+                completionHandler(URLSession.AuthChallengeDisposition.performDefaultHandling, nil)
+                return
+        }
+
+        let urlCredentials = URLCredential(trust: trust)
+        completionHandler(URLSession.AuthChallengeDisposition.useCredential, urlCredentials)
+    }
 }
 
 extension SOFAWebController: WKScriptMessageHandler {
