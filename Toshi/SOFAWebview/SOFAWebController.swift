@@ -103,13 +103,8 @@ final class SOFAWebController: UIViewController {
 
     private lazy var toolbar: UIToolbar = {
         let view = UIToolbar(withAutoLayout: true)
-
-        let share = UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
         let spacing = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let placeholder = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        placeholder.width = 44
-
-        view.items = [self.backBarButtonItem, spacing, self.forwardBarButtonItem, spacing, share, spacing, placeholder]
+        view.items = [spacing, self.backBarButtonItem, spacing, self.forwardBarButtonItem, spacing]
 
         return view
     }()
@@ -160,10 +155,6 @@ final class SOFAWebController: UIViewController {
 }
 
 extension SOFAWebController: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-        backBarButtonItem.isEnabled = webView.canGoBack
-        forwardBarButtonItem.isEnabled = webView.canGoForward
-    }
 
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Swift.Void) {
 
