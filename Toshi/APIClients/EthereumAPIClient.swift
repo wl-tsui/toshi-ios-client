@@ -20,9 +20,9 @@ import AwesomeCache
 typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?)
 typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
 
-class EthereumAPIClient: NSObject {
+final class EthereumAPIClient {
 
-    @objc static let shared: EthereumAPIClient = EthereumAPIClient()
+    static let shared: EthereumAPIClient = EthereumAPIClient()
 
     private var mainTeapot: Teapot
 
@@ -55,11 +55,9 @@ class EthereumAPIClient: NSObject {
         self.mainTeapot = mockTeapot
     }
 
-    private override init() {
+    private init() {
         mainTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
         switchedNetworkTeapot = Teapot(baseURL: URL(string: NetworkSwitcher.shared.defaultNetworkBaseUrl)!)
-
-        super.init()
     }
 
     func createUnsignedTransaction(parameters: [String: Any], completion: @escaping ((_ unsignedTransaction: String?, _ error: ToshiError?) -> Void)) {
@@ -210,14 +208,14 @@ class EthereumAPIClient: NSObject {
         }
     }
 
-    @objc func registerForMainNetworkPushNotifications() {
+    func registerForMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
             self.registerForPushNotifications(timestamp, teapot: self.mainTeapot) { _, _ in }
         }
     }
 
-    @objc func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
+    func registerForSwitchedNetworkPushNotificationsIfNeeded(completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         guard NetworkSwitcher.shared.isDefaultNetworkActive == false else {
             completion?(true, nil)
             return
@@ -231,7 +229,7 @@ class EthereumAPIClient: NSObject {
         }
     }
 
-    @objc func deregisterFromMainNetworkPushNotifications() {
+    func deregisterFromMainNetworkPushNotifications() {
         timestamp(mainTeapot) { timestamp, _ in
             guard let timestamp = timestamp else { return }
             self.deregisterFromPushNotifications(timestamp, teapot: self.mainTeapot)

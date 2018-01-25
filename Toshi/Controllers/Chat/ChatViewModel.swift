@@ -43,8 +43,7 @@ final class ChatViewModel {
 
         registerNotifications()
 
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        contactsManager = appDelegate?.contactsManager
+        contactsManager = SessionManager.shared.contactsManager
     }
 
     private var contactsManager: ContactsManager?

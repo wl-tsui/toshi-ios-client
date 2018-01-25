@@ -186,8 +186,8 @@ final class GroupViewController: UIViewController {
     }
 
     private func showUserInfo(with userId: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = TokenUser.current else { return }
-        var users = appDelegate.contactsManager.tokenContacts.filter { $0.address == userId }
+        guard let currentUser = TokenUser.current else { return }
+        var users = SessionManager.shared.contactsManager.tokenContacts.filter { $0.address == userId }
         users.append(currentUser)
 
         guard let user = users.first else { return }

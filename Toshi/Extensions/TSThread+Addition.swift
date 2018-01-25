@@ -30,8 +30,8 @@ extension TSThread {
            let json = deserialised as? [String: Any] {
 
             recipient = TokenUser(json: json, shouldSave: false)
-        } else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            recipient = appDelegate.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
+        } else {
+            recipient = SessionManager.shared.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
         }
 
         return recipient
@@ -48,8 +48,7 @@ extension TSThread {
     func updateGroupMembers() {
         if let groupThread = self as? TSGroupThread {
 
-            guard  let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let contactsIDs = appDelegate.contactsManager.tokenContacts.map { $0.address }
+            let contactsIDs = SessionManager.shared.contactsManager.tokenContacts.map { $0.address }
 
             let recipientsIdsSet = Set(groupThread.recipientIdentifiers)
             let nonContactsUsersIds = recipientsIdsSet.subtracting(Set(contactsIDs))

@@ -12,8 +12,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-extension NSNotification.Name {
-    static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
-    static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
+let appDelegateClassName: String
+if UIApplication.isNonUITesting {
+    //Launch using test app delegate to prevent state from spinning up
+    appDelegateClassName = NSStringFromClass(TestAppDelegate.self)
+} else {
+    appDelegateClassName = NSStringFromClass(AppDelegate.self)
 }
+
+// https://forums.developer.apple.com/thread/46405
+UIApplicationMain(CommandLine.argc,
+                  UnsafeMutableRawPointer(CommandLine.unsafeArgv).bindMemory(to: UnsafeMutablePointer<Int8>.self, capacity: Int(CommandLine.argc)),
+                  nil,
+                  appDelegateClassName)

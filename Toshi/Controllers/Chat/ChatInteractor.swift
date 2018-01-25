@@ -30,11 +30,7 @@ final class ChatInteractor: NSObject {
         self.output = output
         self.thread = thread
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        self.messageSender = appDelegate.messageSender
+        self.messageSender = SessionManager.shared.messageSender
     }
 
     private var etherAPIClient: EthereumAPIClient {
@@ -359,13 +355,13 @@ final class ChatInteractor: NSObject {
         let updateInfoString = infoMessage.additionalInfoString
         let authorId = infoMessage.authorId
 
-        if let thread = infoMessage.thread as? TSGroupThread, let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+        if let thread = infoMessage.thread as? TSGroupThread {
 
             var object = ""
             var subject = ""
             var statusType = SofaStatus.StatusType.none
 
-            if let author = appDelegate.contactsManager.tokenContact(forAddress: authorId) {
+            if let author = SessionManager.shared.contactsManager.tokenContact(forAddress: authorId) {
                 subject = author.nameOrDisplayName
             } else if authorId == Cereal.shared.address {
                 subject = Localized("current_user_pronoun")
@@ -425,10 +421,9 @@ final class ChatInteractor: NSObject {
     }
 
     private func nameOrTruncatedAddress(for nameOrAddress: String) -> String {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nameOrAddress }
 
         if nameOrAddress.hasAddressPrefix {
-            let validDisplayName = appDelegate.contactsManager.displayName(forPhoneIdentifier: nameOrAddress)
+            let validDisplayName = SessionManager.shared.contactsManager.displayName(forPhoneIdentifier: nameOrAddress)
             if !validDisplayName.isEmpty {
                 return validDisplayName
             } else {
@@ -526,7 +521,7 @@ final class ChatInteractor: NSObject {
     
     // MARK: - Bots
 
-    @objc static func triggerBotGreeting() {
+    static func triggerBotGreeting() {
         guard let botAddress = Bundle.main.infoDictionary?["InitialGreetingAddress"] as? String else { return }
 
         let botThread = ChatInteractor.getOrCreateThread(for: botAddress)
@@ -540,8 +535,7 @@ final class ChatInteractor: NSObject {
     // MARK: - Updating Contacts
 
     private static func requestContactsRefresh() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        appDelegate?.contactsManager.refreshContacts()
+        SessionManager.shared.contactsManager.refreshContacts()
     }
 
     func sendImage(_ image: UIImage, in message: TSOutgoingMessage? = nil) {

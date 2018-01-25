@@ -77,17 +77,13 @@ protocol GroupViewModelProtocol: class {
 extension GroupViewModelProtocol {
 
     func setupSortedMembers() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            CrashlyticsLogger.log("Failed to access app delegate")
-            fatalError("Can't access app delegate")
-        }
 
         guard let currentUser = TokenUser.current else {
             CrashlyticsLogger.log("Failed to access current user")
             fatalError("Can't access current user")
         }
 
-        var members = appDelegate.contactsManager.tokenContacts
+        var members = SessionManager.shared.contactsManager.tokenContacts
         members.append(currentUser)
         members = members.filter { recipientsIds.contains($0.address) }
 

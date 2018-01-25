@@ -59,8 +59,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
 
     private var messageSender: MessageSender? {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        return appDelegate?.messageSender
+        return SessionManager.shared.messageSender
     }
     
     private let belowTableViewStyleLabelSpacing: CGFloat = 8

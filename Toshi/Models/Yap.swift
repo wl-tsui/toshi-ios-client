@@ -21,18 +21,15 @@ protocol Singleton: class {
 }
 
 @objc enum YapInconsistencyError: Int {
-    case none
     case missingDatabaseFile
     case missingKeychainPassword
 
-    var description: String? {
+    var description: String {
         switch self {
         case .missingDatabaseFile:
             return Localized("yap_missing_db_file_error_description")
         case .missingKeychainPassword:
             return Localized("yap_missing_password_error_description")
-        case .none:
-            return nil
         }
     }
 }

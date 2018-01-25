@@ -13,18 +13,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import UIKit
 
-#import <UIKit/UIKit.h>
-#import "AppDelegate.h"
-#import "TestAppDelegate.h"
+/// Extension functions checking if the app is currently running tests or not.
+public extension UIApplication {
 
-int main(int argc, char* argv[]) {
-    @autoreleasepool {
-        BOOL runningTests = NSClassFromString(@"XCTestCase") != nil || NSClassFromString(@"QuickSpec") != nil;
-        if(runningTests) {
-            return UIApplicationMain(argc, argv, nil, NSStringFromClass([TestAppDelegate class]));
-        }
+    /// Returns true if any kind of testing is taking place, false if not.
+    public static var isTesting: Bool {
+        return NSClassFromString("XCTestCase") != nil || NSClassFromString("QuickSpec") != nil
+    }
 
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    /// Returns true if testing which does not involve the UI is taking place, false if not.
+    public static var isNonUITesting: Bool {
+        return isTesting && !isUITesting
+    }
+
+    /// Returns true if UI testing is taking place, false if not.
+    public static var isUITesting: Bool {
+        return NSClassFromString("GREYActions") != nil
     }
 }

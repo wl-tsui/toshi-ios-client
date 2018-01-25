@@ -24,8 +24,8 @@ import Teapot
 
 typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
 
-@objc class IDAPIClient: NSObject, CacheExpiryDefault {
-    @objc static let shared: IDAPIClient = IDAPIClient()
+final class IDAPIClient: CacheExpiryDefault {
+    static let shared: IDAPIClient = IDAPIClient()
 
     static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
 
@@ -76,11 +76,9 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
         }
     }
 
-    private override init() {
+    private init() {
         baseURL = URL(string: ToshiIdServiceBaseURLPath)!
         teapot = Teapot(baseURL: baseURL)
-
-        super.init()
     }
 
     /// We use a background queue and a semaphore to ensure we only update the UI
@@ -119,14 +117,13 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
         fetchUsers(with: identifiers) { users, _ in
 
             guard let fetchedUsers = users else { return }
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
 
             for user in fetchedUsers {
                 if !Yap.sharedInstance.containsObject(for: user.address, in: TokenUser.storedContactKey) {
                     Yap.sharedInstance.insert(object: user.json, for: user.address, in: TokenUser.storedContactKey)
                 }
 
-                appDelegate.contactsManager.refreshContact(user)
+                SessionManager.shared.contactsManager.refreshContact(user)
             }
         }
     }
@@ -144,8 +141,7 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
                     return
                 }
 
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                appDelegate.contactsManager.refreshContact(updatedContact)
+                SessionManager.shared.contactsManager.refreshContact(updatedContact)
             }
         }
     }
@@ -179,7 +175,7 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
         updateUser(userDict) { _, _ in }
     }
 
-    @objc func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
+    func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
         retrieveUser(username: Cereal.shared.address) { user in
 
             guard user == nil else {
@@ -348,7 +344,7 @@ typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
     /// - Parameters:
     ///   - username: username of id address
     ///   - completion: called on completion
-    @objc func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
+    func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
 
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             var resultUser: TokenUser?

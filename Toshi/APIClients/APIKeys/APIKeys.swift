@@ -32,9 +32,9 @@ struct APIKeys {
     }
 }
 
-final class APIKeysManager: NSObject {
+final class APIKeysManager {
 
-    @objc static func setup() {
+     static func setup() {
         guard let fabricKey = APIKeys.key(named: APIKeys.Fabric) else {
             DLog("Can't load Fabric API Key")
             return

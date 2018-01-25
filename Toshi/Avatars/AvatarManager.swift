@@ -50,12 +50,10 @@ final class AvatarManager: NSObject {
     @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
 
-            let avatarPaths: [String] = appDelegate.contactsManager.tokenContacts.flatMap { contact in
+            let avatarPaths: [String] = SessionManager.shared.contactsManager.tokenContacts.flatMap { contact in
                 contact.avatarPath
             }
 
