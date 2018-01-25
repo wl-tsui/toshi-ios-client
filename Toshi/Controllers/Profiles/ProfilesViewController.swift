@@ -15,28 +15,6 @@
 
 import UIKit
 
-// MARK: - Profiles View Controller Type
-
-public enum ProfilesViewControllerType {
-    case favorites
-    case newChat
-    case newGroupChat
-    case updateGroupChat
-    
-    var title: String {
-        switch self {
-        case .favorites:
-            return Localized("profiles_navigation_title_favorites")
-        case .newChat:
-            return Localized("profiles_navigation_title_new_chat")
-        case .newGroupChat:
-            return Localized("profiles_navigation_title_new_group_chat")
-        case .updateGroupChat:
-            return Localized("profiles_navigation_title_update_group_chat")
-        }
-    }
-}
-
 protocol ProfilesListCompletionOutput: class {
     func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String])
 }
@@ -45,8 +23,6 @@ protocol ProfilesListCompletionOutput: class {
 
 final class ProfilesViewController: UITableViewController, Emptiable {
     
-    let type: ProfilesViewControllerType
-
     var scrollViewBottomInset: CGFloat = 0
     private(set) weak var output: ProfilesListCompletionOutput?
 
@@ -377,7 +353,7 @@ extension ProfilesViewController: UISearchResultsUpdating {
 
 // MARK: - Profiles Add Group Header Delegate
 
-extension ProfilesViewController: ProfilesAddGroupHeaderDelegate {
+extension ProfilesViewController: NewChatAddGroupHeaderDelegate {
     
     func newGroup() {
         let datasource = ProfilesDataSource(type: .newGroupChat)

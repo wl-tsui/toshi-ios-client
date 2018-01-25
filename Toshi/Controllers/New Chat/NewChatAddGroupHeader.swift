@@ -17,13 +17,13 @@ import SweetUIKit
 import TinyConstraints
 import UIKit
 
-protocol ProfilesAddGroupHeaderDelegate: class {
+protocol NewChatAddGroupHeaderDelegate: class {
     func newGroup()
 }
 
-class ProfilesAddGroupHeader: UIView {
+class NewChatAddGroupHeader: UIView {
     
-    private weak var delegate: ProfilesAddGroupHeaderDelegate?
+    private weak var delegate: NewChatAddGroupHeaderDelegate?
 
     private lazy var button: LeftAlignedButton = {
         let view = LeftAlignedButton()
@@ -44,7 +44,7 @@ class ProfilesAddGroupHeader: UIView {
         return view
     }()
     
-    convenience init(with delegate: ProfilesAddGroupHeaderDelegate?) {
+    convenience init(with delegate: NewChatAddGroupHeaderDelegate?) {
         self.init(withAutoLayout: true)
         self.delegate = delegate
         

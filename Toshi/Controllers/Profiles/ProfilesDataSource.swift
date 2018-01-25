@@ -11,7 +11,6 @@ class ProfilesDataSource: NSObject {
     static let filteredProfilesKey = "Filtered_Profiles_Key"
     static let customFilteredProfilesKey = "Custom_Filtered_Profiles_Key"
     
-    let type: ProfilesViewControllerType
     private(set) var selectedProfiles = Set<TokenUser>()
     private var allProfiles: [TokenUser] = []
 
@@ -108,9 +107,7 @@ class ProfilesDataSource: NSObject {
 
     // MARK: - Initialization
 
-    init(type: ProfilesViewControllerType) {
-        self.type = type
-
+    override init() {
         super.init()
 
         if Yap.isUserSessionSetup {

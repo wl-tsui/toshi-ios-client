@@ -45,12 +45,10 @@ protocol NewChatListCompletionOutput: class {
 
 final class NewChatViewController: UITableViewController {
 
-    let type: NewChatViewControllerType = .newChat
+    let type: NewChatViewControllerType
 
     var scrollViewBottomInset: CGFloat = 0
     private(set) weak var output: NewChatListCompletionOutput?
-
-    private(set) var dataSource = ProfilesDataSource(type: .newChat)
 
     var scrollView: UIScrollView {
         return tableView
@@ -93,8 +91,8 @@ final class NewChatViewController: UITableViewController {
 
     // MARK: - Initialization
 
-    required public init(output: NewChatListCompletionOutput? = nil) {
-
+    required public init(type: NewChatViewControllerType, output: NewChatListCompletionOutput? = nil) {
+        type = type
         super.init(nibName: nil, bundle: nil)
 
         title = type.title
@@ -341,7 +339,7 @@ extension NewChatViewController: UISearchResultsUpdating {
 
 // MARK: - New ChatViewController Add Group Header Delegate
 
-extension NewChatViewController: ProfilesAddGroupHeaderDelegate {
+extension NewChatViewController: NewChatAddGroupHeaderDelegate {
 
     func newGroup() {
         let datasource = ProfilesDataSource(type: .newGroupChat)
