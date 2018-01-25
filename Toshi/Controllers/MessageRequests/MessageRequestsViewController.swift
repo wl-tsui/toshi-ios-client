@@ -92,7 +92,7 @@ extension MessagesRequestsViewController: UITableViewDataSource {
 
         if thread.isGroupThread() {
             title = thread.name()
-        } else if let recipient = ThreadCellConfigurator.recipient(for: thread) {
+        } else if let recipient = thread.recipient() {
             title = recipient.nameOrDisplayName
         }
 

@@ -17,6 +17,26 @@ import Foundation
 
 extension TSThread {
 
+    /// Needs to be called on main thread as it involves UIAppDelegate
+    func recipient() -> TokenUser? {
+        guard let recipientAddress = contactIdentifier() else { return nil }
+
+        var recipient: TokenUser?
+
+        let retrievedData = contactData(for: recipientAddress)
+
+        if let userData = retrievedData,
+           let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
+           let json = deserialised as? [String: Any] {
+
+            recipient = TokenUser(json: json, shouldSave: false)
+        } else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            recipient = appDelegate.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
+        }
+
+        return recipient
+    }
+
     func avatar() -> UIImage {
         if let groupThread = self as? TSGroupThread {
             return groupThread.groupModel.avatarOrPlaceholder
@@ -40,6 +60,10 @@ extension TSThread {
                 TSThread.saveRecipient(with: recipientId)
             }
         }
+    }
+
+    private func contactData(for address: String) -> Data? {
+        return (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.storedContactKey) as? Data)
     }
 
     static func saveRecipient(with identifier: String) {

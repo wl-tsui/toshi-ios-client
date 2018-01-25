@@ -22,6 +22,9 @@ let TabBarItemTitleOffset: CGFloat = -3.0
 class TabBarController: UITabBarController, OfflineAlertDisplaying {
     let offlineAlertView = defaultOfflineAlertView()
 
+    var paymentRouter: PaymentRouter?
+    var paidUserInfo: UserInfo?
+
     enum Tab {
         case browsing
         case messaging
@@ -260,8 +263,8 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(address: String, weiValue: String?, confirmationText: String) {
         let userInfo = UserInfo(address: address, paymentAddress: address, avatarPath: nil, name: nil, username: address, isLocal: false)
-        var parameters = ["from": Cereal.shared.paymentAddress, "to": address]
-        parameters["value"] = weiValue
+        var parameters = [PaymentParameters.from: Cereal.shared.paymentAddress, PaymentParameters.to: address]
+        parameters[PaymentParameters.value] = weiValue
 
         proceedToPayment(userInfo: userInfo, parameters: parameters, confirmationText: confirmationText)
     }
@@ -269,8 +272,9 @@ extension TabBarController: ScannerViewControllerDelegate {
     private func proceedToPayment(username: String, weiValue: String?, confirmationText: String) {
         idAPIClient.retrieveUser(username: username) { [weak self] contact in
             if let contact = contact, let validWeiValue = weiValue {
-                var parameters = ["from": Cereal.shared.paymentAddress, "to": contact.paymentAddress]
-                parameters["value"] = validWeiValue
+                let parameters = [PaymentParameters.from: Cereal.shared.paymentAddress,
+                                  PaymentParameters.to: contact.paymentAddress,
+                                  PaymentParameters.value: validWeiValue]
 
                 self?.proceedToPayment(userInfo: contact.userInfo, parameters: parameters, confirmationText: confirmationText)
             } else {
@@ -281,26 +285,16 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any], confirmationText: String) {
 
-        if parameters["value"] != nil, let scannerController = self.scannerController as? ScannerController {
-            scannerController.setStatusBarHidden(true)
+        self.paidUserInfo = userInfo
+
+        if let scannerController = self.scannerController as? ScannerController {
+            scannerController.setStatusBarHidden()
 
             SoundPlayer.playSound(type: .scanned)
 
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] transaction, error in
-
-                guard error == nil else {
-                    self?.scannerController.startScanning()
-                    return
-                }
-
-                if let scannerController = self?.scannerController as? ScannerController {
-                    scannerController.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, error: error)
-                } else {
-                    scannerController.startScanning()
-                }
-            }, cancelHandler: {
-                scannerController.startScanning()
-            })
+            self.paymentRouter = PaymentRouter(parameters: parameters)
+            self.paymentRouter?.delegate = self
+            self.paymentRouter?.present()
 
         } else {
             scannerController.startScanning()
@@ -325,6 +319,13 @@ extension TabBarController: ScannerViewControllerDelegate {
         }
     }
 
+}
+
+extension TabBarController: PaymentRouterDelegate {
+
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+        scannerController.startScanning()
+    }
 }
 
 extension TabBarController: ReachabilityDelegate {

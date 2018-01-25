@@ -34,6 +34,11 @@ final class SOFAWebController: UIViewController {
     }
 
     private let rcpUrl = ToshiWebviewRPCURLPath
+    private var paymentRouter: PaymentRouter?
+
+    private var currentTransactionSignCallbackId: String?
+
+    private lazy var activityView = self.defaultActivityIndicator()
     
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
@@ -126,6 +131,8 @@ final class SOFAWebController: UIViewController {
         webView.bottomToTop(of: toolbar)
 
         hidesBottomBarWhenPushed = true
+
+        setupActivityIndicator()
     }
 
     func load(url: URL) {
@@ -259,33 +266,49 @@ extension SOFAWebController: WKScriptMessageHandler {
             }
 
             var parameters: [String: Any] = [:]
-            if let from = transaction["from"] {
-                parameters["from"] = from
+            if let from = transaction[PaymentParameters.from] {
+                parameters[PaymentParameters.from] = from
             }
-            if let to = transaction["to"] {
-                parameters["to"] = to
+            if let to = transaction[PaymentParameters.to] {
+                parameters[PaymentParameters.to] = to
             }
-            if let value = transaction["value"] {
-                parameters["value"] = value
+            if let value = transaction[PaymentParameters.value] {
+                parameters[PaymentParameters.value] = value
             } else {
-                parameters["value"] = "0x0"
+                parameters[PaymentParameters.value] = "0x0"
             }
-            if let data = transaction["data"] {
-                parameters["data"] = data
+            if let data = transaction[PaymentParameters.data] {
+                parameters[PaymentParameters.data] = data
             }
-            if let gas = transaction["gas"] {
-                parameters["gas"] = gas
+            if let gas = transaction[PaymentParameters.gas] {
+                parameters[PaymentParameters.gas] = gas
             }
-            if let gasPrice = transaction["gasPrice"] {
-                parameters["gasPrice"] = gasPrice
+            if let gasPrice = transaction[PaymentParameters.gasPrice] {
+                parameters[PaymentParameters.gasPrice] = gasPrice
             }
-            if let nonce = transaction["nonce"] {
-                parameters["nonce"] = nonce
+            if let nonce = transaction[PaymentParameters.nonce] {
+                parameters[PaymentParameters.nonce] = nonce
             }
 
-            if let to = transaction["to"] as? String, let value = parameters["value"] as? String {
-                IDAPIClient.shared.retrieveUser(username: to) { [weak self] user in
-                    var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: nil, username: to, isLocal: false)
+            if let to = transaction[PaymentParameters.to] as? String, let value = parameters[PaymentParameters.value] as? String {
+
+                showActivityIndicator()
+
+                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] user, _ in
+                    let webViewTitle = self?.webView.title
+
+                    self?.hideActivityIndicator()
+
+                    guard let url = self?.webView.url else {
+                        assertionFailure("Can't retrieve Webview url")
+                        return
+                    }
+
+                    var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: webViewTitle, username: to, isLocal: false)
+
+                    //we do not have image from a website yet
+                    let dappInfo = DappInfo(url, "", webViewTitle)
+
                     if let user = user {
                         userInfo.avatarPath = user.avatarPath
                         userInfo.username = user.username
@@ -298,8 +321,8 @@ extension SOFAWebController: WKScriptMessageHandler {
                     let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
                     let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user?.name ?? to)
 
-                    self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, callbackId: callbackId)
-                }
+                    self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, dappInfo: dappInfo, callbackId: callbackId)
+                })
             }
         case .publishTransaction:
             guard let messageBody = message.body as? [String: Any],
@@ -331,22 +354,23 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
-    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, callbackId: String) {
+    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, dappInfo: DappInfo, callbackId: String) {
 
-        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, error in
+        guard currentTransactionSignCallbackId == nil else {
+            // Already signing a transaction
+            return
+        }
 
-            guard error == nil else {
-                let payload = SOFAResponseConstants.skeletonErrorJSON
-                self?.jsCallback(callbackId: callbackId, payload: payload)
+        currentTransactionSignCallbackId = callbackId
 
-                return
-            }
+        let paymentRouter = PaymentRouter(parameters: parameters, shouldSendSignedTransaction: false)
+        paymentRouter.delegate = self
 
-            self?.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, callbackId: callbackId)
-            }, cancelHandler: { [weak self] in
-                let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
-                self?.jsCallback(callbackId: callbackId, payload: payload)
-        })
+        paymentRouter.userInfo = userInfo
+        paymentRouter.dappInfo = dappInfo
+        paymentRouter.present()
+
+        self.paymentRouter = paymentRouter
     }
 
     private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo, transaction: String?, callbackId: String) {
@@ -360,6 +384,8 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
 
         jsCallback(callbackId: callbackId, payload: payload)
+
+        currentTransactionSignCallbackId = nil
     }
 
     private func presentPersonalMessageSignAlert(_ message: String, callbackId: String, signHandler: @escaping ((String) -> Void)) {
@@ -374,16 +400,56 @@ extension SOFAWebController: WKScriptMessageHandler {
     }
 }
 
-struct SOFAResponseConstants {
-    static let skeletonErrorJSON = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
+extension SOFAWebController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
+    }
 }
 
-extension SOFAWebController: PaymentPresentable {
-    func paymentApproved(with parameters: [String: Any], userInfo _: UserInfo) {
-        //we do not use this currently
+extension SOFAWebController: PaymentRouterDelegate {
+
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+
+        guard let callbackId = currentTransactionSignCallbackId else {
+            let message = "No current signed transcation callBack Id on SOFAWebVontroller when payment router finished"
+            assertionFailure(message)
+            CrashlyticsLogger.nonFatal(message, error: nil, attributes: parameters)
+            return
+        }
+
+        guard let userInfo = paymentRouter.userInfo else {
+            let message = "No user info found on SOFAWebController payment router after it finished"
+            assertionFailure(message)
+            CrashlyticsLogger.nonFatal(message, error: nil, attributes: parameters)
+            return
+        }
+
+        guard error == nil else {
+            let payload = SOFAResponseConstants.skeletonErrorJSON
+            jsCallback(callbackId: callbackId, payload: payload)
+
+            return
+        }
+
+        approvePayment(with: parameters, userInfo: userInfo, transaction: unsignedTransaction, callbackId: callbackId)
     }
 
-    func paymentDeclined() {
-        //we dnt use this currently
+    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {
+
+        guard let callbackId = currentTransactionSignCallbackId else {
+            let message = "No current signed transcation callBack Id on SOFAWebVontroller when payment router finished"
+            assertionFailure(message)
+            CrashlyticsLogger.log(message)
+            return
+        }
+
+        let payload = "{\\\"error\\\": \\\"Transaction declined by user\\\", \\\"result\\\": null}"
+        jsCallback(callbackId: callbackId, payload: payload)
+
+        currentTransactionSignCallbackId = nil
     }
+}
+
+struct SOFAResponseConstants {
+    static let skeletonErrorJSON = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
 }

@@ -55,6 +55,8 @@ extension Dapp: BrowseableItem {
     }
 }
 
+typealias DappInfo = (dappURL: URL, imagePath: String?, headerText: String?)
+
 // Convenience class for decoding an array of Dapps with the key "results"
 final class DappResults: Codable {
     

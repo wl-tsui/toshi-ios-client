@@ -3,9 +3,22 @@ import UIKit
 import TinyConstraints
 import CameraScanner
 
-class PaymentAddressController: UIViewController {
+protocol PaymentAddressControllerDelegate: class {
+    func paymentAddressControllerFinished(with address: String, on controller: PaymentAddressViewController)
+}
+
+class PaymentAddressViewController: UIViewController {
 
     private let valueInWei: NSDecimalNumber
+
+    private var paymentAddress: String? {
+        didSet {
+            let isValid = validate(paymentAddress)
+            navigationItem.rightBarButtonItem?.isEnabled = isValid
+        }
+    }
+
+    weak var delegate: PaymentAddressControllerDelegate?
 
     private lazy var valueLabel: UILabel = {
         let value: String = EthereumConverter.fiatValueString(forWei: self.valueInWei, exchangeRate: ExchangeRateClient.exchangeRate)
@@ -39,18 +52,31 @@ class PaymentAddressController: UIViewController {
         return view
     }()
 
-    lazy var scannerController: ScannerViewController = {
+    private lazy var scannerController: ScannerViewController = {
         let controller = ScannerController(instructions: Localized("payment_qr_scanner_instructions"), types: [.qrCode])
         controller.delegate = self
 
         return controller
     }()
 
-    private lazy var sendBarButton = UIBarButtonItem(title: Localized("payment_send_button"), style: .plain, target: self, action: #selector(sendBarButtonTapped(_:)))
+    private func validate(_ address: String?) -> Bool {
+        let isValid: Bool
+        if let address = address, EthereumAddress.validate(address) {
+            isValid = true
+        } else {
+            isValid = false
+        }
+
+        return isValid
+    }
 
     init(with valueInWei: NSDecimalNumber) {
         self.valueInWei = valueInWei
         super.init(nibName: nil, bundle: nil)
+
+        navigationItem.backBarButtonItem = UIBarButtonItem.back
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: Localized("payment_next_button"), style: .plain, target: self, action: #selector(nextBarButtonTapped(_:)))
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -82,10 +108,6 @@ class PaymentAddressController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationItem.backBarButtonItem = UIBarButtonItem.back
-        navigationItem.rightBarButtonItem = sendBarButton
-        navigationItem.rightBarButtonItem?.setTitleTextAttributes([.font: Theme.bold(size: 17.0), .foregroundColor: Theme.tintColor], for: .normal)
-
         addressInputView.addressTextField.becomeFirstResponder()
     }
 
@@ -95,31 +117,18 @@ class PaymentAddressController: UIViewController {
         addressInputView.addressTextField.resignFirstResponder()
     }
 
-    @objc func sendBarButtonTapped(_ item: UIBarButtonItem) {
-        sendPayment()
+    @objc func nextBarButtonTapped(_ item: UIBarButtonItem) {
+        goToConfirmation()
     }
 
-    func sendPayment() {
-        guard let paymentAddress = addressInputView.addressTextField.text else { return }
+    private func goToConfirmation() {
+        guard let paymentAddress = paymentAddress, EthereumAddress.validate(paymentAddress) else { return }
 
-        Payment.send(valueInWei, to: paymentAddress) { [weak self] _ in
-            self?.dismiss(animated: true, completion: nil)
-        }
+        delegate?.paymentAddressControllerFinished(with: paymentAddress, on: self)
     }
 }
 
-extension PaymentAddressController: PaymentAddressInputDelegate {
-
-    func didRequestScanner() {
-        Navigator.presentModally(scannerController)
-    }
-    
-    func didRequestSendPayment() {
-        sendPayment()
-    }
-}
-
-extension PaymentAddressController: ScannerViewControllerDelegate {
+extension PaymentAddressViewController: ScannerViewControllerDelegate {
     
     func scannerViewControllerDidCancel(_ controller: ScannerViewController) {
         controller.dismiss(animated: true, completion: nil)
@@ -159,8 +168,29 @@ extension PaymentAddressController: ScannerViewControllerDelegate {
     }
 
     private func fillPaymentAddress(address: String) {
+        paymentAddress = address
         self.addressInputView.paymentAddress = address
         SoundPlayer.playSound(type: .scanned)
         scannerController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension PaymentAddressViewController: PaymentAddressInputDelegate {
+
+    func didRequestScanner() {
+        Navigator.presentModally(scannerController)
+    }
+
+    func didRequestSendPayment() {
+        let isValid = validate(paymentAddress)
+        navigationItem.rightBarButtonItem?.isEnabled = isValid
+        
+        if isValid {
+            goToConfirmation()
+        }
+    }
+
+    func didChangeAddress(_ text: String) {
+        paymentAddress = text
     }
 }

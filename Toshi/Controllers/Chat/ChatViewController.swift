@@ -19,7 +19,9 @@ import MobileCoreServices
 import AVFoundation
 
 final class ChatViewController: UIViewController, UINavigationControllerDelegate {
-    
+
+    var paymentRequestActiveCell: UITableViewCell?
+
     var previewState: Bool = false {
         didSet {
             if previewState == false {
@@ -124,6 +126,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
     private var ethereumPromptViewHeightConstraint: NSLayoutConstraint?
     private var hiddenEthereumPromptViewHeightConstraint: NSLayoutConstraint?
+
+    var paymentRouter: PaymentRouter?
 
     convenience init(thread: TSThread, forPreviewState previewState: Bool = false) {
         self.init(thread: thread)
@@ -481,28 +485,12 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         guard EthereumAddress.validate(destinationAddress) else { return nil }
 
         let parameters: [String: Any] = [
-            "from": Cereal.shared.paymentAddress,
-            "to": destinationAddress,
-            "value": paymentRequest.value.toHexString
+            PaymentParameters.from: Cereal.shared.paymentAddress,
+            PaymentParameters.to: destinationAddress,
+            PaymentParameters.value: paymentRequest.value.toHexString
         ]
 
         return parameters
-    }
-    
-    private func approvePaymentForIndexPath(_ indexPath: IndexPath, transaction: String?) {
-
-        guard let parameters = transactionParameter(for: indexPath) else { return }
-
-        showActivityIndicator()
-
-        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
-            let state: PaymentState = success ? .approved : .failed
-            self?.adjustToPaymentState(state, at: indexPath)
-            DispatchQueue.main.asyncAfter(seconds: 2.0) {
-                self?.hideActivityIndicator()
-                self?.updateBalance()
-            }
-        }
     }
     
     private func declinePaymentForIndexPath(_ indexPath: IndexPath) {
@@ -702,6 +690,26 @@ extension ChatViewController: UITableViewDataSource {
 
         return .single
     }
+
+    private func presentPaymentRouter(address: String, value: NSDecimalNumber? = nil) {
+
+        var parameters = [PaymentParameters.to: address]
+
+        if let value = value {
+            parameters[PaymentParameters.value] = value.toHexString
+        }
+
+        presentPaymentRouter(for: parameters)
+    }
+
+    private func presentPaymentRouter(for parameters: [String: Any]) {
+        let paymentRouter = PaymentRouter(parameters: parameters)
+        paymentRouter.delegate = self
+        paymentRouter.userInfo = thread.recipient()?.userInfo
+        paymentRouter.present()
+
+        self.paymentRouter = paymentRouter
+    }
 }
 
 extension ChatViewController: MessagesBasicCellDelegate {
@@ -741,28 +749,10 @@ extension ChatViewController: MessagesPaymentCellDelegate {
 
     func approvePayment(for cell: MessagesPaymentCell) {
         guard let indexPath = self.tableView.indexPath(for: cell) else { return }
-        guard let message = self.viewModel.messageModels.element(at: indexPath.row) else { return }
+        guard let parameters = transactionParameter(for: indexPath) else { return }
 
-        var messageText: String
-        if let fiat = message.fiatValueString, let eth = message.ethereumValueString {
-            messageText = String(format: Localized("payment_request_confirmation_warning_message"), fiat, eth, self.thread.name())
-        } else {
-            messageText = String(format: Localized("payment_request_confirmation_warning_message_fallback"), self.thread.name())
-        }
-
-        if let parameters = transactionParameter(for: indexPath) {
-            showActivityIndicator()
-
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
-
-                self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] transaction, error in
-
-                guard error == nil else { return }
-
-                self?.approvePaymentForIndexPath(indexPath, transaction: transaction)
-            })
-        }
+        paymentRequestActiveCell = cell
+        presentPaymentRouter(for: parameters)
     }
 
     func declinePayment(for cell: MessagesPaymentCell) {
@@ -826,7 +816,7 @@ extension ChatViewController: ChatInteractorOutput {
     func didCatchError(_ message: String) {
         hideActivityIndicator()
 
-        let alert = UIAlertController.dismissableAlert(title: "Error completing transaction", message: message)
+        let alert = UIAlertController.dismissableAlert(title: Localized("transaction_error_message"), message: message)
         Navigator.presentModally(alert)
     }
 
@@ -891,10 +881,10 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
 
     func messagesFloatingView(_: ChatFloatingHeaderView, didPressRequestButton _: UIButton) {
         
-        let paymentController = PaymentController(withPaymentType: .request, continueOption: .send)
-        paymentController.delegate = self
-        
-        let navigationController = PaymentNavigationController(rootViewController: paymentController)
+        let paymentValueViewController = PaymentValueViewController(withPaymentType: .request, continueOption: .send)
+        paymentValueViewController.delegate = self
+
+        let navigationController = PaymentNavigationController(rootViewController: paymentValueViewController)
         Navigator.presentModally(navigationController)
     }
 
@@ -902,32 +892,65 @@ extension ChatViewController: ChatFloatingHeaderViewDelegate {
         view.layoutIfNeeded()
         textInputView.inputField.resignFirstResponder()
 
-        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
-        paymentController.delegate = self
-        
-        let navigationController = PaymentNavigationController(rootViewController: paymentController)
-        Navigator.presentModally(navigationController)
+        showActivityIndicator()
+
+        viewModel.interactor.retrieveRecipientAddress { [weak self] address in
+
+            self?.hideActivityIndicator()
+
+            guard let address = address else {
+                assertionFailure("Can't retrieve chat recipient's payment address, which should be definitely possible")
+                return
+            }
+            
+            self?.presentPaymentRouter(address: address)
+        }
     }
 }
 
-extension ChatViewController: PaymentControllerDelegate {
+extension ChatViewController: PaymentRouterDelegate {
+    func paymentRouterDidCancel(paymentRouter: PaymentRouter) {
+        paymentRequestActiveCell = nil
+    }
 
-    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+        self.updateBalance()
+
+        guard error == nil else {
+            guard let paymentRequestCell = paymentRequestActiveCell else { return }
+            guard let indexPath = tableView.indexPath(for: paymentRequestCell) else { return }
+            adjustToPaymentState(.failed, at: indexPath)
+
+            paymentRequestActiveCell = nil
+
+            return
+        }
+
+        if let paymentRequestCell = paymentRequestActiveCell, let indexPath = tableView.indexPath(for: paymentRequestCell) {
+            adjustToPaymentState(.approved, at: indexPath)
+        }
+
+        if let txHash = transactionHash, let value = parameters[PaymentParameters.value] as? String {
+            //send payment message
+            
+            let payment = SofaPayment(txHash: txHash, valueHex: value)
+
+            let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
+
+            self.viewModel.interactor.send(outgoingMessage)
+        }
+    }
+}
+
+extension ChatViewController: PaymentValueViewControllerDelegate {
+
+    func paymentValueViewControllerControllerFinished(with valueInWei: NSDecimalNumber, on controller: PaymentValueViewController) {
         defer { dismiss(animated: true) }
-        guard let valueInWei = valueInWei else { return }
 
-        switch controller.paymentType {
-        case .request:
+        if controller.paymentType == .request {
             let paymentRequest = SofaPaymentRequest(valueInWei: valueInWei)
             viewModel.interactor.sendMessage(sofaWrapper: paymentRequest)
-
-        case .send:
-            showActivityIndicator()
-            viewModel.interactor.sendPayment(in: valueInWei, completion: { [weak self] success in
-                if success {
-                    self?.updateBalance()
-                }
-            })
         }
     }
 }

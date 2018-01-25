@@ -113,38 +113,17 @@ final class ChatInteractor: NSObject {
         })
     }
 
-    func sendPayment(in value: NSDecimalNumber?, completion: ((Bool) -> Void)? = nil) {
-        guard let value = value else {
-            return
-        }
+    func retrieveRecipientAddress(completion: @escaping (String?) -> Void) {
+        guard let tokenId = thread.contactIdentifier() else { return }
 
-        guard let tokenId = self.thread.contactIdentifier() else {
-            return
-        }
+        idAPIClient.retrieveUser(username: tokenId) { user in
+            guard let user = user else {
+                assertionFailure("can't retrieve recipient's payment address")
+                completion(nil)
+                return
+            }
 
-        idAPIClient.retrieveUser(username: tokenId) { [weak self] user in
-            guard let user = user else { return }
-
-            let parameters: [String: Any] = [
-                "from": Cereal.shared.paymentAddress,
-                "to": user.paymentAddress,
-                "value": value.toHexString
-            ]
-
-            let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
-            let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
-            let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user.name)
-
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, _ in
-
-                self?.output?.didFinishRequest()
-
-                guard let transaction = transaction else { return }
-
-                self?.sendPayment(with: parameters, transaction: transaction, completion: completion)
-                }, cancelHandler: { [weak self] in
-                    self?.output?.didFinishRequest()
-            })
+            completion(user.paymentAddress)
         }
     }
 
@@ -178,7 +157,7 @@ final class ChatInteractor: NSObject {
                 return
             }
             
-            guard let value = parameters["value"] as? String else { return }
+            guard let value = parameters[PaymentParameters.value] as? String else { return }
 
             let payment = SofaPayment(txHash: txHash, valueHex: value)
             self?.sendMessage(sofaWrapper: payment)
