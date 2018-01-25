@@ -57,13 +57,10 @@ final class SOFAWebController: UIViewController {
         }
         
         var userScript: WKUserScript = WKUserScript(source: js, injectionTime: .atDocumentStart, forMainFrameOnly: false)
-        
-        configuration.userContentController.add(self, name: Method.getAccounts.rawValue)
-        configuration.userContentController.add(self, name: Method.signPersonalMessage.rawValue)
-        configuration.userContentController.add(self, name: Method.signMessage.rawValue)
-        configuration.userContentController.add(self, name: Method.signTransaction.rawValue)
-        configuration.userContentController.add(self, name: Method.publishTransaction.rawValue)
-        configuration.userContentController.add(self, name: Method.approveTransaction.rawValue)
+
+        scriptMessageHandlersNames.forEach { handlerName in
+            configuration.userContentController.add(self, name: handlerName)
+        }
         
         configuration.userContentController.addUserScript(userScript)
 
@@ -76,6 +73,7 @@ final class SOFAWebController: UIViewController {
         view.scrollView.isScrollEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         view.navigationDelegate = self
+        view.uiDelegate = self
 
         return view
     }()
@@ -114,6 +112,15 @@ final class SOFAWebController: UIViewController {
         return view
     }()
 
+    private lazy var scriptMessageHandlersNames: [String] = {
+        return [Method.getAccounts.rawValue,
+                Method.signPersonalMessage.rawValue,
+                Method.signMessage.rawValue,
+                Method.signTransaction.rawValue,
+                Method.publishTransaction.rawValue,
+                Method.approveTransaction.rawValue]
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -133,6 +140,14 @@ final class SOFAWebController: UIViewController {
         hidesBottomBarWhenPushed = true
 
         setupActivityIndicator()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        scriptMessageHandlersNames.forEach { handlerName in
+            webViewConfiguration.userContentController.removeScriptMessageHandler(forName: handlerName)
+        }
     }
 
     func load(url: URL) {
@@ -447,6 +462,18 @@ extension SOFAWebController: PaymentRouterDelegate {
         jsCallback(callbackId: callbackId, payload: payload)
 
         currentTransactionSignCallbackId = nil
+    }
+}
+
+extension SOFAWebController: WKUIDelegate {
+
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+
+        return nil
     }
 }
 
