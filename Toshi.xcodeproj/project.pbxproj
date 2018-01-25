@@ -826,6 +826,7 @@
 		D197B1E784F2176023D0F635 /* YapDatabaseViewConnection+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */; };
 		D197B1E9BB5E12653D8EE2CC /* SofaStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BAEBA12E2D8F04A0F846 /* SofaStatus.swift */; };
 		D197B1EB92E75AA88459C940 /* AcceptDeclineButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B18261400D5175ADC6C7 /* AcceptDeclineButtonsView.swift */; };
+		D197B204ACAB49441E4BD810 /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B11D3E261553CD66AE2C /* NewChatViewController.swift */; };
 		D197B20920768C8CC915FE33 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */; };
 		D197B2103355CD8C1BFE1537 /* AcceptDeclineButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B18261400D5175ADC6C7 /* AcceptDeclineButtonsView.swift */; };
 		D197B213A9F6B8634043B229 /* PaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD33506B4EB09BA577F3 /* PaymentViewModel.swift */; };
@@ -887,6 +888,7 @@
 		D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */; };
 		D197B844B1C67758B2A0E9F2 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
 		D197B86C1B96EB2B5778EB52 /* PaymentAddressInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B2862798843980AFD2BA /* PaymentAddressInputView.swift */; };
+		D197B88E90C9CD138CE618BB /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B11D3E261553CD66AE2C /* NewChatViewController.swift */; };
 		D197B8B87F4A0DCA761DE9D6 /* retrieveUser.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B8E798FCD39B97824BBA /* retrieveUser.json */; };
 		D197B9197610B41F1C03A246 /* PaymentManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B187200FF7B2AF51E78E /* PaymentManagerTests.swift */; };
 		D197B93806978360C8100D50 /* score.json in Resources */ = {isa = PBXBuildFile; fileRef = D197BB0710786F9F642F4318 /* score.json */; };
@@ -933,6 +935,7 @@
 		D197BF264BEDC2A9EABFA2FA /* SofaInitialResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */; };
 		D197BF2D11D80236CC181D5D /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BB6208925B43A58D5483 /* PaymentConfirmationViewController.swift */; };
 		D197BF84F829C3200A677BE0 /* SofaPaymentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */; };
+		D197BF9B0600CFEC1A15C35C /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B11D3E261553CD66AE2C /* NewChatViewController.swift */; };
 		D197BFB3C85D103063F9C87E /* ToshiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B54B1A4AD5DB747C55BF /* ToshiError.swift */; };
 		D197BFEFB82271BBE1152E9E /* SofaMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B3F77566E161C5CAB467 /* SofaMessage.swift */; };
 		D197BFFC874FC46F485BE295 /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
@@ -1316,6 +1319,7 @@
 		D197B079DCC1F4C2498E14C7 /* getRate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getRate.json; sourceTree = "<group>"; };
 		D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToshiErrorTests.swift; sourceTree = "<group>"; };
 		D197B0B8C43D9AEF28A5170A /* IDAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDAPIClientTests.swift; sourceTree = "<group>"; };
+		D197B11D3E261553CD66AE2C /* NewChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewChatViewController.swift; sourceTree = "<group>"; };
 		D197B12C40488CB1523BB212 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
 		D197B1451DB719E76A084950 /* timestamp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = timestamp.json; sourceTree = "<group>"; };
 		D197B175422C9602CE00CF65 /* getCurrencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getCurrencies.json; sourceTree = "<group>"; };
@@ -1902,6 +1906,7 @@
 				A9ED6CC61E8282B700160637 /* Sign In */,
 				33EF275D2010D4690056699D /* DisappearingNavBarViewController.swift */,
 				9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */,
+				D197BDCF6030CD98E25117CE /* New Chat */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2097,7 +2102,7 @@
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
-				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
+				2BC4084D1EF186000044C242,
 				2BE3C4FA1FD7EE2E001F6919,
 				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 			);
@@ -2466,6 +2471,14 @@
 				D197B65C63A525B97898821D /* ReceiptLineView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		D197BDCF6030CD98E25117CE /* New Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D197B11D3E261553CD66AE2C /* NewChatViewController.swift */,
+			);
+			path = "New Chat";
 			sourceTree = "<group>";
 		};
 		E1A95D581E6F031F002762DA /* Views */ = {
@@ -3443,6 +3456,7 @@
 				D197B86C1B96EB2B5778EB52 /* PaymentAddressInputView.swift in Sources */,
 				D197BA8AAC5425D906767D63 /* ReceiptView.swift in Sources */,
 				D197BB101DFDC98E98C6B79E /* ReceiptLineView.swift in Sources */,
+				D197B88E90C9CD138CE618BB /* NewChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3587,7 +3601,7 @@
 				2B6C19011FCDA4C600DE432B /* GroupInfoViewModel.swift in Sources */,
 				A9E691BF1F7A496800317DB1 /* SignInCell.swift in Sources */,
 				A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */,
-				2BC4084E1EF186000044C242 /* PaymentPresentable.swift in Sources */,
+				2BC4084E1EF186000044C242,
 				33EF275E2010D4690056699D /* DisappearingNavBarViewController.swift in Sources */,
 				A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ProfileCell.swift in Sources */,
@@ -3682,6 +3696,7 @@
 				D197B1D03E10A442C0C921FC /* PaymentAddressInputView.swift in Sources */,
 				D197B1871B41C8874AA3E988 /* ReceiptView.swift in Sources */,
 				D197BA1FF0BF6C862DE5FA1C /* ReceiptLineView.swift in Sources */,
+				D197B204ACAB49441E4BD810 /* NewChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3920,6 +3935,7 @@
 				D197B100A8B91065F3AECD37 /* PaymentAddressInputView.swift in Sources */,
 				D197BEFA555DB5B324AA8216 /* ReceiptView.swift in Sources */,
 				D197B79EB8798DAA0647C3D7 /* ReceiptLineView.swift in Sources */,
+				D197BF9B0600CFEC1A15C35C /* NewChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
