@@ -5,11 +5,11 @@ import SweetUIKit
 
 final class NewChatHeaderView: UIView {
 
-    private let type: ProfilesViewControllerType
+    private let type: NewChatViewControllerType
     private let searchBar: UISearchBar?
     private(set) var addedHeader: ProfilesAddedToGroupHeader?
 
-    required init(with searchBar: UISearchBar? = nil, type: ProfilesViewControllerType, delegate: NewChatAddGroupHeaderDelegate?) {
+    required init(with searchBar: UISearchBar? = nil, type: NewChatViewControllerType, delegate: NewChatAddGroupHeaderDelegate?) {
         self.type = type
         self.searchBar = searchBar
         super.init(frame: .zero)

@@ -18,15 +18,12 @@ import UIKit
 // MARK: - Profiles View Controller Type
 
 public enum NewChatViewControllerType {
-    case favorites
     case newChat
     case newGroupChat
     case updateGroupChat
 
     var title: String {
         switch self {
-        case .favorites:
-            return Localized("profiles_navigation_title_favorites")
         case .newChat:
             return Localized("profiles_navigation_title_new_chat")
         case .newGroupChat:
@@ -93,10 +90,11 @@ final class NewChatViewController: UITableViewController {
     // MARK: - Initialization
 
     required public init(type: NewChatViewControllerType, favoritesDataSource: ProfilesDataSource, output: NewChatListCompletionOutput? = nil) {
+        self.type = type
+        self.favoritesDataSource = favoritesDataSource
+        
         super.init(nibName: nil, bundle: nil)
 
-        self.favoritesDataSource = favoritesDataSource
-        self.type = type
         title = type.title
         self.output = output
     }
@@ -238,8 +236,6 @@ final class NewChatViewController: UITableViewController {
         switch type {
         case .newChat:
             navigationItem.leftBarButtonItem = cancelButton
-        case .favorites:
-            navigationItem.rightBarButtonItem = addButton
         case .newGroupChat, .updateGroupChat:
             navigationItem.rightBarButtonItem = doneButton
             doneButton.isEnabled = false
@@ -344,7 +340,7 @@ extension NewChatViewController: NewChatAddGroupHeaderDelegate {
 
     func newGroup() {
         let datasource = ProfilesDataSource()
-        let groupChatSelection = NewChatViewController(type: .newGroupChat, datasource: datasource)
+        let groupChatSelection = NewChatViewController(type: .newGroupChat, favoritesDataSource: datasource)
         navigationController?.pushViewController(groupChatSelection, animated: true)
     }
 }
