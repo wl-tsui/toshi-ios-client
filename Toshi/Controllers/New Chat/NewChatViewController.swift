@@ -46,6 +46,7 @@ protocol NewChatListCompletionOutput: class {
 final class NewChatViewController: UITableViewController {
 
     let type: NewChatViewControllerType
+    private(set) var favoritesDataSource: ProfilesDataSource
 
     var scrollViewBottomInset: CGFloat = 0
     private(set) weak var output: NewChatListCompletionOutput?
@@ -91,10 +92,11 @@ final class NewChatViewController: UITableViewController {
 
     // MARK: - Initialization
 
-    required public init(type: NewChatViewControllerType, output: NewChatListCompletionOutput? = nil) {
-        type = type
+    required public init(type: NewChatViewControllerType, favoritesDataSource: ProfilesDataSource, output: NewChatListCompletionOutput? = nil) {
         super.init(nibName: nil, bundle: nil)
 
+        self.favoritesDataSource = favoritesDataSource
+        self.type = type
         title = type.title
         self.output = output
     }
@@ -150,29 +152,28 @@ final class NewChatViewController: UITableViewController {
 
     public override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch type {
-        case .favorites,
-             .newChat:
+        case .newChat:
             print("show profile")
         case .newGroupChat, .updateGroupChat:
             print("select profile")
             updateHeaderWithSelections()
             reloadData()
-            navigationItem.rightBarButtonItem?.isEnabled = dataSource.rightBarButtonEnabled()
+            navigationItem.rightBarButtonItem?.isEnabled = favoritesDataSource.rightBarButtonEnabled()
         }
     }
 
     public override func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return favoritesDataSource.numberOfSections()
     }
 
     public override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItems(in: section)
+        return favoritesDataSource.numberOfItems(in: section)
     }
 
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(ProfileCell.self, for: indexPath)
 
-        guard let profile = dataSource.profile(at: indexPath) else {
+        guard let profile = favoritesDataSource.profile(at: indexPath) else {
             assertionFailure("Could not get profile at indexPath: \(indexPath)")
             return cell
         }
@@ -184,7 +185,7 @@ final class NewChatViewController: UITableViewController {
         if isMultipleSelectionMode {
             cell.selectionStyle = .none
             cell.isCheckmarkShowing = true
-            cell.isCheckmarkChecked = dataSource.isProfileSelected(profile)
+            cell.isCheckmarkChecked = favoritesDataSource.isProfileSelected(profile)
         }
 
         return cell
@@ -197,13 +198,13 @@ final class NewChatViewController: UITableViewController {
     private func updateHeaderWithSelections() {
         guard isMultipleSelectionSetup else { return }
         guard
-                let header = tableView?.tableHeaderView as? ProfilesHeaderView,
+                let header = tableView?.tableHeaderView as? NewChatHeaderView,
                 let selectedProfilesView = header.addedHeader else {
             assertionFailure("Couldn't access header!")
             return
         }
 
-        selectedProfilesView.updateDisplay(with: dataSource.selectedProfiles)
+        selectedProfilesView.updateDisplay(with: favoritesDataSource.selectedProfiles)
     }
 
     private func didSelectProfile(profile: TokenUser) {
@@ -280,13 +281,13 @@ final class NewChatViewController: UITableViewController {
     }
 
     @objc private func didTapDone(_ button: UIBarButtonItem) {
-        guard dataSource.selectedProfiles.count > 0 else {
+        guard favoritesDataSource.selectedProfiles.count > 0 else {
             assertionFailure("No selected profiles?!")
 
             return
         }
 
-        let membersIdsArray = dataSource.selectedProfiles.sorted { $0.username < $1.username }.map { $0.address }
+        let membersIdsArray = favoritesDataSource.selectedProfiles.sorted { $0.username < $1.username }.map { $0.address }
 
         if type == .updateGroupChat {
             navigationController?.popViewController(animated: true)
@@ -333,7 +334,7 @@ extension NewChatViewController: UISearchResultsUpdating {
 
     public func updateSearchResults(for searchController: UISearchController) {
 
-        dataSource.searchText = searchController.searchBar.text ?? ""
+        favoritesDataSource.searchText = searchController.searchBar.text ?? ""
     }
 }
 
@@ -342,8 +343,8 @@ extension NewChatViewController: UISearchResultsUpdating {
 extension NewChatViewController: NewChatAddGroupHeaderDelegate {
 
     func newGroup() {
-        let datasource = ProfilesDataSource(type: .newGroupChat)
-        let groupChatSelection = ProfilesViewController(datasource: datasource)
+        let datasource = ProfilesDataSource()
+        let groupChatSelection = NewChatViewController(type: .newGroupChat, datasource: datasource)
         navigationController?.pushViewController(groupChatSelection, animated: true)
     }
 }

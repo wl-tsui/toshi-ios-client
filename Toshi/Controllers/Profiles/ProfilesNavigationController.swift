@@ -24,7 +24,7 @@ final class ProfilesNavigationController: UINavigationController {
     // MARK: - Initialization
     
     override init(rootViewController: UIViewController) {
-        if let rootViewController = rootViewController as? ProfilesViewController, let address = UserDefaultsWrapper.selectedContact, rootViewController.type != .newChat {
+        if let rootViewController = rootViewController as? ProfilesViewController, let address = UserDefaultsWrapper.selectedContact {
             super.init(nibName: nil, bundle: nil)
             
             rootViewController.dataSource.uiDatabaseConnection.read { [weak self] transaction in

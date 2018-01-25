@@ -326,9 +326,9 @@ extension GroupViewController: UINavigationControllerDelegate {
     }
 }
 
-extension GroupViewController: ProfilesListCompletionOutput {
+extension GroupViewController: NewChatListCompletionOutput {
 
-    func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String]) {
+    func didFinish(_ controller: NewChatViewController, selectedProfilesIds: [String]) {
         viewModel.updateRecipientsIds(to: selectedProfilesIds)
     }
 }

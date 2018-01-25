@@ -250,12 +250,8 @@ class ProfilesDataSource: NSObject {
     }
 
     func rightBarButtonEnabled() -> Bool {
-        switch type {
-        case .newChat, .updateGroupChat, .favorites:
-            return true
-        default:
-            return selectedProfiles.count > 1
-        }
+        // might want to refactor this
+        return true
     }
 
     func prepareDatabaseViews() {

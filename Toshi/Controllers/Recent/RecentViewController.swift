@@ -82,8 +82,7 @@ final class RecentViewController: SweetTableController, Emptiable {
     }
     
     @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
-        let datasource = ProfilesDataSource(type: .newChat)
-        let profilesViewController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource, output: self))
+        let profilesViewController = ProfilesNavigationController(rootViewController: NewChatViewController(type: .newChat, output: self))
         Navigator.presentModally(profilesViewController)
     }
 
@@ -223,9 +222,9 @@ extension RecentViewController: ThreadsDataSourceOutput {
     }
 }
 
-extension RecentViewController: ProfilesListCompletionOutput {
+extension RecentViewController: NewChatListCompletionOutput {
 
-    func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String]) {
+    func didFinish(_ controller: NewChatViewController, selectedProfilesIds: [String]) {
         controller.dismiss(animated: true, completion: nil)
 
         guard let selectedProfileAddress = selectedProfilesIds.first else { return }

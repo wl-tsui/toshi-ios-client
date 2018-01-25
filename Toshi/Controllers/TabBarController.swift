@@ -87,7 +87,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     @objc func setupControllers() {
         browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
-        let datasource = ProfilesDataSource(type: .favorites)
+        let datasource = ProfilesDataSource()
         datasource.excludedProfilesIds = []
         profilesController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource))
 
