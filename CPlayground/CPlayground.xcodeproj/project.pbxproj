@@ -12,9 +12,9 @@
 		3343F1FF2018D40A00DC8F11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3343F1FD2018D40A00DC8F11 /* Main.storyboard */; };
 		3343F2012018D40A00DC8F11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2002018D40A00DC8F11 /* Assets.xcassets */; };
 		3343F2042018D40A00DC8F11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2022018D40A00DC8F11 /* LaunchScreen.storyboard */; };
-		3343F2252018D5EC00DC8F11 /* libsignal-protocol-c in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2242018D5EC00DC8F11 /* libsignal-protocol-c */; };
 		3343F2272018E77A00DC8F11 /* libsignal-protocol-c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */; };
 		3343F22F2018EA1A00DC8F11 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F22E2018EA1A00DC8F11 /* main.swift */; };
+		334A0108201B8A0500775F15 /* NSDate+OWS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 334A0106201B8A0500775F15 /* NSDate+OWS.mm */; };
 		33B09EA2201B506D00740CB8 /* BuildFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA1201B506D00740CB8 /* BuildFlavor.swift */; };
 		33B09EA4201B511500740CB8 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA3201B511500740CB8 /* Folder.swift */; };
 		33B09EA6201B513000740CB8 /* ExitCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA5201B513000740CB8 /* ExitCode.swift */; };
@@ -50,6 +50,8 @@
 		3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsignal-protocol-c.a"; sourceTree = "<group>"; };
 		3343F22C2018EA1A00DC8F11 /* CMake_Signal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CMake_Signal; sourceTree = BUILT_PRODUCTS_DIR; };
 		3343F22E2018EA1A00DC8F11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		334A0106201B8A0500775F15 /* NSDate+OWS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSDate+OWS.mm"; sourceTree = "<group>"; };
+		334A0107201B8A0500775F15 /* NSDate+OWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OWS.h"; sourceTree = "<group>"; };
 		33B09EA1201B506D00740CB8 /* BuildFlavor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFlavor.swift; sourceTree = "<group>"; };
 		33B09EA3201B511500740CB8 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		33B09EA5201B513000740CB8 /* ExitCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitCode.swift; sourceTree = "<group>"; };
@@ -110,6 +112,8 @@
 				3343F20B2018D53200DC8F11 /* clib */,
 				3343F2202018D54A00DC8F11 /* CPlayground-Bridging-Header.h */,
 				33B09EB4201B5B3800740CB8 /* Signal.h */,
+				334A0107201B8A0500775F15 /* NSDate+OWS.h */,
+				334A0106201B8A0500775F15 /* NSDate+OWS.mm */,
 			);
 			path = CPlayground;
 			sourceTree = "<group>";
@@ -221,7 +225,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3343F2252018D5EC00DC8F11 /* libsignal-protocol-c in Resources */,
 				3343F2042018D40A00DC8F11 /* LaunchScreen.storyboard in Resources */,
 				3343F2012018D40A00DC8F11 /* Assets.xcassets in Resources */,
 				3343F1FF2018D40A00DC8F11 /* Main.storyboard in Resources */,
@@ -235,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				334A0108201B8A0500775F15 /* NSDate+OWS.mm in Sources */,
 				3343F1FC2018D40A00DC8F11 /* ViewController.swift in Sources */,
 				3343F1FA2018D40A00DC8F11 /* AppDelegate.swift in Sources */,
 			);
