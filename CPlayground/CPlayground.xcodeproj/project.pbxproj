@@ -15,6 +15,14 @@
 		3343F2252018D5EC00DC8F11 /* libsignal-protocol-c in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2242018D5EC00DC8F11 /* libsignal-protocol-c */; };
 		3343F2272018E77A00DC8F11 /* libsignal-protocol-c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */; };
 		3343F22F2018EA1A00DC8F11 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F22E2018EA1A00DC8F11 /* main.swift */; };
+		33B09EA2201B506D00740CB8 /* BuildFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA1201B506D00740CB8 /* BuildFlavor.swift */; };
+		33B09EA4201B511500740CB8 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA3201B511500740CB8 /* Folder.swift */; };
+		33B09EA6201B513000740CB8 /* ExitCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA5201B513000740CB8 /* ExitCode.swift */; };
+		33B09EA8201B514D00740CB8 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA7201B514D00740CB8 /* Shell.swift */; };
+		33B09EAA201B519400740CB8 /* Lipo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA9201B519400740CB8 /* Lipo.swift */; };
+		33B09EAC201B51B500740CB8 /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EAB201B51B500740CB8 /* Git.swift */; };
+		33B09EAE201B51D000740CB8 /* CMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EAD201B51D000740CB8 /* CMake.swift */; };
+		33B09EB0201B53C900740CB8 /* FileMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EAF201B53C900740CB8 /* FileMovement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +50,14 @@
 		3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsignal-protocol-c.a"; sourceTree = "<group>"; };
 		3343F22C2018EA1A00DC8F11 /* CMake_Signal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CMake_Signal; sourceTree = BUILT_PRODUCTS_DIR; };
 		3343F22E2018EA1A00DC8F11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		33B09EA1201B506D00740CB8 /* BuildFlavor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFlavor.swift; sourceTree = "<group>"; };
+		33B09EA3201B511500740CB8 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		33B09EA5201B513000740CB8 /* ExitCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitCode.swift; sourceTree = "<group>"; };
+		33B09EA7201B514D00740CB8 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		33B09EA9201B519400740CB8 /* Lipo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lipo.swift; sourceTree = "<group>"; };
+		33B09EAB201B51B500740CB8 /* Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git.swift; sourceTree = "<group>"; };
+		33B09EAD201B51D000740CB8 /* CMake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMake.swift; sourceTree = "<group>"; };
+		33B09EAF201B53C900740CB8 /* FileMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMovement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +125,14 @@
 			isa = PBXGroup;
 			children = (
 				3343F22E2018EA1A00DC8F11 /* main.swift */,
+				33B09EA1201B506D00740CB8 /* BuildFlavor.swift */,
+				33B09EA3201B511500740CB8 /* Folder.swift */,
+				33B09EA5201B513000740CB8 /* ExitCode.swift */,
+				33B09EA7201B514D00740CB8 /* Shell.swift */,
+				33B09EA9201B519400740CB8 /* Lipo.swift */,
+				33B09EAB201B51B500740CB8 /* Git.swift */,
+				33B09EAD201B51D000740CB8 /* CMake.swift */,
+				33B09EAF201B53C900740CB8 /* FileMovement.swift */,
 			);
 			path = CMake_Signal;
 			sourceTree = "<group>";
@@ -218,7 +242,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33B09EA2201B506D00740CB8 /* BuildFlavor.swift in Sources */,
 				3343F22F2018EA1A00DC8F11 /* main.swift in Sources */,
+				33B09EA8201B514D00740CB8 /* Shell.swift in Sources */,
+				33B09EAA201B519400740CB8 /* Lipo.swift in Sources */,
+				33B09EA6201B513000740CB8 /* ExitCode.swift in Sources */,
+				33B09EAC201B51B500740CB8 /* Git.swift in Sources */,
+				33B09EA4201B511500740CB8 /* Folder.swift in Sources */,
+				33B09EAE201B51D000740CB8 /* CMake.swift in Sources */,
+				33B09EB0201B53C900740CB8 /* FileMovement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
