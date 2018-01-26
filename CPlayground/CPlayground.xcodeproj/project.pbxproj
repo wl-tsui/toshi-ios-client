@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3343F1FA2018D40A00DC8F11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F1F92018D40A00DC8F11 /* AppDelegate.swift */; };
+		3343F1FC2018D40A00DC8F11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F1FB2018D40A00DC8F11 /* ViewController.swift */; };
+		3343F1FF2018D40A00DC8F11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3343F1FD2018D40A00DC8F11 /* Main.storyboard */; };
+		3343F2012018D40A00DC8F11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2002018D40A00DC8F11 /* Assets.xcassets */; };
+		3343F2042018D40A00DC8F11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2022018D40A00DC8F11 /* LaunchScreen.storyboard */; };
+		3343F2252018D5EC00DC8F11 /* libsignal-protocol-c in Resources */ = {isa = PBXBuildFile; fileRef = 3343F2242018D5EC00DC8F11 /* libsignal-protocol-c */; };
+		3343F2272018E77A00DC8F11 /* libsignal-protocol-c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */; };
+		3343F22F2018EA1A00DC8F11 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F22E2018EA1A00DC8F11 /* main.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3343F22A2018EA1A00DC8F11 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3343F1F62018D40A00DC8F11 /* CPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3343F1F92018D40A00DC8F11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3343F1FB2018D40A00DC8F11 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3343F1FE2018D40A00DC8F11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3343F2002018D40A00DC8F11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3343F2032018D40A00DC8F11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3343F2052018D40A00DC8F11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3343F2202018D54A00DC8F11 /* CPlayground-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPlayground-Bridging-Header.h"; sourceTree = "<group>"; };
+		3343F2242018D5EC00DC8F11 /* libsignal-protocol-c */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "libsignal-protocol-c"; sourceTree = "<group>"; };
+		3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsignal-protocol-c.a"; sourceTree = "<group>"; };
+		3343F22C2018EA1A00DC8F11 /* CMake_Signal */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CMake_Signal; sourceTree = BUILT_PRODUCTS_DIR; };
+		3343F22E2018EA1A00DC8F11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3343F1F32018D40A00DC8F11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3343F2272018E77A00DC8F11 /* libsignal-protocol-c.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3343F2292018EA1A00DC8F11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3343F1ED2018D40A00DC8F11 = {
+			isa = PBXGroup;
+			children = (
+				3343F1F82018D40A00DC8F11 /* CPlayground */,
+				3343F22D2018EA1A00DC8F11 /* CMake_Signal */,
+				3343F1F72018D40A00DC8F11 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3343F1F72018D40A00DC8F11 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3343F1F62018D40A00DC8F11 /* CPlayground.app */,
+				3343F22C2018EA1A00DC8F11 /* CMake_Signal */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3343F1F82018D40A00DC8F11 /* CPlayground */ = {
+			isa = PBXGroup;
+			children = (
+				3343F1F92018D40A00DC8F11 /* AppDelegate.swift */,
+				3343F1FB2018D40A00DC8F11 /* ViewController.swift */,
+				3343F1FD2018D40A00DC8F11 /* Main.storyboard */,
+				3343F2002018D40A00DC8F11 /* Assets.xcassets */,
+				3343F2022018D40A00DC8F11 /* LaunchScreen.storyboard */,
+				3343F2052018D40A00DC8F11 /* Info.plist */,
+				3343F20B2018D53200DC8F11 /* clib */,
+				3343F2202018D54A00DC8F11 /* CPlayground-Bridging-Header.h */,
+			);
+			path = CPlayground;
+			sourceTree = "<group>";
+		};
+		3343F20B2018D53200DC8F11 /* clib */ = {
+			isa = PBXGroup;
+			children = (
+				3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */,
+				3343F2242018D5EC00DC8F11 /* libsignal-protocol-c */,
+			);
+			path = clib;
+			sourceTree = "<group>";
+		};
+		3343F22D2018EA1A00DC8F11 /* CMake_Signal */ = {
+			isa = PBXGroup;
+			children = (
+				3343F22E2018EA1A00DC8F11 /* main.swift */,
+			);
+			path = CMake_Signal;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3343F1F52018D40A00DC8F11 /* CPlayground */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3343F2082018D40A00DC8F11 /* Build configuration list for PBXNativeTarget "CPlayground" */;
+			buildPhases = (
+				3343F1F22018D40A00DC8F11 /* Sources */,
+				3343F1F32018D40A00DC8F11 /* Frameworks */,
+				3343F1F42018D40A00DC8F11 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CPlayground;
+			productName = CPlayground;
+			productReference = 3343F1F62018D40A00DC8F11 /* CPlayground.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3343F22B2018EA1A00DC8F11 /* CMake_Signal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3343F2302018EA1A00DC8F11 /* Build configuration list for PBXNativeTarget "CMake_Signal" */;
+			buildPhases = (
+				3343F2282018EA1A00DC8F11 /* Sources */,
+				3343F2292018EA1A00DC8F11 /* Frameworks */,
+				3343F22A2018EA1A00DC8F11 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CMake_Signal;
+			productName = CMake_Signal;
+			productReference = 3343F22C2018EA1A00DC8F11 /* CMake_Signal */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3343F1EE2018D40A00DC8F11 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = Toshi;
+				TargetAttributes = {
+					3343F1F52018D40A00DC8F11 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					3343F22B2018EA1A00DC8F11 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 3343F1F12018D40A00DC8F11 /* Build configuration list for PBXProject "CPlayground" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3343F1ED2018D40A00DC8F11;
+			productRefGroup = 3343F1F72018D40A00DC8F11 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3343F1F52018D40A00DC8F11 /* CPlayground */,
+				3343F22B2018EA1A00DC8F11 /* CMake_Signal */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3343F1F42018D40A00DC8F11 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3343F2252018D5EC00DC8F11 /* libsignal-protocol-c in Resources */,
+				3343F2042018D40A00DC8F11 /* LaunchScreen.storyboard in Resources */,
+				3343F2012018D40A00DC8F11 /* Assets.xcassets in Resources */,
+				3343F1FF2018D40A00DC8F11 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3343F1F22018D40A00DC8F11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3343F1FC2018D40A00DC8F11 /* ViewController.swift in Sources */,
+				3343F1FA2018D40A00DC8F11 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3343F2282018EA1A00DC8F11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3343F22F2018EA1A00DC8F11 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3343F1FD2018D40A00DC8F11 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3343F1FE2018D40A00DC8F11 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3343F2022018D40A00DC8F11 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3343F2032018D40A00DC8F11 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3343F2062018D40A00DC8F11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3343F2072018D40A00DC8F11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3343F2092018D40A00DC8F11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "cplayground/clib/**";
+				INFOPLIST_FILE = CPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CPlayground/clib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.toshiapp.CPlayground;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CPlayground/CPlayground-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3343F20A2018D40A00DC8F11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "cplayground/clib/**";
+				INFOPLIST_FILE = CPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CPlayground/clib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.toshiapp.CPlayground;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CPlayground/CPlayground-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3343F2312018EA1A00DC8F11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		3343F2322018EA1A00DC8F11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3343F1F12018D40A00DC8F11 /* Build configuration list for PBXProject "CPlayground" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3343F2062018D40A00DC8F11 /* Debug */,
+				3343F2072018D40A00DC8F11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3343F2082018D40A00DC8F11 /* Build configuration list for PBXNativeTarget "CPlayground" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3343F2092018D40A00DC8F11 /* Debug */,
+				3343F20A2018D40A00DC8F11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3343F2302018EA1A00DC8F11 /* Build configuration list for PBXNativeTarget "CMake_Signal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3343F2312018EA1A00DC8F11 /* Debug */,
+				3343F2322018EA1A00DC8F11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3343F1EE2018D40A00DC8F11 /* Project object */;
+}
