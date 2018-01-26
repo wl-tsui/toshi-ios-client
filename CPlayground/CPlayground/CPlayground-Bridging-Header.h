@@ -20,5 +20,5 @@
 #import <libsignal-protocol-c/session_record.h>
 #import <libsignal-protocol-c/session_state.h>
 #import <libsignal-protocol-c/signal_protocol_types.h>
-//#import <libsignal-protocol-c/signal_protocol.h>
+#import <libsignal-protocol-c/signal_protocol.h>
 
