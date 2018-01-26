@@ -31,7 +31,6 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
         // This will fail with legacy iOS clients which don't upload attachment size.
         DDLogWarn(@"%@ Missing byteCount for attachment with serverId: %lld", self.tag, serverId);
     }
-    OWSAssert(contentType.length > 0);
 
     self = [super init];
     if (!self) {
@@ -55,7 +54,6 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
                           byteCount:(UInt32)byteCount
                      sourceFilename:(nullable NSString *)sourceFilename
 {
-    OWSAssert(contentType.length > 0);
     OWSAssert(byteCount > 0);
 
     self = [super init];
@@ -82,7 +80,6 @@ NSUInteger const TSAttachmentSchemaVersion = 4;
         // This will fail with legacy iOS clients which don't upload attachment size.
         DDLogWarn(@"%@ Missing pointer.byteCount for attachment with serverId: %lld", self.tag, pointer.serverId);
     }
-    OWSAssert(pointer.contentType.length > 0);
 
     // Once saved, this AttachmentStream will replace the AttachmentPointer in the attachments collection.
     self = [super initWithUniqueId:pointer.uniqueId];

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -35,8 +35,8 @@ final class NewGroupViewModel {
 
     init(_ groupModel: TSGroupModel) {
         groupInfo = GroupInfo()
-        groupInfo.title = groupModel.groupName
-        groupInfo.participantsIDs = groupModel.groupMemberIds
+        groupInfo.title = groupModel.nameOrEmptyString
+        groupInfo.participantsIDs = groupModel.participantsIdsOrEmptyArray
 
         setup()
     }
@@ -71,7 +71,9 @@ final class NewGroupViewModel {
 
         completeActionDelegate?.groupViewModelDidStartCreateOrUpdate()
 
-        ChatInteractor.createGroup(with: NSMutableArray(array: groupParticipantsIds), name: groupInfo.title, avatar: groupInfo.avatar, completion: { [weak self] _ in
+        let image = groupInfo.avatar
+
+        ChatInteractor.createGroup(with: NSMutableArray(array: groupParticipantsIds), name: groupInfo.title, avatar: image, completion: { [weak self] _ in
 
             self?.completeActionDelegate?.groupViewModelDidFinishCreateOrUpdate()
         })

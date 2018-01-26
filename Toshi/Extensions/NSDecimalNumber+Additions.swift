@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -64,5 +64,27 @@ extension NSDecimalNumber {
         let decimal = BaseConverter.hexToDec(hexString)
 
         self.init(string: decimal)
+    }
+
+    func isGreaterOrEqualThan(value: NSDecimalNumber) -> Bool {
+        let result = compare(value)
+
+        switch result {
+        case .orderedDescending, .orderedSame:
+                return true
+        case .orderedAscending:
+                return false
+        }
+    }
+
+    func isGreaterThan(value: NSDecimalNumber) -> Bool {
+        let result = compare(value)
+
+        switch result {
+        case .orderedDescending:
+                return true
+        case .orderedAscending, .orderedSame:
+                return false
+        }
     }
 }

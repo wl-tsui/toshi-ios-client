@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -186,8 +186,8 @@ final class GroupViewController: UIViewController {
     }
 
     private func showUserInfo(with userId: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, let currentUser = TokenUser.current else { return }
-        var users = appDelegate.contactsManager.tokenContacts.filter { $0.address == userId }
+        guard let currentUser = TokenUser.current else { return }
+        var users = SessionManager.shared.contactsManager.tokenContacts.filter { $0.address == userId }
         users.append(currentUser)
 
         guard let user = users.first else { return }

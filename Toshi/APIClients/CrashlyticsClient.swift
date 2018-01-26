@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,19 +27,19 @@ extension KeyTitle {
     fileprivate static var developerDescription = "dev_description"
 }
 
-@objc final class CrashlyticsClient: NSObject {
+final class CrashlyticsClient {
 
-    @objc static func start(with apiKey: String) {
+    static func start(with apiKey: String) {
         Crashlytics.start(withAPIKey: apiKey)
         Fabric.with([Crashlytics.self])
     }
 
-    @objc static func setupForUser(with toshiID: String) {
+    static func setupForUser(with toshiID: String) {
         Crashlytics.sharedInstance().setUserIdentifier(toshiID)
     }
 }
 
-@objc final class CrashlyticsLogger: NSObject {
+final class CrashlyticsLogger {
     
     private static func attributesWithUserID(from attributes: [KeyTitle: Any]?) -> [String: Any] {
         var resultAttributes: [String: Any] = [KeyTitle.userId: Cereal.shared.address]
@@ -54,7 +54,7 @@ extension KeyTitle {
     /// - Parameters:
     ///   - string: The string to log.
     ///   - attributes: (optional) any additional attributes to log with the string
-    @objc static func log(_ string: String, attributes: [KeyTitle: Any]? = nil) {
+    static func log(_ string: String, attributes: [KeyTitle: Any]? = nil) {
         CLSLogv("%@", getVaList([string]))
         let attributesToSend = attributesWithUserID(from: attributes)
 
@@ -67,7 +67,7 @@ extension KeyTitle {
     ///   - description: The description of what happened to be logged in Crashlytics.
     ///   - error: (optional) Any associated NSError where you want to log domain, code, and LocalizedDescription.
     ///   - attributes: (optional) any additional attributes to log
-    @objc static func nonFatal(_ description: String, error: NSError? = nil, attributes: [KeyTitle: Any]? = nil) {
+    static func nonFatal(_ description: String, error: NSError? = nil, attributes: [KeyTitle: Any]? = nil) {
         let attributes = attributesWithUserID(from: attributes)
         
         let error = NSError(domain: error?.domain ?? "com.toshi.customnonfatal",

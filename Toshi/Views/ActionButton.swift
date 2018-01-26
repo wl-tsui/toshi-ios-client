@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -132,6 +132,14 @@ class ActionButton: UIControl {
 
         return view
     }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.activityIndicatorViewStyle = .white
+        activityIndicator.alpha = 0
+
+        return activityIndicator
+    }()
 
     lazy var heightConstraint: NSLayoutConstraint = {
         self.heightAnchor.constraint(equalToConstant: ActionButton.height)
@@ -229,6 +237,28 @@ class ActionButton: UIControl {
                 self.restyle()
             }
         }
+    }
+
+    func showSpinner() {
+        addSubview(activityIndicator)
+        activityIndicator.centerX(to: self)
+        activityIndicator.centerY(to: self)
+
+        activityIndicator.startAnimating()
+
+        UIView.animate(withDuration: 0.2) {
+            self.titleLabel.alpha = 0
+            self.activityIndicator.alpha = 1
+        }
+    }
+
+    func hideSpinner() {
+       UIView.animate(withDuration: 0.2, animations: {
+           self.titleLabel.alpha = 1
+           self.activityIndicator.alpha = 0
+       }, completion: { _ in
+           self.activityIndicator.removeFromSuperview()
+       })
     }
 
     private func restyle() {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,9 @@ final class ProfileViewController: DisappearingNavBarViewController {
             configureForCurrentProfile()
         }
     }
-    
+
+    var paymentRouter: PaymentRouter?
+
     private let isReadOnlyMode: Bool
     
     private var isBotProfile: Bool {
@@ -57,8 +59,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
 
     private var messageSender: MessageSender? {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        return appDelegate?.messageSender
+        return SessionManager.shared.messageSender
     }
     
     private let belowTableViewStyleLabelSpacing: CGFloat = 8
@@ -486,11 +487,13 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
     
     @objc private func didTapPayButton() {
-        let paymentController = PaymentController(withPaymentType: .send, continueOption: .send)
-        paymentController.delegate = self
-        
-        let navigationController = UINavigationController(rootViewController: paymentController)
-        Navigator.presentModally(navigationController)
+        let paymentRouter = PaymentRouter(parameters: [PaymentParameters.to: profile.paymentAddress])
+        paymentRouter.delegate = self
+        paymentRouter.userInfo = profile.userInfo
+        paymentRouter.present()
+
+        self.paymentRouter = paymentRouter
+
     }
     
     @objc private func didTapEditProfileButton() {
@@ -676,78 +679,9 @@ extension ProfileViewController: RateUserControllerDelegate {
 
 // MARK: - Payment Controller Delegate
 
-extension ProfileViewController: PaymentControllerDelegate {
+extension ProfileViewController: PaymentRouterDelegate {
 
-    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
-        
-        defer { dismiss(animated: true) }
-        guard let value = valueInWei else { return }
-
-        let parameters: [String: Any] = [
-            "from": Cereal.shared.paymentAddress,
-            "to": self.profile.paymentAddress,
-            "value": value.toHexString
-        ]
-
-        showActivityIndicator()
-
-        let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
-        let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
-        let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, self.profile.name)
-
-        PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, presentCompletionHandler: { [weak self] in
-            self?.hideActivityIndicator()
-            }, approveHandler: { [weak self] transaction, error in
-
-                guard error == nil else { return }
-                
-                self?.sendPayment(with: parameters, transaction: transaction)
-        })
-    }
-
-    private func sendPayment(with parameters: [String: Any], transaction: String?) {
-        showActivityIndicator()
-
-        let etherAPIClient = EthereumAPIClient.shared
-
-        guard let transaction = transaction else {
-            self.hideActivityIndicator()
-
-            return
-        }
-
-        let signedTransaction = "0x\(Cereal.shared.signWithWallet(hex: transaction))"
-
-        etherAPIClient.sendSignedTransaction(originalTransaction: transaction, transactionSignature: signedTransaction) { [weak self] success, transactionHash, error in
-            guard let strongSelf = self else { return }
-
-            strongSelf.hideActivityIndicator()
-
-            guard success else {
-                let alert = UIAlertController.dismissableAlert(title: Localized("payment_error_message"), message: error?.description ?? ToshiError.genericError.description)
-                Navigator.presentModally(alert)
-                return
-            }
-
-            if let txHash = transactionHash, let value = parameters["value"] as? String {
-                let payment = SofaPayment(txHash: txHash, valueHex: value)
-
-                // send message to thread
-                let thread = ChatInteractor.getOrCreateThread(for: strongSelf.profile.address)
-                let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
-                let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
-
-                strongSelf.messageSender?.send(outgoingMessage, success: {
-                    DLog("message sent")
-                }, failure: { error in
-                    DLog("\(error)")
-                    if error.localizedDescription == "ERROR_DESCRIPTION_UNREGISTERED_RECIPIENT" {
-                        CrashlyticsLogger.nonFatal("Could not send payment because recipient was unregistered", error: (error as NSError), attributes: nil)
-                    } else {
-                        CrashlyticsLogger.log("Can not send message", attributes: [.error: error.localizedDescription])
-                    }
-                })
-            }
-        }
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+        Navigator.topViewController?.dismiss(animated: true, completion: nil)
     }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -166,7 +166,8 @@ final class SplashViewController: UIViewController {
         }
         
         let agree = UIAlertAction(title: Localized("accept_terms_action_agree"), style: .cancel) { [weak self] _ in
-            (UIApplication.shared.delegate as? AppDelegate)?.createNewUser()
+            Navigator.tabbarController?.setupControllers()
+            SessionManager.shared.createNewUser()
             self?.dismiss(animated: true, completion: nil)
         }
         

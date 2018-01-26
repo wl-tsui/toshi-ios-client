@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,21 +17,19 @@ import UIKit
 import Teapot
 import SweetFoundation
 
-class ChatAPIClient: NSObject {
+final class ChatAPIClient {
 
-    @objc static let shared: ChatAPIClient = ChatAPIClient()
+    static let shared: ChatAPIClient = ChatAPIClient()
 
     var teapot: Teapot
 
     var baseURL: URL
 
-    private override init() {
+    private init() {
         guard let tokenChatServiceBaseURL = Bundle.main.object(forInfoDictionaryKey: "TokenChatServiceBaseURL") as? String, let url = URL(string: tokenChatServiceBaseURL) else { fatalError("TokenChatServiceBaseURL should be provided")}
 
         baseURL = url
         teapot = Teapot(baseURL: baseURL)
-
-        super.init()
     }
 
     func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
@@ -54,7 +52,7 @@ class ChatAPIClient: NSObject {
         }
     }
 
-    @objc func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
+    func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
         fetchTimestamp { timestamp in
             let cereal = Cereal.shared
             let parameters = UserBootstrapParameter()

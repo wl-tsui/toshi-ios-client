@@ -37,6 +37,19 @@ extension UIStackView {
             view.bottom(to: self, offset: -margin)
         }
     }
+
+    /// Adds a border view as an arranged subview and sets up its height constraint.
+    ///
+    /// - Parameter margin: The margin to use when adding the border. Defaults to zero
+    /// - Returns: The added border view.
+    @discardableResult
+    func addStandardBorder(margin: CGFloat = 0) -> BorderView {
+        let border = BorderView()
+        addWithDefaultConstraints(view: border, margin: margin)
+        border.addHeightConstraint()
+
+        return border
+    }
     
     /// Adds the given view as an arranged subview, and constrains it to the center of the opposite axis of the stack view.
     /// A vertical stack view will cause a subview to be constrained to the center X of the stackview.
@@ -57,13 +70,22 @@ extension UIStackView {
     /// Adds a background view to force a background color to be drawn.
     /// https://stackoverflow.com/a/42256646/681493
     ///
-    /// - Parameter color: The color for the background.
-    func addBackground(with color: UIColor) {
+    /// - Parameters:
+    ///   - color: The color for the background.
+    ///   - margin: [Optional] The margin to add around the view. Useful when there's a margin where the view is pinned which you want to make sure has the appropriate background color. When nil, edges will simply be pinned to the stack view itself.
+    func addBackground(with color: UIColor, margin: CGFloat? = nil) {
         let background = UIView()
         background.backgroundColor = color
         
         self.addSubview(background)
-        background.edgesToSuperview()
+        if let margin = margin {
+            background.topToSuperview(offset: -margin)
+            background.leftToSuperview(offset: -margin)
+            background.rightToSuperview(offset: -margin)
+            background.bottomToSuperview(offset: margin)
+        } else {
+            background.edgesToSuperview()
+        }
     }
     
     private static let spacerTag = 12345

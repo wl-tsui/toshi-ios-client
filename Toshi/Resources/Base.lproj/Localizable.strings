@@ -53,8 +53,6 @@
 
 "payment_error_message" = "Error creating transaction";
 
-"payment_estimated_fee" = "The estimated Ethereum network fees are %@ (%@)";
-
 
 "payment_message_failure_title" = "Failed";
 "payment_message_success_title" = "Succeeded";
@@ -89,6 +87,8 @@
 "sign_up_with_passphrase_alert_title" = "Create new Toshi account?";
 "sign_up_with_passphrase_alert_message" = "There is no Toshi account associated with this passphrase.\nWould you like to create one?";
 "sign_up_with_passphrase_accept_action_title" = "Create new account";
+
+"transaction_error_message" = "Error completing transaction";
 
 /* Settings */
 "settings_navigation_title" = "Me";
@@ -318,3 +318,19 @@
 /* Accessibility */
 "accessibility_back" = "Back";
 "accessibility_more" = "More";
+
+/* Payment Confirmation */
+"confirmation_title" = "Confirm Payment";
+"confirmation_recipient" = "Recipient";
+"confirmation_dapp" = "Dapp";
+"confirmation_amount" = "Amount";
+"confirmation_estimated_network_fees" = "Est. Network Fees";
+"confirmation_total" = "Total";
+"confirmation_pay" = "Pay";
+"confirmation_fetching_estimated_network_fees" = "Fetching est. network fees...";
+"confirmation_fetching_balance" = "Fetching balance...";
+"confirmation_your_balance" = "Your balance: %@";
+"confirmation_insufficient_balance" = "Insufficient balance: %@";
+"confirmation_error_balance" = "Error fetching balance";
+"confirmation_error_transaction" = "Error fetching payment info";
+"confirmation_error_payment" = "Error making payment";

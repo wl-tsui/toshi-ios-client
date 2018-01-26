@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,13 +86,13 @@ extension MessagesRequestsViewController: UITableViewDataSource {
 
         guard let thread = dataSource.unacceptedThread(at: indexPath) else { return UITableViewCell(frame: .zero) }
 
-        let avatar = thread.avatar() ?? UIImage(named: "avatar-placeholder")
+        let avatar = thread.avatar()
         var subtitle = "..."
         var title = ""
 
         if thread.isGroupThread() {
             title = thread.name()
-        } else if let recipient = ThreadCellConfigurator.recipient(for: thread) {
+        } else if let recipient = thread.recipient() {
             title = recipient.nameOrDisplayName
         }
 

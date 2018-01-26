@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -12,19 +12,16 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-#import <UIKit/UIKit.h>
-#import "AppDelegate.h"
-#import "TestAppDelegate.h"
-
-int main(int argc, char* argv[]) {
-    @autoreleasepool {
-        BOOL runningTests = NSClassFromString(@"XCTestCase") != nil || NSClassFromString(@"QuickSpec") != nil;
-        if(runningTests) {
-            return UIApplicationMain(argc, argv, nil, NSStringFromClass([TestAppDelegate class]));
-        }
-
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-    }
+let appDelegateClassName: String
+if UIApplication.isNonUITesting {
+    //Launch using test app delegate to prevent state from spinning up
+    appDelegateClassName = NSStringFromClass(TestAppDelegate.self)
+} else {
+    appDelegateClassName = NSStringFromClass(AppDelegate.self)
 }
+
+// https://forums.developer.apple.com/thread/46405
+UIApplicationMain(CommandLine.argc,
+                  UnsafeMutableRawPointer(CommandLine.unsafeArgv).bindMemory(to: UnsafeMutablePointer<Int8>.self, capacity: Int(CommandLine.argc)),
+                  nil,
+                  appDelegateClassName)

@@ -95,49 +95,31 @@ final class SignInViewController: UIViewController {
     }
 
     private func signInWithPasshphrase(_ passphrase: [String]) {
-        
-        guard Cereal.areWordsValid(passphrase), let validCereal = Cereal(words: passphrase) else {
-            let alertController = UIAlertController.dismissableAlert(title: Localized("passphrase_signin_error_title"), message: Localized("passphrase_signin_error_verification"))
-            present(alertController, animated: true)
 
-            return
-        }
+        signInView?.textField.resignFirstResponder()
 
         showActivityIndicator()
 
-        let idClient = IDAPIClient.shared
-        idClient.retrieveUser(username: validCereal.address) { [weak self] user in
+        SessionManager.shared.signInUser(passphrase) { [weak self] result in
+            guard let strongSelf = self else { return }
 
-            self?.hideActivityIndicator()
+            strongSelf.hideActivityIndicator()
 
-            if let user = user {
-
-                Cereal.shared = validCereal
-                UserDefaultsWrapper.requiresSignIn = false
-
-                TokenUser.createCurrentUser(with: user.dict)
-                idClient.migrateCurrentUserIfNeeded()
-
-                TokenUser.current?.updateVerificationState(true)
-
-                ChatAPIClient.shared.registerUser()
-
-                self?.signInView?.textField.resignFirstResponder()
-
-                guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-                delegate.signInUser()
-
-                self?.navigationController?.dismiss(animated: true, completion: nil)
-            } else {
+            switch result {
+            case .signUpWithPassphrase:
                 let alertController = UIAlertController(title: Localized("sign_up_with_passphrase_alert_title"), message: Localized("sign_up_with_passphrase_alert_message"), preferredStyle: .alert)
                 alertController.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil))
                 alertController.addAction(UIAlertAction(title: Localized("sign_up_with_passphrase_accept_action_title"), style: .default, handler: { _ in
-                    guard let strongSelf = self else { return }
+                    guard let validCereal = Cereal(words: passphrase) else { return }
                     Cereal.shared = validCereal
+
                     strongSelf.delegate?.didRequireNewAccountCreation(strongSelf)
                 }))
 
-                self?.present(alertController, animated: true)
+                strongSelf.present(alertController, animated: true, completion: nil)
+
+            default:
+                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
     }
