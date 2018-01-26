@@ -58,6 +58,7 @@
 		33B09EAB201B51B500740CB8 /* Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Git.swift; sourceTree = "<group>"; };
 		33B09EAD201B51D000740CB8 /* CMake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMake.swift; sourceTree = "<group>"; };
 		33B09EAF201B53C900740CB8 /* FileMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMovement.swift; sourceTree = "<group>"; };
+		33B09EB4201B5B3800740CB8 /* Signal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Signal.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +109,7 @@
 				3343F2052018D40A00DC8F11 /* Info.plist */,
 				3343F20B2018D53200DC8F11 /* clib */,
 				3343F2202018D54A00DC8F11 /* CPlayground-Bridging-Header.h */,
+				33B09EB4201B5B3800740CB8 /* Signal.h */,
 			);
 			path = CPlayground;
 			sourceTree = "<group>";
