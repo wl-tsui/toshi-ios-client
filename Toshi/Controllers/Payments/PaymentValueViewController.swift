@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@
 
 import UIKit
 
-protocol PaymentControllerDelegate: class {
-    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController)
+protocol PaymentValueViewControllerDelegate: class {
+    func paymentValueViewControllerControllerFinished(with valueInWei: NSDecimalNumber, on controller: PaymentValueViewController)
 }
 
-enum PaymentControllerPaymentType {
+enum PaymentValueViewControllerPaymentType {
     case request
     case send
     
@@ -33,10 +33,10 @@ enum PaymentControllerPaymentType {
     }
 }
 
-enum PaymentControllerContinueOption {
+enum PaymentValueViewControllerContinueOption {
     case next
     case send
-    
+
     var buttonTitle: String {
         switch self {
         case .next:
@@ -47,16 +47,16 @@ enum PaymentControllerContinueOption {
     }
 }
 
-class PaymentController: UIViewController {
+class PaymentValueViewController: UIViewController {
     
-    weak var delegate: PaymentControllerDelegate?
-    
-    var paymentType: PaymentControllerPaymentType
-    var continueOption: PaymentControllerContinueOption
-    
-    var valueInWei: NSDecimalNumber?
+    weak var delegate: PaymentValueViewControllerDelegate?
 
-    lazy var currencyNumberFormatter: NumberFormatter = {
+    var paymentType: PaymentValueViewControllerPaymentType
+    private var continueOption: PaymentValueViewControllerContinueOption
+
+    private var valueInWei: NSDecimalNumber?
+
+    private lazy var currencyNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.maximumFractionDigits = 2
@@ -65,16 +65,16 @@ class PaymentController: UIViewController {
 
         return formatter
     }()
-    
-    lazy var inputNumberFormatter: NumberFormatter = {
+
+    private lazy var inputNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 2
         
         return formatter
     }()
-    
-    lazy var outputNumberFormatter: NumberFormatter = {
+
+    private lazy var outputNumberFormatter: NumberFormatter = {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.maximumFractionDigits = 2
@@ -82,7 +82,7 @@ class PaymentController: UIViewController {
         return numberFormatter
     }()
 
-    lazy var shadowTextField: UITextField = {
+    private lazy var shadowTextField: UITextField = {
         let view = UITextField(withAutoLayout: true)
         view.isHidden = true
         view.accessibilityTraits = UIAccessibilityTraitNotEnabled
@@ -92,7 +92,7 @@ class PaymentController: UIViewController {
         return view
     }()
 
-    lazy var currencyAmountLabel: UILabel = {
+    private lazy var currencyAmountLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textAlignment = .center
         view.minimumScaleFactor = 0.25
@@ -103,7 +103,7 @@ class PaymentController: UIViewController {
         return view
     }()
 
-    lazy var etherAmountLabel: UILabel = {
+    private lazy var etherAmountLabel: UILabel = {
         let view = UILabel(withAutoLayout: true)
         view.textAlignment = .center
         view.minimumScaleFactor = 0.25
@@ -120,7 +120,7 @@ class PaymentController: UIViewController {
         self.defaultActiveNetworkView()
     }()
     
-    init(withPaymentType paymentType: PaymentControllerPaymentType, continueOption: PaymentControllerContinueOption) {
+    init(withPaymentType paymentType: PaymentValueViewControllerPaymentType, continueOption: PaymentValueViewControllerContinueOption) {
         self.paymentType = paymentType
         self.continueOption = continueOption
         super.init(nibName: nil, bundle: nil)
@@ -160,7 +160,7 @@ class PaymentController: UIViewController {
         shadowTextField.resignFirstResponder()
     }
 
-    func addSubviewsAndConstraints() {
+    private func addSubviewsAndConstraints() {
         view.addSubview(shadowTextField)
         view.addSubview(currencyAmountLabel)
         view.addSubview(etherAmountLabel)
@@ -183,7 +183,9 @@ class PaymentController: UIViewController {
     }
     
     @objc func continueItemTapped(_ item: UIBarButtonItem) {
-        delegate?.paymentControllerFinished(with: valueInWei, for: self)
+        guard let value = valueInWei else { return }
+
+        delegate?.paymentValueViewControllerControllerFinished(with: value, on: self)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -191,14 +193,14 @@ class PaymentController: UIViewController {
     }
 }
 
-extension PaymentController: UITextFieldDelegate {
+extension PaymentValueViewController: UITextFieldDelegate {
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let newValue = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) else {
             return true
         }
-        
-        navigationItem.rightBarButtonItem?.isEnabled = !newValue.isEmpty
+
+        navigationItem.rightBarButtonItem?.isEnabled = newValue.isValidPaymentValue()
 
         guard newValue.length > 0 else {
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
@@ -241,14 +243,14 @@ extension PaymentController: UITextFieldDelegate {
     }
 }
 
-extension PaymentController: UIToolbarDelegate {
+extension PaymentValueViewController: UIToolbarDelegate {
 
     func position(for _: UIBarPositioning) -> UIBarPosition {
         return .topAttached
     }
 }
 
-extension PaymentController: ActiveNetworkDisplaying {
+extension PaymentValueViewController: ActiveNetworkDisplaying {
 
     var activeNetworkView: ActiveNetworkView {
         return networkView

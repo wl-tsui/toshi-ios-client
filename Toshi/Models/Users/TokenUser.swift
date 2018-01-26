@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -182,7 +182,7 @@ class TokenUser: NSObject, NSCoding {
     }
 
     var userInfo: UserInfo {
-        return UserInfo(address: address, paymentAddress: paymentAddress, avatarPath: avatarPath, name: name, username: displayUsername, isLocal: true)
+        return UserInfo(address: address, paymentAddress: paymentAddress, avatarPath: avatarPath, name: nameOrDisplayName, username: displayUsername, isLocal: true)
     }
 
     override var description: String {

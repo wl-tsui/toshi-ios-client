@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ extension CGFloat {
     }
 
     static let defaultButtonHeight: CGFloat = 44
+    static let defaultBarHeight: CGFloat = 44
     static let defaultMargin: CGFloat = 15
 
     /// NOTE: Implicitly also the default avatar width.

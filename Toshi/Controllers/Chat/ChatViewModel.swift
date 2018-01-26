@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,8 +43,7 @@ final class ChatViewModel {
 
         registerNotifications()
 
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        contactsManager = appDelegate?.contactsManager
+        contactsManager = SessionManager.shared.contactsManager
     }
 
     private var contactsManager: ContactsManager?

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,19 +17,38 @@ import Foundation
 
 extension TSThread {
 
-    func avatar() -> UIImage? {
-        if isGroupThread() {
-            return (self as? TSGroupThread)?.groupModel.groupImage
+    /// Needs to be called on main thread as it involves UIAppDelegate
+    func recipient() -> TokenUser? {
+        guard let recipientAddress = contactIdentifier() else { return nil }
+
+        var recipient: TokenUser?
+
+        let retrievedData = contactData(for: recipientAddress)
+
+        if let userData = retrievedData,
+           let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
+           let json = deserialised as? [String: Any] {
+
+            recipient = TokenUser(json: json, shouldSave: false)
         } else {
-            return image()
+            recipient = SessionManager.shared.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
+        }
+
+        return recipient
+    }
+
+    func avatar() -> UIImage {
+        if let groupThread = self as? TSGroupThread {
+            return groupThread.groupModel.avatarOrPlaceholder
+        } else {
+            return image() ?? #imageLiteral(resourceName: "avatar-placeholder")
         }
     }
     
     func updateGroupMembers() {
         if let groupThread = self as? TSGroupThread {
 
-            guard  let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            let contactsIDs = appDelegate.contactsManager.tokenContacts.map { $0.address }
+            let contactsIDs = SessionManager.shared.contactsManager.tokenContacts.map { $0.address }
 
             let recipientsIdsSet = Set(groupThread.recipientIdentifiers)
             let nonContactsUsersIds = recipientsIdsSet.subtracting(Set(contactsIDs))
@@ -40,6 +59,10 @@ extension TSThread {
                 TSThread.saveRecipient(with: recipientId)
             }
         }
+    }
+
+    private func contactData(for address: String) -> Data? {
+        return (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.storedContactKey) as? Data)
     }
 
     static func saveRecipient(with identifier: String) {

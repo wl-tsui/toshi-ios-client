@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -63,5 +63,15 @@ extension String {
         } else {
             return self
         }
+    }
+
+    func isValidPaymentValue() -> Bool {
+        guard !isEmpty else { return false }
+        // To account for value strings in 0,10 format we change them to 0.10
+        let valueString = self.replacingOccurrences(of: ",", with: ".")
+
+        let floatValue = Float(valueString) ?? 0
+
+        return floatValue > 0.0
     }
 }

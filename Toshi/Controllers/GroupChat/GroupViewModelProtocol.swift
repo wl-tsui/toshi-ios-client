@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ enum GroupItemType: Int {
 struct GroupInfo {
     let placeholder = Localized("new_group_title")
     var title: String = ""
-    var avatar = UIImage(named: "avatar-placeholder")!
+    var avatar = #imageLiteral(resourceName: "avatar-placeholder")
     var isPublic = false
     var notificationsOn = true
     var participantsIDs: [String] = []
@@ -77,17 +77,13 @@ protocol GroupViewModelProtocol: class {
 extension GroupViewModelProtocol {
 
     func setupSortedMembers() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            CrashlyticsLogger.log("Failed to access app delegate")
-            fatalError("Can't access app delegate")
-        }
 
         guard let currentUser = TokenUser.current else {
             CrashlyticsLogger.log("Failed to access current user")
             fatalError("Can't access current user")
         }
 
-        var members = appDelegate.contactsManager.tokenContacts
+        var members = SessionManager.shared.contactsManager.tokenContacts
         members.append(currentUser)
         members = members.filter { recipientsIds.contains($0.address) }
 

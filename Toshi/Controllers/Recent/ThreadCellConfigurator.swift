@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,12 +43,11 @@ final class ThreadCellConfigurator: CellConfigurator {
         var title = ""
         var details: String?
         var badgeText: String?
-
         if thread.isGroupThread() {
-            avatar = (thread as? TSGroupThread)?.groupModel.groupImage ?? UIImage(named: "avatar-placeholder")
+            avatar = (thread as? TSGroupThread)?.groupModel.avatarOrPlaceholder
             title = thread.name()
-        } else if let recipient = ThreadCellConfigurator.recipient(for: thread) {
-            avatar = AvatarManager.shared.cachedAvatar(for: recipient.avatarPath) ?? UIImage(named: "avatar-placeholder")
+        } else if let recipient = thread.recipient() {
+            avatar = AvatarManager.shared.cachedAvatar(for: recipient.avatarPath) ?? #imageLiteral(resourceName: "avatar-placeholder")
             title = recipient.nameOrDisplayName
         }
 
@@ -79,27 +78,4 @@ final class ThreadCellConfigurator: CellConfigurator {
 
         return TableCellData(title: title, subtitle: subtitle, leftImage: avatar, details: details, badgeText: badgeText)
     }()
-
-    static func recipient(for thread: TSThread) -> TokenUser? {
-        guard let recipientAddress = thread.contactIdentifier() else { return nil }
-
-        var recipient: TokenUser?
-
-        let retrievedData = contactData(for: recipientAddress)
-
-        if let userData = retrievedData,
-            let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
-            let json = deserialised as? [String: Any] {
-
-            recipient = TokenUser(json: json, shouldSave: false)
-        } else if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            recipient = appDelegate.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
-        }
-
-        return recipient
-    }
-
-    private static func contactData(for address: String) -> Data? {
-        return (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.storedContactKey) as? Data)
-    }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -131,6 +131,33 @@ class IDAPIClientTests: QuickSpec {
                             expect(user.averageRating).to(equal(3.1))
                             expect(user.reputationScore).to(equal(2.4))
                             
+                            done()
+                        }
+                    }
+                }
+
+                it("finds a user by address") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "fetchUsersFromPaymentAddresses")
+                    subject = IDAPIClient(teapot: mockTeapot)
+
+                    let paymentAddress = "0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"
+
+                    waitUntil { done in
+                        subject.findUserWithPaymentAddress(paymentAddress) { user, _ in
+                            expect(user).toNot(beNil())
+
+                            expect(user?.name).to(equal("Marijn Schilling"))
+                            expect(user?.paymentAddress).to(equal("0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"))
+                            expect(user?.isApp).to(beFalse())
+                            expect(user?.reputationScore).to(equal(2.2))
+                            expect(user?.username).to(equal("marijnschilling"))
+                            expect(user?.averageRating).to(equal(3.0))
+                            expect(user?.address).to(equal("0x6f70800cb47f7f84b6c71b3693fc02595eae7378"))
+                            expect(user?.location).to(equal("Amsterdam"))
+                            expect(user?.about).to(equal("Oh hai tests"))
+                            expect(user?.avatarPath).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png"))
+                            expect(user?.isPublic).to(beFalse())
+
                             done()
                         }
                     }
@@ -535,6 +562,27 @@ class IDAPIClientTests: QuickSpec {
                             expect(users).to(beNil())
                             expect(error).toNot(beNil())
                             
+                            expect(error?.responseStatus).to(equal(401))
+                            expect(error?.type).to(equal(.invalidResponseStatus))
+
+                            done()
+                        }
+                    }
+                }
+
+                it("finds a user by address") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self),
+                                                mockFilename: "fetchUsersFromPaymentAddresses",
+                                                statusCode: .unauthorized)
+                    subject = IDAPIClient(teapot: mockTeapot)
+
+                    let paymentAddress = "0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"
+
+                    waitUntil { done in
+                        subject.findUserWithPaymentAddress(paymentAddress) { user, error in
+                            expect(user).to(beNil())
+                            expect(error).toNot(beNil())
+
                             expect(error?.responseStatus).to(equal(401))
                             expect(error?.type).to(equal(.invalidResponseStatus))
 

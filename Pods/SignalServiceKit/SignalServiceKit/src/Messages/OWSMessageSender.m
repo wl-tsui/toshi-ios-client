@@ -910,7 +910,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
             [error setIsFatal:YES];
 
             PreKeyBundle *newKeyBundle = exception.userInfo[TSInvalidPreKeyBundleKey];
-            if (![newKeyBundle isKindOfClass:[PreKeyBundle class]]) {
+            if (newKeyBundle && ![newKeyBundle isKindOfClass:[PreKeyBundle class]]) {
                 OWSProdFail([OWSAnalyticsEvents messageSenderErrorUnexpectedKeyBundle]);
                 failureHandler(error);
                 return;

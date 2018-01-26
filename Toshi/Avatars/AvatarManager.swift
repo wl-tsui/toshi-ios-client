@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,12 +50,10 @@ final class AvatarManager: NSObject {
     @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
 
-            let avatarPaths: [String] = appDelegate.contactsManager.tokenContacts.flatMap { contact in
+            let avatarPaths: [String] = SessionManager.shared.contactsManager.tokenContacts.flatMap { contact in
                 contact.avatarPath
             }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,10 +14,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import UIKit
-
-extension NSNotification.Name {
-    static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
-}
 
 enum ThreadsContentSection: Int {
     case unacceptedThreads
@@ -45,6 +41,7 @@ enum ThreadsDataSourceTarget {
             return Localized("messages_requests_title")
         }
     }
+    
 
     func title(for section: Int) -> String? {
         guard self == .recent, let contentSection = ThreadsContentSection(rawValue: section) else { return nil }
@@ -234,10 +231,9 @@ final class ThreadsDataSource: NSObject {
     func updateNewThreadRecepientsIfNeeded(_ thread: TSThread) {
         DispatchQueue.main.async {
             if let contactId = thread.contactIdentifier() {
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { fatalError("Can't access App delegate") }
-                guard appDelegate.contactsManager.tokenContact(forAddress: contactId) == nil else { return }
+                guard SessionManager.shared.contactsManager.tokenContact(forAddress: contactId) == nil else { return }
 
-                let contactsIds = appDelegate.contactsManager.tokenContacts.map { $0.address }
+                let contactsIds = SessionManager.shared.contactsManager.tokenContacts.map { $0.address }
 
                 IDAPIClient.shared.findContact(name: contactId, completion: { foundUser in
 

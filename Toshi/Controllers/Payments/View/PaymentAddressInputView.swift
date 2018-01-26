@@ -5,9 +5,10 @@ import TinyConstraints
 protocol PaymentAddressInputDelegate: class {
     func didRequestScanner()
     func didRequestSendPayment()
+    func didChangeAddress(_ text: String)
 }
 
-class PaymentAddressInputView: UIView {
+final class PaymentAddressInputView: UIView {
 
     weak var delegate: PaymentAddressInputDelegate?
 
@@ -97,5 +98,13 @@ extension PaymentAddressInputView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         delegate?.didRequestSendPayment()
         return false
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textFieldText: NSString = (textField.text ?? "") as NSString
+        let textAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
+        delegate?.didChangeAddress(textAfterUpdate)
+
+        return true
     }
 }

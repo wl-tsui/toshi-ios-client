@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,4 +15,5 @@
 
 extension NSNotification.Name {
     static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
+    static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
 }

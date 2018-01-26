@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,11 +30,7 @@ final class ChatInteractor: NSObject {
         self.output = output
         self.thread = thread
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        self.messageSender = appDelegate.messageSender
+        self.messageSender = SessionManager.shared.messageSender
     }
 
     private var etherAPIClient: EthereumAPIClient {
@@ -113,38 +109,17 @@ final class ChatInteractor: NSObject {
         })
     }
 
-    func sendPayment(in value: NSDecimalNumber?, completion: ((Bool) -> Void)? = nil) {
-        guard let value = value else {
-            return
-        }
+    func retrieveRecipientAddress(completion: @escaping (String?) -> Void) {
+        guard let tokenId = thread.contactIdentifier() else { return }
 
-        guard let tokenId = self.thread.contactIdentifier() else {
-            return
-        }
+        idAPIClient.retrieveUser(username: tokenId) { user in
+            guard let user = user else {
+                assertionFailure("can't retrieve recipient's payment address")
+                completion(nil)
+                return
+            }
 
-        idAPIClient.retrieveUser(username: tokenId) { [weak self] user in
-            guard let user = user else { return }
-
-            let parameters: [String: Any] = [
-                "from": Cereal.shared.paymentAddress,
-                "to": user.paymentAddress,
-                "value": value.toHexString
-            ]
-
-            let fiatValueString = EthereumConverter.fiatValueString(forWei: value, exchangeRate: ExchangeRateClient.exchangeRate)
-            let ethValueString = EthereumConverter.ethereumValueString(forWei: value)
-            let messageText = String(format: Localized("payment_confirmation_warning_message"), fiatValueString, ethValueString, user.name)
-
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_request_confirmation_warning_title"), message: messageText, approveHandler: { [weak self] transaction, _ in
-
-                self?.output?.didFinishRequest()
-
-                guard let transaction = transaction else { return }
-
-                self?.sendPayment(with: parameters, transaction: transaction, completion: completion)
-                }, cancelHandler: { [weak self] in
-                    self?.output?.didFinishRequest()
-            })
+            completion(user.paymentAddress)
         }
     }
 
@@ -178,7 +153,7 @@ final class ChatInteractor: NSObject {
                 return
             }
             
-            guard let value = parameters["value"] as? String else { return }
+            guard let value = parameters[PaymentParameters.value] as? String else { return }
 
             let payment = SofaPayment(txHash: txHash, valueHex: value)
             self?.sendMessage(sofaWrapper: payment)
@@ -380,13 +355,13 @@ final class ChatInteractor: NSObject {
         let updateInfoString = infoMessage.additionalInfoString
         let authorId = infoMessage.authorId
 
-        if let thread = infoMessage.thread as? TSGroupThread, let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+        if let thread = infoMessage.thread as? TSGroupThread {
 
             var object = ""
             var subject = ""
             var statusType = SofaStatus.StatusType.none
 
-            if let author = appDelegate.contactsManager.tokenContact(forAddress: authorId) {
+            if let author = SessionManager.shared.contactsManager.tokenContact(forAddress: authorId) {
                 subject = author.nameOrDisplayName
             } else if authorId == Cereal.shared.address {
                 subject = Localized("current_user_pronoun")
@@ -446,10 +421,9 @@ final class ChatInteractor: NSObject {
     }
 
     private func nameOrTruncatedAddress(for nameOrAddress: String) -> String {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nameOrAddress }
 
         if nameOrAddress.hasAddressPrefix {
-            let validDisplayName = appDelegate.contactsManager.displayName(forPhoneIdentifier: nameOrAddress)
+            let validDisplayName = SessionManager.shared.contactsManager.displayName(forPhoneIdentifier: nameOrAddress)
             if !validDisplayName.isEmpty {
                 return validDisplayName
             } else {
@@ -470,7 +444,8 @@ final class ChatInteractor: NSObject {
             }
 
             let interactor = ChatInteractor(output: nil, thread: thread)
-            interactor.send(image: newGroupModel.groupImage, in: outgoingMessage, completion: completion)
+            let image = newGroupModel.avatarOrPlaceholder
+            interactor.send(image: image, in: outgoingMessage, completion: completion)
         }
     }
 
@@ -546,7 +521,7 @@ final class ChatInteractor: NSObject {
     
     // MARK: - Bots
 
-    @objc static func triggerBotGreeting() {
+    static func triggerBotGreeting() {
         guard let botAddress = Bundle.main.infoDictionary?["InitialGreetingAddress"] as? String else { return }
 
         let botThread = ChatInteractor.getOrCreateThread(for: botAddress)
@@ -560,8 +535,7 @@ final class ChatInteractor: NSObject {
     // MARK: - Updating Contacts
 
     private static func requestContactsRefresh() {
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        appDelegate?.contactsManager.refreshContacts()
+        SessionManager.shared.contactsManager.refreshContacts()
     }
 
     func sendImage(_ image: UIImage, in message: TSOutgoingMessage? = nil) {
