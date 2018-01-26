@@ -15,6 +15,7 @@
 		3343F2272018E77A00DC8F11 /* libsignal-protocol-c.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3343F2262018E77A00DC8F11 /* libsignal-protocol-c.a */; };
 		3343F22F2018EA1A00DC8F11 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F22E2018EA1A00DC8F11 /* main.swift */; };
 		334A0108201B8A0500775F15 /* NSDate+OWS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 334A0106201B8A0500775F15 /* NSDate+OWS.mm */; };
+		334A010B201B96E300775F15 /* SignalWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A010A201B96E200775F15 /* SignalWrapper.m */; };
 		33B09EA2201B506D00740CB8 /* BuildFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA1201B506D00740CB8 /* BuildFlavor.swift */; };
 		33B09EA4201B511500740CB8 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA3201B511500740CB8 /* Folder.swift */; };
 		33B09EA6201B513000740CB8 /* ExitCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA5201B513000740CB8 /* ExitCode.swift */; };
@@ -52,6 +53,8 @@
 		3343F22E2018EA1A00DC8F11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		334A0106201B8A0500775F15 /* NSDate+OWS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSDate+OWS.mm"; sourceTree = "<group>"; };
 		334A0107201B8A0500775F15 /* NSDate+OWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OWS.h"; sourceTree = "<group>"; };
+		334A0109201B96E200775F15 /* SignalWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalWrapper.h; sourceTree = "<group>"; };
+		334A010A201B96E200775F15 /* SignalWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignalWrapper.m; sourceTree = "<group>"; };
 		33B09EA1201B506D00740CB8 /* BuildFlavor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFlavor.swift; sourceTree = "<group>"; };
 		33B09EA3201B511500740CB8 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		33B09EA5201B513000740CB8 /* ExitCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitCode.swift; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 				3343F20B2018D53200DC8F11 /* clib */,
 				3343F2202018D54A00DC8F11 /* CPlayground-Bridging-Header.h */,
 				33B09EB4201B5B3800740CB8 /* Signal.h */,
+				334A0109201B96E200775F15 /* SignalWrapper.h */,
+				334A010A201B96E200775F15 /* SignalWrapper.m */,
 				334A0107201B8A0500775F15 /* NSDate+OWS.h */,
 				334A0106201B8A0500775F15 /* NSDate+OWS.mm */,
 			);
@@ -240,6 +245,7 @@
 			files = (
 				334A0108201B8A0500775F15 /* NSDate+OWS.mm in Sources */,
 				3343F1FC2018D40A00DC8F11 /* ViewController.swift in Sources */,
+				334A010B201B96E300775F15 /* SignalWrapper.m in Sources */,
 				3343F1FA2018D40A00DC8F11 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
