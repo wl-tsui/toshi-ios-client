@@ -71,7 +71,7 @@ final class PaymentRouter {
     private func presentPaymentConfirmationController(withValue value: NSDecimalNumber, andRecipientAddress address: String) {
 
         if let dappInfo = dappInfo {
-            let paymentConfirmationController = PaymentConfirmationViewController(parameters: paymentViewModel.parameters, recipientType: .dapp(info: dappInfo)) // PaymentConfirmationViewController(withValue: value, andRecipientAddress: address, gasPrice: paymentViewModel.gasPrice, recipientType: .dapp(info: dappInfo), shouldSendSignedTransaction: shouldSendSignedTransaction, skeletonParams: additionalParamaters)
+            let paymentConfirmationController = PaymentConfirmationViewController(parameters: paymentViewModel.parameters, recipientType: .dapp(info: dappInfo), shouldSendSignedTransaction: shouldSendSignedTransaction)
 
             paymentConfirmationController.backgroundView = Navigator.window?.snapshotView(afterScreenUpdates: false)
 
@@ -80,7 +80,7 @@ final class PaymentRouter {
 
             Navigator.presentModally(paymentConfirmationController)
         } else {
-            let paymentConfirmationController = PaymentConfirmationViewController(parameters: paymentViewModel.parameters, recipientType: .user(info: userInfo)) // PaymentConfirmationViewController(withValue: value, andRecipientAddress: address, recipientType: .user(info: userInfo), shouldSendSignedTransaction: shouldSendSignedTransaction)
+            let paymentConfirmationController = PaymentConfirmationViewController(parameters: paymentViewModel.parameters, recipientType: .user(info: userInfo), shouldSendSignedTransaction: shouldSendSignedTransaction)
             paymentConfirmationController.delegate = self
 
             let navigationController = PaymentNavigationController(rootViewController: paymentConfirmationController)
