@@ -2101,8 +2101,6 @@
 				2BC6925C1EE937E800285070 /* Emptiable.swift */,
 				2BE66A0B1EF910B6007A7130 /* KeyboardAdjustable.swift */,
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
-				2BC4084D1EF186000044C242 /* PaymentPresentable.swift */,
-				2BE3C4FA1FD7EE2E001F6919,
 				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 			);
 			path = Protocols;
@@ -3597,7 +3595,6 @@
 				2B6C19011FCDA4C600DE432B /* GroupInfoViewModel.swift in Sources */,
 				A9E691BF1F7A496800317DB1 /* SignInCell.swift in Sources */,
 				A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */,
-				2BC4084E1EF186000044C242 /* PaymentPresentable.swift in Sources */,
 				33EF275E2010D4690056699D /* DisappearingNavBarViewController.swift in Sources */,
 				A9E1DCD21F1E1989001A4ABE /* MessagesBasicCell.swift in Sources */,
 				9FE18B281E2D135F00940DC8 /* ProfileCell.swift in Sources */,

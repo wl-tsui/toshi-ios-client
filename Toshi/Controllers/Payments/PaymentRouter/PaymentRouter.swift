@@ -107,6 +107,10 @@ extension PaymentRouter: PaymentValueViewControllerDelegate {
         paymentViewModel.value = valueInWei
         present()
     }
+
+    func paymentValueControllerDidCancel(_ controller: PaymentValueViewController) {
+        delegate?.paymentRouterDidCancel(paymentRouter: self)
+    }
 }
 
 extension PaymentRouter: PaymentAddressControllerDelegate {
