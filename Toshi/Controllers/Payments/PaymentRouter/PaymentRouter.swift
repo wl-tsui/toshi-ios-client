@@ -41,7 +41,7 @@ final class PaymentRouter {
     // I purposefully created this method so the caller is aware that this object will present a VC
     func present() {
         //here should be decided what controller should be presented first
-        guard let value = paymentViewModel.value, value.isGreaterThan(value: NSDecimalNumber.zero) else {
+        guard let value = paymentViewModel.value else {
             presentPaymentValueController()
             return
         }
