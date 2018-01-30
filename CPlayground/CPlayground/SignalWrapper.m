@@ -8,6 +8,7 @@
 
 #import "SignalWrapper.h"
 
+#import "CryptoProvider.h"
 #import "NSDate+OWS.h"
 #import "Signal.h"
 
@@ -19,7 +20,9 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         //TODO: Figure out what the hell the userdata is they need here
+
         signal_context_create(&_globalContext, NULL);
+        [CryptoProvider addDefaultProviderToContext:_globalContext];
     });
 
     return _globalContext;
@@ -110,8 +113,12 @@
 
 #pragma mark - Storing things
 
+static ratchet_identity_key_pair *_keyPair;
+
 + (void)storeIdentityKeyPair:(ratchet_identity_key_pair *)keyPair
 {
+    // TODO: Replace with actual persistence
+    _keyPair = keyPair;
     /* Store identity_key_pair somewhere durable and safe. */
 
 //    uint8_t public = keyPair->publicKey->data;
@@ -121,17 +128,22 @@
 
 + (ratchet_identity_key_pair *)identityKeyPair
 {
-    return nil;
+    return _keyPair;
 }
+
+static uint32_t _registrationID;
 
 + (void)storeRegistrationID:(uint32_t)registrationID
 {
+    // TODO: Use actual persistence
+    _registrationID = registrationID;
     /* Store registration_id somewhere durable and safe. */
 }
 
 + (uint32_t)registrationID
 {
-    return 0;
+    // TODO: Use actual persistence
+    return _registrationID;
 }
 
 + (void)storePreKeys:(signal_protocol_key_helper_pre_key_list_node *)preKeys

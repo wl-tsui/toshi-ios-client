@@ -20,6 +20,20 @@
                ReferencedContainer = "container:CPlayground.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33ACF40F20208F2100F3A2C1"
+               BuildableName = "CPlaygroundTests.xctest"
+               BlueprintName = "CPlaygroundTests"
+               ReferencedContainer = "container:CPlayground.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -29,6 +43,16 @@
       language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33ACF40F20208F2100F3A2C1"
+               BuildableName = "CPlaygroundTests.xctest"
+               BlueprintName = "CPlaygroundTests"
+               ReferencedContainer = "container:CPlayground.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

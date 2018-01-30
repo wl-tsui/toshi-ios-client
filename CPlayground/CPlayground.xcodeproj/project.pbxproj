@@ -16,6 +16,10 @@
 		3343F22F2018EA1A00DC8F11 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3343F22E2018EA1A00DC8F11 /* main.swift */; };
 		334A0108201B8A0500775F15 /* NSDate+OWS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 334A0106201B8A0500775F15 /* NSDate+OWS.mm */; };
 		334A010B201B96E300775F15 /* SignalWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A010A201B96E200775F15 /* SignalWrapper.m */; };
+		33ACF41C20208F3F00F3A2C1 /* PreKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ACF41B20208F3F00F3A2C1 /* PreKeyTests.swift */; };
+		33ACF421202090A200F3A2C1 /* AddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ACF420202090A200F3A2C1 /* AddressTests.swift */; };
+		33ACF4232020925300F3A2C1 /* RegistrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ACF4222020925300F3A2C1 /* RegistrationTests.swift */; };
+		33ACF4262020B15F00F3A2C1 /* CryptoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 33ACF4252020B15F00F3A2C1 /* CryptoProvider.m */; };
 		33B09EA2201B506D00740CB8 /* BuildFlavor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA1201B506D00740CB8 /* BuildFlavor.swift */; };
 		33B09EA4201B511500740CB8 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA3201B511500740CB8 /* Folder.swift */; };
 		33B09EA6201B513000740CB8 /* ExitCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EA5201B513000740CB8 /* ExitCode.swift */; };
@@ -25,6 +29,16 @@
 		33B09EAE201B51D000740CB8 /* CMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EAD201B51D000740CB8 /* CMake.swift */; };
 		33B09EB0201B53C900740CB8 /* FileMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B09EAF201B53C900740CB8 /* FileMovement.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		33ACF41520208F2200F3A2C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3343F1EE2018D40A00DC8F11 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3343F1F52018D40A00DC8F11;
+			remoteInfo = CPlayground;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3343F22A2018EA1A00DC8F11 /* CopyFiles */ = {
@@ -55,6 +69,15 @@
 		334A0107201B8A0500775F15 /* NSDate+OWS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OWS.h"; sourceTree = "<group>"; };
 		334A0109201B96E200775F15 /* SignalWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalWrapper.h; sourceTree = "<group>"; };
 		334A010A201B96E200775F15 /* SignalWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignalWrapper.m; sourceTree = "<group>"; };
+		33ACF41020208F2100F3A2C1 /* CPlaygroundTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CPlaygroundTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		33ACF41420208F2200F3A2C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		33ACF41A20208F3E00F3A2C1 /* CPlaygroundTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CPlaygroundTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		33ACF41B20208F3F00F3A2C1 /* PreKeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreKeyTests.swift; sourceTree = "<group>"; };
+		33ACF41D20208FE100F3A2C1 /* SignalWrapper+Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SignalWrapper+Tests.h"; sourceTree = "<group>"; };
+		33ACF420202090A200F3A2C1 /* AddressTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTests.swift; sourceTree = "<group>"; };
+		33ACF4222020925300F3A2C1 /* RegistrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationTests.swift; sourceTree = "<group>"; };
+		33ACF4242020B15F00F3A2C1 /* CryptoProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CryptoProvider.h; path = CPlayground/CryptoProvider.h; sourceTree = SOURCE_ROOT; };
+		33ACF4252020B15F00F3A2C1 /* CryptoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CryptoProvider.m; path = CPlayground/CryptoProvider.m; sourceTree = SOURCE_ROOT; };
 		33B09EA1201B506D00740CB8 /* BuildFlavor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFlavor.swift; sourceTree = "<group>"; };
 		33B09EA3201B511500740CB8 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		33B09EA5201B513000740CB8 /* ExitCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitCode.swift; sourceTree = "<group>"; };
@@ -82,6 +105,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		33ACF40D20208F2100F3A2C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -90,6 +120,7 @@
 			children = (
 				3343F1F82018D40A00DC8F11 /* CPlayground */,
 				3343F22D2018EA1A00DC8F11 /* CMake_Signal */,
+				33ACF41120208F2200F3A2C1 /* CPlaygroundTests */,
 				3343F1F72018D40A00DC8F11 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,6 +130,7 @@
 			children = (
 				3343F1F62018D40A00DC8F11 /* CPlayground.app */,
 				3343F22C2018EA1A00DC8F11 /* CMake_Signal */,
+				33ACF41020208F2100F3A2C1 /* CPlaygroundTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,6 +147,8 @@
 				3343F20B2018D53200DC8F11 /* clib */,
 				3343F2202018D54A00DC8F11 /* CPlayground-Bridging-Header.h */,
 				33B09EB4201B5B3800740CB8 /* Signal.h */,
+				33ACF4242020B15F00F3A2C1 /* CryptoProvider.h */,
+				33ACF4252020B15F00F3A2C1 /* CryptoProvider.m */,
 				334A0109201B96E200775F15 /* SignalWrapper.h */,
 				334A010A201B96E200775F15 /* SignalWrapper.m */,
 				334A0107201B8A0500775F15 /* NSDate+OWS.h */,
@@ -146,6 +180,19 @@
 				33B09EAF201B53C900740CB8 /* FileMovement.swift */,
 			);
 			path = CMake_Signal;
+			sourceTree = "<group>";
+		};
+		33ACF41120208F2200F3A2C1 /* CPlaygroundTests */ = {
+			isa = PBXGroup;
+			children = (
+				33ACF41420208F2200F3A2C1 /* Info.plist */,
+				33ACF420202090A200F3A2C1 /* AddressTests.swift */,
+				33ACF41B20208F3F00F3A2C1 /* PreKeyTests.swift */,
+				33ACF4222020925300F3A2C1 /* RegistrationTests.swift */,
+				33ACF41A20208F3E00F3A2C1 /* CPlaygroundTests-Bridging-Header.h */,
+				33ACF41D20208FE100F3A2C1 /* SignalWrapper+Tests.h */,
+			);
+			path = CPlaygroundTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +232,24 @@
 			productReference = 3343F22C2018EA1A00DC8F11 /* CMake_Signal */;
 			productType = "com.apple.product-type.tool";
 		};
+		33ACF40F20208F2100F3A2C1 /* CPlaygroundTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33ACF41920208F2200F3A2C1 /* Build configuration list for PBXNativeTarget "CPlaygroundTests" */;
+			buildPhases = (
+				33ACF40C20208F2100F3A2C1 /* Sources */,
+				33ACF40D20208F2100F3A2C1 /* Frameworks */,
+				33ACF40E20208F2100F3A2C1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				33ACF41620208F2200F3A2C1 /* PBXTargetDependency */,
+			);
+			name = CPlaygroundTests;
+			productName = CPlaygroundTests;
+			productReference = 33ACF41020208F2100F3A2C1 /* CPlaygroundTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,6 +269,12 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
+					33ACF40F20208F2100F3A2C1 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 3343F1F52018D40A00DC8F11;
+					};
 				};
 			};
 			buildConfigurationList = 3343F1F12018D40A00DC8F11 /* Build configuration list for PBXProject "CPlayground" */;
@@ -221,6 +292,7 @@
 			targets = (
 				3343F1F52018D40A00DC8F11 /* CPlayground */,
 				3343F22B2018EA1A00DC8F11 /* CMake_Signal */,
+				33ACF40F20208F2100F3A2C1 /* CPlaygroundTests */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +308,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		33ACF40E20208F2100F3A2C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -247,6 +326,7 @@
 				3343F1FC2018D40A00DC8F11 /* ViewController.swift in Sources */,
 				334A010B201B96E300775F15 /* SignalWrapper.m in Sources */,
 				3343F1FA2018D40A00DC8F11 /* AppDelegate.swift in Sources */,
+				33ACF4262020B15F00F3A2C1 /* CryptoProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +346,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		33ACF40C20208F2100F3A2C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33ACF4232020925300F3A2C1 /* RegistrationTests.swift in Sources */,
+				33ACF421202090A200F3A2C1 /* AddressTests.swift in Sources */,
+				33ACF41C20208F3F00F3A2C1 /* PreKeyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		33ACF41620208F2200F3A2C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3343F1F52018D40A00DC8F11 /* CPlayground */;
+			targetProxy = 33ACF41520208F2200F3A2C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3343F1FD2018D40A00DC8F11 /* Main.storyboard */ = {
@@ -462,6 +560,45 @@
 			};
 			name = Release;
 		};
+		33ACF41720208F2200F3A2C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "cplayground/clib/**";
+				INFOPLIST_FILE = CPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.toshiapp.CPlaygroundTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CPlaygroundTests/CPlaygroundTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CPlayground.app/CPlayground";
+			};
+			name = Debug;
+		};
+		33ACF41820208F2200F3A2C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "cplayground/clib/**";
+				INFOPLIST_FILE = CPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.toshiapp.CPlaygroundTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CPlaygroundTests/CPlaygroundTests-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CPlayground.app/CPlayground";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -488,6 +625,15 @@
 			buildConfigurations = (
 				3343F2312018EA1A00DC8F11 /* Debug */,
 				3343F2322018EA1A00DC8F11 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		33ACF41920208F2200F3A2C1 /* Build configuration list for PBXNativeTarget "CPlaygroundTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33ACF41720208F2200F3A2C1 /* Debug */,
+				33ACF41820208F2200F3A2C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
