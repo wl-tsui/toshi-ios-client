@@ -31,6 +31,9 @@ final class PaymentRouter {
     var dappInfo: DappInfo?
     private var shouldSendSignedTransaction = true
 
+    /// We keep track of how many controllers the payment router has in stack, so we can identify when the whole payment is being cancelled.
+    private var controllersInStackCount = 0
+
     private var paymentViewModel: PaymentViewModel
 
     init(parameters: [String: Any] = [:], shouldSendSignedTransaction: Bool = true) {
@@ -38,9 +41,9 @@ final class PaymentRouter {
         self.paymentViewModel = PaymentViewModel(parameters: parameters)
     }
 
-    // I purposefully created this method so the caller is aware that this object will present a VC
     func present() {
-        //here should be decided what controller should be presented first
+        increaseControllersStack()
+
         guard let value = paymentViewModel.value else {
             presentPaymentValueController()
             return
@@ -52,6 +55,21 @@ final class PaymentRouter {
         }
 
         presentPaymentConfirmationController(withValue: value, andRecipientAddress: address)
+    }
+
+    private func increaseControllersStack() {
+        controllersInStackCount += 1
+    }
+
+    private func decreaseControllersStack() {
+        controllersInStackCount -= 1
+    }
+
+    private func cancelIfNeeded() {
+        let hasDismissedPaymentRouterFlow = (controllersInStackCount == 0)
+        guard hasDismissedPaymentRouterFlow else { return }
+
+        delegate?.paymentRouterDidCancel(paymentRouter: self)
     }
 
     private func presentPaymentValueController() {
@@ -109,7 +127,9 @@ extension PaymentRouter: PaymentValueViewControllerDelegate {
     }
 
     func paymentValueControllerDidCancel(_ controller: PaymentValueViewController) {
-        delegate?.paymentRouterDidCancel(paymentRouter: self)
+        decreaseControllersStack()
+
+        cancelIfNeeded()
     }
 }
 
@@ -117,6 +137,10 @@ extension PaymentRouter: PaymentAddressControllerDelegate {
     func paymentAddressControllerFinished(with address: String, on controller: PaymentAddressViewController) {
         paymentViewModel.recipientAddress = address
         present()
+    }
+
+    func paymentAddressControllerDidCancel(_ controller: PaymentAddressViewController) {
+        decreaseControllersStack()
     }
 }
 
@@ -139,6 +163,7 @@ extension PaymentRouter: PaymentConfirmationViewControllerDelegate {
     }
 
     func paymentConfirmationViewControllerDidCancel(_ controller: PaymentConfirmationViewController) {
-        delegate?.paymentRouterDidCancel(paymentRouter: self)
+        decreaseControllersStack()
+        cancelIfNeeded()
     }
 }
