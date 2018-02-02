@@ -12,7 +12,7 @@
 
 /* Browse */
 "browse-navigation-title" = "Search";
-"browse-search-placeholder" = "Search Toshi";
+"browse-search-placeholder" = "Search or type the url";
 
 "browse-top-rated-apps" = "Top Rated";
 "browse-featured-dapps" = "Featured";
