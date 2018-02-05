@@ -33,7 +33,7 @@
     static signal_protocol_store_context *_storeContext;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        signal_protocol_session_store *sessionStore;
+        signal_protocol_session_store *sessionStore = 0;
         signal_protocol_pre_key_store *preKeyStore;
         signal_protocol_signed_pre_key_store *signedPreKeyStore;
         signal_protocol_identity_key_store *identityKeyStore;
@@ -43,7 +43,6 @@
         signal_protocol_store_context_set_signed_pre_key_store(_storeContext, signedPreKeyStore);
         signal_protocol_store_context_set_identity_key_store(_storeContext, identityKeyStore);
     });
-
 
     return _storeContext;
 }
