@@ -248,6 +248,7 @@
 
 /* Wallet */
 "wallet_controller_title" = "My Wallet";
+"wallet_address_title" = "Wallet address title";
 
 /* Keychain and file system error */
 "yap_missing_password_error_description" = "No keychain password while database present";

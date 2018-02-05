@@ -80,6 +80,9 @@
 		2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		2B44A13A1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
 		2B44A13B1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */; };
+		2B46016E2028E1A80098694D /* WalletTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */; };
+		2B46016F2028E1A80098694D /* WalletTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */; };
+		2B4601702028E1A80098694D /* WalletTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */; };
 		2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */; };
@@ -1037,6 +1040,7 @@
 		2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsProfileCell.swift; sourceTree = "<group>"; };
 		2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditConfigurator.swift; sourceTree = "<group>"; };
 		2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClient.swift; sourceTree = "<group>"; };
+		2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletTableHeaderView.swift; sourceTree = "<group>"; };
 		2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProfileEditItem .swift"; sourceTree = "<group>"; };
 		2B4BCD591F59954E00F9E609 /* DistributionDevTokenURLPaths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionDevTokenURLPaths.swift; sourceTree = "<group>"; };
 		2B4E25E11FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTitleSubtitleDetailsCell.swift; sourceTree = "<group>"; };
@@ -1649,6 +1653,14 @@
 			path = APIKeys;
 			sourceTree = "<group>";
 		};
+		2B46016C2028E18F0098694D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2B4794181F1E069500AC3EB4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1725,6 +1737,7 @@
 		2B97A0CA2028D4D200A161F8 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				2B46016C2028E18F0098694D /* Views */,
 				2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */,
 				2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */,
 			);
@@ -3391,6 +3404,7 @@
 				9F3CF6A71FE14BBA00043530 /* TextTransformer.swift in Sources */,
 				2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */,
 				2B7088A81FE3EE7700D16C55 /* AvatarTitleSubtitleDetailsBadgeCell.swift in Sources */,
+				2B4601702028E1A80098694D /* WalletTableHeaderView.swift in Sources */,
 				2B4E25F01FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
 				A9CADC2A1F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
@@ -3633,6 +3647,7 @@
 				A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */,
 				2B4E25EE1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				9F78D9D81EE93F36003A0B95 /* AlertController.swift in Sources */,
+				2B46016E2028E1A80098694D /* WalletTableHeaderView.swift in Sources */,
 				9FC72A341E250E2D00EF1141 /* UserBootstrapParameters.swift in Sources */,
 				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
@@ -3875,6 +3890,7 @@
 				9F3CF6A61FE14BBA00043530 /* TextTransformer.swift in Sources */,
 				A9603EDA1F4DABDC00BF57B1 /* UserBootstrapParameters.swift in Sources */,
 				2B7088A71FE3EE7700D16C55 /* AvatarTitleSubtitleDetailsBadgeCell.swift in Sources */,
+				2B46016F2028E1A80098694D /* WalletTableHeaderView.swift in Sources */,
 				2B4E25EF1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				A9CADC291F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
 				A9CADC311F94B1DC0096D017 /* ReputationView.swift in Sources */,
