@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import TinyConstraints
 import UIKit
 
 // MARK: - Delegate
@@ -21,8 +22,9 @@ protocol SegmentedHeaderDelegate: class {
     func segmentedHeader(_: SegmentedHeaderView, didSelectSegmentAt index: Int)
 }
 
-//  MARK: - Segmented Header View
+// MARK: - Segmented Header View
 
+/// A custom header view for showing multiple segments, with an indicator of which is selected.
 class SegmentedHeaderView: UIView {
 
     private weak var delegate: SegmentedHeaderDelegate?
@@ -87,55 +89,33 @@ class SegmentedHeaderView: UIView {
     private func setupSegmentButtons(widthProportion: CGFloat) {
         for (index, button) in segmentButtons.enumerated() {
             addSubview(button)
-            button.translatesAutoresizingMaskIntoConstraints = false
 
-            let constraintsToAdd: [NSLayoutConstraint]
             switch index {
             case 0: // first button
-                constraintsToAdd = [ button.leadingAnchor.constraint(equalTo: leadingAnchor) ]
+                button.leadingToSuperview()
             case (segmentButtons.count - 1): // Last button
                 let previousButton = segmentButtons[index - 1]
-                constraintsToAdd = [
-                    button.leadingAnchor.constraint(equalTo: previousButton.trailingAnchor),
-                    button.trailingAnchor.constraint(equalTo: trailingAnchor)
-                ]
+                button.leadingToTrailing(of: previousButton)
+                button.trailingToSuperview()
             default: // Somewhere in the middle
                 let previousButton = segmentButtons[index - 1]
-                constraintsToAdd = [ button.leadingAnchor.constraint(equalTo:previousButton.trailingAnchor) ]
+                button.leadingToTrailing(of: previousButton)
             }
 
-            NSLayoutConstraint.activate(constraintsToAdd)
-            NSLayoutConstraint.activate([
-                button.topAnchor.constraint(equalTo: topAnchor),
-                button.bottomAnchor.constraint(equalTo: bottomAnchor),
-                NSLayoutConstraint(item: button,
-                                   attribute: .width,
-                                   relatedBy: .equal,
-                                   toItem: self,
-                                   attribute: .width,
-                                   multiplier: widthProportion,
-                                   constant: 0)
-                ])
+            button.top(to: self)
+            button.bottom(to: self)
+            button.width(to: self, multiplier: widthProportion)
         }
     }
 
     private func setupIndicatorView(widthProportion: CGFloat) {
         addSubview(indicatorView)
 
-        indicatorView.translatesAutoresizingMaskIntoConstraints = false
-        indicatorLeadingConstraint = indicatorView.leadingAnchor.constraint(equalTo: leadingAnchor)
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: indicatorView,
-                               attribute: .width,
-                               relatedBy: .equal,
-                               toItem: self,
-                               attribute: .width,
-                               multiplier: widthProportion,
-                               constant: 0),
-            indicatorView.heightAnchor.constraint(equalToConstant: 2),
-            indicatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            indicatorLeadingConstraint,
-            ])
+        indicatorLeadingConstraint = indicatorView.leadingToSuperview()
+
+        indicatorView.width(to: self, multiplier: widthProportion)
+        indicatorView.height(2)
+        indicatorView.bottomToSuperview()
     }
 
     // MARK: - Action Handling
