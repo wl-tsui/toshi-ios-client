@@ -129,6 +129,9 @@ static ratchet_identity_key_pair *_keyPair;
 {
     // TODO: Replace with actual persistence
     _keyPair = keyPair;
+
+
+//    signal_protocol_identity_get_local_registration_id(<#signal_protocol_store_context *context#>, <#uint32_t *registration_id#>)
     /* Store identity_key_pair somewhere durable and safe. */
 
 //    uint8_t public = keyPair->publicKey->data;
@@ -147,6 +150,13 @@ static uint32_t _registrationID;
 {
     // TODO: Use actual persistence
     _registrationID = registrationID;
+
+//    signal_protocol_identity_key_store *keyStore = [self storeContext].identity
+//    signal_protocol_store_context_set_identity_key_store(<#signal_protocol_store_context *context#>, <#const signal_protocol_identity_key_store *store#>)
+
+//    session_state_set_local_registration_id([self sessionState], registrationID);
+
+
     /* Store registration_id somewhere durable and safe. */
 }
 
@@ -154,6 +164,11 @@ static uint32_t _registrationID;
 {
     // TODO: Use actual persistence
     return _registrationID;
+
+//    uint32_t registrationID;
+//    signal_protocol_identity_get_local_registration_id([self storeContext], &registrationID);
+//
+//    return registrationID;
 }
 
 + (void)storePreKeys:(signal_protocol_key_helper_pre_key_list_node *)preKeys
