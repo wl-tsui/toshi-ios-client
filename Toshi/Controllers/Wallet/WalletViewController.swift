@@ -17,12 +17,11 @@ import UIKit
 
 final class WalletViewController: UIViewController {
 
-    fileprivate lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         view.backgroundColor = nil
-        view.isOpaque = false
         BasicTableViewCell.register(in: view)
         view.delegate = self
         view.dataSource = self
@@ -33,6 +32,16 @@ final class WalletViewController: UIViewController {
 
         return view
     }()
+
+    private lazy var tableHeaderView: UIView = {
+        let walletItemTitles = [Localized("wallet_tokens"), Localized("wallet_collectibles")]
+        let headerView = SegmentedHeaderView(segmentNames: walletItemTitles, delegate: self)
+        headerView.backgroundColor = Theme.viewBackgroundColor
+
+        return headerView
+    }()
+
+    private lazy var datasource = WalletDatasource(delegate: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,17 +69,26 @@ final class WalletViewController: UIViewController {
 
 extension WalletViewController: UITableViewDataSource {
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return datasource.numberOfItems
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return tableHeaderView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 44
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cellData = TableCellData(title: "Title", subtitle: "Subtitle")
+        guard let walletItem = datasource.item(at: indexPath.row) else {
+            assertionFailure("Can;t retireve item at index: \(indexPath.row)")
+            return UITableViewCell()
+        }
+
+        let cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle)
         let configurator = CellConfigurator()
         let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)
 
@@ -89,5 +107,24 @@ extension WalletViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Selcted tow at indexpath")
+    }
+}
+
+extension WalletViewController: SegmentedHeaderDelegate {
+
+    func segmentedHeader(_: SegmentedHeaderView, didSelectSegmentAt index: Int) {
+        guard let itemType = WalletItemType(rawValue: index) else {
+            assertionFailure("Can't create wallet item with given selected index: \(index)")
+            return
+        }
+
+        datasource.itemsType = itemType
+    }
+}
+
+extension WalletViewController: WalletDatasourceDelegate {
+
+    func walletDatasourceDidReload() {
+        tableView.reloadData()
     }
 }
