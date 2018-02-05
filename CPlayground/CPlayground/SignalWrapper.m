@@ -47,6 +47,17 @@
     return _storeContext;
 }
 
++ (session_state *)sessionState
+{
+    static session_state *_sessionState;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        session_state_create(&_sessionState, [self globalContext]);
+    });
+
+    return _sessionState;
+}
+
 + (BOOL)generateAndSaveRegistrationID
 {
     signal_context *globalContext = [self globalContext];
