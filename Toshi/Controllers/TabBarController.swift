@@ -28,7 +28,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     enum Tab {
         case browsing
         case messaging
-        case scanner
+        case wallet
         case favorites
         case me
     }
@@ -59,18 +59,11 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return controller
     }()
 
-    lazy var placeholderScannerController: UIViewController = {
-        let controller = UIViewController()
-        controller.tabBarItem = UITabBarItem(title: Localized("tab_bar_title_scan"), image: #imageLiteral(resourceName: "tab3"), tag: 0)
-        controller.tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
-        
-        return controller
-    }()
-
     var browseViewController: BrowseNavigationController!
     var messagingController: RecentNavigationController!
     var profilesController: ProfilesNavigationController!
     var settingsController: SettingsNavigationController!
+    var walletController: WalletNavigationController!
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -91,6 +84,8 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         datasource.excludedProfilesIds = []
         profilesController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource))
 
+        walletController = WalletNavigationController(rootViewController: WalletViewController())
+
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
         let recentViewController = RecentViewController(style: .grouped)
 
@@ -105,7 +100,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         viewControllers = [
             self.browseViewController,
             self.messagingController,
-            self.placeholderScannerController,
+            self.walletController,
             self.profilesController,
             self.settingsController
         ]
@@ -152,18 +147,13 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
             selectedIndex = 0
         case .messaging:
             selectedIndex = 1
-        case .scanner:
-            presentScanner()
+        case .wallet:
+            selectedIndex = 2
         case .favorites:
             selectedIndex = 3
         case .me:
             selectedIndex = 4
         }
-    }
-
-    private func presentScanner() {
-        SoundPlayer.playSound(type: .menuButton)
-        Navigator.presentModally(scannerController)
     }
 
     @objc func openDeepLinkURL(_ url: URL) {
@@ -189,12 +179,6 @@ extension TabBarController: UITabBarControllerDelegate {
             browseViewController.dismissSearch()
 
             browseViewController.navigationController?.popToRootViewController(animated: false)
-        }
-
-        if viewController == placeholderScannerController {
-            presentScanner()
-
-            return false
         }
 
         return true

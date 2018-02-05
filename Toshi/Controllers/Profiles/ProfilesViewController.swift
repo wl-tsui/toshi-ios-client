@@ -307,10 +307,9 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         }))
         
         addContactSheet.addAction(UIAlertAction(title: Localized("favorites_scan_code"), style: .default, handler: { _ in
-            guard let tabBarController = self.tabBarController as? TabBarController else { return }
-            tabBarController.switch(to: .scanner)
+            Navigator.presentScanner()
         }))
-        
+
         addContactSheet.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil))
         
         addContactSheet.view.tintColor = Theme.tintColor

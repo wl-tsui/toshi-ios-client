@@ -2,11 +2,14 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "tab5.pdf"
+      "filename" : "settings.pdf"
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
+  },
+  "properties" : {
+    "template-rendering-intent" : "template"
   }
 }

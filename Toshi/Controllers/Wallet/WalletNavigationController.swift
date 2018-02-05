@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import UIKit
+import Foundation
 
-class SettingsNavigationController: UINavigationController {
+class WalletNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
@@ -28,7 +28,7 @@ class SettingsNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        tabBarItem = UITabBarItem(title: Localized("tab_bar_title_settings"), image: #imageLiteral(resourceName: "tab5"), tag: 0)
+        tabBarItem = UITabBarItem(title: Localized("tab_bar_title_wallet"), image: #imageLiteral(resourceName: "tab3"), tag: 0)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
@@ -38,7 +38,7 @@ class SettingsNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if #available(iOS 11.0, *) {
             self.navigationBar.prefersLargeTitles = true
         }

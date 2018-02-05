@@ -143,6 +143,12 @@
 		2B953ACA1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B953AC91FAC9EF0005A5BF3 /* ProfileManager.m */; };
 		2B953ACB1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B953AC91FAC9EF0005A5BF3 /* ProfileManager.m */; };
 		2B953ACC1FAC9EF0005A5BF3 /* ProfileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B953AC91FAC9EF0005A5BF3 /* ProfileManager.m */; };
+		2B97A0CC2028D4E900A161F8 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */; };
+		2B97A0CD2028D4E900A161F8 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */; };
+		2B97A0CE2028D4E900A161F8 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */; };
+		2B97A0D02028D93100A161F8 /* WalletNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */; };
+		2B97A0D12028D93100A161F8 /* WalletNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */; };
+		2B97A0D22028D93100A161F8 /* WalletNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */; };
 		2B98552B1F824200009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
 		2B98552C1F824201009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
 		2B98552D1F824201009C347A /* Reachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6343C1F7C3D0B00235C67 /* Reachability.framework */; };
@@ -1055,6 +1061,8 @@
 		2B953AC41FAC9E1A005A5BF3 /* NSString+OWS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OWS.m"; sourceTree = "<group>"; };
 		2B953AC81FAC9EEF005A5BF3 /* ProfileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileManager.h; sourceTree = "<group>"; };
 		2B953AC91FAC9EF0005A5BF3 /* ProfileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileManager.m; sourceTree = "<group>"; };
+		2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletViewController.swift; sourceTree = "<group>"; };
+		2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletNavigationController.swift; sourceTree = "<group>"; };
 		2BA0D88E1F75519F000B8500 /* NSLayoutConstraint+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Additions.swift"; sourceTree = "<group>"; };
 		2BA6A9002016248C00DCE1C9 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		2BA888EA1F600ED500B03D8E /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
@@ -1714,6 +1722,15 @@
 			path = GroupInfo;
 			sourceTree = "<group>";
 		};
+		2B97A0CA2028D4D200A161F8 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */,
+				2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 		2BD0A4D91FDFE3A800D745BF /* MessageRequests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1889,6 +1906,7 @@
 		9F9238CD1E24F3DE004BEEE0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2B97A0CA2028D4D200A161F8 /* Wallet */,
 				2BD0A4D91FDFE3A800D745BF /* MessageRequests */,
 				2B6C19081FCDA94400DE432B /* GroupChat */,
 				9F78D9D61EE93F36003A0B95 /* AlertController */,
@@ -3309,6 +3327,7 @@
 				2BF285632018EE7600DA528D /* UIApplication+Testing.swift in Sources */,
 				2BE6FB101EFC0CC500B0B848 /* AvatarManager.swift in Sources */,
 				9FF6AFA11E83E237001B5907 /* ConfirmationButton.swift in Sources */,
+				2B97A0CE2028D4E900A161F8 /* WalletViewController.swift in Sources */,
 				2BD0A4DD1FDFE3CD00D745BF /* MessageRequestsViewController.swift in Sources */,
 				84D678F01EE049930026D7F1 /* SplashViewController.swift in Sources */,
 				149F9A7E1E72E29A00FB74AA /* NSData+ows_StripToken.m in Sources */,
@@ -3343,6 +3362,7 @@
 				9F5B9BA21EBB530B006448F0 /* RatingView.swift in Sources */,
 				A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				149F9A8D1E72E29A00FB74AA /* Theme.swift in Sources */,
+				2B97A0D22028D93100A161F8 /* WalletNavigationController.swift in Sources */,
 				2B4E26011FCCCE39004614D5 /* CellConfigurator.swift in Sources */,
 				9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */,
 				6ACC21641FBDE72E002345D0 /* RLP.swift in Sources */,
@@ -3549,6 +3569,7 @@
 				2BF285612018EE7600DA528D /* UIApplication+Testing.swift in Sources */,
 				A9E1DCD41F1E1989001A4ABE /* MessagesPaymentCell.swift in Sources */,
 				A963D5301F288E5D00297FDF /* MessagesCornerView.swift in Sources */,
+				2B97A0CC2028D4E900A161F8 /* WalletViewController.swift in Sources */,
 				2BD135AE1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
 				2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */,
 				A9BF33AF1E76DF54009A51AA /* PassphraseCopyController.swift in Sources */,
@@ -3583,6 +3604,7 @@
 				A97600301F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				14E4D8D01E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift in Sources */,
 				2B4E25FF1FCCCE38004614D5 /* CellConfigurator.swift in Sources */,
+				2B97A0D02028D93100A161F8 /* WalletNavigationController.swift in Sources */,
 				9FC72A3D1E251ACC00EF1141 /* ChatAPIClient.swift in Sources */,
 				33CF51351FD184AB00293FD1 /* UserDefaultsWrapper.swift in Sources */,
 				6ACC21621FBDE72E002345D0 /* RLP.swift in Sources */,
@@ -3789,6 +3811,7 @@
 				2BF285622018EE7600DA528D /* UIApplication+Testing.swift in Sources */,
 				A9603E231F4DABDC00BF57B1 /* SplashViewController.swift in Sources */,
 				A9603E2B1F4DABDC00BF57B1 /* NSData+ows_StripToken.m in Sources */,
+				2B97A0CD2028D4E900A161F8 /* WalletViewController.swift in Sources */,
 				2BD0A4DC1FDFE3CD00D745BF /* MessageRequestsViewController.swift in Sources */,
 				A9603E2E1F4DABDC00BF57B1 /* ActionButton.swift in Sources */,
 				A9603E2F1F4DABDC00BF57B1 /* Message.swift in Sources */,
@@ -3823,6 +3846,7 @@
 				A97600311F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */,
 				A9603E911F4DABDC00BF57B1 /* Theme.swift in Sources */,
 				A9603E951F4DABDC00BF57B1 /* ChatInputTextPanel.swift in Sources */,
+				2B97A0D12028D93100A161F8 /* WalletNavigationController.swift in Sources */,
 				2B4E26001FCCCE38004614D5 /* CellConfigurator.swift in Sources */,
 				A9603E9D1F4DABDC00BF57B1 /* Footnote.swift in Sources */,
 				6ACC21631FBDE72E002345D0 /* RLP.swift in Sources */,
