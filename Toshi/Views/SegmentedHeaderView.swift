@@ -71,7 +71,7 @@ class SegmentedHeaderView: UIView {
         super.init(frame: .zero)
 
         guard segmentNames.count > 1 else {
-            fatalError("You can't create this without at least two segments all the math is gonna be pretty screwy")
+            fatalError("You can't create this without at least two segments, or all the math is gonna be pretty screwy")
         }
         let widthProportion = CGFloat(1) / CGFloat(segmentNames.count)
 
@@ -133,11 +133,15 @@ class SegmentedHeaderView: UIView {
     // MARK: - Animation
 
     private func moveIndicator(below index: Int, animated: Bool = true) {
+        // Perform any other layout in progress so animation only shows this change
         layoutIfNeeded()
+
         switch index {
         case 0:
+            // Math not necessary, just put it all the way to the leading edge.
             indicatorLeadingConstraint.constant = 0
         default:
+            // Calculate where it needs to go.
             let buttonWidth = frame.width / CGFloat(segmentButtons.count)
             indicatorLeadingConstraint.constant = buttonWidth * CGFloat(index)
         }
