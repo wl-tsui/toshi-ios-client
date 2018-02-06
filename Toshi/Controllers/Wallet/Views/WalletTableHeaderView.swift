@@ -17,36 +17,32 @@ import UIKit
 import TinyConstraints
 
 protocol WalletTableViewHeaderDelegate: class {
-    func walletHeaderViewDidRequireCopyAddress(_ headrView: WalletTableHeaderView, address: String)
-    func walletHeaderViewDidRequireOpenAddress(_ headrView: WalletTableHeaderView, address: String)
+    func copyAddress(_ address: String, from headerView: WalletTableHeaderView)
+    func openAddress(_ address: String, from headerView: WalletTableHeaderView)
 }
+
+// MARK: - View
 
 final class WalletTableHeaderView: UIView {
 
-    private let contentViewInset: CGFloat = 15
-    private let qrCodeImageSize: CGFloat = 40
-    private let interItemInset: CGFloat = 20
-
-    var walletAddress = "" {
-        didSet {
-            setupAddressText()
-            setupQRCodeImage()
-        }
-    }
+    private let walletAddress: String
+    private weak var delegate: WalletTableViewHeaderDelegate?
 
     private lazy var qrCodeImageView: UIImageView = {
-        let imageView = UIImageView(withAutoLayout: true)
-        imageView.backgroundColor = Theme.greyTextColor
-        imageView.size(CGSize(width: self.qrCodeImageSize, height: self.qrCodeImageSize))
+        let imageView = UIImageView()
+        let qrCodeImageSize: CGFloat = 40
+
+        imageView.width(qrCodeImageSize)
+        imageView.height(qrCodeImageSize)
 
         return imageView
     }()
 
     private lazy var titleLabel: UILabel = {
-        let label = UILabel(withAutoLayout: true)
+        let label = UILabel()
         label.textColor = Theme.greyTextColor
         label.text = Localized("wallet_address_title")
-        label.font = Theme.preferredRegularSmall()
+        label.font = Theme.preferredFootnote()
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
 
@@ -54,54 +50,121 @@ final class WalletTableHeaderView: UIView {
     }()
 
     private lazy var walletAddressLabel: UILabel = {
-        let label = UILabel(withAutoLayout: true)
-        label.font = Theme.preferredRegular()
-        label.text = "0xf1c..75fr8"
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        let label = UILabel()
+        label.font = Theme.preferredSemibold()
+        label.lineBreakMode = .byTruncatingMiddle
         label.setContentCompressionResistancePriority(.required, for: .vertical)
 
         return label
     }()
 
-    private lazy var contentView: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.layer.cornerRadius = 10.0
-        view.backgroundColor = Theme.viewBackgroundColor
-        view.height(80).priority = .required
+    private lazy var copyButton: UIButton = {
+        let button = UIButton(type: .custom)
 
-        return view
+        button.layer.borderColor = Theme.tintColor.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 2
+        button.contentEdgeInsets = UIEdgeInsets(top: .smallInterItemSpacing, left: .mediumInterItemSpacing, bottom: .smallInterItemSpacing, right: .mediumInterItemSpacing)
+        button.titleLabel?.font = Theme.preferredFootnote()
+        button.setTitle(Localized("copy_action_title"), for: .normal)
+        button.setTitleColor(Theme.tintColor, for: .normal)
+        button.addTarget(self, action: #selector(copyAddressTapped), for: .touchUpInside)
+        button.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+        return button
     }()
 
-    private func setupQRCodeImage() {
+    // MARK: - Initialization
 
-    }
-
-    private func setupAddressText() {
-        walletAddressLabel.text = walletAddress
-    }
-
-    override init(frame: CGRect) {
+    /// Designated initializer
+    ///
+    /// - Parameters:
+    ///   - frame: The frame to pass through to super.
+    ///   - address: The address to display
+    ///   - delegate: The delegate to notify of changes.
+    init(frame: CGRect, address: String, delegate: WalletTableViewHeaderDelegate) {
+        walletAddress = address
+        self.delegate = delegate
         super.init(frame: frame)
 
-        backgroundColor = .clear
-        addSubview(contentView)
-        let contentInsets = UIEdgeInsets(top: contentViewInset, left: contentViewInset, bottom: -contentViewInset, right: -contentViewInset)
-        contentView.edges(to: self, insets: contentInsets, priority: .required, isActive: true)
+        setupBackground()
+        setupContentView()
 
-        contentView.addSubview(qrCodeImageView)
-        qrCodeImageView.left(to: contentView, offset: interItemInset, priority: .required, isActive: true)
-        qrCodeImageView.centerY(to: contentView)
-
-        contentView.addSubview(titleLabel)
-        titleLabel.top(to: qrCodeImageView)
-        titleLabel.leftToRight(of: qrCodeImageView, offset: interItemInset)
-
-        contentView.addSubview(walletAddressLabel)
-        walletAddressLabel.bottom(to: qrCodeImageView)
-        walletAddressLabel.left(to: titleLabel)
+        walletAddressLabel.text = walletAddress
+        qrCodeImageView.image = UIImage.imageQRCode(for: walletAddress)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - View Setup
+
+    private func setupBackground() {
+        let topBackground = UIView()
+        topBackground.backgroundColor = Theme.tintColor
+
+        let bottomBackground = UIView()
+        bottomBackground.backgroundColor = Theme.lightGrayBackgroundColor
+
+        addSubview(topBackground)
+        addSubview(bottomBackground)
+
+        topBackground.edgesToSuperview(excluding: .bottom)
+        bottomBackground.edgesToSuperview(excluding: .top)
+        bottomBackground.topToBottom(of: topBackground)
+        bottomBackground.height(to: topBackground)
+    }
+
+    private func setupContentView() {
+        let contentView = UIView(withAutoLayout: true)
+        contentView.layer.cornerRadius = 10.0
+
+        contentView.addShadow(xOffset: 0, yOffset: 2, radius: 4)
+        contentView.backgroundColor = Theme.viewBackgroundColor
+
+        addSubview(contentView)
+
+        let spacing = CGFloat.spacingx3
+        contentView.topToSuperview(offset: spacing)
+        contentView.bottomToSuperview(offset: -spacing)
+        contentView.leftToSuperview(offset: spacing)
+        contentView.rightToSuperview(offset: spacing)
+
+        let outerStackView = UIStackView()
+        outerStackView.axis = .horizontal
+        outerStackView.alignment = .center
+        outerStackView.spacing = .spacingx3
+
+        contentView.addSubview(outerStackView)
+        outerStackView.centerYToSuperview()
+        outerStackView.leftToSuperview(offset: .largeInterItemSpacing)
+        outerStackView.rightToSuperview(offset: .largeInterItemSpacing)
+
+        outerStackView.addArrangedSubview(qrCodeImageView)
+        addAddress(to: outerStackView)
+        outerStackView.addArrangedSubview(copyButton)
+    }
+
+    private func addAddress(to stackView: UIStackView) {
+        let innerStackView = UIStackView()
+        innerStackView.axis = .vertical
+        innerStackView.alignment = .center
+
+        stackView.addArrangedSubview(innerStackView)
+
+        innerStackView.addWithDefaultConstraints(view: titleLabel)
+        innerStackView.addWithDefaultConstraints(view: walletAddressLabel)
+    }
+
+    // MARK: - Action Targets
+
+    @objc private func copyAddressTapped() {
+        delegate?.copyAddress(walletAddress, from: self)
+    }
+
+    @objc private func openAddressTapped() {
+        delegate?.openAddress(walletAddress, from: self)
+    }
+
 }

@@ -37,22 +37,53 @@ extension UIView {
         }, completion: nil)
     }
 
-    func prepareForSuperview() {
-        translatesAutoresizingMaskIntoConstraints = false
-        setContentCompressionResistancePriority(.required, for: .vertical)
-        setContentCompressionResistancePriority(.required, for: .horizontal)
-        setContentHuggingPriority(.required, for: .vertical)
-        setContentHuggingPriority(.required, for: .horizontal)
-    }
-
+    /// Turns the current view into a circle by updating the corner radius to be half the width.
+    /// Note: Might look a little silly if the view isn't a square.
     func circleify() {
         self.layer.cornerRadius = self.frame.width / 2
     }
-    
+
+    /// Adds a 1pt border only if debugging.
+    ///
+    /// - Parameter color: The color of the border you want to add.
     func showDebugBorder(color: UIColor) {
         #if DEBUG
-            layer.borderColor = color.cgColor
-            layer.borderWidth = 1
+            addBorder(colored: color)
         #endif
+    }
+
+    /// Adds a border.
+    ///
+    /// - Parameters:
+    ///   - color: The UIColor of the border.
+    ///   - width: The width of the border. Defaults to 1pt.
+    func addBorder(colored color: UIColor, width: CGFloat = 1) {
+        layer.borderWidth = width
+        layer.borderColor = color.cgColor
+    }
+
+    /// Creates a shadow on the current view.
+    /// NOTE: Shadows don't show up if you're clipping to bounds, so an assertion failure will occur if `clipsToBounds` is true.
+    ///
+    /// - Parameters:
+    ///   - xOffset: The amount to offset the shadow horizontally
+    ///   - yOffset: The amount to offset the shadow vertically
+    ///   - radius: The blur radius of the shadow
+    ///   - opacity: The opacity of the shadow color. Defaults to 0.5.
+    ///   - color: The shadow color. Defaults to black.
+    func addShadow(xOffset: CGFloat,
+                   yOffset: CGFloat,
+                   radius: CGFloat,
+                   opacity: Float = 0.5,
+                   color: UIColor = UIColor.black) {
+        guard clipsToBounds == false else {
+            assertionFailure("A shadow won't show up if you're clipping to bounds")
+            return
+        }
+
+        layer.shadowOpacity = opacity
+        layer.shadowOffset = CGSize(width: xOffset, height: yOffset)
+        layer.shadowRadius = radius
+        layer.shadowColor = color.cgColor
     }
 }

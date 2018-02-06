@@ -179,6 +179,7 @@
 "sign-out-failure-title" = "Could not sign out";
 "sign-out-failure-message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
 "cancel_action_title" = "Cancel";
+"copy_action_title" = "Copy";
 
 /* Block user Alerts */
 "block_action_title" = "Block";
@@ -248,7 +249,7 @@
 
 /* Wallet */
 "wallet_controller_title" = "My Wallet";
-"wallet_address_title" = "Wallet address title";
+"wallet_address_title" = "Wallet Address";
 "wallet_tokens" = "Tokens";
 "wallet_collectibles" = "Collectibles";
 

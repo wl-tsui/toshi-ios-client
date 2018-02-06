@@ -18,7 +18,7 @@ import Foundation
 class WalletNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
+        return .lightContent
     }
 
     override init(rootViewController: UIViewController) {
@@ -42,5 +42,10 @@ class WalletNavigationController: UINavigationController {
         if #available(iOS 11.0, *) {
             self.navigationBar.prefersLargeTitles = true
         }
+
+        self.navigationBar.barTintColor = Theme.tintColor
+        self.navigationBar.isTranslucent = false
+        self.navigationBar.shadowImage = UIImage()
+        self.navigationBar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor: UIColor.white ]
     }
 }

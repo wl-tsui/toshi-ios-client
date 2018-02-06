@@ -29,11 +29,21 @@ extension CGFloat {
 
     /// NOTE: Implicitly also the default avatar width.
     static let defaultAvatarHeight: CGFloat = 60
+
+    // Spacing should be related to a base amount - multiply that base amount by a certain number to get final results
     
-    static let smallInterItemSpacing: CGFloat = 5
-    static let mediumInterItemSpacing: CGFloat = 10
-    static let largeInterItemSpacing: CGFloat = 20
-    static let giantInterItemSpacing: CGFloat = 40
+    static let spacingx1: CGFloat = 5
+    static let spacingx2: CGFloat = (spacingx1 * 2)
+    static let spacingx3: CGFloat = (spacingx1 * 3)
+    static let spacingx4: CGFloat = (spacingx1 * 4)
+    static let spacingx8: CGFloat = (spacingx1 * 8)
+
+    // More readable aliases to various inter-item spacing.
+
+    static let smallInterItemSpacing: CGFloat = spacingx1
+    static let mediumInterItemSpacing: CGFloat = spacingx2
+    static let largeInterItemSpacing: CGFloat = spacingx4
+    static let giantInterItemSpacing: CGFloat = spacingx8
 }
 
 final class Theme: NSObject {}

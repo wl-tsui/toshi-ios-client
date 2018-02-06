@@ -50,19 +50,18 @@ final class WalletViewController: UIViewController {
         view.backgroundColor = Theme.lightGrayBackgroundColor
 
         addSubviewsAndConstraints()
+
+        preferLargeTitleIfPossible(false)
     }
 
     private func addSubviewsAndConstraints() {
         view.addSubview(tableView)
         tableView.edges(to: view)
 
-        let headerView = WalletTableHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 110))
-
-        let height = headerView.systemLayoutSizeFitting(UILayoutFittingExpandedSize).height
-        var headerFrame = headerView.frame
-        headerFrame.size.height = height
-        headerView.frame = headerFrame
-
+        let frame = CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: 110))
+        let headerView = WalletTableHeaderView(frame: frame,
+                                               address: "0x1246regapngpewa6125wq0ethawe6u2q305y2",
+                                               delegate: self)
         tableView.tableHeaderView = headerView
     }
 }
@@ -126,5 +125,16 @@ extension WalletViewController: WalletDatasourceDelegate {
 
     func walletDatasourceDidReload() {
         tableView.reloadData()
+    }
+}
+
+extension WalletViewController: WalletTableViewHeaderDelegate {
+
+    func copyAddress(_ address: String, from headerView: WalletTableHeaderView) {
+        DLog("COPY!")
+    }
+
+    func openAddress(_ address: String, from headerView: WalletTableHeaderView) {
+        DLog("OPEN!")
     }
 }
