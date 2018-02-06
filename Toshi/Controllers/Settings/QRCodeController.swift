@@ -40,6 +40,14 @@ class QRCodeController: UIViewController {
         qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
     }
 
+    convenience init(address: String) {
+        self.init(nibName: nil, bundle: nil)
+
+        title = Localized("address_qr_code_title")
+
+        qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.paymentWithAddressPath)\(address)")
+    }
+
     override func loadView() {
         let scrollView = UIScrollView()
 

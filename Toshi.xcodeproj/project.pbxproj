@@ -262,6 +262,9 @@
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		33731683200901BD0055975E /* String+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33731682200901BD0055975E /* String+AdditionsTests.swift */; };
 		33816A6B2003CBF200FE81BD /* MessageParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */; };
+		338472E3202A2E15000F5A8A /* WalletQRCodeAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E2202A2E15000F5A8A /* WalletQRCodeAnimationController.swift */; };
+		338472E4202A32DF000F5A8A /* WalletQRCodeAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E2202A2E15000F5A8A /* WalletQRCodeAnimationController.swift */; };
+		338472E5202A32E0000F5A8A /* WalletQRCodeAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E2202A2E15000F5A8A /* WalletQRCodeAnimationController.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -1130,6 +1133,7 @@
 		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
 		33731682200901BD0055975E /* String+AdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+AdditionsTests.swift"; sourceTree = "<group>"; };
 		33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageParsingTests.swift; sourceTree = "<group>"; };
+		338472E2202A2E15000F5A8A /* WalletQRCodeAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletQRCodeAnimationController.swift; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
@@ -1762,6 +1766,7 @@
 				2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */,
 				2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */,
 				2B460171202907730098694D /* WalletDatasource.swift */,
+				338472E2202A2E15000F5A8A /* WalletQRCodeAnimationController.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -3439,6 +3444,7 @@
 				149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */,
 				9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,
+				338472E5202A32E0000F5A8A /* WalletQRCodeAnimationController.swift in Sources */,
 				E6B8577B1F25F3D700979650 /* AddressChangeAlertController.swift in Sources */,
 				2BA0D8911F7551BA000B8500 /* NSLayoutConstraint+Additions.swift in Sources */,
 				2BF28553201883F200DA528D /* AppDelegate.swift in Sources */,
@@ -3685,6 +3691,7 @@
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
+				338472E3202A2E15000F5A8A /* WalletQRCodeAnimationController.swift in Sources */,
 				A9CADC1A1F94AF2D0096D017 /* BrowseAllViewController.swift in Sources */,
 				2BF28551201883F200DA528D /* AppDelegate.swift in Sources */,
 				2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */,
@@ -3931,6 +3938,7 @@
 				A9603EEB1F4DABDC00BF57B1 /* TSOutgoingMessage+Addtions.m in Sources */,
 				A9603EEE1F4DABDC00BF57B1 /* Checkbox.swift in Sources */,
 				A9603EEF1F4DABDC00BF57B1 /* AddressChangeAlertController.swift in Sources */,
+				338472E4202A32DF000F5A8A /* WalletQRCodeAnimationController.swift in Sources */,
 				A9603EF11F4DABDC00BF57B1 /* UIView+Additions.swift in Sources */,
 				2BA0D8901F7551B9000B8500 /* NSLayoutConstraint+Additions.swift in Sources */,
 				2BF28552201883F200DA528D /* AppDelegate.swift in Sources */,

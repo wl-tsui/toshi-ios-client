@@ -46,6 +46,8 @@ final class WalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        transitioningDelegate = self
+
         datasource.setupFakeItems()
 
         title = Localized("wallet_controller_title")
@@ -137,6 +139,24 @@ extension WalletViewController: WalletTableViewHeaderDelegate {
     }
 
     func openAddress(_ address: String, from headerView: WalletTableHeaderView) {
+        let qrCodeController = QRCodeController(for: <#T##String#>, name: <#T##String#>)
+
         DLog("OPEN!")
+    }
+}
+
+extension WalletViewController: UIViewControllerTransitioningDelegate {
+
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+
+        guard presented is QRCodeController else { return }
+
+        return WalletQRCodeAnimationController()
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard dismissed is QRCodeController else { return }
+
+        return WalletQRCodeAnimationController()
     }
 }
