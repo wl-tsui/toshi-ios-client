@@ -25,7 +25,8 @@ protocol SegmentedHeaderDelegate: class {
 // MARK: - Segmented Header View
 
 /// A custom header view for showing multiple segments, with an indicator of which is selected.
-class SegmentedHeaderView: UIView {
+
+final class SegmentedHeaderView: UIView {
 
     private weak var delegate: SegmentedHeaderDelegate?
     private let segmentNames: [String]
@@ -65,18 +66,26 @@ class SegmentedHeaderView: UIView {
     /// - Parameters:
     ///   - segmentNames: The titles for the various segment buttons. NOTE: There must be at least two or this will fatal error.
     ///   - delegate: The delegate to notify of selection.
-    init(segmentNames: [String], delegate: SegmentedHeaderDelegate) {
+    ///   - showsBottomBorder: True to have a border view at the bottom of the entire view, false not to. Defaults to true.
+    init(segmentNames: [String], delegate: SegmentedHeaderDelegate, showsBottomBorder: Bool = true) {
+
         self.segmentNames = segmentNames
         self.delegate = delegate
         super.init(frame: .zero)
 
+        if showsBottomBorder {
+            setupBottomBorder()
+        }
+
         guard segmentNames.count > 1 else {
             fatalError("You can't create this without at least two segments, or all the math is gonna be pretty screwy")
         }
+
         let widthProportion = CGFloat(1) / CGFloat(segmentNames.count)
 
         setupIndicatorView(widthProportion: widthProportion)
         setupSegmentButtons(widthProportion: widthProportion)
+
         selectIndex(0, animated: false)
     }
 
@@ -85,6 +94,14 @@ class SegmentedHeaderView: UIView {
     }
 
     // MARK: - View Setup
+
+    private func setupBottomBorder() {
+        let border = BorderView()
+        addSubview(border)
+
+        border.addHeightConstraint()
+        border.edgesToSuperview(excluding: .top)
+    }
 
     private func setupSegmentButtons(widthProportion: CGFloat) {
         for (index, button) in segmentButtons.enumerated() {
