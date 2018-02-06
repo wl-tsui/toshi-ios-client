@@ -34,7 +34,7 @@ extension String {
         // Definitely can't be turned into a URL string if no `.` plus at least one other character
         guard lowerSelf.contains("."), !lowerSelf.hasSuffix(".") else {  return nil  }
         
-        return "https://" + lowerSelf
+        return "http://" + lowerSelf
     }
     
     private func matches(pattern: String) -> Bool {

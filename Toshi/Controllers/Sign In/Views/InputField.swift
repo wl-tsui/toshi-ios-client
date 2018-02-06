@@ -43,7 +43,12 @@ class InputField: UIView {
         view.isUserInteractionEnabled = false
         view.font = Theme.preferredRegularMedium()
         view.adjustsFontForContentSizeCategory = true
-        view.text = self.type == .username ? "Username" : "Password"
+        switch self.type! {
+        case .username:
+            view.text = Localized("input_field_username_placeholder")
+        case .password:
+            view.text = Localized("input_field_password_placeholder")
+        }
         view.textColor = Theme.greyTextColor
         view.textAlignment = .left
 
