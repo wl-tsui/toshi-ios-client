@@ -54,13 +54,13 @@ class StringAdditionsTests: XCTestCase {
     func testAddingSomethingWithADotAndOneExtraCharacterCreatesPossibleURLString() {
         XCTAssertNil("foo".asPossibleURLString)
         XCTAssertNil("foo.".asPossibleURLString)
-        XCTAssertEqual("foo.b".asPossibleURLString, "https://foo.b")
+        XCTAssertEqual("foo.b".asPossibleURLString, "http://foo.b")
     }
     
     func testCaseCorrectionInPossibleURLStrings() {
-        XCTAssertEqual("foo.bar".asPossibleURLString, "https://foo.bar")
-        XCTAssertEqual("Foo.bar".asPossibleURLString, "https://foo.bar")
-        XCTAssertEqual("FOO.BAR".asPossibleURLString, "https://foo.bar")
+        XCTAssertEqual("foo.bar".asPossibleURLString, "http://foo.bar")
+        XCTAssertEqual("Foo.bar".asPossibleURLString, "http://foo.bar")
+        XCTAssertEqual("FOO.BAR".asPossibleURLString, "http://foo.bar")
     }
     
     func testDescribesValueLargerThanZero() {

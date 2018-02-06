@@ -128,7 +128,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         if !Yap.isUserDatabaseFileAccessible || !Yap.isUserDatabasePasswordAccessible {
-            UserDefaultsWrapper.addressChangeAlertShown = true
             presentSplash()
         } else {
             tabbarController.setupControllers()
@@ -185,7 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storageManager = TSStorageManager.shared()
         storageManager.setup(forAccountName: Cereal.shared.address, isFirstLaunch: isFirstLaunch)
 
-        if storageManager.database == nil {
+        if storageManager.database() == nil {
             CrashlyticsLogger.log("Failed to create chat databse for the user")
         }
 
@@ -284,9 +283,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UIView.animate(withDuration: 0.3, animations: {
             self.screenProtectionWindow?.alpha = 0
-        }) { _ in
+        }, completion: { _ in
             self.screenProtectionWindow?.isHidden = true
-        }
+        })
     }
 }
 

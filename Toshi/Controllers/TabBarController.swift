@@ -53,7 +53,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }()
 
     lazy var scannerController: ScannerViewController = {
-        let controller = ScannerController(instructions: "Scan QR code", types: [.qrCode])
+        let controller = ScannerController(instructions: Localized("qr_scanner_instructions"), types: [.qrCode])
         controller.delegate = self
 
         return controller

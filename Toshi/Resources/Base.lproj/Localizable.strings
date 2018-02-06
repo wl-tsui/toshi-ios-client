@@ -12,7 +12,7 @@
 
 /* Browse */
 "browse-navigation-title" = "Search";
-"browse-search-placeholder" = "Search Toshi";
+"browse-search-placeholder" = "Search or type the url";
 
 "browse-top-rated-apps" = "Top Rated";
 "browse-featured-dapps" = "Featured";
@@ -47,7 +47,8 @@
 "payment_send_description" = "Enter the recipient’s ETH wallet address.";
 "payment_send_button" = "Send";
 "payment_next_button" = "Next";
-"payment_qr_scanner_instructions" = "Scan QR Code";
+
+"qr_scanner_instructions" = "Scan QR Code";
 
 "payment_confirmation_warning_message" = "Do you want to send %@ (%@) to %@?";
 
@@ -124,15 +125,34 @@
 "settings_deposit_error_message" = "You haven’t backed up your passphrase yet. Without it you risk losing money.";
 "settings_deposit_error_action_backup" = "Backup";
 
+"settings_advanced_network_change_warning" = "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n";
+"active_network_format" = "Active network: %@";
+
+"settings_network_title" = "Network";
+
 /* Edit profile */
 
 "edit_profile_title" = "Edit profile";
 "edit_profile_change_photo" = "Change profile photo";
 
+"edit_profile_visibility_section_title" = "Profile visibility";
+"edit_profile_visibility_section_explanation" = "Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.";
+
+"edit_profile_username_label" = "Username";
+"edit_profile_display_name_label" = "Display name";
+"edit_profile_about_label" = "About";
+"edit_profile_location_label" = "Location";
+"edit_profile_public_label" = "Public";
+
 /* Profile actions */
 "profile_action_message" = "Message";
 "profile_action_add_favorite" = "Favorite";
 "profile_action_pay" = "Pay";
+
+/* Rate */
+"rating_starter_placeholder" = " Review (optional)";
+"rate_user_title_format" = "Rate %@";
+"rate_user_message_format" = "How would you rate %@?";
 
 /* Image Picker related */
 
@@ -179,6 +199,9 @@
 "sign-out-failure-title" = "Could not sign out";
 "sign-out-failure-message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
 "cancel_action_title" = "Cancel";
+"not_now_action_title" = "Not now";
+"submit_action_title" = "Submit";
+"continue_action_title" = "Continue";
 
 /* Block user Alerts */
 "block_action_title" = "Block";
@@ -219,6 +242,7 @@
 
 "chats_empty_title" = "No chats yet";
 "chats_empty_description" = "Once you start a new conversation, you'll see it here.";
+"chat_input_empty_placeholder" = "Message...";
 
 /* Passphrase Sign In */
 "passphrase_sign_in_title" = "Sign in with your Passphrase";
@@ -238,6 +262,7 @@
 "profiles_navigation_title_update_group_chat" = "Update group";
 "profiles_add_to_group_prefix" = "To: ";
 "profiles_empty_group_placeholder" = "No recipients yet";
+"profiles_search_bar_title" = "Search by username";
 
 /* Tab Bar */
 "tab_bar_title_browse" = "Search";
@@ -245,6 +270,9 @@
 "tab_bar_title_scan" = "Scan";
 "tab_bar_title_favorites" = "Favorites";
 "tab_bar_title_me" = "Me";
+
+/* Nav Bar Buttons */
+"nav_bar_back" = "Back";
 
 /* Keychain and file system error */
 "yap_missing_password_error_description" = "No keychain password while database present";
@@ -275,7 +303,18 @@
 "group_info_leave_confirmation_message" = "Do you want to leave this group?";
 "group_info_leave_action_title" = "Leave";
 "group_info_leave_group_failure_message" = "Failed to leave the group.\nPlease try again.";
+"profiles_new_group" = "New Group";
+"accept_button_title" = "Accept";
+"decline_button_title" = "Decline";
 
+/* Chat */
+"chat_request_payment_button_title" = "Request";
+"chat_pay_button_title" = "Pay";
+"chat_payment_request_action" = "Payment request";
+"chat_payment_recieved" = "Payment received";
+"chat_payment_sent" = "Payment sent";
+
+/* Signing */
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
 "eth_sign_warning" = "Warning: Only sign messages from sites you fully trust as signing messages can have dangerous side effects.";
@@ -291,11 +330,6 @@
 "status_type_make_private" = "%@ set the group as private.";
 
 "current_user_pronoun" = "You";
-
-/* Group Chat */
-"profiles_new_group" = "New Group";
-"accept_button_title" = "Accept";
-"decline_button_title" = "Decline";
 
 /* Sharing */
 "sharing_action_item" = "Get Toshi, available for iOS and Android! (https://www.toshi.org)";
@@ -316,7 +350,6 @@
 "profile_unfavorite_action" = "Remove from Favorites";
 
 /* Accessibility */
-"accessibility_back" = "Back";
 "accessibility_more" = "More";
 
 /* Payment Confirmation */
@@ -334,3 +367,17 @@
 "confirmation_error_balance" = "Error fetching balance";
 "confirmation_error_transaction" = "Error fetching payment info";
 "confirmation_error_payment" = "Error making payment";
+
+/* Notifications */
+"notification_payment_title" = "Payment";
+"notification_payment_received_message_format" = "Payment received: %@";
+"notification_payment_sent_message_format" = "Payment sent: %@";
+"notification_payment_received_in_background_title" = "Payment Received!";
+"notification_payment_received_in_background_message_format" = "You've received %@.";
+
+/* Share */
+"share_copy" = "Get Toshi, available for iOS and Android! (https://toshi.org)";
+
+/* Input Fields */
+"input_field_username_placeholder" = "Username";
+"input_field_password_placeholder" = "Password";

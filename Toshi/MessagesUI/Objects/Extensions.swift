@@ -133,7 +133,7 @@ extension UIBarButtonItem {
     
     static var back: UIBarButtonItem {
         let item = UIBarButtonItem()
-        item.title = "Back"
+        item.title = Localized("nav_bar_back")
 
         return item
     }

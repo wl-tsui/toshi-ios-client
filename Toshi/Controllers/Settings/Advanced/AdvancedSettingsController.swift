@@ -32,7 +32,7 @@ extension AdvancedSettingsController {
     override func tableView(_: UITableView, willDisplayFooterView view: UIView, forSection _: Int) {
         guard let footerView = view as? UITableViewHeaderFooterView else { return }
 
-        footerView.textLabel?.text = "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n"
+        footerView.textLabel?.text = Localized("settings_advanced_network_change_warning")
     }
 
     override func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
