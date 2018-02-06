@@ -19,6 +19,7 @@ protocol WalletItem {
     var title: String { get }
     var subtitle: String? { get }
     var imagePath: String? { get }
+    var details: String? { get }
 }
 
 final class WalletItemObject {
@@ -28,11 +29,13 @@ final class WalletItemObject {
     var itemTitle = ""
     var itemSubtitle = ""
     var itemImagePath = ""
+    var itemDetails: String?
 
-    init(title: String, subtitle: String, imagePath: String) {
+    init(title: String, subtitle: String, imagePath: String, details: String? = nil) {
         self.itemTitle = title
         self.itemSubtitle = subtitle
         self.itemImagePath = imagePath
+        self.itemDetails = details
     }
 }
 
@@ -48,5 +51,9 @@ extension WalletItemObject: WalletItem {
 
     var imagePath: String? {
         return itemImagePath
+    }
+
+    var details: String? {
+        return itemDetails
     }
 }

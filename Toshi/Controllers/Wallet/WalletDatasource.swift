@@ -40,7 +40,6 @@ final class WalletDatasource {
 
     init(delegate: WalletDatasourceDelegate?) {
         self.delegate = delegate
-        setupFakeItems()
     }
 
     var numberOfItems: Int {
@@ -67,17 +66,17 @@ final class WalletDatasource {
 
     private func loadTokens() {
         setupFakeItems()
-        delegate?.walletDatasourceDidReload()
     }
 
     private func loadCollectibles() {
         setupFakeItems()
-        delegate?.walletDatasourceDidReload()
     }
 
     // temporary
-    private func setupFakeItems() {
-        let walletItem = WalletItemObject(title: "title 1", subtitle: "Subtitle", imagePath: "")
+    func setupFakeItems() {
+        let walletItem = WalletItemObject(title: "title 1", subtitle: "Subtitle", imagePath: "http://freedesignfile.com/upload/2017/09/house-icon-vector.jpg")
         items = [walletItem, walletItem]
+
+        delegate?.walletDatasourceDidReload()
     }
 }

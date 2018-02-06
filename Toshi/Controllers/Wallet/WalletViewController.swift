@@ -46,6 +46,8 @@ final class WalletViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        datasource.setupFakeItems()
+
         title = Localized("wallet_controller_title")
         view.backgroundColor = Theme.lightGrayBackgroundColor
 
@@ -87,7 +89,7 @@ extension WalletViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle)
+        let cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.imagePath)
         let configurator = CellConfigurator()
         let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)
 
@@ -105,7 +107,7 @@ extension WalletViewController: UITableViewDataSource {
 extension WalletViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Selcted tow at indexpath")
+        // show details
     }
 }
 
