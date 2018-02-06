@@ -66,7 +66,7 @@ final class RecentViewController: SweetTableController, Emptiable {
     }
 
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
-        let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://toshi.org)"], applicationActivities: [])
+        let shareController = UIActivityViewController(activityItems: [Localized("share_copy")], applicationActivities: [])
         Navigator.presentModally(shareController)
     }
 

@@ -21,7 +21,7 @@ final class ReputationView: UIView {
     
     var reviewCount: Int = 0 {
         didSet {
-            ratingsCountLabel.text = "\(reviewCount) ratings"
+            ratingsCountLabel.text = LocalizedPlural("ratings_count", for: reviewCount)
         }
     }
     

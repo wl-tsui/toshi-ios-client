@@ -70,7 +70,7 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         controller.searchBar.delegate = self
         controller.searchBar.barTintColor = Theme.viewBackgroundColor
         controller.searchBar.tintColor = Theme.tintColor
-        controller.searchBar.placeholder = "Search by username"
+        controller.searchBar.placeholder = Localized("profiles_search_bar_title")
         
         guard #available(iOS 11.0, *) else {
             controller.searchBar.searchBarStyle = .minimal

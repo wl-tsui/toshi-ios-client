@@ -54,7 +54,7 @@ class PaymentAddressViewController: UIViewController {
     }()
 
     private lazy var scannerController: ScannerViewController = {
-        let controller = ScannerController(instructions: Localized("payment_qr_scanner_instructions"), types: [.qrCode])
+        let controller = ScannerController(instructions: Localized("qr_scanner_instructions"), types: [.qrCode])
         controller.delegate = self
 
         return controller

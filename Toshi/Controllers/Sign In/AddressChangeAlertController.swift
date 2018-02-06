@@ -17,12 +17,6 @@ import Foundation
 import UIKit
 import SweetUIKit
 
-extension NSString {
-    @objc static func addressChangeAlertShown() -> String { return AddressChangeAlertShown }
-}
-
-let AddressChangeAlertShown = "AddressChangeAlertShown"
-
 let alertText = "We have made changes to make\nToshi compatible with other\nservices - as a result your\nbalance will appear to be reset.\nAs this is only testnet ETH,\n you don't need to take any action.\nIf you do want to recover your\nbalance for any reason, you can\nread how to do it here: http://developers.toshi.org/"
 
 final class AddressChangeAlertController: AlertController {
@@ -79,7 +73,7 @@ final class AddressChangeAlertController: AlertController {
 
         customContentView = content
 
-        let action = Action(title: "Continue", titleColor: Theme.tintColor) { _ in
+        let action = Action(title: Localized("continue_action_title"), titleColor: Theme.tintColor) { _ in
             self.dismiss(animated: true, completion: nil)
         }
 

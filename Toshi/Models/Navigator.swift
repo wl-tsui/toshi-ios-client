@@ -88,7 +88,7 @@ class Navigator: NSObject {
     @objc public static func presentDismissableAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-        let action = UIAlertAction(title: Localized("Ok"), style: .default) { _ in
+        let action = UIAlertAction(title: Localized("alert-ok-action-title"), style: .default) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 
