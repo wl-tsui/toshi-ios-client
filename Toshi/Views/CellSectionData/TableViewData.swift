@@ -65,6 +65,7 @@ public final class TableCellData {
     var title: String?
     var subtitle: String?
     var leftImage: UIImage?
+    var leftImagePath: String?
     var details: String?
     var switchState: Bool?
     var doubleImage: (firstImage: UIImage, secondImage: UIImage)?
@@ -74,6 +75,16 @@ public final class TableCellData {
     var isPlaceholder = false
 
     private(set) var components: TableCellDataComponents = []
+
+    init(title: String? = nil, subtitle: String? = nil, leftImagePath: String? = nil, details: String? = nil, badgeText: String? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.leftImagePath = leftImagePath
+        self.badgeText = badgeText
+        self.details = details
+
+        setupComponents()
+    }
 
     init(title: String? = nil, isPlaceholder: Bool = false, subtitle: String? = nil, leftImage: UIImage? = nil, details: String? = nil, switchState: Bool? = nil, doubleImage: (firstImage: UIImage, secondImage: UIImage)? = nil, doubleActionImages: (firstImage: UIImage, secondImage: UIImage)? = nil, badgeText: String? = nil) {
         self.title = title
@@ -98,7 +109,7 @@ public final class TableCellData {
             components.insert(.subtitle)
         }
 
-        if leftImage != nil {
+        if leftImage != nil || leftImagePath != nil {
             components.insert(.leftImage)
         }
 
