@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@ import Foundation
 /// Do not update old keys without providing some sort of migration path.
 enum UserDefaultsKey: String, StringCaseListable {
     case
-    addressChangeAlertShown = "AddressChangeAlertShown",
     databasePasswordAccessible = "DBPWD",
     enableDebugLog = "Debugging Log Enabled Key",
     lastRunSignalVersion = "SignalUpdateVersionKey",
@@ -91,15 +90,6 @@ class UserDefaultsWrapper: NSObject {
     }
     
     // MARK: - Variables for easier, type safe, and objc friendly access
-    
-    @objc static var addressChangeAlertShown: Bool {
-        get {
-            return bool(for: .addressChangeAlertShown)
-        }
-        set {
-            setValue(newValue, for: .addressChangeAlertShown)
-        }
-    }
     
     @objc static var isDebugLoggingEnabled: Bool {
         get {

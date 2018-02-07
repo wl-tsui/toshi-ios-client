@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ class ChatInputTextPanel: UIView {
         view.layer.borderColor = Theme.borderColor.cgColor
         view.layer.borderWidth = .lineHeight
         view.delegate = self
-        view.placeholder = "Message..."
+        view.placeholder = Localized("chat_input_empty_placeholder")
         view.contentInset = UIEdgeInsets(top: 0, left: 11, bottom: 0, right: 0)
         view.font = UIFont.systemFont(ofSize: 16)
         view.internalTextView.textContainerInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 5)

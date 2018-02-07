@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -216,14 +216,14 @@ class SettingsController: UIViewController {
             alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
             alert.addAction(UIAlertAction(title: Localized("settings_signout_action_signout"), style: .destructive) { _ in
-                (UIApplication.shared.delegate as? AppDelegate)?.signOutUser()
+                SessionManager.shared.signOutUser()
             })
         } else if balance == .zero {
             alert = UIAlertController(title: Localized("settings_signout_nofunds_title"), message: Localized("settings_signout_nofunds_message"), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel))
 
             alert.addAction(UIAlertAction(title: Localized("settings_signout_action_delete"), style: .destructive) { _ in
-                (UIApplication.shared.delegate as? AppDelegate)?.signOutUser()
+                SessionManager.shared.signOutUser()
             })
         } else {
             alert = UIAlertController(title: Localized("settings_signout_stepsneeded_title"), message: Localized("settings_signout_stepsneeded_message"), preferredStyle: .alert)
@@ -341,7 +341,10 @@ extension SettingsController: UITableViewDelegate {
 
         switch item {
         case .profile:
-            self.navigationController?.pushViewController(PersonalProfileViewController(), animated: true)
+            guard let current = TokenUser.current else { return }
+            let profileVC = ProfileViewController(profile: current, readOnlyMode: false)
+            
+            self.navigationController?.pushViewController(profileVC, animated: true)
         case .qrCode:
             guard let current = TokenUser.current else { return }
             let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)

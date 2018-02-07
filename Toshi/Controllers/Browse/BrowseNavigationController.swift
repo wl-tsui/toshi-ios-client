@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ class BrowseNavigationController: UINavigationController {
             super.init(nibName: nil, bundle: nil)
             guard let json = (try? JSONSerialization.jsonObject(with: profileData, options: [])) as? [String: Any] else { return }
             
-            viewControllers = [rootViewController, ProfileViewController(contact: TokenUser(json: json))]
+            viewControllers = [rootViewController, ProfileViewController(profile: TokenUser(json: json))]
             configureTabBarItem()
         } else {
             super.init(rootViewController: rootViewController)
@@ -52,7 +52,7 @@ class BrowseNavigationController: UINavigationController {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ProfileViewController {
-            UserDefaultsWrapper.selectedApp = viewController.contact.json
+            UserDefaultsWrapper.selectedApp = viewController.profile.json
         }
     }
 

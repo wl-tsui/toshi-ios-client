@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@ import SweetFoundation
 
 class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationControllerDelegate {
 
-    private static let profileVisibilitySectionTitle = Localized("Profile visibility")
-    private static let profileVisibilitySectionFooter = Localized("Setting your profile to public will allow it to show up on the Browse page. Other users will be able to message you from there.")
+    private static let profileVisibilitySectionTitle = Localized("edit_profile_visibility_section_title")
+    private static let profileVisibilitySectionFooter = Localized("edit_profile_visibility_section_explanation")
 
     var scrollViewBottomInset: CGFloat = 0.0
 
@@ -337,7 +337,7 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
         if success == true {
             navigationController?.popViewController(animated: true)
         } else {
-            let alert = UIAlertController.dismissableAlert(title: "Error", message: message ?? "Something went wrong")
+            let alert = UIAlertController.dismissableAlert(title: Localized("error_title"), message: message ?? Localized("toshi_generic_error"))
             Navigator.presentModally(alert)
         }
     }
@@ -386,7 +386,7 @@ extension ProfileEditController: UITableViewDelegate {
 extension ProfileEditController: UITableViewDataSource {
 
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 1 ? "Profile Visibility" : nil
+        return section == 1 ? ProfileEditController.profileVisibilitySectionTitle : nil
     }
 
     func tableView(_: UITableView, titleForFooterInSection section: Int) -> String? {

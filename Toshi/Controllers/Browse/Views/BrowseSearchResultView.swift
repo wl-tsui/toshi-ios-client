@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,6 +17,11 @@ import Foundation
 import SweetFoundation
 import UIKit
 
+protocol SearchSelectionDelegate: class {
+
+    func didSelectSearchResult(user: TokenUser)
+}
+
 class BrowseSearchResultView: UITableView {
 
     var searchResults: [TokenUser] = [] {
@@ -24,6 +29,8 @@ class BrowseSearchResultView: UITableView {
             reloadData()
         }
     }
+
+    weak var searchDelegate: SearchSelectionDelegate?
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -53,7 +60,7 @@ extension BrowseSearchResultView: UITableViewDelegate {
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let item = searchResults.element(at: indexPath.row) {
-            Navigator.push(ProfileViewController(contact: item))
+            searchDelegate?.didSelectSearchResult(user: item)
         }
     }
 }

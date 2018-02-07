@@ -3,11 +3,22 @@ import UIKit
 import TinyConstraints
 
 class BalanceController: UIViewController {
+    private var paymentRouter: PaymentRouter?
+    
+    enum BalanceItem: Int {
+        case balance,
+             send,
+             deposit
+    }
 
     var balance: NSDecimalNumber? {
         didSet {
             tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
         }
+    }
+
+    private var isAccountSecured: Bool {
+        return TokenUser.current?.verified ?? false
     }
 
     private lazy var tableView: UITableView = {
@@ -17,7 +28,7 @@ class BalanceController: UIViewController {
         view.delegate = self
         view.separatorStyle = .singleLine
 
-        view.register(UITableViewCell.self, forCellReuseIdentifier: self.reuseIdentifier)
+        view.register(UITableViewCell.self)
         view.registerNib(InputCell.self)
 
         return view
@@ -29,12 +40,6 @@ class BalanceController: UIViewController {
 
         return refreshControl
     }()
-
-    private let reuseIdentifier = "BalanceControllerCell"
-
-    private var isAccountSecured: Bool {
-        return TokenUser.current?.verified ?? false
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,19 +111,20 @@ class BalanceController: UIViewController {
 extension BalanceController: UITableViewDelegate {
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let item = BalanceItem(rawValue: indexPath.row) else { return }
 
-        if indexPath.row == 1 {
-            
-            let paymentController = PaymentController(withPaymentType: .send, continueOption: .next)
-            paymentController.delegate = self
-            
-            let navigationController = PaymentNavigationController(rootViewController: paymentController)
-            Navigator.presentModally(navigationController)
-            
-        } else if indexPath.row == 2 {
+        switch item {
+        case .send:
+            let paymentRouter = PaymentRouter()
+            paymentRouter.present()
+
+            self.paymentRouter = paymentRouter
+        case .deposit:
             guard let current = TokenUser.current else { return }
             let controller = DepositMoneyController(for: current.displayUsername, name: current.name)
             self.navigationController?.pushViewController(controller, animated: true)
+        default:
+            break
         }
     }
 }
@@ -130,11 +136,12 @@ extension BalanceController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = UITableViewCell()
 
-        let cell: UITableViewCell
+        guard let item = BalanceItem(rawValue: indexPath.row) else { return cell }
 
-        switch indexPath.row {
-        case 0:
+        switch item {
+        case .balance:
             cell = tableView.dequeue(InputCell.self, for: indexPath)
             if let balance = balance, let cell = cell as? InputCell {
                 let ethereumValueString = EthereumConverter.ethereumValueString(forWei: balance)
@@ -149,31 +156,19 @@ extension BalanceController: UITableViewDataSource {
                 cell.titleWidthConstraint?.isActive = false
                 cell.titleLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
             }
-        case 1:
-            cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        case .send:
+            cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
             cell.textLabel?.text = Localized("balance_action_send")
             cell.textLabel?.textColor = Theme.tintColor
             cell.textLabel?.font = Theme.preferredRegular()
-        case 2:
-            cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        case .deposit:
+            cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
             cell.textLabel?.text = Localized("balance_action_deposit")
             cell.textLabel?.textColor = Theme.tintColor
             cell.textLabel?.font = Theme.preferredRegular()
-        default:
-            cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         }
 
         cell.selectionStyle = .none
         return cell
-    }
-}
-
-extension BalanceController: PaymentControllerDelegate {
-    
-    func paymentControllerFinished(with valueInWei: NSDecimalNumber?, for controller: PaymentController) {
-        guard let valueInWei = valueInWei else { return }
-        
-        let paymentAddressController = PaymentAddressController(with: valueInWei)
-        controller.navigationController?.pushViewController(paymentAddressController, animated: true)
     }
 }

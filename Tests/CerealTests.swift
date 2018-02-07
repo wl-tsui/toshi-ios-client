@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,5 +66,42 @@ class CerealSignEthereumTransactionWithWalletTests: XCTestCase {
         let transactionSkeleton = "0xce85746f6b6682832dc6c0832dc6c0"
         XCTAssertNil(cereal.signEthereumTransactionWithWallet(hex: transactionSkeleton))
 
+    }
+
+    func testWalletQRCodeImage() {
+        let expectedQRCodeImage = UIImage.imageQRCode(for: "\(QRCodeController.paymentWithAddressPath)\(cereal.paymentAddress)", resizeRate: 20.0)
+        let resultImage = cereal.walletAddressQRCodeImage(resizeRate: 20.0)
+
+        guard let resultQRCodeImageData = UIImagePNGRepresentation(resultImage) else {
+            XCTFail("Can't create result QR code image Data")
+            return
+        }
+
+        if let expectedImageData = UIImagePNGRepresentation(expectedQRCodeImage) {
+            XCTAssertEqual(expectedImageData, resultQRCodeImageData)
+        } else {
+            XCTFail("Wallet QR code image to Data convertion failed")
+        }
+
+        let options: [String: AnyObject] = [CIDetectorAccuracy: CIDetectorAccuracyHigh as AnyObject, CIDetectorAspectRatio: 1.0 as AnyObject]
+        guard let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: options) else {
+            XCTFail("Can't create qrCodeDetector")
+            return
+        }
+        
+        guard let ciImage = CIImage(data: resultQRCodeImageData) else {
+            XCTFail("Can't get ci image from result image")
+            return
+        }
+
+        guard let features = detector.features(in: ciImage) as? [CIQRCodeFeature], let feature = features.first else {
+            XCTFail("Can't get features from processed by detector image")
+            return
+        }
+
+        let expectedMessageString = "ethereum:0x9858effd232b4033e47d90003d41ec34ecaeda94"
+        let resultString = feature.messageString
+
+        XCTAssertEqual(expectedMessageString, resultString)
     }
 }

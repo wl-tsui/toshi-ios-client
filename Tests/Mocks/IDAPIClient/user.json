@@ -5,7 +5,7 @@
   "reputation_score": 2.2,
   "custom": [
     {
-      "about": "",
+      "about": "Oh hai tests",
       "avatar": "https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png",
       "location": "Amsterdam",
       "name": "Marijn Schilling"
@@ -16,7 +16,7 @@
   "average_rating": 3,
   "toshi_id": "0x6f70800cb47f7f84b6c71b3693fc02595eae7378",
   "location": "Amsterdam",
-  "about": "",
+  "about": "Oh hai tests",
   "avatar": "https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png",
   "token_id": "0x6f70800cb47f7f84b6c71b3693fc02595eae7378",
   "public": 0

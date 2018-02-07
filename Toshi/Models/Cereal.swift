@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,16 +107,20 @@ class Cereal: NSObject {
             mnemonic = BTCMnemonic(entropy: entropy, password: nil, wordListType: BTCMnemonicWordListType.english)!
         }
 
-        let idKeychain = Cereal.idKeychain(from: mnemonic)
+        let idKeychain: BTCKeychain = Cereal.idKeychain(from: mnemonic)
         let idPrivateKey = idKeychain.key.privateKey.hexadecimalString()
         idCereal = EtherealCereal(privateKey: idPrivateKey)
 
-        let walletKeychain = Cereal.walletKeychain(from: mnemonic)
+        let walletKeychain: BTCKeychain = Cereal.walletKeychain(from: mnemonic)
         let walletPrivateKey = walletKeychain.key.privateKey.hexadecimalString()
         walletCereal = EtherealCereal(privateKey: walletPrivateKey)
 
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(userCreated(_:)), name: .userCreated, object: nil)
+    }
+
+    func walletAddressQRCodeImage(resizeRate: CGFloat) -> UIImage {
+        return UIImage.imageQRCode(for: "\(QRCodeController.paymentWithAddressPath)\(paymentAddress)", resizeRate: resizeRate)
     }
 
     // MARK: - Sign with id

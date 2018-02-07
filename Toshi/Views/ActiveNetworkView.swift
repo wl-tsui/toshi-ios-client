@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ class ActiveNetworkView: UIView {
 
         heightConstraint = heightAnchor.constraint(equalToConstant: 0)
         if !isDefaultNetworkActive {
-            textLabel.text = String(format: Localized("Active network: %@"), NetworkSwitcher.shared.activeNetworkLabel)
+            textLabel.text = String(format: Localized("active_network_format"), NetworkSwitcher.shared.activeNetworkLabel)
         }
 
         heightConstraint?.isActive = true

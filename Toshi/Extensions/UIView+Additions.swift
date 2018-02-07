@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,5 +43,16 @@ extension UIView {
         setContentCompressionResistancePriority(.required, for: .horizontal)
         setContentHuggingPriority(.required, for: .vertical)
         setContentHuggingPriority(.required, for: .horizontal)
+    }
+
+    func circleify() {
+        self.layer.cornerRadius = self.frame.width / 2
+    }
+    
+    func showDebugBorder(color: UIColor) {
+        #if DEBUG
+            layer.borderColor = color.cgColor
+            layer.borderWidth = 1
+        #endif
     }
 }

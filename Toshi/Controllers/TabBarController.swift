@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@ let TabBarItemTitleOffset: CGFloat = -3.0
 
 class TabBarController: UITabBarController, OfflineAlertDisplaying {
     let offlineAlertView = defaultOfflineAlertView()
+
+    var paymentRouter: PaymentRouter?
+    var paidUserInfo: UserInfo?
 
     enum Tab {
         case browsing
@@ -50,7 +53,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }()
 
     lazy var scannerController: ScannerViewController = {
-        let controller = ScannerController(instructions: "Scan QR code", types: [.qrCode])
+        let controller = ScannerController(instructions: Localized("qr_scanner_instructions"), types: [.qrCode])
         controller.delegate = self
 
         return controller
@@ -66,7 +69,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     var browseViewController: BrowseNavigationController!
     var messagingController: RecentNavigationController!
-    var favoritesController: FavoritesNavigationController!
+    var profilesController: ProfilesNavigationController!
     var settingsController: SettingsNavigationController!
 
     init() {
@@ -84,12 +87,14 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     @objc func setupControllers() {
         browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
-        favoritesController = FavoritesNavigationController(rootViewController: FavoritesController())
+        let datasource = ProfilesDataSource(type: .favorites)
+        datasource.excludedProfilesIds = []
+        profilesController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource))
 
         messagingController = RecentNavigationController(nibName: nil, bundle: nil)
-        let recentViewController = RecentViewController()
+        let recentViewController = RecentViewController(style: .grouped)
 
-        if let address = UserDefaultsWrapper.selectedThreadAddress, let thread = recentViewController.thread(withAddress: address) {
+        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = recentViewController.thread(withAddress: address) {
             messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]
         } else {
             messagingController.viewControllers = [recentViewController]
@@ -101,7 +106,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
             self.browseViewController,
             self.messagingController,
             self.placeholderScannerController,
-            self.favoritesController,
+            self.profilesController,
             self.settingsController
         ]
 
@@ -137,6 +142,10 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         messagingController.openThread(withAddress: address, completion: completion)
     }
 
+    public func openThread(_ thread: TSThread, animated: Bool = true) {
+        messagingController.openThread(thread, animated: animated)
+    }
+
     func `switch`(to tab: Tab) {
         switch tab {
         case .browsing:
@@ -164,7 +173,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
             idAPIClient.retrieveUser(username: username) { [weak self] contact in
                 guard let contact = contact else { return }
 
-                let contactController = ProfileViewController(contact: contact)
+                let contactController = ProfileViewController(profile: contact)
                 (self?.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
             }
         }
@@ -254,8 +263,8 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(address: String, weiValue: String?, confirmationText: String) {
         let userInfo = UserInfo(address: address, paymentAddress: address, avatarPath: nil, name: nil, username: address, isLocal: false)
-        var parameters = ["from": Cereal.shared.paymentAddress, "to": address]
-        parameters["value"] = weiValue
+        var parameters = [PaymentParameters.from: Cereal.shared.paymentAddress, PaymentParameters.to: address]
+        parameters[PaymentParameters.value] = weiValue
 
         proceedToPayment(userInfo: userInfo, parameters: parameters, confirmationText: confirmationText)
     }
@@ -263,8 +272,9 @@ extension TabBarController: ScannerViewControllerDelegate {
     private func proceedToPayment(username: String, weiValue: String?, confirmationText: String) {
         idAPIClient.retrieveUser(username: username) { [weak self] contact in
             if let contact = contact, let validWeiValue = weiValue {
-                var parameters = ["from": Cereal.shared.paymentAddress, "to": contact.paymentAddress]
-                parameters["value"] = validWeiValue
+                let parameters = [PaymentParameters.from: Cereal.shared.paymentAddress,
+                                  PaymentParameters.to: contact.paymentAddress,
+                                  PaymentParameters.value: validWeiValue]
 
                 self?.proceedToPayment(userInfo: contact.userInfo, parameters: parameters, confirmationText: confirmationText)
             } else {
@@ -275,26 +285,16 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any], confirmationText: String) {
 
-        if parameters["value"] != nil, let scannerController = self.scannerController as? ScannerController {
-            scannerController.setStatusBarHidden(true)
+        self.paidUserInfo = userInfo
+
+        if let scannerController = self.scannerController as? ScannerController {
+            scannerController.setStatusBarHidden()
 
             SoundPlayer.playSound(type: .scanned)
 
-            PaymentConfirmation.shared.present(for: parameters, title: Localized("payment_confirmation_warning_message"), message: confirmationText, approveHandler: { [weak self] transaction, error in
-
-                guard error == nil else {
-                    self?.scannerController.startScanning()
-                    return
-                }
-
-                if let scannerController = self?.scannerController as? ScannerController {
-                    scannerController.approvePayment(with: parameters, userInfo: userInfo, transaction: transaction, error: error)
-                } else {
-                    scannerController.startScanning()
-                }
-            }, cancelHandler: {
-                scannerController.startScanning()
-            })
+            self.paymentRouter = PaymentRouter(parameters: parameters)
+            self.paymentRouter?.delegate = self
+            self.paymentRouter?.present()
 
         } else {
             scannerController.startScanning()
@@ -313,12 +313,19 @@ extension TabBarController: ScannerViewControllerDelegate {
 
             self?.dismiss(animated: true) {
                 self?.switch(to: .favorites)
-                let contactController = ProfileViewController(contact: contact)
-                self?.favoritesController.pushViewController(contactController, animated: true)
+                let contactController = ProfileViewController(profile: contact)
+                self?.profilesController.pushViewController(contactController, animated: true)
             }
         }
     }
 
+}
+
+extension TabBarController: PaymentRouterDelegate {
+
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+        scannerController.startScanning()
+    }
 }
 
 extension TabBarController: ReachabilityDelegate {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ extension AdvancedSettingsController {
     override func tableView(_: UITableView, willDisplayFooterView view: UIView, forSection _: Int) {
         guard let footerView = view as? UITableViewHeaderFooterView else { return }
 
-        footerView.textLabel?.text = "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n"
+        footerView.textLabel?.text = Localized("settings_advanced_network_change_warning")
     }
 
     override func tableView(_: UITableView, didSelectRowAt _: IndexPath) {

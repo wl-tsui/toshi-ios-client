@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,9 +32,9 @@ struct APIKeys {
     }
 }
 
-final class APIKeysManager: NSObject {
+final class APIKeysManager {
 
-    @objc static func setup() {
+     static func setup() {
         guard let fabricKey = APIKeys.key(named: APIKeys.Fabric) else {
             DLog("Can't load Fabric API Key")
             return

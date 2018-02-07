@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 #import "TSThread+Additions.h"
 #import "TSOutgoingMessage+Addtions.h"
 
-#import "AppDelegate.h"
 #import "ContactsManager.h"
 
 #import "UIImage+Utils.h"
@@ -46,6 +45,7 @@
 #import <SignalServiceKit/TSDatabaseView.h>
 #import <SignalServiceKit/OWSMessageSender.h>
 #import <SignalServiceKit/ContactsUpdater.h>
+#import <SignalServiceKit/TSGroupModel.h>
 
 #import <SignalServiceKit/OWSFingerprintBuilder.h>
 #import <SignalServiceKit/OWSFingerprint.h>
@@ -75,19 +75,30 @@
 #import <SignalServiceKit/TSStorageManager+SignedPreKeyStore.h>
 #import <SignalServiceKit/TSThread.h>
 #import <SignalServiceKit/TSContactThread.h>
+#import <SignalServiceKit/TSGroupThread.h>
 #import <SignalServiceKit/OWSHTTPSecurityPolicy.h>
+#import <SignalServiceKit/TextSecureKitEnv.h>
+#import <SignalServiceKit/OWSDispatch.h>
+#import "EmptyCallHandler.h"
+
+#import <SignalServiceKit/TSNetworkManager.h>
 
 #import <25519/Randomness.h>
+
+#import "ProfileManager.h"
 
 #import <AxolotlKit/PreKeyRecord.h>
 #import <AxolotlKit/PreKeyBundle.h>
 #import <AxolotlKit/SignedPreKeyRecord.h>
 #import <AxolotlKit/NSData+keyVersionByte.h>
+#import <AxolotlKit/SessionCipher.h>
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
 #import <Mantle/MTLModel.h>
+
+#import "PrekeysRequest.h"
 
 #import <Curve25519.h>
 #import <Ed25519.h>

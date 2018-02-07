@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -64,19 +64,19 @@ class ProfileEditItem {
         
         switch type {
         case .username:
-            titleText = Localized("Username")
+            titleText = Localized("edit_profile_username_label")
             detailText = user.username
         case .displayName:
-            titleText = Localized("Display name")
+            titleText = Localized("edit_profile_display_name_label")
             detailText = user.name
         case .about:
-            titleText = Localized("About")
+            titleText = Localized("edit_profile_about_label")
             detailText = user.about
         case .location:
-            titleText = Localized("Location")
+            titleText = Localized("edit_profile_location_label")
             detailText = user.location
         case .visibility:
-            titleText = Localized("Public")
+            titleText = Localized("edit_profile_public_label")
             switchMode = user.isPublic
         default:
             break

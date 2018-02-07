@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -67,20 +67,6 @@ class Navigator: NSObject {
         parentViewController?.present(viewController, animated: true, completion: nil)
     }
 
-    @objc static func presentAddressChangeAlertIfNeeded() {
-        guard UserDefaultsWrapper.addressChangeAlertShown == false else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let alertController = AddressChangeAlertController()
-            alertController.modalPresentationStyle = .custom
-            alertController.transitioningDelegate = alertController
-
-            self.presentModally(alertController)
-
-            UserDefaultsWrapper.addressChangeAlertShown = true
-        }
-    }
-
     @objc static func presentModally(_ controller: UIViewController) {
         present(controller, from: topViewController, animated: true)
     }
@@ -88,7 +74,7 @@ class Navigator: NSObject {
     @objc public static func presentDismissableAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-        let action = UIAlertAction(title: Localized("Ok"), style: .default) { _ in
+        let action = UIAlertAction(title: Localized("alert-ok-action-title"), style: .default) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 

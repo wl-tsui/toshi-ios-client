@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,13 +18,23 @@ import Foundation
 extension String {
 
     var isValidURL: Bool {
+        guard let url = URL(string: self) else { return false }
+        
+        return UIApplication.shared.canOpenURL(url)
+    }
+    
+    var asPossibleURLString: String? {
+        let lowerSelf = self.lowercased()
 
-        if let url = URL(string: self), UIApplication.shared.canOpenURL(url) {
-            let urlPattern = "^(http|https|ftp)\\://([a-zA-Z0-9\\.\\-]+(\\:[a-zA-Z0-9\\.&amp;%\\$\\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|localhost|([a-zA-Z0-9\\-]+\\.)*[a-zA-Z0-9\\-]+\\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\\:[0-9]+)*(/($|[a-zA-Z0-9\\.\\,\\?\\'\\\\\\+&amp;%\\$#\\=~_\\-]+))*$"
-            return matches(pattern: urlPattern)
+        if lowerSelf.contains("://") && !lowerSelf.hasSuffix("://") {
+            // Already a possible url string if it has a `://` somewhere in it that is not the last character.
+            return lowerSelf
         }
-
-        return false
+        
+        // Definitely can't be turned into a URL string if no `.` plus at least one other character
+        guard lowerSelf.contains("."), !lowerSelf.hasSuffix(".") else {  return nil  }
+        
+        return "http://" + lowerSelf
     }
     
     private func matches(pattern: String) -> Bool {
@@ -44,5 +54,24 @@ extension String {
         } catch let error {
             fatalError("invalid regex: \(error.localizedDescription)")
         }
+    }
+
+    func truncate(length: Int, trailing: String? = "...") -> String {
+        if self.length > length {
+            let end = index(startIndex, offsetBy: length)
+            return String(self[..<end]) + (trailing ?? "")
+        } else {
+            return self
+        }
+    }
+
+    func isValidPaymentValue() -> Bool {
+        guard !isEmpty else { return false }
+        // To account for value strings in 0,10 format we change them to 0.10
+        let valueString = self.replacingOccurrences(of: ",", with: ".")
+
+        let floatValue = Float(valueString) ?? 0
+
+        return floatValue > 0.0
     }
 }

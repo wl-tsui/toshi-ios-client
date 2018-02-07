@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ class NetworkSettingsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Localized("Network")
+        title = Localized("settings_network_title")
 
         view.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ class ChatFloatingHeaderView: UIView {
 
     private(set) lazy var requestButton: UIButton = {
         let button = ChatFloatingHeaderView.button()
-        button.setAttributedTitle(NSAttributedString(string: "Request", attributes: self.buttonAttributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: Localized("chat_request_payment_button_title"), attributes: self.buttonAttributes), for: .normal)
         button.addTarget(self, action: #selector(request(button:)), for: .touchUpInside)
 
         return button
@@ -74,7 +74,7 @@ class ChatFloatingHeaderView: UIView {
 
     private(set) lazy var payButton: UIButton = {
         let button = ChatFloatingHeaderView.button()
-        button.setAttributedTitle(NSAttributedString(string: "Pay", attributes: self.buttonAttributes), for: .normal)
+        button.setAttributedTitle(NSAttributedString(string: Localized("chat_pay_button_title"), attributes: self.buttonAttributes), for: .normal)
         button.addTarget(self, action: #selector(pay(button:)), for: .touchUpInside)
 
         return button
@@ -99,6 +99,18 @@ class ChatFloatingHeaderView: UIView {
 
         return view
     }()
+
+    var shouldShowPayButton: Bool = true {
+        didSet {
+            payButton.isHidden = !shouldShowPayButton
+        }
+    }
+
+    var shouldShowRequestButton: Bool = true {
+        didSet {
+            requestButton.isHidden = !shouldShowRequestButton
+        }
+    }
 
     lazy var backgroundBlur: BlurView = {
         let view = BlurView()

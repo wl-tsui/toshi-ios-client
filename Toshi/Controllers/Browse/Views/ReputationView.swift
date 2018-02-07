@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ final class ReputationView: UIView {
     
     var reviewCount: Int = 0 {
         didSet {
-            ratingsCountLabel.text = "\(reviewCount) ratings"
+            ratingsCountLabel.text = LocalizedPlural("ratings_count", for: reviewCount)
         }
     }
     

@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,21 +39,6 @@ final class AvatarManager: NSObject {
         return queue
     }()
 
-    func avatar(for path: String, completion: @escaping ((UIImage?, String?) -> Void)) {
-        guard let avatar = imageCache.object(forKey: path) else {
-            downloadAvatar(path: path) { image in
-                completion(image, path)
-            }
-            return
-        }
-
-        completion(avatar, path)
-    }
-
-    @objc func cachedAvatar(for path: String) -> UIImage? {
-        return imageCache.object(forKey: path)
-    }
-
     func refreshAvatar(at path: String) {
         imageCache.removeObject(forKey: path)
     }
@@ -65,12 +50,10 @@ final class AvatarManager: NSObject {
     @objc func startDownloadContactsAvatars() {
         downloadOperationQueue.cancelAllOperations()
 
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
 
-            let avatarPaths: [String] = appDelegate.contactsManager.tokenContacts.flatMap { contact in
+            let avatarPaths: [String] = SessionManager.shared.contactsManager.tokenContacts.flatMap { contact in
                 contact.avatarPath
             }
 
@@ -85,12 +68,6 @@ final class AvatarManager: NSObject {
         }
 
         downloadOperationQueue.addOperation(operation)
-    }
-
-    func downloadAvatar(for path: String) {
-        guard imageCache.object(forKey: path) == nil else { return }
-
-        downloadAvatar(path: path) { _ in }
     }
 
     private func baseURL(from url: URL) -> String? {
@@ -112,16 +89,55 @@ final class AvatarManager: NSObject {
         return teapots[base]
     }
 
-    func downloadAvatar(path: String, completion: @escaping (_ image: UIImage?) -> Void) {
+    func downloadAvatar(for key: String, completion: ((UIImage?, String?) -> Void)? = nil) {
+        if key.hasAddressPrefix {
+            if let avatar = cachedAvatar(for: key) {
+                completion?(avatar, key)
+                return
+            }
+
+            IDAPIClient.shared.findContact(name: key) { [weak self] user in
+
+                guard let retrievedUser = user else {
+                    completion?(nil, key)
+                    return
+                }
+
+                UserDefaults.standard.set(retrievedUser.avatarPath, forKey: key)
+                self?.downloadAvatar(path: retrievedUser.avatarPath, completion: completion)
+            }
+        }
+
+        guard imageCache.object(forKey: key) == nil else { return }
+
+        downloadAvatar(path: key)
+    }
+
+    private func downloadAvatar(path: String, completion: ((UIImage?, String?) -> Void)? = nil) {
         DispatchQueue.global().async {
+            
+            if let cachedAvatar = self.cachedAvatar(for: path) {
+                DispatchQueue.main.async {
+                    completion?(cachedAvatar, path)
+                }
+
+                return
+            }
+
             guard let url = URL(string: path), let teapot = self.teapot(for: url) else {
-                completion(nil)
+                DispatchQueue.main.async {
+                    completion?(nil, path)
+                }
+                
                 return
             }
 
             teapot.get(url.relativePath) { [weak self] (result: NetworkImageResult) in
                 guard let strongSelf = self else {
-                    completion(nil)
+                    DispatchQueue.main.async {
+                        completion?(nil, path)
+                    }
+
                     return
                 }
 
@@ -136,9 +152,60 @@ final class AvatarManager: NSObject {
                 }
 
                 DispatchQueue.main.async {
-                    completion(resultImage)
+                    completion?(resultImage, path)
                 }
             }
         }
+    }
+
+    /// Downloads or finds avatar for given key.
+    ///
+    /// - Parameters:
+    ///   - key: token_id/address or resource url path.
+    ///   - completion: The completion closure to fire when the request completes or image is found in cache.
+    ///                 - image: Found in cache or fetched image.
+    ///                 - path: Path for found in cache or fetched image.
+    func avatar(for key: String, completion: @escaping ((UIImage?, String?) -> Void)) {
+        if key.hasAddressPrefix {
+            if let avatarPath = UserDefaults.standard.object(forKey: key) as? String {
+                _avatar(for: avatarPath, completion: completion)
+            } else {
+                downloadAvatar(for: key, completion: completion)
+            }
+        }
+
+        _avatar(for: key, completion: completion)
+    }
+
+    /// Downloads or finds avatar for the resource url path.
+    ///
+    /// - Parameters:
+    ///   - path: An resource url path.
+    ///   - completion: The completion closure to fire when the request completes or image is found in cache.
+    ///                 - image: Found in cache or fetched image.
+    ///                 - path: Path for found in cache or fetched image.
+    private func _avatar(for path: String, completion: @escaping ((UIImage?, String?) -> Void)) {
+        guard let avatar = imageCache.object(forKey: path) else {
+            downloadAvatar(path: path, completion: completion)
+            return
+        }
+
+        completion(avatar, path)
+    }
+
+    /// Finds avatar for the given key.
+    ///
+    /// - Parameters:
+    ///   - key: token_id/address or resource url path.
+    /// - Returns:
+    ///   - found image or nil if not present
+    @objc func cachedAvatar(for key: String) -> UIImage? {
+        if key.hasAddressPrefix {
+            guard let avatarPath = UserDefaults.standard.object(forKey: key) as? String else { return nil }
+
+            return cachedAvatar(for: avatarPath)
+        }
+
+        return imageCache.object(forKey: key)
     }
 }

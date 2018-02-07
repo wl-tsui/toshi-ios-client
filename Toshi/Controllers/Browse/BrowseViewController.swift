@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ class BrowseViewController: SearchableCollectionController {
     
     private lazy var searchResultView: BrowseSearchResultView = {
         let view = BrowseSearchResultView()
+        view.searchDelegate = self
         view.isHidden = true
         
         return view
@@ -247,13 +248,15 @@ class BrowseViewController: SearchableCollectionController {
     
     @objc private func reload(searchText: String) {
         
-        if searchText.isValidURL {
-            let title = NSAttributedString(string: searchText, attributes: openButtonAttributes)
-            openURLButton.setAttributedTitle(title)
+        if
+            let possibleURLString = searchText.asPossibleURLString,
+            possibleURLString.isValidURL {
+                let title = NSAttributedString(string: possibleURLString, attributes: openButtonAttributes)
+                openURLButton.setAttributedTitle(title)
             
-            searchResultView.searchResults = []
+                searchResultView.searchResults = []
             
-            showOpenURLButton()
+                showOpenURLButton()
         } else {
             hideOpenURLButtonIfNeeded()
             IDAPIClient.shared.searchContacts(name: searchText) { [weak self] users in
@@ -291,11 +294,17 @@ class BrowseViewController: SearchableCollectionController {
     }
     
     @objc private func didTapOpenURL(_ button: UIControl) {
-        guard let string = searchController.searchBar.text, let url = URL(string: string) else { return }
+        guard
+            let searchText = searchController.searchBar.text,
+            let possibleURLString = searchText.asPossibleURLString,
+            let url = URL(string: possibleURLString)
+            else { return }
         
         let sofaController = SOFAWebController()
         
         sofaController.load(url: url)
+
+        dismissSearch()
         navigationController?.pushViewController(sofaController, animated: true)
     }
     
@@ -386,13 +395,24 @@ extension BrowseViewController: BrowseCollectionViewCellSelectionDelegate {
     }
     
     func didSelectItem(at indexPath: IndexPath, collectionView: SectionedCollectionView) {
-
         if let section = items.element(at: collectionView.section) {
+            dismissSearch()
+
             if let user = section.element(at: indexPath.item) as? TokenUser {
-                Navigator.push(ProfileViewController(contact: user))
+                Navigator.push(ProfileViewController(profile: user))
             } else if let dapp = section.element(at: indexPath.item) as? Dapp {
                 Navigator.push(DappViewController(with: dapp))
+            } else {
+                assertionFailure("Unhandled element type at index path \(indexPath)")
             }
         }
+    }
+}
+
+extension BrowseViewController: SearchSelectionDelegate {
+
+    func didSelectSearchResult(user: TokenUser) {
+        dismissSearch()
+        Navigator.push(ProfileViewController(profile: user))
     }
 }

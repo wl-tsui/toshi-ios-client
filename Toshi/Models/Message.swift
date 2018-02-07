@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -96,7 +96,6 @@ class Message: NSObject {
         }
     }
 
-    var senderId: String = ""
     var date: Date
 
     var isOutgoing: Bool = true
@@ -116,15 +115,17 @@ class Message: NSObject {
         guard let sofaWrapper = self.sofaWrapper else { return false }
 
         // if we have no attachments and still have a wrapper, if it's a .message but empty
-        // it's a `wake up` message, so we don't display them either.
+        // it's a `wake up` message, so we don't display them either, if it is payment message and destination address is valid, if it is a status message having attributed text.
         if let message = sofaWrapper as? SofaMessage {
             guard !message.body.isEmpty else { return false }
         } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
             guard EthereumAddress.validate(paymentRequest.destinationAddress) else { return false }
+        } else if let status = sofaWrapper as? SofaStatus {
+            guard status.attributedText != nil else { return false }
         }
 
-        // or not one of the types below
-        return [.message, .paymentRequest, .payment, .command].contains(sofaWrapper.type)
+        let typesThatShouldBeDisplayed: [SofaType] = [.message, .paymentRequest, .payment, .command, .status]
+        return typesThatShouldBeDisplayed.contains(sofaWrapper.type)
     }
 
     var text: String? {
@@ -141,6 +142,12 @@ class Message: NSObject {
         default:
             return sofaWrapper.content
         }
+    }
+
+    var attributedText: NSAttributedString? {
+        guard let sofaWrapper = self.sofaWrapper, sofaWrapper.type == .status else { return nil }
+
+        return (sofaWrapper as? SofaStatus)?.attributedText
     }
 
     func uniqueIdentifier() -> String {

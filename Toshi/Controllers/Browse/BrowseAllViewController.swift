@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Token Browser, Inc
+// Copyright (c) 2018 Token Browser, Inc
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -85,11 +85,14 @@ class BrowseAllViewController: UITableViewController {
     }
 
     override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dismissSearch()
 
         if let contact = searchResults.element(at: indexPath.row) as? TokenUser {
-            Navigator.push(ProfileViewController(contact: contact))
+            Navigator.push(ProfileViewController(profile: contact))
         } else if let dapp = searchResults.element(at: indexPath.row) as? Dapp {
             Navigator.push(DappViewController(with: dapp))
+        } else {
+            assertionFailure("Unknown element at row \(indexPath.row)")
         }
     }
 
@@ -112,5 +115,11 @@ class BrowseAllViewController: UITableViewController {
         }
 
         return cell
+    }
+
+    private func dismissSearch() {
+        guard let searchController = self.presentedViewController as? UISearchController else { return }
+
+        searchController.dismiss(animated: false, completion: nil)
     }
 }

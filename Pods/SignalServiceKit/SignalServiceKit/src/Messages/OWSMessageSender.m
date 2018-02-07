@@ -910,7 +910,7 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
             [error setIsFatal:YES];
 
             PreKeyBundle *newKeyBundle = exception.userInfo[TSInvalidPreKeyBundleKey];
-            if (![newKeyBundle isKindOfClass:[PreKeyBundle class]]) {
+            if (newKeyBundle && ![newKeyBundle isKindOfClass:[PreKeyBundle class]]) {
                 OWSProdFail([OWSAnalyticsEvents messageSenderErrorUnexpectedKeyBundle]);
                 failureHandler(error);
                 return;
@@ -1337,15 +1337,18 @@ NSString *const OWSMessageSenderRateLimitedException = @"RateLimitedException";
         // TODO: Why is this necessary?
         [message save];
     } else if (message.groupMetaMessage == TSGroupMetaMessageQuit) {
+        // No custom message needed for current user leave message
         [[[TSInfoMessage alloc] initWithTimestamp:message.timestamp
                                          inThread:thread
                                       messageType:TSInfoMessageTypeGroupQuit
-                                    customMessage:message.customMessage] save];
+                                    customMessage:@""] save];
     } else {
         [[[TSInfoMessage alloc] initWithTimestamp:message.timestamp
+                                         authorId:[[TSAccountManager sharedInstance] localNumber]
                                          inThread:thread
                                       messageType:TSInfoMessageTypeGroupUpdate
-                                    customMessage:message.customMessage] save];
+                                    customMessage:message.customInfo[GroupUpdateTypeSting]
+                             additionalInfoString:message.customInfo[GroupInfoString]] save];
     }
 }
 
