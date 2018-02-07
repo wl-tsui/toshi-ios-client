@@ -138,7 +138,7 @@ class BasicTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
 
-        self.badgeLabel.font = Theme.preferredRegularSmall()
+        self.badgeLabel.font = Theme.preferredFootnote()
         self.badgeLabel.textColor = Theme.lightTextColor
         self.badgeLabel.textAlignment = .center
         view.addSubview(self.badgeLabel)
@@ -150,7 +150,7 @@ class BasicTableViewCell: UITableViewCell {
 
     lazy var badgeLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.semibold(size: 15)
+        view.font = Theme.semibold(size: 13)
         view.textColor = Theme.lightTextColor
         view.textAlignment = .center
 

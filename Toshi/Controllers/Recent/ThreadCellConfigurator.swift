@@ -51,6 +51,11 @@ final class ThreadCellConfigurator: CellConfigurator {
             title = recipient.nameOrDisplayName
         }
 
+        if thread.hasUnreadMessages() {
+            let unreadMessagesInThread = SignalNotificationManager.unreadMessagesCount(in: thread)
+            badgeText = "\(unreadMessagesInThread)"
+        }
+
         if let message = thread.messages.last, let messageBody = message.body {
             switch SofaType(sofa: messageBody) {
             case .message:
