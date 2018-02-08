@@ -19,11 +19,6 @@ import CoreImage
 
 class QRCodeController: UIViewController {
 
-    static let addUsernameBasePath = "https://app.toshi.org/add/"
-    static let addUserPath = "/add/"
-    static let paymentWithUsernamePath = "/pay/"
-    static let paymentWithAddressPath = "ethereum:"
-
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .default
     }
@@ -37,7 +32,7 @@ class QRCodeController: UIViewController {
 
         title = Localized("profile_qr_code_title")
 
-        qrCodeImageView.image = UIImage.imageQRCode(for: "\(QRCodeController.addUsernameBasePath)\(username)", resizeRate: 20.0)
+        qrCodeImageView.image = QRCodeGenerator.qrCodeImage(for: .addUser(username: username))
     }
 
     override func loadView() {

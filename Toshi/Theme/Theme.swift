@@ -29,11 +29,21 @@ extension CGFloat {
 
     /// NOTE: Implicitly also the default avatar width.
     static let defaultAvatarHeight: CGFloat = 60
+
+    // Spacing should be related to a base amount - multiply that base amount by a certain number to get final results
     
-    static let smallInterItemSpacing: CGFloat = 5
-    static let mediumInterItemSpacing: CGFloat = 10
-    static let largeInterItemSpacing: CGFloat = 20
-    static let giantInterItemSpacing: CGFloat = 40
+    static let spacingx1: CGFloat = 5
+    static let spacingx2: CGFloat = (spacingx1 * 2)
+    static let spacingx3: CGFloat = (spacingx1 * 3)
+    static let spacingx4: CGFloat = (spacingx1 * 4)
+    static let spacingx8: CGFloat = (spacingx1 * 8)
+
+    // More readable aliases to various inter-item spacing.
+
+    static let smallInterItemSpacing: CGFloat = spacingx1
+    static let mediumInterItemSpacing: CGFloat = spacingx2
+    static let largeInterItemSpacing: CGFloat = spacingx4
+    static let giantInterItemSpacing: CGFloat = spacingx8
 }
 
 final class Theme: NSObject {}
@@ -173,6 +183,8 @@ extension Theme {
     }
 }
 
+// MARK: - Fonts
+
 extension Theme {
     
     private static func dynamicType(for preferredFont: UIFont, withStyle style: UIFontTextStyle, inSizeRange range: ClosedRange<CGFloat>) -> UIFont {
@@ -225,7 +237,11 @@ extension Theme {
     static func preferredRegularText(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
         return dynamicType(for: regularText(size: 17), withStyle: .body, inSizeRange: range)
     }
-    
+
+    static func preferredRegularMonospaced(range: ClosedRange<CGFloat> = 15...30) -> UIFont {
+        return dynamicType(for: regularMonospaced(size: 15), withStyle: .body, inSizeRange: range)
+    }
+
     static func preferredRegularMedium(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
         return dynamicType(for: medium(size: 17), withStyle: .callout, inSizeRange: range)
     }
@@ -238,35 +254,57 @@ extension Theme {
         return dynamicType(for: semibold(size: 17), withStyle: .headline, inSizeRange: range)
     }
     
-    /* Default Fonts */
-    @objc static func light(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "SFProDisplay-Light", size: size) else { fatalError("This font should be available.") }
+    // MARK: Default fonts
+
+    private static func font(named name: String, size: CGFloat) -> UIFont {
+        guard let font = UIFont(name: name, size: size) else {
+            fatalError("The font \(name) is not available. Check Info.plist and make sure the font is included in all targets.")
+        }
+
         return font
+    }
+
+    @objc static func light(size: CGFloat) -> UIFont {
+        return font(named: "SFProDisplay-Light", size: size)
     }
     
     @objc static func regular(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "SFProDisplay-Regular", size: size) else { fatalError("This font should be available.") }
-        return font
+        return font(named: "SFProDisplay-Regular", size: size)
     }
     
     @objc static func semibold(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "SFProDisplay-Semibold", size: size) else { fatalError("This font should be available.") }
-        return font
+        return font(named: "SFProDisplay-Semibold", size: size)
     }
     
     @objc static func bold(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "SFProDisplay-Bold", size: size) else { fatalError("This font should be available.") }
-        return font
+        return font(named: "SFProDisplay-Bold", size: size)
     }
     
     @objc static func medium(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "SFProDisplay-Medium", size: size) else { fatalError("This font should be available.") }
-        return font
+        return font(named: "SFProDisplay-Medium", size: size)
     }
-    
-    /* Text Fonts */
+
+    // MARK: Text Fonts
+
     @objc static func regularText(size: CGFloat) -> UIFont {
-        guard let font = UIFont(name: "SFUIText-Regular", size: size) else { fatalError("This font should be available.") }
-        return font
+        return font(named: "SFUIText-Regular", size: size)
+    }
+
+    // MARK: Monospaced fonts
+
+    @objc static func regularMonospaced(size: CGFloat) -> UIFont {
+        return font(named: "SFMono-Regular", size: size)
+    }
+
+    @objc static func mediumMonospaced(size: CGFloat) -> UIFont {
+        return font(named: "SFMono-Medium", size: size)
+    }
+
+    @objc static func semiboldMonospaced(size: CGFloat) -> UIFont {
+        return font(named: "SFMono-Semibold", size: size)
+    }
+
+    @objc static func boldMonospaced(size: CGFloat) -> UIFont {
+        return font(named: "SFMono-Bold", size: size)
     }
 }

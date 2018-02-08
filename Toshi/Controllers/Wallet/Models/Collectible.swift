@@ -15,55 +15,50 @@
 
 import Foundation
 
-/// An individual Dapp
-final class Dapp: Codable {
-    
+/// An individual Collectible
+final class Collectible: Codable {
+
     let name: String
-    let url: URL
-    let avatarUrlString: String
-    let description: String
-    
+    let value: String
+    let contractAddress: String
+    let icon: String
+    let tokens: [CollectibleToken]?
+
     enum CodingKeys: String, CodingKey {
         case
         name,
-        url,
-        avatarUrlString = "avatar",
-        description
+        value,
+        contractAddress = "contract_address",
+        icon,
+        tokens
     }
 }
 
-extension Dapp: BrowseableItem {
-    
-    var nameForBrowseAndSearch: String {
-        return name
-    }
-    
-    var descriptionForSearch: String {
-        return description
-    }
-    
-    var avatarPath: String {
-        return avatarUrlString
-    }
-    
-    var shouldShowRating: Bool {
-        return false
-    }
-    
-    var rating: Float? {
-        return nil
-    }
-}
+/// Convenience class for decoding an array of Collectibles with the key "collectibles"
+final class CollectibleResults: Codable {
 
-typealias DappInfo = (dappURL: URL, imagePath: String?, headerText: String?)
+    let collectibles: [Collectible]
 
-/// Convenience class for decoding an array of Dapps with the key "results"
-final class DappResults: Codable {
-    
-    let results: [Dapp]
-    
     enum CodingKeys: String, CodingKey {
         case
-        results
+        collectibles
+    }
+}
+
+extension Collectible: WalletItem {
+    var title: String? {
+        return name
+    }
+
+    var subtitle: String? {
+        return nil
+    }
+
+    var iconPath: String? {
+        return icon
+    }
+
+    var details: String? {
+        return NSDecimalNumber(hexadecimalString: value).stringValue
     }
 }

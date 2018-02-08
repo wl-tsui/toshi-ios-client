@@ -15,30 +15,24 @@
 
 import UIKit
 
-final class AvatarTitleSubtitleDetailsBadgeCell: BasicTableViewCell {
+final class AvatarTitleDetailsCell: BasicTableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
         leftImageView.image = nil
         titleTextField.text = nil
-        subtitleLabel.text = nil
         detailsLabel.text = nil
-        badgeLabel.text = nil
     }
 
     override func addSubviewsAndConstraints() {
         contentView.addSubview(leftImageView)
         contentView.addSubview(titleTextField)
-        contentView.addSubview(subtitleLabel)
         contentView.addSubview(detailsLabel)
-        contentView.addSubview(badgeView)
 
         setupLeftImageView()
         setupTitleTextField()
-        setupSubtitleLabel()
         setupDetailsLabel()
-        setupBadgeView()
     }
 
     private func setupLeftImageView() {
@@ -50,37 +44,21 @@ final class AvatarTitleSubtitleDetailsBadgeCell: BasicTableViewCell {
     }
 
     private func setupTitleTextField() {
-        titleTextField.top(to: contentView, offset: BasicTableViewCell.horizontalMargin)
+        titleTextField.centerY(to: contentView)
         titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
         titleTextField.rightToLeft(of: detailsLabel, offset: -BasicTableViewCell.interItemMargin)
         titleTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
-    private func setupSubtitleLabel() {
-        subtitleLabel.topToBottom(of: titleTextField, offset: BasicTableViewCell.smallVerticalMargin)
-        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
-        subtitleLabel.rightToLeft(of: detailsLabel, offset: -BasicTableViewCell.horizontalMargin)
-        subtitleLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
-        subtitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-    }
-
     private func setupDetailsLabel() {
-        detailsLabel.top(to: contentView, offset: BasicTableViewCell.horizontalMargin)
+        detailsLabel.centerY(to: contentView)
         detailsLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
-    }
-
-    private func setupBadgeView() {
-        badgeView.bottom(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
-        badgeView.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
-        badgeView.size(CGSize(width: BasicTableViewCell.badgeViewSize, height: BasicTableViewCell.badgeViewSize))
-        badgeView.top(to: detailsLabel, offset: -BasicTableViewCell.smallVerticalMargin, relation: .equalOrGreater)
     }
 
     override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
         detailsLabel.font = detailsFont
     }
 }
