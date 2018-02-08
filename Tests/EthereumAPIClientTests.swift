@@ -102,6 +102,50 @@ class EthereumAPIClientTests: QuickSpec {
                         }
                     }
                 }
+
+                it("gets tokens") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClientTests.self), mockFilename: "getTokens")
+                    subject = EthereumAPIClient(mockTeapot: mockTeapot)
+
+                    waitUntil { done in
+                        subject.getTokens { tokens, error in
+                            expect(tokens).toNot(beNil())
+                            expect(error).to(beNil())
+
+                            let token = tokens.first as? Token
+                            expect(token).toNot(beNil())
+                            expect(token?.name).to(equal("Alphabet Token"))
+                            expect(token?.symbol).to(equal("ABC"))
+                            expect(token?.value).to(equal("0x1234567890abcdef"))
+                            expect(token?.decimals).to(equal(Int(18)))
+                            expect(token?.contractAddress).to(equal("0x0123456789012345678901234567890123456789"))
+                            expect(token?.icon).to(equal("https://ethereum.service.toshi.org/token/ABC.png"))
+
+                            done()
+                        }
+                    }
+                }
+
+                it("gets collectibles") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClientTests.self), mockFilename: "getCollectibles")
+                    subject = EthereumAPIClient(mockTeapot: mockTeapot)
+
+                    waitUntil { done in
+                        subject.getCollectibles { collectibles, error in
+                            expect(collectibles).toNot(beNil())
+                            expect(error).to(beNil())
+
+                            let collectible = collectibles.first as? Collectible
+                            expect(collectible).toNot(beNil())
+                            expect(collectible?.name).to(equal("Cryptokitties"))
+                            expect(collectible?.value).to(equal("0x10"))
+                            expect(collectible?.contractAddress).to(equal("0x0123456789012345678901234567890123456789"))
+                            expect(collectible?.icon).to(equal("https://www.cryptokitties.co/icons/logo.svg"))
+
+                            done()
+                        }
+                    }
+                }
             }
 
             context("⚠ Unauthorized error 🔒") {

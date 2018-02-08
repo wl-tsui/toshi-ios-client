@@ -71,6 +71,6 @@ final class AvatarTitleSubtitleDetailsCell: BasicTableViewCell {
 
         titleTextField.font = Theme.preferredRegular()
         subtitleLabel.font = Theme.preferredRegularSmall()
-        detailsLabel.font = Theme.preferredFootnote()
+        detailsLabel.font = detailsFont
     }
 }

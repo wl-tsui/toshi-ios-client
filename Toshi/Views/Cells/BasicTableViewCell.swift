@@ -53,6 +53,8 @@ class BasicTableViewCell: UITableViewCell {
 
     weak var actionDelegate: BasicCellActionDelegate?
 
+    var detailsFont = Theme.preferredFootnote()
+
     lazy var titleTextField: UITextField = {
         let titleTextField = UITextField()
 
@@ -187,6 +189,7 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(TitleSwitchCell.self)
         tableView.register(TitleSubtitleSwitchCell.self)
         tableView.register(AvatarTitleCell.self)
+        tableView.register(AvatarTitleDetailsCell.self)
         tableView.register(AvatarTitleSubtitleCell.self)
         tableView.register(AvatarTitleSubtitleDetailsCell.self)
         tableView.register(AvatarTitleSubtitleSwitchCell.self)

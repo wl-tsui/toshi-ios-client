@@ -19,6 +19,7 @@ import AwesomeCache
 
 typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?)
 typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
+typealias WalletItemsCompletion = ((_ items: [WalletItem], _ error: ToshiError?) -> Void)
 
 final class EthereumAPIClient {
 
@@ -204,6 +205,100 @@ final class EthereumAPIClient {
             DispatchQueue.main.async {
                 self?.cache.setObject(balance, forKey: EthereumAPIClient.CachedBalanceKey)
                 fetchedBalanceCompletion(balance, resultError)
+            }
+        }
+    }
+
+    func getCollectibles(address: String = Cereal.shared.paymentAddress, completion: @escaping WalletItemsCompletion) {
+
+        self.activeTeapot.get("/v1/collectibles/\(address)") { (result: NetworkResult) in
+            var resultError: ToshiError?
+            var resultItems: [Collectible] = []
+
+            switch result {
+            case .success(let json, let response):
+                guard response.statusCode == 200 else {
+                    DispatchQueue.main.async {
+                        completion([], .invalidResponseStatus(response.statusCode))
+                    }
+
+                    return
+                }
+
+                guard let data = json?.data else {
+                    DispatchQueue.main.async {
+                        completion([], .invalidPayload)
+                    }
+                    return
+                }
+
+                let collectiblesResults: CollectibleResults
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    collectiblesResults = try jsonDecoder.decode(CollectibleResults.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion([], .invalidResponseJSON)
+                    }
+                    return
+                }
+
+                resultItems.append(contentsOf: collectiblesResults.collectibles)
+
+            case .failure(_, _, let error):
+                resultError = ToshiError(withTeapotError: error)
+                DLog("\(error)")
+            }
+
+            DispatchQueue.main.async {
+                completion(resultItems, resultError)
+            }
+        }
+    }
+
+    func getTokens(address: String = Cereal.shared.paymentAddress, completion: @escaping WalletItemsCompletion) {
+
+        self.activeTeapot.get("/v1/tokens/\(address)") { (result: NetworkResult) in
+            var resultError: ToshiError?
+            var resultItems: [Token] = []
+
+            switch result {
+            case .success(let json, let response):
+                guard response.statusCode == 200 else {
+                    DispatchQueue.main.async {
+                        completion([], .invalidResponseStatus(response.statusCode))
+                    }
+
+                    return
+                }
+
+                guard let data = json?.data else {
+                    DispatchQueue.main.async {
+                        completion([], .invalidPayload)
+                    }
+                    return
+                }
+
+                let tokenResults: TokenResults
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    tokenResults = try jsonDecoder.decode(TokenResults.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion([], .invalidResponseJSON)
+                    }
+                    return
+                }
+
+                resultItems.append(contentsOf: tokenResults.tokens)
+
+            case .failure(_, _, let error):
+                resultError = ToshiError(withTeapotError: error)
+                DLog("\(error)")
+            }
+
+            DispatchQueue.main.async {
+                completion(resultItems, resultError)
             }
         }
     }

@@ -199,6 +199,7 @@
 "sign-out-failure-title" = "Could not sign out";
 "sign-out-failure-message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
 "cancel_action_title" = "Cancel";
+"copy_action_title" = "Copy";
 "not_now_action_title" = "Not now";
 "submit_action_title" = "Submit";
 "continue_action_title" = "Continue";
@@ -267,9 +268,22 @@
 /* Tab Bar */
 "tab_bar_title_browse" = "Search";
 "tab_bar_title_recent" = "Recent";
-"tab_bar_title_scan" = "Scan";
+"tab_bar_title_wallet" = "Wallet";
 "tab_bar_title_favorites" = "Favorites";
-"tab_bar_title_me" = "Me";
+"tab_bar_title_settings" = "Settings";
+
+/* Wallet */
+"wallet_controller_title" = "My Wallet";
+"wallet_address_title" = "Wallet Address";
+"wallet_address_subtitle" = "Receive Ethereum and tokens to your personal public address.";
+"wallet_tokens" = "Tokens";
+"wallet_collectibles" = "Collectibles";
+"wallet_copied_alert_text" = "Copied to clipboard!";
+
+"wallet_empty_tokens_title" = "No Tokens Yet";
+"wallet_empty_collectibles_title" = "No Collectibles Yet";
+"wallet_empty_tokens_description" = "Share your wallet address to\nreceive money and tokens.";
+"wallet_empty_tokens_button_title" = "Share Wallet Address";
 
 /* Nav Bar Buttons */
 "nav_bar_back" = "Back";
@@ -351,6 +365,7 @@
 
 /* Accessibility */
 "accessibility_more" = "More";
+"accessibility_close" = "Close";
 
 /* Payment Confirmation */
 "confirmation_title" = "Confirm Payment";

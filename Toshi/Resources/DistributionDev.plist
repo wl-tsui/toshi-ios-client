@@ -60,6 +60,10 @@
 		<string>SF-Pro-Display-Medium.otf</string>
 		<string>SF-Pro-Display-Regular.otf</string>
 		<string>SF-Pro-Display-Semibold.otf</string>
+		<string>SFMono-Bold.otf</string>
+		<string>SFMono-Semibold.otf</string>
+		<string>SFMono-Regular.otf</string>
+		<string>SFMono-Medium.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

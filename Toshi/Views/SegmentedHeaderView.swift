@@ -25,6 +25,7 @@ protocol SegmentedHeaderDelegate: class {
 // MARK: - Segmented Header View
 
 /// A custom header view for showing multiple segments, with an indicator of which is selected.
+
 final class SegmentedHeaderView: UIView {
 
     private weak var delegate: SegmentedHeaderDelegate?
@@ -67,6 +68,7 @@ final class SegmentedHeaderView: UIView {
     ///   - delegate: The delegate to notify of selection.
     ///   - showsBottomBorder: True to have a border view at the bottom of the entire view, false not to. Defaults to true.
     init(segmentNames: [String], delegate: SegmentedHeaderDelegate, showsBottomBorder: Bool = true) {
+
         self.segmentNames = segmentNames
         self.delegate = delegate
         super.init(frame: .zero)
