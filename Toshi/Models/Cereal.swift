@@ -120,7 +120,7 @@ class Cereal: NSObject {
     }
 
     func walletAddressQRCodeImage(resizeRate: CGFloat) -> UIImage {
-        return UIImage.imageQRCode(for: "\(QRCodeController.paymentWithAddressPath)\(paymentAddress)", resizeRate: resizeRate)
+        return QRCodeGenerator.qrCodeImage(for: .ethereumAddress(address: paymentAddress), resizeRate: resizeRate)
     }
 
     // MARK: - Sign with id

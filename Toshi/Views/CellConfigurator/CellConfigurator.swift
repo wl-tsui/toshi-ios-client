@@ -39,8 +39,20 @@ class CellConfigurator {
             cell.detailsLabel.text = cellData.details
         }
 
+        if cellData.components.contains(.topDetails) {
+            cell.detailsLabel.text = cellData.topDetails
+        }
+
         if cellData.components.contains(.leftImage) {
             cell.leftImageView.image = cellData.leftImage
+
+            if let leftImagePath = cellData.leftImagePath {
+                AvatarManager.shared.avatar(for: leftImagePath, completion: { [weak self] image, path in
+                    if leftImagePath == path {
+                        cell.leftImageView.image = image
+                    }
+                })
+            }
         }
 
         if cellData.components.contains(.doubleImage) {
@@ -70,6 +82,8 @@ class CellConfigurator {
             reuseIdentifier = AvatarTitleSubtitleSwitchCell.reuseIdentifier
         } else if components.contains(.titleSubtitleDetailsLeftImageBadge) {
             reuseIdentifier = AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier
+        } else if components.contains(.titleSubtitleLeftImageTopDetails) {
+            reuseIdentifier = AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier
         } else if components.contains(.titleSubtitleDetailsLeftImage) {
             reuseIdentifier = AvatarTitleSubtitleDetailsCell.reuseIdentifier
         } else if components.contains(.leftImageTitleSubtitleDoubleAction) {
@@ -80,6 +94,8 @@ class CellConfigurator {
             reuseIdentifier = TitleSubtitleSwitchCell.reuseIdentifier
         } else if components.contains(.titleSwitchControl) {
             reuseIdentifier = TitleSwitchCell.reuseIdentifier
+        } else if components.contains(.titleDetailsLeftImage) {
+            reuseIdentifier = AvatarTitleDetailsCell.reuseIdentifier
         } else if components.contains(.titleLeftImage) {
             reuseIdentifier = AvatarTitleCell.reuseIdentifier
         } else if components.contains(.titleSubtitle) {

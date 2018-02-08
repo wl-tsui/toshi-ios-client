@@ -63,4 +63,8 @@ class SignalNotificationManager: NSObject, NotificationsProtocol {
             }
         }
     }
+
+    static func unreadMessagesCount(in thread: TSThread) -> Int {
+        return Int(OWSMessageManager.shared().unreadMessages(in: thread))
+    }
 }

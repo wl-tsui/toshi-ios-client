@@ -67,6 +67,17 @@ class Navigator: NSObject {
         parentViewController?.present(viewController, animated: true, completion: nil)
     }
 
+    static func presentScanner() {
+        guard let scannerController = tabbarController?.scannerController else {
+            assertionFailure("Can't retrieve scanner controller from tab bar controller")
+            return
+        }
+
+        SoundPlayer.playSound(type: .menuButton)
+
+        Navigator.presentModally(scannerController)
+    }
+
     @objc static func presentModally(_ controller: UIViewController) {
         present(controller, from: topViewController, animated: true)
     }

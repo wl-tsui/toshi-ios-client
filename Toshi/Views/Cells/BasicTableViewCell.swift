@@ -53,6 +53,8 @@ class BasicTableViewCell: UITableViewCell {
 
     weak var actionDelegate: BasicCellActionDelegate?
 
+    var detailsFont = Theme.preferredFootnote()
+
     lazy var titleTextField: UITextField = {
         let titleTextField = UITextField()
 
@@ -138,7 +140,7 @@ class BasicTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
 
-        self.badgeLabel.font = Theme.preferredRegularSmall()
+        self.badgeLabel.font = Theme.preferredFootnote()
         self.badgeLabel.textColor = Theme.lightTextColor
         self.badgeLabel.textAlignment = .center
         view.addSubview(self.badgeLabel)
@@ -150,7 +152,7 @@ class BasicTableViewCell: UITableViewCell {
 
     lazy var badgeLabel: UILabel = {
         let view = UILabel()
-        view.font = Theme.semibold(size: 15)
+        view.font = Theme.semibold(size: 13)
         view.textColor = Theme.lightTextColor
         view.textAlignment = .center
 
@@ -187,6 +189,7 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(TitleSwitchCell.self)
         tableView.register(TitleSubtitleSwitchCell.self)
         tableView.register(AvatarTitleCell.self)
+        tableView.register(AvatarTitleDetailsCell.self)
         tableView.register(AvatarTitleSubtitleCell.self)
         tableView.register(AvatarTitleSubtitleDetailsCell.self)
         tableView.register(AvatarTitleSubtitleSwitchCell.self)

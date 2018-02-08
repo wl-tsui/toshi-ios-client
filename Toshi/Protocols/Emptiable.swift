@@ -50,6 +50,18 @@ class EmptyView: UIView {
         
         return label
     }()
+
+    var title = "" {
+        didSet {
+            titleLabel.text = title
+        }
+    }
+
+    var buttonTitle = "" {
+        didSet {
+            actionButton.title = buttonTitle
+        }
+    }
     
     private lazy var layoutGuide = UILayoutGuide()
     
@@ -81,7 +93,7 @@ class EmptyView: UIView {
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 3
         descriptionLabel.attributedText = NSMutableAttributedString(string: description, attributes: [.paragraphStyle: paragraphStyle])
-        
+
         titleLabel.text = title
         actionButton.title = buttonTitle
     }
