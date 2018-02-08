@@ -209,6 +209,52 @@ final class EthereumAPIClient {
         }
     }
 
+    func getCollectible(address: String = Cereal.shared.paymentAddress, contractAddress: String, completion: @escaping ((Collectible?, ToshiError?) -> Void)) {
+        self.activeTeapot.get("/v1/collectibles/\(address)/\(contractAddress)") { result in
+            var resultError: ToshiError?
+            var resultItem: Collectible?
+
+            switch result {
+            case .success(let json, let response):
+                guard response.statusCode == 200 else {
+                    DispatchQueue.main.async {
+                        completion(nil, .invalidResponseStatus(response.statusCode))
+                    }
+
+                    return
+                }
+
+                guard let data = json?.data else {
+                    DispatchQueue.main.async {
+                        completion(nil, .invalidPayload)
+                    }
+                    return
+                }
+
+                let collectible: Collectible
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    collectible = try jsonDecoder.decode(Collectible.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(nil, .invalidResponseJSON)
+                    }
+                    return
+                }
+
+                resultItem = collectible
+
+            case .failure(_, _, let error):
+                resultError = ToshiError(withTeapotError: error)
+                DLog("\(error)")
+            }
+
+            DispatchQueue.main.async {
+                completion(resultItem, resultError)
+            }
+        }
+    }
+
     func getCollectibles(address: String = Cereal.shared.paymentAddress, completion: @escaping WalletItemsCompletion) {
 
         self.activeTeapot.get("/v1/collectibles/\(address)") { (result: NetworkResult) in

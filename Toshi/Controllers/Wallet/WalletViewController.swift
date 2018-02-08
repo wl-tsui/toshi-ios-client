@@ -146,8 +146,10 @@ extension WalletViewController: UITableViewDataSource {
 extension WalletViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alert = UIAlertController.dismissableAlert(title: "Collectionable list coming soon")
-        Navigator.presentModally(alert)
+        guard let item = datasource.item(at: indexPath.row) as? Collectible else { return }
+
+        let controller = CollectibleViewController(collectibleContractAddress: item.contractAddress)
+        navigationController?.pushViewController(controller, animated: true)
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

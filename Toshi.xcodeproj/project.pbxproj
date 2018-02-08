@@ -137,6 +137,9 @@
 		2B69E69E202BAA6400E84570 /* CollectibleToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69E69D202BAA6400E84570 /* CollectibleToken.swift */; };
 		2B69E69F202BAA6400E84570 /* CollectibleToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69E69D202BAA6400E84570 /* CollectibleToken.swift */; };
 		2B69E6A0202BAA6400E84570 /* CollectibleToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69E69D202BAA6400E84570 /* CollectibleToken.swift */; };
+		2B69E6A2202BCC3600E84570 /* CollectibleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */; };
+		2B69E6A3202BCC3600E84570 /* CollectibleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */; };
+		2B69E6A4202BCC3600E84570 /* CollectibleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */; };
 		2B6C18F41FCD431800DE432B /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C18F31FCD431800DE432B /* GroupViewController.swift */; };
 		2B6C18F51FCD431800DE432B /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C18F31FCD431800DE432B /* GroupViewController.swift */; };
 		2B6C18F61FCD431800DE432B /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6C18F31FCD431800DE432B /* GroupViewController.swift */; };
@@ -198,6 +201,13 @@
 		2BAB90CA1EC120A8005D98C6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90C91EC120A8005D98C6 /* libc++.tbd */; };
 		2BAB90CB1EC120B0005D98C6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90B61EC119FC005D98C6 /* libz.tbd */; };
 		2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB842781EDD91F70044BDAB /* SplashViewController.swift */; };
+		2BBD3FA1202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */; };
+		2BBD3FA2202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */; };
+		2BBD3FA3202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */; };
+		2BBD3FA5202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA4202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift */; };
+		2BBD3FA6202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA4202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift */; };
+		2BBD3FA7202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA4202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift */; };
+		2BBD3FA9202CE573007E6BCE /* getACollectible.json in Resources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA8202CE572007E6BCE /* getACollectible.json */; };
 		2BC4C07F1EF3ED4700F99CE2 /* ActivityIndicating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */; };
 		2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
 		2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
@@ -1106,6 +1116,7 @@
 		2B4E26021FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTitleSubtitleSwitchCell.swift; sourceTree = "<group>"; };
 		2B5CF18220126B68001F57A2 /* fetchUsersFromPaymentAddresses.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromPaymentAddresses.json; sourceTree = "<group>"; };
 		2B69E69D202BAA6400E84570 /* CollectibleToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleToken.swift; sourceTree = "<group>"; };
+		2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleViewController.swift; sourceTree = "<group>"; };
 		2B6C18F31FCD431800DE432B /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		2B6C18F71FCD438000DE432B /* NewGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewModel.swift; sourceTree = "<group>"; };
 		2B6C18FC1FCD531E00DE432B /* NewGroupConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupConfigurator.swift; sourceTree = "<group>"; };
@@ -1135,6 +1146,9 @@
 		2BAB90C71EC12098005D98C6 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		2BAB90C91EC120A8005D98C6 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		2BB842781EDD91F70044BDAB /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleTokensDatasource.swift; sourceTree = "<group>"; };
+		2BBD3FA4202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectImageTitleSubtitleTableViewCell.swift; sourceTree = "<group>"; };
+		2BBD3FA8202CE572007E6BCE /* getACollectible.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getACollectible.json; sourceTree = "<group>"; };
 		2BC4C07E1EF3ED4700F99CE2 /* ActivityIndicating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicating.swift; sourceTree = "<group>"; };
 		2BC6925C1EE937E800285070 /* Emptiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emptiable.swift; sourceTree = "<group>"; };
 		2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
@@ -1822,6 +1836,8 @@
 				2B460171202907730098694D /* WalletDatasource.swift */,
 				2B46017E202A30F90098694D /* WalletItemCellConfigurator.swift */,
 				3344FBDE202B6C45004297E9 /* WalletQRCodeViewController.swift */,
+				2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */,
+				2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -2029,6 +2045,7 @@
 				2B6C18FB1FCD494E00DE432B /* CellSectionData */,
 				2B4E25FD1FCCCE24004614D5 /* CellConfigurator */,
 				2B4E25E01FCCCCE2004614D5 /* Cells */,
+				2BBD3FA4202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift */,
 				D197B18261400D5175ADC6C7 /* AcceptDeclineButtonsView.swift */,
 				A9AC74071E77E37500365029 /* ActionButton.swift */,
 				D197B6E47F5F979A8C154E9A /* ActiveNetworkView.swift */,
@@ -2502,6 +2519,7 @@
 				D197B5835BCEB0D7A2DA6967 /* timestamp.json */,
 				D197B654F730E653B7C6F444 /* sendSignedTransaction.json */,
 				D197BFC186F1EEBDC8FD45B1 /* transactionSkeleton.json */,
+				2BBD3FA8202CE572007E6BCE /* getACollectible.json */,
 				2BA66D0D202A511C00F6FBB6 /* getTokens.json */,
 				2BA66D0F202A575E00F6FBB6 /* getCollectibles.json */,
 			);
@@ -2778,6 +2796,7 @@
 				D197B2A45E12329713413EAE /* createUnsignedTransaction.json in Resources */,
 				D197B6CAA22DFAA0B0FFE15D /* sendSignedTransaction.json in Resources */,
 				D197BA6E5DC09E84D524D1A2 /* getBalance.json in Resources */,
+				2BBD3FA9202CE573007E6BCE /* getACollectible.json in Resources */,
 				33F6D2301FFD1BED00AB0DCC /* userAfterDataUpdate.json in Resources */,
 				2BA66D10202A575E00F6FBB6 /* getCollectibles.json in Resources */,
 				D197BA0569377AF2E56C7393 /* getFeaturedApps.json in Resources */,
@@ -3510,6 +3529,7 @@
 				9FDCE4831E8D5923003A996F /* KeyboardInfo.swift in Sources */,
 				2B6C18FF1FCD531E00DE432B /* NewGroupConfigurator.swift in Sources */,
 				9F78D9D21EE93E68003A0B95 /* ModalTransition.swift in Sources */,
+				2BBD3FA3202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */,
 				2BC85F801F0F946600BCB171 /* InputCell.swift in Sources */,
 				33643DCA1FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */,
 				9F3CF6A71FE14BBA00043530 /* TextTransformer.swift in Sources */,
@@ -3522,6 +3542,7 @@
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
 				A9CADC2A1F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
 				A9CADC321F94B1DD0096D017 /* ReputationView.swift in Sources */,
+				2BBD3FA7202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
 				149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */,
 				2B460189202A408A0098694D /* Collectible.swift in Sources */,
@@ -3551,6 +3572,7 @@
 				9F086CB71EB10A7A00055DB3 /* TokenUser.swift in Sources */,
 				A963D5311F288E8900297FDF /* MessagesCornerView.swift in Sources */,
 				33CF51371FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */,
+				2B69E6A4202BCC3600E84570 /* CollectibleViewController.swift in Sources */,
 				A9E691CF1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */,
 				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
 				A9CADC341F94B1E10096D017 /* BrowseCollectionViewCell.swift in Sources */,
@@ -3763,6 +3785,7 @@
 				33643DC81FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */,
 				9F3CF6A51FE14BBA00043530 /* TextTransformer.swift in Sources */,
 				2BE66A0C1EF910B6007A7130 /* KeyboardAdjustable.swift in Sources */,
+				2BBD3FA1202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */,
 				2B7088A61FE3EE7700D16C55 /* AvatarTitleSubtitleDetailsBadgeCell.swift in Sources */,
 				A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */,
 				A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */,
@@ -3775,6 +3798,7 @@
 				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
 				A9BA6B791EF7CEAD007C3206 /* DepositMoneyController.swift in Sources */,
+				2BBD3FA5202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				3312F6882007A93000881B97 /* BorderView.swift in Sources */,
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
 				2B460187202A408A0098694D /* Collectible.swift in Sources */,
@@ -3804,6 +3828,7 @@
 				9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */,
 				9F21E0631E546A03000E90C6 /* PaymentValueViewController.swift in Sources */,
 				A9E1DCD61F1E1989001A4ABE /* MessagesTextCell.swift in Sources */,
+				2B69E6A2202BCC3600E84570 /* CollectibleViewController.swift in Sources */,
 				A9CADC201F94AF2D0096D017 /* ReputationView.swift in Sources */,
 				D197B6D91E419A23890C7E8B /* BlurView.swift in Sources */,
 				2BD0A4D11FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
@@ -4016,6 +4041,7 @@
 				A9603ECF1F4DABDC00BF57B1 /* ModalTransition.swift in Sources */,
 				2B6C18FE1FCD531E00DE432B /* NewGroupConfigurator.swift in Sources */,
 				A9603ED11F4DABDC00BF57B1 /* InputCell.swift in Sources */,
+				2BBD3FA2202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */,
 				A9603ED61F4DABDC00BF57B1 /* ProfileEditConfigurator.swift in Sources */,
 				33643DC91FD6DA6E00229BE2 /* ProfilesAddedToGroupHeader.swift in Sources */,
 				9F3CF6A61FE14BBA00043530 /* TextTransformer.swift in Sources */,
@@ -4028,6 +4054,7 @@
 				A9CADC291F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
 				A9CADC311F94B1DC0096D017 /* ReputationView.swift in Sources */,
 				A9603EDF1F4DABDC00BF57B1 /* CheckboxControl.swift in Sources */,
+				2BBD3FA6202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				A9603EE41F4DABDC00BF57B1 /* DateTimeFormatter.swift in Sources */,
 				A9603EEB1F4DABDC00BF57B1 /* TSOutgoingMessage+Addtions.m in Sources */,
 				2B460188202A408A0098694D /* Collectible.swift in Sources */,
@@ -4057,6 +4084,7 @@
 				A9603F2A1F4DABDC00BF57B1 /* TokenUser.swift in Sources */,
 				A9603F2C1F4DABDC00BF57B1 /* MessagesCornerView.swift in Sources */,
 				33CF51361FD194B000293FD1 /* UserDefaultsWrapper.swift in Sources */,
+				2B69E6A3202BCC3600E84570 /* CollectibleViewController.swift in Sources */,
 				A9E691CE1F7A49AE00317DB1 /* SignInHeaderView.swift in Sources */,
 				A9603F321F4DABDC00BF57B1 /* BlurView.swift in Sources */,
 				A9CADC331F94B1E00096D017 /* BrowseCollectionViewCell.swift in Sources */,

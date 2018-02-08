@@ -146,6 +146,40 @@ class EthereumAPIClientTests: QuickSpec {
                         }
                     }
                 }
+
+                it("gets a single collectible") {
+                    let mockTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClientTests.self), mockFilename: "getACollectible")
+                    subject = EthereumAPIClient(mockTeapot: mockTeapot)
+
+                    waitUntil { done in
+                        subject.getCollectible(contractAddress: "0xb1690c08e213a35ed9bab7b318de14420fb57d8c") { collectible, error in
+
+                            guard let collectible = collectible else {
+                                fail("Collectible is nil")
+                                return
+                            }
+
+                            expect(error).to(beNil())
+
+                            expect(collectible.name).to(equal("Cryptokitties"))
+                            expect(collectible.value).to(equal("0x10"))
+                            expect(collectible.contractAddress).to(equal("0x0123456789012345678901234567890123456789"))
+                            expect(collectible.icon).to(equal("https://www.cryptokitties.co/icons/logo.svg"))
+
+                            guard let token = collectible.tokens?.first else {
+                                fail("No tokens on a collectible")
+                                return
+                            }
+
+                            expect(token.name).to(equal("Kitten 423423"))
+                            expect(token.tokenId).to(equal("abcdef0123456"))
+                            expect(token.image).to(equal("https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/467583.svg"))
+                            expect(token.description).to(equal("A kitten"))
+
+                            done()
+                        }
+                    }
+                }
             }
 
             context("⚠ Unauthorized error 🔒") {
