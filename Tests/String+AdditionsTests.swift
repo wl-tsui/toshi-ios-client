@@ -74,4 +74,47 @@ class StringAdditionsTests: XCTestCase {
         XCTAssertFalse("-1,00".isValidPaymentValue())
         XCTAssertFalse("hi".isValidPaymentValue())
     }
+
+    func testSplittingStringIntoLines() {
+        let shortString = "foo"
+
+        let splitShort = shortString.toLines(count: 3)
+
+        XCTAssertEqual(splitShort, """
+f
+o
+o
+""")
+
+        let mediumString = "HelloThereEllen"
+        let evenSplitMedium = mediumString.toLines(count: 3)
+        XCTAssertEqual(evenSplitMedium, """
+Hello
+There
+Ellen
+""")
+        let unevenSplitMedium = mediumString.toLines(count: 2)
+        XCTAssertEqual(unevenSplitMedium, """
+HelloThe
+reEllen
+""")
+        let unevenerSplitMedium = mediumString.toLines(count: 4)
+        XCTAssertEqual(unevenerSplitMedium, """
+Hell
+oThe
+reEl
+len
+""")
+        let unevenSupersplitMedium = mediumString.toLines(count: 7)
+        XCTAssertEqual(unevenSupersplitMedium, """
+He
+ll
+oT
+he
+re
+El
+len
+""")
+
+    }
 }

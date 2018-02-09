@@ -279,8 +279,7 @@ final class ProfilesViewController: UITableViewController, Emptiable {
     // MARK: - Action Handling
     
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
-        let shareController = UIActivityViewController(activityItems: [Localized("sharing_action_item")], applicationActivities: [])
-        Navigator.presentModally(shareController)
+        shareWithSystemSheet(item: Localized("sharing_action_item"))
     }
     
     private func showOrHideEmptyState() {
@@ -301,9 +300,8 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         }))
         
         addContactSheet.addAction(UIAlertAction(title: Localized("invite_friends_action_title"), style: .default, handler: { _ in
-            let shareController = UIActivityViewController(activityItems: ["Get Toshi, available for iOS and Android! (https://www.toshi.org)"], applicationActivities: [])
-            
-            Navigator.presentModally(shareController)
+
+            self.shareWithSystemSheet(item: Localized("sharing_action_item"))
         }))
         
         addContactSheet.addAction(UIAlertAction(title: Localized("favorites_scan_code"), style: .default, handler: { _ in
@@ -350,6 +348,10 @@ final class ProfilesViewController: UITableViewController, Emptiable {
         }
     }
 }
+
+// MARK: - Mix-in extensions
+
+extension ProfilesViewController: SystemSharing { /* mix-in */ }
 
 // MARK: - Search Bar Delegate
 
