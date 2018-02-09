@@ -34,7 +34,7 @@ final class QuickAlertView: UILabel {
     ///   - title: The text you wish to show in the view. Should be pretty short since this will get auto-hidden.
     ///   - parent: The view to show the quick alert in.
     ///   - bottomMargin: How far from the bottom of the parent the bottom of the alert view should appear. Defaults to 60
-    ///   - shouldCompensateForTabBarOniOS10: True if there's a tab bar at the bottom of the view where this alert should be shown that should cause the offset to be updated, false if not. Defaults to true. 
+    ///   - shouldCompensateForTabBarOniOS10: True if there's a tab bar at the bottom of the view where this alert should be shown that should cause the offset to be updated, false if not. Defaults to true.
     init(title: String,
          in parent: UIView,
          bottomMargin: CGFloat = 20,
@@ -96,8 +96,8 @@ final class QuickAlertView: UILabel {
     ///
     /// - Parameters:
     ///   - length: The number of seconds the view should stay on screen before fading out again. Defaults to 1.
-    ///   - completion: A completion block to fire when the hide is completed.
-    func showThenHide(after length: TimeInterval = 1, completion: @escaping () -> Void) {
+    ///   - completion: [optional] A completion block to fire when the hide is completed. Defaults to nil.
+    func showThenHide(after length: TimeInterval = 1, completion: (() -> Void)? = nil) {
         guard let parent = parentView else { /* parent got dealloced */ return }
 
         parent.addSubview(self)
@@ -118,7 +118,7 @@ final class QuickAlertView: UILabel {
                        })
     }
 
-    private func hide(after delay: TimeInterval, completion: @escaping () -> Void) {
+    private func hide(after delay: TimeInterval, completion: (() -> Void)?) {
         UIView.animate(withDuration: animationDuration,
                        delay: delay,
                        options: [.curveEaseIn],
@@ -127,7 +127,7 @@ final class QuickAlertView: UILabel {
                        },
                        completion: { _ in
                            self.removeFromSuperview()
-                           completion()
+                           completion?()
                        })
     }
 }

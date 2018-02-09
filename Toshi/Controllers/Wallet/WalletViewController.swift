@@ -36,7 +36,7 @@ final class WalletViewController: UIViewController, Emptiable {
         return view
     }()
 
-    private lazy var tableHeaderView: UIView = {
+    private lazy var tableHeaderView: SegmentedHeaderView = {
         let walletItemTitles = [Localized("wallet_tokens"), Localized("wallet_collectibles")]
         let headerView = SegmentedHeaderView(segmentNames: walletItemTitles, delegate: self)
         headerView.backgroundColor = Theme.viewBackgroundColor
@@ -146,8 +146,20 @@ extension WalletViewController: UITableViewDataSource {
 extension WalletViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alert = UIAlertController.dismissableAlert(title: "Collectionable list coming soon")
-        Navigator.presentModally(alert)
+
+        switch datasource.itemsType {
+        case .token:
+            guard let token = datasource.item(at: indexPath.row) as? Token else {
+                assertionFailure("Can't retrieve item at index: \(indexPath.row)")
+                return
+            }
+
+            let detailViewController = TokenEtherDetailViewController(token: token)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        case .collectibles:
+            let alert = UIAlertController.dismissableAlert(title: "Collectible list coming soon")
+            Navigator.presentModally(alert)
+        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -190,6 +202,6 @@ extension WalletViewController: WalletTableViewHeaderDelegate {
 
     func openAddress(_ address: String, from headerView: WalletTableHeaderView) {
         let qrController = WalletQRCodeViewController(address: address)
-        self.present(qrController, animated: true)
+        present(qrController, animated: true)
     }
 }

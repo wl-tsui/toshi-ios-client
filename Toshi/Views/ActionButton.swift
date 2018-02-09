@@ -19,6 +19,7 @@ import SweetUIKit
 class ActionButton: UIControl {
 
     static let height: CGFloat = 50
+    private var cornerRadius: CGFloat
 
     var titleColor = StateColor()
     var buttonColor = StateColor()
@@ -106,7 +107,7 @@ class ActionButton: UIControl {
 
     lazy var background: UIView = {
         let view = UIView(withAutoLayout: true)
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = cornerRadius
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
         view.layer.borderWidth = .lineHeight
@@ -164,7 +165,8 @@ class ActionButton: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
 
-    init(margin: CGFloat) {
+    init(margin: CGFloat, cornerRadius: CGFloat = 8) {
+        self.cornerRadius = cornerRadius
         super.init(frame: .zero)
 
         translatesAutoresizingMaskIntoConstraints = false

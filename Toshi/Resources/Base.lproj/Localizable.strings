@@ -285,6 +285,10 @@
 "wallet_empty_tokens_description" = "Share your wallet address to\nreceive money and tokens.";
 "wallet_empty_tokens_button_title" = "Share Wallet Address";
 
+"wallet_token_detail_send" = "Send";
+"wallet_token_detail_receive" = "Receive";
+"wallet_ether_name" = "Ether";
+
 /* Nav Bar Buttons */
 "nav_bar_back" = "Back";
 

@@ -303,6 +303,9 @@
 		338472F8202A68A9000F5A8A /* QuickAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E6202A3F1F000F5A8A /* QuickAlertView.swift */; };
 		338472F9202A68A9000F5A8A /* QuickAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E6202A3F1F000F5A8A /* QuickAlertView.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		33CD5168202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */; };
+		33CD5169202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */; };
+		33CD516A202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */; };
 		33CF51311FD181F700293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51321FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
 		33CF51331FD181FA00293FD1 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
@@ -1185,6 +1188,7 @@
 		338472EB202A5DD4000F5A8A /* SFMono-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFMono-Semibold.otf"; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
+		33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenEtherDetailViewController.swift; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
 		33CF513E1FD56E8200293FD1 /* ProfilesAddGroupHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesAddGroupHeader.swift; sourceTree = "<group>"; };
@@ -1817,11 +1821,12 @@
 			children = (
 				2B460175202916150098694D /* Models */,
 				2B46016C2028E18F0098694D /* Views */,
-				2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */,
-				2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */,
+				33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */,
 				2B460171202907730098694D /* WalletDatasource.swift */,
 				2B46017E202A30F90098694D /* WalletItemCellConfigurator.swift */,
+				2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */,
 				3344FBDE202B6C45004297E9 /* WalletQRCodeViewController.swift */,
+				2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -3369,6 +3374,7 @@
 				9F30A81E1ED2EDA9003E56A2 /* SOFAWebController.swift in Sources */,
 				2B4E25E41FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift in Sources */,
 				9F78D9D01EE93E68003A0B95 /* ModalPresentationController.swift in Sources */,
+				33CD516A202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */,
 				2B09B40B1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
@@ -3622,6 +3628,7 @@
 				A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				2B4E25E21FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift in Sources */,
 				A9CADC1C1F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
+				33CD5168202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				9F54AB0D1ECC8D390008489F /* ScannerController.swift in Sources */,
 				2B09B4091FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
@@ -3875,6 +3882,7 @@
 				2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */,
 				2B4E25E31FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift in Sources */,
 				A9603D7E1F4DABDC00BF57B1 /* SignalNotificationHandler.swift in Sources */,
+				33CD5169202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */,
 				2B09B40A1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
 				A9A9F9A41F8B70840010F877 /* ChatFloatingHeaderView.swift in Sources */,
