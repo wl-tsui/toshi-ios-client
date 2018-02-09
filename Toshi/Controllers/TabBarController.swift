@@ -291,7 +291,6 @@ extension TabBarController: ScannerViewControllerDelegate {
             }
         }
     }
-
 }
 
 extension TabBarController: PaymentRouterDelegate {

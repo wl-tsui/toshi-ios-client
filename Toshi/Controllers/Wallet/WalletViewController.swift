@@ -159,6 +159,11 @@ extension WalletViewController: UITableViewDelegate {
         case .collectibles:
             let alert = UIAlertController.dismissableAlert(title: "Collectible list coming soon")
             Navigator.presentModally(alert)
+
+            guard let item = datasource.item(at: indexPath.row) as? Collectible else { return }
+
+            let controller = CollectibleViewController(collectibleContractAddress: item.contractAddress)
+            navigationController?.pushViewController(controller, animated: true)
         }
     }
 

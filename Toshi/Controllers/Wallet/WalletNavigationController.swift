@@ -18,7 +18,7 @@ import Foundation
 class WalletNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return (topViewController == viewControllers.first) ? .lightContent : .default
     }
 
     override init(rootViewController: UIViewController) {
@@ -30,6 +30,8 @@ class WalletNavigationController: UINavigationController {
 
         tabBarItem = UITabBarItem(title: Localized("tab_bar_title_wallet"), image: #imageLiteral(resourceName: "tab3"), tag: 0)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
+
+        delegate = self
     }
 
     required init?(coder _: NSCoder) {
@@ -42,9 +44,26 @@ class WalletNavigationController: UINavigationController {
         if #available(iOS 11.0, *) {
             self.navigationBar.prefersLargeTitles = true
         }
+    }
+}
 
-        self.navigationBar.barTintColor = Theme.tintColor
-        self.navigationBar.shadowImage = UIImage()
-        self.navigationBar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor: Theme.lightTextColor ]
+extension WalletNavigationController: UINavigationControllerDelegate {
+
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+
+        let isGoingToShowRootViewController = viewController is WalletViewController
+
+        let barTintColor = isGoingToShowRootViewController ? Theme.tintColor : nil
+        let shadowImage = isGoingToShowRootViewController ? UIImage() : nil
+        let titleTextAttributes = isGoingToShowRootViewController ? [ NSAttributedStringKey.foregroundColor: Theme.lightTextColor ] : nil
+
+        let duration = animated ? 0.5 : 0.0
+        UIView.animate(withDuration: duration) {
+            self.navigationBar.barTintColor = barTintColor
+            self.navigationBar.shadowImage = shadowImage
+            self.navigationBar.titleTextAttributes = titleTextAttributes
+
+            self.navigationBar.layoutIfNeeded()
+        }
     }
 }
