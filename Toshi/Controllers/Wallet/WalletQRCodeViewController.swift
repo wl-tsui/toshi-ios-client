@@ -17,16 +17,22 @@ import UIKit
 
 final class WalletQRCodeViewController: UIViewController {
 
-    private lazy var qrCodeImageView = UIImageView()
+    private lazy var qrCodeImageView: UIImageView = {
+        let imageView = UIImageView()
+
+        let qrCodeSize: CGFloat = 160
+        imageView.width(qrCodeSize)
+        imageView.height(qrCodeSize)
+
+        return imageView
+    }()
 
     private lazy var closeButton: UIButton = {
         let button = UIButton()
 
-        //TODO: get close icon and delete this stuff
-        button.setTitle("X", for: .normal)
-        button.setTitleColor(Theme.tintColor, for: .normal)
-        button.addBorder(ofColor: Theme.tintColor)
-        button.layer.cornerRadius = 8
+        button.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
+        button.width(.defaultButtonHeight)
+        button.height(.defaultButtonHeight)
 
         button.accessibilityLabel = Localized("accessibility_close")
         button.addTarget(self,
@@ -34,6 +40,38 @@ final class WalletQRCodeViewController: UIViewController {
                          for: .touchUpInside)
 
         return button
+    }()
+
+    private let buttonCornerRadius: CGFloat = 6
+
+    private lazy var shareButton: ActionButton = {
+        let button = ActionButton(margin: 0, cornerRadius: buttonCornerRadius)
+        button.title = Localized("share_action_title")
+        button.addTarget(self,
+                         action: #selector(shareButtonTapped),
+                         for: .touchUpInside)
+
+        return button
+    }()
+
+    private lazy var copyButton: ActionButton = {
+        let button = ActionButton(margin: 0, cornerRadius: buttonCornerRadius)
+        button.setButtonStyle(.secondary)
+        button.title = Localized("copy_action_title")
+        button.addTarget(self,
+                         action: #selector(copyButtonTapped),
+                         for: .touchUpInside)
+
+        return button
+    }()
+
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Theme.darkTextColor
+        label.font = Theme.preferredRegularMedium()
+        label.text = Localized("wallet_address_title")
+        
+        return label
     }()
 
     private lazy var addressLabel: UILabel = {
@@ -45,19 +83,24 @@ final class WalletQRCodeViewController: UIViewController {
         return label
     }()
 
+    private let address: String
+
     // MARK: - Initialization
 
     init(address: String) {
+        self.address = address
         super.init(nibName: nil, bundle: nil)
 
         view.backgroundColor = Theme.viewBackgroundColor
 
         setupCloseButton()
+        setupTitleLabel(yAlignedWith: closeButton)
         setupQRCodeImageView()
         setupAddressLabel(below: qrCodeImageView)
+        setupButtons()
 
-        addressLabel.text = address
-        qrCodeImageView.image = UIImage.imageQRCode(for: address)
+        addressLabel.text = address.toLines(count: 2)
+        qrCodeImageView.image = QRCodeGenerator.qrCodeImage(for: .ethereumAddress(address: address))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -69,10 +112,15 @@ final class WalletQRCodeViewController: UIViewController {
     private func setupCloseButton() {
         view.addSubview(closeButton)
 
-        closeButton.top(to: layoutGuide(), offset: .mediumInterItemSpacing)
-        closeButton.leadingToSuperview(offset: .mediumInterItemSpacing)
-        closeButton.width(.defaultButtonHeight)
-        closeButton.height(.defaultButtonHeight)
+        closeButton.top(to: layoutGuide())
+        closeButton.leadingToSuperview()
+    }
+
+    private func setupTitleLabel(yAlignedWith viewToAlignToCenterYOf: UIView) {
+        view.addSubview(titleLabel)
+
+        titleLabel.centerY(to: viewToAlignToCenterYOf)
+        titleLabel.centerXToSuperview()
     }
 
     private func setupQRCodeImageView() {
@@ -80,13 +128,6 @@ final class WalletQRCodeViewController: UIViewController {
 
         qrCodeImageView.centerXToSuperview()
         qrCodeImageView.centerYToSuperview()
-
-        // Offset is * 2 so the same margin is applied to each side
-        qrCodeImageView.widthToSuperview(offset: -(.largeInterItemSpacing * 2))
-
-        NSLayoutConstraint.activate([
-            qrCodeImageView.heightAnchor.constraint(equalTo: qrCodeImageView.widthAnchor)
-        ])
     }
 
     private func setupAddressLabel(below viewToPinToBottomOf: UIView) {
@@ -97,9 +138,39 @@ final class WalletQRCodeViewController: UIViewController {
         addressLabel.topToBottom(of: viewToPinToBottomOf, offset: .mediumInterItemSpacing)
     }
 
+    private func setupButtons() {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = .mediumInterItemSpacing
+
+        view.addSubview(stackView)
+
+        stackView.bottom(to: layoutGuide(), offset: -.largeInterItemSpacing)
+        stackView.leadingToSuperview(offset: .largeInterItemSpacing)
+        stackView.trailingToSuperview(offset: .largeInterItemSpacing)
+        stackView.height(.defaultButtonHeight)
+
+        stackView.addArrangedSubview(copyButton)
+        stackView.addArrangedSubview(shareButton)
+    }
+
     // MARK: - Action Targets
 
     @objc private func closeButtonTapped() {
         self.dismiss(animated: true)
     }
+
+    @objc private func shareButtonTapped() {
+        shareWithSystemSheet(item: address)
+    }
+
+    @objc private func copyButtonTapped() {
+        copyToClipboardWithGenericAlert(address)
+    }
 }
+
+// MARK: - Mix-in extensions
+
+extension WalletQRCodeViewController: ClipboardCopying { /* mix-in */ }
+extension WalletQRCodeViewController: SystemSharing { /* mix-in */ }

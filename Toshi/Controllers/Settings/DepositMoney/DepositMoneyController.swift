@@ -69,10 +69,9 @@ class DepositMoneyController: UIViewController {
     }
     
     @objc func copyToClipBoard(_ button: ConfirmationButton) {
-        UIPasteboard.general.string = Cereal.shared.paymentAddress
-
-        DispatchQueue.main.asyncAfter(seconds: 0.1) {
-            button.contentState = button.contentState == .actionable ? .confirmation : .actionable
-        }
+        copyStringToClipboard(Cereal.shared.paymentAddress,
+                              thenUpdate: button)
     }
 }
+
+extension DepositMoneyController: ClipboardCopying { /* mix-in */ }

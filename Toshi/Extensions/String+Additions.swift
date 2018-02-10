@@ -74,4 +74,30 @@ extension String {
 
         return floatValue > 0.0
     }
+
+    /// Takes the current string and adds newlines.
+    /// Useful for extremely long strings like ethereum addresses.
+    ///
+    /// - Parameter count: The number of lines to break the thing up into
+    /// - Returns: The string split into newlines
+    func toLines(count: Int) -> String {
+        let section = Int(round(Double(length) / Double(count)))
+
+        var lines = [String]()
+        var currentIndex = startIndex
+        for i in 1...count {
+            let nextIndex: String.Index
+
+            if i == count {
+                nextIndex = endIndex
+            } else {
+                nextIndex = index(startIndex, offsetBy: (section * i))
+            }
+
+            lines.append(String(self[currentIndex..<nextIndex]))
+            currentIndex = nextIndex
+        }
+        
+        return lines.joined(separator: "\n")
+    }
 }

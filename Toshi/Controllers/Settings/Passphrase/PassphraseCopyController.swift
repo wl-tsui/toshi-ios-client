@@ -124,11 +124,9 @@ class PassphraseCopyController: UIViewController {
     }
 
     @objc func copyToClipBoard(_ button: ConfirmationButton) {
-
-        UIPasteboard.general.string = Cereal().mnemonic.words.joined(separator: " ")
-
-        DispatchQueue.main.asyncAfter(seconds: 0.1) {
-            button.contentState = button.contentState == .actionable ? .confirmation : .actionable
-        }
+        copyStringToClipboard(Cereal().mnemonic.words.joined(separator: " "),
+                              thenUpdate: button)
     }
 }
+
+extension PassphraseCopyController: ClipboardCopying { /* mix-in */ }

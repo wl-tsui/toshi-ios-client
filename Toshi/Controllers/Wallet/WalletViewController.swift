@@ -46,8 +46,6 @@ final class WalletViewController: UIViewController, Emptiable {
 
     private lazy var datasource = WalletDatasource(delegate: self)
 
-    private var quickAlert: QuickAlertView?
-
     let emptyView = EmptyView(title: Localized("wallet_empty_tokens_title"), description: Localized("wallet_empty_tokens_description"), buttonTitle: Localized("wallet_empty_tokens_button_title"))
 
     override func viewDidLoad() {
@@ -87,9 +85,7 @@ final class WalletViewController: UIViewController, Emptiable {
 
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
         let qrCodeImage = Cereal.shared.walletAddressQRCodeImage(resizeRate: 20.0)
-        let shareController = UIActivityViewController(activityItems: [qrCodeImage], applicationActivities: [])
-
-        Navigator.presentModally(shareController)
+        shareWithSystemSheet(item: qrCodeImage)
     }
 
     private func adjustEmptyStateView() {
@@ -97,6 +93,9 @@ final class WalletViewController: UIViewController, Emptiable {
         emptyView.title = datasource.emptyStateTitle
     }
 }
+
+extension WalletViewController: ClipboardCopying { /* mix-in */ }
+extension WalletViewController: SystemSharing { /* mix-in */ }
 
 extension WalletViewController: UITableViewDataSource {
 
@@ -195,14 +194,7 @@ extension WalletViewController: WalletDatasourceDelegate {
 extension WalletViewController: WalletTableViewHeaderDelegate {
 
     func copyAddress(_ address: String, from headerView: WalletTableHeaderView) {
-        UIPasteboard.general.string = address
-
-        guard quickAlert == nil else { /* Animation already in progress. Bail! */ return }
-
-        quickAlert = QuickAlertView(title: Localized("wallet_copied_alert_text"), in: view)
-        quickAlert?.showThenHide { [weak self] in
-            self?.quickAlert = nil
-        }
+        copyToClipboardWithGenericAlert(address)
     }
 
     func openAddress(_ address: String, from headerView: WalletTableHeaderView) {
