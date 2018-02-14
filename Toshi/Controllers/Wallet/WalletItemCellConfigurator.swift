@@ -26,10 +26,13 @@ final class WalletItemCellConfigurator: CellConfigurator {
 
         cell.titleTextField.setContentCompressionResistancePriority(.required, for: .horizontal)
 
+        // TODO: Figure out how to show the fiat string when it's there
         if cellData.components.contains(.topDetails) {
             cell.detailsLabel.textColor = Theme.darkTextColor
         } else {
             cell.detailsLabel.textColor = Theme.lightGreyTextColor
         }
+
+        cell.leftImageView.contentMode = .scaleAspectFit
     }
 }

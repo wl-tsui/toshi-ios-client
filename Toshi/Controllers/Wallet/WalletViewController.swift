@@ -122,7 +122,15 @@ extension WalletViewController: UITableViewDataSource {
 
         switch datasource.itemsType {
         case .token:
-            cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, topDetails: walletItem.details)
+            if let ether = walletItem as? EtherToken {
+                cellData = TableCellData(title: ether.title,
+                                         subtitle: ether.subtitle,
+                                         leftImage: ether.localIcon,
+                                         details: ether.convertToFiat(),
+                                         topDetails: ether.details)
+            } else {
+                cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, topDetails: walletItem.details)
+            }
         case .collectibles:
             cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, details: walletItem.details)
         }

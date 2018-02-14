@@ -16,7 +16,7 @@
 import Foundation
 
 /// An individual Token
-final class Token: Codable {
+class Token: Codable {
 
     let name: String
     let symbol: String
@@ -24,6 +24,7 @@ final class Token: Codable {
     let decimals: Int
     let contractAddress: String
     let icon: String
+    fileprivate(set) var canShowFiatValue = false
 
     lazy var displayValueString: String = {
         let decimalNumberValue = NSDecimalNumber(hexadecimalString: self.value)
@@ -56,6 +57,61 @@ final class Token: Codable {
         contractAddress = "contract_address",
         icon
     }
+
+    init(name: String,
+         symbol: String,
+         value: String,
+         decimals: Int,
+         contractAddress: String,
+         iconPath: String) {
+        self.name = name
+        self.symbol = symbol
+        self.value = value
+        self.decimals = decimals
+        self.contractAddress = contractAddress
+        self.icon = iconPath
+    }
+
+    var localIcon: UIImage? {
+        return UIImage(named: self.icon)
+    }
+}
+
+// MARK: - Ether Token
+
+/// A class which uses token to view Ether balances
+final class EtherToken: Token {
+
+    let wei: NSDecimalNumber
+
+    init(valueInWei: NSDecimalNumber) {
+        wei = valueInWei
+
+        super.init(name: Localized("wallet_ether_name"),
+                   symbol: "ETH",
+                   value: EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false),
+                   decimals: 5,
+                   contractAddress: "",
+                   iconPath: "ether_logo")
+        canShowFiatValue = true
+    }
+
+    override var displayValueString: String {
+        get {
+            return value
+        }
+        set {
+            // do nothing - this is read-only since it's lazy, but the compiler doesn't think so since it's still a var.
+        }
+    }
+
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    func convertToFiat() -> String? {
+        return EthereumConverter.fiatValueString(forWei: wei, exchangeRate: ExchangeRateClient.exchangeRate)
+    }
 }
 
 /// Convenience class for decoding an array of Token with the key "tokens"
@@ -68,6 +124,8 @@ final class TokenResults: Codable {
         tokens
     }
 }
+
+// MARK: - Wallet Item
 
 extension Token: WalletItem {
     var title: String? {
@@ -84,5 +142,9 @@ extension Token: WalletItem {
     
     var details: String? {
         return displayValueString
+    }
+
+    var uniqueIdentifier: String {
+        return symbol
     }
 }

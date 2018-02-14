@@ -39,25 +39,36 @@ struct EthereumConverter {
     /// Returns the string representation of an eth value.
     /// Example: "9.2 ETH"
     ///
-    /// - Parameter balance: the value in eth
+    /// - Parameters:
+    ///    - balance: the value in eth
+    ///    - withSymbol: True to add the ETH symbol to the end of the string, false not to. Defaults to true.
     /// - Returns: the string representation
-    static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
+    static func ethereumValueString(forEther balance: NSDecimalNumber, withSymbol: Bool = true) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 4
         numberFormatter.maximumFractionDigits = 4
 
-        return "\(numberFormatter.string(from: balance)!) ETH"
+        let balanceString = numberFormatter.string(from: balance)!
+
+        guard withSymbol else {
+            return balanceString
+        }
+
+        return "\(balanceString) ETH"
     }
 
-    /// String representation in eht for a given wei value.
+    /// String representation in ETH for a given wei value.
     /// Example:
     ///     ethereumValueString(forWei: halfEthInWei) -> "0.5 ETH"
+    ///     ethereumValueString(forWei: halfEthInWei, withSymbol: false) -> "0.5"
     ///
-    /// - Parameter balance: the wei value to be converted
-    /// - Returns: the eth value in a string: "0.5 EHT"
-    static func ethereumValueString(forWei balance: NSDecimalNumber) -> String {
-        return ethereumValueString(forEther: balance.dividing(by: weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
+    /// - Parameters:
+    ///    - balance: the wei value to be converted
+    ///    - withSymbol: Whether to add the ETH symbol to the end of the string or not. Defaults to true.
+    /// - Returns: the eth value in a string: "0.5 ETH" or "0.5"
+    static func ethereumValueString(forWei balance: NSDecimalNumber, withSymbol: Bool = true) -> String {
+        return ethereumValueString(forEther: balance.dividing(by: weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior), withSymbol: withSymbol)
     }
 
     /// The fiat currency string representation for a given wei value

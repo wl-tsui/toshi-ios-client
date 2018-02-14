@@ -23,6 +23,8 @@ final class TokenEtherDetailViewController: UIViewController {
         imageView.width(.defaultAvatarHeight)
         imageView.height(.defaultAvatarHeight)
 
+        imageView.contentMode = .scaleAspectFit
+
         return imageView
     }()
 
@@ -64,37 +66,17 @@ final class TokenEtherDetailViewController: UIViewController {
         return button
     }()
 
-    private var token: Token?
-    private var etherBalance: NSDecimalNumber?
-    private var showFiatValue: Bool = false
+    private var token: Token
 
     // MARK: - Initialization
 
-    private func commonInit() {
-        view.backgroundColor = Theme.lightGrayBackgroundColor
+    init(token: Token) {
+        self.token = token
+
+        super.init(nibName: nil, bundle: nil)
 
         let background = setupContentBackground()
         setupMainStackView(with: background)
-    }
-
-    init(etherBalance: NSDecimalNumber) {
-        super.init(nibName: nil, bundle: nil)
-
-        showFiatValue = true
-        self.etherBalance = etherBalance
-
-        commonInit()
-
-        configure(forETHBalance: etherBalance)
-    }
-
-    init(token: Token) {
-        super.init(nibName: nil, bundle: nil)
-
-        showFiatValue = false
-        self.token = token
-
-        commonInit()
         view.backgroundColor = Theme.lightGrayBackgroundColor
 
         configure(for: token)
@@ -148,7 +130,7 @@ final class TokenEtherDetailViewController: UIViewController {
 
     private func addFiatValueIfNeeded(to stackView: UIStackView, after previousView: UIView) {
         let bottomView: UIView
-        if showFiatValue {
+        if token.canShowFiatValue == true {
             stackView.addSpacing(.smallInterItemSpacing, after: previousView)
             stackView.addWithDefaultConstraints(view: fiatValueLabel)
             bottomView = fiatValueLabel
@@ -175,20 +157,17 @@ final class TokenEtherDetailViewController: UIViewController {
 
     private func configure(for token: Token) {
         title = token.name
-        tokenValueLabel.text = "\(token.displayValueString) \(token.symbol)"
 
-        AvatarManager.shared.avatar(for: token.icon) { [weak self] image, _ in
-            self?.iconImageView.image = image
+        if let ether = token as? EtherToken {
+            iconImageView.image = token.localIcon
+            tokenValueLabel.text = EthereumConverter.ethereumValueString(forWei: ether.wei)
+            fiatValueLabel.text = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate)
+        } else {
+            tokenValueLabel.text = "\(token.displayValueString) \(token.symbol)"
+            AvatarManager.shared.avatar(for: token.icon) { [weak self] image, _ in
+                self?.iconImageView.image = image
+            }
         }
-    }
-
-    private func configure(forETHBalance etherBalance: NSDecimalNumber) {
-        title = Localized("wallet_ether_name")
-
-        iconImageView.image = #imageLiteral(resourceName: "ether_logo")
-
-        tokenValueLabel.text = EthereumConverter.ethereumValueString(forEther: etherBalance)
-        fiatValueLabel.text = EthereumConverter.fiatValueString(forWei: etherBalance, exchangeRate: ExchangeRateClient.exchangeRate)
     }
 
     // MARK: - Action Targets

@@ -78,9 +78,36 @@ final class WalletDatasource {
     }
 
     private func loadTokens() {
-        EthereumAPIClient.shared.getTokens { [weak self] items, _ in
-            self?.items = items
+        EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, _ in
+
+            if balance.floatValue > 0 {
+                let etherToken = EtherToken(valueInWei: balance)
+                self?.updateOrAdd(walletItem: etherToken, atFront: true)
+                self?.delegate?.walletDatasourceDidReload()
+            } // else, don't show ether balance.
+
             self?.delegate?.walletDatasourceDidReload()
+            EthereumAPIClient.shared.getTokens { items, _ in
+                self?.updateOrAdd(items: items)
+                self?.delegate?.walletDatasourceDidReload()
+            }
+        })
+    }
+
+    private func updateOrAdd(items: [WalletItem]) {
+        items.forEach { self.updateOrAdd(walletItem: $0) }
+    }
+
+    private func updateOrAdd(walletItem: WalletItem, atFront: Bool = false) {
+        if let existingIndex = self.items.index(where: { $0.uniqueIdentifier == walletItem.uniqueIdentifier }) {
+            self.items.remove(at: existingIndex)
+            self.items.insert(walletItem, at: existingIndex)
+        } else {
+            if atFront && self.items.count > 0 {
+                self.items.insert(walletItem, at: 0)
+            } else {
+                self.items.append(walletItem)
+            }
         }
     }
     
