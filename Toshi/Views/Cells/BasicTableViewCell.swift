@@ -159,6 +159,13 @@ class BasicTableViewCell: UITableViewCell {
         return view
     }()
 
+    lazy var checkmarkView: Checkbox = {
+        let checkbox = Checkbox(frame: CGRect(origin: .zero, size: CGSize(width: 38, height: 38)))
+        checkbox.checked = false
+
+        return checkbox
+    }()
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -196,6 +203,7 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(DoubleAvatarTitleSubtitleCell.self)
         tableView.register(AvatarTitleSubtitleDoubleActionCell.self)
         tableView.register(AvatarTitleSubtitleDetailsBadgeCell.self)
+        tableView.register(AvatarTitleSubtitleCheckboxCell.self)
     }
 }
 

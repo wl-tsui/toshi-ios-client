@@ -6,7 +6,7 @@ import SweetUIKit
 final class ProfilesHeaderView: UIView {
     
     private let type: ProfilesViewControllerType
-    private let searchBar: UISearchBar?
+    let searchBar: UISearchBar?
     private(set) var addedHeader: ProfilesAddedToGroupHeader?
     
     required init(with searchBar: UISearchBar? = nil, type: ProfilesViewControllerType, delegate: ProfilesAddGroupHeaderDelegate?) {

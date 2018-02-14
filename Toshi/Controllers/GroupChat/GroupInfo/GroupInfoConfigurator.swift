@@ -28,9 +28,6 @@ final class GroupInfoConfigurator: CellConfigurator {
         cell.leftImageView.image = cellData.leftImage
         cell.switchControl.isOn = (cellData.switchState == true)
 
-        cell.leftImageView.layer.cornerRadius = 20
-        cell.leftImageView.layer.masksToBounds = true
-
         guard let tag = cellData.tag, let itemType = GroupItemType(rawValue: tag) else { return }
 
         switch itemType {
