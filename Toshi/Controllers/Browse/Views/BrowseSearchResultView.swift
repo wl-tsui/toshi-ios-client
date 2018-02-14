@@ -20,9 +20,15 @@ import UIKit
 protocol SearchSelectionDelegate: class {
 
     func didSelectSearchResult(user: TokenUser)
+    func isSearchResultSelected(user: TokenUser) -> Bool
+}
+
+extension SearchSelectionDelegate {
+    func isSearchResultSelected(user: TokenUser) -> Bool { return false }
 }
 
 class BrowseSearchResultView: UITableView {
+    var isMultipleSelectionMode = false
 
     var searchResults: [TokenUser] = [] {
         didSet {
@@ -32,9 +38,11 @@ class BrowseSearchResultView: UITableView {
 
     weak var searchDelegate: SearchSelectionDelegate?
 
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
+
+    // MARK: - Initialization
 
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
@@ -43,25 +51,25 @@ class BrowseSearchResultView: UITableView {
 
         dataSource = self
         delegate = self
-        separatorStyle = .none
         alwaysBounceVertical = true
         showsVerticalScrollIndicator = true
-        contentInset.bottom = 60
+        tableFooterView = UIView(frame: .zero)
 
-        register(SearchResultCell.self)
+        BasicTableViewCell.register(in: self)
     }
 
-    override var canBecomeFirstResponder: Bool {
-        return true
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 extension BrowseSearchResultView: UITableViewDelegate {
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let item = searchResults.element(at: indexPath.row) {
-            searchDelegate?.didSelectSearchResult(user: item)
-        }
+        guard let item = searchResults.element(at: indexPath.row) else { return }
+
+        searchDelegate?.didSelectSearchResult(user: item)
+        reloadData()
     }
 }
 
@@ -76,18 +84,29 @@ extension BrowseSearchResultView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(SearchResultCell.self, for: indexPath)
-
-        if let item = searchResults.element(at: indexPath.row) {
-            cell.usernameLabel.text = item.isApp ? item.category : item.username
-            cell.nameLabel.text = item.name
-            
-            AvatarManager.shared.avatar(for: item.avatarPath, completion: { image, path in
-                if item.avatarPath == path {
-                    cell.avatarImageView.image = image
-                }
-            })
+        guard let profile = searchResults.element(at: indexPath.row) else {
+            assertionFailure("Could not get profile at indexPath: \(indexPath)")
+            return UITableViewCell()
         }
+
+        var showCheckmark = false
+        if isMultipleSelectionMode {
+            showCheckmark = true
+        }
+
+        let tableData = TableCellData(title: profile.name,
+                                      subtitle: profile.isApp ? profile.descriptionForSearch : profile.username,
+                                      leftImagePath: profile.avatarPath,
+                                      showCheckmark: showCheckmark)
+        let cellConfigurator = CellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellConfigurator.cellIdentifier(for: tableData.components), for: indexPath) as? BasicTableViewCell else {
+            assertionFailure("Could not dequeue basic table view cell")
+            return UITableViewCell()
+        }
+
+        cell.checkmarkView.checked = searchDelegate?.isSearchResultSelected(user: profile) ?? false
+        cell.selectionStyle = isMultipleSelectionMode ? .none : .default
+        cellConfigurator.configureCell(cell, with: tableData)
 
         return cell
     }

@@ -265,7 +265,8 @@
 "profiles_navigation_title_update_group_chat" = "Update group";
 "profiles_add_to_group_prefix" = "To: ";
 "profiles_empty_group_placeholder" = "No recipients yet";
-"profiles_search_bar_title" = "Search by username";
+"profiles_search_users_placeholder" = "Search users";
+"profiles_search_favorites_placeholder" = "Search favorites";
 
 /* Tab Bar */
 "tab_bar_title_browse" = "Search";
