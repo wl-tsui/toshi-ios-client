@@ -12,6 +12,7 @@ enum PaymentParameters {
     static let gas = "gas"
     static let gasPrice = "gasPrice"
     static let nonce = "nonce"
+    static let tokenAddress = "token_address"
 }
 
 class PaymentManager {

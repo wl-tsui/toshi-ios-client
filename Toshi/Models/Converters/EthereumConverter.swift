@@ -19,7 +19,7 @@ import SweetSwift
 struct EthereumConverter {
 
     /// The conversion rate between wei and eth. Each eth is made up of 1 x 10^18 wei.
-    private static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
+    static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
 
     /// Each eth is made up of 1 x 10^18 wei.
     static var weisToEtherPowerOf10Constant: Int16 {
@@ -73,16 +73,18 @@ struct EthereumConverter {
 
     /// The fiat currency string representation for a given wei value
     ///
-    /// - Parameter balance: value in wei
+    /// - Parameter:
+    ///    - balance: value in wei
+    ///    - withCurrencyCode: Whether to add the currency code to the string or not. Defaults to true.
     /// - Returns: fiat string representation: "$10.50"
-    static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
+    static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, withCurrencyCode: Bool = true) -> String {
         let ether = balance.dividing(by: weisToEtherConstant)
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 
         let locale = TokenUser.current?.cachedCurrencyLocale ?? Currency.forcedLocale
         let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currency
+        numberFormatter.numberStyle = withCurrencyCode ? .currency : .decimal
         numberFormatter.locale = locale
         numberFormatter.currencyCode = TokenUser.current?.localCurrency
 

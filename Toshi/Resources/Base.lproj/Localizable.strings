@@ -287,9 +287,23 @@
 "wallet_empty_tokens_description" = "Share your wallet address to\nreceive money and tokens.";
 "wallet_empty_tokens_button_title" = "Share Wallet Address";
 
+"wallet_amount_label" = "AMOUNT";
+"wallet_scan_QR_label" = "Scan QR";
 "wallet_token_detail_send" = "Send";
 "wallet_token_detail_receive" = "Receive";
 "wallet_ether_name" = "Ether";
+"wallet_max_value_title" = "Max.";
+"wallet_swapped_values_message" = "Swapped values";
+"wallet_to_label" = "TO";
+"wallet_token_balance_format" = "Your %@ balance: %@";
+"wallet_token_balance_format_with_fiat" = "Your %@ balance: %@ (%@)";
+"wallet_invalid_ethereum_address_error" = "This is not valid Ethereum address.";
+"wallet_insuffisient_token_balance_error" = "Insufficient %@ balance: %@";
+"wallet_insuffisient_fiat_balance_error" = "Insufficient %@ balance: %@ (%@)";
+"wallet_not_an_address_message" = "Not an address QR code";
+"wallet_transaction_leave_alert_message" = "Are you sure you want to\nleave your transaction?";
+"wallet_transaction_leave_confirm_action" = "Leave";
+"wallet_transaction_leave_cancel_action" = "Stay";
 
 /* Nav Bar Buttons */
 "nav_bar_back" = "Back";

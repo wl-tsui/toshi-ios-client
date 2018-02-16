@@ -19,6 +19,7 @@ final class TokenEtherDetailViewController: UIViewController {
 
     private lazy var iconImageView: AvatarImageView = {
         let imageView = AvatarImageView()
+        imageView.contentMode = .scaleAspectFit
 
         imageView.width(.defaultAvatarHeight)
         imageView.height(.defaultAvatarHeight)
@@ -173,7 +174,11 @@ final class TokenEtherDetailViewController: UIViewController {
     // MARK: - Action Targets
 
     @objc private func sendButtonTapped() {
-        QuickAlertView(title: "Coming Soon!", in: view).showThenHide()
+
+        let sendTokenController = SendTokenViewController(token: token, tokenType: token.canShowFiatValue ? .fiatRepresentable : .nonFiatRepresentable)
+        let navigationController = UINavigationController(rootViewController: sendTokenController)
+
+        Navigator.presentModally(navigationController)
     }
 
     @objc private func receiveButtonTapped() {

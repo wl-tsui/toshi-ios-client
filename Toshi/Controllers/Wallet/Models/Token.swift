@@ -48,6 +48,10 @@ class Token: Codable {
         return decimalValueString
     }()
 
+    var isEtherToken: Bool {
+        return symbol == "ETH"
+    }
+
     enum CodingKeys: String, CodingKey {
         case
         name,

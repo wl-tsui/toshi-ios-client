@@ -78,6 +78,8 @@ final class WalletDatasource {
     }
 
     private func loadTokens() {
+        items = []
+
         EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, _ in
 
             if balance.floatValue > 0 {
