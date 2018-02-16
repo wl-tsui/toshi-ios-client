@@ -204,6 +204,7 @@
 "submit_action_title" = "Submit";
 "continue_action_title" = "Continue";
 "share_action_title" = "Share";
+"confirm_action_title" = "Confirm";
 "clipboard_copied_alert_text" = "Copied to clipboard!";
 
 /* Block user Alerts */
@@ -300,10 +301,16 @@
 "wallet_invalid_ethereum_address_error" = "This is not valid Ethereum address.";
 "wallet_insuffisient_token_balance_error" = "Insufficient %@ balance: %@";
 "wallet_insuffisient_fiat_balance_error" = "Insufficient %@ balance: %@ (%@)";
+"wallet_insuffisient_balance_generic" = "Insuffisient balance: %@";
 "wallet_not_an_address_message" = "Not an address QR code";
 "wallet_transaction_leave_alert_message" = "Are you sure you want to\nleave your transaction?";
 "wallet_transaction_leave_confirm_action" = "Leave";
 "wallet_transaction_leave_cancel_action" = "Stay";
+
+"wallet_send_confirmation_recipient_header" = "Recipient";
+"wallet_send_confirmation_amount_title" = "Amount";
+"wallet_send_confirmation_fees_title" = "Est. Network Fees";
+"wallet_send_confirmation_total_title" = "Total";
 
 /* Nav Bar Buttons */
 "nav_bar_back" = "Back";

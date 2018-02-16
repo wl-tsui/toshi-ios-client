@@ -91,7 +91,10 @@ extension SendTokenViewController: SendTokenViewConfiguratorDelegate {
     }
 
     func didReceiveContinueEvent(_ configurator: SendTokenViewConfigurator, params: [String: Any]) {
-        // Actual send comig next
+        let controller = TokenSendConfirmationViewController(token: token, params: params)
+        controller.delegate = self
+        let navigationController = UINavigationController(rootViewController: controller)
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
@@ -121,5 +124,12 @@ extension SendTokenViewController: ScannerViewControllerDelegate {
                 controller.startScanning()
             }
         }
+    }
+}
+
+extension SendTokenViewController: TokenSendConfirmationDelegate {
+
+    func tokenSendConfirmationControllerDidFinish(_ controller: TokenSendConfirmationViewController) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 }

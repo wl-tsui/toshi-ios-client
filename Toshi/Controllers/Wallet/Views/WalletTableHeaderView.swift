@@ -168,5 +168,4 @@ final class WalletTableHeaderView: UIView {
     @objc private func openAddressTapped() {
         delegate?.openAddress(walletAddress, from: self)
     }
-
 }

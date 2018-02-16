@@ -2,7 +2,8 @@ import Foundation
 import UIKit
 import Teapot
 
-typealias PaymentInfo = (fiatString: String, estimatedFeesString: String, totalFiatString: String, totalEthereumString: String, balanceString: String, sufficientBalance: Bool)
+typealias PaymentInfo = (fiatString: String, estimatedFeesFiatString: String, estimatedFeesEtherString: String, totalFiatString: String, totalEthereumString: String, balanceString: String, sufficientBalance: Bool)
+typealias RawPaymentInfo = (payedValue: NSDecimalNumber, estimatedFees: NSDecimalNumber, totalValue: NSDecimalNumber, balanceString: String, sufficientBalance: Bool)
 
 enum PaymentParameters {
     static let from = "from"
@@ -13,6 +14,7 @@ enum PaymentParameters {
     static let gasPrice = "gasPrice"
     static let nonce = "nonce"
     static let tokenAddress = "token_address"
+    static let maxValue = "max"
 }
 
 class PaymentManager {
@@ -39,8 +41,7 @@ class PaymentManager {
         self.parameters = parameters
     }
 
-    func fetchPaymentInfo(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
-
+    func fetchRawPaymentInfo(completion: @escaping ((_ paymentInfo: RawPaymentInfo) -> Void)) {
         ethereumApiClient.transactionSkeleton(for: parameters) { [weak self] skeleton, error in
             guard let weakSelf = self else { return }
 
@@ -59,12 +60,14 @@ class PaymentManager {
             let fee = gasPriceValue.decimalValue * gasValue.decimalValue
             let decimalNumberFee = NSDecimalNumber(decimal: fee)
 
-            let fiatString = EthereumConverter.fiatValueStringWithCode(forWei: weakSelf.value, exchangeRate: weakSelf.exchangeRate)
-            let estimatedFeesString = EthereumConverter.fiatValueStringWithCode(forWei: decimalNumberFee, exchangeRate: weakSelf.exchangeRate)
+            var value: NSDecimalNumber = .zero
+            if let maxValueParam = weakSelf.parameters[PaymentParameters.value] as? String, maxValueParam == PaymentParameters.maxValue, let calculatedValue = skeleton.value {
+                value = NSDecimalNumber(hexadecimalString: calculatedValue)
+            } else {
+                value = weakSelf.value
+            }
 
-            let totalWei = weakSelf.value.adding(decimalNumberFee)
-            let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: totalWei, exchangeRate: weakSelf.exchangeRate)
-            let totalEthereumString = EthereumConverter.ethereumValueString(forWei: totalWei)
+            let totalWei = value.adding(decimalNumberFee)
 
             /// We don't care about the cached balance since we immediately want to know if the current balance is sufficient or not.
             weakSelf.ethereumApiClient.getBalance(cachedBalanceCompletion: { _, _ in }, fetchedBalanceCompletion: { fetchedBalance, error in
@@ -76,9 +79,26 @@ class PaymentManager {
                 let balanceString = EthereumConverter.fiatValueStringWithCode(forWei: fetchedBalance, exchangeRate: weakSelf.exchangeRate)
                 let sufficientBalance = fetchedBalance.isGreaterOrEqualThan(value: totalWei)
 
-                let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesString: estimatedFeesString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, balanceString: balanceString, sufficientBalance: sufficientBalance)
-                completion(paymentInfo)
+                let rawPaymentInfo = RawPaymentInfo(payedValue: value, estimatedFees: decimalNumberFee, totalValue: totalWei, balanceString: balanceString, sufficientBalance: sufficientBalance)
+                completion(rawPaymentInfo)
             })
+        }
+    }
+
+    func fetchPaymentInfo(completion: @escaping ((_ paymentInfo: PaymentInfo) -> Void)) {
+
+        fetchRawPaymentInfo { [weak self] rawPaymentInfo in
+            guard let weakSelf = self else { return }
+
+            let fiatString = EthereumConverter.fiatValueStringWithCode(forWei: weakSelf.value, exchangeRate: weakSelf.exchangeRate)
+            let estimatedFeesFiatString = EthereumConverter.fiatValueStringWithCode(forWei: rawPaymentInfo.estimatedFees, exchangeRate: weakSelf.exchangeRate)
+            let estimatedFeesEtherString = EthereumConverter.ethereumValueString(forWei: rawPaymentInfo.estimatedFees)
+
+            let totalFiatString = EthereumConverter.fiatValueStringWithCode(forWei: rawPaymentInfo.totalValue, exchangeRate: weakSelf.exchangeRate)
+            let totalEthereumString = EthereumConverter.ethereumValueString(forWei: rawPaymentInfo.totalValue)
+
+            let paymentInfo = PaymentInfo(fiatString: fiatString, estimatedFeesFiatString: estimatedFeesFiatString, estimatedFeesEtherString: estimatedFeesEtherString, totalFiatString: totalFiatString, totalEthereumString: totalEthereumString, balanceString: rawPaymentInfo.balanceString, sufficientBalance: rawPaymentInfo.sufficientBalance)
+            completion(paymentInfo)
         }
     }
 

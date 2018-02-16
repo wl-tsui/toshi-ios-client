@@ -108,10 +108,10 @@ final class SendTokenViewConfigurator: NSObject {
 
     private lazy var primaryValueTextField: UITextField = {
         let view = UITextField(withAutoLayout: true)
-        view.keyboardType = .decimalPad
+        view.keyboardType = self.token.decimals == 0 ? .numberPad : .decimalPad
         view.adjustsFontSizeToFitWidth = true
         view.delegate = self
-        view.placeholder = "0.0"
+        view.placeholder = self.token.decimals == 0 ? "0" : "0.0"
         view.font = Theme.preferredProTextBold(range: 36...40)
         view.contentVerticalAlignment = .center
 
@@ -314,7 +314,34 @@ final class SendTokenViewConfigurator: NSObject {
             params[PaymentParameters.tokenAddress] = token.contractAddress
         }
 
-        delegate?.didReceiveContinueEvent(self, params: params)
+        // Just proceed if not ether
+        guard token.isEtherToken else {
+            proceed(with: params)
+            return
+        }
+
+        // If ether - check if maximum value and show alert
+        let weiValueHex = EthereumConverter.etherToWei(NSDecimalNumber(string: token.value)).toHexString
+        guard weiValueHex == finalValueInWeiHex else {
+            proceed(with: params)
+            return
+        }
+
+        let alert = UIAlertController(title: "Final transaction amount and network fees will be shown on the next screen", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+            params[PaymentParameters.value] = PaymentParameters.maxValue
+            self.proceed(with: params)
+        })
+
+        let cancelAction = UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+
+        Navigator.presentModally(alert)
+    }
+
+    private func proceed(with params: [String: Any]) {
+        self.delegate?.didReceiveContinueEvent(self, params: params)
     }
 
     private func setupSentValueText() {

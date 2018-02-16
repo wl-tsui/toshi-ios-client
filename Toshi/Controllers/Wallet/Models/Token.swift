@@ -79,6 +79,10 @@ class Token: Codable {
     var localIcon: UIImage? {
         return UIImage(named: self.icon)
     }
+
+    func convertToFiat() -> String? {
+        return nil
+    }
 }
 
 // MARK: - Ether Token
@@ -113,7 +117,7 @@ final class EtherToken: Token {
         fatalError("init(from:) has not been implemented")
     }
 
-    func convertToFiat() -> String? {
+    override func convertToFiat() -> String? {
         return EthereumConverter.fiatValueString(forWei: wei, exchangeRate: ExchangeRateClient.exchangeRate)
     }
 }

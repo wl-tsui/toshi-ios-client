@@ -38,7 +38,7 @@ class PaymentManagerTests: XCTestCase {
         paymentManager.fetchPaymentInfo { paymentInfo in
             XCTAssertEqual(paymentInfo.totalEthereumString, "3.6787 ETH")
             XCTAssertEqual(paymentInfo.totalFiatString, "$36.79 USD")
-            XCTAssertEqual(paymentInfo.estimatedFeesString, "$0.01 USD")
+            XCTAssertEqual(paymentInfo.estimatedFeesFiatString, "$0.01 USD")
             XCTAssertEqual(paymentInfo.fiatString, "$36.78 USD")
             XCTAssertEqual(paymentInfo.balanceString, "$110.68 USD")
             XCTAssertTrue(paymentInfo.sufficientBalance)
@@ -67,7 +67,7 @@ class PaymentManagerTests: XCTestCase {
         paymentManager.fetchPaymentInfo { paymentInfo in
             XCTAssertEqual(paymentInfo.totalEthereumString, "3.6787 ETH")
             XCTAssertEqual(paymentInfo.totalFiatString, "$36.79 USD")
-            XCTAssertEqual(paymentInfo.estimatedFeesString, "$0.01 USD")
+            XCTAssertEqual(paymentInfo.estimatedFeesFiatString, "$0.01 USD")
             XCTAssertEqual(paymentInfo.fiatString, "$36.78 USD")
             XCTAssertEqual(paymentInfo.balanceString, "$36.78 USD")
             XCTAssertFalse(paymentInfo.sufficientBalance)
@@ -96,7 +96,7 @@ class PaymentManagerTests: XCTestCase {
         paymentManager.fetchPaymentInfo { paymentInfo in
             XCTAssertEqual(paymentInfo.totalEthereumString, "3.6787 ETH")
             XCTAssertEqual(paymentInfo.totalFiatString, "$36.79 USD")
-            XCTAssertEqual(paymentInfo.estimatedFeesString, "$0.01 USD")
+            XCTAssertEqual(paymentInfo.estimatedFeesFiatString, "$0.01 USD")
             XCTAssertEqual(paymentInfo.fiatString, "$36.78 USD")
             XCTAssertEqual(paymentInfo.balanceString, "$36.79 USD")
             XCTAssertTrue(paymentInfo.sufficientBalance)

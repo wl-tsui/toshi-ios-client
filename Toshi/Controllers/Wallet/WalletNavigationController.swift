@@ -30,8 +30,6 @@ class WalletNavigationController: UINavigationController {
 
         tabBarItem = UITabBarItem(title: Localized("tab_bar_title_wallet"), image: #imageLiteral(resourceName: "tab3"), tag: 0)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
-
-        delegate = self
     }
 
     required init?(coder _: NSCoder) {
@@ -45,25 +43,84 @@ class WalletNavigationController: UINavigationController {
             self.navigationBar.prefersLargeTitles = true
         }
     }
-}
 
-extension WalletNavigationController: UINavigationControllerDelegate {
+    // MARK: - Nav Bar Color Handling
 
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if let colorable = viewController as? NavBarColorChanging {
+            setNavigationBarColors(with: colorable)
+        }
 
-        let isGoingToShowRootViewController = viewController is WalletViewController
+        super.pushViewController(viewController, animated: animated)
+    }
 
-        let barTintColor = isGoingToShowRootViewController ? Theme.tintColor : nil
-        let shadowImage = isGoingToShowRootViewController ? UIImage() : nil
-        let titleTextAttributes = isGoingToShowRootViewController ? [ NSAttributedStringKey.foregroundColor: Theme.lightTextColor ] : nil
+    override func popViewController(animated: Bool) -> UIViewController? {
+        guard let colorChangingVC = previousViewController as? NavBarColorChanging else {
+            // Just call super and be done with it.
+            return super.popViewController(animated: animated)
+        }
 
-        let duration = animated ? 0.5 : 0.0
-        UIView.animate(withDuration: duration) {
-            self.navigationBar.barTintColor = barTintColor
-            self.navigationBar.shadowImage = shadowImage
-            self.navigationBar.titleTextAttributes = titleTextAttributes
+        setNavigationBarColors(with: colorChangingVC)
 
-            self.navigationBar.layoutIfNeeded()
+        // Start the transition by calling super so we get a transition coordinator
+        let poppedViewController = super.popViewController(animated: animated)
+
+        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
+            guard let topColorChangingVC = self?.topViewController as? NavBarColorChanging else { return }
+            self?.setNavigationBarColors(with: topColorChangingVC)
+        })
+
+        return poppedViewController
+    }
+
+    private var previousViewController: UIViewController? {
+        guard viewControllers.count > 1 else {
+            return nil
+        }
+        return viewControllers[viewControllers.count - 2]
+    }
+
+    private func setNavigationBarColors(with colorChangingObject: NavBarColorChanging) {
+        navigationBar.tintColor = colorChangingObject.navTintColor
+        navigationBar.barTintColor = colorChangingObject.navBarTintColor
+        navigationBar.shadowImage = colorChangingObject.navShadowImage
+        if let titleColor = colorChangingObject.navTitleColor {
+            navigationBar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor: titleColor ]
+        } else {
+            navigationBar.titleTextAttributes = nil
         }
     }
+}
+
+// MARK: - Color Changing Protocol
+
+/*
+ Generally ganked from https://gist.github.com/Sorix/1d8543b18cfd76c12c36525bc280a35d
+
+ Workaround for the fact that when you pop a view controller non-interactively, the colors,
+ especially the title color, do not render correctly after the pop.
+
+ Will add Radar here once filed.
+ */
+
+protocol NavBarColorChanging: class {
+
+    var navTintColor: UIColor? { get }
+    var navBarTintColor: UIColor? { get }
+    var navTitleColor: UIColor? { get }
+    var navShadowImage: UIImage? { get }
+}
+
+extension WalletViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return Theme.tintColor }
+    var navTitleColor: UIColor? { return Theme.lightTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
+}
+
+extension TokenEtherDetailViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
 }

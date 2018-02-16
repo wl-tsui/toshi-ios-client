@@ -109,7 +109,6 @@ final class SendTokenViewModel {
             final = NSDecimalNumber(string: valueText, locale: Locale.current)
             let tokenToWeiPower = Int16(token.decimals)
             final = final.multiplying(byPowerOf10: tokenToWeiPower)
-            print(final.toHexString)
         default:
             break
         }

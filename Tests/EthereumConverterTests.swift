@@ -25,6 +25,17 @@ class EthereumConverterTests: QuickSpec {
                     expect(ethereumValueString).to(equal("3.5000 ETH"))
                 }
 
+                it("converts wei to eth") {
+                    let ether = EthereumConverter.weiToEther(wei)
+
+                    expect(ether).to(equal(1.0))
+                }
+
+                it("converts eth to wei") {
+                    let convertedWei = EthereumConverter.etherToWei(NSDecimalNumber(string: "1.0"))
+                    expect(convertedWei).to(equal(wei))
+                }
+
                 it("returns a string representation in eth for a given wei value") {
                     let ethereumValueString = EthereumConverter.ethereumValueString(forWei: wei)
 

@@ -78,6 +78,10 @@ extension Theme {
         return .black
     }
 
+    static var darkTextHalfAlpha: UIColor {
+        return Theme.darkTextColor.withAlphaComponent(0.5)
+    }
+
     static var greyTextColor: UIColor {
         return UIColor(hex: "A4A4AB")
     }
@@ -244,6 +248,10 @@ extension Theme {
 
     static func preferredRegularMonospaced(range: ClosedRange<CGFloat> = 15...30) -> UIFont {
         return dynamicType(for: regularMonospaced(size: 15), withStyle: .body, inSizeRange: range)
+    }
+
+    static func preferredRegularBold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: bold(size: 17), withStyle: .body, inSizeRange: range)
     }
 
     static func preferredRegularMedium(range: ClosedRange<CGFloat> = 17...30) -> UIFont {

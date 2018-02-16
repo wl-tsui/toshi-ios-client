@@ -41,7 +41,7 @@ final class TokenEtherDetailViewController: UIViewController {
     private lazy var fiatValueLabel: UILabel = {
         let label = UILabel()
         label.font = Theme.preferredTitle3(range: 15...25)
-        label.textColor = Theme.darkTextColor.withAlphaComponent(0.5)
+        label.textColor = Theme.darkTextHalfAlpha
         label.textAlignment = .center
 
         return label
@@ -174,7 +174,6 @@ final class TokenEtherDetailViewController: UIViewController {
     // MARK: - Action Targets
 
     @objc private func sendButtonTapped() {
-
         let sendTokenController = SendTokenViewController(token: token, tokenType: token.canShowFiatValue ? .fiatRepresentable : .nonFiatRepresentable)
         let navigationController = UINavigationController(rootViewController: sendTokenController)
 

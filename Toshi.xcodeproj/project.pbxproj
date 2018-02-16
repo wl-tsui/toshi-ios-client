@@ -315,6 +315,12 @@
 		3344FBE0202B6C8F004297E9 /* WalletQRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344FBDE202B6C45004297E9 /* WalletQRCodeViewController.swift */; };
 		3344FBE1202B6C90004297E9 /* WalletQRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344FBDE202B6C45004297E9 /* WalletQRCodeViewController.swift */; };
 		3344FBE3202B75E7004297E9 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344FBE2202B75E7004297E9 /* QRCodeGenerator.swift */; };
+		3345A0B020348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0AF20348B6D00C559BC /* TokenSendConfirmationViewController.swift */; };
+		3345A0B120348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0AF20348B6D00C559BC /* TokenSendConfirmationViewController.swift */; };
+		3345A0B220348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0AF20348B6D00C559BC /* TokenSendConfirmationViewController.swift */; };
+		3345A0B42035370B00C559BC /* SendConfirmationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0B32035370B00C559BC /* SendConfirmationSection.swift */; };
+		3345A0B52035370B00C559BC /* SendConfirmationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0B32035370B00C559BC /* SendConfirmationSection.swift */; };
+		3345A0B62035370B00C559BC /* SendConfirmationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3345A0B32035370B00C559BC /* SendConfirmationSection.swift */; };
 		33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC21FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
 		33643DC31FD6D2F400229BE2 /* PasswordValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */; };
@@ -1234,6 +1240,8 @@
 		3332E0BB1FE979C800CC1C8A /* DappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappViewController.swift; sourceTree = "<group>"; };
 		3344FBDE202B6C45004297E9 /* WalletQRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletQRCodeViewController.swift; sourceTree = "<group>"; };
 		3344FBE2202B75E7004297E9 /* QRCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGenerator.swift; sourceTree = "<group>"; };
+		3345A0AF20348B6D00C559BC /* TokenSendConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSendConfirmationViewController.swift; sourceTree = "<group>"; };
+		3345A0B32035370B00C559BC /* SendConfirmationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendConfirmationSection.swift; sourceTree = "<group>"; };
 		33643DC01FD6D2F300229BE2 /* PasswordValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidator.swift; sourceTree = "<group>"; };
 		33643DC41FD6D32800229BE2 /* PasswordValidatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordValidatorTests.swift; sourceTree = "<group>"; };
 		33674E3E1FFFA6CD00089BF7 /* fetchUsersFromIDs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fetchUsersFromIDs.json; sourceTree = "<group>"; };
@@ -1795,6 +1803,7 @@
 			isa = PBXGroup;
 			children = (
 				2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */,
+				3345A0B32035370B00C559BC /* SendConfirmationSection.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1891,14 +1900,15 @@
 				2B3D8177202E68B2003B7874 /* SendToken */,
 				2B460175202916150098694D /* Models */,
 				2B46016C2028E18F0098694D /* Views */,
+				2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */,
+				2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */,
+				3345A0AF20348B6D00C559BC /* TokenSendConfirmationViewController.swift */,
 				33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */,
 				2B460171202907730098694D /* WalletDatasource.swift */,
 				2B46017E202A30F90098694D /* WalletItemCellConfigurator.swift */,
 				2B97A0CF2028D93100A161F8 /* WalletNavigationController.swift */,
 				3344FBDE202B6C45004297E9 /* WalletQRCodeViewController.swift */,
 				2B97A0CB2028D4E900A161F8 /* WalletViewController.swift */,
-				2B69E6A1202BCC3600E84570 /* CollectibleViewController.swift */,
-				2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -3513,6 +3523,7 @@
 				33316916202BA40300A396A2 /* QRCodeGenerator.swift in Sources */,
 				2B0EF82B1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				2B4E25FC1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
+				3345A0B220348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				336CC5E0202E611B0052511C /* SystemSharing.swift in Sources */,
 				A91D72A91F8782DC0093420C /* ChatButtonsView.swift in Sources */,
@@ -3669,6 +3680,7 @@
 				D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */,
 				2B4E25EC1FCCCD71004614D5 /* AvatarTitleSubtitleCell.swift in Sources */,
 				D197B11DD70DB5696FFC4FD2 /* UINotificationName+Additions.swift in Sources */,
+				3345A0B62035370B00C559BC /* SendConfirmationSection.swift in Sources */,
 				D197B968EE5E2CE52CC92F1D /* YapDatabaseViewConnection+Additions.swift in Sources */,
 				2BA888ED1F600ED500B03D8E /* Currency.swift in Sources */,
 				3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */,
@@ -3776,6 +3788,7 @@
 				3344FBE3202B75E7004297E9 /* QRCodeGenerator.swift in Sources */,
 				2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */,
 				3312F68020077C0100881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
+				3345A0B020348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
 				336CC5DC202E24930052511C /* SystemSharing.swift in Sources */,
 				33FD936B1FE953480082B9D8 /* Dapp.swift in Sources */,
 				9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */,
@@ -3932,6 +3945,7 @@
 				D197BC32BA4D952C0E815F18 /* ActiveNetworkView.swift in Sources */,
 				D197B401E977724E946A55BE /* ActiveNetworkDisplaying.swift in Sources */,
 				D197B61F77E710DF67E4FBD2 /* UINotificationName+Additions.swift in Sources */,
+				3345A0B42035370B00C559BC /* SendConfirmationSection.swift in Sources */,
 				D197B80A67FA2271BE1C9621 /* YapDatabaseViewConnection+Additions.swift in Sources */,
 				3332E0BC1FE979C800CC1C8A /* DappViewController.swift in Sources */,
 				A91D72A51F877FFA0093420C /* ChatViewModel.swift in Sources */,
@@ -4039,6 +4053,7 @@
 				33316915202BA40200A396A2 /* QRCodeGenerator.swift in Sources */,
 				A91D72A81F8782DC0093420C /* ChatButtonsView.swift in Sources */,
 				2B4E25FB1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
+				3345A0B120348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
 				A9CADC2D1F94B1D60096D017 /* OpenURLButton.swift in Sources */,
 				336CC5DF202E611B0052511C /* SystemSharing.swift in Sources */,
 				A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */,
@@ -4195,6 +4210,7 @@
 				A9603F341F4DABDC00BF57B1 /* ActiveNetworkDisplaying.swift in Sources */,
 				2B4E25EB1FCCCD71004614D5 /* AvatarTitleSubtitleCell.swift in Sources */,
 				A9603F351F4DABDC00BF57B1 /* UINotificationName+Additions.swift in Sources */,
+				3345A0B52035370B00C559BC /* SendConfirmationSection.swift in Sources */,
 				A9603F361F4DABDC00BF57B1 /* YapDatabaseViewConnection+Additions.swift in Sources */,
 				2BA888EC1F600ED500B03D8E /* Currency.swift in Sources */,
 				3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */,

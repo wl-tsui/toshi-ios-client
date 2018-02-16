@@ -78,9 +78,9 @@ final class WalletDatasource {
     }
 
     private func loadTokens() {
-        items = []
-
         EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, _ in
+
+            self?.items = []
 
             if balance.floatValue > 0 {
                 let etherToken = EtherToken(valueInWei: balance)
