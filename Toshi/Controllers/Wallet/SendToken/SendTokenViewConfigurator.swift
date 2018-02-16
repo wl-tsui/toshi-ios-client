@@ -321,7 +321,7 @@ final class SendTokenViewConfigurator: NSObject {
         }
 
         // If ether - check if maximum value and show alert
-        let weiValueHex = EthereumConverter.etherToWei(NSDecimalNumber(string: token.value)).toHexString
+        let weiValueHex = EthereumConverter.etherToWei(NSDecimalNumber(string: token.value, locale: Locale.current)).toHexString
         guard weiValueHex == finalValueInWeiHex else {
             proceed(with: params)
             return
