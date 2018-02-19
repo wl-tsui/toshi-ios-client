@@ -294,6 +294,8 @@
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
+		3311F44F2037595C0069EF22 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33207B4320370B7C0025A5A2 /* LoadingHUD.swift */; };
+		3311F4502037595D0069EF22 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33207B4320370B7C0025A5A2 /* LoadingHUD.swift */; };
 		3312F68020077C0100881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
 		3312F6812007801A00881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
 		3312F6822007801B00881B97 /* DisappearingBackgroundNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */; };
@@ -306,6 +308,7 @@
 		3312F68E2007C0AC00881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
 		3312F68F2007C0D300881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
 		3312F6902007C0D400881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
+		33207B4420370B7C0025A5A2 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33207B4320370B7C0025A5A2 /* LoadingHUD.swift */; };
 		33316912202B89BC00A396A2 /* QRCodeGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */; };
 		33316914202B8A8C00A396A2 /* UIImage+ReadQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */; };
 		33316915202BA40200A396A2 /* QRCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3344FBE2202B75E7004297E9 /* QRCodeGenerator.swift */; };
@@ -1235,6 +1238,7 @@
 		3312F6832007A59400881B97 /* UIStackView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Additions.swift"; sourceTree = "<group>"; };
 		3312F6872007A93000881B97 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Additions.swift"; sourceTree = "<group>"; };
+		33207B4320370B7C0025A5A2 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
 		33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGeneratorTests.swift; sourceTree = "<group>"; };
 		33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+ReadQRCode.swift"; sourceTree = "<group>"; };
 		3332E0BB1FE979C800CC1C8A /* DappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappViewController.swift; sourceTree = "<group>"; };
@@ -2132,6 +2136,7 @@
 				2BC85F7E1F0F946600BCB171 /* InputCell.swift */,
 				2BC85F7B1F0F939C00BCB171 /* InputCell.xib */,
 				A938AE061FBEFAB2002A2CD3 /* LeftAlignedButton.swift */,
+				33207B4320370B7C0025A5A2 /* LoadingHUD.swift */,
 				D197BD136059B5C238CB3425 /* OfflineAlertView.swift */,
 				9FE398401E2E225600386FAF /* ProfileItemCell.swift */,
 				338472E6202A3F1F000F5A8A /* QuickAlertView.swift */,
@@ -3535,6 +3540,7 @@
 				2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				A9BCB3621FCD693A0047CCA7 /* ProfilesDataSource.swift in Sources */,
 				9F48C1581E9CD911008BA637 /* CacheExpiry+Default.swift in Sources */,
+				3311F4502037595D0069EF22 /* LoadingHUD.swift in Sources */,
 				9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				A9CADC301F94B1DA0096D017 /* BrowseSearchResultView.swift in Sources */,
 				A91629171F3C85D6008A7F36 /* PaymentManager.swift in Sources */,
@@ -3800,6 +3806,7 @@
 				A9E1DCE51F1E5C64001A4ABE /* MessagesStatusCell.swift in Sources */,
 				A9CADC1B1F94AF2D0096D017 /* BrowseViewController.swift in Sources */,
 				2B44A13A1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */,
+				33207B4420370B7C0025A5A2 /* LoadingHUD.swift in Sources */,
 				A9BF33B11E76DF67009A51AA /* PassphraseVerifyController.swift in Sources */,
 				9F54A7231E951F1500FEB67B /* RatingsClient.swift in Sources */,
 				2B435CB11F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */,
@@ -4065,6 +4072,7 @@
 				A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */,
 				A9BCB3611FCD693A0047CCA7 /* ProfilesDataSource.swift in Sources */,
 				A9CADC2F1F94B1D90096D017 /* BrowseSearchResultView.swift in Sources */,
+				3311F44F2037595C0069EF22 /* LoadingHUD.swift in Sources */,
 				A9603DC91F4DABDC00BF57B1 /* PaymentManager.swift in Sources */,
 				A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */,
 				A9603DDD1F4DABDC00BF57B1 /* MessagesStatusCell.swift in Sources */,

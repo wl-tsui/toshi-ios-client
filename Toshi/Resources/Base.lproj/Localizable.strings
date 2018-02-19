@@ -311,6 +311,7 @@
 "wallet_send_confirmation_amount_title" = "Amount";
 "wallet_send_confirmation_fees_title" = "Est. Network Fees";
 "wallet_send_confirmation_total_title" = "Total";
+"wallet_send_confirmation_success_message" = "Transaction\nSubmitted";
 
 /* Nav Bar Buttons */
 "nav_bar_back" = "Back";

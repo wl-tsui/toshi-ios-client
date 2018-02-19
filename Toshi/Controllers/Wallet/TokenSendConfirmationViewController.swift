@@ -43,7 +43,9 @@ final class TokenSendConfirmationViewController: UIViewController {
 
     // MARK: - Lazy views
 
-    private lazy var activityView = self.defaultActivityIndicator()
+    private lazy var hud: LoadingHUD = {
+        return LoadingHUD(addedToView: self.view)
+    }()
 
     private lazy var amountSection: SendConfirmationSection = {
         return SendConfirmationSection(sectionTitle: Localized("wallet_send_confirmation_amount_title"))
@@ -118,18 +120,18 @@ final class TokenSendConfirmationViewController: UIViewController {
         view.backgroundColor = Theme.viewBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped(_:)))
 
-        setupActivityIndicator()
         showPaymentInfo()
     }
 
     private func showPaymentInfo() {
-        showActivityIndicator()
+        hud.state = .loading(text: nil)
+        hud.show()
 
         paymentManager.fetchRawPaymentInfo { [weak self] rawPaymentInfo in
             DispatchQueue.main.async {
 
                 guard let strongSelf = self else { return }
-                strongSelf.hideActivityIndicator()
+                strongSelf.hud.hide()
 
                 let fractionDigits: Int = 7
 
@@ -233,14 +235,16 @@ final class TokenSendConfirmationViewController: UIViewController {
     // MARK: - Action Targets
 
     @objc private func confirmButtonTapped() {
-        showActivityIndicator()
+
+        hud.state = .loading(text: nil)
+        hud.show()
         
         paymentManager.sendPayment { [weak self] error, _ in
             guard let weakSelf = self else { return }
 
-            weakSelf.hideActivityIndicator()
-
             guard error == nil else {
+                weakSelf.hud.hide()
+
                 let alert = UIAlertController(title: Localized("transaction_error_message"), message: (error?.description ?? ToshiError.genericError.description), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
                     weakSelf.navigationController?.dismiss(animated: true, completion: nil)
@@ -251,15 +255,12 @@ final class TokenSendConfirmationViewController: UIViewController {
                 return
             }
 
-            weakSelf.navigationController?.dismiss(animated: true, completion: {
-                weakSelf.delegate?.tokenSendConfirmationControllerDidFinish(weakSelf)
+            weakSelf.hud.successThenHide(after: 0.3, image: #imageLiteral(resourceName: "success_check"), text: Localized("wallet_send_confirmation_success_message"), completion: {
+
+                weakSelf.navigationController?.dismiss(animated: true, completion: {
+                    weakSelf.delegate?.tokenSendConfirmationControllerDidFinish(weakSelf)
+                })
             })
         }
-    }
-}
-
-extension TokenSendConfirmationViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
     }
 }

@@ -138,4 +138,11 @@ extension UIStackView {
             spacerView.bottom(to: self)
         }
     }
+
+    /// Empties the Stack view of its arranged subviews.
+    func removeAllArrangedSubviews() {
+        for view in arrangedSubviews {
+            view.removeFromSuperview()
+        }
+    }
 }
