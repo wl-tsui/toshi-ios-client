@@ -298,7 +298,7 @@
 "wallet_to_label" = "TO";
 "wallet_token_balance_format" = "Your %@ balance: %@";
 "wallet_token_balance_format_with_fiat" = "Your %@ balance: %@ (%@)";
-"wallet_invalid_ethereum_address_error" = "This is not valid Ethereum address.";
+"wallet_invalid_ethereum_address_error" = "This is not a valid Ethereum address.";
 "wallet_insuffisient_token_balance_error" = "Insufficient %@ balance: %@";
 "wallet_insuffisient_fiat_balance_error" = "Insufficient %@ balance: %@ (%@)";
 "wallet_insuffisient_balance_generic" = "Insuffisient balance: %@";
