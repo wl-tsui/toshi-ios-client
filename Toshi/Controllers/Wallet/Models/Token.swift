@@ -23,7 +23,7 @@ class Token: Codable {
     let value: String
     let decimals: Int
     let contractAddress: String
-    let icon: String
+    let icon: String?
     fileprivate(set) var canShowFiatValue = false
 
     lazy var displayValueString: String = {
@@ -59,7 +59,8 @@ class Token: Codable {
     }
 
     var localIcon: UIImage? {
-        return UIImage(named: self.icon)
+        guard let iconName = icon else { return nil }
+        return UIImage(named: iconName)
     }
 
     func convertToFiat() -> String? {

@@ -165,7 +165,9 @@ final class TokenEtherDetailViewController: UIViewController {
             fiatValueLabel.text = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate)
         } else {
             tokenValueLabel.text = "\(token.displayValueString) \(token.symbol)"
-            AvatarManager.shared.avatar(for: token.icon) { [weak self] image, _ in
+            guard let tokenIcon = token.icon else { return }
+
+            AvatarManager.shared.avatar(for: tokenIcon) { [weak self] image, _ in
                 self?.iconImageView.image = image
             }
         }
