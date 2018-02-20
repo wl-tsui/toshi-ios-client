@@ -106,7 +106,8 @@ final class WalletQRCodeViewController: UIViewController {
     // MARK: - Initialization
 
     init(address: String, backgroundView: UIView) {
-        self.address = address
+        self.address = address.toChecksumEncodedAddress() ?? address
+
         super.init(nibName: nil, bundle: nil)
 
         view.backgroundColor = .black
@@ -148,8 +149,8 @@ final class WalletQRCodeViewController: UIViewController {
 
         setupCloseButton(in: container)
 
-        addressLabel.text = address.toLines(count: 2)
-        qrCodeImageView.image = QRCodeGenerator.qrCodeImage(for: .ethereumAddress(address: address))
+        addressLabel.text = self.address.toLines(count: 2)
+        qrCodeImageView.image = QRCodeGenerator.qrCodeImage(for: .ethereumAddress(address: self.address))
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -93,7 +93,7 @@ final class WalletTableHeaderView: UIView {
     ///   - address: The address to display
     ///   - delegate: The delegate to notify of changes.
     init(frame: CGRect, address: String, delegate: WalletTableViewHeaderDelegate) {
-        walletAddress = address
+        walletAddress = address.toChecksumEncodedAddress() ?? address
         self.delegate = delegate
         super.init(frame: frame)
 

@@ -100,4 +100,34 @@ extension String {
         
         return lines.joined(separator: "\n")
     }
+
+    // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
+    func toChecksumEncodedAddress() -> String? {
+        guard EthereumAddress.validate(self) else { return nil }
+
+        let addressWithout0x = self.lowercased().dropFirst(2)
+        guard let data = addressWithout0x.data(using: .utf8) else { return nil }
+
+        let hash = (data as NSData).sha3(256).hexadecimalString
+
+        var output = "0x"
+        for (idx, character) in addressWithout0x.enumerated() {
+
+            let characterIndex = index(startIndex, offsetBy: idx)
+            let hashChar = hash[characterIndex]
+
+            guard let integer = Int(String(hashChar), radix: 16) else {
+                output.append(character)
+                continue
+            }
+
+            if integer >= 8 {
+                output.append(String(character).uppercased())
+            } else {
+                output.append(character)
+            }
+        }
+
+        return output
+    }
 }
