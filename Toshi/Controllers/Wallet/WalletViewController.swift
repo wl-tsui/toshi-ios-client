@@ -164,9 +164,6 @@ extension WalletViewController: UITableViewDelegate {
             let detailViewController = TokenEtherDetailViewController(token: token)
             navigationController?.pushViewController(detailViewController, animated: true)
         case .collectibles:
-            let alert = UIAlertController.dismissableAlert(title: "Collectible list coming soon")
-            Navigator.presentModally(alert)
-
             guard let item = datasource.item(at: indexPath.row) as? Collectible else { return }
 
             let controller = CollectibleViewController(collectibleContractAddress: item.contractAddress)
@@ -206,7 +203,12 @@ extension WalletViewController: WalletTableViewHeaderDelegate {
     }
 
     func openAddress(_ address: String, from headerView: WalletTableHeaderView) {
-        let qrController = WalletQRCodeViewController(address: address)
+        guard let screenshot = tabBarController?.view.snapshotView(afterScreenUpdates: false) else {
+            assertionFailure("Could not screenshot?!")
+            return
+        }
+        let qrController = WalletQRCodeViewController(address: address, backgroundView: screenshot)
+        qrController.modalTransitionStyle = .crossDissolve
         present(qrController, animated: true)
     }
 }

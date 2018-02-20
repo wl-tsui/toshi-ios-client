@@ -19,7 +19,7 @@ import Foundation
 final class CollectibleToken: Codable {
 
     let name: String
-    let image: String
+    let image: String?
     let description: String
     let tokenId: String
 

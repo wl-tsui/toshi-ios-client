@@ -118,10 +118,14 @@ extension SendTokenViewController: ScannerViewControllerDelegate {
                     self?.configurator.destinationAddress = address
                 })
             default:
-                let alert = UIAlertController.dismissableAlert(title: Localized("wallet_not_an_address_message"))
+                let alert = UIAlertController(title: Localized("wallet_not_an_address_message"), message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+                    controller.startScanning()
+                }))
+                alert.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: { _ in
+                    controller.startScanning()
+                }))
                 Navigator.presentModally(alert)
-
-                controller.startScanning()
             }
         }
     }

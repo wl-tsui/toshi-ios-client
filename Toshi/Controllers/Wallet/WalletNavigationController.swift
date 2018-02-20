@@ -85,7 +85,7 @@ class WalletNavigationController: UINavigationController {
         navigationBar.barTintColor = colorChangingObject.navBarTintColor
         navigationBar.shadowImage = colorChangingObject.navShadowImage
         if let titleColor = colorChangingObject.navTitleColor {
-            navigationBar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor: titleColor ]
+            navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: titleColor]
         } else {
             navigationBar.titleTextAttributes = nil
         }

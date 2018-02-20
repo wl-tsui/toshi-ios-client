@@ -64,7 +64,9 @@ class PaymentManager {
             if let maxValueParam = weakSelf.parameters[PaymentParameters.value] as? String, maxValueParam == PaymentParameters.maxValue, let calculatedValue = skeleton.value {
                 value = NSDecimalNumber(hexadecimalString: calculatedValue)
             } else {
-                value = weakSelf.value
+                if weakSelf.parameters[PaymentParameters.tokenAddress] == nil {
+                    value = weakSelf.value
+                }
             }
 
             let totalWei = value.adding(decimalNumberFee)

@@ -279,23 +279,21 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     @objc private func swapButtonTapped() {
-        guard let view = view else { return }
 
         viewConfiguration.primaryValue = viewConfiguration.primaryValue.opposite
 
         configureTextFieldRightView()
         configureSecondaryValueLabel()
-
-        // show quick alert in the middle of the view / as keyboard is showing
-        QuickAlertView(title: Localized("wallet_swapped_values_message"), in: view, bottomMargin: view.bounds.height / 2).showThenHide()
     }
 
     @objc private func pasteButtonTapped() {
         primaryValueTextField.resignFirstResponder()
 
         viewConfiguration.isActive = false
-        addressTextView.text = UIPasteboard.general.string
-        validateState()
+
+        if let pasteboardString = UIPasteboard.general.string, !pasteboardString.isEmpty {
+            destinationAddress = pasteboardString
+        }
     }
 
     @objc private func scanButtonTapped() {
@@ -321,13 +319,12 @@ final class SendTokenViewConfigurator: NSObject {
         }
 
         // If ether - check if maximum value and show alert
-        let weiValueHex = EthereumConverter.etherToWei(NSDecimalNumber(string: token.value, locale: Locale.current)).toHexString
-        guard weiValueHex == finalValueInWeiHex else {
+        guard token.value == finalValueInWeiHex else {
             proceed(with: params)
             return
         }
 
-        let alert = UIAlertController(title: "Final transaction amount and network fees will be shown on the next screen", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: Localized("wallet_final_amount_alert_title"), message: Localized("wallet_final_amount_alert_message"), preferredStyle: .alert)
         let okAction = UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
             params[PaymentParameters.value] = PaymentParameters.maxValue
             self.proceed(with: params)

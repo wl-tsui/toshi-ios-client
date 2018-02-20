@@ -181,8 +181,13 @@ final class TokenEtherDetailViewController: UIViewController {
     }
 
     @objc private func receiveButtonTapped() {
-        let walletQRController = WalletQRCodeViewController(address: Cereal.shared.paymentAddress)
-
+        guard let screenshot = tabBarController?.view.snapshotView(afterScreenUpdates: false) else {
+            assertionFailure("Could not screenshot?!")
+            return
+        }
+        
+        let walletQRController = WalletQRCodeViewController(address: Cereal.shared.paymentAddress, backgroundView: screenshot)
+        walletQRController.modalTransitionStyle = .crossDissolve
         present(walletQRController, animated: true)
     }
 }

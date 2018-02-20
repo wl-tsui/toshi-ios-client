@@ -17,10 +17,12 @@ import UIKit
 
 final class WalletQRCodeViewController: UIViewController {
 
+    private let cornerRadius: CGFloat = 8
+
     private lazy var qrCodeImageView: UIImageView = {
         let imageView = UIImageView()
 
-        let qrCodeSize: CGFloat = 160
+        let qrCodeSize: CGFloat = 140
         imageView.width(qrCodeSize)
         imageView.height(qrCodeSize)
 
@@ -44,9 +46,12 @@ final class WalletQRCodeViewController: UIViewController {
 
     private let buttonCornerRadius: CGFloat = 6
 
-    private lazy var shareButton: ActionButton = {
-        let button = ActionButton(margin: 0, cornerRadius: buttonCornerRadius)
-        button.title = Localized("share_action_title")
+    private lazy var shareButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addBorder(ofColor: Theme.tintColor)
+        button.layer.cornerRadius = cornerRadius
+        button.setTitle(Localized("share_action_title"), for: .normal)
+        button.setTitleColor(Theme.tintColor, for: .normal)
         button.addTarget(self,
                          action: #selector(shareButtonTapped),
                          for: .touchUpInside)
@@ -54,10 +59,12 @@ final class WalletQRCodeViewController: UIViewController {
         return button
     }()
 
-    private lazy var copyButton: ActionButton = {
-        let button = ActionButton(margin: 0, cornerRadius: buttonCornerRadius)
-        button.setButtonStyle(.secondary)
-        button.title = Localized("copy_action_title")
+    private lazy var copyButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addBorder(ofColor: Theme.tintColor)
+        button.layer.cornerRadius = cornerRadius
+        button.setTitle(Localized("copy_action_title"), for: .normal)
+        button.setTitleColor(Theme.tintColor, for: .normal)
         button.addTarget(self,
                          action: #selector(copyButtonTapped),
                          for: .touchUpInside)
@@ -74,6 +81,17 @@ final class WalletQRCodeViewController: UIViewController {
         return label
     }()
 
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = Theme.darkTextHalfAlpha
+        label.numberOfLines = 0
+        label.font = Theme.preferredFootnote()
+        label.text = Localized("wallet_address_description")
+        label.textAlignment = .center
+
+        return label
+    }()
+
     private lazy var addressLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -87,17 +105,48 @@ final class WalletQRCodeViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(address: String) {
+    init(address: String, backgroundView: UIView) {
         self.address = address
         super.init(nibName: nil, bundle: nil)
 
-        view.backgroundColor = Theme.viewBackgroundColor
+        view.backgroundColor = .black
+        view.addSubview(backgroundView)
+        backgroundView.alpha = 0.2
 
-        setupCloseButton()
-        setupTitleLabel(yAlignedWith: closeButton)
-        setupQRCodeImageView()
-        setupAddressLabel(below: qrCodeImageView)
-        setupButtons()
+        let container = UIView()
+        container.backgroundColor = Theme.viewBackgroundColor
+        container.layer.cornerRadius = cornerRadius
+
+        view.addSubview(container)
+
+        container.leftToSuperview(offset: .largeInterItemSpacing)
+        container.rightToSuperview(offset: .largeInterItemSpacing)
+        container.centerXToSuperview()
+        container.centerYToSuperview()
+
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+
+        container.addSubview(stackView)
+
+        stackView.topToSuperview(offset: .largeInterItemSpacing)
+        stackView.leftToSuperview(offset: .largeInterItemSpacing)
+        stackView.rightToSuperview(offset: .largeInterItemSpacing)
+        stackView.bottomToSuperview(offset: -.largeInterItemSpacing)
+
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addSpacing(.smallInterItemSpacing, after: titleLabel)
+        stackView.addArrangedSubview(descriptionLabel)
+        stackView.addSpacing(.giantInterItemSpacing, after: descriptionLabel)
+        stackView.addArrangedSubview(qrCodeImageView)
+        stackView.addSpacing(.giantInterItemSpacing, after: qrCodeImageView)
+        stackView.addArrangedSubview(addressLabel)
+        stackView.addSpacing(.largeInterItemSpacing, after: addressLabel)
+        setupButtons(in: stackView)
+
+        setupCloseButton(in: container)
 
         addressLabel.text = address.toLines(count: 2)
         qrCodeImageView.image = QRCodeGenerator.qrCodeImage(for: .ethereumAddress(address: address))
@@ -109,50 +158,25 @@ final class WalletQRCodeViewController: UIViewController {
 
     // MARK: - View Setup
 
-    private func setupCloseButton() {
+    private func setupCloseButton(in view: UIView) {
         view.addSubview(closeButton)
 
-        closeButton.top(to: layoutGuide())
+        closeButton.topToSuperview()
         closeButton.leadingToSuperview()
     }
 
-    private func setupTitleLabel(yAlignedWith viewToAlignToCenterYOf: UIView) {
-        view.addSubview(titleLabel)
+    private func setupButtons(in stackView: UIStackView) {
+        let buttonStackView = UIStackView()
+        buttonStackView.axis = .horizontal
+        buttonStackView.distribution = .fillEqually
+        buttonStackView.spacing = .smallInterItemSpacing
 
-        titleLabel.centerY(to: viewToAlignToCenterYOf)
-        titleLabel.centerXToSuperview()
-    }
+        stackView.addWithDefaultConstraints(view: buttonStackView)
+        
+        buttonStackView.height(.defaultButtonHeight)
 
-    private func setupQRCodeImageView() {
-        view.addSubview(qrCodeImageView)
-
-        qrCodeImageView.centerXToSuperview()
-        qrCodeImageView.centerYToSuperview()
-    }
-
-    private func setupAddressLabel(below viewToPinToBottomOf: UIView) {
-        view.addSubview(addressLabel)
-
-        addressLabel.leadingToSuperview(offset: .largeInterItemSpacing)
-        addressLabel.trailingToSuperview(offset: .largeInterItemSpacing)
-        addressLabel.topToBottom(of: viewToPinToBottomOf, offset: .mediumInterItemSpacing)
-    }
-
-    private func setupButtons() {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.spacing = .mediumInterItemSpacing
-
-        view.addSubview(stackView)
-
-        stackView.bottom(to: layoutGuide(), offset: -.largeInterItemSpacing)
-        stackView.leadingToSuperview(offset: .largeInterItemSpacing)
-        stackView.trailingToSuperview(offset: .largeInterItemSpacing)
-        stackView.height(.defaultButtonHeight)
-
-        stackView.addArrangedSubview(copyButton)
-        stackView.addArrangedSubview(shareButton)
+        buttonStackView.addArrangedSubview(copyButton)
+        buttonStackView.addArrangedSubview(shareButton)
     }
 
     // MARK: - Action Targets

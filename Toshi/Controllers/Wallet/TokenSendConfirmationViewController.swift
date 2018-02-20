@@ -142,7 +142,11 @@ final class TokenSendConfirmationViewController: UIViewController {
                     let etherText = EthereumConverter.ethereumValueString(forWei: rawPaymentInfo.payedValue, fractionDigits: fractionDigits)
                     strongSelf.amountSection.setupWith(primaryCurrencyString: fiatText, secondaryCurrencyString: etherText)
                 } else {
-                    let primaryString = "\(strongSelf.amountToSend) \(strongSelf.token.symbol)"
+                    var primaryString = "\(strongSelf.amountToSend) \(strongSelf.token.symbol)"
+                    if !strongSelf.token.canShowFiatValue {
+                        primaryString = "\(strongSelf.token.displayString(for: strongSelf.amountToSend.toHexString)) \(strongSelf.token.symbol)"
+                    }
+
                     strongSelf.amountSection.setupWith(primaryCurrencyString: primaryString, secondaryCurrencyString: nil)
                 }
 

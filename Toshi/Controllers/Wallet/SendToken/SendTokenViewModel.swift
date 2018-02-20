@@ -97,13 +97,24 @@ final class SendTokenViewModel {
 
         switch (viewConfiguration.tokenType, viewConfiguration.primaryValue) {
         case (.fiatRepresentable, .fiat):
-            let ether = etherNumberFromFiatText(valueText)
-            if ether.isANumber {
-                final = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
+            if let ether = token as? EtherToken {
+                let fiatString = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
+                if fiatString == valueText {
+                    final = ether.wei
+                } else {
+                    let ether = etherNumberFromFiatText(valueText)
+                    if ether.isANumber {
+                        final = ether.multiplying(byPowerOf10: EthereumConverter.weisToEtherPowerOf10Constant)
+                    }
+                }
             }
 
         case (.fiatRepresentable, .token):
-            final = NSDecimalNumber(string: valueText, locale: Locale.current).multiplying(by: EthereumConverter.weisToEtherConstant)
+            if let ether = token as? EtherToken, ether.displayValueString == valueText {
+                final = ether.wei
+            } else {
+                final = NSDecimalNumber(string: valueText, locale: Locale.current).multiplying(by: EthereumConverter.weisToEtherConstant)
+            }
 
         case (.nonFiatRepresentable, .token):
             final = NSDecimalNumber(string: valueText, locale: Locale.current)
@@ -128,8 +139,7 @@ final class SendTokenViewModel {
         switch viewConfiguration.primaryValue {
         //secondary text which is fiat value is shown and configured only for Eth
         case .token:
-            let decimalValue = NSDecimalNumber(string: valueString, locale: Locale.current).multiplying(by: EthereumConverter.weisToEtherConstant)
-            text = EthereumConverter.fiatValueString(forWei: decimalValue, exchangeRate: ExchangeRateClient.exchangeRate)
+            text = EthereumConverter.fiatValueString(forWei: NSDecimalNumber(hexadecimalString: token.value), exchangeRate: ExchangeRateClient.exchangeRate, withCurrencyCode: false)
         case .fiat:
             let ether = etherNumberFromFiatText(valueString)
 
@@ -192,7 +202,7 @@ final class SendTokenViewModel {
 
         var errorViews: [SendTokenViews] = []
 
-        if token.isEtherToken && !EthereumAddress.validate(address) {
+        if token.isEtherToken && !address.isEmpty && !EthereumAddress.validate(address) {
             errorViews.append(SendTokenViews.addressLabel)
         }
 

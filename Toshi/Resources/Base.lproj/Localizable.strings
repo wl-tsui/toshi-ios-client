@@ -306,11 +306,14 @@
 "wallet_transaction_leave_alert_message" = "Are you sure you want to\nleave your transaction?";
 "wallet_transaction_leave_confirm_action" = "Leave";
 "wallet_transaction_leave_cancel_action" = "Stay";
+"wallet_address_description" = "Share your public wallet address to receive Ether and tokens.";
 
 "wallet_send_confirmation_recipient_header" = "Recipient";
 "wallet_send_confirmation_amount_title" = "Amount";
 "wallet_send_confirmation_fees_title" = "Est. Network Fees";
 "wallet_send_confirmation_total_title" = "Total";
+"wallet_final_amount_alert_title" = "This amount is not final";
+"wallet_final_amount_alert_message" = "Final transaction amount and network fees will be shown on the next screen";
 "wallet_send_confirmation_success_message" = "Transaction\nSubmitted";
 
 /* Nav Bar Buttons */

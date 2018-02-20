@@ -27,25 +27,7 @@ class Token: Codable {
     fileprivate(set) var canShowFiatValue = false
 
     lazy var displayValueString: String = {
-        let decimalNumberValue = NSDecimalNumber(hexadecimalString: self.value)
-        var decimalValueString = decimalNumberValue.stringValue
-
-        let valueFormatter = NumberFormatter()
-        valueFormatter.numberStyle = .decimal
-
-        guard self.decimals > 0 else { return decimalValueString }
-
-        var insertionString = ""
-        if decimalValueString.length == self.decimals {
-            insertionString.append(valueFormatter.zeroSymbol ?? "0")
-        }
-
-        insertionString.append(valueFormatter.decimalSeparator ?? ".")
-
-        let insertIndex = decimalValueString.index(decimalValueString.endIndex, offsetBy: -self.decimals)
-        decimalValueString.insert(contentsOf: insertionString, at: insertIndex)
-
-        return decimalValueString
+        return self.displayString(for: self.value)
     }()
 
     var isEtherToken: Bool {
@@ -83,6 +65,28 @@ class Token: Codable {
     func convertToFiat() -> String? {
         return nil
     }
+
+    func displayString(for inputValue: String) -> String {
+        let decimalNumberValue = NSDecimalNumber(hexadecimalString: inputValue)
+        var decimalValueString = decimalNumberValue.stringValue
+
+        let valueFormatter = NumberFormatter()
+        valueFormatter.numberStyle = .decimal
+
+        guard self.decimals > 0 else { return decimalValueString }
+
+        var insertionString = ""
+        if decimalValueString.length == self.decimals {
+            insertionString.append(valueFormatter.zeroSymbol ?? "0")
+        }
+
+        insertionString.append(valueFormatter.decimalSeparator ?? ".")
+
+        let insertIndex = decimalValueString.index(decimalValueString.endIndex, offsetBy: -self.decimals)
+        decimalValueString.insert(contentsOf: insertionString, at: insertIndex)
+
+        return decimalValueString
+    }
 }
 
 // MARK: - Ether Token
@@ -97,7 +101,7 @@ final class EtherToken: Token {
 
         super.init(name: Localized("wallet_ether_name"),
                    symbol: "ETH",
-                   value: EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false),
+                   value: wei.toHexString,
                    decimals: 5,
                    contractAddress: "",
                    iconPath: "ether_logo")
@@ -106,7 +110,7 @@ final class EtherToken: Token {
 
     override var displayValueString: String {
         get {
-            return value
+            return EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false)
         }
         set {
             // do nothing - this is read-only since it's lazy, but the compiler doesn't think so since it's still a var.
