@@ -45,7 +45,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return IDAPIClient.shared
     }
 
-    private lazy var reachabilityManager: ReachabilityManager = {
+    private(set) lazy var reachabilityManager: ReachabilityManager = {
         let reachabilityManager = ReachabilityManager()
         reachabilityManager.delegate = self
 

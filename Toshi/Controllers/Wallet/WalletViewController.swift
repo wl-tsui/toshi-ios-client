@@ -20,6 +20,8 @@ final class WalletViewController: UIViewController, Emptiable {
     private let walletHeaderHeight: CGFloat = 180
     private let sectionHeaderHeight: CGFloat = 44
 
+    private lazy var activityView = self.defaultActivityIndicator()
+
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -32,8 +34,16 @@ final class WalletViewController: UIViewController, Emptiable {
         view.layer.borderWidth = .lineHeight
         view.layer.borderColor = Theme.borderColor.cgColor
         view.alwaysBounceVertical = true
+        view.refreshControl = self.refreshControl
 
         return view
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+
+        return refreshControl
     }()
 
     private lazy var tableHeaderView: SegmentedHeaderView = {
@@ -59,11 +69,14 @@ final class WalletViewController: UIViewController, Emptiable {
         addSubviewsAndConstraints()
 
         preferLargeTitleIfPossible(false)
+
+        setupActivityIndicator()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        showActivityIndicatorIfOnline()
         datasource.loadItems()
     }
 
@@ -83,6 +96,15 @@ final class WalletViewController: UIViewController, Emptiable {
         emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: walletHeaderHeight + sectionHeaderHeight, left: 0, bottom: 0, right: 0))
     }
 
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        guard Navigator.reachabilityStatus != .notReachable else {
+            refreshControl.endRefreshing()
+            return
+        }
+
+        datasource.loadItems()
+    }
+
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
         let qrCodeImage = Cereal.shared.walletAddressQRCodeImage(resizeRate: 20.0)
         shareWithSystemSheet(item: qrCodeImage)
@@ -91,6 +113,11 @@ final class WalletViewController: UIViewController, Emptiable {
     private func adjustEmptyStateView() {
         emptyView.isHidden = !datasource.isEmpty
         emptyView.title = datasource.emptyStateTitle
+    }
+
+    private func showActivityIndicatorIfOnline() {
+        guard Navigator.reachabilityStatus != .notReachable else { return }
+        showActivityIndicator()
     }
 }
 
@@ -184,6 +211,7 @@ extension WalletViewController: SegmentedHeaderDelegate {
             return
         }
 
+        showActivityIndicatorIfOnline()
         datasource.itemsType = itemType
     }
 }
@@ -191,6 +219,9 @@ extension WalletViewController: SegmentedHeaderDelegate {
 extension WalletViewController: WalletDatasourceDelegate {
 
     func walletDatasourceDidReload() {
+        hideActivityIndicator()
+        refreshControl.endRefreshing()
+
         adjustEmptyStateView()
         tableView.reloadData()
     }
@@ -210,5 +241,11 @@ extension WalletViewController: WalletTableViewHeaderDelegate {
         let qrController = WalletQRCodeViewController(address: address, backgroundView: screenshot)
         qrController.modalTransitionStyle = .crossDissolve
         present(qrController, animated: true)
+    }
+}
+
+extension WalletViewController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
     }
 }

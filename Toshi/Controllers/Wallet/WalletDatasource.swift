@@ -28,6 +28,9 @@ protocol WalletDatasourceDelegate: class {
 
 final class WalletDatasource {
 
+    private let tokenCacheKey: NSString = "Tokens"
+    private let collectiblesCacheKey: NSString = "Collectibles"
+
     weak var delegate: WalletDatasourceDelegate?
 
     var itemsType: WalletItemType = .token {
@@ -37,6 +40,7 @@ final class WalletDatasource {
     }
 
     private var items: [WalletItem] = []
+    private lazy var cache = NSCache<NSString, AnyObject>()
 
     init(delegate: WalletDatasourceDelegate?) {
         self.delegate = delegate
@@ -70,7 +74,6 @@ final class WalletDatasource {
 
     func loadItems() {
         items = []
-        delegate?.walletDatasourceDidReload()
 
         switch itemsType {
         case .token:
@@ -83,6 +86,8 @@ final class WalletDatasource {
     private func loadTokens() {
         var loadedItems: [WalletItem] = []
 
+        useCachedObjectIfPresent(for: tokenCacheKey)
+
         EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, _ in
 
             if balance.floatValue > 0 {
@@ -91,17 +96,40 @@ final class WalletDatasource {
             } // else, don't show ether balance.
 
             EthereumAPIClient.shared.getTokens { items, _ in
+                guard let strongSelf = self else { return }
+
                 loadedItems.append(contentsOf: items)
-                self?.items = loadedItems
-                self?.delegate?.walletDatasourceDidReload()
+                strongSelf.cacheObjects(loadedItems, for: strongSelf.tokenCacheKey)
+
+                guard strongSelf.itemsType == .token else { return }
+                strongSelf.items = loadedItems
+                strongSelf.delegate?.walletDatasourceDidReload()
             }
         })
     }
     
     private func loadCollectibles() {
+        useCachedObjectIfPresent(for: collectiblesCacheKey)
+
         EthereumAPIClient.shared.getCollectibles { [weak self] items, _ in
-            self?.items = items
-            self?.delegate?.walletDatasourceDidReload()
+            guard let strongSelf = self else { return }
+
+            strongSelf.cacheObjects(items, for: strongSelf.collectiblesCacheKey)
+            guard strongSelf.itemsType == .collectibles else { return }
+
+            strongSelf.items = items
+            strongSelf.delegate?.walletDatasourceDidReload()
+        }
+    }
+    
+    private func cacheObjects(_ objects: [WalletItem], for key: NSString) {
+        cache.setObject(objects as AnyObject, forKey: key)
+    }
+
+    private func useCachedObjectIfPresent(for key: NSString) {
+        if let cachedVersion = cache.object(forKey: key) as? [WalletItem] {
+            items = cachedVersion
+            delegate?.walletDatasourceDidReload()
         }
     }
 }
