@@ -26,8 +26,8 @@ final class CollectibleTokensDatasource {
     private let collectibleTokenAddress: String
     private var collectible: Collectible?
 
-    var name: String? {
-        return collectible?.name
+    var name: String {
+        return collectible?.name ?? ""
     }
 
     var tokens: [CollectibleToken]? {
