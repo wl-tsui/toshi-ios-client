@@ -83,7 +83,18 @@ class Token: Codable {
 
         insertionString.append(valueFormatter.decimalSeparator ?? ".")
 
-        let insertIndex = decimalValueString.index(decimalValueString.endIndex, offsetBy: -self.decimals)
+        // we need to handle longer decimals value than current value string, and prepend needed amount of zeros
+        if decimals > decimalValueString.length {
+            let diff = decimals - decimalValueString.length
+            var zeros = ""
+            for _ in 0 ... diff {
+                zeros.append("0")
+            }
+
+            decimalValueString.insert(contentsOf: zeros, at: decimalValueString.startIndex)
+        }
+
+        let insertIndex = decimalValueString.index(decimalValueString.endIndex, offsetBy: -decimals)
         decimalValueString.insert(contentsOf: insertionString, at: insertIndex)
 
         return decimalValueString
