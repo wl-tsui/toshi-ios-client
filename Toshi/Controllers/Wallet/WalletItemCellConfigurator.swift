@@ -34,5 +34,8 @@ final class WalletItemCellConfigurator: CellConfigurator {
         }
 
         cell.leftImageView.contentMode = .scaleAspectFit
+        if cell.leftImageView.image == nil {
+            cell.leftImageView.image = #imageLiteral(resourceName: "token_placeholder")
+        }
     }
 }

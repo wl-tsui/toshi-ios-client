@@ -23,7 +23,7 @@ enum WalletItemType: Int {
 }
 
 protocol WalletDatasourceDelegate: class {
-    func walletDatasourceDidReload()
+    func walletDatasourceDidReload(_ datasource: WalletDatasource, cachedResult: Bool)
 }
 
 final class WalletDatasource {
@@ -54,12 +54,30 @@ final class WalletDatasource {
         return numberOfItems == 0
     }
 
+    var contentDescription: String? {
+        switch itemsType {
+        case .token:
+            return !isEmpty ? Localized("wallet_tokens_description") : nil
+        case .collectibles:
+            return nil
+        }
+    }
+
     var emptyStateTitle: String {
         switch itemsType {
         case .token:
             return Localized("wallet_empty_tokens_title")
         case .collectibles:
             return Localized("wallet_empty_collectibles_title")
+        }
+    }
+
+    var emptyStateDetails: String? {
+        switch itemsType {
+        case .token:
+            return Localized("wallet_empty_tokens_description")
+        case .collectibles:
+            return nil
         }
     }
 
@@ -103,7 +121,7 @@ final class WalletDatasource {
 
                 guard strongSelf.itemsType == .token else { return }
                 strongSelf.items = loadedItems
-                strongSelf.delegate?.walletDatasourceDidReload()
+                strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
             }
         })
     }
@@ -118,7 +136,7 @@ final class WalletDatasource {
             guard strongSelf.itemsType == .collectibles else { return }
 
             strongSelf.items = items
-            strongSelf.delegate?.walletDatasourceDidReload()
+            strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
         }
     }
     
@@ -131,6 +149,6 @@ final class WalletDatasource {
             items = cachedVersion
         }
 
-        delegate?.walletDatasourceDidReload()
+        delegate?.walletDatasourceDidReload(self, cachedResult: true)
     }
 }

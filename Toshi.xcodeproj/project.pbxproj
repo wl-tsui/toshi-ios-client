@@ -66,6 +66,9 @@
 		2B282E7A1FD8171A00B52272 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 2B282E791FD8171900B52272 /* sofa-web3.js */; };
 		2B282E7B1FD8171A00B52272 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 2B282E791FD8171900B52272 /* sofa-web3.js */; };
 		2B282E7C1FD8171A00B52272 /* sofa-web3.js in Resources */ = {isa = PBXBuildFile; fileRef = 2B282E791FD8171900B52272 /* sofa-web3.js */; };
+		2B2AE1EA203D888C00202BE2 /* WalletEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2AE1E9203D888C00202BE2 /* WalletEmptyView.swift */; };
+		2B2AE1EB203D888C00202BE2 /* WalletEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2AE1E9203D888C00202BE2 /* WalletEmptyView.swift */; };
+		2B2AE1EC203D888C00202BE2 /* WalletEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2AE1E9203D888C00202BE2 /* WalletEmptyView.swift */; };
 		2B2C845E1F99EB3D00D18CAC /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
 		2B2C845F1F99EB3D00D18CAC /* DepositMoneyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7A1EF7D582007C3206 /* DepositMoneyHeader.swift */; };
 		2B2C84601F99EE9200D18CAC /* DepositMoneyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B781EF7CEAD007C3206 /* DepositMoneyController.swift */; };
@@ -1137,6 +1140,7 @@
 		2B1D669A1FC2F96500EB166C /* TableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewData.swift; sourceTree = "<group>"; };
 		2B20BBDE1F7A53A400844315 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		2B282E791FD8171900B52272 /* sofa-web3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "sofa-web3.js"; sourceTree = "<group>"; };
+		2B2AE1E9203D888C00202BE2 /* WalletEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletEmptyView.swift; sourceTree = "<group>"; };
 		2B355BD91EAE356C0093FA8F /* TokenUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenUser.swift; sourceTree = "<group>"; };
 		2B3D8173202E63DB003B7874 /* UIButton+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Additions.swift"; sourceTree = "<group>"; };
 		2B3D8178202E68C9003B7874 /* SendTokenViewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenViewConfigurator.swift; sourceTree = "<group>"; };
@@ -1808,6 +1812,7 @@
 			children = (
 				2B46016D2028E1A80098694D /* WalletTableHeaderView.swift */,
 				3345A0B32035370B00C559BC /* SendConfirmationSection.swift */,
+				2B2AE1E9203D888C00202BE2 /* WalletEmptyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3647,6 +3652,7 @@
 				2BBD3FA7202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
 				149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */,
+				2B2AE1EC203D888C00202BE2 /* WalletEmptyView.swift in Sources */,
 				2B460189202A408A0098694D /* Collectible.swift in Sources */,
 				9F3FF8011EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
 				14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */,
@@ -3913,6 +3919,7 @@
 				2BBD3FA5202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				3312F6882007A93000881B97 /* BorderView.swift in Sources */,
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
+				2B2AE1EA203D888C00202BE2 /* WalletEmptyView.swift in Sources */,
 				2B460187202A408A0098694D /* Collectible.swift in Sources */,
 				9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */,
 				9F3FF8001EB36122002D0293 /* TSOutgoingMessage+Addtions.m in Sources */,
@@ -4179,6 +4186,7 @@
 				2BBD3FA6202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				A9603EE41F4DABDC00BF57B1 /* DateTimeFormatter.swift in Sources */,
 				A9603EEB1F4DABDC00BF57B1 /* TSOutgoingMessage+Addtions.m in Sources */,
+				2B2AE1EB203D888C00202BE2 /* WalletEmptyView.swift in Sources */,
 				2B460188202A408A0098694D /* Collectible.swift in Sources */,
 				A9603EEE1F4DABDC00BF57B1 /* Checkbox.swift in Sources */,
 				A9603EF11F4DABDC00BF57B1 /* UIView+Additions.swift in Sources */,
