@@ -129,7 +129,8 @@ final class WalletDatasource {
     private func useCachedObjectIfPresent(for key: NSString) {
         if let cachedVersion = cache.object(forKey: key) as? [WalletItem] {
             items = cachedVersion
-            delegate?.walletDatasourceDidReload()
         }
+
+        delegate?.walletDatasourceDidReload()
     }
 }
