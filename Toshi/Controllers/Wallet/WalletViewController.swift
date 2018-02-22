@@ -56,6 +56,14 @@ final class WalletViewController: UIViewController {
 
     private lazy var datasource = WalletDatasource(delegate: self)
 
+    private lazy var tokensValueFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 6
+        numberFormatter.minimumIntegerDigits = 1
+
+        return numberFormatter
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -149,14 +157,17 @@ extension WalletViewController: UITableViewDataSource {
 
         switch datasource.itemsType {
         case .token:
+            let tokenValueNumber = NSDecimalNumber(string: walletItem.details, locale: Locale.current)
+            let formattedValueString = tokensValueFormatter.string(from: tokenValueNumber)
+
             if let ether = walletItem as? EtherToken {
                 cellData = TableCellData(title: ether.subtitle,
                                          subtitle: ether.title,
                                          leftImage: ether.localIcon,
-                                         topDetails: ether.details,
+                                         topDetails: formattedValueString,
                                          badgeText: ether.convertToFiat())
             } else {
-                cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, topDetails: walletItem.details)
+                cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, topDetails: formattedValueString)
             }
         case .collectibles:
             cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, details: walletItem.details)

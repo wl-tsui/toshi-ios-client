@@ -161,7 +161,7 @@ final class TokenEtherDetailViewController: UIViewController {
 
         if let ether = token as? EtherToken {
             iconImageView.image = token.localIcon
-            tokenValueLabel.text = EthereumConverter.ethereumValueString(forWei: ether.wei)
+            tokenValueLabel.text = EthereumConverter.ethereumValueString(forWei: ether.wei, fractionDigits: 6)
             fiatValueLabel.text = EthereumConverter.fiatValueString(forWei: ether.wei, exchangeRate: ExchangeRateClient.exchangeRate)
         } else {
             tokenValueLabel.text = "\(token.displayValueString) \(token.symbol)"

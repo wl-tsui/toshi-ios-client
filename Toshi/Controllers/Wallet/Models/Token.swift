@@ -89,7 +89,7 @@ final class EtherToken: Token {
 
     override var displayValueString: String {
         get {
-            return EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false)
+            return EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false, fractionDigits: 6)
         }
         set {
             // do nothing - this is read-only since it's lazy, but the compiler doesn't think so since it's still a var.
