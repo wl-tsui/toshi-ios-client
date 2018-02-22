@@ -23,6 +23,9 @@ final class WalletItemCellConfigurator: CellConfigurator {
         guard let cell = cell as? BasicTableViewCell else { return }
 
         cell.detailsFont = Theme.preferredRegular()
+        cell.badgeLabel.font = Theme.proTextRegular(size: 15)
+        cell.badgeLabel.textColor = Theme.greyTextColor
+        cell.badgeView.backgroundColor = .clear
 
         cell.titleTextField.setContentCompressionResistancePriority(.required, for: .horizontal)
 

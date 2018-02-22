@@ -237,6 +237,7 @@ final class SendTokenViewConfigurator: NSObject {
 
         let valueContainerView = setupValueContainerView()
         stackView.addArrangedSubview(valueContainerView)
+        stackView.addSpacing(CGFloat.mediumInterItemSpacing, after: valueContainerView)
         stackView.addStandardBorder(margin: CGFloat.defaultMargin)
         stackView.addArrangedSubview(setupAddressContainerView())
 
@@ -248,6 +249,8 @@ final class SendTokenViewConfigurator: NSObject {
         continueButton.leftToSuperview(offset: CGFloat.largeInterItemSpacing)
         continueButton.right(to: view, offset: -CGFloat.largeInterItemSpacing)
         continueButton.bottom(to: layoutGuide, offset: -CGFloat.largeInterItemSpacing)
+
+        primaryValueTextField.becomeFirstResponder()
     }
 
     @objc private func didTapMainView(_ gesture: UITapGestureRecognizer) {
@@ -463,7 +466,7 @@ final class SendTokenViewConfigurator: NSObject {
         addressStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: toTitleLabel)
 
         addressStackView.addArrangedSubview(addressTextView)
-        addressStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: addressTextView)
+        addressStackView.addSpacing(CGFloat.largeInterItemSpacing, after: addressTextView)
 
         addressStackView.addArrangedSubview(addressErrorLabel)
         addressStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: addressErrorLabel)
@@ -544,9 +547,12 @@ extension SendTokenViewConfigurator: UITextViewDelegate {
         // we should just replace text with pasted string
         if textView.text == addressPlaceholder && !text.isEmpty {
             textView.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            destinationAddress = textView.text
 
             return false
         }
+
+        destinationAddress = textView.text
 
         return !isClearingPlaceholder
     }

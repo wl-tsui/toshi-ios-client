@@ -145,7 +145,7 @@ class BasicTableViewCell: UITableViewCell {
         self.badgeLabel.textAlignment = .center
         view.addSubview(self.badgeLabel)
 
-        self.badgeLabel.edges(to: view, insets: UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5))
+        self.badgeLabel.edges(to: view)
 
         return view
     }()
