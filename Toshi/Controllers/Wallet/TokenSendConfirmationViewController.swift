@@ -144,7 +144,7 @@ final class TokenSendConfirmationViewController: UIViewController {
                 } else {
                     var primaryString = "\(strongSelf.amountToSend) \(strongSelf.token.symbol)"
                     if !strongSelf.token.canShowFiatValue {
-                        primaryString = "\(strongSelf.token.displayString(for: strongSelf.amountToSend.toHexString)) \(strongSelf.token.symbol)"
+                        primaryString = "\(strongSelf.amountToSend.toHexString.toDisplayValue(with: strongSelf.token.decimals)) \(strongSelf.token.symbol)"
                     }
 
                     strongSelf.amountSection.setupWith(primaryCurrencyString: primaryString, secondaryCurrencyString: nil)

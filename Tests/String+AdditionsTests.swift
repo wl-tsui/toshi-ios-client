@@ -129,4 +129,21 @@ len
         XCTAssertEqual("0xd1220a0cf47c7b9be7a2e6ba89f429762e7b9adb".toChecksumEncodedAddress(), "0xD1220A0cf47c7B9Be7A2E6BA89F429762e7b9aDb")
         XCTAssertNil("Abcd".toChecksumEncodedAddress())
     }
+
+    func testToDisplayValueWithTokens() {
+        var decimals: Int = 18
+        var inputValue = "0x1fbc58a15fb36dfb9"
+
+        XCTAssertEqual(inputValue.toDisplayValue(with: decimals), "36.588802574655086521")
+
+        inputValue = "0x3a81a92faf"
+        decimals = 10
+        XCTAssertEqual(inputValue.toDisplayValue(with: decimals), "25.1283451823")
+
+        decimals = 30
+        XCTAssertEqual(inputValue.toDisplayValue(with: decimals), "0.000000000000000000251283451823")
+
+        decimals = 0
+        XCTAssertEqual(inputValue.toDisplayValue(with: decimals), "251283451823")
+    }
 }
