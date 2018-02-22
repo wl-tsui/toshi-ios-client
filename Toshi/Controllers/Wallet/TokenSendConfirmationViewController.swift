@@ -105,9 +105,6 @@ final class TokenSendConfirmationViewController: UIViewController {
         self.paymentManager = PaymentManager(parameters: params)
 
         super.init(nibName: nil, bundle: nil)
-
-        let paymentInfoView = setupPaymentInfoView()
-        setupRecipientView(betweenTopAnd: paymentInfoView)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -116,6 +113,9 @@ final class TokenSendConfirmationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let paymentInfoView = setupPaymentInfoView()
+        setupRecipientView(betweenTopAnd: paymentInfoView)
 
         view.backgroundColor = Theme.viewBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped(_:)))
