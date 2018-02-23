@@ -83,11 +83,14 @@ extension CollectibleViewController: UITableViewDataSource {
         }
 
         let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
-        cell.titleLabel.text = token.name
+        cell.titleLabel.text = token.name ?? "\(datasource.name) #\(token.displayId)"
         cell.subtitleLabel.text = token.description
+        cell.leftImageView.image = #imageLiteral(resourceName: "collectible_placeholder")
 
-        AvatarManager.shared.avatar(for: token.image, completion: { image, path in
-            if token.image == path {
+        guard let imagePath = token.image, !imagePath.isEmpty else { return cell }
+
+        AvatarManager.shared.avatar(for: imagePath, completion: { image, path in
+            if token.image == path && image != nil {
                 cell.leftImageView.image = image
             }
         })

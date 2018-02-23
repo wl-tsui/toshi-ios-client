@@ -204,6 +204,7 @@
 "submit_action_title" = "Submit";
 "continue_action_title" = "Continue";
 "share_action_title" = "Share";
+"confirm_action_title" = "Confirm";
 "clipboard_copied_alert_text" = "Copied to clipboard!";
 
 /* Block user Alerts */
@@ -282,10 +283,38 @@
 "wallet_tokens" = "Tokens";
 "wallet_collectibles" = "Collectibles";
 
-"wallet_empty_tokens_title" = "No Tokens Yet";
-"wallet_empty_collectibles_title" = "No Collectibles Yet";
-"wallet_empty_tokens_description" = "Share your wallet address to\nreceive money and tokens.";
-"wallet_empty_tokens_button_title" = "Share Wallet Address";
+"wallet_empty_tokens_title" = "No Tokens Found";
+"wallet_empty_collectibles_title" = "No Collectibles Found";
+"wallet_empty_tokens_description" = "Your tokens will show up here\nautomatically. We scan your wallet\naddress for popular tokens.\nCustom tokens are coming soon.";
+"wallet_tokens_description" = "Your tokens will show up here automatically. We scan your wallet address for popular tokens. Custom tokens are coming soon.";
+
+"wallet_amount_label" = "AMOUNT";
+"wallet_scan_QR_label" = "Scan QR";
+"wallet_token_detail_send" = "Send";
+"wallet_token_detail_receive" = "Receive";
+"wallet_ether_name" = "Ether";
+"wallet_max_value_title" = "Max";
+"wallet_swapped_values_message" = "Swapped values";
+"wallet_to_label" = "TO";
+"wallet_token_balance_format" = "Your %@ balance: %@";
+"wallet_token_balance_format_with_fiat" = "Your %@ balance: %@ (%@)";
+"wallet_invalid_ethereum_address_error" = "This is not a valid Ethereum address.";
+"wallet_insuffisient_token_balance_error" = "Insufficient %@ balance: %@";
+"wallet_insuffisient_fiat_balance_error" = "Insufficient %@ balance: %@ (%@)";
+"wallet_insuffisient_balance_generic" = "Insuffisient balance: %@";
+"wallet_not_an_address_message" = "Not an address QR code";
+"wallet_transaction_leave_alert_message" = "Are you sure you want to\nleave your transaction?";
+"wallet_transaction_leave_confirm_action" = "Leave";
+"wallet_transaction_leave_cancel_action" = "Stay";
+"wallet_address_description" = "Share your public wallet address to receive Ether and tokens.";
+
+"wallet_send_confirmation_recipient_header" = "Recipient";
+"wallet_send_confirmation_amount_title" = "Amount";
+"wallet_send_confirmation_fees_title" = "Est. Network Fees";
+"wallet_send_confirmation_total_title" = "Total";
+"wallet_final_amount_alert_title" = "This amount is not final";
+"wallet_final_amount_alert_message" = "Final transaction amount and network fees will be shown on the next screen";
+"wallet_send_confirmation_success_message" = "Transaction\nSubmitted";
 
 /* Nav Bar Buttons */
 "nav_bar_back" = "Back";

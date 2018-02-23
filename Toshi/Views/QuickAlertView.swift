@@ -96,7 +96,7 @@ final class QuickAlertView: UILabel {
     ///
     /// - Parameters:
     ///   - length: The number of seconds the view should stay on screen before fading out again. Defaults to 1.
-    ///   - completion: A completion block to fire when the hide is completed.
+    ///   - completion: [optional] A completion block to fire when the hide is completed. Defaults to nil.
     func showThenHide(after length: TimeInterval = 1, completion: (() -> Void)? = nil) {
         guard let parent = parentView else { /* parent got dealloced */ return }
 

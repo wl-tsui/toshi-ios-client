@@ -17,7 +17,7 @@ import Foundation
 import Teapot
 import AwesomeCache
 
-typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?)
+typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?, value: String?)
 typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
 typealias WalletItemsCompletion = ((_ items: [WalletItem], _ error: ToshiError?) -> Void)
 
@@ -89,7 +89,7 @@ final class EthereumAPIClient {
             }
 
             DispatchQueue.main.async {
-                let skeleton = (gas: resultJson?["gas"] as? String, gasPrice: resultJson?["gas_price"] as? String, transaction: resultJson?["tx"] as? String)
+                let skeleton = (gas: resultJson?["gas"] as? String, gasPrice: resultJson?["gas_price"] as? String, transaction: resultJson?["tx"] as? String, value: resultJson?["value"] as? String)
                 completion(skeleton, resultError)
             }
         }

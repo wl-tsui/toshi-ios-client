@@ -45,14 +45,14 @@ class CellConfigurator {
 
         if cellData.components.contains(.leftImage) {
             cell.leftImageView.image = cellData.leftImage
+        }
 
-            if let leftImagePath = cellData.leftImagePath {
-                AvatarManager.shared.avatar(for: leftImagePath, completion: { [weak self] image, path in
-                    if leftImagePath == path {
-                        cell.leftImageView.image = image
-                    }
-                })
-            }
+        if let leftImagePath = cellData.leftImagePath {
+            AvatarManager.shared.avatar(for: leftImagePath, completion: { image, path in
+                if leftImagePath == path {
+                    cell.leftImageView.image = image
+                }
+            })
         }
 
         if cellData.components.contains(.doubleImage) {

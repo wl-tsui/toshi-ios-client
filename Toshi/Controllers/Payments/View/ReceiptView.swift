@@ -82,7 +82,7 @@ final class ReceiptView: UIStackView {
 
     func setPaymentInfo(_ paymentInfo: PaymentInfo) {
         fiatAmountLine.setValue(paymentInfo.fiatString)
-        estimatedNetworkFeesLine.setValue(paymentInfo.estimatedFeesString)
+        estimatedNetworkFeesLine.setValue(paymentInfo.estimatedFeesFiatString)
         totalLine.setValue(paymentInfo.totalFiatString)
         ethereumAmountLabel.text = paymentInfo.totalEthereumString
     }

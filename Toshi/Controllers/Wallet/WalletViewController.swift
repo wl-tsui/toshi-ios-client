@@ -15,13 +15,15 @@
 
 import UIKit
 
-final class WalletViewController: UIViewController, Emptiable {
+final class WalletViewController: UIViewController {
 
     private let walletHeaderHeight: CGFloat = 180
     private let sectionHeaderHeight: CGFloat = 44
 
+    private lazy var activityView = self.defaultActivityIndicator()
+
     private lazy var tableView: UITableView = {
-        let view = UITableView(frame: self.view.frame, style: .plain)
+        let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         view.backgroundColor = nil
@@ -32,11 +34,19 @@ final class WalletViewController: UIViewController, Emptiable {
         view.layer.borderWidth = .lineHeight
         view.layer.borderColor = Theme.borderColor.cgColor
         view.alwaysBounceVertical = true
+        view.refreshControl = self.refreshControl
 
         return view
     }()
 
-    private lazy var tableHeaderView: UIView = {
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+
+        return refreshControl
+    }()
+
+    private lazy var tableHeaderView: SegmentedHeaderView = {
         let walletItemTitles = [Localized("wallet_tokens"), Localized("wallet_collectibles")]
         let headerView = SegmentedHeaderView(segmentNames: walletItemTitles, delegate: self)
         headerView.backgroundColor = Theme.viewBackgroundColor
@@ -46,30 +56,45 @@ final class WalletViewController: UIViewController, Emptiable {
 
     private lazy var datasource = WalletDatasource(delegate: self)
 
-    let emptyView = EmptyView(title: Localized("wallet_empty_tokens_title"), description: Localized("wallet_empty_tokens_description"), buttonTitle: Localized("wallet_empty_tokens_button_title"))
+    private lazy var tokensValueFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 6
+        numberFormatter.minimumIntegerDigits = 1
+
+        return numberFormatter
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        emptyView.isHidden = true
-
         title = Localized("wallet_controller_title")
         view.backgroundColor = Theme.lightGrayBackgroundColor
+        emptyView.isHidden = true
 
         addSubviewsAndConstraints()
 
         preferLargeTitleIfPossible(false)
+
+        setupActivityIndicator()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        showActivityIndicatorIfOnline()
         datasource.loadItems()
     }
 
+    private lazy var emptyView: WalletEmptyView = {
+        return WalletEmptyView(frame: .zero)
+    }()
+
     private func addSubviewsAndConstraints() {
+        view.addSubview(emptyView)
+        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: walletHeaderHeight + sectionHeaderHeight, left: 0, bottom: 0, right: 0))
+
         view.addSubview(tableView)
-        tableView.edges(to: view)
+        tableView.edges(to: layoutGuide())
 
         let frame = CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: walletHeaderHeight))
 
@@ -77,20 +102,26 @@ final class WalletViewController: UIViewController, Emptiable {
                                                address: Cereal.shared.paymentAddress,
                                                delegate: self)
         tableView.tableHeaderView = headerView
-
-        view.addSubview(emptyView)
-        emptyView.actionButton.addTarget(self, action: #selector(emptyViewButtonPressed(_:)), for: .touchUpInside)
-        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: walletHeaderHeight + sectionHeaderHeight, left: 0, bottom: 0, right: 0))
     }
 
-    @objc func emptyViewButtonPressed(_ button: ActionButton) {
-        let qrCodeImage = Cereal.shared.walletAddressQRCodeImage(resizeRate: 20.0)
-        shareWithSystemSheet(item: qrCodeImage)
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        guard Navigator.reachabilityStatus != .notReachable else {
+            refreshControl.endRefreshing()
+            return
+        }
+
+        datasource.loadItems()
     }
 
     private func adjustEmptyStateView() {
         emptyView.isHidden = !datasource.isEmpty
         emptyView.title = datasource.emptyStateTitle
+        emptyView.details = datasource.emptyStateDetails
+    }
+
+    private func showActivityIndicatorIfOnline() {
+        guard Navigator.reachabilityStatus != .notReachable else { return }
+        showActivityIndicator()
     }
 }
 
@@ -105,6 +136,10 @@ extension WalletViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return tableHeaderView
+    }
+
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return datasource.contentDescription
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -122,13 +157,27 @@ extension WalletViewController: UITableViewDataSource {
 
         switch datasource.itemsType {
         case .token:
-            cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, topDetails: walletItem.details)
+            let tokenValueNumber = NSDecimalNumber(string: walletItem.details, locale: Locale.current)
+            let formattedValueString = tokensValueFormatter.string(from: tokenValueNumber)
+
+            if let ether = walletItem as? EtherToken {
+                cellData = TableCellData(title: ether.subtitle,
+                                         subtitle: ether.title,
+                                         leftImage: ether.localIcon,
+                                         topDetails: formattedValueString,
+                                         badgeText: ether.convertToFiat())
+            } else {
+                cellData = TableCellData(title: walletItem.subtitle, subtitle: walletItem.title, leftImagePath: walletItem.iconPath, topDetails: formattedValueString)
+            }
         case .collectibles:
             cellData = TableCellData(title: walletItem.title, subtitle: walletItem.subtitle, leftImagePath: walletItem.iconPath, details: walletItem.details)
         }
 
         let configurator = WalletItemCellConfigurator()
-        let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)
+        var components = cellData.components
+        components.insert(.leftImage)
+
+        let reuseIdentifier = configurator.cellIdentifier(for: components)
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? BasicTableViewCell else {
             assertionFailure("Can't dequeue basic cell on wallet view controller for given reuse identifier: \(reuseIdentifier)")
@@ -145,10 +194,22 @@ extension WalletViewController: UITableViewDataSource {
 extension WalletViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let item = datasource.item(at: indexPath.row) as? Collectible else { return }
 
-        let controller = CollectibleViewController(collectibleContractAddress: item.contractAddress)
-        navigationController?.pushViewController(controller, animated: true)
+        switch datasource.itemsType {
+        case .token:
+            guard let token = datasource.item(at: indexPath.row) as? Token else {
+                assertionFailure("Can't retrieve item at index: \(indexPath.row)")
+                return
+            }
+
+            let detailViewController = TokenEtherDetailViewController(token: token)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        case .collectibles:
+            guard let item = datasource.item(at: indexPath.row) as? Collectible else { return }
+
+            let controller = CollectibleViewController(collectibleContractAddress: item.contractAddress)
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -164,15 +225,21 @@ extension WalletViewController: SegmentedHeaderDelegate {
             return
         }
 
+        showActivityIndicatorIfOnline()
         datasource.itemsType = itemType
     }
 }
 
 extension WalletViewController: WalletDatasourceDelegate {
 
-    func walletDatasourceDidReload() {
+    func walletDatasourceDidReload(_ datasource: WalletDatasource, cachedResult: Bool) {
         adjustEmptyStateView()
         tableView.reloadData()
+
+        let shouldHideIndicator = !cachedResult || (cachedResult && !datasource.isEmpty)
+        guard shouldHideIndicator else { return }
+        hideActivityIndicator()
+        refreshControl.endRefreshing()
     }
 }
 
@@ -183,7 +250,18 @@ extension WalletViewController: WalletTableViewHeaderDelegate {
     }
 
     func openAddress(_ address: String, from headerView: WalletTableHeaderView) {
-        let qrController = WalletQRCodeViewController(address: address)
-        self.present(qrController, animated: true)
+        guard let screenshot = tabBarController?.view.snapshotView(afterScreenUpdates: false) else {
+            assertionFailure("Could not screenshot?!")
+            return
+        }
+        let qrController = WalletQRCodeViewController(address: address, backgroundView: screenshot)
+        qrController.modalTransitionStyle = .crossDissolve
+        present(qrController, animated: true)
+    }
+}
+
+extension WalletViewController: ActivityIndicating {
+    var activityIndicator: UIActivityIndicatorView {
+        return activityView
     }
 }

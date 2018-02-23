@@ -213,7 +213,7 @@ final class ProfilesViewController: UIViewController {
         }
 
         if #available(iOS 11.0, *) {
-            // Insets are handled properly on iOS 11. 
+            // Insets are handled properly on iOS 11.
         } else {
             /// We have to adjust the insets to the bottom of the searchbar manually on iOS10
             let statusBarHeight = UIApplication.shared.statusBarFrame.size.height

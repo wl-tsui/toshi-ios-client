@@ -23,10 +23,13 @@ enum WalletItemType: Int {
 }
 
 protocol WalletDatasourceDelegate: class {
-    func walletDatasourceDidReload()
+    func walletDatasourceDidReload(_ datasource: WalletDatasource, cachedResult: Bool)
 }
 
 final class WalletDatasource {
+
+    private let tokenCacheKey: NSString = "Tokens"
+    private let collectiblesCacheKey: NSString = "Collectibles"
 
     weak var delegate: WalletDatasourceDelegate?
 
@@ -37,6 +40,7 @@ final class WalletDatasource {
     }
 
     private var items: [WalletItem] = []
+    private lazy var cache = NSCache<NSString, AnyObject>()
 
     init(delegate: WalletDatasourceDelegate?) {
         self.delegate = delegate
@@ -50,12 +54,30 @@ final class WalletDatasource {
         return numberOfItems == 0
     }
 
+    var contentDescription: String? {
+        switch itemsType {
+        case .token:
+            return !isEmpty ? Localized("wallet_tokens_description") : nil
+        case .collectibles:
+            return nil
+        }
+    }
+
     var emptyStateTitle: String {
         switch itemsType {
         case .token:
             return Localized("wallet_empty_tokens_title")
         case .collectibles:
             return Localized("wallet_empty_collectibles_title")
+        }
+    }
+
+    var emptyStateDetails: String? {
+        switch itemsType {
+        case .token:
+            return Localized("wallet_empty_tokens_description")
+        case .collectibles:
+            return nil
         }
     }
 
@@ -69,6 +91,8 @@ final class WalletDatasource {
     }
 
     func loadItems() {
+        items = []
+
         switch itemsType {
         case .token:
             loadTokens()
@@ -78,16 +102,53 @@ final class WalletDatasource {
     }
 
     private func loadTokens() {
-        EthereumAPIClient.shared.getTokens { [weak self] items, _ in
-            self?.items = items
-            self?.delegate?.walletDatasourceDidReload()
-        }
+        var loadedItems: [WalletItem] = []
+
+        useCachedObjectIfPresent(for: tokenCacheKey)
+
+        EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, _ in
+
+            if balance.floatValue > 0 {
+                let etherToken = EtherToken(valueInWei: balance)
+                loadedItems.append(etherToken)
+            } // else, don't show ether balance.
+
+            EthereumAPIClient.shared.getTokens { items, _ in
+                guard let strongSelf = self else { return }
+
+                loadedItems.append(contentsOf: items)
+                strongSelf.cacheObjects(loadedItems, for: strongSelf.tokenCacheKey)
+
+                guard strongSelf.itemsType == .token else { return }
+                strongSelf.items = loadedItems
+                strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
+            }
+        })
     }
     
     private func loadCollectibles() {
+        useCachedObjectIfPresent(for: collectiblesCacheKey)
+
         EthereumAPIClient.shared.getCollectibles { [weak self] items, _ in
-            self?.items = items
-            self?.delegate?.walletDatasourceDidReload()
+            guard let strongSelf = self else { return }
+
+            strongSelf.cacheObjects(items, for: strongSelf.collectiblesCacheKey)
+            guard strongSelf.itemsType == .collectibles else { return }
+
+            strongSelf.items = items
+            strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
         }
+    }
+    
+    private func cacheObjects(_ objects: [WalletItem], for key: NSString) {
+        cache.setObject(objects as AnyObject, forKey: key)
+    }
+
+    private func useCachedObjectIfPresent(for key: NSString) {
+        if let cachedVersion = cache.object(forKey: key) as? [WalletItem] {
+            items = cachedVersion
+        }
+
+        delegate?.walletDatasourceDidReload(self, cachedResult: true)
     }
 }

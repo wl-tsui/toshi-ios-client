@@ -100,4 +100,67 @@ extension String {
         
         return lines.joined(separator: "\n")
     }
+
+    // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-55.md
+    func toChecksumEncodedAddress() -> String? {
+        guard EthereumAddress.validate(self) else { return nil }
+
+        let addressWithout0x = self.lowercased().dropFirst(2)
+        guard let data = addressWithout0x.data(using: .utf8) else { return nil }
+
+        let hash = (data as NSData).sha3(256).hexadecimalString
+
+        var output = "0x"
+        for (idx, character) in addressWithout0x.enumerated() {
+
+            let characterIndex = index(startIndex, offsetBy: idx)
+            let hashChar = hash[characterIndex]
+
+            guard let integer = Int(String(hashChar), radix: 16) else {
+                output.append(character)
+                continue
+            }
+
+            if integer >= 8 {
+                output.append(String(character).uppercased())
+            } else {
+                output.append(character)
+            }
+        }
+
+        return output
+    }
+
+    func toDisplayValue(with decimals: Int) -> String {
+        let decimalNumberValue = NSDecimalNumber(hexadecimalString: self)
+        var decimalValueString = decimalNumberValue.stringValue
+
+        let valueFormatter = NumberFormatter()
+        valueFormatter.numberStyle = .decimal
+
+        guard decimals > 0 else { return decimalValueString }
+
+        var insertionString = ""
+        if decimalValueString.length == decimals {
+            insertionString.append(valueFormatter.zeroSymbol ?? "0")
+        }
+
+        insertionString.append(valueFormatter.decimalSeparator ?? ".")
+
+        // we need to handle longer decimals value than current value string, and prepend needed amount of zeros
+        if decimals > decimalValueString.length {
+            let diff = decimals - decimalValueString.length
+            var zeros = ""
+            for _ in 0 ... diff {
+                zeros.append("0")
+            }
+
+            decimalValueString.insert(contentsOf: zeros, at: decimalValueString.startIndex)
+        }
+
+        let insertIndex = decimalValueString.index(decimalValueString.endIndex, offsetBy: -decimals)
+        decimalValueString.insert(contentsOf: insertionString, at: insertIndex)
+
+        return decimalValueString
+    }
 }

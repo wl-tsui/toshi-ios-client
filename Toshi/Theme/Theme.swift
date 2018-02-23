@@ -78,6 +78,10 @@ extension Theme {
         return .black
     }
 
+    static var darkTextHalfAlpha: UIColor {
+        return Theme.darkTextColor.withAlphaComponent(0.5)
+    }
+
     static var greyTextColor: UIColor {
         return UIColor(hex: "A4A4AB")
     }
@@ -88,6 +92,10 @@ extension Theme {
 
     static var lighterGreyTextColor: UIColor {
         return UIColor(hex: "F3F3F3")
+    }
+
+    static var placeholderTextColor: UIColor {
+        return UIColor(hex: "C7C7CC")
     }
 
     @objc static var tintColor: UIColor {
@@ -242,6 +250,10 @@ extension Theme {
         return dynamicType(for: regularMonospaced(size: 15), withStyle: .body, inSizeRange: range)
     }
 
+    static func preferredRegularBold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: bold(size: 17), withStyle: .body, inSizeRange: range)
+    }
+
     static func preferredRegularMedium(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
         return dynamicType(for: medium(size: 17), withStyle: .callout, inSizeRange: range)
     }
@@ -253,7 +265,27 @@ extension Theme {
     static func preferredSemibold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
         return dynamicType(for: semibold(size: 17), withStyle: .headline, inSizeRange: range)
     }
-    
+
+    static func preferredHeavy(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: heavy(size: 17), withStyle: .body, inSizeRange: range)
+    }
+
+    static func preferredProTextBold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: proTextBold(size: 17), withStyle: .body, inSizeRange: range)
+    }
+
+    static func preferredProTextSemibold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: proTextSemibold(size: 17), withStyle: .body, inSizeRange: range)
+    }
+
+    static func preferredProTextMedium(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: proTextMedium(size: 17), withStyle: .body, inSizeRange: range)
+    }
+
+    static func preferredProTextRegular(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
+        return dynamicType(for: proTextRegular(size: 17), withStyle: .body, inSizeRange: range)
+    }
+
     // MARK: Default fonts
 
     private static func font(named name: String, size: CGFloat) -> UIFont {
@@ -282,6 +314,26 @@ extension Theme {
     
     @objc static func medium(size: CGFloat) -> UIFont {
         return font(named: "SFProDisplay-Medium", size: size)
+    }
+
+    @objc static func heavy(size: CGFloat) -> UIFont {
+        return font(named: "SFProText-Heavy", size: size)
+    }
+
+    @objc static func proTextBold(size: CGFloat) -> UIFont {
+        return font(named: "SFProText-Bold", size: size)
+    }
+
+    @objc static func proTextSemibold(size: CGFloat) -> UIFont {
+        return font(named: "SFProText-Semibold", size: size)
+    }
+
+    @objc static func proTextMedium(size: CGFloat) -> UIFont {
+        return font(named: "SFProText-Medium", size: size)
+    }
+
+    @objc static func proTextRegular(size: CGFloat) -> UIFont {
+        return font(named: "SFProText-Regular", size: size)
     }
 
     // MARK: Text Fonts

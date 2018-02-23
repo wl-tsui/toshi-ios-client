@@ -65,7 +65,7 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
         contentView.addSubview(leftImageView)
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .center
+        stackView.alignment = .leading
 
         contentView.addSubview(stackView)
 

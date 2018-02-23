@@ -16,36 +16,23 @@
 import Foundation
 
 /// An individual Token
-final class Token: Codable {
+class Token: Codable {
 
     let name: String
     let symbol: String
     let value: String
     let decimals: Int
     let contractAddress: String
-    let icon: String
+    let icon: String?
+    fileprivate(set) var canShowFiatValue = false
 
     lazy var displayValueString: String = {
-        let decimalNumberValue = NSDecimalNumber(hexadecimalString: self.value)
-        var decimalValueString = decimalNumberValue.stringValue
-
-        let valueFormatter = NumberFormatter()
-        valueFormatter.numberStyle = .decimal
-
-        guard self.decimals > 0 else { return decimalValueString }
-
-        var insertionString = ""
-        if decimalValueString.length == self.decimals {
-            insertionString.append(valueFormatter.zeroSymbol ?? "0")
-        }
-
-        insertionString.append(valueFormatter.decimalSeparator ?? ".")
-
-        let insertIndex = decimalValueString.index(decimalValueString.endIndex, offsetBy: -self.decimals)
-        decimalValueString.insert(contentsOf: insertionString, at: insertIndex)
-
-        return decimalValueString
+        return self.value.toDisplayValue(with: self.decimals)
     }()
+
+    var isEtherToken: Bool {
+        return symbol == "ETH"
+    }
 
     enum CodingKeys: String, CodingKey {
         case
@@ -55,6 +42,66 @@ final class Token: Codable {
         decimals,
         contractAddress = "contract_address",
         icon
+    }
+
+    init(name: String,
+         symbol: String,
+         value: String,
+         decimals: Int,
+         contractAddress: String,
+         iconPath: String) {
+        self.name = name
+        self.symbol = symbol
+        self.value = value
+        self.decimals = decimals
+        self.contractAddress = contractAddress
+        self.icon = iconPath
+    }
+
+    var localIcon: UIImage? {
+        guard let iconName = icon else { return nil }
+        return UIImage(named: iconName)
+    }
+
+    func convertToFiat() -> String? {
+        return nil
+    }
+}
+
+// MARK: - Ether Token
+
+/// A class which uses token to view Ether balances
+final class EtherToken: Token {
+
+    let wei: NSDecimalNumber
+
+    init(valueInWei: NSDecimalNumber) {
+        wei = valueInWei
+
+        super.init(name: Localized("wallet_ether_name"),
+                   symbol: "ETH",
+                   value: wei.toHexString,
+                   decimals: 5,
+                   contractAddress: "",
+                   iconPath: "ether_logo")
+        canShowFiatValue = true
+    }
+
+    override var displayValueString: String {
+        get {
+            return EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false, fractionDigits: 6)
+        }
+        set {
+            // do nothing - this is read-only since it's lazy, but the compiler doesn't think so since it's still a var.
+        }
+    }
+
+    required init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
+
+    override func convertToFiat() -> String? {
+        return EthereumConverter.fiatValueString(forWei: wei, exchangeRate: ExchangeRateClient.exchangeRate)
     }
 }
 
@@ -68,6 +115,8 @@ final class TokenResults: Codable {
         tokens
     }
 }
+
+// MARK: - Wallet Item
 
 extension Token: WalletItem {
     var title: String? {
@@ -84,5 +133,9 @@ extension Token: WalletItem {
     
     var details: String? {
         return displayValueString
+    }
+
+    var uniqueIdentifier: String {
+        return symbol
     }
 }
