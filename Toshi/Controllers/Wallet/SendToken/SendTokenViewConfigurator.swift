@@ -290,6 +290,7 @@ final class SendTokenViewConfigurator: NSObject {
 
         guard !isMaxValueSelected else {
             primaryValueTextField.text = ""
+            configureSecondaryValueLabel()
             isMaxValueSelected = false
             primaryValueTextField.becomeFirstResponder()
 
