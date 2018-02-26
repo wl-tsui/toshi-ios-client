@@ -170,6 +170,10 @@ extension TabBarController: UITabBarControllerDelegate {
             browseViewController.navigationController?.popToRootViewController(animated: false)
         }
 
+        guard viewController != walletController,
+            let walletViewController = walletController.viewControllers.first as? WalletViewController else { return true }
+        walletViewController.invalidateReloadIfNeeded()
+
         return true
     }
 

@@ -69,6 +69,10 @@ final class TokenEtherDetailViewController: UIViewController {
 
     private var token: Token
 
+    var tokenContractAddress: String {
+        return token.contractAddress
+    }
+
     // MARK: - Initialization
 
     init(token: Token) {
@@ -177,6 +181,7 @@ final class TokenEtherDetailViewController: UIViewController {
 
     @objc private func sendButtonTapped() {
         let sendTokenController = SendTokenViewController(token: token, tokenType: token.canShowFiatValue ? .fiatRepresentable : .nonFiatRepresentable)
+        sendTokenController.delegate = self
         let navigationController = UINavigationController(rootViewController: sendTokenController)
 
         Navigator.presentModally(navigationController)
@@ -191,5 +196,19 @@ final class TokenEtherDetailViewController: UIViewController {
         let walletQRController = WalletQRCodeViewController(address: Cereal.shared.paymentAddress, backgroundView: screenshot)
         walletQRController.modalTransitionStyle = .crossDissolve
         present(walletQRController, animated: true)
+    }
+
+    func update(with token: Token) {
+        self.token = token
+        configure(for: token)
+    }
+}
+
+extension TokenEtherDetailViewController: SendTokenViewControllerDelegate {
+
+    func sendTokenControllerDidFinish(_ controller: UIViewController?) {
+        controller?.dismiss(animated: true) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }

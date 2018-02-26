@@ -22,6 +22,10 @@ final class WalletViewController: UIViewController {
 
     private lazy var activityView = self.defaultActivityIndicator()
 
+    private var timer: Timer?
+
+    private var tokenDetailsViewController: TokenEtherDetailViewController?
+
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -83,6 +87,12 @@ final class WalletViewController: UIViewController {
 
         showActivityIndicatorIfOnline()
         datasource.loadItems()
+
+        tokenDetailsViewController = nil
+
+        timer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
+            self?.datasource.loadItems()
+        }
     }
 
     private lazy var emptyView: WalletEmptyView = {
@@ -122,6 +132,19 @@ final class WalletViewController: UIViewController {
     private func showActivityIndicatorIfOnline() {
         guard Navigator.reachabilityStatus != .notReachable else { return }
         showActivityIndicator()
+    }
+
+    private func reloadTableView() {
+        let contentOffset = tableView.contentOffset
+        tableView.reloadData()
+        tableView.layoutIfNeeded()
+        tableView.setContentOffset(contentOffset, animated: false)
+    }
+
+    func invalidateReloadIfNeeded() {
+        guard let runningTimer = timer else { return }
+        runningTimer.invalidate()
+        timer = nil
     }
 }
 
@@ -202,8 +225,8 @@ extension WalletViewController: UITableViewDelegate {
                 return
             }
 
-            let detailViewController = TokenEtherDetailViewController(token: token)
-            navigationController?.pushViewController(detailViewController, animated: true)
+            tokenDetailsViewController = TokenEtherDetailViewController(token: token)
+            navigationController?.pushViewController(tokenDetailsViewController!, animated: true)
         case .collectibles:
             guard let item = datasource.item(at: indexPath.row) as? Collectible else { return }
 
@@ -234,12 +257,19 @@ extension WalletViewController: WalletDatasourceDelegate {
 
     func walletDatasourceDidReload(_ datasource: WalletDatasource, cachedResult: Bool) {
         adjustEmptyStateView()
-        tableView.reloadData()
+        reloadTableView()
 
         let shouldHideIndicator = !cachedResult || (cachedResult && !datasource.isEmpty)
         guard shouldHideIndicator else { return }
         hideActivityIndicator()
         refreshControl.endRefreshing()
+
+        guard let detailsController = tokenDetailsViewController else { return }
+        guard datasource.itemsType == .token,
+            let tokens = datasource.items as? [Token],
+            let token = tokens.first(where: { $0.contractAddress == detailsController.tokenContractAddress }) else { return }
+
+        detailsController.update(with: token)
     }
 }
 

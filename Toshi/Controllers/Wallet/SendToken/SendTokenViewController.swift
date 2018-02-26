@@ -16,6 +16,10 @@
 import UIKit
 import CameraScanner
 
+protocol SendTokenViewControllerDelegate: class {
+    func sendTokenControllerDidFinish(_ controller: UIViewController?)
+}
+
 final class SendTokenViewController: UIViewController {
 
     private let sectionHeight: CGFloat = 160.0
@@ -24,6 +28,7 @@ final class SendTokenViewController: UIViewController {
     let tokenType: TokenType
 
     private var configurator: SendTokenViewConfigurator!
+    weak var delegate: SendTokenViewControllerDelegate?
 
     init(token: Token, tokenType: TokenType) {
         self.token = token
@@ -130,6 +135,6 @@ extension SendTokenViewController: ScannerViewControllerDelegate {
 extension SendTokenViewController: TokenSendConfirmationDelegate {
 
     func tokenSendConfirmationControllerDidFinish(_ controller: TokenSendConfirmationViewController) {
-        navigationController?.dismiss(animated: true, completion: nil)
+        delegate?.sendTokenControllerDidFinish(navigationController)
     }
 }

@@ -39,7 +39,7 @@ final class WalletDatasource {
         }
     }
 
-    private var items: [WalletItem] = []
+    private(set) var items: [WalletItem] = []
     private lazy var cache = NSCache<NSString, AnyObject>()
 
     init(delegate: WalletDatasourceDelegate?) {
