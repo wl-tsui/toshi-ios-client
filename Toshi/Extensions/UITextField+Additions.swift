@@ -13,15 +13,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import UIKit
+import Foundation
 
-extension UILabel {
-    
+extension UITextField {
+
     /// - Returns: true if there is text of length greater than zero, false if not
-    var hasContent: Bool {
+    var hasText: Bool {
         guard let text = self.text else { return false }
-        
+
         return !text.isEmpty
     }
+
+    /// - Returns: text if there is any or emty string
+    var currentOrEmptyText: String {
+        return text ?? ""
+    }
 }
-  

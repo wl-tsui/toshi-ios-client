@@ -160,9 +160,9 @@ final class SendTokenViewModel {
                 wei = NSDecimalNumber(hexadecimalString: token.value)
                 ethValueString = EthereumConverter.ethereumValueString(forWei: wei, withSymbol: false, fractionDigits: 6)
             } else {
-                let fiat = NSDecimalNumber(string: primaryValueText, locale: Locale.current)
-                let ether = EthereumConverter.localFiatToEther(forFiat: fiat, exchangeRate: ExchangeRateClient.exchangeRate)
+                let ether = etherNumberFromFiatText(primaryValueText)
                 ethValueString = EthereumConverter.ethereumValueString(forEther: ether, withSymbol: false, fractionDigits: 6)
+                wei = EthereumConverter.etherToWei(ether)
             }
 
             secondaryValueResultText = EthereumConverter.fiatValueString(forWei: wei, exchangeRate: ExchangeRateClient.exchangeRate)

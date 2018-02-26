@@ -39,6 +39,8 @@ final class SendTokenViewConfigurator: NSObject {
 
     private weak var view: UIView?
 
+    private var isShowingFinalValueAlert = false
+
     private var isMaxValueSelected: Bool = false {
         didSet {
             maxButton.isSelected = isMaxValueSelected
@@ -302,12 +304,17 @@ final class SendTokenViewConfigurator: NSObject {
             return
         }
 
+        isShowingFinalValueAlert = true
         let alert = UIAlertController(title: Localized("wallet_final_amount_alert_title"), message: Localized("wallet_final_amount_alert_message"), preferredStyle: .alert)
         let okAction = UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+            self.isShowingFinalValueAlert = false
             self.setMaxValue()
         })
 
-        let cancelAction = UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: Localized("cancel_action_title"), style: .cancel, handler: { _ in
+            self.isShowingFinalValueAlert = false
+        })
+
         alert.addAction(okAction)
         alert.addAction(cancelAction)
 
@@ -336,9 +343,14 @@ final class SendTokenViewConfigurator: NSObject {
 
     @objc private func swapButtonTapped() {
 
-        guard let primaryValueText = primaryValueTextField.text, !primaryValueText.isEmpty else { return }
+        guard primaryValueTextField.hasText else {
+            viewConfiguration.primaryValue = viewConfiguration.primaryValue.opposite
+            configureSymbolLabel()
+            configureSecondaryValueLabel()
+            return
+        }
 
-        let valuesTexts = viewModel.swappedValuesText(for: viewConfiguration, isMaxValueSelected: isMaxValueSelected, primaryValueText: primaryValueText)
+        let valuesTexts = viewModel.swappedValuesText(for: viewConfiguration, isMaxValueSelected: isMaxValueSelected, primaryValueText: primaryValueTextField.currentOrEmptyText)
         primaryValueTextField.text = valuesTexts.primaryValueText
         secondaryValueLabel.text = valuesTexts.secondaryValueText
 
@@ -632,7 +644,7 @@ extension SendTokenViewConfigurator: UITextViewDelegate {
 extension SendTokenViewConfigurator: UITextFieldDelegate {
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        viewConfiguration.isActive = isMaxValueSelected
+        viewConfiguration.isActive = isMaxValueSelected || isShowingFinalValueAlert
         configureSymbolLabel()
 
         return true

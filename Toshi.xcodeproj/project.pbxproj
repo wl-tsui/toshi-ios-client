@@ -220,6 +220,9 @@
 		2BAB90C81EC12098005D98C6 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90C71EC12098005D98C6 /* libstdc++.tbd */; };
 		2BAB90CA1EC120A8005D98C6 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90C91EC120A8005D98C6 /* libc++.tbd */; };
 		2BAB90CB1EC120B0005D98C6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAB90B61EC119FC005D98C6 /* libz.tbd */; };
+		2BB2E192204420DD001DD5AA /* UITextField+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB2E191204420DD001DD5AA /* UITextField+Additions.swift */; };
+		2BB2E193204420DD001DD5AA /* UITextField+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB2E191204420DD001DD5AA /* UITextField+Additions.swift */; };
+		2BB2E194204420DD001DD5AA /* UITextField+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB2E191204420DD001DD5AA /* UITextField+Additions.swift */; };
 		2BB842791EDD91F70044BDAB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB842781EDD91F70044BDAB /* SplashViewController.swift */; };
 		2BBD3FA1202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */; };
 		2BBD3FA2202BCDEA007E6BCE /* CollectibleTokensDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */; };
@@ -1200,6 +1203,7 @@
 		2BAB90C51EC12076005D98C6 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		2BAB90C71EC12098005D98C6 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		2BAB90C91EC120A8005D98C6 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		2BB2E191204420DD001DD5AA /* UITextField+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Additions.swift"; sourceTree = "<group>"; };
 		2BB842781EDD91F70044BDAB /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2BBD3FA0202BCDEA007E6BCE /* CollectibleTokensDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectibleTokensDatasource.swift; sourceTree = "<group>"; };
 		2BBD3FA4202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectImageTitleSubtitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -2252,6 +2256,7 @@
 				3312F6832007A59400881B97 /* UIStackView+Additions.swift */,
 				2BC7CA291F7BA60600033E35 /* UIViewController+NavigationBar.swift */,
 				A9AC740A1E77E62900365029 /* UIView+Additions.swift */,
+				2BB2E191204420DD001DD5AA /* UITextField+Additions.swift */,
 				D197B494213B9F6EC5413D88 /* YapDatabaseViewConnection+Additions.swift */,
 			);
 			path = Extensions;
@@ -3596,6 +3601,7 @@
 				A9E1DCDF1F1E276E001A4ABE /* MessagesTextCell.swift in Sources */,
 				2B6C18FA1FCD438000DE432B /* NewGroupViewModel.swift in Sources */,
 				A9A9F9A31F8B707C0010F877 /* RecentNavigationController.swift in Sources */,
+				2BB2E194204420DD001DD5AA /* UITextField+Additions.swift in Sources */,
 				149F9A861E72E29A00FB74AA /* EthereumConverter.swift in Sources */,
 				2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */,
 				2BD135AF1EE1A1E000B9F454 /* SplashNavigationController.swift in Sources */,
@@ -3863,6 +3869,7 @@
 				A916290D1F3B5828008A7F36 /* PaymentAddressViewController.swift in Sources */,
 				9F78D9D11EE93E68003A0B95 /* ModalTransition.swift in Sources */,
 				9FD247831ED3037F00A38C40 /* String+Additions.swift in Sources */,
+				2BB2E192204420DD001DD5AA /* UITextField+Additions.swift in Sources */,
 				A9AC74141E78231A00365029 /* PassphraseView.swift in Sources */,
 				A9AC74081E77E37500365029 /* ActionButton.swift in Sources */,
 				9FCDBAEA1E28FD5C00A70E07 /* Theme.swift in Sources */,
@@ -4130,6 +4137,7 @@
 				A9603E611F4DABDC00BF57B1 /* EthereumConverter.swift in Sources */,
 				2B6C18F91FCD438000DE432B /* NewGroupViewModel.swift in Sources */,
 				2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */,
+				2BB2E193204420DD001DD5AA /* UITextField+Additions.swift in Sources */,
 				A9603E671F4DABDC00BF57B1 /* SplashNavigationController.swift in Sources */,
 				A9603E6E1F4DABDC00BF57B1 /* CurrencyPicker.swift in Sources */,
 				A9603E6F1F4DABDC00BF57B1 /* ImagesViewControllerTransition.swift in Sources */,
