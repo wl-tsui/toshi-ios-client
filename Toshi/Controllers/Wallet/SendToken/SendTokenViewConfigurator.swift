@@ -51,7 +51,7 @@ final class SendTokenViewConfigurator: NSObject {
 
             primaryValueTextField.textColor = isMaxValueSelected ? Theme.placeholderTextColor : Theme.darkTextColor
 
-            configureSymbolLabel()
+            configureSymbolField()
         }
     }
 
@@ -80,6 +80,7 @@ final class SendTokenViewConfigurator: NSObject {
         view.tintColor = Theme.tintColor
         view.textColor = Theme.greyTextColor
         view.adjustsFontForContentSizeCategory = true
+        view.set(height: 40)
         view.delegate = self
         view.isUserInteractionEnabled = true
         view.isScrollEnabled = false
@@ -127,25 +128,32 @@ final class SendTokenViewConfigurator: NSObject {
         view.keyboardType = self.token.decimals == 0 ? .numberPad : .decimalPad
         view.adjustsFontSizeToFitWidth = true
         view.delegate = self
+        view.tintColor = Theme.tintColor
         view.placeholder = self.token.decimals == 0 ? "0" : "0.0"
         view.font = Theme.preferredProTextBold(range: 36...40)
         view.contentVerticalAlignment = .center
         view.setContentHuggingPriority(.required, for: .horizontal)
+        view.set(height: 40)
+        view.contentVerticalAlignment = .center
 
         return view
     }()
 
-    private lazy var symbolLabel: UILabel = {
-        let label = UILabel()
-        label.text = token.symbol
-        label.font = primaryValueTextField.font
-        label.textColor = Theme.placeholderTextColor
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
-        label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.setContentHuggingPriority(.required, for: .horizontal)
-        label.setContentHuggingPriority(.required, for: .vertical)
+    private lazy var symbolField: UITextField = {
+        let view = UITextField()
 
-        return label
+        view.isUserInteractionEnabled = true
+        view.textColor = Theme.placeholderTextColor
+        view.delegate = self
+        view.font = primaryValueTextField.font
+        view.contentVerticalAlignment = .center
+        view.setContentHuggingPriority(.required, for: .horizontal)
+        view.set(height: 40)
+        view.contentVerticalAlignment = .center
+        view.setContentCompressionResistancePriority(.required, for: .horizontal)
+        view.setContentHuggingPriority(.required, for: .horizontal)
+
+        return view
     }()
 
     private lazy var maxButton: UIButton = {
@@ -229,7 +237,7 @@ final class SendTokenViewConfigurator: NSObject {
     init(token: Token, view: UIView) {
         self.token = token
         self.viewModel = SendTokenViewModel(token: token)
-        
+
         let tokenType: TokenType = token.isEtherToken ? .fiatRepresentable : .nonFiatRepresentable
         self.viewConfiguration = TokenTypeViewConfiguration(isActive: false, tokenType: tokenType, primaryValue: .token)
         self.view = view
@@ -345,7 +353,7 @@ final class SendTokenViewConfigurator: NSObject {
 
         guard primaryValueTextField.hasText else {
             viewConfiguration.primaryValue = viewConfiguration.primaryValue.opposite
-            configureSymbolLabel()
+            configureSymbolField()
             configureSecondaryValueLabel()
             return
         }
@@ -356,7 +364,7 @@ final class SendTokenViewConfigurator: NSObject {
 
         viewConfiguration.primaryValue = viewConfiguration.primaryValue.opposite
 
-        configureSymbolLabel()
+        configureSymbolField()
     }
 
     @objc private func pasteButtonTapped() {
@@ -484,7 +492,7 @@ final class SendTokenViewConfigurator: NSObject {
         textfieldStackView.distribution = .fillProportionally
         textfieldStackView.addArrangedSubview(primaryValueTextField)
         textfieldStackView.addSpacing(CGFloat.smallInterItemSpacing, after: primaryValueTextField)
-        textfieldStackView.addArrangedSubview(symbolLabel)
+        textfieldStackView.addArrangedSubview(symbolField)
 
         inputStackView.addArrangedSubview(textfieldStackView)
         inputStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: textfieldStackView)
@@ -528,10 +536,10 @@ final class SendTokenViewConfigurator: NSObject {
         addressStackView.bottomToSuperview(offset: -margin)
 
         addressStackView.addArrangedSubview(toTitleLabel)
-        addressStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: toTitleLabel)
+        addressStackView.addSpacing(CGFloat.largeInterItemSpacing, after: toTitleLabel)
 
-        addressStackView.addArrangedSubview(addressTextView)
-        addressStackView.addSpacing(CGFloat.largeInterItemSpacing, after: addressTextView)
+        addressStackView.addWithDefaultConstraints(view: addressTextView, margin: CGFloat.mediumInterItemSpacing)
+        addressStackView.addSpacing(CGFloat.smallInterItemSpacing, after: addressTextView)
 
         addressStackView.addArrangedSubview(addressErrorLabel)
         addressStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: addressErrorLabel)
@@ -565,19 +573,19 @@ final class SendTokenViewConfigurator: NSObject {
         }, completion: nil)
     }
 
-    private func configureSymbolLabel() {
+    private func configureSymbolField() {
         guard let text = primaryValueTextField.text else { return }
 
         switch viewConfiguration.primaryValue {
         case .token:
-            symbolLabel.text = token.symbol
+            symbolField.text = token.symbol
         case .fiat:
-            symbolLabel.text = TokenUser.current?.localCurrency
+            symbolField.text = TokenUser.current?.localCurrency
         }
 
-        symbolLabel.textColor = (text.isEmpty || isMaxValueSelected) ? Theme.placeholderTextColor : Theme.darkTextColor
+        symbolField.textColor = (text.isEmpty || isMaxValueSelected) ? Theme.placeholderTextColor : Theme.darkTextColor
 
-        symbolLabel.font = primaryValueTextField.font
+        symbolField.font = primaryValueTextField.font
     }
 
     private func configureSecondaryValueLabel() {
@@ -585,7 +593,7 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     private func adjustToNewValue() {
-        configureSymbolLabel()
+        configureSymbolField()
         configureSecondaryValueLabel()
 
         checkInputValueAgainstBalance()
@@ -645,15 +653,20 @@ extension SendTokenViewConfigurator: UITextFieldDelegate {
 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         viewConfiguration.isActive = isMaxValueSelected || isShowingFinalValueAlert
-        configureSymbolLabel()
+        configureSymbolField()
 
         return true
     }
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == symbolField {
+            primaryValueTextField.becomeFirstResponder()
+            return false
+        }
+
         adjustAddressErrorLabelHidden(to: true)
         viewConfiguration.isActive = true
-        configureSymbolLabel()
+        configureSymbolField()
         checkInputValueAgainstBalance()
 
         return true
