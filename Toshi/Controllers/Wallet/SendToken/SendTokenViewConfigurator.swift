@@ -77,6 +77,7 @@ final class SendTokenViewConfigurator: NSObject {
         let view = PlaceholderTextView(placeholder: addressPlaceholder)
         view.font = Theme.mediumMonospaced(size: 17)
         view.text = addressPlaceholder
+        view.returnKeyType = .done
         view.tintColor = Theme.tintColor
         view.textColor = Theme.greyTextColor
         view.adjustsFontForContentSizeCategory = true
@@ -218,6 +219,14 @@ final class SendTokenViewConfigurator: NSObject {
         return button
     }()
 
+    private lazy var valueEnablingTapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(valueEnableTapGestureReceived(_:)))
+    }()
+
+    private lazy var addressEnablingTapGesture: UITapGestureRecognizer = {
+        return UITapGestureRecognizer(target: self, action: #selector(addressEnableTapGestureReceived(_:)))
+    }()
+
     var destinationAddress: String = "" {
         didSet {
             let isPlaceholder = destinationAddress == addressPlaceholder || destinationAddress.isEmpty
@@ -248,6 +257,21 @@ final class SendTokenViewConfigurator: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardDidHide, object: nil)
     }
 
+    @objc private func valueEnableTapGestureReceived(_ gesture: UIGestureRecognizer) {
+        guard !primaryValueTextField.isFirstResponder else {
+            return
+        }
+        primaryValueTextField.becomeFirstResponder()
+    }
+
+    @objc private func addressEnableTapGestureReceived(_ gesture: UIGestureRecognizer) {
+        guard !addressTextView.isFirstResponder else {
+            addressTextView.resignFirstResponder()
+            return
+        }
+        addressTextView.becomeFirstResponder()
+    }
+
     func configureView(_ view: UIView) {
         guard let layoutGuide = layoutGuide else {
             assertionFailure("No known layout guide on configurator")
@@ -266,10 +290,13 @@ final class SendTokenViewConfigurator: NSObject {
         stackView.rightToSuperview()
 
         let valueContainerView = setupValueContainerView()
+        valueContainerView.addGestureRecognizer(valueEnablingTapGesture)
         stackView.addArrangedSubview(valueContainerView)
         stackView.addSpacing(CGFloat.mediumInterItemSpacing, after: valueContainerView)
         stackView.addStandardBorder(margin: CGFloat.defaultMargin)
-        stackView.addArrangedSubview(setupAddressContainerView())
+        let addressContainerView = setupAddressContainerView()
+        addressContainerView.addGestureRecognizer(addressEnablingTapGesture)
+        stackView.addArrangedSubview(addressContainerView)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapMainView(_:)))
         tapGesture.delegate = self
@@ -622,6 +649,10 @@ extension SendTokenViewConfigurator: UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         adjustAddressErrorLabelHidden(to: true)
+
+        if range.length == 0 && text == "\n" {
+            textView.resignFirstResponder()
+        }
 
         // We should not allow clearing the placeholder
         let isClearingPlaceholder = (textView.text == addressPlaceholder && text.isEmpty)
