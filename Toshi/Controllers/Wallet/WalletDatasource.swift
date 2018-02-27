@@ -81,6 +81,21 @@ final class WalletDatasource {
         }
     }
 
+    /// Determines if need to reload based on push notification userInfo
+    static func shouldReload(basedOn userInfo: [AnyHashable: Any]) -> Bool {
+        guard let sofaPayload = userInfo[SofaType.key] as? String, !sofaPayload.isEmpty else { return false }
+
+        // Reload if token payment sofa message
+        guard sofaPayload.hasPrefix(SofaType.tokenPayment.rawValue) else {
+
+            // Or reload if payment sofa message
+            guard let payment = SofaWrapper.wrapper(content: sofaPayload) as? SofaPayment, payment.status == .confirmed else { return false }
+            return true
+        }
+
+        return true
+    }
+
     func item(at index: Int) -> WalletItem? {
         guard index < items.count else {
             assertionFailure("Failed retrieve wallet item due to invalid index: \(index)")
@@ -90,35 +105,52 @@ final class WalletDatasource {
         return items[index]
     }
 
-    func loadItems() {
+    func loadItems(completion: ((Bool) -> Void)? = nil) {
         items = []
 
         switch itemsType {
         case .token:
-            loadTokens()
+            loadTokens(completion: completion)
         case .collectibles:
-            loadCollectibles()
+            loadCollectibles(completion: completion)
         }
     }
 
-    private func loadTokens() {
+    private func loadTokens(completion: ((Bool) -> Void)? = nil) {
         var loadedItems: [WalletItem] = []
 
         useCachedObjectIfPresent(for: tokenCacheKey)
 
-        EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, _ in
+        EthereumAPIClient.shared.getBalance(fetchedBalanceCompletion: { [weak self] balance, error in
+
+            guard error == nil else {
+                completion?(false)
+
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
+
+                return
+            }
 
             if balance.floatValue > 0 {
                 let etherToken = EtherToken(valueInWei: balance)
                 loadedItems.append(etherToken)
             } // else, don't show ether balance.
 
-            EthereumAPIClient.shared.getTokens { items, _ in
+            EthereumAPIClient.shared.getTokens { items, error in
                 guard let strongSelf = self else { return }
+
+                guard error == nil else {
+                    completion?(false)
+                    strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
+
+                    return
+                }
 
                 loadedItems.append(contentsOf: items)
                 strongSelf.cacheObjects(loadedItems, for: strongSelf.tokenCacheKey)
 
+                completion?(true)
                 guard strongSelf.itemsType == .token else { return }
                 strongSelf.items = loadedItems
                 strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
@@ -126,15 +158,23 @@ final class WalletDatasource {
         })
     }
     
-    private func loadCollectibles() {
+    private func loadCollectibles(completion: ((Bool) -> Void)? = nil) {
         useCachedObjectIfPresent(for: collectiblesCacheKey)
 
-        EthereumAPIClient.shared.getCollectibles { [weak self] items, _ in
+        EthereumAPIClient.shared.getCollectibles { [weak self] items, error in
             guard let strongSelf = self else { return }
+
+            guard error == nil else {
+                completion?(false)
+                strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
+
+                return
+            }
 
             strongSelf.cacheObjects(items, for: strongSelf.collectiblesCacheKey)
             guard strongSelf.itemsType == .collectibles else { return }
 
+            completion?(true)
             strongSelf.items = items
             strongSelf.delegate?.walletDatasourceDidReload(strongSelf, cachedResult: false)
         }

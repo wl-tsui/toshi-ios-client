@@ -141,10 +141,26 @@ final class WalletViewController: UIViewController {
         tableView.setContentOffset(contentOffset, animated: false)
     }
 
+    func restartTimerIfNeeded() {
+        // Do not start timer if there is none currently running
+        guard let timer = self.timer else { return }
+
+        timer.invalidate()
+        self.timer = nil
+
+        self.timer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { [weak self] _ in
+            self?.datasource.loadItems()
+        }
+    }
+
     func invalidateReloadIfNeeded() {
         guard let runningTimer = timer else { return }
         runningTimer.invalidate()
         timer = nil
+    }
+
+    func triggerReload(completion: @escaping ((Bool) -> Void)) {
+        datasource.loadItems(completion: completion)
     }
 }
 

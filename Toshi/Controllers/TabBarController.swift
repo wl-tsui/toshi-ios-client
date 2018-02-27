@@ -145,6 +145,19 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         selectedIndex = tab.rawValue
     }
 
+    func triggerWalletTabReloadIfNeeded(basedOn userInfo: [AnyHashable: Any]) {
+
+        guard WalletDatasource.shouldReload(basedOn: userInfo) else { return }
+
+        guard let walletViewController = walletController.viewControllers.first as? WalletViewController else { return }
+        weak var weakController = walletViewController
+        walletViewController.triggerReload { success in
+
+            guard success else { return }
+            weakController?.restartTimerIfNeeded()
+        }
+    }
+
     @objc func openDeepLinkURL(_ url: URL) {
         if url.user == "username" {
             guard let username = url.host else { return }

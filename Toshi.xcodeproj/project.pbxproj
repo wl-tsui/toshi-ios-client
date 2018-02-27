@@ -297,6 +297,9 @@
 		2BF2856B2018EF0200DA528D /* TestAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF285692018EF0200DA528D /* TestAppDelegate.swift */; };
 		2BF2856C2018EF0200DA528D /* TestAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF285692018EF0200DA528D /* TestAppDelegate.swift */; };
 		2BF2856D2018EF0200DA528D /* TestAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF285692018EF0200DA528D /* TestAppDelegate.swift */; };
+		2BF382292045907A00DE9E19 /* SofaTokenPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF382282045907A00DE9E19 /* SofaTokenPayment.swift */; };
+		2BF3822A2045907A00DE9E19 /* SofaTokenPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF382282045907A00DE9E19 /* SofaTokenPayment.swift */; };
+		2BF3822B2045907A00DE9E19 /* SofaTokenPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF382282045907A00DE9E19 /* SofaTokenPayment.swift */; };
 		2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
 		2BF634541F7D568C00235C67 /* UIImage+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF634511F7D568C00235C67 /* UIImage+Utils.m */; };
@@ -1236,6 +1239,7 @@
 		2BF2855C2018EE0C00DA528D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		2BF285602018EE7600DA528D /* UIApplication+Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Testing.swift"; sourceTree = "<group>"; };
 		2BF285692018EF0200DA528D /* TestAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAppDelegate.swift; sourceTree = "<group>"; };
+		2BF382282045907A00DE9E19 /* SofaTokenPayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SofaTokenPayment.swift; sourceTree = "<group>"; };
 		2BF6343C1F7C3D0B00235C67 /* Reachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Reachability.framework; path = Carthage/Build/iOS/Reachability.framework; sourceTree = "<group>"; };
 		2BF634501F7D568C00235C67 /* UIImage+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utils.h"; sourceTree = "<group>"; };
 		2BF634511F7D568C00235C67 /* UIImage+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utils.m"; sourceTree = "<group>"; };
@@ -2595,6 +2599,7 @@
 				D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */,
 				D197B3F77566E161C5CAB467 /* SofaMessage.swift */,
 				D197BC4FF536D4350C725251 /* SofaPayment.swift */,
+				2BF382282045907A00DE9E19 /* SofaTokenPayment.swift */,
 				D197BCAEADF108A249EC0D89 /* SofaPaymentRequest.swift */,
 				D197B84A2DC8436AF31CAF6A /* SofaInitialResponse.swift */,
 				D197BC051BEE35DB98BD053F /* SofaInitialRequest.swift */,
@@ -2831,7 +2836,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -2845,7 +2850,7 @@
 								enabled = 1;
 							};
 							com.apple.BackgroundModes = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Keychain = {
 								enabled = 1;
@@ -3541,6 +3546,7 @@
 				3345A0B220348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
 				9F54A7211E951F0600FEB67B /* RateUserController.swift in Sources */,
 				336CC5E0202E611B0052511C /* SystemSharing.swift in Sources */,
+				2BF3822B2045907A00DE9E19 /* SofaTokenPayment.swift in Sources */,
 				A91D72A91F8782DC0093420C /* ChatButtonsView.swift in Sources */,
 				3312F6822007801B00881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
 				33FD936F1FE960F10082B9D8 /* Dapp.swift in Sources */,
@@ -3809,6 +3815,7 @@
 				3345A0B020348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
 				336CC5DC202E24930052511C /* SystemSharing.swift in Sources */,
 				33FD936B1FE953480082B9D8 /* Dapp.swift in Sources */,
+				2BF382292045907A00DE9E19 /* SofaTokenPayment.swift in Sources */,
 				9FEB8C8F1E684FC40088D5A6 /* SignalNotificationManager.swift in Sources */,
 				A91629111F3C64FE008A7F36 /* PaymentNavigationController.swift in Sources */,
 				2BF2856A2018EF0200DA528D /* TestAppDelegate.swift in Sources */,
@@ -4077,6 +4084,7 @@
 				3345A0B120348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
 				A9CADC2D1F94B1D60096D017 /* OpenURLButton.swift in Sources */,
 				336CC5DF202E611B0052511C /* SystemSharing.swift in Sources */,
+				2BF3822A2045907A00DE9E19 /* SofaTokenPayment.swift in Sources */,
 				A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */,
 				3312F6812007801A00881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
 				33FD936E1FE960F00082B9D8 /* Dapp.swift in Sources */,
