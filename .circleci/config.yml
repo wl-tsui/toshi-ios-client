@@ -13,9 +13,9 @@ jobs:
             - run:
                 name: Run tests
                 command: set -o pipefail && xcodebuild clean build test -workspace Toshi.xcworkspace -scheme "Tests" -destination 'platform=iOS Simulator,name=iPhone 7' | xcpretty --color && exit ${PIPESTATUS[0]}
-            #- run:
-            #    name: Danger
-            #    command: bundle exec danger
+            - run:
+                name: Danger
+                command: bundle exec danger
 
 workflows:
   version: 2
