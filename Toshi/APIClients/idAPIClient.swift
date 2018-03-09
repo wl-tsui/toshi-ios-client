@@ -22,8 +22,6 @@ import Teapot
     case existing = 0, registered, failed
 }
 
-typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
-
 final class IDAPIClient: CacheExpiryDefault {
     static let shared: IDAPIClient = IDAPIClient()
 
@@ -748,15 +746,15 @@ final class IDAPIClient: CacheExpiryDefault {
                 do {
                     let jsonDecoder = JSONDecoder()
                     dappResults = try jsonDecoder.decode(DappResults.self, from: data)
-                } catch {
+                } catch let error {
                     DispatchQueue.main.async {
                         completion(nil, .invalidResponseJSON)
                     }
                     return
                 }
                 
-                dappResults.results.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarUrlString) }
-                dapps = dappResults.results
+                dappResults.dapps.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarUrlString ?? "") }
+                dapps = dappResults.dapps
             case .failure(_, _, let error):
                 DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)

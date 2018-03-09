@@ -59,7 +59,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return controller
     }()
 
-    var browseViewController: BrowseNavigationController!
+    var dappsViewController: DappsNavigationController!
     var messagingController: RecentNavigationController!
     var profilesController: ProfilesNavigationController!
     var settingsController: SettingsNavigationController!
@@ -79,7 +79,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }
 
     @objc func setupControllers() {
-        browseViewController = BrowseNavigationController(rootViewController: BrowseViewController())
+        dappsViewController = DappsNavigationController(rootViewController: DappsViewController())
         let datasource = ProfilesDataSource(type: .favorites)
         datasource.excludedProfilesIds = []
         profilesController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource))
@@ -98,7 +98,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         settingsController = SettingsNavigationController(rootViewController: SettingsController())
 
         viewControllers = [
-            self.browseViewController,
+            self.dappsViewController,
             self.messagingController,
             self.walletController,
             self.profilesController,
@@ -175,12 +175,12 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 extension TabBarController: UITabBarControllerDelegate {
 
     func tabBarController(_: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController != browseViewController {
+        if viewController != dappsViewController {
 
-            guard let browseViewController = browseViewController.viewControllers.first as? BrowseViewController else { return true }
-            browseViewController.dismissSearch()
+            guard let dappsViewController = dappsViewController.viewControllers.first as? DappsViewController else { return true }
 
-            browseViewController.navigationController?.popToRootViewController(animated: false)
+            // Dismiss search on Dapps controller ?
+            dappsViewController.navigationController?.popToRootViewController(animated: false)
         }
 
         guard viewController != walletController,

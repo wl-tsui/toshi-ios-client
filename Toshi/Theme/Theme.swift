@@ -189,6 +189,10 @@ extension Theme {
     static var inactiveButtonColor: UIColor {
         return UIColor(hex: "B6BCBF")
     }
+
+    static var searchBarColor: UIColor {
+        return UIColor(hex: "E4E4E6")
+    }
 }
 
 // MARK: - Fonts

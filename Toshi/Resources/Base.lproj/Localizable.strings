@@ -10,12 +10,16 @@
 "APN_Message" = "New message!";
 
 
-/* Browse */
-"browse-navigation-title" = "Search";
-"browse-search-placeholder" = "Search or type the url";
+/* Dapps */
+"dapps-search-placeholder" = "Search or enter Đapp URL";
+"dapps-search-header-title" = "Explore the decentralized web.";
 
 "browse-top-rated-apps" = "Top Rated";
 "browse-featured-dapps" = "Featured";
+"dapps-section-title" = "Dapps";
+"dapps-open-url-section-title" = "Go to";
+"dapps-see-more-button-title" = "SEE MORE";
+"dapps-search-with-google-section-title" = "Search with Google";
 "browse-top-rated-public-users" = "Top Rated Public Users";
 "browse-latest-public-users" = "Latest Public Users";
 
@@ -270,7 +274,7 @@
 "profiles_search_favorites_placeholder" = "Search favorites";
 
 /* Tab Bar */
-"tab_bar_title_browse" = "Search";
+"tab_bar_title_dapps" = "Đapps";
 "tab_bar_title_recent" = "Recent";
 "tab_bar_title_wallet" = "Wallet";
 "tab_bar_title_favorites" = "Favorites";

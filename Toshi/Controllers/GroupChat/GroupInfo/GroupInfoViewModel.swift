@@ -75,7 +75,7 @@ final class GroupInfoViewModel {
         setupSortedMembers()
         
         for member in sortedMembers {
-            let cellData = TableCellData(title: member.name, subtitle: member.displayUsername, leftImage: AvatarManager.shared.cachedAvatar(for: member.avatarPath))
+            let cellData = TableCellData(title: member.name, subtitle: member.displayUsername, leftImagePath: member.avatarPath)
             cellData.tag = GroupItemType.participant.rawValue
             participantsCellData.append(cellData)
         }

@@ -195,9 +195,7 @@
 
 - (nullable UIImage *)imageForPhoneIdentifier:(nullable NSString *)phoneNumber
 {
-    TokenUser *contact = [self tokenContactForAddress:phoneNumber];
-
-    return [AvatarManager.shared cachedAvatarFor:contact.avatarPath];
+    return nil;
 }
 
 @end

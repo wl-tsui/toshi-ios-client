@@ -387,28 +387,6 @@ class IDAPIClientTests: QuickSpec {
                         }
                     }
                 }
-                
-                it("gets a list of dapps") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "dapps")
-                    subject = IDAPIClient(teapot: mockTeapot)
-                    
-                    waitUntil { done in
-                        subject.getDapps { dapps, toshiError in
-                            expect(toshiError).to(beNil())
-                            expect(dapps).toNot(beNil())
-                            
-                            expect(dapps?.count).to(equal(4))
-                            expect(dapps?.map { $0.name }).to(equal([
-                                "Cryptokitties",
-                                "NameBazaar",
-                                "Cent",
-                                "0x Portal"
-                            ]))
-                            
-                            done()
-                        }
-                    }
-                }
             }
 
             context("Error status") {

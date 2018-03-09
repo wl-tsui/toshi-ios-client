@@ -146,6 +146,7 @@ final class SOFAWebController: UIViewController {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(false)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

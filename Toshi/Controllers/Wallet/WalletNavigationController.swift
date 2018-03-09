@@ -118,7 +118,35 @@ extension WalletViewController: NavBarColorChanging {
     var navShadowImage: UIImage? { return UIImage() }
 }
 
+extension DappsViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return Theme.tintColor }
+    var navTitleColor: UIColor? { return Theme.lightTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
+}
+
 extension TokenEtherDetailViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
+}
+
+extension DappViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return nil }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
+}
+
+extension DappsCategoryViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
+}
+
+extension SOFAWebController: NavBarColorChanging {
     var navTintColor: UIColor? { return Theme.tintColor }
     var navBarTintColor: UIColor? { return Theme.navigationBarColor }
     var navTitleColor: UIColor? { return Theme.darkTextColor }

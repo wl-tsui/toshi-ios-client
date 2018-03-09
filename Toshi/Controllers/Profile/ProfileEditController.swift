@@ -285,18 +285,18 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
 
         idAPIClient.updateUser(userDict) { [weak self] userUpdated, error in
 
-            let cachedAvatar = AvatarManager.shared.cachedAvatar(for: user.avatarPath)
+            AvatarManager.shared.cachedAvatar(for: user.avatarPath, completion: { [weak self] cachedAvatar in
+                if let image = self?.avatarImageView.image, image != cachedAvatar {
 
-            if let image = self?.avatarImageView.image, image != cachedAvatar {
+                    self?.idAPIClient.updateAvatar(image) { [weak self] avatarUpdated, error in
+                        let success = userUpdated == true && avatarUpdated == true
 
-                self?.idAPIClient.updateAvatar(image) { [weak self] avatarUpdated, error in
-                    let success = userUpdated == true && avatarUpdated == true
-
-                    self?.completeEdit(success: success, message: error?.description)
+                        self?.completeEdit(success: success, message: error?.description)
+                    }
+                } else {
+                    self?.completeEdit(success: userUpdated, message: error?.description)
                 }
-            } else {
-                self?.completeEdit(success: userUpdated, message: error?.description)
-            }
+            })
         }
     }
 

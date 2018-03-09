@@ -1,0 +1,30 @@
+{
+    "results": {
+        "dapps": [{
+                  "name": "World of Ether",
+                  "id": 12345,
+                  "url": "https://worldofether.com",
+                  "icon": "https://www.toshi.org/icon.png",
+                  "cover": "https://www.toshi.org/cover.png",
+                  "description": "Store, sell and breed your valuable Etherians on the Ethereum blockchain",
+                  "categories": [1]
+                  }, {
+                  "name": "CryptoKitties",
+                  "id": 12346,
+                  "url": "https://worldofether.com",
+                  "icon": "https://www.toshi.org/icon.png",
+                  "cover": "https://www.toshi.org/cover.png",
+                  "description": "Store, sell and breed Kittens on the Ethereum blockchain",
+                  "categories": [2]
+                  }],
+        "categories": {
+            "1": "Games and Collectibles",
+            "2": "Exchanges"
+        },
+    },
+    "offset": 0,
+    "limit": 10,
+    "total": 100,
+    "query": "",
+    "category": null
+}

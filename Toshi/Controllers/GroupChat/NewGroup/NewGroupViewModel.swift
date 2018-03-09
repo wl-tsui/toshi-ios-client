@@ -54,7 +54,7 @@ final class NewGroupViewModel {
 
         setupSortedMembers()
         for member in sortedMembers {
-            participantsCellData.append(TableCellData(title: member.nameOrDisplayName, subtitle: member.displayUsername, leftImage: AvatarManager.shared.cachedAvatar(for: member.avatarPath)))
+            participantsCellData.append(TableCellData(title: member.nameOrDisplayName, subtitle: member.displayUsername, leftImagePath: member.avatarPath))
         }
 
         let participantsHeaderTitle = LocalizedPlural("group_participants_header_title", for: groupInfo.participantsIDs.count)

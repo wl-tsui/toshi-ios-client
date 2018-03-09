@@ -1,0 +1,58 @@
+{
+    "sections": [{
+                 "category_id": 100000,
+                 "type": "cards",
+                 "dapps": [{
+                           "name": "World of Ether",
+                           "id": 12345,
+                           "url": "https://worldofether.com",
+                           "icon": "https://www.pixelstalk.net/wp-content/uploads/2016/07/3D-HD-Nature-Images-For-Desktop.jpg",
+                           "cover": "https://www.toshi.org/cover.png",
+                           "description": "Store, sell and breed your valuable Etherians on the Ethereum blockchain",
+                           "categories": [1]
+                           }, {
+                           "name": "CryptoKitties",
+                           "id": 12346,
+                           "url": "https://worldofether.com",
+                           "icon": "https://www.pixelstalk.net/wp-content/uploads/2016/06/HD-Nature-Background.jpg",
+                           "cover": "https://www.toshi.org/cover.png",
+                           "description": "Store, sell and breed Kittens on the Ethereum blockchain",
+                           "categories": [2,3]
+                           }],
+                 }, {
+                 "category_id": 1,
+                 "type": "list",
+                 "dapps": [{
+                           "name": "World of Ether",
+                           "id": 12345,
+                           "url": "https://worldofether.com",
+                           "icon": "https://static.pexels.com/photos/414171/pexels-photo-414171.jpeg",
+                           "cover": "https://www.toshi.org/cover.png",
+                           "description": "Store, sell and breed your valuable Etherians on the Ethereum blockchain",
+                           "categories": [1]
+                           },
+                           {
+                           "name": "Second one",
+                           "id": 12045,
+                           "url": "https://worldofether.com",
+                           "icon": "https://static.pexels.com/photos/551876/pexels-photo-551876.jpeg",
+                           "cover": "https://www.toshi.org/cover.png",
+                           "description": "Store, sell and breed your valuable Etherians on the Ethereum blockchain",
+                           "categories": [1]
+                           },
+                           {
+                           "name": "Third one",
+                           "id": 12040,
+                           "url": "https://worldofether.com",
+                           "icon": "https://static.pexels.com/photos/731619/pexels-photo-731619.jpeg",
+                           "cover": "https://www.toshi.org/cover.png",
+                           "description": "Store, sell and breed your valuable Etherians on the Ethereum blockchain",
+                           "categories": [1]
+                           }]
+                 }],
+    "categories": {
+        "1": "Games and Collectibles",
+        "2": "Exchanges",
+        "100000": "Featured Apps"
+    }
+}

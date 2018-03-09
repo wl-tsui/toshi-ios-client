@@ -429,7 +429,7 @@ extension TokenUser: BrowseableItem {
         return name
     }
     
-    var descriptionForSearch: String {
+    var descriptionForSearch: String? {
         let aboutOrUsername = !about.isEmpty ? about : username
         return (isApp ? aboutOrUsername : username)
     }
