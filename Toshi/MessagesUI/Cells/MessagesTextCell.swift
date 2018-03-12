@@ -71,7 +71,7 @@ class MessagesTextCell: MessagesBasicCell {
         super.prepareForReuse()
 
         if let text = textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
-            let range = NSRange(location: 0, length: text.string.length)
+            let range = NSRange(location: 0, length: text.string.count)
 
             text.removeAttribute(.link, range: range)
             text.removeAttribute(.foregroundColor, range: range)

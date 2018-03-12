@@ -78,7 +78,7 @@ class ProfilesDataSource: NSObject {
     private var filtering: YapDatabaseViewFiltering {
 
         let filteringBlock: YapDatabaseViewFilteringWithObjectBlock = { transaction, group, colelction, key, object in
-            guard self.searchText.length > 0 else { return true }
+            guard self.searchText.count > 0 else { return true }
             guard let data = object as? Data, let deserialised = (try? JSONSerialization.jsonObject(with: data, options: [])), var json = deserialised as? [String: Any], let username = json[TokenUser.Constants.username] as? String else { return false }
 
             return username.lowercased().contains(self.searchText.lowercased())

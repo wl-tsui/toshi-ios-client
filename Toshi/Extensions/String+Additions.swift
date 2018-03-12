@@ -57,7 +57,7 @@ extension String {
     }
 
     func truncate(length: Int, trailing: String? = "...") -> String {
-        if self.length > length {
+        if self.count > length {
             let end = index(startIndex, offsetBy: length)
             return String(self[..<end]) + (trailing ?? "")
         } else {
@@ -81,7 +81,7 @@ extension String {
     /// - Parameter count: The number of lines to break the thing up into
     /// - Returns: The string split into newlines
     func toLines(count: Int) -> String {
-        let section = Int(round(Double(length) / Double(count)))
+        let section = Int(round(Double(self.count) / Double(count)))
 
         var lines = [String]()
         var currentIndex = startIndex
@@ -141,15 +141,15 @@ extension String {
         guard decimals > 0 else { return decimalValueString }
 
         var insertionString = ""
-        if decimalValueString.length == decimals {
+        if decimalValueString.count == decimals {
             insertionString.append(valueFormatter.zeroSymbol ?? "0")
         }
 
         insertionString.append(valueFormatter.decimalSeparator ?? ".")
 
         // we need to handle longer decimals value than current value string, and prepend needed amount of zeros
-        if decimals > decimalValueString.length {
-            let diff = decimals - decimalValueString.length
+        if decimals > decimalValueString.count {
+            let diff = decimals - decimalValueString.count
             var zeros = ""
             for _ in 0 ... diff {
                 zeros.append("0")

@@ -27,4 +27,3 @@ final class DappsFrontPage: Codable {
         categoriesInfo = "categories"
     }
 }
-

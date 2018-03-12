@@ -208,7 +208,7 @@ extension PaymentValueViewController: UITextFieldDelegate {
 
         navigationItem.rightBarButtonItem?.isEnabled = newValue.isValidPaymentValue()
 
-        guard newValue.length > 0 else {
+        guard newValue.count > 0 else {
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
             etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
 
@@ -228,7 +228,7 @@ extension PaymentValueViewController: UITextFieldDelegate {
         /// For NSNumber's stringValue, the decimal separator is always a `.`.
         // stringValue just calls description(withLocale:) passing nil, so it defaults to `en_US`.
         let components = newValue.components(separatedBy: inputNumberFormatter.decimalSeparator)
-        if components.count == 2, let fractionalDigitsCount = components.last?.length, fractionalDigitsCount > 2 {
+        if components.count == 2, let fractionalDigitsCount = components.last?.count, fractionalDigitsCount > 2 {
             return false
         }
 

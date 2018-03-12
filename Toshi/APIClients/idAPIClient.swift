@@ -746,7 +746,7 @@ final class IDAPIClient: CacheExpiryDefault {
                 do {
                     let jsonDecoder = JSONDecoder()
                     dappResults = try jsonDecoder.decode(DappResults.self, from: data)
-                } catch let error {
+                } catch {
                     DispatchQueue.main.async {
                         completion(nil, .invalidResponseJSON)
                     }
