@@ -247,7 +247,7 @@ extension SignInViewController: UICollectionViewDelegate {
 extension SignInViewController: TextEditingOptionsViewControllerDelegate {
     
     func pasteSelected(from textEditingOptionsViewController: TextEditingOptionsViewController) {
-        guard let pasted = UIPasteboard.general.string else { return }
+        guard let pasted = stringFromClipboard() else { return }
         
         userDidPastePassphrase = true
         
@@ -362,3 +362,5 @@ extension SignInViewController: TextFieldDeleteDelegate {
         cleanUp(after: newIndexPath)
     }
 }
+
+extension SignInViewController: ClipboardCopying { /* mix-in */ }

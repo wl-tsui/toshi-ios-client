@@ -41,17 +41,17 @@ class BrowseAllViewController: UITableViewController {
         view.backgroundColor = Theme.viewBackgroundColor
 
         configureTableView()
+        BasicTableViewCell.register(in: tableView)
 
         fetchData()
     }
 
     private func configureTableView() {
-        tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = true
         tableView.showsVerticalScrollIndicator = true
         tableView.contentInset.bottom = 60
-        tableView.register(SearchResultCell.self)
         tableView.estimatedRowHeight = 50
+        tableView.tableFooterView = UIView(frame: .zero)
     }
 
     private func showResults(_ apps: [BrowseableItem]?, _ error: Error? = nil) {
@@ -101,18 +101,26 @@ class BrowseAllViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(SearchResultCell.self, for: indexPath)
 
-        if let item = searchResults.element(at: indexPath.row) {
-            cell.nameLabel.text = item.nameForBrowseAndSearch
-            cell.usernameLabel.text = item.descriptionForSearch
-
-            AvatarManager.shared.avatar(for: item.avatarPath, completion: { image, path in
-                if item.avatarPath == path {
-                    cell.avatarImageView.image = image
-                }
-            })
+        guard let profile = searchResults.element(at: indexPath.row) else {
+            assertionFailure("Could not get profile at indexPath: \(indexPath)")
+            return UITableViewCell()
         }
+
+        let cellData = TableCellData(title: profile.nameForBrowseAndSearch,
+                                     subtitle: profile.descriptionForSearch,
+                                     leftImagePath: profile.avatarPath)
+        let cellConfigurator = CellConfigurator()
+        let reuseIdentifier = cellConfigurator.cellIdentifier(for: cellData.components)
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? BasicTableViewCell else {
+            return UITableViewCell()
+        }
+
+        cell.selectionStyle = .default
+        cell.accessoryType = .disclosureIndicator
+
+        cellConfigurator.configureCell(cell, with: cellData)
 
         return cell
     }

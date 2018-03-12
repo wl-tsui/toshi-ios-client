@@ -31,4 +31,5 @@ protocol WalletItem {
     var subtitle: String? { get }
     var iconPath: String? { get }
     var details: String? { get }
+    var uniqueIdentifier: String { get }
 }

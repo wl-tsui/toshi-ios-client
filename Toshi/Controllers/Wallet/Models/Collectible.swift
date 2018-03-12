@@ -61,4 +61,8 @@ extension Collectible: WalletItem {
     var details: String? {
         return NSDecimalNumber(hexadecimalString: value).stringValue
     }
+
+    var uniqueIdentifier: String {
+        return contractAddress
+    }
 }

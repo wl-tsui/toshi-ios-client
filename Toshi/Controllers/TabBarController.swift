@@ -45,7 +45,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return IDAPIClient.shared
     }
 
-    private lazy var reachabilityManager: ReachabilityManager = {
+    private(set) lazy var reachabilityManager: ReachabilityManager = {
         let reachabilityManager = ReachabilityManager()
         reachabilityManager.delegate = self
 
@@ -146,6 +146,19 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         selectedIndex = tab.rawValue
     }
 
+    func triggerWalletTabReloadIfNeeded(basedOn userInfo: [AnyHashable: Any]) {
+
+        guard WalletDatasource.shouldReload(basedOn: userInfo) else { return }
+
+        guard let walletViewController = walletController.viewControllers.first as? WalletViewController else { return }
+        weak var weakController = walletViewController
+        walletViewController.triggerReload { success in
+
+            guard success else { return }
+            weakController?.restartTimerIfNeeded()
+        }
+    }
+
     @objc func openDeepLinkURL(_ url: URL) {
         if url.user == "username" {
             guard let username = url.host else { return }
@@ -170,6 +183,10 @@ extension TabBarController: UITabBarControllerDelegate {
 
             browseViewController.navigationController?.popToRootViewController(animated: false)
         }
+
+        guard viewController != walletController,
+            let walletViewController = walletController.viewControllers.first as? WalletViewController else { return true }
+        walletViewController.invalidateReloadIfNeeded()
 
         return true
     }
@@ -292,7 +309,6 @@ extension TabBarController: ScannerViewControllerDelegate {
             }
         }
     }
-
 }
 
 extension TabBarController: PaymentRouterDelegate {

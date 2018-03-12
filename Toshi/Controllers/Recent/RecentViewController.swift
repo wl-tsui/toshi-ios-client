@@ -66,8 +66,7 @@ final class RecentViewController: SweetTableController, Emptiable {
     }
 
     @objc func emptyViewButtonPressed(_ button: ActionButton) {
-        let shareController = UIActivityViewController(activityItems: [Localized("share_copy")], applicationActivities: [])
-        Navigator.presentModally(shareController)
+        shareWithSystemSheet(item: Localized("share_copy"))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -159,6 +158,12 @@ final class RecentViewController: SweetTableController, Emptiable {
     }
 }
 
+// MARK: - Mix-in extensions
+
+extension RecentViewController: SystemSharing { /* mix-in */ }
+
+// MARK: - Table View Data Source
+
 extension RecentViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -215,6 +220,8 @@ extension RecentViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - Threads Data Source Output
+
 extension RecentViewController: ThreadsDataSourceOutput {
 
     func threadsDataSourceDidLoad() {
@@ -222,6 +229,8 @@ extension RecentViewController: ThreadsDataSourceOutput {
         showEmptyStateIfNeeded()
     }
 }
+
+// MARK: - Profiles List Completion Output
 
 extension RecentViewController: ProfilesListCompletionOutput {
 
@@ -240,6 +249,8 @@ extension RecentViewController: ProfilesListCompletionOutput {
         }
     }
 }
+
+// MARK: - UITableViewDelegate
 
 extension RecentViewController: UITableViewDelegate {
 

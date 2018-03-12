@@ -225,6 +225,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+        Navigator.tabbarController?.triggerWalletTabReloadIfNeeded(basedOn: userInfo)
+        completionHandler(.noData)
+    }
+
     private func updateRemoteNotificationsCredentials() {
 
         ALog("\n||--------------------\n||\n|| --- Account is registered:\(TSAccountManager.isRegistered()) \n||\n||--------------------\n\n")

@@ -74,8 +74,6 @@ class TokenUser: NSObject, NSCoding {
     @objc static let storedContactKey = "storedContactKey"
     static let localUserSettingsKey = "localUserSettings"
 
-    var category = ""
-
     var balance = NSDecimalNumber.zero
 
     @objc private(set) var name = ""
@@ -425,14 +423,15 @@ extension TokenUser: BrowseableItem {
     
     var nameForBrowseAndSearch: String {
         guard !name.isEmpty else {
-            return (isApp ? category : username)
+            return username
         }
         
         return name
     }
     
     var descriptionForSearch: String {
-        return (isApp ? about : username)
+        let aboutOrUsername = !about.isEmpty ? about : username
+        return (isApp ? aboutOrUsername : username)
     }
     
     var shouldShowRating: Bool {

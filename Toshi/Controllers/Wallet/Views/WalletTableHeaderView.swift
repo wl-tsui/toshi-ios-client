@@ -93,7 +93,7 @@ final class WalletTableHeaderView: UIView {
     ///   - address: The address to display
     ///   - delegate: The delegate to notify of changes.
     init(frame: CGRect, address: String, delegate: WalletTableViewHeaderDelegate) {
-        walletAddress = address
+        walletAddress = address.toChecksumEncodedAddress() ?? address
         self.delegate = delegate
         super.init(frame: frame)
 
@@ -134,7 +134,7 @@ final class WalletTableHeaderView: UIView {
         let cardView = UIView(withAutoLayout: true)
         cardView.layer.cornerRadius = 10.0
 
-        cardView.addShadow(xOffset: 0, yOffset: 2, radius: 4)
+        cardView.addShadow(xOffset: 0, yOffset: 2, radius: 4, opacity: 0.2)
         cardView.backgroundColor = Theme.viewBackgroundColor
 
         let tapRecognizer = UITapGestureRecognizer(target: self,
@@ -168,5 +168,4 @@ final class WalletTableHeaderView: UIView {
     @objc private func openAddressTapped() {
         delegate?.openAddress(walletAddress, from: self)
     }
-
 }

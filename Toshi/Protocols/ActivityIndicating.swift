@@ -49,7 +49,6 @@ extension ActivityIndicating where Self: UIViewController {
     }
 
     func hideActivityIndicator() {
-        view.sendSubview(toBack: activityIndicator)
         activityIndicator.stopAnimating()
     }
 }

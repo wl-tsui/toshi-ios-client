@@ -15,6 +15,16 @@
 
 import Foundation
 
+enum SofaPaymentKeys {
+    static let toAddress = "toAddress"
+    static let status = "status"
+    static let fromAddress = "fromAddress"
+    static let value = "value"
+    static let transactionHash = "txHash"
+    static let fiatValueString = "fiatValueString"
+    static let contractAddress = "contractAddress"
+}
+
 final class SofaPayment: SofaWrapper {
 
     enum Status: String {
@@ -24,16 +34,16 @@ final class SofaPayment: SofaWrapper {
     }
 
     var status: Status {
-        guard let status = self.json["status"] as? String else { return .unconfirmed }
+        guard let status = json[SofaPaymentKeys.status] as? String else { return .unconfirmed }
         return Status(rawValue: status) ?? .unconfirmed
     }
 
     var recipientAddress: String? {
-        return self.json["toAddress"] as? String
+        return json[SofaPaymentKeys.toAddress] as? String
     }
 
     var senderAddress: String? {
-        return self.json["fromAddress"] as? String
+        return json[SofaPaymentKeys.fromAddress] as? String
     }
 
     override var type: SofaType {
@@ -41,13 +51,13 @@ final class SofaPayment: SofaWrapper {
     }
 
     var value: NSDecimalNumber {
-        guard let hexValue = self.json["value"] as? String else { return NSDecimalNumber.zero }
+        guard let hexValue = json[SofaPaymentKeys.value] as? String else { return NSDecimalNumber.zero }
 
         return NSDecimalNumber(hexadecimalString: hexValue)
     }
 
     var fiatValueString: String {
-        guard let string = self.json["fiatValueString"] as? String else { return "" }
+        guard let string = json[SofaPaymentKeys.fiatValueString] as? String else { return "" }
 
         return string
     }
@@ -55,9 +65,9 @@ final class SofaPayment: SofaWrapper {
     convenience init(txHash: String, valueHex: String) {
 
         let payment: [String: String] = [
-            "status": Status.unconfirmed.rawValue,
-            "txHash": txHash,
-            "value": valueHex
+            SofaPaymentKeys.status: Status.unconfirmed.rawValue,
+            SofaPaymentKeys.transactionHash: txHash,
+            SofaPaymentKeys.value: valueHex
         ]
 
         self.init(content: payment)

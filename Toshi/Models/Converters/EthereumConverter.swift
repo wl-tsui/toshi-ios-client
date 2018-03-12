@@ -19,7 +19,7 @@ import SweetSwift
 struct EthereumConverter {
 
     /// The conversion rate between wei and eth. Each eth is made up of 1 x 10^18 wei.
-    private static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
+    static let weisToEtherConstant = NSDecimalNumber(string: "1000000000000000000")
 
     /// Each eth is made up of 1 x 10^18 wei.
     static var weisToEtherPowerOf10Constant: Int16 {
@@ -36,43 +36,84 @@ struct EthereumConverter {
         return NSDecimalNumber(decimal: etherValue).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
     }
 
+    /// Converts wei to ethereum. Allows specification of whether you
+    ///
+    /// - Parameters:
+    ///   - wei: The Wei to convert
+    ///   - rounded: True to round according to wei rounding behavior, false not to. Defaults to false
+    /// - Returns: The ether value of the passed in wei
+    static func weiToEther(_ wei: NSDecimalNumber, rounded: Bool = false) -> NSDecimalNumber {
+        let converted = wei.dividing(by: weisToEtherConstant)
+
+        guard rounded else {
+            return converted
+        }
+
+        return converted.rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior)
+    }
+
+    /// Converts ethereum to wei
+    ///
+    /// - Parameter ether: The ether value to convert
+    /// - Returns: The value in Wei
+    static func etherToWei(_ ether: NSDecimalNumber) -> NSDecimalNumber {
+        return ether.multiplying(by: weisToEtherConstant)
+    }
+
     /// Returns the string representation of an eth value.
     /// Example: "9.2 ETH"
     ///
-    /// - Parameter balance: the value in eth
+    /// - Parameters:
+    ///    - balance: the value in eth
+    ///    - withSymbol: True to add the ETH symbol to the end of the string, false not to. Defaults to true.
+    ///    - fractionDigits: The number of digits after the decimal separator allowed as input and output.
     /// - Returns: the string representation
-    static func ethereumValueString(forEther balance: NSDecimalNumber) -> String {
+    static func ethereumValueString(forEther balance: NSDecimalNumber, withSymbol: Bool = true, fractionDigits: Int = 4) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        numberFormatter.minimumFractionDigits = 4
-        numberFormatter.maximumFractionDigits = 4
+        numberFormatter.minimumFractionDigits = fractionDigits
+        numberFormatter.maximumFractionDigits = fractionDigits
 
-        return "\(numberFormatter.string(from: balance)!) ETH"
+        let balanceString = numberFormatter.string(from: balance)!
+
+        guard withSymbol else {
+            return balanceString
+        }
+
+        return "\(balanceString) ETH"
     }
 
-    /// String representation in eht for a given wei value.
+    /// String representation in ETH for a given wei value.
     /// Example:
     ///     ethereumValueString(forWei: halfEthInWei) -> "0.5 ETH"
+    ///     ethereumValueString(forWei: halfEthInWei, withSymbol: false) -> "0.5"
     ///
-    /// - Parameter balance: the wei value to be converted
-    /// - Returns: the eth value in a string: "0.5 EHT"
-    static func ethereumValueString(forWei balance: NSDecimalNumber) -> String {
-        return ethereumValueString(forEther: balance.dividing(by: weisToEtherConstant).rounding(accordingToBehavior: NSDecimalNumber.weiRoundingBehavior))
+    /// - Parameters:
+    ///    - balance: the wei value to be converted
+    ///    - withSymbol: Whether to add the ETH symbol to the end of the string or not. Defaults to true
+    ///    - fractionDigits: The number of digits after the decimal separator allowed as input and output.
+    /// - Returns: the eth value in a string: "0.5 ETH" or "0.5"
+    static func ethereumValueString(forWei balance: NSDecimalNumber, withSymbol: Bool = true, fractionDigits: Int = 4) -> String {
+        return ethereumValueString(forEther: weiToEther(balance, rounded: true), withSymbol: withSymbol, fractionDigits: fractionDigits)
     }
 
     /// The fiat currency string representation for a given wei value
     ///
-    /// - Parameter balance: value in wei
+    /// - Parameter:
+    ///    - balance: value in wei
+    ///    - withCurrencyCode: Whether to add the currency code to the string or not. Defaults to true.
     /// - Returns: fiat string representation: "$10.50"
-    static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
-        let ether = balance.dividing(by: weisToEtherConstant)
+    static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, withCurrencyCode: Bool = true) -> String {
+        let ether = weiToEther(balance)
+
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 
         let locale = TokenUser.current?.cachedCurrencyLocale ?? Currency.forcedLocale
         let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .currency
+        numberFormatter.numberStyle = withCurrencyCode ? .currency : .decimal
         numberFormatter.locale = locale
+        numberFormatter.maximumFractionDigits = 2
         numberFormatter.currencyCode = TokenUser.current?.localCurrency
 
         return "\(numberFormatter.string(from: fiat)!)"
@@ -86,7 +127,7 @@ struct EthereumConverter {
         let locale = TokenUser.current?.cachedCurrencyLocale ?? Currency.forcedLocale
         let localCurrency = TokenUser.current?.localCurrency ?? Currency.forcedLocale.currencyCode
 
-        let ether = balance.dividing(by: weisToEtherConstant)
+        let ether = weiToEther(balance)
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 

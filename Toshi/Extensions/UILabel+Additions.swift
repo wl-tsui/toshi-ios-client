@@ -24,3 +24,4 @@ extension UILabel {
         return !text.isEmpty
     }
 }
+  
