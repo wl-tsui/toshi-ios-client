@@ -474,7 +474,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             let sofaWebController = SOFAWebController()
             sofaWebController.load(url: url)
 
-            navigationController?.pushViewController(sofaWebController, animated: true)
+            Navigator.presentModally(sofaWebController)
         } else if button.value != nil {
             buttonsView.buttons = nil
             let command = SofaCommand(button: button)

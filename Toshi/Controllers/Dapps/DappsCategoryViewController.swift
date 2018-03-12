@@ -46,7 +46,7 @@ final class DappsCategoryViewController: UITableViewController {
         view.backgroundColor = Theme.viewBackgroundColor
 
         configureTableView()
-        BasicTableViewCell.register(in: tableView)
+        tableView.register(RectImageTitleSubtitleTableViewCell.self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +68,7 @@ final class DappsCategoryViewController: UITableViewController {
         tableView.contentInset.bottom = 60
         tableView.estimatedRowHeight = 50
         tableView.tableFooterView = UIView(frame: .zero)
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
     }
 
     override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -91,20 +92,16 @@ final class DappsCategoryViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        let cellData = TableCellData(title: dapp.displayTitle,
-                                     subtitle: dapp.displayDetails,
-                                     leftImagePath: dapp.itemIconPath)
-        let cellConfigurator = CellConfigurator()
-        let reuseIdentifier = cellConfigurator.cellIdentifier(for: cellData.components)
+        let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? BasicTableViewCell else {
-            return UITableViewCell()
-        }
+        cell.titleLabel.text = dapp.displayTitle
+        cell.subtitleLabel.text = dapp.displayDetails
+        cell.imageViewPath = dapp.itemIconPath
+        cell.leftImageView.layer.cornerRadius = 5
 
         cell.selectionStyle = .default
         cell.accessoryType = .disclosureIndicator
-
-        cellConfigurator.configureCell(cell, with: cellData)
+        cell.subtitleLabel.numberOfLines = 2
 
         return cell
     }

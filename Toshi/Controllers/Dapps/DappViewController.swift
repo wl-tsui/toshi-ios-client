@@ -138,12 +138,10 @@ extension DappViewController: DappInfoDelegate {
         let sofaWebController = SOFAWebController()
         sofaWebController.load(url: dapp.url)
 
-        navigationController?.pushViewController(sofaWebController, animated: true)
-        preferLargeTitleIfPossible(false)
+        Navigator.presentModally(sofaWebController)
     }
 }
 
 extension DappViewController: UITableViewDelegate {
 
 }
-

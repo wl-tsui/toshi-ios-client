@@ -109,6 +109,7 @@ final class DappsViewController: UIViewController {
         view.alwaysBounceVertical = true
         view.register(RectImageTitleSubtitleTableViewCell.self)
         view.register(UITableViewCell.self)
+        view.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
 
         return view
     }()
@@ -206,6 +207,7 @@ extension DappsViewController: UITableViewDataSource {
         switch item.type {
         case .goToUrl, .searchWithGoogle:
             let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
+            cell.selectionStyle = .none
             cell.textLabel?.text = item.displayTitle
             return cell
         case .dappFront, .dappSearched:
@@ -258,6 +260,8 @@ extension DappsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        tableView.deselectRow(at: indexPath, animated: true)
+
         guard let item = dataSource.itemAtIndexPath(indexPath) else { return }
 
         let searchBaseUrl = "https://www.google.com/search?q="
@@ -272,7 +276,8 @@ extension DappsViewController: UITableViewDelegate {
 
             let sofaController = SOFAWebController()
             sofaController.load(url: url)
-            navigationController?.pushViewController(sofaController, animated: true)
+
+            Navigator.presentModally(sofaController)
 
         case .dappFront, .dappSearched:
             guard let dapp = item.dapp else { return }
@@ -288,7 +293,8 @@ extension DappsViewController: UITableViewDelegate {
 
             let sofaController = SOFAWebController()
             sofaController.load(url: url)
-            navigationController?.pushViewController(sofaController, animated: true)
+
+            Navigator.presentModally(sofaController)
         }
     }
 }
