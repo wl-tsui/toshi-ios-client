@@ -17,12 +17,20 @@ import SweetFoundation
 import UIKit
 import SweetUIKit
 
-final class DappViewController: UIViewController {
+final class DappViewController: DisappearingNavBarViewController {
     let dappConverHeaderHeight: CGFloat = 200
 
     private let dapp: Dapp
 
-    private lazy var coverImageHeadrView: UIImageView = {
+    override var backgroundTriggerView: UIView {
+        return coverImageHeaderView
+    }
+
+    override var titleTriggerView: UIView {
+        return dappInfoView.titleLabel
+    }
+
+    private lazy var coverImageHeaderView: UIImageView = {
         let frame = CGRect(origin: .zero, size: CGSize(width: self.view.bounds.width, height: self.dappConverHeaderHeight))
 
         let header = UIImageView(frame: frame)
@@ -33,21 +41,38 @@ final class DappViewController: UIViewController {
         return header
     }()
 
+    private lazy var dappInfoView: DappInfoView = {
+        let view = DappInfoView(frame: .zero)
+        view.titleLabel.text = dapp.name
+        view.descriptionLabel.text = dapp.description
+        view.urlLabel.text = dapp.url.absoluteString
+        view.imageViewPath = dapp.avatarPath
+
+        let dappCategoriesInfo = categoriesInfo?.filter { dapp.categories.contains($0.key) }
+        view.categoriesInfo = dappCategoriesInfo
+
+        view.delegate = self
+
+        return view
+    }()
+
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .plain)
         view.translatesAutoresizingMaskIntoConstraints = false
 
         view.backgroundColor = nil
         view.keyboardDismissMode = .interactive
-        BasicTableViewCell.register(in: view)
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
-        view.alwaysBounceVertical = true
-        view.register(DappInfoCell.self)
+        view.register(UITableViewCell.self)
         view.rowHeight = UITableViewAutomaticDimension
         view.estimatedRowHeight = 44
         view.separatorStyle = .none
+
+        if #available(iOS 11.0, *) {
+           view.contentInsetAdjustmentBehavior = .never
+        }
 
         return view
     }()
@@ -59,7 +84,6 @@ final class DappViewController: UIViewController {
         self.categoriesInfo = categoriesInfo
 
         super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = Theme.viewBackgroundColor
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -69,19 +93,17 @@ final class DappViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addSubviewsAndConstraints()
         showCover()
+        navBar.setTitle(dapp.name)
 
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear
-    }
 
-    private func addSubviewsAndConstraints() {
-        view.addSubview(tableView)
+        view.backgroundColor = Theme.viewBackgroundColor
 
-        tableView.tableHeaderView = coverImageHeadrView
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     private func showCover() {
@@ -90,18 +112,42 @@ final class DappViewController: UIViewController {
 
             guard let strongSelf = self, let fetchedImage = image else { return }
 
-            UIView.transition(with: strongSelf.coverImageHeadrView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            UIView.transition(with: strongSelf.coverImageHeaderView, duration: 0.3, options: .transitionCrossDissolve, animations: {
 
-                self?.coverImageHeadrView.image = fetchedImage
+                self?.coverImageHeaderView.image = fetchedImage
 
             }, completion: nil)
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // We do not need to add content to scrollViewContainer used in parent controller,
+    // since the scrollView here is tableView
+    override func addScrollableContent(to contentView: UIView) { }
 
-        navigationController?.setNavigationBarHidden(false, animated: false)
+    override lazy var scrollView: UIScrollView = {
+        return self.tableView
+    }()
+
+    override func setupNavBarAndScrollingContent() {
+        view.addSubview(tableView)
+        tableView.tableHeaderView = coverImageHeaderView
+
+        scrollView.delegate = self
+        tableView.edgesToSuperview()
+
+        view.addSubview(navBar)
+
+        navBar.edgesToSuperview(excluding: .bottom)
+        updateNavBarHeightIfNeeded()
+        navBar.heightConstraint = navBar.height(navBarHeight)
+    }
+
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+
+        let offsetDivider = scrollView.contentOffset.y / 100
+        let alpha = 1 - offsetDivider
+        coverImageHeaderView.alpha = alpha
     }
 }
 
@@ -113,16 +159,9 @@ extension DappViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeue(DappInfoCell.self, for: indexPath)
-        cell.titleLabel.text = dapp.name
-        cell.descriptionLabel.text = dapp.description
-        cell.urlLabel.text = dapp.url.absoluteString
-        cell.imageViewPath = dapp.avatarPath
-
-        let dappCategoriesInfo = categoriesInfo?.filter { dapp.categories.contains($0.key) }
-        cell.categoriesInfo = dappCategoriesInfo
-
-        cell.delegate = self
+        let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
+        cell.contentView.addSubview(dappInfoView)
+        dappInfoView.edgesToSuperview()
 
         return cell
     }
@@ -130,12 +169,12 @@ extension DappViewController: UITableViewDataSource {
 
 extension DappViewController: DappInfoDelegate {
 
-    func dappInfoCellDidReceiveCategoryDetailsEvent(_ cell: DappInfoCell, categoryId: Int, categoryName: String) {
+    func dappInfoViewDidReceiveCategoryDetailsEvent(_ cell: DappInfoView, categoryId: Int, categoryName: String) {
         let categoryDappsViewController = DappsCategoryViewController(categoryId: categoryId, name: categoryName)
         Navigator.push(categoryDappsViewController)
     }
 
-    func dappInfoCellDidReceiveDappDetailsEvent(_ cell: DappInfoCell) {
+    func dappInfoViewDidReceiveDappDetailsEvent(_ cell: DappInfoView) {
         let sofaWebController = SOFAWebController()
         sofaWebController.load(url: dapp.url)
 

@@ -17,11 +17,11 @@ import Foundation
 import UIKit
 
 protocol DappInfoDelegate: class {
-    func dappInfoCellDidReceiveCategoryDetailsEvent(_ cell: DappInfoCell, categoryId: Int, categoryName: String)
-    func dappInfoCellDidReceiveDappDetailsEvent(_ cell: DappInfoCell)
+    func dappInfoViewDidReceiveCategoryDetailsEvent(_ cell: DappInfoView, categoryId: Int, categoryName: String)
+    func dappInfoViewDidReceiveDappDetailsEvent(_ cell: DappInfoView)
 }
 
-final class DappInfoCell: UITableViewCell {
+final class DappInfoView: UIView {
 
     weak var delegate: DappInfoDelegate?
 
@@ -100,26 +100,14 @@ final class DappInfoCell: UITableViewCell {
         return button
     }()
 
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-        selectionStyle = .none
         addSubviewsAndConstraints()
     }
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        leftImageView.image = nil
-        titleLabel.text = nil
-        descriptionLabel.text = nil
-        urlLabel.text = nil
-
-        leftImageView.layer.cornerRadius = 0
     }
 
     private func addSubviewsAndConstraints() {
@@ -143,12 +131,12 @@ final class DappInfoCell: UITableViewCell {
         horizontalStackView.addArrangedSubview(stackView)
 
         mainStackView.addArrangedSubview(horizontalStackView)
-        contentView.addSubview(mainStackView)
+        addSubview(mainStackView)
 
-        mainStackView.top(to: contentView, offset: .spacingx4)
-        mainStackView.bottom(to: contentView, offset: -BasicTableViewCell.imageMargin)
-        mainStackView.left(to: contentView, offset: .defaultMargin)
-        mainStackView.right(to: contentView, offset: -.defaultMargin)
+        mainStackView.top(to: self, offset: .spacingx4)
+        mainStackView.bottom(to: self, offset: -BasicTableViewCell.imageMargin)
+        mainStackView.left(to: self, offset: .defaultMargin)
+        mainStackView.right(to: self, offset: -.defaultMargin)
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(urlLabel)
@@ -215,18 +203,18 @@ final class DappInfoCell: UITableViewCell {
     }
 
     @objc private func didTapOpenButton(_ sender: UIButton) {
-        delegate?.dappInfoCellDidReceiveDappDetailsEvent(self)
+        delegate?.dappInfoViewDidReceiveDappDetailsEvent(self)
     }
 }
 
-extension DappInfoCell: UITextViewDelegate {
+extension DappInfoView: UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         guard let categoryId = Int(URL.absoluteString) else { return false }
         guard let categoryName = categoriesInfo?[categoryId] else { return false }
 
-        delegate?.dappInfoCellDidReceiveCategoryDetailsEvent(self, categoryId: categoryId, categoryName: categoryName)
+        delegate?.dappInfoViewDidReceiveCategoryDetailsEvent(self, categoryId: categoryId, categoryName: categoryName)
 
         return false
     }
