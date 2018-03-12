@@ -47,6 +47,7 @@ final class DappViewController: UIViewController {
         view.register(DappInfoCell.self)
         view.rowHeight = UITableViewAutomaticDimension
         view.estimatedRowHeight = 44
+        view.separatorStyle = .none
 
         return view
     }()

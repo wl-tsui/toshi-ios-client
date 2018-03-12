@@ -887,11 +887,8 @@
 		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
 		A9CADC1A1F94AF2D0096D017 /* DappsCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC101F94AF2C0096D017 /* DappsCategoryViewController.swift */; };
 		A9CADC1B1F94AF2D0096D017 /* DappsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC111F94AF2D0096D017 /* DappsViewController.swift */; };
-		A9CADC1C1F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC131F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift */; };
-		A9CADC1E1F94AF2D0096D017 /* OpenURLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC151F94AF2D0096D017 /* OpenURLButton.swift */; };
 		A9CADC1F1F94AF2D0096D017 /* BrowseSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC161F94AF2D0096D017 /* BrowseSearchResultView.swift */; };
 		A9CADC201F94AF2D0096D017 /* ReputationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC171F94AF2D0096D017 /* ReputationView.swift */; };
-		A9CADC211F94AF2D0096D017 /* BrowseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC181F94AF2D0096D017 /* BrowseCollectionViewCell.swift */; };
 		A9CADC221F94AF2D0096D017 /* DappsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC191F94AF2D0096D017 /* DappsNavigationController.swift */; };
 		A9CADC231F94B1C50096D017 /* DappsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC111F94AF2D0096D017 /* DappsViewController.swift */; };
 		A9CADC241F94B1C50096D017 /* DappsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC111F94AF2D0096D017 /* DappsViewController.swift */; };
@@ -899,16 +896,10 @@
 		A9CADC261F94B1C90096D017 /* DappsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC191F94AF2D0096D017 /* DappsNavigationController.swift */; };
 		A9CADC271F94B1CC0096D017 /* DappsCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC101F94AF2C0096D017 /* DappsCategoryViewController.swift */; };
 		A9CADC281F94B1CC0096D017 /* DappsCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC101F94AF2C0096D017 /* DappsCategoryViewController.swift */; };
-		A9CADC291F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC131F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift */; };
-		A9CADC2A1F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC131F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift */; };
-		A9CADC2D1F94B1D60096D017 /* OpenURLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC151F94AF2D0096D017 /* OpenURLButton.swift */; };
-		A9CADC2E1F94B1D60096D017 /* OpenURLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC151F94AF2D0096D017 /* OpenURLButton.swift */; };
 		A9CADC2F1F94B1D90096D017 /* BrowseSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC161F94AF2D0096D017 /* BrowseSearchResultView.swift */; };
 		A9CADC301F94B1DA0096D017 /* BrowseSearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC161F94AF2D0096D017 /* BrowseSearchResultView.swift */; };
 		A9CADC311F94B1DC0096D017 /* ReputationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC171F94AF2D0096D017 /* ReputationView.swift */; };
 		A9CADC321F94B1DD0096D017 /* ReputationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC171F94AF2D0096D017 /* ReputationView.swift */; };
-		A9CADC331F94B1E00096D017 /* BrowseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC181F94AF2D0096D017 /* BrowseCollectionViewCell.swift */; };
-		A9CADC341F94B1E10096D017 /* BrowseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC181F94AF2D0096D017 /* BrowseCollectionViewCell.swift */; };
 		A9CADC361F94C5B10096D017 /* ReputationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC351F94C5B00096D017 /* ReputationBarView.swift */; };
 		A9CADC371F94C5B10096D017 /* ReputationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC351F94C5B00096D017 /* ReputationBarView.swift */; };
 		A9CADC381F94C5B10096D017 /* ReputationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC351F94C5B00096D017 /* ReputationBarView.swift */; };
@@ -1497,11 +1488,8 @@
 		A9BF33B61E76F918009A51AA /* CheckboxControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxControl.swift; sourceTree = "<group>"; };
 		A9CADC101F94AF2C0096D017 /* DappsCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DappsCategoryViewController.swift; sourceTree = "<group>"; };
 		A9CADC111F94AF2D0096D017 /* DappsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DappsViewController.swift; sourceTree = "<group>"; };
-		A9CADC131F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseEntityCollectionViewCell.swift; sourceTree = "<group>"; };
-		A9CADC151F94AF2D0096D017 /* OpenURLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenURLButton.swift; sourceTree = "<group>"; };
 		A9CADC161F94AF2D0096D017 /* BrowseSearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseSearchResultView.swift; sourceTree = "<group>"; };
 		A9CADC171F94AF2D0096D017 /* ReputationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReputationView.swift; sourceTree = "<group>"; };
-		A9CADC181F94AF2D0096D017 /* BrowseCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9CADC191F94AF2D0096D017 /* DappsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DappsNavigationController.swift; sourceTree = "<group>"; };
 		A9CADC351F94C5B00096D017 /* ReputationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReputationBarView.swift; sourceTree = "<group>"; };
 		A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesBasicCell.swift; sourceTree = "<group>"; };
@@ -2570,10 +2558,7 @@
 		A9CADC121F94AF2D0096D017 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A9CADC181F94AF2D0096D017 /* BrowseCollectionViewCell.swift */,
-				A9CADC131F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift */,
 				A9CADC161F94AF2D0096D017 /* BrowseSearchResultView.swift */,
-				A9CADC151F94AF2D0096D017 /* OpenURLButton.swift */,
 				A9CADC351F94C5B00096D017 /* ReputationBarView.swift */,
 				A9CADC171F94AF2D0096D017 /* ReputationView.swift */,
 				2B6BFFEE20483DA20083F960 /* DappsTableHeaderView.swift */,
@@ -3628,7 +3613,6 @@
 				3312F6822007801B00881B97 /* DisappearingBackgroundNavBar.swift in Sources */,
 				33FD936F1FE960F10082B9D8 /* Dapp.swift in Sources */,
 				2BF2856C2018EF0200DA528D /* TestAppDelegate.swift in Sources */,
-				A9CADC2E1F94B1D60096D017 /* OpenURLButton.swift in Sources */,
 				2B46018D202A40EB0098694D /* Token.swift in Sources */,
 				2BD6FB411F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				A9BCB3621FCD693A0047CCA7 /* ProfilesDataSource.swift in Sources */,
@@ -3739,7 +3723,6 @@
 				2B4E25F01FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				33DA84702028D320008473F9 /* SegmentedHeaderView.swift in Sources */,
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
-				A9CADC2A1F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
 				A9CADC321F94B1DD0096D017 /* ReputationView.swift in Sources */,
 				2BBD3FA7202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
@@ -3780,7 +3763,6 @@
 				D197B6A1519FAB078F9174F4 /* BlurView.swift in Sources */,
 				2B3D8176202E63DB003B7874 /* UIButton+Additions.swift in Sources */,
 				2B4428DC204D703F0079F1DE /* DappsGenericPagedResults.swift in Sources */,
-				A9CADC341F94B1E10096D017 /* BrowseCollectionViewCell.swift in Sources */,
 				D197B83F0A9396CF2E7628D5 /* ActiveNetworkView.swift in Sources */,
 				2BD0A4D31FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
 				D197BEB965F76FE14EF90555 /* ActiveNetworkDisplaying.swift in Sources */,
@@ -3854,13 +3836,11 @@
 				9FAC46ED1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				2B4E25E21FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift in Sources */,
-				A9CADC1C1F94AF2D0096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
 				33CD5168202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B4428D6204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				9F54AB0D1ECC8D390008489F /* ScannerController.swift in Sources */,
 				2B09B4091FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
-				A9CADC211F94AF2D0096D017 /* BrowseCollectionViewCell.swift in Sources */,
 				2BD18F952034603A00659D40 /* PlaceholderTextView.swift in Sources */,
 				339959AB1FCED3D700D69A01 /* DLog.swift in Sources */,
 				9FAACCD71E310C1100FB871D /* SettingsNavigationController.swift in Sources */,
@@ -3873,7 +3853,6 @@
 				A938AE031FBEF332002A2CD3 /* ProfilesHeaderView.swift in Sources */,
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
-				A9CADC1E1F94AF2D0096D017 /* OpenURLButton.swift in Sources */,
 				A9AC74111E78064500365029 /* TextLabel.swift in Sources */,
 				A91D72A11F877FFA0093420C /* RecentViewController.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
@@ -4177,7 +4156,6 @@
 				A91D72A81F8782DC0093420C /* ChatButtonsView.swift in Sources */,
 				2B4E25FB1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
 				3345A0B120348B6D00C559BC /* TokenSendConfirmationViewController.swift in Sources */,
-				A9CADC2D1F94B1D60096D017 /* OpenURLButton.swift in Sources */,
 				336CC5DF202E611B0052511C /* SystemSharing.swift in Sources */,
 				2BF3822A2045907A00DE9E19 /* SofaTokenPayment.swift in Sources */,
 				A9603DBD1F4DABDC00BF57B1 /* IndexPath+Additions.swift in Sources */,
@@ -4294,7 +4272,6 @@
 				2B46016F2028E1A80098694D /* WalletTableHeaderView.swift in Sources */,
 				2B4E25EF1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				33DA846F2028D320008473F9 /* SegmentedHeaderView.swift in Sources */,
-				A9CADC291F94B1D00096D017 /* BrowseEntityCollectionViewCell.swift in Sources */,
 				A9CADC311F94B1DC0096D017 /* ReputationView.swift in Sources */,
 				A9603EDF1F4DABDC00BF57B1 /* CheckboxControl.swift in Sources */,
 				2BBD3FA6202CDDE5007E6BCE /* RectImageTitleSubtitleTableViewCell.swift in Sources */,
@@ -4336,7 +4313,6 @@
 				A9603F321F4DABDC00BF57B1 /* BlurView.swift in Sources */,
 				2B3D8175202E63DB003B7874 /* UIButton+Additions.swift in Sources */,
 				2B4428DB204D703F0079F1DE /* DappsGenericPagedResults.swift in Sources */,
-				A9CADC331F94B1E00096D017 /* BrowseCollectionViewCell.swift in Sources */,
 				A9603F331F4DABDC00BF57B1 /* ActiveNetworkView.swift in Sources */,
 				2BD0A4D21FDEAAF900D745BF /* PrekeysRequest.m in Sources */,
 				A9603F341F4DABDC00BF57B1 /* ActiveNetworkDisplaying.swift in Sources */,
