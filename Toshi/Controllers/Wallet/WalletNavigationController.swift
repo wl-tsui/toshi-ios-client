@@ -18,7 +18,7 @@ import Foundation
 class WalletNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return (topViewController == viewControllers.first) ? .lightContent : .default
     }
 
     override init(rootViewController: UIViewController) {
@@ -42,9 +42,92 @@ class WalletNavigationController: UINavigationController {
         if #available(iOS 11.0, *) {
             self.navigationBar.prefersLargeTitles = true
         }
-
-        self.navigationBar.barTintColor = Theme.tintColor
-        self.navigationBar.shadowImage = UIImage()
-        self.navigationBar.titleTextAttributes = [ NSAttributedStringKey.foregroundColor: Theme.lightTextColor ]
     }
+
+    // MARK: - Nav Bar Color Handling
+
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if let colorable = viewController as? NavBarColorChanging {
+            setNavigationBarColors(with: colorable)
+        }
+
+        super.pushViewController(viewController, animated: animated)
+    }
+
+    override func popViewController(animated: Bool) -> UIViewController? {
+        guard let colorChangingVC = previousViewController as? NavBarColorChanging else {
+            // Just call super and be done with it.
+            return super.popViewController(animated: animated)
+        }
+
+        setNavigationBarColors(with: colorChangingVC)
+
+        // Start the transition by calling super so we get a transition coordinator
+        let poppedViewController = super.popViewController(animated: animated)
+
+        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
+            guard let topColorChangingVC = self?.topViewController as? NavBarColorChanging else { return }
+            self?.setNavigationBarColors(with: topColorChangingVC)
+        })
+
+        return poppedViewController
+    }
+
+    private var previousViewController: UIViewController? {
+        guard viewControllers.count > 1 else {
+            return nil
+        }
+        return viewControllers[viewControllers.count - 2]
+    }
+
+    private func setNavigationBarColors(with colorChangingObject: NavBarColorChanging) {
+        navigationBar.tintColor = colorChangingObject.navTintColor
+        navigationBar.barTintColor = colorChangingObject.navBarTintColor
+        navigationBar.shadowImage = colorChangingObject.navShadowImage
+        if let titleColor = colorChangingObject.navTitleColor {
+            navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: titleColor]
+        } else {
+            navigationBar.titleTextAttributes = nil
+        }
+    }
+}
+
+// MARK: - Color Changing Protocol
+
+/*
+ Generally ganked from https://gist.github.com/Sorix/1d8543b18cfd76c12c36525bc280a35d
+
+ Workaround for the fact that when you pop a view controller non-interactively, the colors,
+ especially the title color, do not render correctly after the pop.
+
+ Will add Radar here once filed.
+ */
+
+protocol NavBarColorChanging: class {
+
+    var navTintColor: UIColor? { get }
+    var navBarTintColor: UIColor? { get }
+    var navTitleColor: UIColor? { get }
+    var navShadowImage: UIImage? { get }
+}
+
+extension WalletViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return Theme.tintColor }
+    var navTitleColor: UIColor? { return Theme.lightTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
+}
+
+extension TokenEtherDetailViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
+}
+
+extension CollectibleViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
 }

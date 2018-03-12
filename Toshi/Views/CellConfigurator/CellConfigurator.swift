@@ -45,18 +45,20 @@ class CellConfigurator {
 
         if cellData.components.contains(.leftImage) {
             cell.leftImageView.image = cellData.leftImage
+        }
 
-            if let leftImagePath = cellData.leftImagePath {
-                AvatarManager.shared.avatar(for: leftImagePath, completion: { [weak self] image, path in
-                    if leftImagePath == path {
-                        cell.leftImageView.image = image
-                    }
-                })
-            }
+        if let leftImagePath = cellData.leftImagePath {
+            AvatarManager.shared.avatar(for: leftImagePath, completion: { image, path in
+                if leftImagePath == path {
+                    cell.leftImageView.image = image
+                }
+            })
         }
 
         if cellData.components.contains(.doubleImage) {
-            cell.doubleImageView.setImages(cellData.doubleImage)
+            if cellData.doubleImage != nil {
+                cell.doubleImageView.setImages(cellData.doubleImage)
+            }
         }
 
         if cellData.components.contains(.doubleAction) {
@@ -88,6 +90,8 @@ class CellConfigurator {
             reuseIdentifier = AvatarTitleSubtitleDetailsCell.reuseIdentifier
         } else if components.contains(.leftImageTitleSubtitleDoubleAction) {
             reuseIdentifier = AvatarTitleSubtitleDoubleActionCell.reuseIdentifier
+        } else if components.contains(.titleSubtitleLeftImageCheckbox) {
+            reuseIdentifier = AvatarTitleSubtitleCheckboxCell.reuseIdentifier
         } else if components.contains(.titleSubtitleLeftImage) {
             reuseIdentifier = AvatarTitleSubtitleCell.reuseIdentifier
         } else if components.contains(.titleSubtitleSwitchControl) {

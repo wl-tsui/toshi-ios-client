@@ -18,9 +18,9 @@ import Foundation
 /// An individual Collectible Token
 final class CollectibleToken: Codable {
 
-    let name: String
-    let image: String
-    let description: String
+    let name: String?
+    let image: String?
+    let description: String?
     let tokenId: String
 
     enum CodingKeys: String, CodingKey {
@@ -29,5 +29,9 @@ final class CollectibleToken: Codable {
         image,
         description,
         tokenId = "token_id"
+    }
+
+    var displayId: String {
+        return NSDecimalNumber(hexadecimalString: tokenId).stringValue
     }
 }

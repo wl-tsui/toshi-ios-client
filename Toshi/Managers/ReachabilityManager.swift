@@ -25,6 +25,10 @@ class ReachabilityManager {
 
     let reachability = Reachability()
 
+    var currentReachabilityStatus: Reachability.NetworkStatus {
+        return reachability?.currentReachabilityStatus ?? .notReachable
+    }
+
     func register() {
         reachability?.whenReachable = { reachability in
             DispatchQueue.main.async {

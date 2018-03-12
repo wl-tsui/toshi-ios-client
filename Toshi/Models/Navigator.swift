@@ -14,6 +14,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import UIKit
+import Reachability
 
 class Navigator: NSObject {
 
@@ -27,6 +28,10 @@ class Navigator: NSObject {
 
     static var rootViewController: UIViewController? {
         return window?.rootViewController
+    }
+
+    static var reachabilityStatus: Reachability.NetworkStatus {
+        return tabbarController?.reachabilityManager.currentReachabilityStatus  ?? .notReachable
     }
 
     @objc static var tabbarController: TabBarController? {

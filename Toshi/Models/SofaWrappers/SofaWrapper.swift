@@ -27,6 +27,9 @@ import Foundation
 }
 
 enum SofaType: String {
+
+    static let key = "sofa"
+
     case none = ""
     case message = "SOFA::Message:"
     case command = "SOFA::Command:"
@@ -34,6 +37,7 @@ enum SofaType: String {
     case initialResponse = "SOFA::Init:"
     case paymentRequest = "SOFA::PaymentRequest:"
     case payment = "SOFA::Payment:"
+    case tokenPayment = "SOFA::TokenPayment:"
     case status = "SOFA::Status:"
 
     init(sofa: String?) {
@@ -55,6 +59,8 @@ enum SofaType: String {
             self = .paymentRequest
         } else if sofa.hasPrefix(SofaType.payment.rawValue) {
             self = .payment
+        } else if sofa.hasPrefix(SofaType.tokenPayment.rawValue) {
+            self = .tokenPayment
         } else if sofa.hasPrefix(SofaType.status.rawValue) {
             self = .status
         } else {
@@ -92,6 +98,8 @@ class SofaWrapper: SofaWrapperProtocol {
             return SofaPaymentRequest(content: content)
         case .payment:
             return SofaPayment(content: content)
+        case .tokenPayment:
+            return SofaTokenPayment(content: content)
         case .status:
             return SofaStatus(content: content)
         case .none:
@@ -112,7 +120,7 @@ class SofaWrapper: SofaWrapperProtocol {
 
     func removeFiatValueString() {
         var contentJSON = json
-        contentJSON.removeValue(forKey: "fiatValueString")
+        contentJSON.removeValue(forKey: SofaPaymentKeys.fiatValueString)
 
         if let reducedContentSofaString = SofaWrapper.jsonToSofaContent(contentJSON, for: type) {
             content = reducedContentSofaString
@@ -128,7 +136,7 @@ class SofaWrapper: SofaWrapperProtocol {
     }
 
     static func addFiatStringIfNecessary(to content: [String: Any], for sofaType: SofaType) -> [String: Any]? {
-        guard content["fiatValueString"] as? String == nil else {
+        guard content[SofaPaymentKeys.fiatValueString] as? String == nil else {
             // Fiat value is already in there
             return content
         }
@@ -146,10 +154,10 @@ class SofaWrapper: SofaWrapperProtocol {
     }
 
     static private func addFiatValueToContent(_ content: [String: Any], for sofaType: SofaType) -> [String: Any]? {
-        guard let hexValue = content["value"] as? String else { return nil }
+        guard let hexValue = content[SofaPaymentKeys.value] as? String else { return nil }
 
         var contentDictionary = content
-        contentDictionary["fiatValueString"] = EthereumConverter.fiatValueStringWithCode(forWei: NSDecimalNumber(hexadecimalString: hexValue), exchangeRate: ExchangeRateClient.exchangeRate)
+        contentDictionary[SofaPaymentKeys.fiatValueString] = EthereumConverter.fiatValueStringWithCode(forWei: NSDecimalNumber(hexadecimalString: hexValue), exchangeRate: ExchangeRateClient.exchangeRate)
 
         return contentDictionary
     }
@@ -157,7 +165,7 @@ class SofaWrapper: SofaWrapperProtocol {
     static private func contentContainsFiatValueString(_ content: String, for sofaType: SofaType) -> Bool {
         guard let json = sofaContentToJSON(content, for: sofaType) else { return false }
 
-        if json["fiatValueString"] as? String != nil {
+        if json[SofaPaymentKeys.fiatValueString] as? String != nil {
             return true
         } else {
             return false

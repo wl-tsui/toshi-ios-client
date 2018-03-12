@@ -72,8 +72,10 @@ final class AvatarTitleSubtitleDetailsBadgeCell: BasicTableViewCell {
     private func setupBadgeView() {
         badgeView.bottom(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         badgeView.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
-        badgeView.size(CGSize(width: BasicTableViewCell.badgeViewSize, height: BasicTableViewCell.badgeViewSize))
-        badgeView.top(to: detailsLabel, offset: -BasicTableViewCell.smallVerticalMargin, relation: .equalOrGreater)
+        badgeView.height(BasicTableViewCell.badgeViewSize)
+        badgeView.width(BasicTableViewCell.badgeViewSize, relation: .equalOrGreater)
+        badgeView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        badgeView.topToBottom(of: detailsLabel, offset: BasicTableViewCell.smallVerticalMargin)
     }
 
     override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
