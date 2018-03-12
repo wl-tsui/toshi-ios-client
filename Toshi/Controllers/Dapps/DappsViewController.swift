@@ -209,6 +209,7 @@ extension DappsViewController: UITableViewDataSource {
             let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
             cell.selectionStyle = .none
             cell.textLabel?.text = item.displayTitle
+            cell.separatorInset = .zero
             return cell
         case .dappFront, .dappSearched:
             let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
