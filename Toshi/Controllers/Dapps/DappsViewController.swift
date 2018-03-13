@@ -66,6 +66,8 @@ final class DappsViewController: UIViewController {
         return statusBarStyle
     }
 
+    var needsCollapseAfterReloadData = false
+
     let dappsHeaderHefight: CGFloat = 280
     let defaultSectionHeaderHeight: CGFloat = 50
     let searchedResultsSectionHeaderHeight: CGFloat = 24
@@ -187,7 +189,13 @@ extension DappsViewController: DappsDataSourceDelegate {
     func dappsDataSourcedidReload(_ dataSource: DappsDataSource) {
         hideActivityIndicator()
 
+        let offset = headerView.frame.height
         tableView.reloadData()
+        tableView.setContentOffset(CGPoint(x: 0, y: -offset), animated: false)
+
+        if needsCollapseAfterReloadData {
+            self.tableView.setContentOffset(CGPoint(x: 0, y: self.headerView.sizeRange.upperBound), animated: true)
+        }
     }
 }
 
@@ -357,18 +365,19 @@ extension DappsViewController: DappsSearchHeaderViewDelegate {
 
         if headerView.frame.height > -headerView.sizeRange.upperBound {
             // perform after delay to not have the contentOffset animation interfere with showing the keyboard
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                self.tableView.setContentOffset(CGPoint(x: 0, y: self.headerView.sizeRange.upperBound), animated: true)
-            })
+            needsCollapseAfterReloadData = true
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+//                self.tableView.setContentOffset(CGPoint(x: 0, y: self.headerView.sizeRange.upperBound), animated: true)
+//            })
         }
     }
 
     func didRequireDefaultState(_ headerView: DappsTableHeaderView) {
-        if dataSource.queryData.isSearching {
-            showActivityIndicator()
-        }
-
-        dataSource.queryData.isSearching = !headerView.searchTextField.currentOrEmptyText.isEmpty
+//        if dataSource.queryData.isSearching {
+//            showActivityIndicator()
+//        }
+//
+//        dataSource.queryData.isSearching = !headerView.searchTextField.currentOrEmptyText.isEmpty
     }
 
     func dappsSearchDidUpdateSearchText(_ headerView: DappsTableHeaderView, searchText: String) {
