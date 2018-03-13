@@ -141,6 +141,8 @@ final class DappsViewController: UIViewController {
         tableView.left(to: view)
         tableView.right(to: view)
         tableView.bottom(to: view)
+
+        view.layoutIfNeeded()
     }
 
     override func viewWillAppear(_ animated: Bool) {
