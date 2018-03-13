@@ -27,7 +27,6 @@ final class DappsSectionHeaderView: UIView {
         let label = UILabel()
         label.textColor = Theme.greyTextColor
         label.font = Theme.proTextBold(size: 13)
-        label.set(height: 20)
 
         return label
     }()
@@ -44,10 +43,6 @@ final class DappsSectionHeaderView: UIView {
 
     @objc private func actionButtonTapped(_ button: UIButton) {
         delegate?.dappsSectionHeaderViewDidReceiveActionButtonEvent(self)
-    }
-
-    deinit {
-        print("Header deinitialised")
     }
 
     // MARK: - Initialization

@@ -33,10 +33,10 @@ final class DappsTableHeaderView: UIView {
 
     private var heightConstraint: NSLayoutConstraint?
 
-    private var searchFieldBottomConstraint: NSLayoutConstraint?
-    private var searchFieldLeftConstraint: NSLayoutConstraint?
-    private var searchFieldRightConstraint: NSLayoutConstraint?
-    private var searchFieldHeightConstraint: NSLayoutConstraint?
+    private var searchStackBottomConstraint: NSLayoutConstraint?
+    private var searchStackLeftConstraint: NSLayoutConstraint?
+    private var searchStackRightConstraint: NSLayoutConstraint?
+    private var searchStackHeightConstraint: NSLayoutConstraint?
 
     private var shouldShowCancelButton = false
 
@@ -77,14 +77,11 @@ final class DappsTableHeaderView: UIView {
     }()
 
     private(set) lazy var searchTextField: UITextField = {
-        let textField = UITextField()
+        let textField = InsetTextField(xInset: 16, yInset: 0)
         textField.delegate = self
         textField.placeholder = Localized("dapps-search-placeholder")
         textField.borderStyle = .none
         textField.layer.cornerRadius = 5
-        
-        let leftTextInset = CATransform3DMakeTranslation(10, 0, 0)
-        textField.layer.sublayerTransform = leftTextInset
 
         return textField
     }()
@@ -101,12 +98,34 @@ final class DappsTableHeaderView: UIView {
 
     private lazy var cancelButton: UIButton = {
         let cancelButton = UIButton()
-        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitle(Localized("cancel_action_title"), for: .normal)
         cancelButton.setTitleColor(Theme.tintColor, for: .normal)
-        cancelButton.alpha = 0
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+        cancelButton.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         return cancelButton
+    }()
+
+    private lazy var searchFieldStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 6 // prevents jump when typing begins
+
+        stackView.addSubview(searchTextFieldBackgroundView)
+        stackView.addArrangedSubview(searchTextField)
+        searchTextField.topToSuperview()
+        searchTextField.bottomToSuperview()
+
+        searchTextFieldBackgroundView.edges(to: searchTextField)
+
+        stackView.addArrangedSubview(cancelButton)
+        cancelButton.topToSuperview()
+        cancelButton.bottomToSuperview()
+
+        cancelButton.isHidden = true
+
+        return stackView
     }()
 
     // MARK: - Initialization
@@ -140,19 +159,16 @@ final class DappsTableHeaderView: UIView {
         addSubview(collapsedBackgroundView)
         collapsedBackgroundView.edges(to: self)
 
-        let separatorView = UIView()
-        separatorView.backgroundColor = Theme.borderColor
-
+        let separatorView = BorderView()
         collapsedBackgroundView.addSubview(separatorView)
-        separatorView.height(.lineHeight)
+        separatorView.addHeightConstraint()
         separatorView.edgesToSuperview(excluding: .top)
 
+        addSubview(searchFieldStackView)
         addSubview(iconImageView)
         addSubview(titleLabel)
-        addSubview(searchTextFieldBackgroundView)
-        addSubview(searchTextField)
 
-        searchTextFieldBackgroundView.edges(to: searchTextField)
+        searchFieldStackView.top(to: titleLabel, offset: .giantInterItemSpacing)
 
         iconImageView.size(CGSize(width: 48, height: 48))
         iconImageView.centerX(to: self)
@@ -160,17 +176,11 @@ final class DappsTableHeaderView: UIView {
 
         titleLabel.centerX(to: self)
 
-        searchTextField.top(to: titleLabel, offset: .giantInterItemSpacing)
-        searchFieldBottomConstraint = searchTextField.bottom(to: self, offset: -40)
+        searchStackBottomConstraint = searchFieldStackView.bottom(to: self, offset: -40)
 
-        searchFieldLeftConstraint = searchTextField.left(to: self, offset: 40)
-        searchFieldRightConstraint = searchTextField.right(to: self, offset: -40)
-        searchFieldHeightConstraint = searchTextField.height(56)
-
-        addSubview(cancelButton)
-        cancelButton.centerY(to: searchTextField)
-        cancelButton.leftToRight(of: searchTextField)
-        cancelButton.right(to: self)
+        searchStackLeftConstraint = searchFieldStackView.left(to: self, offset: 40)
+        searchStackRightConstraint = searchFieldStackView.right(to: self, offset: -40)
+        searchStackHeightConstraint = searchFieldStackView.height(56)
     }
 
     func didScroll(to percentage: CGFloat) {
@@ -183,10 +193,10 @@ final class DappsTableHeaderView: UIView {
         iconImageView.alpha = fadeOut(percentage, in: 0.0 ... 0.46)
         titleLabel.alpha = fadeOut(percentage, in: 0.0 ... 0.46)
 
-        searchFieldHeightConstraint?.constant = resize(1 - percentage, in: 36 ... 56)
-        searchFieldLeftConstraint?.constant = resize(1 - percentage, in: 15 ... 40)
-        searchFieldRightConstraint?.constant = resize(percentage, in: -40 ... -15)
-        searchFieldBottomConstraint?.constant = percentage.map(from: 0 ... 1, to: -40 ... -15)
+        searchStackHeightConstraint?.constant = resize(1 - percentage, in: 36 ... 56)
+        searchStackLeftConstraint?.constant = resize(1 - percentage, in: 15 ... 40)
+        searchStackRightConstraint?.constant = resize(percentage, in: -40 ... -15)
+        searchStackBottomConstraint?.constant = percentage.map(from: 0 ... 1, to: -40 ... -15)
 
         let shadowOpacity = Float((1 - percentage).map(from: 0 ... 1, to: 0 ... 0.3))
         searchTextField.addShadow(xOffset: 1, yOffset: 1, radius: 3, opacity: shadowOpacity)
@@ -194,7 +204,7 @@ final class DappsTableHeaderView: UIView {
         searchTextField.backgroundColor = UIColor.white.withAlphaComponent(fadeOut(percentage, in: 0.89 ... 1))
         searchTextFieldBackgroundView.alpha = fadeIn(percentage, in: 0.89 ... 1)
 
-        layoutSubviews()
+        layoutIfNeeded()
         
         if percentage >= 1 && shouldShowCancelButton {
             showCancelButton()
@@ -202,21 +212,21 @@ final class DappsTableHeaderView: UIView {
     }
 
     private func showCancelButton() {
+        layoutIfNeeded()
+        cancelButton.isHidden = false
         UIView.animate(withDuration: 0.2) {
-            self.searchFieldRightConstraint?.constant = -83
-            self.cancelButton.alpha = 1
-            self.layoutSubviews()
+            self.layoutIfNeeded()
         }
 
         shouldShowCancelButton = false
     }
 
     private func hideCancelButton() {
-        guard cancelButton.alpha == 1 else { return }
-        cancelButton.alpha = 0
+        layoutIfNeeded()
+
+        cancelButton.isHidden = true
         UIView.animate(withDuration: 0.2) {
-            self.searchFieldRightConstraint?.constant = -15
-            self.layoutSubviews()
+            self.layoutIfNeeded()
         }
     }
 
@@ -233,25 +243,19 @@ final class DappsTableHeaderView: UIView {
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        //I override point inside to enable swiping on the header
-        var pointInside = false
-        if searchTextField.frame.contains(point) {
-            pointInside = true
-        } else if cancelButton.frame.contains(point) {
-            pointInside = true
+        // Point inside is overriden to enable swiping on the header
+        if searchFieldStackView.frame.contains(point) {
+            return true
         } else {
             searchTextField.resignFirstResponder()
             hideCancelButton()
+            return false
         }
-
-        return pointInside
     }
 
     @objc private func didTapCancelButton() {
         hideCancelButton()
         searchTextField.resignFirstResponder()
-
-        delegate?.didRequireDefaultState(self)
     }
 }
 

@@ -399,6 +399,9 @@
 		338472F8202A68A9000F5A8A /* QuickAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E6202A3F1F000F5A8A /* QuickAlertView.swift */; };
 		338472F9202A68A9000F5A8A /* QuickAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E6202A3F1F000F5A8A /* QuickAlertView.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		33C7BABF2056C37F00410315 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C7BABE2056C37F00410315 /* InsetTextField.swift */; };
+		33C7BAC02056E6A700410315 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C7BABE2056C37F00410315 /* InsetTextField.swift */; };
+		33C7BAC12056E6A700410315 /* InsetTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C7BABE2056C37F00410315 /* InsetTextField.swift */; };
 		33CD5168202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */; };
 		33CD5169202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */; };
 		33CD516A202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */; };
@@ -1309,6 +1312,7 @@
 		338472EB202A5DD4000F5A8A /* SFMono-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFMono-Semibold.otf"; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
+		33C7BABE2056C37F00410315 /* InsetTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetTextField.swift; sourceTree = "<group>"; };
 		33CD5167202CDC60005D6DEC /* TokenEtherDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenEtherDetailViewController.swift; sourceTree = "<group>"; };
 		33CF51341FD184AB00293FD1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		33CF51381FD1952500293FD1 /* StringCaseListable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringCaseListable.swift; sourceTree = "<group>"; };
@@ -2196,6 +2200,8 @@
 				A9ED6CCF1E83CD8400160637 /* Footnote.swift */,
 				2BC85F7E1F0F946600BCB171 /* InputCell.swift */,
 				2BC85F7B1F0F939C00BCB171 /* InputCell.xib */,
+				33C7BABE2056C37F00410315 /* InsetTextField.swift */,
+				2BD18F942034603A00659D40 /* PlaceholderTextView.swift */,
 				A938AE061FBEFAB2002A2CD3 /* LeftAlignedButton.swift */,
 				33207B4320370B7C0025A5A2 /* LoadingHUD.swift */,
 				D197BD136059B5C238CB3425 /* OfflineAlertView.swift */,
@@ -2205,7 +2211,6 @@
 				33DA846D2028D320008473F9 /* SegmentedHeaderView.swift */,
 				A9AC74101E78064500365029 /* TextLabel.swift */,
 				A9AC740D1E78051F00365029 /* TitleLabel.swift */,
-				2BD18F942034603A00659D40 /* PlaceholderTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3573,6 +3578,7 @@
 				A9A9F9A51F8B70850010F877 /* ChatFloatingHeaderView.swift in Sources */,
 				2BD0A4E11FDFE5FF00D745BF /* AvatarTitleSubtitleDoubleActionCell.swift in Sources */,
 				33EF27602010DA540056699D /* DisappearingNavBarViewController.swift in Sources */,
+				33C7BAC12056E6A700410315 /* InsetTextField.swift in Sources */,
 				A9E1DCDE1F1E276B001A4ABE /* MessagesPaymentCell.swift in Sources */,
 				9FAC46EE1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				2B6C18F61FCD431800DE432B /* GroupViewController.swift in Sources */,
@@ -3848,6 +3854,7 @@
 				9FAE4A6E1E4CC04300126217 /* BaseConverter.swift in Sources */,
 				A9BA6B7D1EF7D746007C3206 /* DepositMoneyBulletPoint.swift in Sources */,
 				2B6C18F41FCD431800DE432B /* GroupViewController.swift in Sources */,
+				33C7BABF2056C37F00410315 /* InsetTextField.swift in Sources */,
 				2B6C190B1FCDAA3F00DE432B /* GroupInfoConfigurator.swift in Sources */,
 				2BF2855D2018EE0C00DA528D /* main.swift in Sources */,
 				A938AE031FBEF332002A2CD3 /* ProfilesHeaderView.swift in Sources */,
@@ -4123,6 +4130,7 @@
 				A9603D891F4DABDC00BF57B1 /* UIColor+Additions.swift in Sources */,
 				2BD0A4E01FDFE5FF00D745BF /* AvatarTitleSubtitleDoubleActionCell.swift in Sources */,
 				33EF275F2010DA530056699D /* DisappearingNavBarViewController.swift in Sources */,
+				33C7BAC02056E6A700410315 /* InsetTextField.swift in Sources */,
 				A9603D8C1F4DABDC00BF57B1 /* BackgroundNotificationHandler.swift in Sources */,
 				A9603D8F1F4DABDC00BF57B1 /* MessagesBasicCell.swift in Sources */,
 				2B6C18F51FCD431800DE432B /* GroupViewController.swift in Sources */,
