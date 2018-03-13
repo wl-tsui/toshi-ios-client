@@ -203,7 +203,7 @@ final class DappsDataSource {
             guard let strongSelf = self, let strongOperation = weakOperation else { return }
 
             var results: [DappsDataSourceSection] = []
-            results.append(contentsOf: strongSelf.adjustToSearchText(strongSelf.queryData.searchText))
+            results.append(contentsOf: strongSelf.resultsForSearchText(strongSelf.queryData.searchText))
 
             DirectoryAPIClient.shared.getQueriedDapps(queryData: strongSelf.queryData, completion: { queriedResults, error in
 
@@ -247,7 +247,7 @@ final class DappsDataSource {
         reloadOperationQueue.addOperation(operation)
     }
 
-    @discardableResult func adjustToSearchText(_ searchText: String) -> [DappsDataSourceSection] {
+    func resultsForSearchText(_ searchText: String) -> [DappsDataSourceSection] {
         var results: [DappsDataSourceSection] = []
 
         // Go to URL item
@@ -265,12 +265,12 @@ final class DappsDataSource {
             results.append(section)
         }
 
-        DispatchQueue.main.async {
-            self.content = results
-            self.delegate?.dappsDataSourcedidReload(self)
-        }
-
         return results
+    }
+
+    func adjustToSearchText(_ searchText: String) {
+        content = self.resultsForSearchText(searchText)
+        delegate?.dappsDataSourcedidReload(self)
     }
 
     func cancelFetch() {
