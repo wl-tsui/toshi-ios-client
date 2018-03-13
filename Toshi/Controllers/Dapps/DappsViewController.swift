@@ -184,6 +184,7 @@ extension DappsViewController: DappsDataSourceDelegate {
 
     func dappsDataSourcedidReload(_ dataSource: DappsDataSource) {
         hideActivityIndicator()
+
         tableView.reloadData()
     }
 }
@@ -353,7 +354,10 @@ extension DappsViewController: DappsSearchHeaderViewDelegate {
         dataSource.queryData.isSearching = true
 
         if headerView.frame.height > -headerView.sizeRange.upperBound {
-            tableView.setContentOffset(CGPoint(x: 0, y: headerView.sizeRange.upperBound), animated: true)
+            // perform after delay to not have the contentOffset animation interfere with showing the keyboard
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                self.tableView.setContentOffset(CGPoint(x: 0, y: self.headerView.sizeRange.upperBound), animated: true)
+            })
         }
     }
 
