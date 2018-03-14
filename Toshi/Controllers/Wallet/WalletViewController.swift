@@ -35,8 +35,6 @@ final class WalletViewController: UIViewController {
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
-        view.layer.borderWidth = .lineHeight
-        view.layer.borderColor = Theme.borderColor.cgColor
         view.alwaysBounceVertical = true
         view.refreshControl = self.refreshControl
 

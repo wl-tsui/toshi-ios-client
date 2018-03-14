@@ -146,4 +146,20 @@ len
         decimals = 0
         XCTAssertEqual(inputValue.toDisplayValue(with: decimals), "251283451823")
     }
+
+    func testMiddleTruncation() {
+        let tooShort = "1234567890"
+        let tooShortAdjusted = tooShort.truncateMiddle()
+        XCTAssertEqual(tooShort, tooShortAdjusted)
+
+        let withShorterCharacters = tooShort.truncateMiddle(charactersOnEitherSide: 2)
+        XCTAssertEqual(withShorterCharacters, "12...90")
+
+        let longEnough = "12345678901"
+        let longEnoughAdjusted = longEnough.truncateMiddle()
+        XCTAssertEqual(longEnoughAdjusted, "12345...78901")
+
+        let longEnoughCustomTruncation = longEnough.truncateMiddle(truncationString: "HAI")
+        XCTAssertEqual(longEnoughCustomTruncation, "12345HAI78901")
+    }
 }

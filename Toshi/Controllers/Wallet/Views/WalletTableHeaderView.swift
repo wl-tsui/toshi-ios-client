@@ -99,9 +99,15 @@ final class WalletTableHeaderView: UIView {
 
         backgroundColor = Theme.tintColor
 
+        // + 10% black overlay
+        let darkeningView = UIView()
+        darkeningView.backgroundColor = UIColor.black.withAlphaComponent(0.1)
+        addSubview(darkeningView)
+        darkeningView.edgesToSuperview()
+
         setupMainStackView()
 
-        walletAddressLabel.text = walletAddress
+        walletAddressLabel.text = walletAddress.truncateMiddle()
     }
 
     required init?(coder aDecoder: NSCoder) {
