@@ -50,7 +50,7 @@ class SplashScreenUITests: XCTestCase {
         
         self.tabBarRobot
             .validateTabBarShowing()
-            .select(item: .me)
+            .select(item: .settings)
     
         self.myProfileRobot
             .validateOnMyProfileScreen()
@@ -75,7 +75,7 @@ class SplashScreenUITests: XCTestCase {
             .validateTestAlertShowing(withMessage: TestOnlyString.readTermsAlertMessage(termsURL: expectedTermsURL))
             .dismissTestAlert()
             .validateTestAlertGone()
-        
+
             // TODO: Re-enable using full terms check when Earl Grey figures their shit out with SFSafariViewController.
     }
     
