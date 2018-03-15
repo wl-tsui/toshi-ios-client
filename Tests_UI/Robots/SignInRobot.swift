@@ -38,11 +38,9 @@ enum SignInScreenButton {
         case .signIn:
             return Localized("passphrase_sign_in_button")
         case .wordsLeft(let words):
-            //TODO: Fix up once pluralization gets merged in
-            return String(format: Localized("passphrase_sign_in_button_placeholder"), arguments: [words])
+            return LocalizedPlural("passphrase_sign_in_button_placeholder", for: words)
         }
     }
- 
 }
 
 // MARK: - Default Implementation
