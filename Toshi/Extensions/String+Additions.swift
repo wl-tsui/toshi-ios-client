@@ -163,4 +163,26 @@ extension String {
 
         return decimalValueString
     }
+
+    /// Truncates the middle of a string if necessary.
+    ///
+    /// - Parameters:
+    ///   - charactersOnEitherSide: How many characters are on either side of the truncation. Defaults to 5.
+    ///                             Note: If truncation would not be necessary because the string is too short, the original string is returned.
+    ///   - truncationString: The string to use to truncate. Defaults to an ellipsis.
+    /// - Returns: The truncated string.
+    func truncateMiddle(charactersOnEitherSide: Int = 5, truncationString: String = "...") -> String {
+        guard length > charactersOnEitherSide * 2 else {
+            // Not long enough to truncate
+            return self
+        }
+
+        let endOfStart = index(startIndex, offsetBy: charactersOnEitherSide)
+        let startOfEnd = index(endIndex, offsetBy: -charactersOnEitherSide)
+
+        let firstChars = String(self[startIndex..<endOfStart])
+        let lastChars = String(self[startOfEnd..<endIndex])
+
+        return firstChars + truncationString + lastChars
+    }
 }

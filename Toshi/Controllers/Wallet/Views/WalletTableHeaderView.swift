@@ -97,11 +97,11 @@ final class WalletTableHeaderView: UIView {
         self.delegate = delegate
         super.init(frame: frame)
 
-        backgroundColor = Theme.tintColor
-
+        backgroundColor = Theme.tintColor.mixedWith(.black, atAlpha: 0.1)
+        
         setupMainStackView()
 
-        walletAddressLabel.text = walletAddress
+        walletAddressLabel.text = walletAddress.truncateMiddle()
     }
 
     required init?(coder aDecoder: NSCoder) {
