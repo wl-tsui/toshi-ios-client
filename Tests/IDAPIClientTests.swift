@@ -287,73 +287,6 @@ class IDAPIClientTests: QuickSpec {
                     }
                 }
 
-                it("gets top rated public users") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getTopRatedPublicUsers")
-                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
-
-                    waitUntil { done in
-                        subject.getTopRatedPublicUsers { users, error in
-                            expect(users).toNot(beNil())
-                            expect(error).to(beNil())
-
-                            expect(users?.count).to(equal(2))
-                            
-                            expect(users?.map { $0.username }).to(equal([
-                                    "yuliia",
-                                    "markymark"
-                                ]))
-                            expect(users?.map { $0.name }).to(equal([
-                                    "Yulia",
-                                    "Mark"
-                                ]))
-                            expect(users?.map { $0.about }).to(equal([
-                                    "Top rated",
-                                    "Bit less top rated"
-                                ]))
-                            expect(users?.map { $0.location }).to(equal([
-                                    "Oslo",
-                                    "Canada, eh?"
-                                ]))
-                            
-                            done()
-                        }
-                    }
-                }
-
-                it("gets latest public users") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getLatestPublicUsers")
-                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
-
-                    waitUntil { done in
-                        subject.getLatestPublicUsers { users, error in
-                            expect(users).toNot(beNil())
-                            expect(error).to(beNil())
-                            
-                            expect(users?.count).to(equal(2))
-                            
-                            expect(users?.map { $0.location }).to(equal([
-                                    "Oslo",
-                                    "Amsterdam"
-                                ]))
-                            expect(users?.map { $0.name }).to(equal([
-                                    "Yulia",
-                                    "Marijn Schilling"
-                                ]))
-                            
-                            expect(users?.map { $0.username }).to(equal([
-                                    "yuliav",
-                                    "marijnschilling"
-                                ]))
-                            expect(users?.map { $0.about }).to(equal([
-                                    "Latest public",
-                                    "Bit later public user"
-                                ]))
-                            
-                            done()
-                        }
-                    }
-                }
-
                 it("reports a user") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "", statusCode: .noContent)
                     mockTeapot.overrideEndPoint("timestamp", withFilename: "timestamp")
@@ -382,28 +315,6 @@ class IDAPIClientTests: QuickSpec {
                         subject.adminLogin(loginToken: token) { success, error in
                             expect(success).to(beTrue())
                             expect(error).to(beNil())
-                            
-                            done()
-                        }
-                    }
-                }
-                
-                it("gets a list of dapps") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "dapps")
-                    subject = IDAPIClient(teapot: mockTeapot)
-                    
-                    waitUntil { done in
-                        subject.getDapps { dapps, toshiError in
-                            expect(toshiError).to(beNil())
-                            expect(dapps).toNot(beNil())
-                            
-                            expect(dapps?.count).to(equal(4))
-                            expect(dapps?.map { $0.name }).to(equal([
-                                "Cryptokitties",
-                                "NameBazaar",
-                                "Cent",
-                                "0x Portal"
-                            ]))
                             
                             done()
                         }
@@ -583,42 +494,6 @@ class IDAPIClientTests: QuickSpec {
                             expect(user).to(beNil())
                             expect(error).toNot(beNil())
 
-                            expect(error?.responseStatus).to(equal(401))
-                            expect(error?.type).to(equal(.invalidResponseStatus))
-
-                            done()
-                        }
-                    }
-                }
-
-                it("gets top rated public users") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getTopRatedPublicUsers", statusCode: .unauthorized)
-                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
-
-                    waitUntil { done in
-                        subject.getTopRatedPublicUsers { users, error in
-                            expect(users).toNot(beNil())
-                            expect(error).toNot(beNil())
-                            
-                            expect(users?.count).to(equal(0))
-                            expect(error?.responseStatus).to(equal(401))
-                            expect(error?.type).to(equal(.invalidResponseStatus))
-
-                            done()
-                        }
-                    }
-                }
-
-                it("gets latest public users") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientTests.self), mockFilename: "getLatestPublicUsers", statusCode: .unauthorized)
-                    subject = IDAPIClient(teapot: mockTeapot, cacheEnabled: false)
-
-                    waitUntil { done in
-                        subject.getLatestPublicUsers { users, error in
-                            expect(users).toNot(beNil())
-                            expect(error).toNot(beNil())
-                            
-                            expect(users?.count).to(equal(0))
                             expect(error?.responseStatus).to(equal(401))
                             expect(error?.type).to(equal(.invalidResponseStatus))
 

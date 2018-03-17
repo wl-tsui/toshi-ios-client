@@ -18,6 +18,10 @@ import SweetUIKit
 import WebKit
 import TinyConstraints
 
+protocol SOFAWebControllerDelegate: class {
+    func sofaWebControllerWillFinish(_ sofaWebController: SOFAWebController)
+}
+
 final class SOFAWebController: UIViewController {
 
     enum Method: String {
@@ -28,6 +32,8 @@ final class SOFAWebController: UIViewController {
         case publishTransaction
         case approveTransaction
     }
+
+    weak var delegate: SOFAWebControllerDelegate?
 
     private var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
@@ -71,16 +77,26 @@ final class SOFAWebController: UIViewController {
         let view = WKWebView(frame: self.view.frame, configuration: self.webViewConfiguration)
         view.allowsBackForwardNavigationGestures = true
         view.scrollView.isScrollEnabled = true
+        view.scrollView.keyboardDismissMode = .interactive
         view.translatesAutoresizingMaskIntoConstraints = false
         view.navigationDelegate = self
         view.uiDelegate = self
+        view.scrollView.refreshControl = self.refreshControl
 
         return view
     }()
 
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+
+        return refreshControl
+    }()
+
     private lazy var backButton: UIButton = {
         let view = UIButton(type: .custom)
-        view.bounds.size = CGSize(width: 44, height: 44)
+        view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
+        view.tintColor = Theme.tintColor
         view.setImage(#imageLiteral(resourceName: "web_back").withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapBackButton), for: .touchUpInside)
 
@@ -89,11 +105,66 @@ final class SOFAWebController: UIViewController {
 
     private lazy var forwardButton: UIButton = {
         let view = UIButton(type: .custom)
-        view.bounds.size = CGSize(width: 44, height: 44)
+        view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
+        view.tintColor = Theme.tintColor
         view.setImage(#imageLiteral(resourceName: "web_forward").withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapForwardButton), for: .touchUpInside)
 
         return view
+    }()
+
+    private lazy var browseIcon: UIImageView = {
+        let imageView = UIImageView(image: #imageLiteral(resourceName: "web-browse-icon"))
+        imageView.contentMode = .center
+        imageView.size(CGSize(width: 36, height: 36))
+
+        return imageView
+    }()
+
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+
+        button.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
+        button.tintColor = Theme.tintColor
+        button.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
+
+        button.accessibilityLabel = Localized("accessibility_close")
+        button.addTarget(self,
+                         action: #selector(closeButtonTapped),
+                         for: .touchUpInside)
+
+        return button
+    }()
+
+    private(set) lazy var searchTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .none
+        textField.delegate = self
+        textField.layer.cornerRadius = 5
+        textField.tintColor = Theme.tintColor
+        textField.returnKeyType = .go
+
+        return textField
+    }()
+
+    private lazy var searchTextFieldBackgroundView: UIView = {
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Theme.searchBarColor
+        backgroundView.layer.cornerRadius = 5
+        backgroundView.height(36)
+
+        backgroundView.addSubview(browseIcon)
+
+        browseIcon.leftToSuperview(offset: .smallInterItemSpacing)
+        browseIcon.centerYToSuperview()
+
+        backgroundView.addSubview(searchTextField)
+        searchTextField.leftToRight(of: browseIcon)
+        searchTextField.topToSuperview()
+        searchTextField.bottomToSuperview()
+        searchTextField.right(to: backgroundView, offset: -.smallInterItemSpacing)
+
+        return backgroundView
     }()
 
     private lazy var backBarButtonItem: UIBarButtonItem = {
@@ -104,10 +175,30 @@ final class SOFAWebController: UIViewController {
         UIBarButtonItem(customView: self.forwardButton)
     }()
 
-    private lazy var toolbar: UIToolbar = {
-        let view = UIToolbar(withAutoLayout: true)
-        let spacing = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        view.items = [spacing, self.backBarButtonItem, spacing, self.forwardBarButtonItem, spacing]
+    private lazy var toolbar: UIView = {
+        let view = UIView()
+
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+
+        view.addSubview(stackView)
+        stackView.edgesToSuperview()
+        stackView.alignment = .center
+        stackView.addBackground(with: Theme.viewBackgroundColor)
+
+        stackView.addArrangedSubview(backButton)
+        stackView.addArrangedSubview(forwardButton)
+        stackView.addArrangedSubview(searchTextFieldBackgroundView)
+        stackView.addSpacing(.smallInterItemSpacing, after: searchTextFieldBackgroundView)
+        stackView.addArrangedSubview(closeButton)
+
+        let separator = BorderView()
+        view.addSubview(separator)
+        separator.leftToSuperview()
+        separator.rightToSuperview()
+        separator.bottomToSuperview()
+        separator.addHeightConstraint()
 
         return view
     }()
@@ -127,15 +218,15 @@ final class SOFAWebController: UIViewController {
         view.addSubview(webView)
         view.addSubview(toolbar)
 
-        toolbar.height(44)
-        toolbar.bottom(to: layoutGuide())
+        toolbar.top(to: layoutGuide())
         toolbar.left(to: view)
         toolbar.right(to: view)
+        toolbar.height(.defaultBarHeight)
 
-        webView.top(to: view)
+        webView.topToBottom(of: toolbar)
         webView.left(to: view)
         webView.right(to: view)
-        webView.bottomToTop(of: toolbar)
+        webView.bottom(to: layoutGuide())
 
         hidesBottomBarWhenPushed = true
 
@@ -146,6 +237,7 @@ final class SOFAWebController: UIViewController {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(false)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -161,6 +253,7 @@ final class SOFAWebController: UIViewController {
     func load(url: URL) {
         let request = URLRequest(url: url)
         webView.load(request)
+        searchTextField.text = url.absoluteString
     }
 
     init() {
@@ -182,6 +275,20 @@ final class SOFAWebController: UIViewController {
     private func didTapForwardButton() {
         webView.goForward()
     }
+
+    @objc private func closeButtonTapped() {
+        delegate?.sofaWebControllerWillFinish(self)
+        dismiss(animated: true)
+    }
+
+    @objc private func refresh(_ refreshControl: UIRefreshControl) {
+        guard Navigator.reachabilityStatus != .notReachable else {
+            refreshControl.endRefreshing()
+            return
+        }
+
+        webView.reload()
+    }
 }
 
 extension SOFAWebController: WKNavigationDelegate {
@@ -200,6 +307,14 @@ extension SOFAWebController: WKNavigationDelegate {
 
         let urlCredentials = URLCredential(trust: trust)
         completionHandler(URLSession.AuthChallengeDisposition.useCredential, urlCredentials)
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        refreshControl.endRefreshing()
+    }
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        refreshControl.endRefreshing()
     }
 }
 
@@ -473,7 +588,62 @@ extension SOFAWebController: PaymentRouterDelegate {
     }
 }
 
+extension SOFAWebController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let urlText = textField.text?.asPossibleURLString, let validUrl = URL(string: urlText) else { return false }
+
+        textField.resignFirstResponder()
+        load(url: validUrl)
+
+        return true
+    }
+}
+
 extension SOFAWebController: WKUIDelegate {
+
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        let controller = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+            completionHandler()
+        }))
+
+        Navigator.presentModally(controller)
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Swift.Void) {
+        let controller = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        controller.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+            completionHandler(true)
+        }))
+        controller.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .default, handler: { _ in
+            completionHandler(false)
+        }))
+
+        Navigator.presentModally(controller)
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Swift.Void) {
+        let controller = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
+
+        controller.addTextField { textField in
+            textField.text = defaultText
+        }
+
+        controller.addAction(UIAlertAction(title: Localized("alert-ok-action-title"), style: .default, handler: { _ in
+            if let text = controller.textFields?.first?.text {
+                completionHandler(text)
+            } else {
+                completionHandler(defaultText)
+            }
+        }))
+
+        controller.addAction(UIAlertAction(title: Localized("cancel_action_title"), style: .default, handler: { _ in
+            completionHandler(nil)
+        }))
+
+        Navigator.presentModally(controller)
+    }
 
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
 

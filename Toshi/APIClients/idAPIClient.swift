@@ -14,17 +14,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import UIKit
-import AwesomeCache
 import SweetFoundation
 import Teapot
+
+typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: ToshiError?) -> Void
 
 @objc enum UserRegisterStatus: Int {
     case existing = 0, registered, failed
 }
 
-typealias DappCompletion = (_ dapps: [Dapp]?, _ error: ToshiError?) -> Void
-
-final class IDAPIClient: CacheExpiryDefault {
+final class IDAPIClient {
     static let shared: IDAPIClient = IDAPIClient()
 
     static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
@@ -41,22 +40,6 @@ final class IDAPIClient: CacheExpiryDefault {
     private let topRatedUsersCachedData = TokenUsersCacheData()
     private let latestUsersCachedData = TokenUsersCacheData()
 
-    private lazy var cache: Cache<TokenUsersCacheData> = {
-        do {
-            return try Cache<TokenUsersCacheData>(name: "usersCache")
-        } catch {
-            fatalError("Couldn't instantiate the apps cache")
-        }
-    }()
-
-    private lazy var contactCache: Cache<TokenUser> = {
-        do {
-            return try Cache<TokenUser>(name: "tokenContactCache")
-        } catch {
-            fatalError("Couldn't instantiate the contact cache")
-        }
-    }()
-
     private lazy var updateOperationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.maxConcurrentOperationCount = 2 //we update collections under "storedContactKey" and "favoritesCollectionKey" concurrently
@@ -70,10 +53,6 @@ final class IDAPIClient: CacheExpiryDefault {
     convenience init(teapot: Teapot, cacheEnabled: Bool = true) {
         self.init()
         self.teapot = teapot
-
-        if !cacheEnabled {
-            self.cache.removeAllObjects()
-        }
     }
 
     private init() {
@@ -371,14 +350,7 @@ final class IDAPIClient: CacheExpiryDefault {
 
     func findContact(name: String, completion: @escaping ((TokenUser?) -> Void)) {
 
-        self.teapot.get("/v1/user/\(name)") { [weak self] (result: NetworkResult) in
-            guard let strongSelf = self else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-                return
-            }
-
+        self.teapot.get("/v1/user/\(name)") { (result: NetworkResult) in
             var contact: TokenUser?
 
             switch result {
@@ -391,9 +363,6 @@ final class IDAPIClient: CacheExpiryDefault {
                 }
 
                 contact = TokenUser(json: json)
-                if contact != nil {
-                    strongSelf.contactCache.setObject(contact!, forKey: name, expires: strongSelf.cacheExpiry)
-                }
                 NotificationCenter.default.post(name: IDAPIClient.didFetchContactInfoNotification, object: contact)
             case .failure(_, _, let error):
                 DLog(error.localizedDescription)
@@ -498,46 +467,6 @@ final class IDAPIClient: CacheExpiryDefault {
         }
     }
 
-    func getTopRatedPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
-
-        if let data = self.cache.object(forKey: topRatedUsersCachedDataKey), let ratedUsers = data.objects {
-            completion(ratedUsers, nil)
-        }
-
-        self.teapot.get("/v1/search/user?public=true&top=true&recent=false&limit=\(limit)") { [weak self] (result: NetworkResult) in
-            var results: [TokenUser] = []
-            var resultError: ToshiError?
-
-            switch result {
-            case .success(let json, _):
-                guard let strongSelf = self, let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
-                    DispatchQueue.main.async {
-                        completion([], nil)
-                    }
-                    return
-                }
-
-                let contacts = json.map { userJSON in
-                    TokenUser(json: userJSON)
-                }
-
-                contacts.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarPath) }
-
-                strongSelf.topRatedUsersCachedData.objects = contacts
-                strongSelf.cache.setObject(strongSelf.topRatedUsersCachedData, forKey: strongSelf.topRatedUsersCachedDataKey)
-
-                results = contacts
-            case .failure(_, _, let error):
-                DLog(error.localizedDescription)
-                resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(results, resultError)
-            }
-        }
-    }
-
     func findUserWithPaymentAddress(_ paymentAddress: String, completion: @escaping ((TokenUser?, ToshiError?) -> Void)) {
         guard EthereumAddress.validate(paymentAddress) else {
             assertionFailure("Bad payment address while trying to search for a user \(paymentAddress).")
@@ -572,46 +501,6 @@ final class IDAPIClient: CacheExpiryDefault {
 
             DispatchQueue.main.async {
                 completion(contact, resultError)
-            }
-        }
-    }
-
-    func getLatestPublicUsers(limit: Int = 10, completion: @escaping TokenUserResults) {
-
-        if let data = self.cache.object(forKey: latestUsersCachedDataKey), let ratedUsers = data.objects {
-            completion(ratedUsers, nil)
-        }
-
-        self.teapot.get("/v1/search/user?public=true&top=false&recent=true&limit=\(limit)") { [weak self] (result: NetworkResult) in
-            var results: [TokenUser] = []
-            var resultError: ToshiError?
-
-            switch result {
-            case .success(let json, _):
-                guard let strongSelf = self, let dictionary = json?.dictionary, let json = dictionary["results"] as? [[String: Any]] else {
-                    DispatchQueue.main.async {
-                        completion([], nil)
-                    }
-                    return
-                }
-
-                let contacts = json.map { userJSON in
-                    TokenUser(json: userJSON)
-                }
-
-                contacts.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarPath) }
-
-                strongSelf.latestUsersCachedData.objects = contacts
-                strongSelf.cache.setObject(strongSelf.latestUsersCachedData, forKey: strongSelf.latestUsersCachedDataKey)
-
-                results = contacts
-            case .failure(_, _, let error):
-                DLog(error.localizedDescription)
-                resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(results, resultError)
             }
         }
     }
@@ -755,8 +644,8 @@ final class IDAPIClient: CacheExpiryDefault {
                     return
                 }
                 
-                dappResults.results.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarUrlString) }
-                dapps = dappResults.results
+                dappResults.dapps.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatarUrlString ?? "") }
+                dapps = dappResults.dapps
             case .failure(_, _, let error):
                 DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)

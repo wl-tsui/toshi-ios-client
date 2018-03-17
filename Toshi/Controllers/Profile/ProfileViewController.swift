@@ -480,7 +480,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
         DispatchQueue.main.async {
             (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.address)
             
-            if let navController = self.navigationController as? BrowseNavigationController {
+            if let navController = self.navigationController as? DappsNavigationController {
                 _ = navController.popToRootViewController(animated: false)
             }
         }

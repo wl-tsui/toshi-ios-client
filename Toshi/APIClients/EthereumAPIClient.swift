@@ -15,7 +15,7 @@
 
 import Foundation
 import Teapot
-import AwesomeCache
+import Haneke
 
 typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?, value: String?)
 typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
@@ -41,14 +41,9 @@ final class EthereumAPIClient {
         return NetworkSwitcher.shared.activeNetworkBaseUrl
     }
 
+    private let cache = Shared.stringCache
+
     private static let CachedBalanceKey = "CachedBalanceKey"
-    private lazy var cache: Cache<NSDecimalNumber> = {
-        do {
-            return try Cache<NSDecimalNumber>(name: "balanceCache")
-        } catch {
-            fatalError("Couldn't instantiate the balance cache")
-        }
-    }()
 
     convenience init(mockTeapot: MockTeapot) {
         self.init()
@@ -167,8 +162,10 @@ final class EthereumAPIClient {
 
     func getBalance(address: String = Cereal.shared.paymentAddress, cachedBalanceCompletion: @escaping BalanceCompletion = { balance, _ in }, fetchedBalanceCompletion: @escaping BalanceCompletion) {
 
-        let cachedBalance: NSDecimalNumber = self.cache.object(forKey: EthereumAPIClient.CachedBalanceKey) ?? .zero
-        cachedBalanceCompletion(cachedBalance, nil)
+        cache.fetch(key: EthereumAPIClient.CachedBalanceKey).onSuccess { numberString in
+            let cachedBalance: NSDecimalNumber = NSDecimalNumber(string: numberString)
+            cachedBalanceCompletion(cachedBalance, nil)
+        }
 
         self.activeTeapot.get("/v1/balance/\(address)") { [weak self] (result: NetworkResult) in
             var balance: NSDecimalNumber = .zero
@@ -202,8 +199,9 @@ final class EthereumAPIClient {
                 DLog("\(error)")
             }
 
+            self?.cache.set(value: balance.stringValue, key: EthereumAPIClient.CachedBalanceKey)
+
             DispatchQueue.main.async {
-                self?.cache.setObject(balance, forKey: EthereumAPIClient.CachedBalanceKey)
                 fetchedBalanceCompletion(balance, resultError)
             }
         }

@@ -27,6 +27,15 @@ final class NewGroupConfigurator: CellConfigurator {
         cell.subtitleLabel.text = cellData.subtitle
         cell.detailsLabel.text = cellData.details
         cell.leftImageView.image = cellData.leftImage
+
+        if let leftImagePath = cellData.leftImagePath {
+            AvatarManager.shared.avatar(for: leftImagePath, completion: { image, path in
+                if leftImagePath == path {
+                    cell.leftImageView.image = image
+                }
+            })
+        }
+
         cell.switchControl.isOn = (cellData.switchState == true)
 
         cell.leftImageView.layer.cornerRadius = 20

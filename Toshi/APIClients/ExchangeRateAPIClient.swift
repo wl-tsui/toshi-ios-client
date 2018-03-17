@@ -15,7 +15,7 @@
 
 import Foundation
 import Teapot
-import AwesomeCache
+import Haneke
 
 let ExchangeRateClient = ExchangeRateAPIClient.shared
 
@@ -26,15 +26,7 @@ final class ExchangeRateAPIClient {
     private static let collectionKey = "ethereumExchangeRate"
     private let currenciesCacheKey = "currenciesCacheKey"
 
-    private let currenciesCachedData = CurrenciesCacheData()
-
-    private lazy var cache: Cache<CurrenciesCacheData> = {
-        do {
-            return try Cache<CurrenciesCacheData>(name: "currenciesCache")
-        } catch {
-            fatalError("Couldn't instantiate the currencies cache")
-        }
-    }()
+    private let cache = Shared.dataCache
 
     var teapot: Teapot
     var baseURL: URL
@@ -52,7 +44,7 @@ final class ExchangeRateAPIClient {
         self.teapot = teapot
 
         if !cacheEnabled {
-            self.cache.removeAllObjects()
+            cache.removeAll()
         }
     }
 
@@ -106,8 +98,14 @@ final class ExchangeRateAPIClient {
 
     func getCurrencies(_ completion: @escaping (([Currency]) -> Void)) {
 
-        if let data = cache.object(forKey: currenciesCacheKey), let currencies = data.objects {
-            completion(currencies)
+        cache.fetch(key: currenciesCacheKey).onSuccess { data in
+            let currenciesResults: CurrenciesResults
+            do {
+                let jsonDecoder = JSONDecoder()
+                currenciesResults = try jsonDecoder.decode(CurrenciesResults.self, from: data)
+            } catch { return }
+
+            completion(currenciesResults.currencies)
         }
 
         teapot.get("/v1/currencies") { [weak self] (result: NetworkResult) in
@@ -115,26 +113,28 @@ final class ExchangeRateAPIClient {
 
             switch result {
             case .success(let json, _):
-                guard let strongSelf = self, let json = json?.dictionary, let currencies = json["currencies"] as? [[String: String]] else {
+                guard let data = json?.data else {
                     DispatchQueue.main.async {
-                        completion([])
+                        completion(results)
                     }
-                    
                     return
                 }
 
-                var validResults: [Currency] = []
-                for currency in currencies {
-                    guard let code = currency["code"], let name = currency["name"] else {
-                        continue
+                let currenciesResults: CurrenciesResults
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    currenciesResults = try jsonDecoder.decode(CurrenciesResults.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(results)
                     }
-
-                    validResults.append(Currency(code, name))
+                    return
                 }
 
-                results = validResults
-                strongSelf.currenciesCachedData.objects = validResults
-                strongSelf.cache.setObject(strongSelf.currenciesCachedData, forKey: strongSelf.currenciesCacheKey)
+                results = currenciesResults.currencies
+
+                guard let strongSelf = self else { return }
+                strongSelf.cache.set(value: data, key: strongSelf.currenciesCacheKey)
             case .failure(_, _, let error):
                 DLog(error.localizedDescription)
             }
