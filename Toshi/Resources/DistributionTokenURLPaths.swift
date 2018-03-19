@@ -15,6 +15,7 @@
 
 let ToshiRatingsServiceBaseURLPath = "https://reputation.service.toshi.org"
 let ToshiIdServiceBaseURLPath = "https://identity.service.toshi.org"
+let ToshiDirectoryServiceURLPath = "https://directory.service.toshi.org"
 let ToshiEthereumServiceBaseURLPath = "https://ethereum.service.toshi.org"
 let ToshiExchangeRateServiceBaseURLPath = "https://exchange.service.toshi.org"
 let ToshiChatServiceBaseURLPath = "https://chat.service.toshi.org"

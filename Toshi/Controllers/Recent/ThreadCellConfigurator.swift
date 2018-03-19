@@ -38,6 +38,7 @@ final class ThreadCellConfigurator: CellConfigurator {
     }
 
     lazy var cellData: TableCellData = {
+        var avatarPath: String?
         var avatar: UIImage?
         var subtitle = "..."
         var title = ""
@@ -47,7 +48,7 @@ final class ThreadCellConfigurator: CellConfigurator {
             avatar = (thread as? TSGroupThread)?.groupModel.avatarOrPlaceholder
             title = thread.name()
         } else if let recipient = thread.recipient() {
-            avatar = AvatarManager.shared.cachedAvatar(for: recipient.avatarPath) ?? #imageLiteral(resourceName: "avatar-placeholder")
+            avatarPath = recipient.avatarPath
             title = recipient.nameOrDisplayName
         }
 
@@ -81,6 +82,10 @@ final class ThreadCellConfigurator: CellConfigurator {
             details = DateTimeFormatter.dateFormatter.string(from: date)
         }
 
-        return TableCellData(title: title, subtitle: subtitle, leftImage: avatar, details: details, badgeText: badgeText)
+        if avatar != nil {
+            return TableCellData(title: title, subtitle: subtitle, leftImage: avatar, details: details, badgeText: badgeText)
+        }
+
+        return TableCellData(title: title, subtitle: subtitle, leftImagePath: avatarPath, details: details, badgeText: badgeText)
     }()
 }

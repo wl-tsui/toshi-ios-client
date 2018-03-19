@@ -45,7 +45,7 @@ final class NewGroupViewModel {
 
     private func setup() {
         let avatarTitleData = TableCellData(title: groupInfo.title, leftImage: groupInfo.avatar)
-        avatarTitleData.isPlaceholder = groupInfo.title.length > 0
+        avatarTitleData.isPlaceholder = groupInfo.title.count > 0
         avatarTitleData.tag = GroupItemType.avatarTitle.rawValue
 
         let avatarTitleSectionData = TableSectionData(cellsData: [avatarTitleData])
@@ -54,7 +54,7 @@ final class NewGroupViewModel {
 
         setupSortedMembers()
         for member in sortedMembers {
-            participantsCellData.append(TableCellData(title: member.nameOrDisplayName, subtitle: member.displayUsername, leftImage: AvatarManager.shared.cachedAvatar(for: member.avatarPath)))
+            participantsCellData.append(TableCellData(title: member.nameOrDisplayName, subtitle: member.displayUsername, leftImagePath: member.avatarPath))
         }
 
         let participantsHeaderTitle = LocalizedPlural("group_participants_header_title", for: groupInfo.participantsIDs.count)
@@ -140,7 +140,7 @@ extension NewGroupViewModel: GroupViewModelProtocol {
     var errorAlertTitle: String { return Localized("error_title") }
     var errorAlertMessage: String { return Localized("toshi_generic_error") }
 
-    var isDoneButtonEnabled: Bool { return groupInfo.title.length > 0 }
+    var isDoneButtonEnabled: Bool { return groupInfo.title.count > 0 }
 
     var recipientsIds: [String] { return groupInfo.participantsIDs }
     var allParticipantsIDs: [String] { return sortedMembers.map { $0.address } }

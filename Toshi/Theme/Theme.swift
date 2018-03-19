@@ -25,7 +25,8 @@ extension CGFloat {
 
     static let defaultButtonHeight: CGFloat = 44
     static let defaultBarHeight: CGFloat = 44
-    static let defaultMargin: CGFloat = 15
+    static let defaultCellHeight: CGFloat = 44
+    static let defaultMargin: CGFloat = .spacingx3
 
     /// NOTE: Implicitly also the default avatar width.
     static let defaultAvatarHeight: CGFloat = 60
@@ -188,6 +189,10 @@ extension Theme {
 
     static var inactiveButtonColor: UIColor {
         return UIColor(hex: "B6BCBF")
+    }
+
+    static var searchBarColor: UIColor {
+        return UIColor(hex: "E4E4E6")
     }
 }
 

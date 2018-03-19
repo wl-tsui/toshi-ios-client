@@ -48,7 +48,6 @@ class BasicTableViewCell: UITableViewCell {
     static let smallVerticalMargin: CGFloat = 5.0
     static let doubleImageMargin: CGFloat = 16.0
     static let largeVerticalMargin: CGFloat = 22.0
-    static let actionButtonSize: CGFloat = 44.0
     static let badgeViewSize: CGFloat = 24.0
 
     weak var actionDelegate: BasicCellActionDelegate?
@@ -122,14 +121,14 @@ class BasicTableViewCell: UITableViewCell {
 
     lazy var firstActionButton: UIButton = {
         let button = UIButton()
-        button.size(CGSize(width: BasicTableViewCell.actionButtonSize, height: BasicTableViewCell.actionButtonSize))
+        button.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
 
         return button
     }()
 
     lazy var secondActionButton: UIButton = {
         let button = UIButton()
-        button.size(CGSize(width: BasicTableViewCell.actionButtonSize, height: BasicTableViewCell.actionButtonSize))
+        button.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
 
         return button
     }()

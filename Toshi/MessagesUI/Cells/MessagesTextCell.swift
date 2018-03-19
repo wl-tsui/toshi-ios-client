@@ -36,6 +36,7 @@ class MessagesTextCell: MessagesBasicCell {
         view.textContainerInset = .zero
         view.textContainer.lineFragmentPadding = 0
         view.textContainer.maximumNumberOfLines = 0
+        view.delegate = self
 
         view.linkTextAttributes = [NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue]
 
@@ -71,7 +72,7 @@ class MessagesTextCell: MessagesBasicCell {
         super.prepareForReuse()
 
         if let text = textView.attributedText?.mutableCopy() as? NSMutableAttributedString {
-            let range = NSRange(location: 0, length: text.string.length)
+            let range = NSRange(location: 0, length: text.string.count)
 
             text.removeAttribute(.link, range: range)
             text.removeAttribute(.foregroundColor, range: range)
@@ -83,5 +84,20 @@ class MessagesTextCell: MessagesBasicCell {
         textView.font = Theme.preferredRegularText()
         textView.adjustsFontForContentSizeCategory = true
         textView.text = nil
+    }
+}
+
+extension MessagesTextCell: UITextViewDelegate {
+
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+
+        guard URL.scheme != "toshi" else { return true }
+        guard URL.absoluteString.asPossibleURLString != nil else { return false }
+
+        let controller = SOFAWebController()
+        controller.load(url: URL)
+        Navigator.presentModally(controller)
+
+        return false
     }
 }

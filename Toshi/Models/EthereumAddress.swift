@@ -53,7 +53,7 @@ private extension String {
     static let base36Alphabet = "0123456789abcdefghijklmnopqrstuvwxyz"
     static var base36AlphabetMap: [Character: Int] {
         var reverseLookup = [Character: Int]()
-        for characterIndex in 0..<base36Alphabet.length {
+        for characterIndex in 0..<base36Alphabet.count {
             let character = base36Alphabet[base36Alphabet.index(base36Alphabet.startIndex, offsetBy: characterIndex)]
             reverseLookup[character] = characterIndex
         }

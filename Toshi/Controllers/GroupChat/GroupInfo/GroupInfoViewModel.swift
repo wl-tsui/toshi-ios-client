@@ -51,7 +51,7 @@ final class GroupInfoViewModel {
 
     private func setup() {
         let avatarTitleData = TableCellData(title: groupInfo.title, leftImage: groupInfo.avatar)
-        avatarTitleData.isPlaceholder = groupInfo.title.length > 0
+        avatarTitleData.isPlaceholder = groupInfo.title.count > 0
         avatarTitleData.tag = GroupItemType.avatarTitle.rawValue
 
         let avatarTitleSectionData = TableSectionData(cellsData: [avatarTitleData])
@@ -75,7 +75,7 @@ final class GroupInfoViewModel {
         setupSortedMembers()
         
         for member in sortedMembers {
-            let cellData = TableCellData(title: member.name, subtitle: member.displayUsername, leftImage: AvatarManager.shared.cachedAvatar(for: member.avatarPath))
+            let cellData = TableCellData(title: member.name, subtitle: member.displayUsername, leftImagePath: member.avatarPath)
             cellData.tag = GroupItemType.participant.rawValue
             participantsCellData.append(cellData)
         }
@@ -157,7 +157,7 @@ extension GroupInfoViewModel: GroupViewModelProtocol {
     var errorAlertTitle: String { return Localized("error_title") }
     var errorAlertMessage: String { return Localized("toshi_generic_error") }
 
-    var isDoneButtonEnabled: Bool { return groupInfo.title.length > 0 }
+    var isDoneButtonEnabled: Bool { return groupInfo.title.count > 0 }
 
     var recipientsIds: [String] { return groupInfo.participantsIDs }
     var allParticipantsIDs: [String] { return sortedMembers.map { $0.address } }

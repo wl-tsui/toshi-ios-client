@@ -66,7 +66,7 @@ class TokenUser: NSObject, NSCoding {
     }
 
     @objc static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
-    static let favoritesCollectionKey: String = "TokenContacts"
+    static let favoritesCollectionKey = "TokenContacts"
 
     static let legacyStoredUserKey = "StoredUser"
 
@@ -429,7 +429,7 @@ extension TokenUser: BrowseableItem {
         return name
     }
     
-    var descriptionForSearch: String {
+    var descriptionForSearch: String? {
         let aboutOrUsername = !about.isEmpty ? about : username
         return (isApp ? aboutOrUsername : username)
     }
