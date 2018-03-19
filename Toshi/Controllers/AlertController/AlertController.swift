@@ -140,7 +140,7 @@ class AlertController: ModalPresentable {
 
     private func button(for action: Action) -> UIButton {
         let button = UIButton(type: .custom)
-        button.set(height: 44.0)
+        button.set(height: .defaultButtonHeight)
         button.backgroundColor = Theme.viewBackgroundColor
         button.setTitle(action.title, for: .normal)
         button.setTitleColor(action.titleColor, for: .normal)

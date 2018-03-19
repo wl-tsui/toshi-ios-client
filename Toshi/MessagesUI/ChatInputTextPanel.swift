@@ -27,7 +27,7 @@ class ChatInputTextPanel: UIView {
     
     weak var delegate: ChatInputTextPanelDelegate?
 
-    static let defaultHeight: CGFloat = 44
+    static let defaultHeight: CGFloat = .defaultBarHeight
 
     private let inputContainerInsets = UIEdgeInsets(top: 1, left: 41, bottom: 7, right: 0)
     private let maximumInputContainerHeight: CGFloat = 175
@@ -126,7 +126,7 @@ class ChatInputTextPanel: UIView {
         sendButton.leftToRight(of: inputField)
         sendButton.bottom(to: self, offset: -3)
         sendButton.right(to: self)
-        sendButton.height(44)
+        sendButton.height(.defaultButtonHeight)
         sendButtonWidth.isActive = true
     }
 
@@ -191,7 +191,7 @@ extension ChatInputTextPanel: HPGrowingTextViewDelegate {
 
         let hasText = inputField.internalTextView.hasText
 
-        self.sendButtonWidth.constant = hasText ? 44 : 10
+        self.sendButtonWidth.constant = hasText ? .defaultButtonHeight : 10
 
         self.inputContainerHeight = self.inputContainerHeight(for: textView.frame.height)
 

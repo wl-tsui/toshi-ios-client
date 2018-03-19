@@ -406,7 +406,7 @@ extension SettingsController: UITableViewDelegate {
 
         switch sectionItem {
         case .settings:
-            return 44
+            return .defaultCellHeight
         default:
             return SettingsController.footerHeight
         }

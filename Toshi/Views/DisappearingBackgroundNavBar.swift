@@ -30,14 +30,12 @@ final class DisappearingBackgroundNavBar: UIView {
     
     weak var delegate: DisappearingBackgroundNavBarDelegate?
 
-    private static let containerHeight: CGFloat = 44
-
     static var defaultHeight: CGFloat {
         if #available(iOS 11, *) {
-            return DisappearingBackgroundNavBar.containerHeight
+            return .defaultBarHeight
         } else {
             // Take the status bar into account
-            return DisappearingBackgroundNavBar.containerHeight + 20
+            return .defaultBarHeight + 20
         }
     }
 
@@ -107,7 +105,7 @@ final class DisappearingBackgroundNavBar: UIView {
 
         addSubview(container)
         container.edgesToSuperview(excluding: .top)
-        container.height(DisappearingBackgroundNavBar.containerHeight)
+        container.height(.defaultBarHeight)
 
         setupLeftButton(in: container)
         setupRightButton(in: container)
@@ -232,7 +230,7 @@ final class DisappearingBackgroundNavBar: UIView {
     func setTitleOffsetPercentage(from scrollPastPercentage: CGFloat) {
         guard let constraint = titleCenterYConstraint else { /* not set up yet */ return }
 
-        let containerHeight = DisappearingBackgroundNavBar.containerHeight
+        let containerHeight: CGFloat = .defaultBarHeight
         let titleHeight = titleLabel.frame.height
         let minAboveNav: CGFloat = 4 // per Marek
 

@@ -191,8 +191,8 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
 
     private func updateBackgroundAlpha() {
         let targetInParentBounds = backgroundTriggerView.convert(backgroundTriggerView.bounds, to: view)
-        let topOfTarget = targetInParentBounds.minY
-        let centerOfTarget = targetInParentBounds.midY
+        let topOfTarget = targetInParentBounds.midY
+        let centerOfTarget = targetInParentBounds.maxY
 
         let differenceFromTop = navBarHeight - topOfTarget
         let differenceFromCenter = navBarHeight - centerOfTarget

@@ -128,7 +128,7 @@ final class SplashViewController: UIViewController {
 
         backgroundImageView.addSubview(newAccountButton)
         newAccountButton.left(to: view, offset: margin)
-        newAccountButton.height(44.0)
+        newAccountButton.height(.defaultButtonHeight)
         newAccountButton.right(to: view, offset: -margin)
         newAccountButton.topToBottom(of: subtitleLabel, offset: margin, relation: .equalOrGreater)
 
@@ -136,7 +136,7 @@ final class SplashViewController: UIViewController {
         signinButton.topToBottom(of: newAccountButton, offset: margin)
         signinButton.left(to: view, offset: margin)
         signinButton.right(to: view, offset: -margin)
-        signinButton.height(44.0)
+        signinButton.height(.defaultButtonHeight)
         signinButton.bottomAnchor.constraint(equalTo: backgroundImageView.bottomAnchor, constant: -40.0).isActive = true
     }
 
