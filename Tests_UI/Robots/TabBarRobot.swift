@@ -22,20 +22,20 @@ protocol TabBarRobot: BasicRobot { }
 // MARK: - Tab Bar items
 enum TabBarItem {
     case
+    dapps,
     favorites,
     recent,
-    search,
     settings,
     wallet
     
     var accessibilityLabel: String {
         switch self {
+        case .dapps:
+            return Localized("tab_bar_title_dapps")
         case .favorites:
             return Localized("tab_bar_title_favorites")
         case .recent:
             return Localized("tab_bar_title_recent")
-        case .search:
-            return Localized("tab_bar_title_browse")
         case .settings:
             return Localized("tab_bar_title_settings")
         case .wallet:
