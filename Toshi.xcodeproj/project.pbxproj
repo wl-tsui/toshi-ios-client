@@ -402,6 +402,9 @@
 		338472F8202A68A9000F5A8A /* QuickAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E6202A3F1F000F5A8A /* QuickAlertView.swift */; };
 		338472F9202A68A9000F5A8A /* QuickAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338472E6202A3F1F000F5A8A /* QuickAlertView.swift */; };
 		339959AB1FCED3D700D69A01 /* DLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339959AA1FCED3D700D69A01 /* DLog.swift */; };
+		3399D6E3205FED0100CAFAE5 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */; };
+		3399D6E4205FED0100CAFAE5 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */; };
+		3399D6E5205FED0100CAFAE5 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */; };
 		33C0342D1FFE6A1800A9C59C /* SplashScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */; };
 		33C034301FFE6A2F00A9C59C /* BasicRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C0342F1FFE6A2F00A9C59C /* BasicRobot.swift */; };
 		33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */; };
@@ -1097,7 +1100,6 @@
 		D197BFFC874FC46F485BE295 /* SofaPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC4FF536D4350C725251 /* SofaPayment.swift */; };
 		E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A95D541E6EF092002762DA /* SettingsController.swift */; };
 		E60A52A71F28DC5B0032CAC0 /* DevelopmentTokenURLPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4D8CF1E72CB6E00389DF9 /* DevelopmentTokenURLPaths.swift */; };
-		E60A52B11F28E7830032CAC0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E561ED84F6A0036E9B7 /* Extensions.swift */; };
 		E67683561F4464980014B2D4 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67683551F4464980014B2D4 /* Quick.framework */; };
 		E67683571F44649F0014B2D4 /* Quick.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = E67683551F4464980014B2D4 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E67683591F44673E0014B2D4 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67683581F44673E0014B2D4 /* Nimble.framework */; };
@@ -1325,6 +1327,9 @@
 		338472EB202A5DD4000F5A8A /* SFMono-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFMono-Semibold.otf"; sourceTree = "<group>"; };
 		339959AA1FCED3D700D69A01 /* DLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLog.swift; sourceTree = "<group>"; };
 		339959AC1FCEE74F00D69A01 /* EarlGrey.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EarlGrey.framework; path = Carthage/Build/iOS/EarlGrey.framework; sourceTree = "<group>"; };
+		3399D6A9205FD11800CAFAE5 /* LocalizedStrings.swift.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = LocalizedStrings.swift.stencil; sourceTree = "<group>"; };
+		3399D6AF205FE4C900CAFAE5 /* StencilScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StencilScript.swift; sourceTree = "<group>"; };
+		3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		33C034221FFE69E700A9C59C /* Tests_UI.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests_UI.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33C034261FFE69E700A9C59C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenUITests.swift; sourceTree = "<group>"; };
@@ -2057,6 +2062,40 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		3399D6A6205FD0D700CAFAE5 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				3399D6A8205FD0F700CAFAE5 /* Code */,
+				3399D6AC205FD39C00CAFAE5 /* Scripts */,
+				3399D6A7205FD0E500CAFAE5 /* Templates */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		3399D6A7205FD0E500CAFAE5 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				3399D6A9205FD11800CAFAE5 /* LocalizedStrings.swift.stencil */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
+		3399D6A8205FD0F700CAFAE5 /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				3399D6E2205FED0100CAFAE5 /* LocalizedStrings.swift */,
+			);
+			path = Code;
+			sourceTree = "<group>";
+		};
+		3399D6AC205FD39C00CAFAE5 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				3399D6AF205FE4C900CAFAE5 /* StencilScript.swift */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
 		33C034231FFE69E700A9C59C /* Tests_UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -2168,6 +2207,7 @@
 				2BE6FB0D1EFC0BE800B0B848 /* Avatars */,
 				9F9238CD1E24F3DE004BEEE0 /* Controllers */,
 				9FAE4A6C1E4CBFCA00126217 /* Extensions */,
+				3399D6A6205FD0D700CAFAE5 /* Generated */,
 				A9202E491ED84F6A0036E9B7 /* MessagesUI */,
 				9F9238CF1E24F3F1004BEEE0 /* Models */,
 				2B002D8D1F17B9F900D92240 /* Network */,
@@ -2911,6 +2951,7 @@
 			buildConfigurationList = 9F9238C81E24F1D2004BEEE0 /* Build configuration list for PBXNativeTarget "Debug" */;
 			buildPhases = (
 				B6010FBB4BE06EE38991BDC7 /* [CP] Check Pods Manifest.lock */,
+				3317D08D20601CB30052C62C /* Marathon Run Script */,
 				9F9238AD1E24F1D2004BEEE0 /* Sources */,
 				9F9238AE1E24F1D2004BEEE0 /* Frameworks */,
 				9F9238AF1E24F1D2004BEEE0 /* Resources */,
@@ -3216,7 +3257,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3254,7 +3297,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3352,6 +3397,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" d6f421ea196993dc3048f7ba96ef27a75a55b2a2 2a282eff9d37c538d0a30d8fc979703d081109781ba8d92078c71c563f76ce66";
+		};
+		3317D08D20601CB30052C62C /* Marathon Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Marathon Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Bash/marathon.sh\"";
 		};
 		3361C7C21FD99BDD00E5600C /* SwiftLint Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3513,7 +3572,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3673,7 +3734,6 @@
 				9FE5338A1F0B9CDA00B0C2B5 /* BaseConverter.swift in Sources */,
 				33CF51311FD181F700293FD1 /* DLog.swift in Sources */,
 				33731683200901BD0055975E /* String+AdditionsTests.swift in Sources */,
-				E60A52B11F28E7830032CAC0 /* Extensions.swift in Sources */,
 				2BF2856D2018EF0200DA528D /* TestAppDelegate.swift in Sources */,
 				33316914202B8A8C00A396A2 /* UIImage+ReadQRCode.swift in Sources */,
 				84AED6FE1F42ED91003C38E8 /* String+Regex.swift in Sources */,
@@ -3840,6 +3900,7 @@
 				6AE44D981F45C38B00F5AF02 /* CurrencyPicker.swift in Sources */,
 				A9202E701ED850270036E9B7 /* ImagesViewControllerTransition.swift in Sources */,
 				A9202E6A1ED850130036E9B7 /* Extensions.swift in Sources */,
+				3399D6E5205FED0100CAFAE5 /* LocalizedStrings.swift in Sources */,
 				149F9A891E72E29A00FB74AA /* SoundPlayer.swift in Sources */,
 				A9CADC381F94C5B10096D017 /* ReputationBarView.swift in Sources */,
 				2B35F2C01EF93320006A0FD0 /* ActivityIndicating.swift in Sources */,
@@ -4132,6 +4193,7 @@
 				9F5B9BA11EBB530B006448F0 /* RatingView.swift in Sources */,
 				A91D72AF1F8786A70093420C /* ChatButtonsCollectionViewCell.swift in Sources */,
 				2B355BDA1EAE356C0093FA8F /* TokenUser.swift in Sources */,
+				3399D6E3205FED0100CAFAE5 /* LocalizedStrings.swift in Sources */,
 				A9202E591ED84F6A0036E9B7 /* ImageCell.swift in Sources */,
 				2B4E25F61FCCCDE3004614D5 /* TitleSwitchCell.swift in Sources */,
 				A9CADC221F94AF2D0096D017 /* DappsNavigationController.swift in Sources */,
@@ -4406,6 +4468,7 @@
 				A9603E701F4DABDC00BF57B1 /* Extensions.swift in Sources */,
 				A9603E721F4DABDC00BF57B1 /* SoundPlayer.swift in Sources */,
 				A9CADC371F94C5B10096D017 /* ReputationBarView.swift in Sources */,
+				3399D6E4205FED0100CAFAE5 /* LocalizedStrings.swift in Sources */,
 				A9603E771F4DABDC00BF57B1 /* ActivityIndicating.swift in Sources */,
 				A9603E7E1F4DABDC00BF57B1 /* String+Additions.swift in Sources */,
 				A9603E881F4DABDC00BF57B1 /* PassphraseEnableController.swift in Sources */,
@@ -4646,7 +4709,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4689,7 +4751,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4906,7 +4967,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -4957,7 +5017,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -5001,7 +5060,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -5045,7 +5103,6 @@
 					"$(inherited)",
 					"$(SRCROOT)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
-					"$(PROJECT_DIR)/Token",
 					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
