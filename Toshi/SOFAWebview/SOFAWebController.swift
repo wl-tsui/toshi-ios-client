@@ -40,6 +40,7 @@ final class SOFAWebController: UIViewController {
     }
 
     private let rcpUrl = ToshiWebviewRPCURLPath
+    private let netVersion = ToshiWebviewRCPURLNetVersion
     private var paymentRouter: PaymentRouter?
 
     private var currentTransactionSignCallbackId: String?
@@ -49,7 +50,7 @@ final class SOFAWebController: UIViewController {
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
         
-        var js = "window.SOFA = {config: {accounts: ['"+Cereal.shared.paymentAddress+"'], rcpUrl: '" + self.rcpUrl + "'}}; "
+        var js = "window.SOFA = {config: {netVersion: '" + self.netVersion + "', accounts: ['"+Cereal.shared.paymentAddress+"'], rcpUrl: '" + self.rcpUrl + "'}}; "
         
         if let filepath = Bundle.main.path(forResource: "sofa-web3", ofType: "js") {
             do {

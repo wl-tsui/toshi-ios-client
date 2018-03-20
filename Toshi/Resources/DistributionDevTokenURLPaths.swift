@@ -20,3 +20,4 @@ let ToshiEthereumServiceBaseURLPath = "https://ethereum.development.service.tosh
 let ToshiExchangeRateServiceBaseURLPath = "https://exchange.development.service.toshi.org"
 let ToshiChatServiceBaseURLBath = "https://chat.development.service.toshi.org"
 let ToshiWebviewRPCURLPath = "https://node.service.toshi.org/ropsten"
+let ToshiWebviewRCPURLNetVersion = "3"

@@ -20,3 +20,4 @@ let ToshiEthereumServiceBaseURLPath = "https://ethereum.internal.service.toshi.o
 let ToshiExchangeRateServiceBaseURLPath = "https://exchange.internal.service.toshi.org"
 let ToshiChatServiceBaseURLPath = "https://chat.internal.service.toshi.org"
 let ToshiWebviewRPCURLPath = "https://node.service.tokenbrowser.com/coffee"
+let ToshiWebviewRCPURLNetVersion = "116"
