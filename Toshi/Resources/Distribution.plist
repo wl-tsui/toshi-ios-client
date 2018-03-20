@@ -48,6 +48,8 @@
 	<string>Required to record videos with sound.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Required to allow orientation switching in camera </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Required to add items to the Photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Required to upload pictures.</string>
 	<key>TokenChatServiceBaseURL</key>

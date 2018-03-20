@@ -46,6 +46,8 @@
 	<string>Required to scan codes for adding contacts and payments.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Required to record videos with sound.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Required to add items to the Photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Required to upload pictures.</string>
 	<key>TokenChatServiceBaseURL</key>
