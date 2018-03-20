@@ -48,7 +48,8 @@ final class SplashViewController: UIViewController {
         label.textAlignment = .center
         label.textColor = Theme.viewBackgroundColor
         label.numberOfLines = 0
-        label.text = Localized("welcome_title")
+        label.text = Localized.welcome_title
+        label.isAccessibilityElement = true
 
         return label
     }()
@@ -64,7 +65,7 @@ final class SplashViewController: UIViewController {
         paragraphStyle.lineSpacing = 5
         paragraphStyle.alignment = .center
 
-        let attrString = NSMutableAttributedString(string: Localized("welcome_subtitle"))
+        let attrString = NSMutableAttributedString(string: Localized.welcome_subtitle)
         attrString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attrString.length))
 
         label.attributedText = attrString
@@ -74,7 +75,7 @@ final class SplashViewController: UIViewController {
 
     private lazy var newAccountButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
-        button.setTitle(Localized("create_account_button_title"), for: .normal)
+        button.setTitle(Localized.create_account_button_title, for: .normal)
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
         button.addTarget(self, action: #selector(newAccountPressed(_:)), for: .touchUpInside)
         button.titleLabel?.font = Theme.preferredTitle3()
@@ -86,7 +87,7 @@ final class SplashViewController: UIViewController {
     private lazy var signinButton: UIButton = {
         let button = UIButton(withAutoLayout: true)
         button.isUserInteractionEnabled = true
-        button.setTitle(Localized("sign_in_button_title"), for: .normal)
+        button.setTitle(Localized.sign_in_button_title, for: .normal)
         button.setTitleColor(Theme.viewBackgroundColor, for: .normal)
         button.addTarget(self, action: #selector(signinPressed(_:)), for: .touchUpInside)
         button.titleLabel?.font = Theme.preferredRegularMedium()
@@ -151,21 +152,26 @@ final class SplashViewController: UIViewController {
     
     private func showAcceptTermsAlert() {
         
-        let alert = UIAlertController(title: Localized("accept_terms_title"), message: Localized("accept_terms_text"), preferredStyle: .alert)
+        let alert = UIAlertController(title: Localized.accept_terms_title, message: Localized.accept_terms_text, preferredStyle: .alert)
         
-        let read = UIAlertAction(title: Localized("accept_terms_action_read"), style: .default) { [weak self] _ in
+        let read = UIAlertAction(title: Localized.accept_terms_action_read, style: .default) { [weak self] _ in
             guard let url = URL(string: "http://www.toshi.org/terms-of-service/") else { return }
+            guard !UIApplication.isUITesting else {
+                self?.showTestAlert(message: TestOnlyString.readTermsAlertMessage(termsURL: url))
+                return
+            }
+            
             let controller = SFSafariViewController(url: url, entersReaderIfAvailable: true)
             controller.delegate = self
             controller.preferredControlTintColor = Theme.tintColor
             self?.present(controller, animated: true, completion: nil)
         }
         
-        let cancel = UIAlertAction(title: Localized("cancel_action_title"), style: .default) { _ in
+        let cancel = UIAlertAction(title: Localized.cancel_action_title, style: .default) { _ in
             alert.dismiss(animated: true, completion: nil)
         }
         
-        let agree = UIAlertAction(title: Localized("accept_terms_action_agree"), style: .cancel) { [weak self] _ in
+        let agree = UIAlertAction(title: Localized.accept_terms_action_agree, style: .cancel) { [weak self] _ in
             Navigator.tabbarController?.setupControllers()
             SessionManager.shared.createNewUser()
             self?.dismiss(animated: true, completion: nil)
