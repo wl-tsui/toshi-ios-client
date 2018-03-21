@@ -236,7 +236,6 @@ extension DappsViewController: DappsDataSourceDelegate {
         }
 
         tableView.reloadData()
-
         searchResultsTableView.reloadData()
     }
 }
@@ -470,14 +469,12 @@ extension DappsViewController: DappsSearchHeaderViewDelegate {
         view.layoutIfNeeded()
         headerView.adjustNonAnimatedProperties(to: headerView.collapsedStateScrollPercentage)
 
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.3) {
             self.searchResultsTableView.alpha = 1
             self.statusBarStyle = UIStatusBarStyle.default
             self.headerView.adjustAnimatedProperties(to: self.headerView.collapsedStateScrollPercentage)
             self.view.layoutIfNeeded()
-        }, completion: { _ in
-            self.headerView.showCancelButton()
-        })
+        }
     }
 
     func didRequireDefaultState(_ headerView: DappsTableHeaderView) {
