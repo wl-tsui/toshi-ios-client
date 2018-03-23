@@ -382,6 +382,9 @@
 		336CC5DE202E61170052511C /* ClipboardCopying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336CC5D9202E136E0052511C /* ClipboardCopying.swift */; };
 		336CC5DF202E611B0052511C /* SystemSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336CC5DB202E24930052511C /* SystemSharing.swift */; };
 		336CC5E0202E611B0052511C /* SystemSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336CC5DB202E24930052511C /* SystemSharing.swift */; };
+		336E239020653177008A48A7 /* TintColorChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E238F20653177008A48A7 /* TintColorChangingButton.swift */; };
+		336E239120653177008A48A7 /* TintColorChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E238F20653177008A48A7 /* TintColorChangingButton.swift */; };
+		336E239220653177008A48A7 /* TintColorChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E238F20653177008A48A7 /* TintColorChangingButton.swift */; };
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		33731683200901BD0055975E /* String+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33731682200901BD0055975E /* String+AdditionsTests.swift */; };
@@ -1318,6 +1321,7 @@
 		3367F8E02003B3F800DE1557 /* TestOnlyString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestOnlyString.swift; sourceTree = "<group>"; };
 		336CC5D9202E136E0052511C /* ClipboardCopying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCopying.swift; sourceTree = "<group>"; };
 		336CC5DB202E24930052511C /* SystemSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSharing.swift; sourceTree = "<group>"; };
+		336E238F20653177008A48A7 /* TintColorChangingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorChangingButton.swift; sourceTree = "<group>"; };
 		33731682200901BD0055975E /* String+AdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+AdditionsTests.swift"; sourceTree = "<group>"; };
 		33816A6A2003CBF200FE81BD /* MessageParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageParsingTests.swift; sourceTree = "<group>"; };
 		338472E6202A3F1F000F5A8A /* QuickAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAlertView.swift; sourceTree = "<group>"; };
@@ -2314,6 +2318,7 @@
 				A9181D211EDD8154005B63F6 /* RoundIconButton.swift */,
 				33DA846D2028D320008473F9 /* SegmentedHeaderView.swift */,
 				A9AC74101E78064500365029 /* TextLabel.swift */,
+				336E238F20653177008A48A7 /* TintColorChangingButton.swift */,
 				A9AC740D1E78051F00365029 /* TitleLabel.swift */,
 			);
 			path = Views;
@@ -3961,6 +3966,7 @@
 				A9AC740C1E77E62900365029 /* UIView+Additions.swift in Sources */,
 				149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */,
 				A997B0FE1EF94B4600A143FE /* DepositMoneyBulletPoint.swift in Sources */,
+				336E239220653177008A48A7 /* TintColorChangingButton.swift in Sources */,
 				2B1D669D1FC2F96500EB166C /* TableViewData.swift in Sources */,
 				9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */,
 				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
@@ -4252,6 +4258,7 @@
 				2BE66A091EF9027B007A7130 /* UIScrollView+Keyboard.swift in Sources */,
 				9F78D9CD1EE93E68003A0B95 /* ModalPresentable.swift in Sources */,
 				A9BA6B7B1EF7D582007C3206 /* DepositMoneyHeader.swift in Sources */,
+				336E239020653177008A48A7 /* TintColorChangingButton.swift in Sources */,
 				2B1D669B1FC2F96500EB166C /* TableViewData.swift in Sources */,
 				A9F8D1C81E72B4AA003F5749 /* Checkbox.swift in Sources */,
 				9FCF13281E52FC2A0078FF7F /* TSThread+Additions.m in Sources */,
@@ -4529,6 +4536,7 @@
 				A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */,
 				A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */,
 				2B1D669C1FC2F96500EB166C /* TableViewData.swift in Sources */,
+				336E239120653177008A48A7 /* TintColorChangingButton.swift in Sources */,
 				A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */,
 				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,
 				A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */,
