@@ -71,7 +71,6 @@ final class DappsViewController: UIViewController {
         return statusBarStyle
     }
 
-    let dappsHeaderHefight: CGFloat = 280
     let defaultSectionHeaderHeight: CGFloat = 50
     let searchedResultsSectionHeaderHeight: CGFloat = 24
 
