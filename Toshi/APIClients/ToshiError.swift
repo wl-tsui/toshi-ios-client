@@ -18,7 +18,7 @@ import Teapot
 
 struct ToshiError: Error, CustomStringConvertible {
     static func dataTaskError(withUnderLyingError error: Error) -> TeapotError {
-        let errorDescription = String(format: NSLocalizedString("toshi_error_data_task_error", bundle: Teapot.localizationBundle, comment: ""), error.localizedDescription)
+        let errorDescription = String(format: Localized.toshi_error_data_task_error, error.localizedDescription)
 
         return TeapotError(withType: .dataTaskError, description: errorDescription, underlyingError: error)
     }

@@ -100,7 +100,6 @@ final class SOFAWebController: UIViewController {
         let view = TintColorChangingButton()
         view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
         view.setImage(ImageAsset.web_back.withRenderingMode(.alwaysTemplate), for: .normal)
-        view.setImage(#imageLiteral(resourceName: "web_back").withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapBackButton), for: .touchUpInside)
         view.isEnabled = false
 
