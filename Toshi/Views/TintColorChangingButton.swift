@@ -15,7 +15,7 @@
 
 import UIKit
 
-/// A button which automatically updates its tint color based on the button's current state. 
+/// A button which automatically updates its tint color based on the button's current state.
 final class TintColorChangingButton: UIButton {
 
     private let normalTintColor: UIColor

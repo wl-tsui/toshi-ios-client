@@ -174,7 +174,7 @@ final class SendTokenViewConfigurator: NSObject {
 
     private lazy var swapButton: UIButton = {
         let button = UIButton.borderedButton(with: Theme.lightGreyTextColor)
-        button.setImage(#imageLiteral(resourceName: "swap"), for: .normal)
+        button.setImage(ImageAsset.swap, for: .normal)
         button.addTarget(self, action: #selector(swapButtonTapped), for: .touchUpInside)
         button.height(inlineButtonHeight)
         button.width(inlineButtonHeight)
@@ -197,7 +197,7 @@ final class SendTokenViewConfigurator: NSObject {
 
     private lazy var scanButton: UIButton = {
         let button = UIButton.borderedButton(with: Theme.lightGreyTextColor)
-        button.setImage(#imageLiteral(resourceName: "scan"), for: .normal)
+        button.setImage(ImageAsset.scan, for: .normal)
         button.setTitle(Localized.wallet_scan_QR_label, for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: CGFloat.smallInterItemSpacing)
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: CGFloat.smallInterItemSpacing, bottom: 0, right: 0)

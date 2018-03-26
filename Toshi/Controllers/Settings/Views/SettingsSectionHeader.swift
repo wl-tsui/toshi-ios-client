@@ -36,7 +36,7 @@ class SettingsSectionHeader: UIView {
         return view
     }()
 
-    lazy var errorImage = UIImageView(image: #imageLiteral(resourceName: "error"))
+    lazy var errorImage = UIImageView(image: ImageAsset.error)
     
     convenience init(title: String, error: String? = nil) {
         self.init()

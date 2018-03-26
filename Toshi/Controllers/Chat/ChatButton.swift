@@ -56,7 +56,7 @@ final class ChatButton: UIButton {
 
     private lazy var arrowImageView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "chat-buttons-arrow")?.withRenderingMode(.alwaysTemplate)
+        view.image = ImageAsset.chat_buttons_arrow.withRenderingMode(.alwaysTemplate)
         view.tintColor = Theme.tintColor
         view.isHidden = true
 

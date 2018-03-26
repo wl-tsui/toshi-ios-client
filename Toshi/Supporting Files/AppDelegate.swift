@@ -135,7 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func presentSplash() {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "launch-screen"))
+        let imageView = UIImageView(image: ImageAsset.launch_screen)
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
         window?.addSubview(imageView)

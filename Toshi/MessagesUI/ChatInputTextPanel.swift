@@ -64,7 +64,7 @@ class ChatInputTextPanel: UIView {
 
     private lazy var attachButton: UIButton = {
         let view = UIButton(withAutoLayout: true)
-        view.setImage(#imageLiteral(resourceName: "TGAttachButton").withRenderingMode(.alwaysTemplate), for: .normal)
+        view.setImage(ImageAsset.TGAttachButton.withRenderingMode(.alwaysTemplate), for: .normal)
         view.tintColor = Theme.tintColor
         view.contentMode = .center
         view.addTarget(self, action: #selector(attach(_:)), for: .touchUpInside)
@@ -73,7 +73,7 @@ class ChatInputTextPanel: UIView {
     }()
 
     private lazy var sendButton: RoundIconButton = {
-        let view = RoundIconButton(imageName: "send-button", circleDiameter: 27)
+        let view = RoundIconButton(image: ImageAsset.send_button, circleDiameter: 27)
         view.isEnabled = false
         view.addTarget(self, action: #selector(send(_:)), for: .touchUpInside)
 

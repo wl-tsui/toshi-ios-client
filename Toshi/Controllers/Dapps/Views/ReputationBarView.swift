@@ -28,7 +28,7 @@ final class ReputationBarView: UIView {
     }()
     
     private lazy var starImageView: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "gray-star"))
+        let imageView = UIImageView(image: ImageAsset.gray_star)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView

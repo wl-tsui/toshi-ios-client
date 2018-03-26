@@ -54,7 +54,7 @@ final class DappsTableHeaderView: UIView {
     }()
 
     private lazy var bubblesImageView: UIImageView = {
-        let bubblesImageView = UIImageView(image: UIImage(named: "bubbles")!)
+        let bubblesImageView = UIImageView(image: ImageAsset.bubbles)
 
         return bubblesImageView
     }()
@@ -82,7 +82,7 @@ final class DappsTableHeaderView: UIView {
         let imageView = UIImageView()
         imageView.size(CGSize(width: 48, height: 48))
         imageView.contentMode = .scaleAspectFit
-        imageView.image = #imageLiteral(resourceName: "logo")
+        imageView.image = ImageAsset.logo
 
         return imageView
     }()

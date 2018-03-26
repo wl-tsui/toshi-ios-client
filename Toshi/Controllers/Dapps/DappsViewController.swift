@@ -286,7 +286,7 @@ extension DappsViewController: UITableViewDataSource {
             let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
             cell.titleLabel.text = item.displayTitle
             cell.subtitleLabel.text = item.displayDetails
-            cell.leftImageView.image = #imageLiteral(resourceName: "collectible_placeholder")
+            cell.leftImageView.image = ImageAsset.collectible_placeholder
             cell.imageViewPath = item.itemIconPath
 
             setCustomSeparators(for: indexPath, on: cell)

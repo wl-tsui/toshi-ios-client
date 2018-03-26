@@ -37,7 +37,7 @@ final class DappViewController: DisappearingNavBarViewController {
         let header = UIImageView(frame: frame)
         header.clipsToBounds = true
         header.contentMode = .scaleAspectFill
-        header.image = #imageLiteral(resourceName: "dapp-cover-placeholder")
+        header.image = ImageAsset.dapp_cover_placeholder
 
         return header
     }()

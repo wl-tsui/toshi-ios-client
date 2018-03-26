@@ -56,7 +56,7 @@ class GeneratedCodeTests: XCTestCase {
         LocalizedKey.allCases.forEach { key in
             SupportedLanguages.allCases.forEach { language in
                 let value = language.localizedString(for: key.rawValue)
-                XCTAssertNotEqual(value, key.rawValue, "\(key.rawValue) does not have a value in the \(language.rawValue) Localizable.strings!")
+                XCTAssertNotEqual(value, key.rawValue, "\(key.rawValue) does not have a value in the \(language.rawValue) Localizable.strings! Make sure you either revert the change to Localizable.strings or regenerate the LocalizableStrings.swift file using Marathon - see README for instructions.")
             }
         }
     }
@@ -66,16 +66,22 @@ class GeneratedCodeTests: XCTestCase {
             SupportedLanguages.allCases.forEach { language in
                 let format = language.localizedString(for: key.rawValue)
                 let zeroValue = String.localizedStringWithFormat(format, 0)
-                XCTAssertNotEqual(zeroValue, key.rawValue, "\(key.rawValue) does not have a value in the \(language.rawValue) Localizable.stringsdict for 0!")
+                XCTAssertNotEqual(zeroValue, key.rawValue, "\(key.rawValue) does not have a value in the \(language.rawValue) Localizable.stringsdict for 0! Make sure you either revert the change to Localizable.stringsdict or regenerate the LocalizedPluralStrings.swift file using Marathon - see README for instructions.")
 
                 let oneValue = String.localizedStringWithFormat(format, 1)
-                XCTAssertNotEqual(oneValue, key.rawValue, "\(key.rawValue) does not have a value in the \(language.rawValue) Localizable.stringsdict for 1!")
+                XCTAssertNotEqual(oneValue, key.rawValue, "\(key.rawValue) does not have a value in the \(language.rawValue) Localizable.stringsdict for 1! Make sure you revert the change to Localizable.stringsdict or regenerate the LocalizedPluralStrings.swift file using Marathon - see README for instructions.")
 
                 if language.isDeveloperLanguage {
                     // Given English pluralization rules, the values for zero and one should not be the same.
-                    XCTAssertNotEqual(zeroValue, oneValue, "Zero value and one value are both \(zeroValue) in \(language.rawValue) for \(key.rawValue)!")
+                    XCTAssertNotEqual(zeroValue, oneValue, "Zero value and one value are both \(zeroValue) in \(language.rawValue) for \(key.rawValue)! This should not be the case for english - validate that you've added translations properly per plurlaization to Localizable.stringsdict.")
                 }
             }
+        }
+    }
+
+    func testImagesExistForAssetCatalogItems() {
+        AssetCatalogItem.allCases.forEach { item in
+            XCTAssertNotNil(UIImage(named: item.rawValue), "No image for asset catalog item \(item.rawValue). Make sure you either revert the change to the Asset Catalog or regenerate the AssetCatalog.swift file using Marathon - see README for instructions.")
         }
     }
 }

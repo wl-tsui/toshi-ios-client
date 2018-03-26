@@ -99,6 +99,7 @@ final class SOFAWebController: UIViewController {
     private lazy var backButton: UIButton = {
         let view = TintColorChangingButton()
         view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
+        view.setImage(ImageAsset.web_back.withRenderingMode(.alwaysTemplate), for: .normal)
         view.setImage(#imageLiteral(resourceName: "web_back").withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapBackButton), for: .touchUpInside)
         view.isEnabled = false
@@ -109,7 +110,7 @@ final class SOFAWebController: UIViewController {
     private lazy var forwardButton: UIButton = {
         let view = TintColorChangingButton()
         view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
-        view.setImage(#imageLiteral(resourceName: "web_forward").withRenderingMode(.alwaysTemplate), for: .normal)
+        view.setImage(ImageAsset.web_forward.withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapForwardButton), for: .touchUpInside)
         view.isEnabled = false
 
@@ -117,7 +118,7 @@ final class SOFAWebController: UIViewController {
     }()
 
     private lazy var browseIcon: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "web-browse-icon"))
+        let imageView = UIImageView(image: ImageAsset.web_browse_icon)
         imageView.contentMode = .center
         imageView.size(CGSize(width: 36, height: 36))
 
@@ -127,7 +128,7 @@ final class SOFAWebController: UIViewController {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
 
-        button.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
+        button.setImage(ImageAsset.close_icon, for: .normal)
         button.tintColor = Theme.tintColor
         button.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
 

@@ -213,7 +213,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
         view.backgroundColor = Theme.viewBackgroundColor
 
         if shouldShowMoreButton {
-            navBar.setRightButtonImage(#imageLiteral(resourceName: "more_centered"), accessibilityLabel: Localized.accessibility_more)
+            navBar.setRightButtonImage(ImageAsset.more_centered, accessibilityLabel: Localized.accessibility_more)
         }
         
         if isProfileEditable {

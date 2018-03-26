@@ -34,7 +34,7 @@ extension TSGroupModel {
     }
 
     var avatarOrPlaceholder: UIImage {
-        return groupImage ?? #imageLiteral(resourceName: "avatar-placeholder")
+        return groupImage ?? ImageAsset.avatar_placeholder
     }
 
     var nameOrEmptyString: String {

@@ -6,7 +6,7 @@ final class MessagesErrorView: UIView {
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "error")
+        view.image = ImageAsset.error
         view.contentMode = .scaleAspectFit
         
         return view

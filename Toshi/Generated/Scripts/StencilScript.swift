@@ -35,6 +35,13 @@ func hasFileChanged(named fileName: String) throws -> Bool {
     return fileNamesInDiff.contains(fileName)
 }
 
+func hasAnyFileChanged(in folder: Folder) throws -> Bool {
+    let filesInDiff = try changedFiles()
+
+    let changedInFolder = filesInDiff.filter { return $0.contains(folder.name) }
+    return (changedInFolder.count > 0)
+}
+
 // MARK: - Filesystem Helpers
 
 /// Loads a dictionary with string keys and string values.
@@ -75,6 +82,18 @@ struct LocalizedPlural {
     let values: [ String ]
 }
 
+struct ImageAsset {
+    let name: String
+    let variableName: String
+
+    init(name: String) {
+        self.name = name
+        self.variableName = name
+            .replacingOccurrences(of: " ", with: "_")
+            .replacingOccurrences(of: "-", with: "_")
+    }
+}
+
 // MARK: - Functions taking existing information and preparing it to write
 
 func localizableStrings(from baseLanguageFolder: Folder, fileName: String) throws -> [LocalizedString] {
@@ -107,6 +126,21 @@ func localizablePlurals(from baseLanguageFolder: Folder, fileName: String) throw
     }
 
     return localizedPlurals
+}
+
+func recursiveAssets(from folder: Folder) -> [ImageAsset] {
+    let assetFolders = folder.subfolders.filter { $0.name.hasSuffix(".imageset") }
+    let otherFolders = folder.subfolders.filter { !assetFolders.contains($0) }
+
+    var assets = assetFolders.map { ImageAsset(name: $0.name.replacingOccurrences(of: ".imageset", with: "")) }
+    otherFolders.forEach { assets.append(contentsOf: recursiveAssets(from: $0)) }
+
+    return assets
+}
+
+func loadAssets(from assetCatalogFolder: Folder) -> [ImageAsset] {
+    let assets = recursiveAssets(from: assetCatalogFolder)
+    return assets.sorted(by: { $0.variableName.lowercased() < $1.variableName.lowercased() })
 }
 
 // MARK: - Functions to generate the code
@@ -179,4 +213,19 @@ if try hasFileChanged(named: localizablePluralsFileName) {
                         outputFolder: codeFolder)
 } else {
     print("\(localizablePluralsFileName) hasn't changed, not regenerating \(localizablePluralOutputName)")
+}
+
+let assetCatalogFolder = try resourcesFolder.subfolder(named: "Assets.xcassets")
+let assetCatalogOutputName = "AssetCatalog.swift"
+
+if true { //try hasAnyFileChanged(in: assetCatalogFolder) {
+    let assets = try loadAssets(from: assetCatalogFolder)
+    try renderThenWrite(context: [
+                            "assets": assets
+                        ],
+                        withEnvironment: environment,
+                        fileName: assetCatalogOutputName,
+                        outputFolder: codeFolder)
+} else {
+    print("Nothing in \(assetCatalogFolder.name) has changged, not regenerating \(assetCatalogOutputName)")
 }

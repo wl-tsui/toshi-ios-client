@@ -41,7 +41,7 @@ extension TSThread {
         if let groupThread = self as? TSGroupThread {
             return groupThread.groupModel.avatarOrPlaceholder
         } else {
-            return image() ?? #imageLiteral(resourceName: "avatar-placeholder")
+            return image() ?? ImageAsset.avatar_placeholder
         }
     }
     

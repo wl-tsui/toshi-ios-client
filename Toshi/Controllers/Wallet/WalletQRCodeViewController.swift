@@ -32,7 +32,7 @@ final class WalletQRCodeViewController: UIViewController {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
 
-        button.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
+        button.setImage(ImageAsset.close_icon, for: .normal)
         button.tintColor = Theme.tintColor
         button.width(.defaultButtonHeight)
         button.height(.defaultButtonHeight)

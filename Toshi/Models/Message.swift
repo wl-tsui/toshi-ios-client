@@ -59,10 +59,10 @@ class Message: NSObject {
 
     var image: UIImage? {
         if attachment is TSAttachmentPointer {
-            return #imageLiteral(resourceName: "placeholder")
+            return ImageAsset.placeholder
         } else if let stream = attachment as? TSAttachmentStream {
 
-            guard let image = self.streamImage(for: stream) else { return #imageLiteral(resourceName: "placeholder") }
+            guard let image = self.streamImage(for: stream) else { return ImageAsset.placeholder }
             // TODO: add play button if video
             return image
         }
