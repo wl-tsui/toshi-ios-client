@@ -39,6 +39,8 @@ final class SOFAWebController: UIViewController {
         return EthereumAPIClient.shared
     }
 
+    private var observers = [NSKeyValueObservation]()
+
     private let rcpUrl = ToshiWebviewRPCURLPath
     private let netVersion = ToshiWebviewRCPURLNetVersion
     private var paymentRouter: PaymentRouter?
@@ -95,27 +97,27 @@ final class SOFAWebController: UIViewController {
     }()
 
     private lazy var backButton: UIButton = {
-        let view = UIButton(type: .custom)
+        let view = TintColorChangingButton()
         view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
-        view.tintColor = Theme.tintColor
-        view.setImage(#imageLiteral(resourceName: "web_back").withRenderingMode(.alwaysTemplate), for: .normal)
+        view.setImage(ImageAsset.web_back.withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapBackButton), for: .touchUpInside)
+        view.isEnabled = false
 
         return view
     }()
 
     private lazy var forwardButton: UIButton = {
-        let view = UIButton(type: .custom)
+        let view = TintColorChangingButton()
         view.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
-        view.tintColor = Theme.tintColor
-        view.setImage(#imageLiteral(resourceName: "web_forward").withRenderingMode(.alwaysTemplate), for: .normal)
+        view.setImage(ImageAsset.web_forward.withRenderingMode(.alwaysTemplate), for: .normal)
         view.addTarget(self, action: #selector(self.didTapForwardButton), for: .touchUpInside)
+        view.isEnabled = false
 
         return view
     }()
 
     private lazy var browseIcon: UIImageView = {
-        let imageView = UIImageView(image: #imageLiteral(resourceName: "web-browse-icon"))
+        let imageView = UIImageView(image: ImageAsset.web_browse_icon)
         imageView.contentMode = .center
         imageView.size(CGSize(width: 36, height: 36))
 
@@ -125,7 +127,7 @@ final class SOFAWebController: UIViewController {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
 
-        button.setImage(#imageLiteral(resourceName: "close_icon"), for: .normal)
+        button.setImage(ImageAsset.close_icon, for: .normal)
         button.tintColor = Theme.tintColor
         button.size(CGSize(width: .defaultButtonHeight, height: .defaultButtonHeight))
 
@@ -229,6 +231,8 @@ final class SOFAWebController: UIViewController {
         webView.right(to: view)
         webView.bottom(to: layoutGuide())
 
+        setupKVO()
+
         hidesBottomBarWhenPushed = true
 
         setupActivityIndicator()
@@ -255,6 +259,34 @@ final class SOFAWebController: UIViewController {
 
     required init?(coder _: NSCoder) {
         fatalError()
+    }
+
+    deinit {
+        // Remove KVO stuff
+        observers.forEach { $0.invalidate() }
+    }
+
+    private func setupKVO() {
+        let forwardObserver = webView.observe(\WKWebView.canGoForward, changeHandler: { [weak self] webView, _ in
+            self?.forwardButton.isEnabled = webView.canGoForward
+        })
+        observers.append(forwardObserver)
+
+        let backObserver = webView.observe(\WKWebView.canGoBack, changeHandler: { [weak self] webView, _ in
+            self?.backButton.isEnabled = webView.canGoBack
+        })
+        observers.append(backObserver)
+
+        let urlObserver = webView.observe(\WKWebView.url) { [weak self] webView, _ in
+            guard
+                let newURLString = webView.url?.absoluteString,
+                newURLString != self?.searchTextField.text else {
+                    return
+            }
+
+            self?.searchTextField.text = newURLString
+        }
+        observers.append(urlObserver)
     }
 
     @objc

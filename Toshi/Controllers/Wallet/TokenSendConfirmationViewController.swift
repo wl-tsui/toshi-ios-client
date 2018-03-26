@@ -259,7 +259,7 @@ final class TokenSendConfirmationViewController: UIViewController {
                 return
             }
 
-            weakSelf.hud.successThenHide(after: 0.3, image: #imageLiteral(resourceName: "success_check"), text: Localized.wallet_send_confirmation_success_message, completion: {
+            weakSelf.hud.successThenHide(after: 0.3, image: ImageAsset.success_check, text: Localized.wallet_send_confirmation_success_message, completion: {
 
                 weakSelf.navigationController?.dismiss(animated: false, completion: {
                     weakSelf.delegate?.tokenSendConfirmationControllerDidFinish(weakSelf)

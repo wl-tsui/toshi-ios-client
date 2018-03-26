@@ -41,7 +41,7 @@ final class SignInFooterView: UIView {
         if remaining == 0 {
             return Localized.passphrase_sign_in_button
         } else {
-            return LocalizedPlural("passphrase_sign_in_button_placeholder", for: remaining)
+            return LocalizedPlural.passphrase_sign_in_button_placeholder(for: remaining)
         }
     }
     
@@ -63,7 +63,7 @@ final class SignInFooterView: UIView {
                 return
             }
             
-            let errorMessage = LocalizedPlural("passphrase_sign_in_error", for: numberOfErrors)
+            let errorMessage = LocalizedPlural.passphrase_sign_in_error(for: numberOfErrors)
             
             errorLabel.isHidden = false
             signInButtonTopConstraint?.isActive = false

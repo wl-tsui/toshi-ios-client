@@ -18,7 +18,8 @@ import UIKit
 import SweetUIKit
 
 final class DappViewController: DisappearingNavBarViewController {
-    let dappConverHeaderHeight: CGFloat = 200
+    let dappCoverHeaderHeight: CGFloat = 200
+    let dappNoCoverHeaderHeight: CGFloat = 44
 
     private let dapp: Dapp
 
@@ -31,12 +32,12 @@ final class DappViewController: DisappearingNavBarViewController {
     }
 
     private lazy var coverImageHeaderView: UIImageView = {
-        let frame = CGRect(origin: .zero, size: CGSize(width: self.view.bounds.width, height: self.dappConverHeaderHeight))
+        let frame = CGRect(origin: .zero, size: CGSize(width: self.view.bounds.width, height: self.dappCoverHeaderHeight))
 
         let header = UIImageView(frame: frame)
         header.clipsToBounds = true
         header.contentMode = .scaleAspectFill
-        header.image = #imageLiteral(resourceName: "dapp-cover-placeholder")
+        header.image = ImageAsset.dapp_cover_placeholder
 
         return header
     }()
@@ -44,7 +45,7 @@ final class DappViewController: DisappearingNavBarViewController {
     private lazy var dappInfoView: DappInfoView = {
         let view = DappInfoView(frame: .zero)
         view.titleLabel.text = dapp.name
-        view.descriptionLabel.text = dapp.description
+        view.descriptionLabel.setSpacedOutText(dapp.description ?? "", lineSpacing: DappInfoView.descriptionLineSpacing)
         view.urlLabel.text = dapp.url.absoluteString
         view.imageViewPath = dapp.avatarPath
 
@@ -68,7 +69,7 @@ final class DappViewController: DisappearingNavBarViewController {
         view.rowHeight = UITableViewAutomaticDimension
         view.estimatedRowHeight = .defaultCellHeight
         view.separatorStyle = .none
-
+        view.contentInset.bottom = navigationController?.tabBarController?.tabBar.frame.height ?? 0
         if #available(iOS 11.0, *) {
            view.contentInsetAdjustmentBehavior = .never
         }
@@ -106,10 +107,17 @@ final class DappViewController: DisappearingNavBarViewController {
     }
 
     private func showCover() {
-        guard let path = dapp.coverUrlString else { return }
-        AvatarManager.shared.avatar(for: path) { [weak self] image, _ in
+        guard let path = dapp.coverUrlString else {
+            setupNoCoverImageHeaderView()
+            return
+        }
 
-            guard let strongSelf = self, let fetchedImage = image else { return }
+        AvatarManager.shared.avatar(for: path) { [weak self] image, _ in
+            guard let strongSelf = self else { return }
+            guard let fetchedImage = image else {
+                strongSelf.setupNoCoverImageHeaderView()
+                return
+            }
 
             UIView.transition(with: strongSelf.coverImageHeaderView, duration: 0.3, options: .transitionCrossDissolve, animations: {
 
@@ -117,6 +125,11 @@ final class DappViewController: DisappearingNavBarViewController {
 
             }, completion: nil)
         }
+    }
+
+    private func setupNoCoverImageHeaderView() {
+        coverImageHeaderView = UIImageView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: dappNoCoverHeaderHeight + UIApplication.shared.statusBarFrame.height))
+        tableView.tableHeaderView = coverImageHeaderView
     }
 
     // We do not need to add content to scrollViewContainer used in parent controller,

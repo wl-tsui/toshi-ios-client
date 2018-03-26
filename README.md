@@ -32,10 +32,12 @@ Additionally, there's some [weirdness going on with Stencil's test dependencies]
 4. run `marathon add https://github.com/kylef/Stencil.git`
 5. **DO NOT** use `marathon update` until the issue with Stencil's dependencies is resolved.  
 
-Once you've got Marathon set up, here's what you need to change to cause generated code to update: 
+Once you've got Marathon set up, here's what you need to change to cause generated code to update when you build the **Debug** target: 
 
-- **Localized String**: Add your new key and value to `Localizable.strings`. 
-- **Localized Plural String**: [coming soon!]
-- **Asset Catalog Image**: [coming soon!]
+| Changes to File or Folder | Cause Marathon To Regenerate File |
+|---|---|
+| `Resources/Base.lproj/Localizable.strings` | `LocalizedStrings.swift`|
+| `Resources/Base.lproj/Localizable.stringsdict` | `LocalizedPluralStrings.swift` |
+| `Resources/Assets.xcassets` [recursive] | `AssetCatalog.swift` |
 
-Once you've made your changes, build the **Debug** target. This will invoke Marathon and cause the appropriate code to be generated. 
+If you are making changes in any of these places and do NOT have Marathon installed, you will not be able to use the new assets or strings you're using with our fancy generated helpers. Please install Marathon using the steps above if you want to make changes. 

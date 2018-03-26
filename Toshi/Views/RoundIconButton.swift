@@ -19,7 +19,7 @@ class RoundIconButton: UIControl {
         return view
     }()
 
-    convenience init(imageName: String, circleDiameter: CGFloat) {
+    convenience init(image: UIImage, circleDiameter: CGFloat) {
         self.init(frame: .zero)
 
         circle.layer.cornerRadius = circleDiameter / 2
@@ -28,7 +28,7 @@ class RoundIconButton: UIControl {
         circle.size(CGSize(width: circleDiameter, height: circleDiameter))
         circle.center(in: self)
 
-        icon.image = UIImage(named: imageName)
+        icon.image = image
         addSubview(icon)
 
         icon.center(in: self)

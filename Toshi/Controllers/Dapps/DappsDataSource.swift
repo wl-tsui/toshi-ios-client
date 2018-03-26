@@ -219,7 +219,9 @@ final class DappsDataSource {
             guard let strongSelf = self, let strongOperation = weakOperation else { return }
 
             var results: [DappsDataSourceSection] = []
-            results.append(strongSelf.resultsForSearchText(strongSelf.queryData.searchText))
+            if let section = strongSelf.resultsForSearchText(strongSelf.queryData.searchText) {
+                results.append(section)
+            }
 
             DirectoryAPIClient.shared.getQueriedDapps(queryData: strongSelf.queryData, completion: { queriedResults, error in
 
@@ -263,7 +265,7 @@ final class DappsDataSource {
         reloadOperationQueue.addOperation(operation)
     }
 
-    func resultsForSearchText(_ searchText: String) -> DappsDataSourceSection {
+    func resultsForSearchText(_ searchText: String) -> DappsDataSourceSection? {
         var items: [DappsDataSourceItem] = []
 
         // Go to URL item
@@ -280,11 +282,22 @@ final class DappsDataSource {
             items.append(item)
         }
 
+        guard items.count > 0 else { return nil }
+
         return DappsDataSourceSection(items: items)
     }
 
     func adjustToSearchText(_ searchText: String) {
-        content = [self.resultsForSearchText(searchText)]
+        guard let searchSection = resultsForSearchText(searchText) else { return }
+
+        // We should not remove previously shown results until search response comes, here we should change only first section if it is Search with Google and Url
+        if var existingSearchSection = content.first, existingSearchSection.categoryId == nil, existingSearchSection.name == nil {
+            existingSearchSection.items = searchSection.items
+            content[0] = existingSearchSection
+        } else {
+            content = [searchSection]
+        }
+
         delegate?.dappsDataSourcedidReload(self)
     }
 

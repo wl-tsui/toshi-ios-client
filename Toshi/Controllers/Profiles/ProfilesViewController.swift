@@ -368,7 +368,7 @@ final class ProfilesViewController: UIViewController {
             navigationController?.popViewController(animated: true)
             output?.didFinish(self, selectedProfilesIds: membersIdsArray)
         case .newGroupChat:
-            guard let groupModel = TSGroupModel(title: "", memberIds: NSMutableArray(array: membersIdsArray), image: UIImage(named: "avatar-edit-placeholder"), groupId: nil) else { return }
+            guard let groupModel = TSGroupModel(title: "", memberIds: NSMutableArray(array: membersIdsArray), image: ImageAsset.avatar_edit_placeholder, groupId: nil) else { return }
 
             let viewModel = NewGroupViewModel(groupModel)
             let groupViewController = GroupViewController(viewModel, configurator: NewGroupConfigurator())

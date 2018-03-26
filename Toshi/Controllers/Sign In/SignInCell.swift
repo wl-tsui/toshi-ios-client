@@ -12,7 +12,7 @@ final class SignInCell: UICollectionViewCell {
     private var caretViewRightConstraint: NSLayoutConstraint?
     private let caretKerning: CGFloat = 1
 
-    private lazy var backgroundImageView = UIImageView(image: UIImage(named: "sign-in-cell-background")?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18))
+    private lazy var backgroundImageView = UIImageView(image: ImageAsset.sign_in_cell_background.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18))
     private lazy var passwordLabel: UILabel = {
         let view = UILabel()
         view.adjustsFontForContentSizeCategory = true

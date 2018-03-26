@@ -16,6 +16,8 @@
 import UIKit
 
 final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
+    private let titleFont = Theme.preferredProTextSemibold()
+    private let subtitleFont = Theme.preferredFootnote()
 
     var imageViewPath: String? {
         didSet {
@@ -23,18 +25,34 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
         }
     }
 
-    lazy var titleLabel: UILabel = {
+    private(set) lazy var sectionSeparator: UIView = {
+        let customSeparator = UIView()
+        customSeparator.backgroundColor = Theme.borderColor
+        customSeparator.alpha = 0
+
+        return customSeparator
+    }()
+
+    private(set) lazy var customSeparator: UIView = {
+        let customSeparator = UIView()
+        customSeparator.backgroundColor = Theme.borderColor
+        customSeparator.alpha = 0
+
+        return customSeparator
+    }()
+
+    private(set) lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
-        titleLabel.font = Theme.preferredProTextSemibold()
+        titleLabel.font = titleFont
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
 
         return titleLabel
     }()
 
-    lazy var subtitleLabel: UILabel = {
+    private(set) lazy var subtitleLabel: UILabel = {
         let subtitleLabel = UILabel()
 
-        subtitleLabel.font = Theme.preferredRegularSmall()
+        subtitleLabel.font = subtitleFont
         subtitleLabel.textColor = Theme.lightGreyTextColor
         subtitleLabel.setContentHuggingPriority(.required, for: .vertical)
         subtitleLabel.numberOfLines = 2
@@ -42,7 +60,7 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
         return subtitleLabel
     }()
 
-    lazy var leftImageView: UIImageView = {
+    private(set) lazy var leftImageView: UIImageView = {
         let leftImageView = UIImageView()
         leftImageView.contentMode = .scaleAspectFill
         leftImageView.clipsToBounds = true
@@ -67,11 +85,23 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
         leftImageView.image = nil
         titleLabel.text = nil
         subtitleLabel.text = nil
+        sectionSeparator.alpha = 0
+        customSeparator.alpha = 0
 
         leftImageView.layer.cornerRadius = 0
     }
 
     private func addSubviewsAndConstraints() {
+        contentView.addSubview(customSeparator)
+        customSeparator.bottom(to: contentView)
+        customSeparator.left(to: contentView, offset: 100)
+        customSeparator.right(to: contentView, offset: -.largeInterItemSpacing)
+        customSeparator.height(CGFloat.lineHeight)
+        contentView.addSubview(sectionSeparator)
+        
+        sectionSeparator.edgesToSuperview(excluding: .top)
+        sectionSeparator.height(CGFloat.lineHeight)
+
         contentView.addSubview(leftImageView)
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -79,21 +109,22 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
 
         contentView.addSubview(stackView)
 
-        stackView.top(to: contentView, offset: BasicTableViewCell.imageMargin)
-        stackView.bottom(to: contentView, offset: -BasicTableViewCell.imageMargin)
+        stackView.top(to: contentView, offset: .spacingx3)
+        stackView.bottom(to: contentView, offset: -.spacingx3)
         stackView.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin, priority: .required)
         stackView.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin, priority: .required)
 
+        titleLabel.height(22)
         stackView.addArrangedSubview(titleLabel)
-        stackView.addSpacing(.mediumInterItemSpacing, after: titleLabel)
+        stackView.addSpacing(3, after: titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
 
         setupLeftImageView()
     }
 
     private func setupLeftImageView() {
-        leftImageView.size(CGSize(width: 78, height: 78))
         leftImageView.centerYToSuperview()
+        leftImageView.size(CGSize(width: 72, height: 72))
         leftImageView.left(to: contentView, offset: BasicTableViewCell.horizontalMargin)
     }
 
@@ -101,7 +132,7 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
         super.traitCollectionDidChange(previousTraitCollection)
 
         titleLabel.font = Theme.preferredProTextSemibold()
-        subtitleLabel.font = Theme.preferredRegularSmall()
+        subtitleLabel.font = Theme.preferredFootnote()
     }
 
     private func retrieveAvatar() {

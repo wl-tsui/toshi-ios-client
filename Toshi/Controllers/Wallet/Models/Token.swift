@@ -83,7 +83,7 @@ final class EtherToken: Token {
                    value: wei.toHexString,
                    decimals: 5,
                    contractAddress: "",
-                   iconPath: "ether_logo")
+                   iconPath: AssetCatalogItem.ether_logo.rawValue)
         canShowFiatValue = true
     }
 

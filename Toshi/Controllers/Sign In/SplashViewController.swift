@@ -29,7 +29,7 @@ final class SplashViewController: UIViewController {
         let imageView = UIImageView(withAutoLayout: true)
         imageView.contentMode = .scaleAspectFill
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: "launch-screen")
+        imageView.image = ImageAsset.launch_screen
 
         return imageView
     }()
@@ -37,7 +37,7 @@ final class SplashViewController: UIViewController {
     private lazy var logoImageView: UIImageView = {
         let imageView = UIImageView(withAutoLayout: true)
         imageView.contentMode = .center
-        imageView.image = UIImage(named: "logo")
+        imageView.image = ImageAsset.logo
 
         return imageView
     }()

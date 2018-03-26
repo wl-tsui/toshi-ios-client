@@ -86,7 +86,7 @@ class ConfirmationButton: UIControl {
 
     private lazy var checkmarkImageView: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.image = #imageLiteral(resourceName: "checkmark_big").withRenderingMode(.alwaysTemplate)
+        view.image = ImageAsset.checkmark_big.withRenderingMode(.alwaysTemplate)
         view.tintColor = Theme.greyTextColor.withAlphaComponent(0.8)
         view.isUserInteractionEnabled = false
 

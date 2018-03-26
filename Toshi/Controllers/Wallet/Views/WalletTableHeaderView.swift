@@ -35,7 +35,7 @@ final class WalletTableHeaderView: UIView {
         imageView.width(qrCodeImageSize)
         imageView.height(qrCodeImageSize)
 
-        imageView.image = #imageLiteral(resourceName: "qr")
+        imageView.image = ImageAsset.qr
 
         return imageView
     }()

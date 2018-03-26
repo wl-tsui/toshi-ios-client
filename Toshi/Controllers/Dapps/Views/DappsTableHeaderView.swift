@@ -48,8 +48,15 @@ final class DappsTableHeaderView: UIView {
         let backgroundView = UIView()
         backgroundView.backgroundColor = Theme.tintColor
         backgroundView.isUserInteractionEnabled = false
+        backgroundView.clipsToBounds = true
 
         return backgroundView
+    }()
+
+    private lazy var bubblesImageView: UIImageView = {
+        let bubblesImageView = UIImageView(image: ImageAsset.bubbles)
+
+        return bubblesImageView
     }()
 
     private lazy var collapsedBackgroundView: UIView = {
@@ -75,7 +82,7 @@ final class DappsTableHeaderView: UIView {
         let imageView = UIImageView()
         imageView.size(CGSize(width: 48, height: 48))
         imageView.contentMode = .scaleAspectFit
-        imageView.image = #imageLiteral(resourceName: "logo")
+        imageView.image = ImageAsset.logo
 
         return imageView
     }()
@@ -85,7 +92,7 @@ final class DappsTableHeaderView: UIView {
         textField.delegate = self
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
-        textField.placeholder = Localized.dapps_search_placeholder
+        textField.attributedPlaceholder = NSAttributedString(string: Localized.dapps_search_placeholder, attributes: [.foregroundColor: Theme.greyTextColor])
         textField.borderStyle = .none
         textField.layer.cornerRadius = 5
 
@@ -162,6 +169,10 @@ final class DappsTableHeaderView: UIView {
         addSubview(expandedBackgroundView)
         expandedBackgroundView.edges(to: self)
 
+        expandedBackgroundView.addSubview(bubblesImageView)
+        bubblesImageView.bottom(to: expandedBackgroundView)
+        bubblesImageView.centerX(to: expandedBackgroundView)
+
         addSubview(collapsedBackgroundView)
         collapsedBackgroundView.edges(to: self)
 
@@ -215,7 +226,7 @@ final class DappsTableHeaderView: UIView {
 
         searchTextField.backgroundColor = UIColor.white.withAlphaComponent(fadeOut(percentage, in: 0.89 ... 1))
         searchTextFieldBackgroundView.alpha = fadeIn(percentage, in: 0.89 ... 1)
-        searchTextField.xInset = (1 - percentage).map(from: 0 ... 1, to: 15 ... 20)
+        searchTextField.xInset = (1 - percentage).map(from: 0 ... 1, to: 14 ... 19)
     }
 
     func didScroll(to percentage: CGFloat) {

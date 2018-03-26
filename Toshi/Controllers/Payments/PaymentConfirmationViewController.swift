@@ -47,7 +47,7 @@ final class PaymentConfirmationViewController: UIViewController {
 
     private lazy var avatarImageView: AvatarImageView = {
         let imageView = AvatarImageView()
-        imageView.image = UIImage(named: "avatar-placeholder")
+        imageView.image = ImageAsset.avatar_placeholder
 
         return imageView
     }()

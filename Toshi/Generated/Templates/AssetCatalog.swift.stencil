@@ -1,0 +1,19 @@
+// This file is machine-generated. DO NOT EDIT IT BY HAND - your edits will get overwritten.
+
+import UIKit
+
+enum AssetCatalogItem: String, StringCaseListable {
+    case
+    {% for asset in assets %}{{ asset.variableName }}{% if not asset.variableName == asset.name %} = "{{ asset.name }}"{% endif %}{% if not forloop.last %},
+    {% endif %}{% endfor %}
+
+    var image: UIImage {
+        return UIImage(named: rawValue)!
+    }
+}
+
+enum ImageAsset {
+    {% for asset in assets %}
+    static let {{ asset.variableName }} = AssetCatalogItem.{{ asset.variableName }}.image{% if not forloop.last %}
+{% endif %}{% endfor %}
+}

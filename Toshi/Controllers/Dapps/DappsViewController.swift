@@ -71,7 +71,6 @@ final class DappsViewController: UIViewController {
         return statusBarStyle
     }
 
-    let dappsHeaderHefight: CGFloat = 280
     let defaultSectionHeaderHeight: CGFloat = 50
     let searchedResultsSectionHeaderHeight: CGFloat = 24
 
@@ -112,7 +111,7 @@ final class DappsViewController: UIViewController {
         BasicTableViewCell.register(in: view)
         view.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
         view.register(UITableViewCell.self, forCellReuseIdentifier: genericCellReuseIdentifier)
-        view.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
+        view.separatorStyle = .none
 
         return view
     }()
@@ -236,7 +235,6 @@ extension DappsViewController: DappsDataSourceDelegate {
         }
 
         tableView.reloadData()
-
         searchResultsTableView.reloadData()
     }
 }
@@ -282,16 +280,18 @@ extension DappsViewController: UITableViewDataSource {
 
             cell.textLabel?.attributedText = attributedString
             cell.separatorInset = .zero
+
             return cell
         case .dappFront:
             let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
             cell.titleLabel.text = item.displayTitle
             cell.subtitleLabel.text = item.displayDetails
-            cell.leftImageView.image = #imageLiteral(resourceName: "collectible_placeholder")
+            cell.leftImageView.image = ImageAsset.collectible_placeholder
             cell.imageViewPath = item.itemIconPath
-            cell.leftImageView.layer.cornerRadius = 10
-            return cell
 
+            setCustomSeparators(for: indexPath, on: cell)
+
+            return cell
         case .dappSearched:
             let cellData = TableCellData(title: item.displayTitle, subtitle: item.dapp?.url.absoluteString, leftImagePath: item.itemIconPath)
             let configurator = CellConfigurator()
@@ -301,7 +301,6 @@ extension DappsViewController: UITableViewDataSource {
             cell.leftImageView.layer.cornerRadius = 5
 
             return cell
-
         case .seeAll:
             let cell = tableView.dequeueReusableCell(withIdentifier: buttonCellReuseIdentifier, for: indexPath)
             cell.selectionStyle = .none
@@ -312,6 +311,14 @@ extension DappsViewController: UITableViewDataSource {
                                                                     right: -.defaultMargin))
             cell.separatorInset = .zero
             return cell
+        }
+    }
+
+    private func setCustomSeparators(for indexPath: IndexPath, on cell: RectImageTitleSubtitleTableViewCell) {
+        if dataSource.numberOfItems(in: indexPath.section) == (indexPath.row + 1) {
+            cell.sectionSeparator.alpha = 1
+        } else {
+            cell.customSeparator.alpha = 1
         }
     }
 
@@ -340,6 +347,7 @@ extension DappsViewController: UITableViewDataSource {
             return searchedResultsSectionHeaderHeight
         }
     }
+
 }
 
 extension DappsViewController: DappsSectionHeaderViewDelegate {
@@ -470,14 +478,12 @@ extension DappsViewController: DappsSearchHeaderViewDelegate {
         view.layoutIfNeeded()
         headerView.adjustNonAnimatedProperties(to: headerView.collapsedStateScrollPercentage)
 
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.3) {
             self.searchResultsTableView.alpha = 1
             self.statusBarStyle = UIStatusBarStyle.default
             self.headerView.adjustAnimatedProperties(to: self.headerView.collapsedStateScrollPercentage)
             self.view.layoutIfNeeded()
-        }, completion: { _ in
-            self.headerView.showCancelButton()
-        })
+        }
     }
 
     func didRequireDefaultState(_ headerView: DappsTableHeaderView) {

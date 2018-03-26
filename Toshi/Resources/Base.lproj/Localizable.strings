@@ -17,15 +17,12 @@
 "browse_top_rated_apps" = "Top Rated";
 "browse_featured_dapps" = "Featured";
 "dapps_section_title" = "Đapps";
-"dapps_open_url_section_title" = "Go to";
 "dapps_see_more_button_title" = "SEE MORE";
 "dapps_see_all_button_title" = "See All Đapps";
 "dapps_all_list_title" = "All Đapps";
 "dapps_search_with_google_section_title" = "Search with Google";
 "browse_top_rated_public_users" = "Top Rated Public Users";
 "browse_latest_public_users" = "Latest Public Users";
-
-"browse_more_button" = "More";
 
 /* Messages */
 "messages_payment_approve" = "Approve";
@@ -60,17 +57,9 @@
 
 "payment_error_message" = "Error creating transaction";
 
-
-"payment_message_failure_title" = "Failed";
-"payment_message_success_title" = "Succeeded";
-"payment_message_success_message" = "Your Payment was successful.";
-"payment_message_button" = "Ok";
-
 "payment_request_confirmation_warning_title" = "Confirm payment";
 "payment_request_confirmation_warning_message" = "Do you want to accept the %@ (%@) request from %@?";
 "payment_request_confirmation_warning_message_fallback" = "Do you want accept the payment request from %@?";
-"payment_request_confirmation_warning_action_confirm" = "Pay";
-
 
 /* Passphrase */
 "passphrase_copy_navigation_title" = "Your passphrase";
@@ -89,7 +78,6 @@
 "passphrase_verify_text" = "Tap the words to put them next to each other in the correct order.";
 
 "passphrase_signin_error_title" = "Invalid passphrase";
-"passphrase_signin_error_verification" = "Are you sure you typed your passphrase correctly?";
 
 "sign_up_with_passphrase_alert_title" = "Create new Toshi account?";
 "sign_up_with_passphrase_alert_message" = "There is no Toshi account associated with this passphrase.\nWould you like to create one?";
@@ -151,11 +139,6 @@
 "edit_profile_location_label" = "Location";
 "edit_profile_public_label" = "Public";
 
-/* Profile actions */
-"profile_action_message" = "Message";
-"profile_action_add_favorite" = "Favorite";
-"profile_action_pay" = "Pay";
-
 /* Rate */
 "rating_starter_placeholder" = " Review (optional)";
 "rate_user_title_format" = "Rate %@";
@@ -200,8 +183,6 @@
 "mainnet_title" = "Mainnet";
 
 /* Generic Alerts */
-"network_alert_title" = "Be aware!";
-"network_alert_text" = "Toshi is not an appropriate wallet for storage of large sums of ETH.";
 "alert_ok_action_title" = "OK";
 "sign_out_failure_title" = "Could not sign out";
 "sign_out_failure_message" = "Error attempting to unregister from chat service. Our engineers are looking into it.";
@@ -303,7 +284,6 @@
 "wallet_token_detail_receive" = "Receive";
 "wallet_ether_name" = "Ether";
 "wallet_max_value_title" = "Max";
-"wallet_swapped_values_message" = "Swapped values";
 "wallet_to_label" = "TO";
 "wallet_token_balance_format" = "Your %@ balance: %@";
 "wallet_token_balance_format_with_fiat" = "Your %@ balance: %@ (%@)";
@@ -339,8 +319,6 @@
 "toshi_error_data_task_error" = "Data task error, request could not be completed";
 "toshi_generic_error" = "Something went wrong";
 
-"transaction_skeleton_error_description" = "Unable to estimate Ethereum network fees";
-
 "error_title" = "Error";
 
 /* Group chat */
@@ -348,10 +326,7 @@
 "group_info_title" = "Group Info";
 "create_group_button_title" = "Create";
 "update_group_button_title" = "Update";
-"new_group_settings_header_title" = "Group settings";
 "new_group_add_participants_action_title" = "Add Participants";
-"new_group_public_settings_title" = "Public";
-"new_group_notifications_settings_title" = "Notifications";
 
 "group_info_leave_group_title" = "Leave Group";
 "group_info_leave_confirmation_message" = "Do you want to leave this group?";

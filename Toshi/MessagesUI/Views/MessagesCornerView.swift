@@ -14,14 +14,14 @@ enum MessagesCornerType {
 
 class MessagesCornerView: UIImageView {
 
-    private lazy var cornerMiddleOutgoingImage: UIImage? = self.stretchableImage(with: "corner-middle-outgoing")
-    private lazy var cornerMiddleOutlineOutgoingImage: UIImage? = self.stretchableImage(with: "corner-middle-outline-outgoing")
-    private lazy var cornerMiddleOutlineImage: UIImage? = self.stretchableImage(with: "corner-middle-outline")
-    private lazy var cornerMiddleImage: UIImage? = self.stretchableImage(with: "corner-middle")
-    private lazy var cornerTopOutgoingImage: UIImage? = self.stretchableImage(with: "corner-top-outgoing")
-    private lazy var cornerTopOutlineOutgoingImage: UIImage? = self.stretchableImage(with: "corner-top-outline-outgoing")
-    private lazy var cornerTopOutlineImage: UIImage? = self.stretchableImage(with: "corner-top-outline")
-    private lazy var cornerTopImage: UIImage? = self.stretchableImage(with: "corner-top")
+    private lazy var cornerMiddleOutgoingImage = ImageAsset.corner_middle_outgoing.messageStretchable
+    private lazy var cornerMiddleOutlineOutgoingImage = ImageAsset.corner_middle_outline_outgoing.messageStretchable
+    private lazy var cornerMiddleOutlineImage = ImageAsset.corner_middle_outline.messageStretchable
+    private lazy var cornerMiddleImage = ImageAsset.corner_middle.messageStretchable
+    private lazy var cornerTopOutgoingImage = ImageAsset.corner_top_outgoing.messageStretchable
+    private lazy var cornerTopOutlineOutgoingImage = ImageAsset.corner_top_outline_outgoing.messageStretchable
+    private lazy var cornerTopOutlineImage = ImageAsset.corner_top_outline.messageStretchable
+    private lazy var cornerTopImage = ImageAsset.corner_top.messageStretchable
 
     var type: MessagesCornerType? {
         didSet {
@@ -51,10 +51,6 @@ class MessagesCornerView: UIImageView {
         }
     }
 
-    func stretchableImage(with name: String) -> UIImage? {
-        return UIImage(named: name)?.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
-    }
-
     func setImage(for positionType: MessagePositionType, isOutGoing: Bool, isPayment: Bool) {
 
         if isPayment {
@@ -72,5 +68,12 @@ class MessagesCornerView: UIImageView {
                 type = isOutGoing ? .cornerMiddleOutgoing : .cornerMiddle
             }
         }
+    }
+}
+
+private extension UIImage {
+
+    var messageStretchable: UIImage {
+        return self.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18)
     }
 }

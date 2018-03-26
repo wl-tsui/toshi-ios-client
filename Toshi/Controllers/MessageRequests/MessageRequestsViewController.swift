@@ -113,7 +113,7 @@ extension MessagesRequestsViewController: UITableViewDataSource {
             }
         }
 
-        let cellData = TableCellData(title: title, subtitle: subtitle, leftImage: avatar, doubleActionImages: (firstImage: UIImage(named: "accept_thread_icon")!, secondImage: UIImage(named: "decline_thread_icon")!))
+        let cellData = TableCellData(title: title, subtitle: subtitle, leftImage: avatar, doubleActionImages: (firstImage: ImageAsset.accept_thread_icon, secondImage: ImageAsset.decline_thread_icon))
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellConfigurator.cellIdentifier(for: cellData.components), for: indexPath) as? BasicTableViewCell else { return UITableViewCell(frame: .zero) }
         cellConfigurator.configureCell(cell, with: cellData)
         cell.actionDelegate = self

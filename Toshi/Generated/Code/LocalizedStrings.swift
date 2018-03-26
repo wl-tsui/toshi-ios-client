@@ -1,8 +1,8 @@
-// This file is machine-generated. Please do not edit it by hand.
+// This file is machine-generated. DO NOT EDIT IT BY HAND - your edits will get overwritten.
 
 import Foundation
 
-enum LocalizedKey: String {
+enum LocalizedKey: String, StringCaseListable {
     case
     APN_Message,
     CONTACT_DETAIL_COMM_TYPE_INSECURE,
@@ -27,7 +27,6 @@ enum LocalizedKey: String {
     block_feedback_alert_title,
     browse_featured_dapps,
     browse_latest_public_users,
-    browse_more_button,
     browse_top_rated_apps,
     browse_top_rated_public_users,
     cancel_action_title,
@@ -67,7 +66,6 @@ enum LocalizedKey: String {
     current_user_pronoun,
     dapp_button_enter,
     dapps_all_list_title,
-    dapps_open_url_section_title,
     dapps_search_header_title,
     dapps_search_placeholder,
     dapps_search_with_google_section_title,
@@ -123,12 +121,7 @@ enum LocalizedKey: String {
     messages_sent_error_action_delete,
     messages_sent_error_action_resend,
     nav_bar_back,
-    network_alert_text,
-    network_alert_title,
     new_group_add_participants_action_title,
-    new_group_notifications_settings_title,
-    new_group_public_settings_title,
-    new_group_settings_header_title,
     new_group_title,
     not_now_action_title,
     notification_payment_received_in_background_message_format,
@@ -153,20 +146,14 @@ enum LocalizedKey: String {
     passphrase_sign_in_placeholder,
     passphrase_sign_in_title,
     passphrase_signin_error_title,
-    passphrase_signin_error_verification,
     passphrase_verify_navigation_title,
     passphrase_verify_text,
     payment_confirmation_warning_message,
     payment_error_message,
     payment_input_placeholder,
-    payment_message_button,
-    payment_message_failure_title,
     payment_message_preview_string,
-    payment_message_success_message,
-    payment_message_success_title,
     payment_next_button,
     payment_request,
-    payment_request_confirmation_warning_action_confirm,
     payment_request_confirmation_warning_message,
     payment_request_confirmation_warning_message_fallback,
     payment_request_confirmation_warning_title,
@@ -175,9 +162,6 @@ enum LocalizedKey: String {
     payment_send_button,
     payment_send_description,
     payment_send_prefix,
-    profile_action_add_favorite,
-    profile_action_message,
-    profile_action_pay,
     profile_edit_button_title,
     profile_favorite_action,
     profile_me_title,
@@ -267,7 +251,6 @@ enum LocalizedKey: String {
     toshi_generic_error,
     toshi_test_network_title,
     transaction_error_message,
-    transaction_skeleton_error_description,
     unblock_action_title,
     unblock_user_message,
     unblock_user_title,
@@ -296,7 +279,6 @@ enum LocalizedKey: String {
     wallet_send_confirmation_recipient_header,
     wallet_send_confirmation_success_message,
     wallet_send_confirmation_total_title,
-    wallet_swapped_values_message,
     wallet_to_label,
     wallet_token_balance_format,
     wallet_token_balance_format_with_fiat,
@@ -313,7 +295,7 @@ enum LocalizedKey: String {
     yap_missing_password_error_description
 
     var currentValue: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return NSLocalizedString(rawValue, comment: "")
     }
 }
 
@@ -387,9 +369,6 @@ struct Localized {
     
     /// `en`: "Latest Public Users"
     static let browse_latest_public_users = LocalizedKey.browse_latest_public_users.currentValue
-    
-    /// `en`: "More"
-    static let browse_more_button = LocalizedKey.browse_more_button.currentValue
     
     /// `en`: "Top Rated"
     static let browse_top_rated_apps = LocalizedKey.browse_top_rated_apps.currentValue
@@ -507,9 +486,6 @@ struct Localized {
     
     /// `en`: "All Đapps"
     static let dapps_all_list_title = LocalizedKey.dapps_all_list_title.currentValue
-    
-    /// `en`: "Go to"
-    static let dapps_open_url_section_title = LocalizedKey.dapps_open_url_section_title.currentValue
     
     /// `en`: "Explore the decentralized web."
     static let dapps_search_header_title = LocalizedKey.dapps_search_header_title.currentValue
@@ -676,23 +652,8 @@ struct Localized {
     /// `en`: "Back"
     static let nav_bar_back = LocalizedKey.nav_bar_back.currentValue
     
-    /// `en`: "Toshi is not an appropriate wallet for storage of large sums of ETH."
-    static let network_alert_text = LocalizedKey.network_alert_text.currentValue
-    
-    /// `en`: "Be aware!"
-    static let network_alert_title = LocalizedKey.network_alert_title.currentValue
-    
     /// `en`: "Add Participants"
     static let new_group_add_participants_action_title = LocalizedKey.new_group_add_participants_action_title.currentValue
-    
-    /// `en`: "Notifications"
-    static let new_group_notifications_settings_title = LocalizedKey.new_group_notifications_settings_title.currentValue
-    
-    /// `en`: "Public"
-    static let new_group_public_settings_title = LocalizedKey.new_group_public_settings_title.currentValue
-    
-    /// `en`: "Group settings"
-    static let new_group_settings_header_title = LocalizedKey.new_group_settings_header_title.currentValue
     
     /// `en`: "New Group"
     static let new_group_title = LocalizedKey.new_group_title.currentValue
@@ -766,9 +727,6 @@ struct Localized {
     /// `en`: "Invalid passphrase"
     static let passphrase_signin_error_title = LocalizedKey.passphrase_signin_error_title.currentValue
     
-    /// `en`: "Are you sure you typed your passphrase correctly?"
-    static let passphrase_signin_error_verification = LocalizedKey.passphrase_signin_error_verification.currentValue
-    
     /// `en`: "Verify passphrase"
     static let passphrase_verify_navigation_title = LocalizedKey.passphrase_verify_navigation_title.currentValue
     
@@ -784,29 +742,14 @@ struct Localized {
     /// `en`: "Recipient Address"
     static let payment_input_placeholder = LocalizedKey.payment_input_placeholder.currentValue
     
-    /// `en`: "Ok"
-    static let payment_message_button = LocalizedKey.payment_message_button.currentValue
-    
-    /// `en`: "Failed"
-    static let payment_message_failure_title = LocalizedKey.payment_message_failure_title.currentValue
-    
     /// `en`: "Payment"
     static let payment_message_preview_string = LocalizedKey.payment_message_preview_string.currentValue
-    
-    /// `en`: "Your Payment was successful."
-    static let payment_message_success_message = LocalizedKey.payment_message_success_message.currentValue
-    
-    /// `en`: "Succeeded"
-    static let payment_message_success_title = LocalizedKey.payment_message_success_title.currentValue
     
     /// `en`: "Next"
     static let payment_next_button = LocalizedKey.payment_next_button.currentValue
     
     /// `en`: "Request Payment"
     static let payment_request = LocalizedKey.payment_request.currentValue
-    
-    /// `en`: "Pay"
-    static let payment_request_confirmation_warning_action_confirm = LocalizedKey.payment_request_confirmation_warning_action_confirm.currentValue
     
     /// `en`: "Do you want to accept the %@ (%@) request from %@?"
     static let payment_request_confirmation_warning_message = LocalizedKey.payment_request_confirmation_warning_message.currentValue
@@ -831,15 +774,6 @@ struct Localized {
     
     /// `en`: "Send "
     static let payment_send_prefix = LocalizedKey.payment_send_prefix.currentValue
-    
-    /// `en`: "Favorite"
-    static let profile_action_add_favorite = LocalizedKey.profile_action_add_favorite.currentValue
-    
-    /// `en`: "Message"
-    static let profile_action_message = LocalizedKey.profile_action_message.currentValue
-    
-    /// `en`: "Pay"
-    static let profile_action_pay = LocalizedKey.profile_action_pay.currentValue
     
     /// `en`: "Edit Profile"
     static let profile_edit_button_title = LocalizedKey.profile_edit_button_title.currentValue
@@ -1108,9 +1042,6 @@ struct Localized {
     /// `en`: "Error completing transaction"
     static let transaction_error_message = LocalizedKey.transaction_error_message.currentValue
     
-    /// `en`: "Unable to estimate Ethereum network fees"
-    static let transaction_skeleton_error_description = LocalizedKey.transaction_skeleton_error_description.currentValue
-    
     /// `en`: "Unblock"
     static let unblock_action_title = LocalizedKey.unblock_action_title.currentValue
     
@@ -1195,9 +1126,6 @@ struct Localized {
     /// `en`: "Total"
     static let wallet_send_confirmation_total_title = LocalizedKey.wallet_send_confirmation_total_title.currentValue
     
-    /// `en`: "Swapped values"
-    static let wallet_swapped_values_message = LocalizedKey.wallet_swapped_values_message.currentValue
-    
     /// `en`: "TO"
     static let wallet_to_label = LocalizedKey.wallet_to_label.currentValue
     
@@ -1240,29 +1168,3 @@ struct Localized {
     /// `en`: "No keychain password while database present"
     static let yap_missing_password_error_description = LocalizedKey.yap_missing_password_error_description.currentValue
 }
-
-/*
-enum LocalizedPluralKey: String {
-    case
-    plural_one,
-    plural_two
-
-    func currentValue(for count: Int) -> String {
-        let format = NSLocalizedString(self.rawValue, comment: "")
-        return String.localizedStringWithFormat(format, count)
-    }
-}
-
-enum LocalizedPlural {
-    
-    /// Value in en: "Going for %d plurals"
-    static func plural_one(for count: Int) -> String {
-        return LocalizedPluralKey.plural_one.currentValue(for: count)
-    }
-    
-    /// Value in en: "There are %d noises"
-    static func plural_two(for count: Int) -> String {
-        return LocalizedPluralKey.plural_two.currentValue(for: count)
-    }
-}
-*/

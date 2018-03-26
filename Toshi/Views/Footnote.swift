@@ -20,7 +20,7 @@ class Footnote: UIView {
 
     private lazy var icon: UIImageView = {
         let view = UIImageView(withAutoLayout: true)
-        view.image = #imageLiteral(resourceName: "info")
+        view.image = ImageAsset.info
 
         return view
     }()

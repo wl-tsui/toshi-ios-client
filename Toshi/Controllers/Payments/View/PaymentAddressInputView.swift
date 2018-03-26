@@ -37,7 +37,7 @@ final class PaymentAddressInputView: UIView {
     }()
 
     private lazy var qrButton: UIButton = {
-        let image = UIImage(named: "qr-icon")?.withRenderingMode(.alwaysTemplate)
+        let image = ImageAsset.qr_icon.withRenderingMode(.alwaysTemplate)
 
         let view = UIButton()
         view.contentMode = .center

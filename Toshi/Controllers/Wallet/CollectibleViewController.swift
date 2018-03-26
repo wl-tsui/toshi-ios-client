@@ -85,7 +85,7 @@ extension CollectibleViewController: UITableViewDataSource {
         let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
         cell.titleLabel.text = token.name ?? "\(datasource.name) #\(token.displayId)"
         cell.subtitleLabel.text = token.description
-        cell.leftImageView.image = #imageLiteral(resourceName: "collectible_placeholder")
+        cell.leftImageView.image = ImageAsset.collectible_placeholder
 
         guard let imagePath = token.image, !imagePath.isEmpty else { return cell }
 

@@ -112,7 +112,7 @@ final class RecentViewController: SweetTableController, Emptiable {
         var accessoryType: UITableViewCellAccessoryType
 
         let requestsTitle = Localized.messages_requests_title
-        let requestsSubtitle = LocalizedPlural("message_requests_description", for: dataSource.unacceptedThreadsCount)
+        let requestsSubtitle = LocalizedPlural.message_requests_description(for: dataSource.unacceptedThreadsCount)
         let firstImage = firstUnacceptedThread.avatar()
 
         if let secondUnacceptedThread = dataSource.unacceptedThread(at: IndexPath(row: 1, section: 0)) {
