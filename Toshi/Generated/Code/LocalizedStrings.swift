@@ -1,8 +1,8 @@
-// This file is machine-generated. Please do not edit it by hand.
+// This file is machine-generated. DO NOT EDIT IT BY HAND - your edits will get overwritten.
 
 import Foundation
 
-enum LocalizedKey: String {
+enum LocalizedKey: String, StringCaseListable {
     case
     APN_Message,
     CONTACT_DETAIL_COMM_TYPE_INSECURE,
@@ -313,7 +313,7 @@ enum LocalizedKey: String {
     yap_missing_password_error_description
 
     var currentValue: String {
-        return NSLocalizedString(self.rawValue, comment: "")
+        return NSLocalizedString(rawValue, comment: "")
     }
 }
 
@@ -1240,29 +1240,3 @@ struct Localized {
     /// `en`: "No keychain password while database present"
     static let yap_missing_password_error_description = LocalizedKey.yap_missing_password_error_description.currentValue
 }
-
-/*
-enum LocalizedPluralKey: String {
-    case
-    plural_one,
-    plural_two
-
-    func currentValue(for count: Int) -> String {
-        let format = NSLocalizedString(self.rawValue, comment: "")
-        return String.localizedStringWithFormat(format, count)
-    }
-}
-
-enum LocalizedPlural {
-    
-    /// Value in en: "Going for %d plurals"
-    static func plural_one(for count: Int) -> String {
-        return LocalizedPluralKey.plural_one.currentValue(for: count)
-    }
-    
-    /// Value in en: "There are %d noises"
-    static func plural_two(for count: Int) -> String {
-        return LocalizedPluralKey.plural_two.currentValue(for: count)
-    }
-}
-*/

@@ -38,7 +38,7 @@ enum SignInScreenButton {
         case .signIn:
             return Localized.passphrase_sign_in_button
         case .wordsLeft(let words):
-            return LocalizedPlural("passphrase_sign_in_button_placeholder", for: words)
+            return LocalizedPlural.passphrase_sign_in_button_placeholder(for: words)
         }
     }
 }
