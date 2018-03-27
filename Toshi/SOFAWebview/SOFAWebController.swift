@@ -158,7 +158,7 @@ final class SOFAWebController: UIViewController {
 
         backgroundView.addSubview(browseIcon)
 
-        browseIcon.leftToSuperview(offset: .smallInterItemSpacing)
+        browseIcon.leftToSuperview()
         browseIcon.centerYToSuperview()
 
         backgroundView.addSubview(searchTextField)
@@ -224,7 +224,7 @@ final class SOFAWebController: UIViewController {
         toolbar.top(to: layoutGuide())
         toolbar.left(to: view)
         toolbar.right(to: view)
-        toolbar.height(.defaultBarHeight)
+        toolbar.height(56)
 
         webView.topToBottom(of: toolbar)
         webView.left(to: view)
