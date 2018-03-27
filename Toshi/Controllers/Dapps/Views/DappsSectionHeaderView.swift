@@ -76,8 +76,7 @@ final class DappsSectionHeaderView: UIView {
 
         stackView.leftToSuperview(offset: .defaultMargin)
         stackView.rightToSuperview(offset: .defaultMargin)
-        stackView.topToSuperview(offset: .smallInterItemSpacing)
-        stackView.bottomToSuperview()
+        stackView.centerY(to: self)
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addSpacing(.mediumInterItemSpacing, after: titleLabel)

@@ -44,11 +44,4 @@ final class TitleSubtitleCell: BasicTableViewCell {
         subtitleLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         subtitleLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
-    }
 }

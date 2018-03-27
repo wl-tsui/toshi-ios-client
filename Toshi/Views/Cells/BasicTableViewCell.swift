@@ -50,16 +50,26 @@ class BasicTableViewCell: UITableViewCell {
     static let largeVerticalMargin: CGFloat = 22.0
     static let badgeViewSize: CGFloat = 24.0
 
-    weak var actionDelegate: BasicCellActionDelegate?
+    var titleFont = {
+        Theme.preferredRegular()
+    }
 
-    var detailsFont = Theme.preferredFootnote()
+    var subtitleFont = {
+        Theme.preferredRegularSmall()
+    }
+
+    var detailsFont = {
+        Theme.preferredFootnote()
+    }
+
+    weak var actionDelegate: BasicCellActionDelegate?
 
     lazy var titleTextField: UITextField = {
         let titleTextField = UITextField()
 
         titleTextField.delegate = self
 
-        titleTextField.font = Theme.preferredRegular()
+        titleTextField.font = self.titleFont()
         titleTextField.isUserInteractionEnabled = false
         titleTextField.adjustsFontForContentSizeCategory = true
 
@@ -69,7 +79,7 @@ class BasicTableViewCell: UITableViewCell {
     lazy var subtitleLabel: UILabel = {
         let subtitleLabel = UILabel()
 
-        subtitleLabel.font = Theme.preferredRegularSmall()
+        subtitleLabel.font = self.subtitleFont()
         subtitleLabel.textColor = Theme.lightGreyTextColor
 
         return subtitleLabel
@@ -78,7 +88,7 @@ class BasicTableViewCell: UITableViewCell {
     lazy var detailsLabel: UILabel = {
         let detailsLabel = UILabel()
 
-        detailsLabel.font = Theme.preferredFootnote()
+        detailsLabel.font = self.detailsFont()
         detailsLabel.textAlignment = .right
         detailsLabel.textColor = Theme.lightGreyTextColor
 
@@ -139,7 +149,7 @@ class BasicTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
 
-        self.badgeLabel.font = Theme.preferredFootnote()
+        self.badgeLabel.font = self.detailsFont()
         self.badgeLabel.textColor = Theme.lightTextColor
         self.badgeLabel.textAlignment = .center
         view.addSubview(self.badgeLabel)
@@ -203,6 +213,15 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(AvatarTitleSubtitleDoubleActionCell.self)
         tableView.register(AvatarTitleSubtitleDetailsBadgeCell.self)
         tableView.register(AvatarTitleSubtitleCheckboxCell.self)
+    }
+
+    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        titleTextField.font = titleFont()
+        subtitleLabel.font = subtitleFont()
+        detailsLabel.font = detailsFont()
+        badgeLabel.font = detailsFont()
     }
 }
 

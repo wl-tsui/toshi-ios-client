@@ -44,10 +44,4 @@ final class TitleSwitchCell: BasicTableViewCell {
         switchControl.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         switchControl.centerY(to: contentView)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-    }
 }

@@ -77,12 +77,4 @@ final class AvatarTitleSubtitleDetailsBadgeCell: BasicTableViewCell {
         badgeView.setContentCompressionResistancePriority(.required, for: .horizontal)
         badgeView.topToBottom(of: detailsLabel, offset: BasicTableViewCell.smallVerticalMargin)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
-        detailsLabel.font = detailsFont
-    }
 }

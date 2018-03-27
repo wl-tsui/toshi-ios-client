@@ -65,11 +65,4 @@ final class AvatarTitleSubtitleSwitchCell: BasicTableViewCell {
         switchControl.centerY(to: contentView)
         switchControl.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
-    }
 }
