@@ -35,4 +35,17 @@ class EthereumAddressTests: XCTestCase {
         XCTAssertNil(EthereumAddress(raw: "💩"))
         XCTAssertNil(EthereumAddress(raw: "https://toshi.org/pay/mark"))
     }
+
+    func testValidAddress() {
+        XCTAssertTrue(EthereumAddress.validate(canonicalAddress))
+
+        let tooLongAddress = canonicalAddress + "j89"
+        XCTAssertFalse(EthereumAddress.validate(tooLongAddress))
+
+        let tooShortAddress = String(canonicalAddress.prefix(10))
+        XCTAssertFalse(EthereumAddress.validate(tooShortAddress))
+
+        let nonHexAddress = String(canonicalAddress.suffix(canonicalAddress.count - 3))
+        XCTAssertFalse(EthereumAddress.validate(nonHexAddress))
+    }
 }
