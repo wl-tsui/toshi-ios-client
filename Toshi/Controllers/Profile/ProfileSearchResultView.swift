@@ -27,7 +27,7 @@ extension SearchSelectionDelegate {
     func isSearchResultSelected(user: TokenUser) -> Bool { return false }
 }
 
-class BrowseSearchResultView: UITableView {
+class ProfileSearchResultView: UITableView {
     var isMultipleSelectionMode = false
 
     var searchResults: [TokenUser] = [] {
@@ -63,7 +63,7 @@ class BrowseSearchResultView: UITableView {
     }
 }
 
-extension BrowseSearchResultView: UITableViewDelegate {
+extension ProfileSearchResultView: UITableViewDelegate {
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = searchResults.element(at: indexPath.row) else { return }
@@ -73,7 +73,7 @@ extension BrowseSearchResultView: UITableViewDelegate {
     }
 }
 
-extension BrowseSearchResultView: UITableViewDataSource {
+extension ProfileSearchResultView: UITableViewDataSource {
 	
     func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension

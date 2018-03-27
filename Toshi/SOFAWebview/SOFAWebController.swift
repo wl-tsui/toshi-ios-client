@@ -76,6 +76,12 @@ final class SOFAWebController: UIViewController {
         return configuration
     }()
 
+    private lazy var searchTableView: SearchDappTableView = {
+        let searchTableView = SearchDappTableView()
+
+        return searchTableView
+    }()
+
     private lazy var webView: WKWebView = {
         let view = WKWebView(frame: self.view.frame, configuration: self.webViewConfiguration)
         view.allowsBackForwardNavigationGestures = true

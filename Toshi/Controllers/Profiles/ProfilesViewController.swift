@@ -68,8 +68,8 @@ final class ProfilesViewController: UIViewController {
 
     var scrollViewBottomInset: CGFloat = 0.0
 
-    private lazy var searchResultView: BrowseSearchResultView = {
-        let view = BrowseSearchResultView()
+    private lazy var searchResultView: ProfileSearchResultView = {
+        let view = ProfileSearchResultView()
         view.searchDelegate = self
         view.isHidden = true
         view.isMultipleSelectionMode = isMultipleSelectionMode
