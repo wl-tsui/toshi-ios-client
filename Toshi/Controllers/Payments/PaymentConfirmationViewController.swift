@@ -16,7 +16,7 @@
 import Foundation
 
 protocol PaymentConfirmationViewControllerDelegate: class {
-    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, error: ToshiError?)
+    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, recipientInfo: UserInfo?, error: ToshiError?)
     func paymentConfirmationViewControllerDidCancel(_ controller: PaymentConfirmationViewController)
 }
 
@@ -39,6 +39,7 @@ final class PaymentConfirmationViewController: UIViewController {
     private let paymentManager: PaymentManager
 
     private var recipientType: RecipientType
+    private var recipientInfo: UserInfo?
     private let shouldSendSignedTransaction: Bool
 
     private let parameters: [String: Any]
@@ -489,6 +490,7 @@ final class PaymentConfirmationViewController: UIViewController {
             return
         case .user:
             IDAPIClient.shared.findUserWithPaymentAddress(address) { [weak self] user, _ in
+                self?.recipientInfo = user?.userInfo
                 self?.recipientType = .user(info: user?.userInfo)
                 self?.displayRecipientDetails()
             }
@@ -559,7 +561,7 @@ final class PaymentConfirmationViewController: UIViewController {
             guard error == nil else {
                 let alert = UIAlertController(title: Localized.transaction_error_message, message: (error?.description ?? ToshiError.genericError.description), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: Localized.alert_ok_action_title, style: .default, handler: { _ in
-                    weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, error: error)
+                    weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
                 }))
 
                 Navigator.presentModally(alert)
@@ -567,7 +569,7 @@ final class PaymentConfirmationViewController: UIViewController {
                 return
             }
 
-            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, error: error)
+            weakSelf.delegate?.paymentConfirmationViewControllerFinished(on: weakSelf, parameters: weakSelf.paymentManager.parameters, transactionHash: transactionHash, recipientInfo: weakSelf.recipientInfo, error: error)
         }
     }
 
@@ -576,7 +578,7 @@ final class PaymentConfirmationViewController: UIViewController {
         if shouldSendSignedTransaction {
             sendPayment()
         } else {
-            self.delegate?.paymentConfirmationViewControllerFinished(on: self, parameters: self.paymentManager.parameters, transactionHash: "", error: nil)
+            self.delegate?.paymentConfirmationViewControllerFinished(on: self, parameters: self.paymentManager.parameters, transactionHash: "", recipientInfo: recipientInfo, error: nil)
         }
     }
 }

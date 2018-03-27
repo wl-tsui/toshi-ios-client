@@ -574,7 +574,7 @@ extension SOFAWebController: ActivityIndicating {
 
 extension SOFAWebController: PaymentRouterDelegate {
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
 
         guard let callbackId = currentTransactionSignCallbackId else {
             let message = "No current signed transcation callBack Id on SOFAWebVontroller when payment router finished"

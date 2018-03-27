@@ -918,7 +918,7 @@ extension ChatViewController: PaymentRouterDelegate {
         paymentRequestActiveCell = nil
     }
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
         self.updateBalance()
 
         guard error == nil else {
