@@ -226,6 +226,7 @@ final class SOFAWebController: UIViewController {
 
         view.addSubview(webView)
         view.addSubview(toolbar)
+        view.addSubview(searchTableView)
 
         toolbar.top(to: layoutGuide())
         toolbar.left(to: view)
@@ -236,6 +237,8 @@ final class SOFAWebController: UIViewController {
         webView.left(to: view)
         webView.right(to: view)
         webView.bottom(to: layoutGuide())
+
+        searchTableView.edges(to: webView)
 
         setupKVO()
 

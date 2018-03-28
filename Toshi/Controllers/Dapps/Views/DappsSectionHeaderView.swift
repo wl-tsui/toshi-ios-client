@@ -21,6 +21,9 @@ protocol DappsSectionHeaderViewDelegate: class {
 
 final class DappsSectionHeaderView: UIView {
 
+    static let defaultSectionHeaderHeight: CGFloat = 50
+    static let searchedResultsSectionHeaderHeight: CGFloat = 24
+
     private weak var delegate: DappsSectionHeaderViewDelegate?
 
     private(set) lazy var titleLabel: UILabel = {

@@ -71,9 +71,6 @@ final class DappsViewController: UIViewController {
         return statusBarStyle
     }
 
-    let defaultSectionHeaderHeight: CGFloat = 50
-    let searchedResultsSectionHeaderHeight: CGFloat = 24
-
     private var reloadTimer: Timer?
     private var shouldResetContentOffset = false
 
@@ -338,11 +335,11 @@ extension DappsViewController: UITableViewDataSource {
 
         switch dataSource.mode {
         case .frontPage:
-            return defaultSectionHeaderHeight
+            return DappsSectionHeaderView.defaultSectionHeaderHeight
         case .allOrFiltered:
             guard let sectionData = dataSource.section(at: section), sectionData.name != nil else { return 0 }
             
-            return searchedResultsSectionHeaderHeight
+            return DappsSectionHeaderView.searchedResultsSectionHeaderHeight
         }
     }
 
