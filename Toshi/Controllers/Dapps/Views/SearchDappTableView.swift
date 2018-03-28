@@ -49,6 +49,8 @@ final class SearchDappTableView: UITableView {
         self.separatorStyle = .none
         self.delegate = self
         self.dataSource = self
+
+        self.alpha = 0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -56,6 +58,10 @@ final class SearchDappTableView: UITableView {
     }
 
     func adjustToSearchText(_ string: String) {
+        if alpha == 0 {
+            searchDataSource.fetchItems()
+            alpha = 1
+        }
         searchDataSource.adjustToSearchText(string)
     }
 }
@@ -85,7 +91,7 @@ extension SearchDappTableView: UITableViewDataSource {
             cell.textLabel?.textColor = Theme.tintColor
             return cell
         case .searchWithGoogle:
-            let cell = tableView.dequeueReusableCell(withIdentifier: genericCellReuseIdentifier, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: genericCellReuseIdentifier, for: indexPath) 
 
             cell.selectionStyle = .none
 
