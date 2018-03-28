@@ -35,8 +35,12 @@ final class SearchDappTableView: UITableView {
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.backgroundColor = Theme.viewBackgroundColor
         BasicTableViewCell.register(in: self)
+        self.register(RectImageTitleSubtitleTableViewCell.self)
+        self.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
+        self.register(UITableViewCell.self, forCellReuseIdentifier: genericCellReuseIdentifier)
+        
+        self.backgroundColor = Theme.viewBackgroundColor
         self.sectionFooterHeight = 0.0
         self.contentInset.bottom = -21
         self.scrollIndicatorInsets.bottom = -21
@@ -49,6 +53,10 @@ final class SearchDappTableView: UITableView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func adjustToSearchText(_ string: String) {
+        searchDataSource.adjustToSearchText(string)
     }
 }
 

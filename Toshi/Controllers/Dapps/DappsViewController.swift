@@ -128,7 +128,6 @@ final class DappsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
 
         view.backgroundColor = Theme.viewBackgroundColor
-        BasicTableViewCell.register(in: view)
         view.delegate = self
         view.dataSource = self
         view.sectionFooterHeight = 0.0
@@ -136,6 +135,7 @@ final class DappsViewController: UIViewController {
         view.scrollIndicatorInsets.bottom = -21
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
+        BasicTableViewCell.register(in: view)
         view.register(RectImageTitleSubtitleTableViewCell.self)
         view.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
         view.register(UITableViewCell.self, forCellReuseIdentifier: genericCellReuseIdentifier)
