@@ -81,7 +81,7 @@ class GeneratedCodeTests: XCTestCase {
 
     func testImagesExistForAssetCatalogItems() {
         AssetCatalogItem.allCases.forEach { item in
-            XCTAssertNotNil(UIImage(named: item.rawValue), "No image for asset catalog item \(item.rawValue). Make sure you either revert the change to the Asset Catalog or regenerate the AssetCatalog.swift file using Marathon - see README for instructions.")
+            XCTAssertNotNil(UIImage(named: item.rawValue), "No image for asset catalog item named \"\(item.rawValue)\". Make sure you either revert the change to the Asset Catalog or regenerate the AssetCatalog.swift file using Marathon - see README for instructions.")
         }
     }
 }
