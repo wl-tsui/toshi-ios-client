@@ -376,10 +376,7 @@ extension DappsViewController: UITableViewDelegate {
                 let url = URL(string: possibleUrlString)
                 else { return }
 
-            let sofaController = SOFAWebController()
-            sofaController.load(url: url)
-
-            Navigator.presentModally(sofaController)
+            presentSofaController(for: url)
 
         case .dappFront:
             guard let dapp = item.dapp else { return }
@@ -388,10 +385,7 @@ extension DappsViewController: UITableViewDelegate {
         case .dappSearched:
             guard let dapp = item.dapp else { return }
 
-            let sofaWebController = SOFAWebController()
-            sofaWebController.delegate = self
-            sofaWebController.load(url: dapp.url)
-            Navigator.presentModally(sofaWebController)
+            presentSofaController(for: dapp.url)
 
         case .searchWithGoogle:
             guard
@@ -400,21 +394,27 @@ extension DappsViewController: UITableViewDelegate {
                 let url = URL(string: searchBaseUrl.appending(escapedSearchText))
                 else { return }
 
-            let sofaController = SOFAWebController()
-            sofaController.load(url: url)
-
-            Navigator.presentModally(sofaController)
+            presentSofaController(for: url)
         case .seeAll:
             // We ignore selection as the cell contains action button which touch event do we process
             break
         }
+    }
+
+    private func presentSofaController(for url: URL) {
+        let sofaController = SOFAWebController()
+        sofaController.load(url: url)
+        sofaController.delegate = self
+        sofaController.browsingEnabled = false
+
+        Navigator.presentModally(sofaController)
     }
 }
 
 extension DappsViewController: SOFAWebControllerDelegate {
 
     func sofaWebControllerWillFinish(_ sofaWebController: SOFAWebController) {
-        headerView.cancelSearch()
+//        headerView.cancelSearch()
     }
 }
 

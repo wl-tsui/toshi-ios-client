@@ -24,6 +24,18 @@ protocol SOFAWebControllerDelegate: class {
 
 final class SOFAWebController: UIViewController {
 
+    var browsingEnabled = true {
+        didSet {
+            guard browsingEnabled == false else { return }
+
+            searchTextFieldBackgroundView.alpha = 0
+            titleLabel.isHidden = false
+        }
+    }
+
+    private var titleCenterConstraint: NSLayoutConstraint?
+    private var titleRightContraint: NSLayoutConstraint?
+
     enum Method: String {
         case getAccounts
         case signTransaction
@@ -139,7 +151,17 @@ final class SOFAWebController: UIViewController {
         return button
     }()
 
-    private(set) lazy var searchTextField: UITextField = {
+    private(set) lazy var titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.font = Theme.preferredRegular()
+        titleLabel.textColor = Theme.darkTextColor
+        titleLabel.textAlignment = .center
+        titleLabel.isHidden = true
+
+        return titleLabel
+    }()
+
+    private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
         textField.delegate = self
@@ -154,12 +176,6 @@ final class SOFAWebController: UIViewController {
         let backgroundView = UIView()
         backgroundView.backgroundColor = Theme.searchBarColor
         backgroundView.layer.cornerRadius = 5
-        backgroundView.height(36)
-
-        backgroundView.addSubview(browseIcon)
-
-        browseIcon.leftToSuperview()
-        browseIcon.centerYToSuperview()
 
         return backgroundView
     }()
@@ -237,11 +253,25 @@ final class SOFAWebController: UIViewController {
         stackView.addSpacing(.smallInterItemSpacing, after: searchTextFieldBackgroundView)
         stackView.addArrangedSubview(closeButton)
 
+        searchTextFieldBackgroundView.height(36)
+        searchTextFieldBackgroundView.addSubview(browseIcon)
+
+        browseIcon.leftToSuperview()
+        browseIcon.centerYToSuperview()
+
+        stackView.addSubview(titleLabel)
+        titleLabel.left(to: searchTextFieldBackgroundView)
+        titleLabel.topToSuperview()
+        titleLabel.bottomToSuperview()
+        titleCenterConstraint = titleLabel.centerX(to: toolbar)
+        titleRightContraint = titleLabel.right(to: searchTextFieldBackgroundView, isActive: false)
+
         searchTextFieldBackgroundView.addSubview(searchTextField)
         searchTextField.leftToRight(of: browseIcon)
         searchTextField.topToSuperview()
         searchTextField.bottomToSuperview()
         searchTextField.right(to: searchTextFieldBackgroundView, offset: -.smallInterItemSpacing)
+
 
         let separator = BorderView()
         toolbar.addSubview(separator)
@@ -345,6 +375,13 @@ extension SOFAWebController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         refreshControl.endRefreshing()
+        titleLabel.text = webView.title
+
+        if titleLabel.text?.width(for: titleLabel.font) ?? 0 > titleLabel.frame.width {
+            titleCenterConstraint?.isActive = false
+            titleRightContraint?.isActive = true
+            titleLabel.textAlignment = .right
+        }
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
