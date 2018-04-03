@@ -161,12 +161,6 @@ final class SOFAWebController: UIViewController {
         browseIcon.leftToSuperview()
         browseIcon.centerYToSuperview()
 
-        backgroundView.addSubview(searchTextField)
-        searchTextField.leftToRight(of: browseIcon)
-        searchTextField.topToSuperview()
-        searchTextField.bottomToSuperview()
-        searchTextField.right(to: backgroundView, offset: -.smallInterItemSpacing)
-
         return backgroundView
     }()
 
@@ -181,27 +175,6 @@ final class SOFAWebController: UIViewController {
     private lazy var toolbar: UIView = {
         let view = UIView()
 
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
-
-        view.addSubview(stackView)
-        stackView.edgesToSuperview()
-        stackView.alignment = .center
-        stackView.addBackground(with: Theme.viewBackgroundColor)
-
-        stackView.addArrangedSubview(backButton)
-        stackView.addArrangedSubview(forwardButton)
-        stackView.addArrangedSubview(searchTextFieldBackgroundView)
-        stackView.addSpacing(.smallInterItemSpacing, after: searchTextFieldBackgroundView)
-        stackView.addArrangedSubview(closeButton)
-
-        let separator = BorderView()
-        view.addSubview(separator)
-        separator.leftToSuperview()
-        separator.rightToSuperview()
-        separator.bottomToSuperview()
-        separator.addHeightConstraint()
 
         return view
     }()
@@ -218,18 +191,7 @@ final class SOFAWebController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(webView)
-        view.addSubview(toolbar)
-
-        toolbar.top(to: layoutGuide())
-        toolbar.left(to: view)
-        toolbar.right(to: view)
-        toolbar.height(56)
-
-        webView.topToBottom(of: toolbar)
-        webView.left(to: view)
-        webView.right(to: view)
-        webView.bottom(to: layoutGuide())
+        addSubviewsAndConstraints()
 
         setupKVO()
 
@@ -243,6 +205,50 @@ final class SOFAWebController: UIViewController {
 
         preferLargeTitleIfPossible(false)
         navigationController?.setNavigationBarHidden(false, animated: true)
+
+    }
+
+    private func addSubviewsAndConstraints() {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
+
+        view.addSubview(webView)
+        view.addSubview(toolbar)
+
+        toolbar.top(to: layoutGuide())
+        toolbar.left(to: view)
+        toolbar.right(to: view)
+        toolbar.height(56)
+
+        webView.topToBottom(of: toolbar)
+        webView.left(to: view)
+        webView.right(to: view)
+        webView.bottom(to: layoutGuide())
+
+        toolbar.addSubview(stackView)
+        stackView.edgesToSuperview()
+        stackView.alignment = .center
+        stackView.addBackground(with: Theme.viewBackgroundColor)
+
+        stackView.addArrangedSubview(backButton)
+        stackView.addArrangedSubview(forwardButton)
+        stackView.addArrangedSubview(searchTextFieldBackgroundView)
+        stackView.addSpacing(.smallInterItemSpacing, after: searchTextFieldBackgroundView)
+        stackView.addArrangedSubview(closeButton)
+
+        searchTextFieldBackgroundView.addSubview(searchTextField)
+        searchTextField.leftToRight(of: browseIcon)
+        searchTextField.topToSuperview()
+        searchTextField.bottomToSuperview()
+        searchTextField.right(to: searchTextFieldBackgroundView, offset: -.smallInterItemSpacing)
+
+        let separator = BorderView()
+        toolbar.addSubview(separator)
+        separator.leftToSuperview()
+        separator.rightToSuperview()
+        separator.bottomToSuperview()
+        separator.addHeightConstraint()
     }
 
     func load(url: URL) {
