@@ -510,7 +510,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
     
     // MARK: Action sheet targets
-    
+
     private func didSelectBlockedState(_ shouldBeBlocked: Bool) {
         if shouldBeBlocked {
             presentBlockConfirmationAlert()

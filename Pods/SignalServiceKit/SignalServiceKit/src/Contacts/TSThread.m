@@ -402,7 +402,7 @@ NS_ASSUME_NONNULL_BEGIN
     }
 }
 
-- (void)updateWithMutedUntilDate:(NSDate *)mutedUntilDate
+- (void)updateWithMutedUntilDate:(nullable NSDate *)mutedUntilDate
 {
     [self.dbReadWriteConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
         [self applyChangeToSelfAndLatestThread:transaction

@@ -287,13 +287,21 @@ extension RecentViewController: UITableViewDelegate {
     }
 
     func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let action = UITableViewRowAction(style: .destructive, title: "Delete") { _, indexPath in
-            if let thread = self.dataSource.acceptedThread(at: indexPath.row, in: 0) {
 
-                ChatInteractor.deleteThread(thread)
+        guard let thread = self.dataSource.acceptedThread(at: indexPath.row, in: 0) else { return [] }
+
+        let action = UITableViewRowAction(style: .destructive, title: Localized.thread_action_delete) { _, _ in
+            ChatInteractor.deleteThread(thread)
+        }
+
+        let muteAction = UITableViewRowAction(style: .normal, title: thread.muteActionTitle) { _, _ in
+            if thread.isMuted {
+                ChatInteractor.unmuteThread(thread)
+            } else {
+                ChatInteractor.muteThread(thread)
             }
         }
 
-        return [action]
+        return [action, muteAction]
     }
 }

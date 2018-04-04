@@ -21,10 +21,10 @@ class SignalNotificationManager: NSObject, NotificationsProtocol {
     public func notifyUser(for incomingMessage: TSIncomingMessage, in thread: TSThread, contactsManager: ContactsManagerProtocol, transaction: YapDatabaseReadTransaction) {
         
         DispatchQueue.main.async {
-            guard UIApplication.shared.applicationState == .background || Navigator.tabbarController?.selectedViewController != Navigator.tabbarController?.messagingController else {
+            if thread.isMuted || (UIApplication.shared.applicationState == .active && Navigator.tabbarController?.selectedViewController == Navigator.tabbarController?.messagingController) {
                 return
             }
-            
+
             defer { SignalNotificationManager.updateUnreadMessagesNumber() }
             
             let content = UNMutableNotificationContent()

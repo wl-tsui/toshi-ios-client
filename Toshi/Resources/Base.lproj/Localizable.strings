@@ -37,6 +37,10 @@
 "payment_message_preview_string" = "Payment";
 "attachment_message_preview_string" = "Attachment";
 
+"thread_action_delete" = "Delete";
+"thread_action_mute" = "Mute";
+"thread_action_unmute" = "Unmute";
+
 /* Balance */
 "balance_navigation_title" = "Balance";
 "balance_action_send" = "Send";

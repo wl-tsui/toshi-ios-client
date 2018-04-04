@@ -84,6 +84,9 @@
 		2B3DF35F1F4721D000A869A3 /* SettingsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */; };
 		2B3DF3611F4721EB00A869A3 /* SettingsProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */; };
 		2B3DF3621F4721EB00A869A3 /* SettingsProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */; };
+		2B4133C520629DC800490838 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4133C420629DC800490838 /* MessageFetcherJob.swift */; };
+		2B4133C620629DC800490838 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4133C420629DC800490838 /* MessageFetcherJob.swift */; };
+		2B4133C720629DC800490838 /* MessageFetcherJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4133C420629DC800490838 /* MessageFetcherJob.swift */; };
 		2B435CB11F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		2B435CB21F135DBF00C91272 /* ProfileEditConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */; };
 		2B4428D2204D5DAB0079F1DE /* DappCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4428D1204D5DAB0079F1DE /* DappCategory.swift */; };
@@ -385,12 +388,12 @@
 		336E237120650A70008A48A7 /* LocalizedPluralStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E237020650A6F008A48A7 /* LocalizedPluralStrings.swift */; };
 		336E237220650A70008A48A7 /* LocalizedPluralStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E237020650A6F008A48A7 /* LocalizedPluralStrings.swift */; };
 		336E237320650A70008A48A7 /* LocalizedPluralStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E237020650A6F008A48A7 /* LocalizedPluralStrings.swift */; };
-		336E2394206553B8008A48A7 /* AssetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E2393206553B7008A48A7 /* AssetCatalog.swift */; };
-		336E2395206553B8008A48A7 /* AssetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E2393206553B7008A48A7 /* AssetCatalog.swift */; };
-		336E2396206553B8008A48A7 /* AssetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E2393206553B7008A48A7 /* AssetCatalog.swift */; };
 		336E239020653177008A48A7 /* TintColorChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E238F20653177008A48A7 /* TintColorChangingButton.swift */; };
 		336E239120653177008A48A7 /* TintColorChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E238F20653177008A48A7 /* TintColorChangingButton.swift */; };
 		336E239220653177008A48A7 /* TintColorChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E238F20653177008A48A7 /* TintColorChangingButton.swift */; };
+		336E2394206553B8008A48A7 /* AssetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E2393206553B7008A48A7 /* AssetCatalog.swift */; };
+		336E2395206553B8008A48A7 /* AssetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E2393206553B7008A48A7 /* AssetCatalog.swift */; };
+		336E2396206553B8008A48A7 /* AssetCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336E2393206553B7008A48A7 /* AssetCatalog.swift */; };
 		3372DC281FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		3372DC291FE98C5F001234E3 /* DappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3332E0BB1FE979C800CC1C8A /* DappViewController.swift */; };
 		33731683200901BD0055975E /* String+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33731682200901BD0055975E /* String+AdditionsTests.swift */; };
@@ -1204,6 +1207,7 @@
 		2B3D8178202E68C9003B7874 /* SendTokenViewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenViewConfigurator.swift; sourceTree = "<group>"; };
 		2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsProfileCell.xib; sourceTree = "<group>"; };
 		2B3DF3601F4721EB00A869A3 /* SettingsProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsProfileCell.swift; sourceTree = "<group>"; };
+		2B4133C420629DC800490838 /* MessageFetcherJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageFetcherJob.swift; sourceTree = "<group>"; };
 		2B435CB01F135DBF00C91272 /* ProfileEditConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditConfigurator.swift; sourceTree = "<group>"; };
 		2B4428D1204D5DAB0079F1DE /* DappCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappCategory.swift; sourceTree = "<group>"; };
 		2B4428D5204D67870079F1DE /* DappsFrontPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DappsFrontPage.swift; sourceTree = "<group>"; };
@@ -1331,8 +1335,8 @@
 		336CC5DB202E24930052511C /* SystemSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSharing.swift; sourceTree = "<group>"; };
 		336E2366206506C6008A48A7 /* LocalizedPluralStrings.swift.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = LocalizedPluralStrings.swift.stencil; sourceTree = "<group>"; };
 		336E237020650A6F008A48A7 /* LocalizedPluralStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedPluralStrings.swift; sourceTree = "<group>"; };
-		336E2393206553B7008A48A7 /* AssetCatalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetCatalog.swift; sourceTree = "<group>"; };
 		336E238F20653177008A48A7 /* TintColorChangingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorChangingButton.swift; sourceTree = "<group>"; };
+		336E2393206553B7008A48A7 /* AssetCatalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetCatalog.swift; sourceTree = "<group>"; };
 		33731682200901BD0055975E /* String+AdditionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+AdditionsTests.swift"; sourceTree = "<group>"; };
 		33806076206274A200916E6A /* GeneratedCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedCodeTests.swift; sourceTree = "<group>"; };
 		3380609320640A8900916E6A /* AssetCatalog.swift.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = AssetCatalog.swift.stencil; sourceTree = "<group>"; };
@@ -2358,6 +2362,7 @@
 				84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */,
 				A9ED6CD51E85291600160637 /* KeyboardInfo.swift */,
 				9F7E5DA11E4C982300543296 /* Message.swift */,
+				2B4133C420629DC800490838 /* MessageFetcherJob.swift */,
 				9FD25D3B1E813C3F0011F164 /* Navigator.swift */,
 				8446632A1F41CD5700892DB8 /* PaymentRequestMetadata.swift */,
 				84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */,
@@ -3281,9 +3286,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3321,9 +3324,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3596,9 +3597,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -4062,6 +4061,7 @@
 				D197B22767852896F21D3436 /* PaymentViewModel.swift in Sources */,
 				D197B86C1B96EB2B5778EB52 /* PaymentAddressInputView.swift in Sources */,
 				D197BA8AAC5425D906767D63 /* ReceiptView.swift in Sources */,
+				2B4133C720629DC800490838 /* MessageFetcherJob.swift in Sources */,
 				D197BB101DFDC98E98C6B79E /* ReceiptLineView.swift in Sources */,
 				D197B4900630D4EB555BA7BC /* CGFloat+Additions.swift in Sources */,
 			);
@@ -4356,6 +4356,7 @@
 				D197B21874C1B7FE6FC404D3 /* PaymentViewModel.swift in Sources */,
 				D197B1D03E10A442C0C921FC /* PaymentAddressInputView.swift in Sources */,
 				D197B1871B41C8874AA3E988 /* ReceiptView.swift in Sources */,
+				2B4133C520629DC800490838 /* MessageFetcherJob.swift in Sources */,
 				D197BA1FF0BF6C862DE5FA1C /* ReceiptLineView.swift in Sources */,
 				D197B75D832DE95150C18016 /* CGFloat+Additions.swift in Sources */,
 			);
@@ -4636,6 +4637,7 @@
 				D197B213A9F6B8634043B229 /* PaymentViewModel.swift in Sources */,
 				D197B100A8B91065F3AECD37 /* PaymentAddressInputView.swift in Sources */,
 				D197BEFA555DB5B324AA8216 /* ReceiptView.swift in Sources */,
+				2B4133C620629DC800490838 /* MessageFetcherJob.swift in Sources */,
 				D197B79EB8798DAA0647C3D7 /* ReceiptLineView.swift in Sources */,
 				D197B0665A1116F4115B0919 /* CGFloat+Additions.swift in Sources */,
 			);
