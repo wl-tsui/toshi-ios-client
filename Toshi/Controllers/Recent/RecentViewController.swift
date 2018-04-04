@@ -17,16 +17,14 @@ import UIKit
 import SweetFoundation
 import SweetUIKit
 
-final class RecentViewController: SweetTableController, Emptiable {
+final class RecentViewController: SweetTableController {
 
     private lazy var dataSource: ThreadsDataSource = {
-        let dataSource = ThreadsDataSource(target: .recent)
+        let dataSource = ThreadsDataSource(target: .chatsMainPage)
         dataSource.output = self
 
         return dataSource
     }()
-
-    let emptyView = EmptyView(title: Localized.chats_empty_title, description: Localized.chats_empty_description, buttonTitle: Localized.invite_friends_action_title)
 
     private var chatAPIClient: ChatAPIClient {
         return ChatAPIClient.shared
@@ -49,7 +47,7 @@ final class RecentViewController: SweetTableController, Emptiable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        addSubviewsAndConstraints()
+         let tableHeaderHeight = navigationController?.navigationBar.frame.height ?? 0
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -60,13 +58,7 @@ final class RecentViewController: SweetTableController, Emptiable {
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
 
-        emptyView.isHidden = true
-
         dataSource.output = self
-    }
-
-    @objc func emptyViewButtonPressed(_ button: ActionButton) {
-        shareWithSystemSheet(item: Localized.share_copy)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -77,29 +69,13 @@ final class RecentViewController: SweetTableController, Emptiable {
 
         tableView.reloadData()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didPressCompose(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressCompose(_:)))
     }
     
     @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
         let datasource = ProfilesDataSource(type: .newChat)
         let profilesViewController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource, output: self))
         Navigator.presentModally(profilesViewController)
-    }
-
-    private func addSubviewsAndConstraints() {
-        let tableHeaderHeight = navigationController?.navigationBar.frame.height ?? 0
-        
-        view.addSubview(emptyView)
-        emptyView.actionButton.addTarget(self, action: #selector(emptyViewButtonPressed(_:)), for: .touchUpInside)
-        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: tableHeaderHeight, left: 0, bottom: 0, right: 0))
-    }
-
-    private func showEmptyStateIfNeeded() {
-        let numberOfUnacceptedThreads = dataSource.unacceptedThreadsCount
-        let numberOfAcceptedThreads = dataSource.acceptedThreadsCount
-        let shouldHideEmptyState = (numberOfUnacceptedThreads + numberOfAcceptedThreads) > 0
-
-        emptyView.isHidden = shouldHideEmptyState
     }
 
     private func messagesRequestsCell(for indexPath: IndexPath) -> UITableViewCell {
@@ -111,16 +87,15 @@ final class RecentViewController: SweetTableController, Emptiable {
         var cellData: TableCellData
         var accessoryType: UITableViewCellAccessoryType
 
-        let requestsTitle = Localized.messages_requests_title
-        let requestsSubtitle = LocalizedPlural.message_requests_description(for: dataSource.unacceptedThreadsCount)
+        let requestsTitle = "\(Localized.messages_requests_title) (\(dataSource.unacceptedThreadsCount))"
         let firstImage = firstUnacceptedThread.avatar()
 
         if let secondUnacceptedThread = dataSource.unacceptedThread(at: IndexPath(row: 1, section: 0)) {
             let secondImage = secondUnacceptedThread.avatar()
-            cellData = TableCellData(title: requestsTitle, subtitle: requestsSubtitle, doubleImage: (firstImage: firstImage, secondImage: secondImage))
+            cellData = TableCellData(title: requestsTitle, doubleImage: (firstImage: firstImage, secondImage: secondImage))
             accessoryType = .disclosureIndicator
         } else {
-            cellData = TableCellData(title: requestsTitle, subtitle: requestsSubtitle, leftImage: firstImage)
+            cellData = TableCellData(title: requestsTitle, leftImage: firstImage)
             accessoryType = .none
         }
 
@@ -167,55 +142,46 @@ extension RecentViewController: SystemSharing { /* mix-in */ }
 extension RecentViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if dataSource.hasUnacceptedThreads {
-            return 2
-        }
-        
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let isUnacceptedThreadsSection = (section == 0 && dataSource.hasUnacceptedThreads)
-
-        if isUnacceptedThreadsSection || dataSource.acceptedThreadsCount == 0 {
-            return nil
-        }
-
-        return Localized.recent_messages_section_header_title
+        return dataSource.numberOfSections
     }
 
     func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        var numberOfRows = 0
-        let contentSection = ThreadsContentSection(rawValue: section)
+        guard section < dataSource.sections.count else { return 0 }
+        let chatsPageSection = dataSource.sections[section]
 
-        if contentSection == .unacceptedThreads && dataSource.hasUnacceptedThreads {
-            numberOfRows = 1
-        } else {
-            numberOfRows = dataSource.acceptedThreadsCount
-        }
-
-        return numberOfRows
+        return chatsPageSection.items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell = UITableViewCell(frame: .zero)
 
-        let contentSection = ThreadsContentSection(rawValue: indexPath.section)
+        let section = dataSource.sections[indexPath.section]
+        guard indexPath.row < section.items.count else { return UITableViewCell() }
 
-        let isMessagesRequestsRow = dataSource.hasUnacceptedThreads && contentSection == .unacceptedThreads
-        if isMessagesRequestsRow {
+        let item = section.items[indexPath.row]
+
+        switch item {
+        case .findPeople, .inviteFriend:
+            let configurator = CellConfigurator()
+            let cellData = TableCellData(title: item.title, leftImage: item.icon)
+            cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier(for: cellData.components), for: indexPath)
+            (cell as? BasicTableViewCell)?.titleTextField.textColor = Theme.tintColor
+            configurator.configureCell(cell, with: cellData)
+        case .messageRequests:
             cell = messagesRequestsCell(for: indexPath)
-        } else if let thread = dataSource.acceptedThread(at: indexPath.row, in: 0) {
-            let threadCellConfigurator = ThreadCellConfigurator(thread: thread)
-            let cellData = threadCellConfigurator.cellData
-            cell = tableView.dequeueReusableCell(withIdentifier: AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier, for: indexPath)
+            cell.accessoryType = .disclosureIndicator
+        case .chat:
+            if let thread = dataSource.acceptedThread(at: indexPath.row, in: 0) {
+                let threadCellConfigurator = ThreadCellConfigurator(thread: thread)
+                let cellData = threadCellConfigurator.cellData
+                cell = tableView.dequeueReusableCell(withIdentifier: AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier, for: indexPath)
 
-            threadCellConfigurator.configureCell(cell, with: cellData)
+                threadCellConfigurator.configureCell(cell, with: cellData)
+                cell.accessoryType = .disclosureIndicator
+            }
         }
 
-        cell.accessoryType = .disclosureIndicator
-        
         return cell
     }
 }
@@ -226,7 +192,6 @@ extension RecentViewController: ThreadsDataSourceOutput {
 
     func threadsDataSourceDidLoad() {
         tableView.reloadData()
-        showEmptyStateIfNeeded()
     }
 }
 
@@ -261,34 +226,41 @@ extension RecentViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let contentSection = ThreadsContentSection(rawValue: indexPath.section) else { return }
+        guard indexPath.section < dataSource.sections.count else { return }
+        let chatsPageSection = dataSource.sections[indexPath.section]
+        let item = chatsPageSection.items[indexPath.row]
 
-        switch contentSection {
-        case .unacceptedThreads:
+        switch item {
+        case .findPeople:
+            // Present search controller
+            break
+        case .messageRequests:
             if dataSource.hasUnacceptedThreads {
                 let messagesRequestsViewController = MessagesRequestsViewController(style: .grouped)
                 navigationController?.pushViewController(messagesRequestsViewController, animated: true)
             } else {
                 showThread(at: indexPath)
             }
-        case .acceptedThreads:
-           showThread(at: indexPath)
+        case .chat:
+            showThread(at: indexPath)
+        case .inviteFriend:
+            shareWithSystemSheet(item: Localized.sharing_action_item)
         }
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard let contentSection = ThreadsContentSection(rawValue: indexPath.section) else { return false }
 
-        if contentSection == .unacceptedThreads && dataSource.hasUnacceptedThreads {
-            return false
-        }
+        guard indexPath.section < dataSource.sections.count else { return false }
+        let chatsPageSection = dataSource.sections[indexPath.section]
+        guard indexPath.row < chatsPageSection.items.count else { return false }
+        let item = chatsPageSection.items[indexPath.row]
 
-        return true
+        return item == .chat
     }
 
     func tableView(_: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-        guard let thread = self.dataSource.acceptedThread(at: indexPath.row, in: 0) else { return [] }
+        guard let thread = dataSource.acceptedThread(at: indexPath.row, in: 0) else { return [] }
 
         let action = UITableViewRowAction(style: .destructive, title: Localized.thread_action_delete) { _, _ in
             ChatInteractor.deleteThread(thread)

@@ -22,6 +22,7 @@ final class AvatarTitleCell: BasicTableViewCell {
 
         leftImageView.image = nil
         titleTextField.text = nil
+        titleTextField.textColor = Theme.darkTextColor
     }
 
     open override func addSubviewsAndConstraints() {

@@ -15,39 +15,55 @@
 
 import UIKit
 
-enum ThreadsContentSection: Int {
-    case unacceptedThreads
-    case acceptedThreads
-
-    var title: String? {
-        switch self {
-        case .acceptedThreads:
-            return Localized.recent_messages_section_header_title
-        default:
-            return nil
-        }
-    }
-}
-
 enum ThreadsDataSourceTarget {
-    case recent
+    case chatsMainPage
     case unacceptedThreadRequests
 
     var title: String {
         switch self {
-        case .recent:
-            return Localized.tab_bar_title_recent
+        case .chatsMainPage:
+            return Localized.tab_bar_title_chats
         case .unacceptedThreadRequests:
             return Localized.messages_requests_title
         }
     }
+}
 
-    func title(for section: Int) -> String? {
-        guard self == .recent, let contentSection = ThreadsContentSection(rawValue: section) else { return nil }
+enum ChatsSectionType {
+    case findPeople
+    case messagesRequests
+    case chats
+}
 
-        switch contentSection {
-        case .acceptedThreads:
-            return Localized.recent_messages_section_header_title
+struct ChatsMainPageSection {
+
+    var type: ChatsSectionType = .findPeople
+    var items: [ChatsMainPageItem] = []
+}
+
+enum ChatsMainPageItem {
+    case findPeople
+    case messageRequests
+    case chat
+    case inviteFriend
+
+    var title: String? {
+        switch self {
+        case .findPeople:
+            return Localized.recent_find_people_title
+        case .inviteFriend:
+            return Localized.recent_invite_a_friend
+        default:
+            return nil
+        }
+    }
+
+    var icon: UIImage? {
+        switch self {
+        case .inviteFriend:
+            return #imageLiteral(resourceName: "invite_friend")
+        case .findPeople:
+            return #imageLiteral(resourceName: "find_people")
         default:
             return nil
         }
@@ -63,6 +79,8 @@ final class ThreadsDataSource: NSObject {
     private var viewModel: RecentViewModel
     private var target: ThreadsDataSourceTarget
 
+    var sections: [ChatsMainPageSection] = []
+
     var hasUnacceptedThreads: Bool {
         return unacceptedThreadsCount > 0
     }
@@ -73,6 +91,10 @@ final class ThreadsDataSource: NSObject {
 
     var acceptedThreadsCount: Int {
         return Int(viewModel.acceptedThreadsMappings.numberOfItems(inSection: UInt(0)))
+    }
+
+    var numberOfSections: Int {
+        return hasUnacceptedThreads ? 3 : 2
     }
 
     var title: String {
@@ -277,8 +299,26 @@ final class ThreadsDataSource: NSObject {
 
     private func loadMessages() {
         viewModel.uiDatabaseConnection.asyncRead { [weak self] transaction in
+
+            guard let strongSelf = self else { return }
+
             self?.viewModel.acceptedThreadsMappings.update(with: transaction)
             self?.viewModel.unacceptedThreadsMappings.update(with: transaction)
+
+            var updatedSections: [ChatsMainPageSection] = []
+            updatedSections.append(ChatsMainPageSection(type: .findPeople, items: [.findPeople]))
+
+            if strongSelf.hasUnacceptedThreads {
+                updatedSections.append(ChatsMainPageSection(type: .messagesRequests, items: [.messageRequests]))
+            }
+
+            let acceptedThreads = max(0, strongSelf.acceptedThreadsCount - 1)
+            var chatItems = [ChatsMainPageItem](repeating: .chat, count: acceptedThreads)
+
+            chatItems.append(.inviteFriend)
+
+            updatedSections.append(ChatsMainPageSection(type: .chats, items: chatItems))
+            self?.sections = updatedSections
 
             DispatchQueue.main.async {
                 self?.output?.threadsDataSourceDidLoad()
