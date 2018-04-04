@@ -35,7 +35,7 @@ enum TabBarItem {
         case .favorites:
             return Localized.tab_bar_title_favorites
         case .recent:
-            return Localized.tab_bar_title_recent
+            return Localized.tab_bar_title_chats
         case .settings:
             return Localized.tab_bar_title_settings
         case .wallet:

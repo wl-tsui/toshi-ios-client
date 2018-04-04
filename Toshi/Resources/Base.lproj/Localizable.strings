@@ -32,6 +32,8 @@
 "messages_sent_error_action_resend" = "Resend";
 
 "recent_messages_section_header_title" = "Messages";
+"recent_find_people_title" = "Find People, Groups & Bots";
+"recent_invite_a_friend" = "Invite a Friend";
 "messages_requests_title" = "Message Requests";
 "payment_request_message_preview_string" = "Payment request";
 "payment_message_preview_string" = "Payment";
@@ -265,7 +267,7 @@
 
 /* Tab Bar */
 "tab_bar_title_dapps" = "Đapps";
-"tab_bar_title_recent" = "Recent";
+"tab_bar_title_chats" = "Chats";
 "tab_bar_title_wallet" = "Wallet";
 "tab_bar_title_favorites" = "Favorites";
 "tab_bar_title_settings" = "Settings";

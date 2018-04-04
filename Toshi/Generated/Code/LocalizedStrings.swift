@@ -188,6 +188,8 @@ enum LocalizedKey: String, StringCaseListable {
     rate_user_title_format,
     rating_starter_placeholder,
     recent_messages_section_header_title,
+    recent_find_people_title,
+    recent_invite_a_friend,
     report_action_title,
     report_feedback_alert_message,
     report_feedback_alert_title,
@@ -241,7 +243,7 @@ enum LocalizedKey: String, StringCaseListable {
     submit_action_title,
     tab_bar_title_dapps,
     tab_bar_title_favorites,
-    tab_bar_title_recent,
+    tab_bar_title_chats,
     tab_bar_title_settings,
     tab_bar_title_wallet,
     text_editing_options_paste,
@@ -864,6 +866,12 @@ struct Localized {
     
     /// `en`: "Messages"
     static let recent_messages_section_header_title = LocalizedKey.recent_messages_section_header_title.currentValue
+
+    /// `en`: "Find People, Groups & Bots"
+    static let recent_find_people_title = LocalizedKey.recent_find_people_title.currentValue
+
+    /// `en`: "Invite a Friend"
+    static let recent_invite_a_friend = LocalizedKey.recent_invite_a_friend.currentValue
     
     /// `en`: "Report"
     static let report_action_title = LocalizedKey.report_action_title.currentValue
@@ -1025,7 +1033,7 @@ struct Localized {
     static let tab_bar_title_favorites = LocalizedKey.tab_bar_title_favorites.currentValue
     
     /// `en`: "Recent"
-    static let tab_bar_title_recent = LocalizedKey.tab_bar_title_recent.currentValue
+    static let tab_bar_title_chats = LocalizedKey.tab_bar_title_chats.currentValue
     
     /// `en`: "Settings"
     static let tab_bar_title_settings = LocalizedKey.tab_bar_title_settings.currentValue
