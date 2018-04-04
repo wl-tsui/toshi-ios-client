@@ -18,7 +18,7 @@ import UIKit
 class RecentNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .default
+        return (topViewController == viewControllers.first) ? .lightContent : .default
     }
 
     override init(rootViewController: UIViewController) {
@@ -28,42 +28,12 @@ class RecentNavigationController: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
-        tabBarItem = UITabBarItem(title: Localized.tab_bar_title_recent, image: ImageAsset.tab2, tag: 0)
+        tabBarItem = UITabBarItem(title: Localized.tab_bar_title_chats, image: ImageAsset.tab2, tag: 0)
         tabBarItem.titlePositionAdjustment.vertical = TabBarItemTitleOffset
     }
 
-    lazy var backgroundBlur: BlurView = {
-        let view = BlurView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isUserInteractionEnabled = false
-
-        return view
-    }()
-
     required init?(coder _: NSCoder) {
         fatalError("")
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        guard #available(iOS 11.0, *) else {
-            navigationBar.barStyle = .default
-            navigationBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
-            
-            navigationBar.insertSubview(backgroundBlur, at: 0)
-            backgroundBlur.edges(to: navigationBar, insets: UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0))
-            return
-        }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        guard #available(iOS 11.0, *) else {
-            navigationBar.sendSubview(toBack: backgroundBlur)
-            return
-        }
     }
 
     func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
@@ -94,18 +64,18 @@ class RecentNavigationController: UINavigationController {
         self.pushViewController(chatViewController, animated: animated)
     }
 
+    // MARK: - Nav Bar Color Handling
+
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if let colorable = viewController as? NavBarColorChanging {
+            setNavigationBarColors(with: colorable)
+        }
+
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ChatViewController {
             UserDefaultsWrapper.selectedThreadAddress = viewController.thread.contactIdentifier()
         }
-    }
-
-    override func popViewController(animated: Bool) -> UIViewController? {
-        UserDefaultsWrapper.selectedThreadAddress = nil
-
-        return super.popViewController(animated: animated)
     }
 
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {
@@ -118,5 +88,44 @@ class RecentNavigationController: UINavigationController {
         UserDefaultsWrapper.selectedThreadAddress = nil
 
         return super.popToViewController(viewController, animated: animated)
+    }
+
+    override func popViewController(animated: Bool) -> UIViewController? {
+         UserDefaultsWrapper.selectedThreadAddress = nil
+
+        guard let colorChangingVC = previousViewController as? NavBarColorChanging else {
+            // Just call super and be done with it.
+            return super.popViewController(animated: animated)
+        }
+
+        setNavigationBarColors(with: colorChangingVC)
+
+        // Start the transition by calling super so we get a transition coordinator
+        let poppedViewController = super.popViewController(animated: animated)
+
+        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
+            guard let topColorChangingVC = self?.topViewController as? NavBarColorChanging else { return }
+            self?.setNavigationBarColors(with: topColorChangingVC)
+        })
+
+        return poppedViewController
+    }
+
+    private var previousViewController: UIViewController? {
+        guard viewControllers.count > 1 else {
+            return nil
+        }
+        return viewControllers[viewControllers.count - 2]
+    }
+
+    private func setNavigationBarColors(with colorChangingObject: NavBarColorChanging) {
+        navigationBar.tintColor = colorChangingObject.navTintColor
+        navigationBar.barTintColor = colorChangingObject.navBarTintColor
+        navigationBar.shadowImage = colorChangingObject.navShadowImage
+        if let titleColor = colorChangingObject.navTitleColor {
+            navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: titleColor]
+        } else {
+            navigationBar.titleTextAttributes = nil
+        }
     }
 }

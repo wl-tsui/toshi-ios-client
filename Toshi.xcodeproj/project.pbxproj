@@ -39,6 +39,9 @@
 		14EE6B4D1E72E54A000B07DA /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */; };
 		2B002D8F1F17BA1800D92240 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
 		2B002D901F17BA1800D92240 /* NetworkSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */; };
+		2B07FC47207517F2005F2B40 /* NavBarColorChanging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */; };
+		2B07FC48207517F2005F2B40 /* NavBarColorChanging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */; };
+		2B07FC49207517F2005F2B40 /* NavBarColorChanging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */; };
 		2B09B4091FE11F40008F7917 /* ThreadsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */; };
 		2B09B40A1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */; };
 		2B09B40B1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */; };
@@ -1193,6 +1196,7 @@
 		2446336EA68730ACD1CE100D /* libPods-CocoaPods-Distribution.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Distribution.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		24AC0CEAA51D7F8A19F246E9 /* libPods-CocoaPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSwitcher.swift; sourceTree = "<group>"; };
+		2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarColorChanging.swift; sourceTree = "<group>"; };
 		2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadsDataSource.swift; sourceTree = "<group>"; };
 		2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentViewModel.swift; sourceTree = "<group>"; };
 		2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsClient.swift; sourceTree = "<group>"; };
@@ -2524,6 +2528,7 @@
 				D197B827D378D5A6CE7A52D0 /* OfflineAlertDisplaying.swift */,
 				33CF51381FD1952500293FD1 /* StringCaseListable.swift */,
 				336CC5DB202E24930052511C /* SystemSharing.swift */,
+				2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -4056,6 +4061,7 @@
 				D197B4F1934405EADD429871 /* DoubleImageView.swift in Sources */,
 				D197B1EB92E75AA88459C940 /* AcceptDeclineButtonsView.swift in Sources */,
 				D197B4C9ACAC2B6A418AB2E2 /* ChatButton.swift in Sources */,
+				2B07FC49207517F2005F2B40 /* NavBarColorChanging.swift in Sources */,
 				D197BF2D11D80236CC181D5D /* PaymentConfirmationViewController.swift in Sources */,
 				D197B3F09004CAE7FD6E0EFE /* PaymentRouter.swift in Sources */,
 				D197B22767852896F21D3436 /* PaymentViewModel.swift in Sources */,
@@ -4351,6 +4357,7 @@
 				D197B2196AD7EBEE1F16354C /* DoubleImageView.swift in Sources */,
 				D197B14BC2EF3AC740372100 /* AcceptDeclineButtonsView.swift in Sources */,
 				D197B1573E01CAB1B093EBB9 /* ChatButton.swift in Sources */,
+				2B07FC47207517F2005F2B40 /* NavBarColorChanging.swift in Sources */,
 				D197B74EC4D752C175A731F5 /* PaymentConfirmationViewController.swift in Sources */,
 				D197B5D286D19CDAC90DCF45 /* PaymentRouter.swift in Sources */,
 				D197B21874C1B7FE6FC404D3 /* PaymentViewModel.swift in Sources */,
@@ -4632,6 +4639,7 @@
 				D197BDCFFA301DDA7C290BBB /* DoubleImageView.swift in Sources */,
 				D197B2103355CD8C1BFE1537 /* AcceptDeclineButtonsView.swift in Sources */,
 				D197B76575751DB2103547AB /* ChatButton.swift in Sources */,
+				2B07FC48207517F2005F2B40 /* NavBarColorChanging.swift in Sources */,
 				D197B20920768C8CC915FE33 /* PaymentConfirmationViewController.swift in Sources */,
 				D197B68FAD277206C35FA934 /* PaymentRouter.swift in Sources */,
 				D197B213A9F6B8634043B229 /* PaymentViewModel.swift in Sources */,
