@@ -46,9 +46,7 @@ final class RecentViewController: SweetTableController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-         let tableHeaderHeight = navigationController?.navigationBar.frame.height ?? 0
-
+        
         tableView.delegate = self
         tableView.dataSource = self
 
@@ -64,7 +62,7 @@ final class RecentViewController: SweetTableController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        preferLargeTitleIfPossible(true)
+        preferLargeTitleIfPossible(false)
         tabBarController?.tabBar.isHidden = false
 
         tableView.reloadData()
@@ -156,6 +154,7 @@ extension RecentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell = UITableViewCell(frame: .zero)
 
+        guard indexPath.section < dataSource.numberOfSections else { return UITableViewCell() }
         let section = dataSource.sections[indexPath.section]
         guard indexPath.row < section.items.count else { return UITableViewCell() }
 
