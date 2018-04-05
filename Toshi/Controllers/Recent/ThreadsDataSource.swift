@@ -357,18 +357,25 @@ final class ThreadsDataSource: NSObject {
             self?.viewModel.unacceptedThreadsMappings.update(with: transaction)
 
             var updatedSections: [ChatsMainPageSection] = []
-            updatedSections.append(ChatsMainPageSection(type: .findPeople, items: [.findPeople]))
 
-            if strongSelf.hasUnacceptedThreads {
-                updatedSections.append(ChatsMainPageSection(type: .messagesRequests, items: [.messageRequests]))
+            switch strongSelf.target {
+            case .chatsMainPage:
+                updatedSections.append(ChatsMainPageSection(type: .findPeople, items: [.findPeople]))
+
+                if strongSelf.hasUnacceptedThreads {
+                    updatedSections.append(ChatsMainPageSection(type: .messagesRequests, items: [.messageRequests]))
+                }
+
+                var chatItems = [ChatsMainPageItem](repeating: .chat, count: strongSelf.acceptedThreadsCount)
+
+                chatItems.append(.inviteFriend)
+                updatedSections.append(ChatsMainPageSection(type: .chats, items: chatItems))
+
+            case .unacceptedThreadRequests:
+                let chatItems = [ChatsMainPageItem](repeating: .chat, count: strongSelf.unacceptedThreadsCount)
+                updatedSections.append(ChatsMainPageSection(type: .chats, items: chatItems))
             }
 
-            let acceptedThreads = max(0, strongSelf.acceptedThreadsCount - 1)
-            var chatItems = [ChatsMainPageItem](repeating: .chat, count: acceptedThreads)
-
-            chatItems.append(.inviteFriend)
-
-            updatedSections.append(ChatsMainPageSection(type: .chats, items: chatItems))
             self?.sections = updatedSections
 
             DispatchQueue.main.async {
@@ -504,15 +511,10 @@ extension ThreadsDataSource: UITableViewDataSource {
     }
 
     func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch target {
-        case .chatsMainPage:
-            guard section < sections.count else { return 0 }
-            let chatsPageSection = sections[section]
+        guard section < sections.count else { return 0 }
+        let chatsPageSection = sections[section]
 
-            return chatsPageSection.items.count
-        case .unacceptedThreadRequests:
-            return unacceptedThreadsCount
-        }
+        return chatsPageSection.items.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
