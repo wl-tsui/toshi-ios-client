@@ -60,7 +60,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }()
 
     var dappsViewController: DappsNavigationController!
-    var messagingController: RecentNavigationController!
+    var messagingController: ChatsNavigationController!
     var profilesController: ProfilesNavigationController!
     var settingsController: SettingsNavigationController!
     var walletController: WalletNavigationController!
@@ -87,8 +87,8 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
         walletController = WalletNavigationController(rootViewController: WalletViewController())
 
-        let recentViewController = RecentViewController(style: .grouped)
-        messagingController = RecentNavigationController(rootViewController: recentViewController)
+        let recentViewController = RecentViewController(style: .grouped, target: .chatsMainPage)
+        messagingController = ChatsNavigationController(rootViewController: recentViewController)
 
         if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = recentViewController.thread(withAddress: address) {
             messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]

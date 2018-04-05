@@ -27,6 +27,46 @@ enum ThreadsDataSourceTarget {
             return Localized.messages_requests_title
         }
     }
+
+    var navTintColor: UIColor {
+        switch self {
+        case .chatsMainPage:
+            return Theme.lightTextColor
+        case .unacceptedThreadRequests:
+            return Theme.tintColor
+        }
+    }
+
+    var navBarTintColor: UIColor {
+        switch self {
+        case .chatsMainPage:
+            return Theme.tintColor
+        case .unacceptedThreadRequests:
+            return Theme.navigationBarColor
+        }
+    }
+
+    var navTitleColor: UIColor {
+        switch self {
+        case .chatsMainPage:
+            return Theme.lightTextColor
+        case .unacceptedThreadRequests:
+            return Theme.darkTextColor
+        }
+    }
+
+    var navShadowImage: UIImage? {
+        switch self {
+        case .chatsMainPage:
+            return UIImage()
+        case .unacceptedThreadRequests:
+            return nil
+        }
+    }
+
+    var prefersLargeTitle: Bool {
+        return self == .unacceptedThreadRequests
+    }
 }
 
 enum ChatsSectionType {
@@ -72,6 +112,7 @@ enum ChatsMainPageItem {
 
 protocol ThreadsDataSourceOutput: class {
     func threadsDataSourceDidLoad()
+    func didRequireOpenThread(_ thread: TSThread)
 }
 
 final class ThreadsDataSource: NSObject {
@@ -94,7 +135,12 @@ final class ThreadsDataSource: NSObject {
     }
 
     var numberOfSections: Int {
-        return hasUnacceptedThreads ? 3 : 2
+        switch target {
+        case .chatsMainPage:
+            return hasUnacceptedThreads ? 3 : 2
+        case .unacceptedThreadRequests:
+            return 1
+        }
     }
 
     var title: String {
@@ -103,11 +149,16 @@ final class ThreadsDataSource: NSObject {
 
     weak var output: ThreadsDataSourceOutput?
 
-    init(target: ThreadsDataSourceTarget) {
+    weak private var tableView: UITableView?
+
+    init(target: ThreadsDataSourceTarget, tableView: UITableView?) {
         viewModel = RecentViewModel()
         self.target = target
+        self.tableView = tableView
 
         super.init()
+
+        self.tableView?.dataSource = self
 
         if TokenUser.current != nil {
             viewModel.setupForCurrentSession()
@@ -323,6 +374,153 @@ final class ThreadsDataSource: NSObject {
             DispatchQueue.main.async {
                 self?.output?.threadsDataSourceDidLoad()
             }
+        }
+    }
+
+    private func messagesRequestsCell(for indexPath: IndexPath) -> UITableViewCell {
+        guard let firstUnacceptedThread = unacceptedThread(at: IndexPath(row: 0, section: 0)) else {
+            return UITableViewCell(frame: .zero)
+        }
+
+        let cellConfigurator = CellConfigurator()
+        var cellData: TableCellData
+        var accessoryType: UITableViewCellAccessoryType
+
+        let requestsTitle = "\(Localized.messages_requests_title) (\(unacceptedThreadsCount))"
+        let firstImage = firstUnacceptedThread.avatar()
+
+        if let secondUnacceptedThread = unacceptedThread(at: IndexPath(row: 1, section: 0)) {
+            let secondImage = secondUnacceptedThread.avatar()
+            cellData = TableCellData(title: requestsTitle, doubleImage: (firstImage: firstImage, secondImage: secondImage))
+            accessoryType = .disclosureIndicator
+        } else {
+            cellData = TableCellData(title: requestsTitle, leftImage: firstImage)
+            accessoryType = .none
+        }
+
+        guard let cell = tableView?.dequeueReusableCell(withIdentifier: cellConfigurator.cellIdentifier(for: cellData.components), for: indexPath) else { return UITableViewCell() }
+        cellConfigurator.configureCell(cell, with: cellData)
+        cell.accessoryType = accessoryType
+
+        return cell
+    }
+
+    private func messageRequestsCell(for indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
+        guard let thread = unacceptedThread(at: indexPath) else { return UITableViewCell(frame: .zero) }
+
+        let avatar = thread.avatar()
+        var subtitle = "..."
+        var title = ""
+
+        if thread.isGroupThread() {
+            title = thread.name()
+        } else if let recipient = thread.recipient() {
+            title = recipient.nameOrDisplayName
+        }
+
+        if let message = thread.messages.last, let messageBody = message.body {
+            switch SofaType(sofa: messageBody) {
+            case .message:
+                if message.hasAttachments() {
+                    subtitle = Localized.attachment_message_preview_string
+                } else {
+                    subtitle = SofaMessage(content: messageBody).body
+                }
+            case .paymentRequest:
+                subtitle = Localized.payment_request_message_preview_string
+            case .payment:
+                subtitle = Localized.payment_message_preview_string
+            default:
+                break
+            }
+        }
+
+        let cellData = TableCellData(title: title, subtitle: subtitle, leftImage: avatar, doubleActionImages: (firstImage: ImageAsset.accept_thread_icon, secondImage: ImageAsset.decline_thread_icon))
+        let cellConfigurator = CellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellConfigurator.cellIdentifier(for: cellData.components), for: indexPath) as? BasicTableViewCell else { return UITableViewCell(frame: .zero) }
+        cellConfigurator.configureCell(cell, with: cellData)
+        cell.actionDelegate = self
+
+        return cell
+    }
+
+    private func chatMainPageCell(for indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
+        var cell: UITableViewCell = UITableViewCell(frame: .zero)
+
+        guard indexPath.section < numberOfSections else { return UITableViewCell() }
+        let section = sections[indexPath.section]
+        guard indexPath.row < section.items.count else { return UITableViewCell() }
+
+        let item = section.items[indexPath.row]
+
+        switch item {
+        case .findPeople, .inviteFriend:
+            let configurator = CellConfigurator()
+            let cellData = TableCellData(title: item.title, leftImage: item.icon)
+            cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier(for: cellData.components), for: indexPath)
+            (cell as? BasicTableViewCell)?.titleTextField.textColor = Theme.tintColor
+            configurator.configureCell(cell, with: cellData)
+        case .messageRequests:
+            cell = messagesRequestsCell(for: indexPath)
+            cell.accessoryType = .disclosureIndicator
+        case .chat:
+            if let thread = acceptedThread(at: indexPath.row, in: 0) {
+                let threadCellConfigurator = ThreadCellConfigurator(thread: thread)
+                let cellData = threadCellConfigurator.cellData
+                cell = tableView.dequeueReusableCell(withIdentifier: AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier, for: indexPath)
+
+                threadCellConfigurator.configureCell(cell, with: cellData)
+                cell.accessoryType = .disclosureIndicator
+            }
+        }
+
+        return cell
+    }
+}
+
+extension ThreadsDataSource: BasicCellActionDelegate {
+
+    func didTapFirstActionButton(_ cell: BasicTableViewCell) {
+        guard let indexPath = tableView?.indexPath(for: cell) else { return }
+        guard let thread = unacceptedThread(at: indexPath) else { return }
+
+        ChatInteractor.acceptThread(thread)
+
+        output?.didRequireOpenThread(thread)
+    }
+
+    func didTapSecondActionButton(_ cell: BasicTableViewCell) {
+        guard let indexPath = tableView?.indexPath(for: cell) else { return }
+        guard let thread = unacceptedThread(at: indexPath) else { return }
+
+        ChatInteractor.declineThread(thread)
+    }
+}
+
+extension ThreadsDataSource: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return numberOfSections
+    }
+
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch target {
+        case .chatsMainPage:
+            guard section < sections.count else { return 0 }
+            let chatsPageSection = sections[section]
+
+            return chatsPageSection.items.count
+        case .unacceptedThreadRequests:
+            return unacceptedThreadsCount
+        }
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch target {
+        case .chatsMainPage:
+            return chatMainPageCell(for: indexPath, tableView: tableView)
+        case .unacceptedThreadRequests:
+            return messageRequestsCell(for: indexPath, tableView: tableView)
         }
     }
 }

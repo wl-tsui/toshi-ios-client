@@ -37,21 +37,7 @@ extension WalletViewController: NavBarColorChanging {
     var navShadowImage: UIImage? { return UIImage() }
 }
 
-extension RecentViewController: NavBarColorChanging {
-    var navTintColor: UIColor? { return Theme.lightTextColor }
-    var navBarTintColor: UIColor? { return Theme.tintColor }
-    var navTitleColor: UIColor? { return Theme.lightTextColor }
-    var navShadowImage: UIImage? { return UIImage() }
-}
-
 extension ChatViewController: NavBarColorChanging {
-    var navTintColor: UIColor? { return Theme.tintColor }
-    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
-    var navTitleColor: UIColor? { return Theme.darkTextColor }
-    var navShadowImage: UIImage? { return nil }
-}
-
-extension MessagesRequestsViewController: NavBarColorChanging {
     var navTintColor: UIColor? { return Theme.tintColor }
     var navBarTintColor: UIColor? { return Theme.navigationBarColor }
     var navTitleColor: UIColor? { return Theme.darkTextColor }

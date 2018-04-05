@@ -20,7 +20,7 @@ import SweetUIKit
 final class RecentViewController: SweetTableController {
 
     private lazy var dataSource: ThreadsDataSource = {
-        let dataSource = ThreadsDataSource(target: .chatsMainPage)
+        let dataSource = ThreadsDataSource(target: target, tableView: tableView)
         dataSource.output = self
 
         return dataSource
@@ -32,8 +32,11 @@ final class RecentViewController: SweetTableController {
 
     let idAPIClient = IDAPIClient.shared
 
-    override init(style: UITableViewStyle) {
+    private var target: ThreadsDataSourceTarget = .chatsMainPage
+    init(style: UITableViewStyle, target: ThreadsDataSourceTarget) {
         super.init(style: style)
+
+        self.target = target
 
         title = dataSource.title
 
@@ -48,7 +51,6 @@ final class RecentViewController: SweetTableController {
         super.viewDidLoad()
         
         tableView.delegate = self
-        tableView.dataSource = self
 
         BasicTableViewCell.register(in: tableView)
 
@@ -62,12 +64,22 @@ final class RecentViewController: SweetTableController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        preferLargeTitleIfPossible(false)
+        preferLargeTitleIfPossible(target.prefersLargeTitle)
         tabBarController?.tabBar.isHidden = false
 
         tableView.reloadData()
+
+        dismissIfNeeded(animated: false)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressCompose(_:)))
+    }
+
+    func dismissIfNeeded(animated: Bool = true) {
+        guard target == .unacceptedThreadRequests else { return }
+
+        if Navigator.topNonModalViewController == self && dataSource.unacceptedThreadsCount == 0 {
+            navigationController?.popViewController(animated: animated)
+        }
     }
     
     @objc private func didPressCompose(_ barButtonItem: UIBarButtonItem) {
@@ -76,36 +88,17 @@ final class RecentViewController: SweetTableController {
         Navigator.presentModally(profilesViewController)
     }
 
-    private func messagesRequestsCell(for indexPath: IndexPath) -> UITableViewCell {
-        guard let firstUnacceptedThread = dataSource.unacceptedThread(at: IndexPath(row: 0, section: 0)) else {
-            return UITableViewCell(frame: .zero)
+    private func threadToShow(at indexPath: IndexPath) -> TSThread? {
+        switch target {
+        case .chatsMainPage:
+            return dataSource.acceptedThread(at: indexPath.row, in: 0)
+        case .unacceptedThreadRequests:
+            return dataSource.unacceptedThread(at: indexPath)
         }
-        
-        let cellConfigurator = CellConfigurator()
-        var cellData: TableCellData
-        var accessoryType: UITableViewCellAccessoryType
-
-        let requestsTitle = "\(Localized.messages_requests_title) (\(dataSource.unacceptedThreadsCount))"
-        let firstImage = firstUnacceptedThread.avatar()
-
-        if let secondUnacceptedThread = dataSource.unacceptedThread(at: IndexPath(row: 1, section: 0)) {
-            let secondImage = secondUnacceptedThread.avatar()
-            cellData = TableCellData(title: requestsTitle, doubleImage: (firstImage: firstImage, secondImage: secondImage))
-            accessoryType = .disclosureIndicator
-        } else {
-            cellData = TableCellData(title: requestsTitle, leftImage: firstImage)
-            accessoryType = .none
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellConfigurator.cellIdentifier(for: cellData.components), for: indexPath)
-        cellConfigurator.configureCell(cell, with: cellData)
-        cell.accessoryType = accessoryType
-
-        return cell
     }
 
     private func showThread(at indexPath: IndexPath) {
-        guard let thread = dataSource.acceptedThread(at: indexPath.row, in: 0) else { return }
+        guard let thread = threadToShow(at: indexPath) else { return }
         let chatViewController = ChatViewController(thread: thread)
         navigationController?.pushViewController(chatViewController, animated: true)
     }
@@ -135,62 +128,18 @@ final class RecentViewController: SweetTableController {
 
 extension RecentViewController: SystemSharing { /* mix-in */ }
 
-// MARK: - Table View Data Source
-
-extension RecentViewController: UITableViewDataSource {
-
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections
-    }
-
-    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        guard section < dataSource.sections.count else { return 0 }
-        let chatsPageSection = dataSource.sections[section]
-
-        return chatsPageSection.items.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = UITableViewCell(frame: .zero)
-
-        guard indexPath.section < dataSource.numberOfSections else { return UITableViewCell() }
-        let section = dataSource.sections[indexPath.section]
-        guard indexPath.row < section.items.count else { return UITableViewCell() }
-
-        let item = section.items[indexPath.row]
-
-        switch item {
-        case .findPeople, .inviteFriend:
-            let configurator = CellConfigurator()
-            let cellData = TableCellData(title: item.title, leftImage: item.icon)
-            cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier(for: cellData.components), for: indexPath)
-            (cell as? BasicTableViewCell)?.titleTextField.textColor = Theme.tintColor
-            configurator.configureCell(cell, with: cellData)
-        case .messageRequests:
-            cell = messagesRequestsCell(for: indexPath)
-            cell.accessoryType = .disclosureIndicator
-        case .chat:
-            if let thread = dataSource.acceptedThread(at: indexPath.row, in: 0) {
-                let threadCellConfigurator = ThreadCellConfigurator(thread: thread)
-                let cellData = threadCellConfigurator.cellData
-                cell = tableView.dequeueReusableCell(withIdentifier: AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier, for: indexPath)
-
-                threadCellConfigurator.configureCell(cell, with: cellData)
-                cell.accessoryType = .disclosureIndicator
-            }
-        }
-
-        return cell
-    }
-}
-
 // MARK: - Threads Data Source Output
 
 extension RecentViewController: ThreadsDataSourceOutput {
 
+    func didRequireOpenThread(_ thread: TSThread) {
+        let chatViewController = ChatViewController(thread: thread)
+        navigationController?.pushViewController(chatViewController, animated: true)
+    }
+
     func threadsDataSourceDidLoad() {
         tableView.reloadData()
+        dismissIfNeeded()
     }
 }
 
@@ -235,7 +184,7 @@ extension RecentViewController: UITableViewDelegate {
             break
         case .messageRequests:
             if dataSource.hasUnacceptedThreads {
-                let messagesRequestsViewController = MessagesRequestsViewController(style: .grouped)
+                let messagesRequestsViewController = RecentViewController(style: .grouped, target: .unacceptedThreadRequests)
                 navigationController?.pushViewController(messagesRequestsViewController, animated: true)
             } else {
                 showThread(at: indexPath)
@@ -275,4 +224,11 @@ extension RecentViewController: UITableViewDelegate {
 
         return [action, muteAction]
     }
+}
+
+extension RecentViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return target.navTintColor }
+    var navBarTintColor: UIColor? { return target.navBarTintColor }
+    var navTitleColor: UIColor? { return target.navTitleColor }
+    var navShadowImage: UIImage? { return target.navShadowImage }
 }

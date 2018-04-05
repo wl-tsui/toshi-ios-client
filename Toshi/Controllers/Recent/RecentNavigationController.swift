@@ -15,7 +15,7 @@
 
 import UIKit
 
-class RecentNavigationController: UINavigationController {
+final class ChatsNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return (topViewController == viewControllers.first) ? .lightContent : .default
