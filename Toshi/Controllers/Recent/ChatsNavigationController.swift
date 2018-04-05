@@ -38,9 +38,9 @@ final class ChatsNavigationController: UINavigationController {
 
     func openThread(withAddress address: String, completion: ((Any?) -> Void)? = nil) {
         _ = popToRootViewController(animated: false)
-        guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
+        guard let chatsViewController = self.viewControllers.first as? ChatsViewController else { return }
 
-        if let thread = recentViewController.thread(withAddress: address) {
+        if let thread = chatsViewController.thread(withAddress: address) {
             let chatViewController = ChatViewController(thread: thread)
             pushViewController(chatViewController, animated: false)
 
@@ -52,8 +52,8 @@ final class ChatsNavigationController: UINavigationController {
 
     func openThread(withThreadIdentifier identifier: String, animated: Bool) {
         _ = self.popToRootViewController(animated: animated)
-        guard let recentViewController = self.viewControllers.first as? RecentViewController else { return }
-        guard let thread = recentViewController.thread(withIdentifier: identifier) else { return }
+        guard let chatsViewController = self.viewControllers.first as? ChatsViewController else { return }
+        guard let thread = chatsViewController.thread(withIdentifier: identifier) else { return }
 
         let chatViewController = ChatViewController(thread: thread)
         self.pushViewController(chatViewController, animated: animated)

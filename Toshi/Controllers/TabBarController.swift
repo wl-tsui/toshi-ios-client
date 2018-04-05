@@ -87,11 +87,11 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
         walletController = WalletNavigationController(rootViewController: WalletViewController())
 
-        let recentViewController = RecentViewController(style: .grouped, target: .chatsMainPage)
-        messagingController = ChatsNavigationController(rootViewController: recentViewController)
+        let chatsViewController = ChatsViewController(style: .grouped, target: .chatsMainPage)
+        messagingController = ChatsNavigationController(rootViewController: chatsViewController)
 
-        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = recentViewController.thread(withAddress: address) {
-            messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]
+        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = chatsViewController.thread(withAddress: address) {
+            messagingController.viewControllers = [chatsViewController, ChatViewController(thread: thread)]
         }
 
         settingsController = SettingsNavigationController(rootViewController: SettingsController())

@@ -657,8 +657,8 @@
 		A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
 		A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
-		A91D72A01F877FFA0093420C /* RecentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* RecentNavigationController.swift */; };
-		A91D72A11F877FFA0093420C /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* RecentViewController.swift */; };
+		A91D72A01F877FFA0093420C /* ChatsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* ChatsNavigationController.swift */; };
+		A91D72A11F877FFA0093420C /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* ChatsViewController.swift */; };
 		A91D72A21F877FFA0093420C /* ChatFloatingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729C1F877FFA0093420C /* ChatFloatingHeaderView.swift */; };
 		A91D72A31F877FFA0093420C /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729D1F877FFA0093420C /* ChatInteractor.swift */; };
 		A91D72A41F877FFA0093420C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729E1F877FFA0093420C /* ChatViewController.swift */; };
@@ -867,10 +867,10 @@
 		A97600321F8F738600D1C79E /* ChatMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A976002F1F8F738600D1C79E /* ChatMenuTableViewCell.swift */; };
 		A997B0FE1EF94B4600A143FE /* DepositMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */; };
 		A997B1011EF94B4F00A143FE /* DepositMoneyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7E1EF7D864007C3206 /* DepositMoneyItem.swift */; };
-		A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* RecentViewController.swift */; };
-		A9A9F9A11F8B70770010F877 /* RecentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* RecentViewController.swift */; };
-		A9A9F9A21F8B707C0010F877 /* RecentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* RecentNavigationController.swift */; };
-		A9A9F9A31F8B707C0010F877 /* RecentNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* RecentNavigationController.swift */; };
+		A9A9F9A01F8B70760010F877 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* ChatsViewController.swift */; };
+		A9A9F9A11F8B70770010F877 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729A1F877FF90093420C /* ChatsViewController.swift */; };
+		A9A9F9A21F8B707C0010F877 /* ChatsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* ChatsNavigationController.swift */; };
+		A9A9F9A31F8B707C0010F877 /* ChatsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* ChatsNavigationController.swift */; };
 		A9A9F9A41F8B70840010F877 /* ChatFloatingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729C1F877FFA0093420C /* ChatFloatingHeaderView.swift */; };
 		A9A9F9A51F8B70850010F877 /* ChatFloatingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729C1F877FFA0093420C /* ChatFloatingHeaderView.swift */; };
 		A9A9F9A61F8B70890010F877 /* ChatInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D729D1F877FFA0093420C /* ChatInteractor.swift */; };
@@ -1488,8 +1488,8 @@
 		A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsController.swift; sourceTree = "<group>"; };
 		A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSettingsController.swift; sourceTree = "<group>"; };
 		A9191DCF1F2220C100498A4F /* BalanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceController.swift; sourceTree = "<group>"; };
-		A91D72991F877FF90093420C /* RecentNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentNavigationController.swift; sourceTree = "<group>"; };
-		A91D729A1F877FF90093420C /* RecentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentViewController.swift; sourceTree = "<group>"; };
+		A91D72991F877FF90093420C /* ChatsNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsNavigationController.swift; sourceTree = "<group>"; };
+		A91D729A1F877FF90093420C /* ChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		A91D729C1F877FFA0093420C /* ChatFloatingHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatFloatingHeaderView.swift; sourceTree = "<group>"; };
 		A91D729D1F877FFA0093420C /* ChatInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInteractor.swift; sourceTree = "<group>"; };
 		A91D729E1F877FFA0093420C /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -2566,8 +2566,8 @@
 		A91D72981F877FF90093420C /* Recent */ = {
 			isa = PBXGroup;
 			children = (
-				A91D72991F877FF90093420C /* RecentNavigationController.swift */,
-				A91D729A1F877FF90093420C /* RecentViewController.swift */,
+				A91D72991F877FF90093420C /* ChatsNavigationController.swift */,
+				A91D729A1F877FF90093420C /* ChatsViewController.swift */,
 				2B7088A91FE3FEA900D16C55 /* ThreadCellConfigurator.swift */,
 				2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */,
 				2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */,
@@ -3841,7 +3841,7 @@
 				149F9A711E72E29A00FB74AA /* idAPIClient.swift in Sources */,
 				3312F68A2007A93600881B97 /* BorderView.swift in Sources */,
 				A9D8F41E1F223DA500C3614A /* BalanceController.swift in Sources */,
-				A9A9F9A11F8B70770010F877 /* RecentViewController.swift in Sources */,
+				A9A9F9A11F8B70770010F877 /* ChatsViewController.swift in Sources */,
 				33316916202BA40300A396A2 /* QRCodeGenerator.swift in Sources */,
 				2B0EF82B1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				2B4E25FC1FCCCE00004614D5 /* AvatarTitleCell.swift in Sources */,
@@ -3906,7 +3906,7 @@
 				A9BF33B51E76F8D0009A51AA /* PassphraseVerifyController.swift in Sources */,
 				A9E1DCDF1F1E276E001A4ABE /* MessagesTextCell.swift in Sources */,
 				2B6C18FA1FCD438000DE432B /* NewGroupViewModel.swift in Sources */,
-				A9A9F9A31F8B707C0010F877 /* RecentNavigationController.swift in Sources */,
+				A9A9F9A31F8B707C0010F877 /* ChatsNavigationController.swift in Sources */,
 				2B6BFFF120483DA20083F960 /* DappsTableHeaderView.swift in Sources */,
 				2BB2E194204420DD001DD5AA /* UITextField+Additions.swift in Sources */,
 				149F9A861E72E29A00FB74AA /* EthereumConverter.swift in Sources */,
@@ -4115,7 +4115,7 @@
 				A94BDE151E800EF800B2F0CF /* ConfirmationButton.swift in Sources */,
 				2BD6FB401F02927F00F1E2BF /* IndexPath+Additions.swift in Sources */,
 				A9AC74111E78064500365029 /* TextLabel.swift in Sources */,
-				A91D72A11F877FFA0093420C /* RecentViewController.swift in Sources */,
+				A91D72A11F877FFA0093420C /* ChatsViewController.swift in Sources */,
 				9FCDBAD41E27DE8800A70E07 /* Yap.swift in Sources */,
 				33643DC11FD6D2F400229BE2 /* PasswordValidator.swift in Sources */,
 				2B460177202916370098694D /* WalletItem.swift in Sources */,
@@ -4194,7 +4194,7 @@
 				A9BF33AD1E76DF0B009A51AA /* PassphraseEnableController.swift in Sources */,
 				2BF634521F7D568C00235C67 /* UIImage+Utils.m in Sources */,
 				2B19D75E20357615007610E7 /* SendTokenViewModel.swift in Sources */,
-				A91D72A01F877FFA0093420C /* RecentNavigationController.swift in Sources */,
+				A91D72A01F877FFA0093420C /* ChatsNavigationController.swift in Sources */,
 				2B5FDC2D204D8E340000DD76 /* DappsDataSource.swift in Sources */,
 				9FA12BF21E65D135003705F6 /* SoundPlayer.swift in Sources */,
 				2B3DF3611F4721EB00A869A3 /* SettingsProfileCell.swift in Sources */,
@@ -4414,7 +4414,7 @@
 				A9A9F9AA1F8B70B80010F877 /* ChatViewController.swift in Sources */,
 				A9603DB61F4DABDC00BF57B1 /* idAPIClient.swift in Sources */,
 				A9603DB71F4DABDC00BF57B1 /* BalanceController.swift in Sources */,
-				A9A9F9A01F8B70760010F877 /* RecentViewController.swift in Sources */,
+				A9A9F9A01F8B70760010F877 /* ChatsViewController.swift in Sources */,
 				3312F6892007A93600881B97 /* BorderView.swift in Sources */,
 				2B0EF82A1F948931001A76CA /* CrashlyticsClient.swift in Sources */,
 				A9603DB91F4DABDC00BF57B1 /* RateUserController.swift in Sources */,
@@ -4479,7 +4479,7 @@
 				2B5FDC2E204D8E340000DD76 /* DappsDataSource.swift in Sources */,
 				A9603E5C1F4DABDC00BF57B1 /* PassphraseVerifyController.swift in Sources */,
 				A9603E5D1F4DABDC00BF57B1 /* MessagesTextCell.swift in Sources */,
-				A9A9F9A21F8B707C0010F877 /* RecentNavigationController.swift in Sources */,
+				A9A9F9A21F8B707C0010F877 /* ChatsNavigationController.swift in Sources */,
 				A9603E611F4DABDC00BF57B1 /* EthereumConverter.swift in Sources */,
 				2B6C18F91FCD438000DE432B /* NewGroupViewModel.swift in Sources */,
 				2BF634531F7D568C00235C67 /* UIImage+Utils.m in Sources */,

@@ -17,7 +17,7 @@ import UIKit
 import SweetFoundation
 import SweetUIKit
 
-final class RecentViewController: SweetTableController {
+final class ChatsViewController: SweetTableController {
 
     private lazy var dataSource: ThreadsDataSource = {
         let dataSource = ThreadsDataSource(target: target, tableView: tableView)
@@ -126,11 +126,11 @@ final class RecentViewController: SweetTableController {
 
 // MARK: - Mix-in extensions
 
-extension RecentViewController: SystemSharing { /* mix-in */ }
+extension ChatsViewController: SystemSharing { /* mix-in */ }
 
 // MARK: - Threads Data Source Output
 
-extension RecentViewController: ThreadsDataSourceOutput {
+extension ChatsViewController: ThreadsDataSourceOutput {
 
     func didRequireOpenThread(_ thread: TSThread) {
         let chatViewController = ChatViewController(thread: thread)
@@ -145,7 +145,7 @@ extension RecentViewController: ThreadsDataSourceOutput {
 
 // MARK: - Profiles List Completion Output
 
-extension RecentViewController: ProfilesListCompletionOutput {
+extension ChatsViewController: ProfilesListCompletionOutput {
 
     func didFinish(_ controller: ProfilesViewController, selectedProfilesIds: [String]) {
         controller.dismiss(animated: true, completion: nil)
@@ -165,7 +165,7 @@ extension RecentViewController: ProfilesListCompletionOutput {
 
 // MARK: - UITableViewDelegate
 
-extension RecentViewController: UITableViewDelegate {
+extension ChatsViewController: UITableViewDelegate {
 
     func tableView(_: UITableView, estimatedHeightForRowAt _: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -184,7 +184,7 @@ extension RecentViewController: UITableViewDelegate {
             break
         case .messageRequests:
             if dataSource.hasUnacceptedThreads {
-                let messagesRequestsViewController = RecentViewController(style: .grouped, target: .unacceptedThreadRequests)
+                let messagesRequestsViewController = ChatsViewController(style: .grouped, target: .unacceptedThreadRequests)
                 navigationController?.pushViewController(messagesRequestsViewController, animated: true)
             } else {
                 showThread(at: indexPath)
@@ -226,7 +226,7 @@ extension RecentViewController: UITableViewDelegate {
     }
 }
 
-extension RecentViewController: NavBarColorChanging {
+extension ChatsViewController: NavBarColorChanging {
     var navTintColor: UIColor? { return target.navTintColor }
     var navBarTintColor: UIColor? { return target.navBarTintColor }
     var navTitleColor: UIColor? { return target.navTitleColor }
