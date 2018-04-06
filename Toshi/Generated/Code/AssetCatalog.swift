@@ -29,8 +29,10 @@ enum AssetCatalogItem: String, StringCaseListable {
     decline_thread_icon,
     error,
     ether_logo,
+    find_people,
     gray_star = "gray-star",
     info,
+    invite_friend,
     launch_screen = "launch-screen",
     logo,
     more_centered,
@@ -112,9 +114,13 @@ enum ImageAsset {
 
     static let ether_logo = AssetCatalogItem.ether_logo.image
 
+    static let find_people = AssetCatalogItem.find_people.image
+
     static let gray_star = AssetCatalogItem.gray_star.image
 
     static let info = AssetCatalogItem.info.image
+
+    static let invite_friend = AssetCatalogItem.invite_friend.image
 
     static let launch_screen = AssetCatalogItem.launch_screen.image
 

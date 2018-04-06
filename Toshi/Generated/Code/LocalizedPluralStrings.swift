@@ -5,7 +5,6 @@ import Foundation
 enum LocalizedPluralKey: String, StringCaseListable {
     case
     group_participants_header_title,
-    message_requests_description,
     passphrase_sign_in_button_placeholder,
     passphrase_sign_in_error,
     ratings_count
@@ -26,16 +25,6 @@ enum LocalizedPlural {
     /// - Returns: The localized string appropriate to the given count.
     static func group_participants_header_title(for count: Int) -> String {
         return LocalizedPluralKey.group_participants_header_title.currentValue(for: count)
-    }
-    
-    /// Values in en:
-    /// - one: "%d person wants to start a chat"
-    /// - other: "%d people want to start a chat"
-    ///
-    /// - Parameter count: The count of items to show a plural for.
-    /// - Returns: The localized string appropriate to the given count.
-    static func message_requests_description(for count: Int) -> String {
-        return LocalizedPluralKey.message_requests_description.currentValue(for: count)
     }
     
     /// Values in en:
