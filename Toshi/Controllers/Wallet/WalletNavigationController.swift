@@ -47,27 +47,27 @@ class WalletNavigationController: UINavigationController {
     // MARK: - Nav Bar Color Handling
 
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        if let colorable = viewController as? NavBarColorChanging {
-            setNavigationBarColors(with: colorable)
+        if let colorChangingViewController = viewController as? NavBarColorChanging {
+            setNavigationBarColors(with: colorChangingViewController)
         }
 
         super.pushViewController(viewController, animated: animated)
     }
 
     override func popViewController(animated: Bool) -> UIViewController? {
-        guard let colorChangingVC = previousViewController as? NavBarColorChanging else {
+        guard let colorChangingViewController = previousViewController as? NavBarColorChanging else {
             // Just call super and be done with it.
             return super.popViewController(animated: animated)
         }
 
-        setNavigationBarColors(with: colorChangingVC)
+        setNavigationBarColors(with: colorChangingViewController)
 
         // Start the transition by calling super so we get a transition coordinator
         let poppedViewController = super.popViewController(animated: animated)
 
         transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
-            guard let topColorChangingVC = self?.topViewController as? NavBarColorChanging else { return }
-            self?.setNavigationBarColors(with: topColorChangingVC)
+            guard let topColorChangingViewController = self?.topViewController as? NavBarColorChanging else { return }
+            self?.setNavigationBarColors(with: topColorChangingViewController)
         })
 
         return poppedViewController

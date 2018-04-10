@@ -516,7 +516,6 @@ extension ChatsDataSource: UITableViewDataSource {
     }
 
     func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard section < sections.count else { return 0 }
         let chatsPageSection = sections[section]
 
         return chatsPageSection.items.count

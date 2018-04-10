@@ -32,11 +32,12 @@ final class ChatsViewController: SweetTableController {
 
     let idAPIClient = IDAPIClient.shared
 
-    private var target: ChatsDataSourceTarget = .chatsMainPage
+    private var target: ChatsDataSourceTarget
+
     init(style: UITableViewStyle, target: ChatsDataSourceTarget) {
-        super.init(style: style)
 
         self.target = target
+        super.init(style: style)
 
         title = dataSource.title
 
@@ -77,7 +78,8 @@ final class ChatsViewController: SweetTableController {
     func dismissIfNeeded(animated: Bool = true) {
         guard target == .messageRequestsPage else { return }
 
-        if Navigator.topNonModalViewController == self && dataSource.unacceptedThreadsCount == 0 {
+        let isTopAndEmpty = Navigator.topNonModalViewController == self && dataSource.unacceptedThreadsCount == 0
+        if isTopAndEmpty {
             navigationController?.popViewController(animated: animated)
         }
     }
@@ -103,15 +105,16 @@ final class ChatsViewController: SweetTableController {
         navigationController?.pushViewController(chatViewController, animated: true)
     }
 
+    private func item(at indexPath: IndexPath) -> ChatsMainPageItem? {
+        let chatsPageSection = dataSource.sections[indexPath.section]
+        guard indexPath.row < chatsPageSection.items.count else { return nil }
+
+        return chatsPageSection.items[indexPath.row]
+    }
+
     func updateContactIfNeeded(at indexPath: IndexPath) {
         if let thread = dataSource.acceptedThread(at: indexPath.row, in: 0), let address = thread.contactIdentifier() {
-            DLog("Updating contact info for address: \(address).")
-
-            idAPIClient.retrieveUser(username: address) { contact in
-                if let contact = contact {
-                    DLog("Updated contact info for \(contact.username)")
-                }
-            }
+            idAPIClient.retrieveUser(username: address)
         }
     }
 
@@ -174,9 +177,7 @@ extension ChatsViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard indexPath.section < dataSource.sections.count else { return }
-        let chatsPageSection = dataSource.sections[indexPath.section]
-        let item = chatsPageSection.items[indexPath.row]
+        guard let item = item(at: indexPath) else { return }
 
         switch item {
         case .findPeople:
@@ -197,11 +198,7 @@ extension ChatsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-
-        guard indexPath.section < dataSource.sections.count else { return false }
-        let chatsPageSection = dataSource.sections[indexPath.section]
-        guard indexPath.row < chatsPageSection.items.count else { return false }
-        let item = chatsPageSection.items[indexPath.row]
+        guard let item = item(at: indexPath) else { return false }
 
         return item == .chat
     }

@@ -323,7 +323,7 @@ final class IDAPIClient {
     /// - Parameters:
     ///   - username: username of id address
     ///   - completion: called on completion
-    func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
+    func retrieveUser(username: String, completion: ((TokenUser?) -> Void)? = nil) {
 
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             var resultUser: TokenUser?
@@ -332,7 +332,7 @@ final class IDAPIClient {
             case .success(let json, _):
                 guard let json = json?.dictionary else {
                     DispatchQueue.main.async {
-                        completion(nil)
+                        completion?(nil)
                     }
                     return
                 }
@@ -343,7 +343,7 @@ final class IDAPIClient {
             }
 
             DispatchQueue.main.async {
-                completion(resultUser)
+                completion?(resultUser)
             }
         }
     }
