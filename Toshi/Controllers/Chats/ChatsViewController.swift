@@ -19,8 +19,8 @@ import SweetUIKit
 
 final class ChatsViewController: SweetTableController {
 
-    private lazy var dataSource: ThreadsDataSource = {
-        let dataSource = ThreadsDataSource(target: target, tableView: tableView)
+    private lazy var dataSource: ChatsDataSource = {
+        let dataSource = ChatsDataSource(target: target, tableView: tableView)
         dataSource.output = self
 
         return dataSource
@@ -32,8 +32,8 @@ final class ChatsViewController: SweetTableController {
 
     let idAPIClient = IDAPIClient.shared
 
-    private var target: ThreadsDataSourceTarget = .chatsMainPage
-    init(style: UITableViewStyle, target: ThreadsDataSourceTarget) {
+    private var target: ChatsDataSourceTarget = .chatsMainPage
+    init(style: UITableViewStyle, target: ChatsDataSourceTarget) {
         super.init(style: style)
 
         self.target = target
@@ -130,14 +130,14 @@ extension ChatsViewController: SystemSharing { /* mix-in */ }
 
 // MARK: - Threads Data Source Output
 
-extension ChatsViewController: ThreadsDataSourceOutput {
+extension ChatsViewController: ChatsDataSourceOutput {
 
     func didRequireOpenThread(_ thread: TSThread) {
         let chatViewController = ChatViewController(thread: thread)
         navigationController?.pushViewController(chatViewController, animated: true)
     }
 
-    func threadsDataSourceDidLoad() {
+    func chatsDataSourceDidLoad() {
         tableView.reloadData()
         dismissIfNeeded()
     }

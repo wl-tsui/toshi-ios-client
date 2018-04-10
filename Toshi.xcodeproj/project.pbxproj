@@ -42,9 +42,9 @@
 		2B07FC47207517F2005F2B40 /* NavBarColorChanging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */; };
 		2B07FC48207517F2005F2B40 /* NavBarColorChanging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */; };
 		2B07FC49207517F2005F2B40 /* NavBarColorChanging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */; };
-		2B09B4091FE11F40008F7917 /* ThreadsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */; };
-		2B09B40A1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */; };
-		2B09B40B1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */; };
+		2B09B4091FE11F40008F7917 /* ChatsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ChatsDataSource.swift */; };
+		2B09B40A1FE11F40008F7917 /* ChatsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ChatsDataSource.swift */; };
+		2B09B40B1FE11F40008F7917 /* ChatsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B4081FE11F40008F7917 /* ChatsDataSource.swift */; };
 		2B09B40D1FE1230B008F7917 /* RecentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */; };
 		2B09B40E1FE1230B008F7917 /* RecentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */; };
 		2B09B40F1FE1230B008F7917 /* RecentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */; };
@@ -1194,7 +1194,7 @@
 		24AC0CEAA51D7F8A19F246E9 /* libPods-CocoaPods-Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B002D8E1F17BA1800D92240 /* NetworkSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSwitcher.swift; sourceTree = "<group>"; };
 		2B07FC46207517F2005F2B40 /* NavBarColorChanging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarColorChanging.swift; sourceTree = "<group>"; };
-		2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadsDataSource.swift; sourceTree = "<group>"; };
+		2B09B4081FE11F40008F7917 /* ChatsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsDataSource.swift; sourceTree = "<group>"; };
 		2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentViewModel.swift; sourceTree = "<group>"; };
 		2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsClient.swift; sourceTree = "<group>"; };
 		2B19D75D20357615007610E7 /* SendTokenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendTokenViewModel.swift; sourceTree = "<group>"; };
@@ -2291,7 +2291,7 @@
 				D197BCB75FFCED003A132F9D /* Profile */,
 				A96823C51FBC89F3000993FE /* Profiles */,
 				A98A29CD1E923784003BBE8E /* Rate Users */,
-				A91D72981F877FF90093420C /* Recent */,
+				A91D72981F877FF90093420C /* Chats */,
 				9F54AB0C1ECC8D390008489F /* ScannerController.swift */,
 				9FE18B291E2D1FC700940DC8 /* Settings */,
 				A9ED6CC61E8282B700160637 /* Sign In */,
@@ -2563,16 +2563,16 @@
 			path = Balance;
 			sourceTree = "<group>";
 		};
-		A91D72981F877FF90093420C /* Recent */ = {
+		A91D72981F877FF90093420C /* Chats */ = {
 			isa = PBXGroup;
 			children = (
 				A91D72991F877FF90093420C /* ChatsNavigationController.swift */,
 				A91D729A1F877FF90093420C /* ChatsViewController.swift */,
 				2B7088A91FE3FEA900D16C55 /* ThreadCellConfigurator.swift */,
-				2B09B4081FE11F40008F7917 /* ThreadsDataSource.swift */,
+				2B09B4081FE11F40008F7917 /* ChatsDataSource.swift */,
 				2B09B40C1FE1230B008F7917 /* RecentViewModel.swift */,
 			);
-			path = Recent;
+			path = Chats;
 			sourceTree = "<group>";
 		};
 		A91D729B1F877FFA0093420C /* Chat */ = {
@@ -3804,7 +3804,7 @@
 				33CD516A202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B4428D8204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */,
-				2B09B40B1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
+				2B09B40B1FE11F40008F7917 /* ChatsDataSource.swift in Sources */,
 				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
 				9F78D9DD1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				2BD18F972034603A00659D40 /* PlaceholderTextView.swift in Sources */,
@@ -4099,7 +4099,7 @@
 				33CD5168202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B4428D6204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				9F54AB0D1ECC8D390008489F /* ScannerController.swift in Sources */,
-				2B09B4091FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
+				2B09B4091FE11F40008F7917 /* ChatsDataSource.swift in Sources */,
 				9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */,
 				2BD18F952034603A00659D40 /* PlaceholderTextView.swift in Sources */,
 				339959AB1FCED3D700D69A01 /* DLog.swift in Sources */,
@@ -4380,7 +4380,7 @@
 				33CD5169202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B4428D7204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */,
-				2B09B40A1FE11F40008F7917 /* ThreadsDataSource.swift in Sources */,
+				2B09B40A1FE11F40008F7917 /* ChatsDataSource.swift in Sources */,
 				A9A9F9A41F8B70840010F877 /* ChatFloatingHeaderView.swift in Sources */,
 				A9603D851F4DABDC00BF57B1 /* MessagesPaymentCell.swift in Sources */,
 				2BD18F962034603A00659D40 /* PlaceholderTextView.swift in Sources */,

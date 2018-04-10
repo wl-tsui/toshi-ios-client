@@ -15,7 +15,7 @@
 
 import UIKit
 
-enum ThreadsDataSourceTarget {
+enum ChatsDataSourceTarget {
     case chatsMainPage
     case messageRequestsPage
 
@@ -110,15 +110,15 @@ enum ChatsMainPageItem {
     }
 }
 
-protocol ThreadsDataSourceOutput: class {
-    func threadsDataSourceDidLoad()
+protocol ChatsDataSourceOutput: class {
+    func chatsDataSourceDidLoad()
     func didRequireOpenThread(_ thread: TSThread)
 }
 
-final class ThreadsDataSource: NSObject {
+final class ChatsDataSource: NSObject {
 
     private var viewModel: RecentViewModel
-    private var target: ThreadsDataSourceTarget
+    private var target: ChatsDataSourceTarget
 
     private let mainPageSectionsCount = 2
     private let mainPageWithRequestsSectionsCount = 3
@@ -152,11 +152,11 @@ final class ThreadsDataSource: NSObject {
         return target.title
     }
 
-    weak var output: ThreadsDataSourceOutput?
+    weak var output: ChatsDataSourceOutput?
 
     weak private var tableView: UITableView?
 
-    init(target: ThreadsDataSourceTarget, tableView: UITableView?) {
+    init(target: ChatsDataSourceTarget, tableView: UITableView?) {
         viewModel = RecentViewModel()
         self.target = target
         self.tableView = tableView
@@ -216,7 +216,7 @@ final class ThreadsDataSource: NSObject {
         }
 
         loadMessages()
-        output?.threadsDataSourceDidLoad()
+        output?.chatsDataSourceDidLoad()
     }
     
     func registerNotifications() {
@@ -384,7 +384,7 @@ final class ThreadsDataSource: NSObject {
             strongSelf.sections = updatedSections
 
             DispatchQueue.main.async {
-                strongSelf.output?.threadsDataSourceDidLoad()
+                strongSelf.output?.chatsDataSourceDidLoad()
             }
         }
     }
@@ -490,7 +490,7 @@ final class ThreadsDataSource: NSObject {
     }
 }
 
-extension ThreadsDataSource: BasicCellActionDelegate {
+extension ChatsDataSource: BasicCellActionDelegate {
 
     func didTapFirstActionButton(_ cell: BasicTableViewCell) {
         guard let indexPath = tableView?.indexPath(for: cell) else { return }
@@ -509,7 +509,7 @@ extension ThreadsDataSource: BasicCellActionDelegate {
     }
 }
 
-extension ThreadsDataSource: UITableViewDataSource {
+extension ChatsDataSource: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return numberOfSections
