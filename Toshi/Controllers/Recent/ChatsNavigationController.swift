@@ -18,7 +18,8 @@ import UIKit
 final class ChatsNavigationController: UINavigationController {
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return (topViewController == viewControllers.first) ? .lightContent : .default
+        let isShowingChatsViewController = (topViewController == viewControllers.first)
+        return isShowingChatsViewController ? .lightContent : .default
     }
 
     override init(rootViewController: UIViewController) {
@@ -94,7 +95,7 @@ final class ChatsNavigationController: UINavigationController {
          UserDefaultsWrapper.selectedThreadAddress = nil
 
         guard let colorChangingVC = previousViewController as? NavBarColorChanging else {
-            // Just call super and be done with it.
+            // Just call super and be done with it if previous controller does not handle color changes for navigation bar.
             return super.popViewController(animated: animated)
         }
 

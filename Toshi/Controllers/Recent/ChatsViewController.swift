@@ -75,7 +75,7 @@ final class ChatsViewController: SweetTableController {
     }
 
     func dismissIfNeeded(animated: Bool = true) {
-        guard target == .unacceptedThreadRequests else { return }
+        guard target == .messageRequestsPage else { return }
 
         if Navigator.topNonModalViewController == self && dataSource.unacceptedThreadsCount == 0 {
             navigationController?.popViewController(animated: animated)
@@ -92,7 +92,7 @@ final class ChatsViewController: SweetTableController {
         switch target {
         case .chatsMainPage:
             return dataSource.acceptedThread(at: indexPath.row, in: 0)
-        case .unacceptedThreadRequests:
+        case .messageRequestsPage:
             return dataSource.unacceptedThread(at: indexPath)
         }
     }
@@ -184,7 +184,7 @@ extension ChatsViewController: UITableViewDelegate {
             break
         case .messageRequests:
             if dataSource.hasUnacceptedThreads {
-                let messagesRequestsViewController = ChatsViewController(style: .grouped, target: .unacceptedThreadRequests)
+                let messagesRequestsViewController = ChatsViewController(style: .grouped, target: .messageRequestsPage)
                 navigationController?.pushViewController(messagesRequestsViewController, animated: true)
             } else {
                 showThread(at: indexPath)

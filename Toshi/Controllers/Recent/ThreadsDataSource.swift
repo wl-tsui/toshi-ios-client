@@ -17,13 +17,13 @@ import UIKit
 
 enum ThreadsDataSourceTarget {
     case chatsMainPage
-    case unacceptedThreadRequests
+    case messageRequestsPage
 
     var title: String {
         switch self {
         case .chatsMainPage:
             return Localized.tab_bar_title_chats
-        case .unacceptedThreadRequests:
+        case .messageRequestsPage:
             return Localized.messages_requests_title
         }
     }
@@ -32,7 +32,7 @@ enum ThreadsDataSourceTarget {
         switch self {
         case .chatsMainPage:
             return Theme.lightTextColor
-        case .unacceptedThreadRequests:
+        case .messageRequestsPage:
             return Theme.tintColor
         }
     }
@@ -41,7 +41,7 @@ enum ThreadsDataSourceTarget {
         switch self {
         case .chatsMainPage:
             return Theme.tintColor
-        case .unacceptedThreadRequests:
+        case .messageRequestsPage:
             return Theme.navigationBarColor
         }
     }
@@ -50,7 +50,7 @@ enum ThreadsDataSourceTarget {
         switch self {
         case .chatsMainPage:
             return Theme.lightTextColor
-        case .unacceptedThreadRequests:
+        case .messageRequestsPage:
             return Theme.darkTextColor
         }
     }
@@ -59,19 +59,19 @@ enum ThreadsDataSourceTarget {
         switch self {
         case .chatsMainPage:
             return UIImage()
-        case .unacceptedThreadRequests:
+        case .messageRequestsPage:
             return nil
         }
     }
 
     var prefersLargeTitle: Bool {
-        return self == .unacceptedThreadRequests
+        return self == .messageRequestsPage
     }
 }
 
 enum ChatsSectionType {
     case findPeople
-    case messagesRequests
+    case messageRequests
     case chats
 }
 
@@ -101,9 +101,9 @@ enum ChatsMainPageItem {
     var icon: UIImage? {
         switch self {
         case .inviteFriend:
-            return #imageLiteral(resourceName: "invite_friend")
+            return ImageAsset.invite_friend
         case .findPeople:
-            return #imageLiteral(resourceName: "find_people")
+            return ImageAsset.find_people
         default:
             return nil
         }
@@ -120,6 +120,10 @@ final class ThreadsDataSource: NSObject {
     private var viewModel: RecentViewModel
     private var target: ThreadsDataSourceTarget
 
+    private let mainPageSectionsCount = 2
+    private let mainPageWithRequestsSectionsCount = 3
+    private let messageRequestsPageSectionsCount = 1
+
     var sections: [ChatsMainPageSection] = []
 
     var hasUnacceptedThreads: Bool {
@@ -134,12 +138,13 @@ final class ThreadsDataSource: NSObject {
         return Int(viewModel.acceptedThreadsMappings.numberOfItems(inSection: UInt(0)))
     }
 
+    // If the datasource serves MessageRequestsController, there is always 1 section only
     var numberOfSections: Int {
         switch target {
         case .chatsMainPage:
-            return hasUnacceptedThreads ? 3 : 2
-        case .unacceptedThreadRequests:
-            return 1
+            return hasUnacceptedThreads ? mainPageWithRequestsSectionsCount : mainPageSectionsCount
+        case .messageRequestsPage:
+            return messageRequestsPageSectionsCount
         }
     }
 
@@ -353,8 +358,8 @@ final class ThreadsDataSource: NSObject {
 
             guard let strongSelf = self else { return }
 
-            self?.viewModel.acceptedThreadsMappings.update(with: transaction)
-            self?.viewModel.unacceptedThreadsMappings.update(with: transaction)
+            strongSelf.viewModel.acceptedThreadsMappings.update(with: transaction)
+            strongSelf.viewModel.unacceptedThreadsMappings.update(with: transaction)
 
             var updatedSections: [ChatsMainPageSection] = []
 
@@ -363,7 +368,7 @@ final class ThreadsDataSource: NSObject {
                 updatedSections.append(ChatsMainPageSection(type: .findPeople, items: [.findPeople]))
 
                 if strongSelf.hasUnacceptedThreads {
-                    updatedSections.append(ChatsMainPageSection(type: .messagesRequests, items: [.messageRequests]))
+                    updatedSections.append(ChatsMainPageSection(type: .messageRequests, items: [.messageRequests]))
                 }
 
                 var chatItems = [ChatsMainPageItem](repeating: .chat, count: strongSelf.acceptedThreadsCount)
@@ -371,20 +376,20 @@ final class ThreadsDataSource: NSObject {
                 chatItems.append(.inviteFriend)
                 updatedSections.append(ChatsMainPageSection(type: .chats, items: chatItems))
 
-            case .unacceptedThreadRequests:
+            case .messageRequestsPage:
                 let chatItems = [ChatsMainPageItem](repeating: .chat, count: strongSelf.unacceptedThreadsCount)
                 updatedSections.append(ChatsMainPageSection(type: .chats, items: chatItems))
             }
 
-            self?.sections = updatedSections
+            strongSelf.sections = updatedSections
 
             DispatchQueue.main.async {
-                self?.output?.threadsDataSourceDidLoad()
+                strongSelf.output?.threadsDataSourceDidLoad()
             }
         }
     }
 
-    private func messagesRequestsCell(for indexPath: IndexPath) -> UITableViewCell {
+    private func messageRequestsCell(for indexPath: IndexPath) -> UITableViewCell {
         guard let firstUnacceptedThread = unacceptedThread(at: IndexPath(row: 0, section: 0)) else {
             return UITableViewCell(frame: .zero)
         }
@@ -412,7 +417,7 @@ final class ThreadsDataSource: NSObject {
         return cell
     }
 
-    private func messageRequestsCell(for indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
+    private func acceptableMessageRequestCell(for indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
         guard let thread = unacceptedThread(at: indexPath) else { return UITableViewCell(frame: .zero) }
 
         let avatar = thread.avatar()
@@ -468,7 +473,7 @@ final class ThreadsDataSource: NSObject {
             (cell as? BasicTableViewCell)?.titleTextField.textColor = Theme.tintColor
             configurator.configureCell(cell, with: cellData)
         case .messageRequests:
-            cell = messagesRequestsCell(for: indexPath)
+            cell = messageRequestsCell(for: indexPath)
             cell.accessoryType = .disclosureIndicator
         case .chat:
             if let thread = acceptedThread(at: indexPath.row, in: 0) {
@@ -521,8 +526,8 @@ extension ThreadsDataSource: UITableViewDataSource {
         switch target {
         case .chatsMainPage:
             return chatMainPageCell(for: indexPath, tableView: tableView)
-        case .unacceptedThreadRequests:
-            return messageRequestsCell(for: indexPath, tableView: tableView)
+        case .messageRequestsPage:
+            return acceptableMessageRequestCell(for: indexPath, tableView: tableView)
         }
     }
 }
