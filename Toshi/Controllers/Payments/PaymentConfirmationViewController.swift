@@ -536,18 +536,23 @@ final class PaymentConfirmationViewController: UIViewController {
     @objc func cancelItemTapped() {
         switch presentationMethod {
         case .fullScreen:
-            actuallyDismiss()
+            dismissByCancelledPeyment()
         case .modalBottomSheet:
-            self.setReceiptShowing(false) {
-                self.actuallyDismiss()
-           }
+            setReceiptShowing(false) { [weak self] in
+                self?.dismissByCancelledPeyment()
+            }
         }
-
-        delegate?.paymentConfirmationViewControllerDidCancel(self)
     }
 
-    private func actuallyDismiss() {
-        self.dismiss(animated: true, completion: nil)
+    private func dismissByCancelledPeyment() {
+        self.actuallyDismiss(completion: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.paymentConfirmationViewControllerDidCancel(strongSelf)
+        })
+    }
+
+    private func actuallyDismiss(completion: (() -> Void)? = nil) {
+        self.dismiss(animated: true, completion: completion)
     }
 
     private func sendPayment() {
