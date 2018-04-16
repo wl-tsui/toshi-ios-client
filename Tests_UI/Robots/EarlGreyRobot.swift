@@ -58,7 +58,16 @@ class EarlGreyRobot {
             ]))
             .atIndex(0)
     }
-    
+
+    private func textFieldWith(placeHolder: String, file: StaticString, line: UInt) -> GREYElementInteraction {
+        return earlFromFile(file: file, line: line)
+            .selectElement(with: grey_allOf([
+                grey_kindOfClass(UITextField.self),
+                matcher(forPlaceholder: placeHolder)
+            ]))
+            .atIndex(0)
+    }
+
     private func cellWith(label: String,
                           file: StaticString,
                           line: UInt) -> GREYElementInteraction {
@@ -70,6 +79,20 @@ class EarlGreyRobot {
             ]))
             .usingSearch(grey_scrollInDirection(.down, 100),
                          onElementWith: grey_kindOfClass(UITableView.self))
+
+    }
+
+    private func itemWith(label: String,
+                          file: StaticString,
+                          line: UInt) -> GREYElementInteraction {
+        return self.earlFromFile(file: file, line: line)
+            .selectElement(with: grey_allOf([
+                grey_descendant(grey_accessibilityLabel(label)),
+                grey_sufficientlyVisible(),
+                grey_kindOfClass(UICollectionViewCell.self)
+            ]))
+            .usingSearch(grey_scrollInDirection(.down, 100),
+                         onElementWith: grey_kindOfClass(UICollectionViewCell.self))
 
     }
     
@@ -98,7 +121,12 @@ extension EarlGreyRobot: BasicRobot {
         viewWith(identifier: accessibilityIdentifier.rawValue, file: file, line: line)
             .assert(with: grey_sufficientlyVisible())
     }
-    
+
+    func confirmTextFieldVisibleWith(placeHolder: String, file: StaticString, line: UInt) {
+        textFieldWith(placeHolder: placeHolder, file: file, line: line)
+                .assert(with: grey_sufficientlyVisible())
+    }
+
     func confirmViewGoneWith(accessibilityLabel: String, file: StaticString, line: UInt) {
         viewWith(label: accessibilityLabel, file: file, line: line)
             .assert(with: grey_notVisible())
@@ -107,6 +135,11 @@ extension EarlGreyRobot: BasicRobot {
     func confirmViewGoneWith(accessibilityIdentifier: AccessibilityIdentifier, file: StaticString, line: UInt) {
         viewWith(identifier: accessibilityIdentifier.rawValue, file: file, line: line)
             .assert(with: grey_notVisible())
+    }
+
+    func confirmTextFieldGoneWith(placeHolder: String, file: StaticString, line: UInt) {
+        textFieldWith(placeHolder: placeHolder, file: file, line: line)
+                .assert(with: grey_notVisible())
     }
 
     func tapButtonWith(accessibilityLabel: String, file: StaticString, line: UInt) {
@@ -118,10 +151,28 @@ extension EarlGreyRobot: BasicRobot {
         cellWith(label: accessibilityLabel, file: file, line: line)
             .perform(grey_tap())
     }
-    
+
     func tapViewWith(accessibilityLabel: String, file: StaticString, line: UInt) {
         viewWith(label: accessibilityLabel, file: file, line: line)
             .perform(grey_tap())
+    }
+
+    func typeText(_ text: String, onViewWith accessibilityIdentifier: AccessibilityIdentifier, file: StaticString, line: UInt) {
+        viewWith(identifier: accessibilityIdentifier.rawValue, file: file, line: line)
+            .perform(grey_typeText(text))
+    }
+
+    func clearText(onTextFieldWith placeholder: String, file: StaticString, line: UInt) {
+        textFieldWith(placeHolder: placeholder, file: file, line: line)
+                .perform(grey_clearText())
+    }
+
+    func confirmButtonEnabled(_ enabled: Bool, accessibilityLabel: String, file: StaticString, line: UInt) {
+        if enabled {
+            viewWith(label: accessibilityLabel, file: file, line: line).assert(with: grey_enabled())
+        } else {
+            viewWith(label: accessibilityLabel, file: file, line: line).assert(with: grey_not(grey_enabled()))
+        }
     }
 }
 
@@ -131,3 +182,23 @@ extension EarlGreyRobot: MyProfileRobot { /*mix-in */ }
 extension EarlGreyRobot: SplashScreenRobot { /* mix-in */ }
 extension EarlGreyRobot: SignInRobot { /* mix-in */ }
 extension EarlGreyRobot: TabBarRobot { /* mix-in */ }
+extension EarlGreyRobot: HowDoesItWorkScreenRobot { /* mix-in */ }
+
+/**
+*  Matcher for UI element with the provided accessibility @c label.
+*
+*  @param label The accessibility label to be matched.
+*
+*  @return A matcher for the accessibility label of an accessible element.
+*/
+func matcher(forPlaceholder placeholder: String) -> GREYMatcher {
+    return GREYElementMatcherBlock(matchesBlock: { element in
+        guard let textField = element as? UITextField else { return false }
+
+        return textField.placeholder == placeholder
+    }, descriptionBlock: { description in
+        guard let description = description else { return }
+
+        description.appendText("has placeholder \(placeholder)")
+    })
+}

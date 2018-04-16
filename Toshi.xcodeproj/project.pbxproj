@@ -1018,6 +1018,7 @@
 		D197B329D1F28B5F7868DE4D /* ProfileEditController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BDBBB0DE754639B7005B /* ProfileEditController.swift */; };
 		D197B35BF9744D2F37972747 /* EthereumAPIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B33D03FC3E507BE3B3C1 /* EthereumAPIClientTests.swift */; };
 		D197B3681093A4FBE3144B3C /* getHighBalance.json in Resources */ = {isa = PBXBuildFile; fileRef = D197B538677D9E831BA9AB3F /* getHighBalance.json */; };
+		D197B3754333741EC9165E36 /* SignInScreenUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD427B9507272D11B76 /* SignInScreenUITests.swift */; };
 		D197B3781644ABF575195A69 /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
 		D197B38DAA052C5A2FC57DA0 /* String+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B695935159A20363BBF9 /* String+nsRange.swift */; };
 		D197B3CD97B238550A27A173 /* SofaCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B5AD370809E7D2EB3631 /* SofaCommand.swift */; };
@@ -1035,6 +1036,7 @@
 		D197B4F1934405EADD429871 /* DoubleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B52C452CE2763BB4976A /* DoubleImageView.swift */; };
 		D197B50DCD78CB8264B920C3 /* NSDecimalNumber+AdditionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BD90B16E4CB6A71D4C6C /* NSDecimalNumber+AdditionsTests.swift */; };
 		D197B54F2788A7DF91A035AE /* ToshiErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */; };
+		D197B55C4CEDEC04107E1100 /* HowDoesItWorkScreenRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197B08FD40246411DCC612F /* HowDoesItWorkScreenRobot.swift */; };
 		D197B57BA2EA6533D6523DB0 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BFD8FAC1FBE64984D60C /* StatusCell.swift */; };
 		D197B590E4C59A08CB4AD88A /* SofaWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BC2A4D26A2F961C2E33E /* SofaWrapper.swift */; };
 		D197B5D286D19CDAC90DCF45 /* PaymentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D197BCE7202958A0BA1A896E /* PaymentRouter.swift */; };
@@ -1568,6 +1570,7 @@
 		CFAFE0DF986DC3B38AF50EE6 /* Pods-CocoaPods-Distribution.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocoaPods-Distribution.release.xcconfig"; path = "Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution.release.xcconfig"; sourceTree = "<group>"; };
 		D197B003D276C7AD76B6A223 /* getBalance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getBalance.json; sourceTree = "<group>"; };
 		D197B079DCC1F4C2498E14C7 /* getRate.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = getRate.json; sourceTree = "<group>"; };
+		D197B08FD40246411DCC612F /* HowDoesItWorkScreenRobot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowDoesItWorkScreenRobot.swift; sourceTree = "<group>"; };
 		D197B0B3F554858E7196CD70 /* ToshiErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToshiErrorTests.swift; sourceTree = "<group>"; };
 		D197B0B8C43D9AEF28A5170A /* IDAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IDAPIClientTests.swift; sourceTree = "<group>"; };
 		D197B12C40488CB1523BB212 /* user.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = user.json; sourceTree = "<group>"; };
@@ -1629,6 +1632,7 @@
 		D197BDA113837D7DCFE1A66F /* ExchangeRateAPIClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExchangeRateAPIClientTests.swift; sourceTree = "<group>"; };
 		D197BDBBB0DE754639B7005B /* ProfileEditController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditController.swift; sourceTree = "<group>"; };
 		D197BFC186F1EEBDC8FD45B1 /* transactionSkeleton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = transactionSkeleton.json; sourceTree = "<group>"; };
+		D197BFD427B9507272D11B76 /* SignInScreenUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInScreenUITests.swift; sourceTree = "<group>"; };
 		D197BFD8FAC1FBE64984D60C /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		DB569D0242764BCF23E2B76B /* libPods-CocoaPods-Tests_UI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Tests_UI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC66D9B224C045376BE4638 /* Pods-Tests_UI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tests_UI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tests_UI/Pods-Tests_UI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2129,6 +2133,7 @@
 				33C0342C1FFE6A1800A9C59C /* SplashScreenUITests.swift */,
 				33C034261FFE69E700A9C59C /* Info.plist */,
 				33C034361FFE6E0000A9C59C /* Tests_UI-Bridging-Header.h */,
+				D197BFD427B9507272D11B76 /* SignInScreenUITests.swift */,
 			);
 			path = Tests_UI;
 			sourceTree = "<group>";
@@ -2142,6 +2147,7 @@
 				33C0343A1FFE7BA700A9C59C /* SignInRobot.swift */,
 				33C034311FFE6A3B00A9C59C /* SplashScreenRobot.swift */,
 				33674E401FFFF43900089BF7 /* TabBarRobot.swift */,
+				D197B08FD40246411DCC612F /* HowDoesItWorkScreenRobot.swift */,
 			);
 			path = Robots;
 			sourceTree = "<group>";
@@ -4078,6 +4084,8 @@
 				33C034341FFE6A4500A9C59C /* EarlGreyRobot.swift in Sources */,
 				33C0343D1FFE7FF000A9C59C /* MyProfileRobot.swift in Sources */,
 				33C034321FFE6A3B00A9C59C /* SplashScreenRobot.swift in Sources */,
+				D197B3754333741EC9165E36 /* SignInScreenUITests.swift in Sources */,
+				D197B55C4CEDEC04107E1100 /* HowDoesItWorkScreenRobot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

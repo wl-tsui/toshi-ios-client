@@ -50,6 +50,7 @@ final class SignInView: UIView {
         view.textColor = Theme.darkTextColor
         view.returnKeyType = .next
         view.alpha = 0
+        view.accessibilityIdentifier = AccessibilityIdentifier.passwordTextField.rawValue
         
         view.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         
