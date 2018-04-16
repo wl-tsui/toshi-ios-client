@@ -213,8 +213,6 @@ func matcher(forPlaceholder placeholder: String) -> GREYMatcher {
 
         return textField.placeholder == placeholder
     }, descriptionBlock: { description in
-        guard let description = description else { return }
-
         description.appendText("has placeholder \(placeholder)")
     })
 }
