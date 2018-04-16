@@ -67,6 +67,7 @@ platform :ios do
       type: signing_type,
       team_id: apple_dev_team,
       git_branch: Toshi::MatchInfo::Branch,
+      clone_branch_directly: true,
       readonly: true,
       app_identifier: bundle_ids,
       username: username,
