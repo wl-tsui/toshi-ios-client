@@ -26,6 +26,7 @@ final class SignInExplanationViewController: UIViewController {
         view.numberOfLines = 0
         view.attributedText = attributedText
         view.adjustsFontForContentSizeCategory = true
+        view.accessibilityIdentifier = AccessibilityIdentifier.passphraseSignInExplanationLabel.rawValue
 
         return view
     }()

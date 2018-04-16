@@ -142,7 +142,7 @@ final class DappsViewController: UIViewController {
         view.register(RectImageTitleSubtitleTableViewCell.self)
         view.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
         view.register(UITableViewCell.self, forCellReuseIdentifier: genericCellReuseIdentifier)
-        view.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
+        view.separatorStyle = .none
 
         return view
     }()
@@ -262,24 +262,22 @@ extension DappsViewController: UITableViewDataSource {
             cell.selectionStyle = .none
             cell.textLabel?.text = item.displayTitle
             cell.textLabel?.textColor = Theme.tintColor
-            cell.separatorInset = .zero
             return cell
         case .searchWithGoogle:
             let cell = tableView.dequeueReusableCell(withIdentifier: genericCellReuseIdentifier, for: indexPath)
 
             cell.selectionStyle = .none
 
-            let googleText = " - \(Localized.dapps_search_with_google_section_title)"
+            let googleText = " – \(Localized.dapps_search_with_google_section_title)"
             let text = (item.displayTitle ?? "") + googleText
             let attributedString = NSMutableAttributedString(string: text)
 
-            attributedString.addAttribute(.font, value: Theme.preferredRegular(), range: NSRange(location: 0, length: attributedString.length))
+            attributedString.addAttribute(.font, value: Theme.preferredRegularTiny(), range: NSRange(location: 0, length: attributedString.length))
             if let range = text.range(of: googleText) {
-                attributedString.addAttribute(.foregroundColor, value: Theme.lightGreyTextColor, range: NSRange(location: range.lowerBound.encodedOffset, length: googleText.count))
+                attributedString.addAttribute(.foregroundColor, value: Theme.placeholderTextColor, range: NSRange(location: range.lowerBound.encodedOffset, length: googleText.count))
             }
 
             cell.textLabel?.attributedText = attributedString
-            cell.separatorInset = .zero
 
             return cell
         case .dappFront:
@@ -309,7 +307,6 @@ extension DappsViewController: UITableViewDataSource {
                                                                     left: .defaultMargin,
                                                                     bottom: .spacingx8,
                                                                     right: -.defaultMargin))
-            cell.separatorInset = .zero
             return cell
         }
     }
@@ -344,6 +341,7 @@ extension DappsViewController: UITableViewDataSource {
             return defaultSectionHeaderHeight
         case .allOrFiltered:
             guard let sectionData = dataSource.section(at: section), sectionData.name != nil else { return 0 }
+            
             return searchedResultsSectionHeaderHeight
         }
     }

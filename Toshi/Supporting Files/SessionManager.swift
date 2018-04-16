@@ -29,6 +29,7 @@ final class SessionManager {
     private(set) var contactsManager: ContactsManager
     private(set) var contactsUpdater: ContactsUpdater
     private(set) var messageSender: MessageSender
+    private(set) var messageFetcherJob: MessageFetcherJob?
 
     init() {
         self.networkManager = TSNetworkManager.shared()
@@ -43,6 +44,8 @@ final class SessionManager {
 
         let sharedEnv = TextSecureKitEnv(callMessageHandler: EmptyCallHandler(), contactsManager: contactsManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), profileManager: ProfileManager.shared())
         TextSecureKitEnv.setShared(sharedEnv)
+
+        messageFetcherJob = MessageFetcherJob(messageReceiver: OWSMessageReceiver.sharedInstance(), networkManager: networkManager, signalService: OWSSignalService.sharedInstance())
     }
 
     func signOutUser() {

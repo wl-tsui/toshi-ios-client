@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
 //
 // This isn't a perfect arrangement, but in practice this will prevent
 // data loss and will resolve all known issues.
-- (void)updateWithMutedUntilDate:(NSDate *)mutedUntilDate;
+- (void)updateWithMutedUntilDate:(nullable NSDate *)mutedUntilDate;
 
 @end
 

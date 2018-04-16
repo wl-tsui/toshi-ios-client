@@ -16,7 +16,7 @@
 import Foundation
 
 /// An individual Dapp
-final class QueriedDappsResults: Codable {
+struct QueriedDappsResults: Codable {
 
     let results: CategorisedDappResults
     let offset: Int?
@@ -36,7 +36,7 @@ final class QueriedDappsResults: Codable {
     }
 }
 
-final class CategorisedDappResults: Codable {
+struct CategorisedDappResults: Codable {
 
     let dapps: [Dapp]
     let categories: DappCategoryInfo

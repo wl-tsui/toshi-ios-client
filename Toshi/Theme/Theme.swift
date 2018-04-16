@@ -270,7 +270,11 @@ extension Theme {
     static func preferredRegularSmall(range: ClosedRange<CGFloat> = 16...30) -> UIFont {
         return dynamicType(for: regular(size: 16), withStyle: .subheadline, inSizeRange: range)
     }
-    
+
+    static func preferredRegularTiny(range: ClosedRange<CGFloat> = 15...30) -> UIFont {
+        return dynamicType(for: regular(size: 15), withStyle: .subheadline, inSizeRange: range)
+    }
+
     static func preferredSemibold(range: ClosedRange<CGFloat> = 17...30) -> UIFont {
         return dynamicType(for: semibold(size: 17), withStyle: .headline, inSizeRange: range)
     }

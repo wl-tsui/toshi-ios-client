@@ -5,7 +5,7 @@ inhibit_all_warnings!
 abstract_target 'CocoaPods' do
   # Things which can't be installed via Carthage because of C code
   pod 'AxolotlKit',  git: 'https://github.com/WhisperSystems/SignalProtocolKit.git'
-  pod 'SignalServiceKit', git: 'https://github.com/toshiapp/Signal-iOS.git', commit: "910c2c02f251ac21caec77aa3e6d8102743beea7"
+  pod 'SignalServiceKit', git: 'https://github.com/toshiapp/Signal-iOS.git', commit: "1a3d218d56109fd3d3d7c612c00191fb072cf297"
 
   # Grabs from the head of this repo, which allows SignalServiceKit to compile properly
   pod 'SocketRocket', git: 'https://github.com/facebook/SocketRocket.git'
@@ -14,9 +14,9 @@ abstract_target 'CocoaPods' do
   pod 'CocoaLumberjack', '~> 3.3.0'
 
   # Things which can't be installed via carthage because they contain scripts
-  pod 'Fabric', '~> 1.7.5'
+  pod 'Fabric', '~> 1.7.6'
   pod 'Crashlytics', '~>3.10.1'
-  pod 'SwiftLint', '~>0.24.0'
+  pod 'SwiftLint', '~>0.25.1'
 
   target 'Development' do
       

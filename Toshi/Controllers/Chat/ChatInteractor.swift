@@ -518,6 +518,16 @@ final class ChatInteractor: NSObject {
             thread.markAllAsRead(with: transaction)
         }
     }
+
+    // MARK: - Mute
+
+    static func muteThread(_ thread: TSThread) {
+        thread.updateWithMuted(until: Date.distantFuture)
+    }
+
+    static func unmuteThread(_ thread: TSThread) {
+         thread.updateWithMuted(until: nil)
+    }
     
     // MARK: - Bots
 

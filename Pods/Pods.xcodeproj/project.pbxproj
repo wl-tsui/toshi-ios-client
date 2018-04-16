@@ -224,7 +224,6 @@
 		2EBABCCF637202ACF1BD859474CAF8B5 /* NSArray+OWS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DD4B924BD2B29E8864203E95AE72548 /* NSArray+OWS.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2ECA3978A8808CA89EB4EB7F506E2358 /* OWSOutgoingSentMessageTranscript.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E36CCF3B81087D8361DD55994A70CE2 /* OWSOutgoingSentMessageTranscript.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		2EDFB1CE6E04C253434D583F2CF7808E /* YapDatabaseConnectionProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = 3359B701398A7DD47BBACC416DB10B86 /* YapDatabaseConnectionProxy.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		2FA83FDE6DB9AB8591DE9270CF7A6495 /* Pods-Tests_UI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CD537BD67FC50473716948B928D222AF /* Pods-Tests_UI-dummy.m */; };
 		2FF26C93D1773CF2B6C83B79D9726944 /* YDBCKMappingTableInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6117F40927696FDC9680EA523FFD82AC /* YDBCKMappingTableInfo.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		301A71A4E2FF9D4246CF0075754810C2 /* YapDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAE59746AA7FD4E0A9FE2866AACDC96 /* YapDatabaseManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		301E9C8A52CCC5791225246BCDE47D94 /* NBPhoneNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 8438A4B970BD253527950DDEE66960E4 /* NBPhoneNumber.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -308,7 +307,6 @@
 		45F01A7BE587B42A02A091915F72B074 /* TSDatabaseSecondaryIndexes.h in Headers */ = {isa = PBXBuildFile; fileRef = A70708A75E190060450DB55D5F60B68E /* TSDatabaseSecondaryIndexes.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		46102137796670DD42A5F31EF38A32EB /* OWSDisappearingConfigurationUpdateInfoMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D13BC8C960E6629253BA01D5A318FC2 /* OWSDisappearingConfigurationUpdateInfoMessage.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		4615A79365CB31357F1B298C163E64B2 /* RingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ACD2B9D34F2E7F0B961E5FEB0266092 /* RingBuffer.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		468CBAB30D4DAD452DBE34BE234FF4A8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = D23E37BEFABC6B7DC3F9582A85930A27 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-DNDEBUG -DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_SOUNDEX -DSQLITE_THREADSAFE -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_STAT3 -DSQLITE_ENABLE_STAT4 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_MEMORY_MANAGEMENT -DSQLITE_ENABLE_LOAD_EXTENSION -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_UNICODE61 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_JSON1 -DSQLITE_ENABLE_FTS5 -DSQLCIPHER_CRYPTO_CC -fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		46923E37BE99214632A5C2B2A4168CD8 /* OWSFingerprintProtos.pb.m in Sources */ = {isa = PBXBuildFile; fileRef = FC9AE2AD71F0058CDB5F576C2C9DB377 /* OWSFingerprintProtos.pb.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		471012433B91BF6A03F274C99D8058A0 /* YapDatabaseCloudCoreOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 85F932792F94FB3405A53FB7E794041C /* YapDatabaseCloudCoreOptions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		473A75DF72A151185B2D443F29843440 /* YapSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 854A67BC9F62F3DB853FFCAED0F71FEA /* YapSet.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -424,6 +422,7 @@
 		620A2C085C852175E8FB5219BA4C4C8B /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = C35187015B6D9CD758C09C44E41F9A94 /* Reachability.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		621A87292C162A10092DE22B36327785 /* GeneratedMessageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = ED3CBCFBCE84B4222D0086E101B63E06 /* GeneratedMessageBuilder.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		6288035020F0426F9929C671464D900B /* curve_sigs.h in Headers */ = {isa = PBXBuildFile; fileRef = 61CFF669288CB8F4AF710094CD752167 /* curve_sigs.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		62DB1A9DD3AF7D76773895D47D01BD20 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5F01601F28AC2B48125CDCC59D1A4A /* Foundation.framework */; };
 		63299DE5DEA29075FADA35711169188E /* AFNetworking-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD881ED1A18722F2D2857D4D6979873 /* AFNetworking-dummy.m */; };
 		63FF4EC1D3DDA4B5ED2F68BFC306B2BF /* UIWebView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 624B6763962C3999A96C201007EC298E /* UIWebView+AFNetworking.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		649BD043C0BB7D27BD446967DC390B62 /* YapDatabaseSecondaryIndexHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = BB9F52A5167F4224450FFBB3407CE7D9 /* YapDatabaseSecondaryIndexHandler.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -446,9 +445,9 @@
 		6899570A16E1F0B2BC544AEE8E91312F /* TSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = C83C46C982BD238D32686D60C47040E4 /* TSMessage.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		68B6C0C4E250C68E25ED7A197F848CDC /* OWSCensorshipConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 084F9E0D532F7F4C4A9B0B014BB10CFF /* OWSCensorshipConfiguration.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		68F1A50AA6DA6C67C24B969731946E90 /* MTLReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3BEBD88D8111B994A856402EEC4C43 /* MTLReflection.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		691296A94BB82C0299AE82459CE35675 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = D23E37BEFABC6B7DC3F9582A85930A27 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-DNDEBUG -DSQLITE_HAS_CODEC -DSQLITE_TEMP_STORE=2 -DSQLITE_SOUNDEX -DSQLITE_THREADSAFE -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_STAT3 -DSQLITE_ENABLE_STAT4 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_MEMORY_MANAGEMENT -DSQLITE_ENABLE_LOAD_EXTENSION -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_FTS4_UNICODE61 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_UNLOCK_NOTIFY -DSQLITE_ENABLE_JSON1 -DSQLITE_ENABLE_FTS5 -DSQLCIPHER_CRYPTO_CC -DHAVE_USLEEP=1 -DSQLITE_MAX_VARIABLE_NUMBER=99999 -fno-objc-arc -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		69C6E56AB7BCAB18E645AFEB0EABB99A /* OWSCallIceUpdateMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF0BB7A8A15744F52B653E1D9B107D1 /* OWSCallIceUpdateMessage.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		69EDDFB88BB4F6A6143F19E4EFF80DE0 /* fe_isnonzero.c in Sources */ = {isa = PBXBuildFile; fileRef = 89F3708254BAC7F6382F1B6F420ED5AE /* fe_isnonzero.c */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
-		69F1605902ED64D1BD903BB7568D7383 /* Pods-Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559D79578978969AC594A4820F04E31 /* Pods-Tests-dummy.m */; };
 		6A00B428EEFCE955723E4B46B8E08B00 /* OWSReadReceiptsForLinkedDevicesMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 780C2680A2BC9B6C7A49E72EC18DD89D /* OWSReadReceiptsForLinkedDevicesMessage.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6A14FAA5A37D797F884894F057D23EF1 /* SignalServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A1EC21546F91F11B32E1E582D2F721 /* SignalServiceKit-dummy.m */; };
 		6AC9D3C53721EAC43F8BA9E956D6B4D4 /* YapDatabaseCloudCoreOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 640A762921A01B29AEC7144E95FADAFD /* YapDatabaseCloudCoreOperation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -714,6 +713,7 @@
 		ABD74F67595618CECD5E096594AB4904 /* SRDelegateController.h in Headers */ = {isa = PBXBuildFile; fileRef = C007CDB99C13BD78841AFEEC386E9C19 /* SRDelegateController.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		AC6F3C3157FF0A720151AC2CBF85CC89 /* YapDatabaseCloudCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 739E7274C22CB4FA401C059C108D35AF /* YapDatabaseCloudCore.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		ACD8F766EE6239E856DC401D24CC95E0 /* YapDatabaseFilteredViewTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = C1CB1A668D83F025D3917790902BEB5B /* YapDatabaseFilteredViewTypes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		ACEA21660A6419D580B4E566754C82BC /* Pods-Tests_UI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CD537BD67FC50473716948B928D222AF /* Pods-Tests_UI-dummy.m */; };
 		AD00E1F2D46B6DC92CEEC2E023C11A00 /* YapRowidSet.mm in Sources */ = {isa = PBXBuildFile; fileRef = F5596FB748E812DD398DC3F5A896DD24 /* YapRowidSet.mm */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		AD1AA02CD581AB895016B853C86A1404 /* SRHTTPConnectMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9686885F4C515F3193C53603B8C38E /* SRHTTPConnectMessage.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		AD318056E1711B2033A01B1E499B0F26 /* YapDatabaseCloudKitPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 75DD6B77C5CAEE966C3DA69C73B505A4 /* YapDatabaseCloudKitPrivate.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -736,6 +736,7 @@
 		B219B576309AD89A185D8D551E36B148 /* OWSRecordTranscriptJob.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E135873CCB2B338971C9A091ABC17B /* OWSRecordTranscriptJob.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B21EFBEE8A66F35136D762280D760037 /* TSStorageManager+SessionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EACDD65290F60A320D23D34573AFBAC /* TSStorageManager+SessionStore.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B2358E010E0460BEC320A7AFCBAC60B5 /* MTLJSONAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = D928707D9809E5D58ADDEBFA9632733A /* MTLJSONAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B2EB40CE1801FFB17BB37AAB723C8F7A /* Pods-Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559D79578978969AC594A4820F04E31 /* Pods-Tests-dummy.m */; };
 		B30DEF0987C87F5B3D354F4B08FB0A4D /* ObjectivecDescriptor.pb.h in Headers */ = {isa = PBXBuildFile; fileRef = ADECB6C42ACC839060A0C490596A7F9D /* ObjectivecDescriptor.pb.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B31DE51E7A03FEE668AFC2C684BE79C0 /* SecurityFailure.h in Headers */ = {isa = PBXBuildFile; fileRef = FCC4FCF1B3987C6C990D654DB4EEF4C5 /* SecurityFailure.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B33FCCE88647A5C5D4CC50D39A69A00D /* OWSDeviceProvisioningCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA7E56C3E98851815F26C9B331BE6AD /* OWSDeviceProvisioningCodeRequest.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -758,7 +759,6 @@
 		B7F5527DEEF56B6A31D46A376425B8A0 /* SAMKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 782DC8F62FF6EC3BC29BA0406D72BCDA /* SAMKeychain.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B8DAD9C91D81ED5DA9BFB550C611A6A8 /* YapMutationStack.m in Sources */ = {isa = PBXBuildFile; fileRef = FC94075EE62042648680247D3DD0E20C /* YapMutationStack.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		B8FAA9501F045A91D282E632A9A4DAE2 /* OWSRequestBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = A8110FEDBA1A49530EDF6141CB8BDC17 /* OWSRequestBuilder.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		B930CBEEF5DBE92389D9300A7A68707F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5F01601F28AC2B48125CDCC59D1A4A /* Foundation.framework */; };
 		B9B0350CF39AFD0EC0D026CC16C7F1DE /* SAMKeychain-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2130AD5D3972E6DC68057999DDB2D8 /* SAMKeychain-dummy.m */; };
 		BA26927FB66C6AC26F17094FA79A6491 /* TSCurrentSignedPreKeyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F54DD9FA5E6EB3166E5C7FC1E0648D9 /* TSCurrentSignedPreKeyRequest.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		BA60869B8923C0537966DB073888F371 /* YapDatabaseViewOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = D38CF12EE6E4CE289A2DA06CF7E06898 /* YapDatabaseViewOptions.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -924,12 +924,12 @@
 		E219ACBCC0477199E0E972D9F568C574 /* OWSBlockedPhoneNumbersMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 85E2B90CDEAB9EE399A40E1AA8F97F98 /* OWSBlockedPhoneNumbersMessage.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E260E28B3D15B8BEF70E1A14C14AAD83 /* base2.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AE8EDA30F38A67F5C822970CDA3C94B /* base2.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E2C5D2D51F4B4BD9E7D2AE89BF2E1A7B /* OWSDisappearingConfigurationUpdateInfoMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = ACB66EEC6EAE48721F66FDCDEF2CF0CE /* OWSDisappearingConfigurationUpdateInfoMessage.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		E358E6692DB34802FCED6ECDE6934808 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5F01601F28AC2B48125CDCC59D1A4A /* Foundation.framework */; };
 		E385F5A5D89BB750D64A7F8889910D93 /* crypto_int32.h in Headers */ = {isa = PBXBuildFile; fileRef = EB771DA86A8CF451A9AEA9689FDFDEE2 /* crypto_int32.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E3BA1C482E820D47C7234A007A185B5A /* AxolotlStore.h in Headers */ = {isa = PBXBuildFile; fileRef = EDA8D4ED39219D81C5AEE853DAF5C43A /* AxolotlStore.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E3E00369C1BD10303DFE92B960EC3161 /* TSSubmitMessageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A94B99A868C61BACD35509CB0D068B60 /* TSSubmitMessageRequest.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E45090FF03462B2BBC4F9A56FF1BB2E0 /* OWSVerificationStateChangeMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 58EB6382536B1EFA407C9143AC91A44C /* OWSVerificationStateChangeMessage.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E46EDFADF5E23DA2B528C58006EFC58C /* fe_isnegative.c in Sources */ = {isa = PBXBuildFile; fileRef = 0972F2F7E9A4827945111D1AA53AD1A3 /* fe_isnegative.c */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		E48725950F6F48412C98FD5A454BF2A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5F01601F28AC2B48125CDCC59D1A4A /* Foundation.framework */; };
 		E49CA9C6DBD1FFDD0BC7E16D98E1F996 /* ConcreteExtensionField.h in Headers */ = {isa = PBXBuildFile; fileRef = B81058DC2107B687BD6B1728B53D2C39 /* ConcreteExtensionField.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		E4A50F341893686E8467AD2355F47D17 /* TSPreKeyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EC73AE29F85D0FB6E2AC24BE19AB95CC /* TSPreKeyManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
 		E4D8F4E8202AF3ABC32607C6178A2F2F /* ge_frombytes.c in Sources */ = {isa = PBXBuildFile; fileRef = 5ACFAC7FCCA5E6B8655FFF19E7D6AA8F /* ge_frombytes.c */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-all-checks"; }; };
@@ -1221,6 +1221,13 @@
 			remoteGlobalIDString = FC3A6FC4D971B8DA4FC8080C48C7781D;
 			remoteInfo = SignalServiceKit;
 		};
+		812D194D31E3FBE96A7A52F4999D5E26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7155C8068BDD7FB30EF2674521334D41;
+			remoteInfo = "Pods-CocoaPods-Debug";
+		};
 		83E8C5F745776CF20586A668E07AE635 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
@@ -1290,6 +1297,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4B2FDB8E3F42A829820047174AC31B76;
 			remoteInfo = SAMKeychain;
+		};
+		B38B2572FBDC08014CBD24723DB9787D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7155C8068BDD7FB30EF2674521334D41;
+			remoteInfo = "Pods-CocoaPods-Debug";
 		};
 		B4D687778F007ACC717E00974D67DE41 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2714,14 +2728,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1608131813827F0BA111B5754AB09996 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B930CBEEF5DBE92389D9300A7A68707F /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		266175CC069131B4CA1582CF20FFE714 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2757,11 +2763,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		48F9003113A939380D0309BA479B9808 /* Frameworks */ = {
+		4C1792365120231202BDCE8472ECC130 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E358E6692DB34802FCED6ECDE6934808 /* Foundation.framework in Frameworks */,
+				E48725950F6F48412C98FD5A454BF2A4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2829,6 +2835,14 @@
 			files = (
 				DEB8BD4C7C762F24C201C060E9EADAB7 /* Foundation.framework in Frameworks */,
 				B73B13E44C34E5BDE511421FB4C6DFBC /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B0C18B5C2F97E9B0EA4B00322FACC12A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62DB1A9DD3AF7D76773895D47D01BD20 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5397,20 +5411,38 @@
 			productReference = 81906E2960F4587EAD973F1476D28CA0 /* libAxolotlKit.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		25BB0B8E9DCD736CF786D10D61CB13ED /* Pods-Tests_UI */ = {
+		1B6A30F038485132B943F4BD214B2DA7 /* Pods-Tests_UI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD84FE104444148446A544E2411C42B4 /* Build configuration list for PBXNativeTarget "Pods-Tests_UI" */;
+			buildConfigurationList = 410815770A7355872BC33147E0EA080F /* Build configuration list for PBXNativeTarget "Pods-Tests_UI" */;
 			buildPhases = (
-				AB4EFEFCD3D4EAB3B2290A99B35E0E87 /* Sources */,
-				48F9003113A939380D0309BA479B9808 /* Frameworks */,
+				7FC62131E28B4067355013B251CF8809 /* Sources */,
+				B0C18B5C2F97E9B0EA4B00322FACC12A /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D9F075A1A7BA9670ED84941CA0EE29A2 /* PBXTargetDependency */,
 			);
 			name = "Pods-Tests_UI";
 			productName = "Pods-Tests_UI";
 			productReference = CD06B3B00C13B40D626CA7B58E1F02B0 /* libPods-Tests_UI.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		26DE450329576C93DD1CE220BFCF5C85 /* Pods-Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6077F3966E26ABF208BAE4D3AC7B678B /* Build configuration list for PBXNativeTarget "Pods-Tests" */;
+			buildPhases = (
+				664B11C1439DA2784D17FBAAD8ED64C0 /* Sources */,
+				4C1792365120231202BDCE8472ECC130 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FE7DCEDD2AB5FC6B98F479897825201D /* PBXTargetDependency */,
+			);
+			name = "Pods-Tests";
+			productName = "Pods-Tests";
+			productReference = 5C374D994C305D4D80EF6B9A4D3521FA /* libPods-Tests.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		4B2FDB8E3F42A829820047174AC31B76 /* SAMKeychain */ = {
@@ -5750,22 +5782,6 @@
 			productReference = DB8BEFC704C7417A0EB9705D1D39ADAE /* libPods-CocoaPods-Development.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		F3C3E5F034536D5FA5F886EDC441952C /* Pods-Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 83FDE859E479DDD0145DBF6F188B8423 /* Build configuration list for PBXNativeTarget "Pods-Tests" */;
-			buildPhases = (
-				82BA5192BCF871FE03E95A180C541217 /* Sources */,
-				1608131813827F0BA111B5754AB09996 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-Tests";
-			productName = "Pods-Tests";
-			productReference = 5C374D994C305D4D80EF6B9A4D3521FA /* libPods-Tests.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		FC3A6FC4D971B8DA4FC8080C48C7781D /* SignalServiceKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C661D656D84075D83E9C62B13CE0F78B /* Build configuration list for PBXNativeTarget "SignalServiceKit" */;
@@ -5828,8 +5844,8 @@
 				7155C8068BDD7FB30EF2674521334D41 /* Pods-CocoaPods-Debug */,
 				ED74A7E0A16793B6A194D61B20E94439 /* Pods-CocoaPods-Development */,
 				B11D0FE35DEA8209D01A5D6C82DF5749 /* Pods-CocoaPods-Distribution */,
-				F3C3E5F034536D5FA5F886EDC441952C /* Pods-Tests */,
-				25BB0B8E9DCD736CF786D10D61CB13ED /* Pods-Tests_UI */,
+				26DE450329576C93DD1CE220BFCF5C85 /* Pods-Tests */,
+				1B6A30F038485132B943F4BD214B2DA7 /* Pods-Tests_UI */,
 				C889C9801D8630C1FFF39E66F7C087AB /* ProtocolBuffers */,
 				EB8FF2A70EB42F5D4C428289549909D9 /* Reachability */,
 				4B2FDB8E3F42A829820047174AC31B76 /* SAMKeychain */,
@@ -5963,6 +5979,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		664B11C1439DA2784D17FBAAD8ED64C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2EB40CE1801FFB17BB37AAB723C8F7A /* Pods-Tests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		681946B2E3C5F3682DE83A7DCF6DFB68 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6007,11 +6031,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82BA5192BCF871FE03E95A180C541217 /* Sources */ = {
+		7FC62131E28B4067355013B251CF8809 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69F1605902ED64D1BD903BB7568D7383 /* Pods-Tests-dummy.m in Sources */,
+				ACEA21660A6419D580B4E566754C82BC /* Pods-Tests_UI-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6282,14 +6306,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB4EFEFCD3D4EAB3B2290A99B35E0E87 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2FA83FDE6DB9AB8591DE9270CF7A6495 /* Pods-Tests_UI-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B43578254692013D6DAEA277E52AC947 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -6445,7 +6461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2736F5DF76638F093A8C7AF0CD2CC94F /* SQLCipher-dummy.m in Sources */,
-				468CBAB30D4DAD452DBE34BE234FF4A8 /* sqlite3.c in Sources */,
+				691296A94BB82C0299AE82459CE35675 /* sqlite3.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6812,6 +6828,12 @@
 			target = 87C7BC742BCE9848E0C66BEA682B3194 /* SocketRocket */;
 			targetProxy = 6E0321E6AB1D2451596BD5B8C64A7457 /* PBXContainerItemProxy */;
 		};
+		D9F075A1A7BA9670ED84941CA0EE29A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-CocoaPods-Debug";
+			target = 7155C8068BDD7FB30EF2674521334D41 /* Pods-CocoaPods-Debug */;
+			targetProxy = B38B2572FBDC08014CBD24723DB9787D /* PBXContainerItemProxy */;
+		};
 		DA1E9A84FB76CA0E39BF7A8D9D7277AE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AFNetworking;
@@ -6884,153 +6906,16 @@
 			target = 9C458758E53DAB90149D869AB72E45C9 /* 25519 */;
 			targetProxy = A7AF78A92C9E2CF210E7387F06A63271 /* PBXContainerItemProxy */;
 		};
+		FE7DCEDD2AB5FC6B98F479897825201D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-CocoaPods-Debug";
+			target = 7155C8068BDD7FB30EF2674521334D41 /* Pods-CocoaPods-Debug */;
+			targetProxy = 812D194D31E3FBE96A7A52F4999D5E26 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		094CE5A610103B231F2BD97B33BAEB9E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C842E13AE5B659BDE8EE32A0DB136D0F /* Mantle.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Mantle/Mantle-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		0FB49B9A23F14FED32881B819442F941 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A598F008786E4D27639911AF2616E117 /* AFNetworking.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		1CE9573B1B60D3F2E66722F25654DD96 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF14D10F7A3583D7A93E1483DA9B13DD /* SAMKeychain.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SAMKeychain/SAMKeychain-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		24180D31AABAAB8249153E21EFCE554E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53C75F93F502085A417085B78491F9F1 /* SQLCipher.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SQLCipher/SQLCipher-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		2CFE27BA00B120AEF3B75447C4244EE4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F94650829B22524AB30613E3B286CEB8 /* CocoaLumberjack.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/CocoaLumberjack/CocoaLumberjack-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		37193B1772BE3B54C75E716A9798DD60 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B5582417601C578A8D580D93D1B8CF8 /* 25519.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/25519/25519-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		402092D1087A1CA88D74CE9412BAE0AE /* Debug */ = {
+		0952F880062A65F832E466C30AB7F2CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C4278469582D236D84C3552271CED058 /* AxolotlKit.xcconfig */;
 			buildSettings = {
@@ -7044,77 +6929,23 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = AxolotlKit;
+				PRODUCT_NAME = AxolotlKit;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		49B5A78DBE571998053070754D3695E8 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		4ACD1B971093AF71D39DBAE6D3D29D4E /* Release */ = {
+		09F4BB873B106B177AD31615214B3DDE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3B2874FFD715C330B4012A2D652A901 /* Pods-Tests.release.xcconfig */;
+			baseConfigurationReference = 421DB8AECA27DFC3C4144CDD46D498B6 /* Pods-CocoaPods-Distribution.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -7130,11 +6961,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
-		5CA2B396676F4325059156514592010F /* Release */ = {
+		152CEAA1DC1A795FA371005F24BABC39 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CEEDB4D4AC551497F9EE368F8A6E351F /* Reachability.xcconfig */;
 			buildSettings = {
@@ -7148,30 +6978,33 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = Reachability;
+				PRODUCT_NAME = Reachability;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
-		5F5CBA4D7F27637409CC1E3EF3B74BF6 /* Debug */ = {
+		1F22FA77F43F925F5400928D4C7F9BDC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A39BAF5CB6541CBB8CA0A0CC569DF650 /* SocketRocket.xcconfig */;
+			baseConfigurationReference = A598F008786E4D27639911AF2616E117 /* AFNetworking.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SocketRocket/SocketRocket-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = AFNetworking;
+				PRODUCT_NAME = AFNetworking;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7181,54 +7014,11 @@
 			};
 			name = Debug;
 		};
-		6A8299E13DB57F0D912D980FA79AB586 /* Debug */ = {
+		256FBB7F563249FE92B2C6483FE87579 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 421DB8AECA27DFC3C4144CDD46D498B6 /* Pods-CocoaPods-Distribution.debug.xcconfig */;
+			baseConfigurationReference = 73CCA6480179FAE8BD146D2BE15D3FAE /* Pods-CocoaPods-Development.release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		6D93D19B15134748338B6D58FCFD5B96 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 683F9BA069B873FFDE6F487BC0F2D9C2 /* Pods-CocoaPods-Development.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		77578D9C2C76C641CF2DA7247E5E0C10 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 862DD9823EC6A3C359230FF54790A1F0 /* Pods-CocoaPods-Debug.release.xcconfig */;
-			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -7248,20 +7038,46 @@
 			};
 			name = Release;
 		};
-		7E65105E0BA8789BE32C545B2CE8DFD8 /* Debug */ = {
+		306C08C2806003911E1F9FC7587A9D7C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C0F6BDCDF2118EFC2A5C83B52080C7 /* libPhoneNumber-iOS.xcconfig */;
+			baseConfigurationReference = A3B2874FFD715C330B4012A2D652A901 /* Pods-Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3A8DEFF5CD80F2087AC9DEB6853816F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F74D0D4D35715CADE93A86A50D451A6 /* SignalServiceKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/libPhoneNumber-iOS/libPhoneNumber-iOS-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				GCC_PREFIX_HEADER = "Target Support Files/SignalServiceKit/SignalServiceKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SignalServiceKit;
+				PRODUCT_NAME = SignalServiceKit;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7271,7 +7087,33 @@
 			};
 			name = Debug;
 		};
-		828C6F0DA233981AB219118CF5FEF85F /* Debug */ = {
+		41C96437F7BAF974C3D58642257B3787 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A598F008786E4D27639911AF2616E117 /* AFNetworking.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = AFNetworking;
+				PRODUCT_NAME = AFNetworking;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		420DDDE447A4EA98B223C31628AB9070 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CA93E4B9893FED29AB53C3B0C90B934 /* UnionFind.xcconfig */;
 			buildSettings = {
@@ -7286,96 +7128,60 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = UnionFind;
+				PRODUCT_NAME = UnionFind;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		835C786D2DA47C87F43C160FBDD2E8B1 /* Debug */ = {
+		45211C5FA4BDDDBE7E4FC055FC61E42F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7B95DC7BCA7916F929C84E4C54E2470 /* Pods-Tests_UI.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		853B4195854B45E35EA5943D1E2299B8 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C842E13AE5B659BDE8EE32A0DB136D0F /* Mantle.xcconfig */;
+			baseConfigurationReference = F94650829B22524AB30613E3B286CEB8 /* CocoaLumberjack.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Mantle/Mantle-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/CocoaLumberjack/CocoaLumberjack-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = CocoaLumberjack;
+				PRODUCT_NAME = CocoaLumberjack;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
-		8C965CB0162E6D8E7292CB003A94008E /* Debug */ = {
+		4734B7578A68A8B9D92991B8E8F070A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5756BE81EF3CC39C69511988D20BF7C2 /* Pods-CocoaPods-Debug.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		8E1E9C24E987C216547B5DA04E590842 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C190A468660EE9C9CC7B4A3151F762D /* ProtocolBuffers.xcconfig */;
+			baseConfigurationReference = F94650829B22524AB30613E3B286CEB8 /* CocoaLumberjack.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/ProtocolBuffers/ProtocolBuffers-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				GCC_PREFIX_HEADER = "Target Support Files/CocoaLumberjack/CocoaLumberjack-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = CocoaLumberjack;
+				PRODUCT_NAME = CocoaLumberjack;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7385,20 +7191,22 @@
 			};
 			name = Debug;
 		};
-		906C13C7488AB443E1901C15FB04629F /* Release */ = {
+		4B31B22DFEC3C3F9D752580E3BC709D4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 53C75F93F502085A417085B78491F9F1 /* SQLCipher.xcconfig */;
+			baseConfigurationReference = 62248F011BF06A351CF0094F16CE203B /* YapDatabase.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SQLCipher/SQLCipher-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/YapDatabase/YapDatabase-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = YapDatabase;
+				PRODUCT_NAME = YapDatabase;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7409,79 +7217,7 @@
 			};
 			name = Release;
 		};
-		99606B749466DE9B525F669B2D4A217D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4278469582D236D84C3552271CED058 /* AxolotlKit.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/AxolotlKit/AxolotlKit-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		9EFCB432F9A34050824F2A1FD99864EA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF14D10F7A3583D7A93E1483DA9B13DD /* SAMKeychain.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SAMKeychain/SAMKeychain-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		B51815323F3BD739CFBC98367FB9B0F1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BE6825F903C65464DCC671236EA793E /* HKDFKit.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/HKDFKit/HKDFKit-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		BF47E3C7F037D3500482960B8AE86898 /* Debug */ = {
+		4D4A153F818F492143845E75A33060BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83E3B72BF8B4071F6A2CCD1F02DE6630 /* TwistedOakCollapsingFutures.xcconfig */;
 			buildSettings = {
@@ -7496,6 +7232,8 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = TwistedOakCollapsingFutures;
+				PRODUCT_NAME = TwistedOakCollapsingFutures;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7505,148 +7243,7 @@
 			};
 			name = Debug;
 		};
-		C157F8E4A1591A1F64D2007C58D9A2CA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3BE081E31697C07A8BA40EE901B97525 /* Pods-Tests.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		C98EB5E77DC2AFC9FD5C13901E7718BC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A39BAF5CB6541CBB8CA0A0CC569DF650 /* SocketRocket.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SocketRocket/SocketRocket-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		CC703079D474C9FC7EBC83B7C9B0FC4B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CA93E4B9893FED29AB53C3B0C90B934 /* UnionFind.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/UnionFind/UnionFind-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		CD367B8D7CE0F852155C9742A25EE011 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F74D0D4D35715CADE93A86A50D451A6 /* SignalServiceKit.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SignalServiceKit/SignalServiceKit-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		D14E8079FBEAFB5C3E7BD1E01C4E008D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7CAFFB82CEB3824BB6DD340CD910A226 /* Pods-Tests_UI.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		D6BFEF18EA84D5BC01B1B608875230EA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A598F008786E4D27639911AF2616E117 /* AFNetworking.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		DD369323FD85CB26347C0D75C75D837F /* Debug */ = {
+		553022A828EE1991F07D2D73F565AEF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -7678,6 +7275,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -7702,132 +7300,13 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		DE66849DA7A89DF3A470DD6FB105138D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEEDB4D4AC551497F9EE368F8A6E351F /* Reachability.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/Reachability/Reachability-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		E098BF95F9146DE05228453A66F48831 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C0F6BDCDF2118EFC2A5C83B52080C7 /* libPhoneNumber-iOS.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/libPhoneNumber-iOS/libPhoneNumber-iOS-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		E27FDDAF127BA5D97AD128D8AEDDAA74 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F74D0D4D35715CADE93A86A50D451A6 /* SignalServiceKit.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/SignalServiceKit/SignalServiceKit-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		E453819D806D4E0826815D86BCF33615 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F94650829B22524AB30613E3B286CEB8 /* CocoaLumberjack.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/CocoaLumberjack/CocoaLumberjack-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		E662AAE1F34E483945AC67380B79ABD1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C190A468660EE9C9CC7B4A3151F762D /* ProtocolBuffers.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/ProtocolBuffers/ProtocolBuffers-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		E8FD3677C72E8341B986745F7A26D5FA /* Debug */ = {
+		57A6EA625F3F3718DCC241C9726714B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9B5582417601C578A8D580D93D1B8CF8 /* 25519.xcconfig */;
 			buildSettings = {
@@ -7842,6 +7321,8 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = _25519;
+				PRODUCT_NAME = 25519;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7851,10 +7332,171 @@
 			};
 			name = Debug;
 		};
-		EA8B8B1F9D596D9D99A774AC7BEBF50E /* Release */ = {
+		58CE816B060A41D32CEC095441D0E3E0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B6ACD15750F5BF477B088EDC929CDA53 /* Pods-CocoaPods-Distribution.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		5B55B501E9FF871C9AD6ED516DBA4C99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C842E13AE5B659BDE8EE32A0DB136D0F /* Mantle.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/Mantle/Mantle-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = Mantle;
+				PRODUCT_NAME = Mantle;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5BFE96964AED34ACDA13E4B36FB2A472 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62248F011BF06A351CF0094F16CE203B /* YapDatabase.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/YapDatabase/YapDatabase-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = YapDatabase;
+				PRODUCT_NAME = YapDatabase;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5F3582D0D3DECAE70CBBC020896F6A7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A39BAF5CB6541CBB8CA0A0CC569DF650 /* SocketRocket.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SocketRocket/SocketRocket-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SocketRocket;
+				PRODUCT_NAME = SocketRocket;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6DAE856EB23BD598911ADF03147856A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C190A468660EE9C9CC7B4A3151F762D /* ProtocolBuffers.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/ProtocolBuffers/ProtocolBuffers-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = ProtocolBuffers;
+				PRODUCT_NAME = ProtocolBuffers;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		77DC6C1F59F3C84B9E58E9CC0A901938 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5756BE81EF3CC39C69511988D20BF7C2 /* Pods-CocoaPods-Debug.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -7870,58 +7512,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		EB64D03CE246B99A6800CFA282880411 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62248F011BF06A351CF0094F16CE203B /* YapDatabase.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/YapDatabase/YapDatabase-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		F223D40CCBF0BD21E6D495DAC5738C09 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62248F011BF06A351CF0094F16CE203B /* YapDatabase.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_CODE_COVERAGE = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/YapDatabase/YapDatabase-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		F7868DD43E247B5A00E81CD0644E996F /* Release */ = {
+		7FF84F369E709A8F628F9E7661A1E28A /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83E3B72BF8B4071F6A2CCD1F02DE6630 /* TwistedOakCollapsingFutures.xcconfig */;
 			buildSettings = {
@@ -7936,6 +7530,8 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = TwistedOakCollapsingFutures;
+				PRODUCT_NAME = TwistedOakCollapsingFutures;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7946,10 +7542,62 @@
 			};
 			name = Release;
 		};
-		FA21A18272761C6CE48EFC46C45EB808 /* Release */ = {
+		8A202BA39990C3114202BBC63533C4F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73CCA6480179FAE8BD146D2BE15D3FAE /* Pods-CocoaPods-Development.release.xcconfig */;
+			baseConfigurationReference = A39BAF5CB6541CBB8CA0A0CC569DF650 /* SocketRocket.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SocketRocket/SocketRocket-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SocketRocket;
+				PRODUCT_NAME = SocketRocket;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8CBEFE2484CA2102D3C2992B2146C367 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BE6825F903C65464DCC671236EA793E /* HKDFKit.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/HKDFKit/HKDFKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = HKDFKit;
+				PRODUCT_NAME = HKDFKit;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		991CE8549528EF83E4798CED6BD053CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 862DD9823EC6A3C359230FF54790A1F0 /* Pods-CocoaPods-Debug.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_CODE_COVERAGE = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -7969,7 +7617,356 @@
 			};
 			name = Release;
 		};
-		FE47F79D6CD6D691CB4CBB5A9B5B4BA5 /* Debug */ = {
+		9FB28519B3C70B29D1DB8557ED0BC9C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C842E13AE5B659BDE8EE32A0DB136D0F /* Mantle.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/Mantle/Mantle-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = Mantle;
+				PRODUCT_NAME = Mantle;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A16064F35C94620CF2D59C9D961753DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF14D10F7A3583D7A93E1483DA9B13DD /* SAMKeychain.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SAMKeychain/SAMKeychain-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SAMKeychain;
+				PRODUCT_NAME = SAMKeychain;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A775A39AC2F8DA8B1011D62C8B196490 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 683F9BA069B873FFDE6F487BC0F2D9C2 /* Pods-CocoaPods-Development.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A8F44CF0DBCB5B7B1BD80DC064AF5DFA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53C75F93F502085A417085B78491F9F1 /* SQLCipher.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SQLCipher/SQLCipher-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SQLCipher;
+				PRODUCT_NAME = SQLCipher;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AC4D50FE3581A1763EF723BD558854A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BE081E31697C07A8BA40EE901B97525 /* Pods-Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF9B3A1368B68BDCD86596F927970038 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4C0F6BDCDF2118EFC2A5C83B52080C7 /* libPhoneNumber-iOS.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/libPhoneNumber-iOS/libPhoneNumber-iOS-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = libPhoneNumber_iOS;
+				PRODUCT_NAME = "libPhoneNumber-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BAAB1C94FBE106270BDAE03E5A267CC0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B5582417601C578A8D580D93D1B8CF8 /* 25519.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/25519/25519-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = _25519;
+				PRODUCT_NAME = 25519;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C14B7EB24B4A4AFDEF5E0D80F286974A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B6ACD15750F5BF477B088EDC929CDA53 /* Pods-CocoaPods-Distribution.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C3FA21473876A77AC8AD064B556ADBE9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7CAFFB82CEB3824BB6DD340CD910A226 /* Pods-Tests_UI.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C47C8E1E0EF71C8353B6F934B19400E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF14D10F7A3583D7A93E1483DA9B13DD /* SAMKeychain.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SAMKeychain/SAMKeychain-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SAMKeychain;
+				PRODUCT_NAME = SAMKeychain;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C4882C2A6C4F11B9B5A1DC3FCD1C63BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D7B95DC7BCA7916F929C84E4C54E2470 /* Pods-Tests_UI.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C7E0E95B36288AA90D0C40ED6D7AA914 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3CA93E4B9893FED29AB53C3B0C90B934 /* UnionFind.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/UnionFind/UnionFind-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = UnionFind;
+				PRODUCT_NAME = UnionFind;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C8E3438F77C80E49A0078F077952302F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CEEDB4D4AC551497F9EE368F8A6E351F /* Reachability.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/Reachability/Reachability-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = Reachability;
+				PRODUCT_NAME = Reachability;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D4DD30A31E7CEEFDEA3476EEE97F7401 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4C0F6BDCDF2118EFC2A5C83B52080C7 /* libPhoneNumber-iOS.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/libPhoneNumber-iOS/libPhoneNumber-iOS-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = libPhoneNumber_iOS;
+				PRODUCT_NAME = "libPhoneNumber-iOS";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DBF058E61F2D5C24D0E01AB75389F860 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6BE6825F903C65464DCC671236EA793E /* HKDFKit.xcconfig */;
 			buildSettings = {
@@ -7984,6 +7981,34 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = HKDFKit;
+				PRODUCT_NAME = HKDFKit;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E3F6ACE24D567B9A1C316881DCC87F68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C4278469582D236D84C3552271CED058 /* AxolotlKit.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/AxolotlKit/AxolotlKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = AxolotlKit;
+				PRODUCT_NAME = AxolotlKit;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -7993,14 +8018,91 @@
 			};
 			name = Debug;
 		};
+		E4FFF7AA156D7DEB890A45B994131035 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F74D0D4D35715CADE93A86A50D451A6 /* SignalServiceKit.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SignalServiceKit/SignalServiceKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SignalServiceKit;
+				PRODUCT_NAME = SignalServiceKit;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E6AB81866E6B679FA87EE11F48A67E92 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53C75F93F502085A417085B78491F9F1 /* SQLCipher.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/SQLCipher/SQLCipher-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = SQLCipher;
+				PRODUCT_NAME = SQLCipher;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EFA124CAAFF63C7C1788522D84AFE9C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C190A468660EE9C9CC7B4A3151F762D /* ProtocolBuffers.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_CODE_COVERAGE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/ProtocolBuffers/ProtocolBuffers-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = ProtocolBuffers;
+				PRODUCT_NAME = ProtocolBuffers;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
 		04DF9B8544A0791189318B29EADF532A /* Build configuration list for PBXNativeTarget "HKDFKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FE47F79D6CD6D691CB4CBB5A9B5B4BA5 /* Debug */,
-				B51815323F3BD739CFBC98367FB9B0F1 /* Release */,
+				8CBEFE2484CA2102D3C2992B2146C367 /* Debug */,
+				DBF058E61F2D5C24D0E01AB75389F860 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8008,8 +8110,8 @@
 		0EB3135AFEE3DCB9BA99E7AD03A4B467 /* Build configuration list for PBXNativeTarget "Pods-CocoaPods-Debug" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C965CB0162E6D8E7292CB003A94008E /* Debug */,
-				77578D9C2C76C641CF2DA7247E5E0C10 /* Release */,
+				77DC6C1F59F3C84B9E58E9CC0A901938 /* Debug */,
+				991CE8549528EF83E4798CED6BD053CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8017,8 +8119,8 @@
 		11F564E6B6F52729B9BA67FA0466E072 /* Build configuration list for PBXNativeTarget "AxolotlKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				402092D1087A1CA88D74CE9412BAE0AE /* Debug */,
-				99606B749466DE9B525F669B2D4A217D /* Release */,
+				E3F6ACE24D567B9A1C316881DCC87F68 /* Debug */,
+				0952F880062A65F832E466C30AB7F2CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8026,8 +8128,8 @@
 		19990B2944C92266032146F50FDA8EFC /* Build configuration list for PBXNativeTarget "libPhoneNumber-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7E65105E0BA8789BE32C545B2CE8DFD8 /* Debug */,
-				E098BF95F9146DE05228453A66F48831 /* Release */,
+				D4DD30A31E7CEEFDEA3476EEE97F7401 /* Debug */,
+				AF9B3A1368B68BDCD86596F927970038 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8035,8 +8137,8 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DD369323FD85CB26347C0D75C75D837F /* Debug */,
-				49B5A78DBE571998053070754D3695E8 /* Release */,
+				553022A828EE1991F07D2D73F565AEF8 /* Debug */,
+				58CE816B060A41D32CEC095441D0E3E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8044,8 +8146,17 @@
 		350D95348AB8C284688C3B25C4B90025 /* Build configuration list for PBXNativeTarget "SocketRocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5F5CBA4D7F27637409CC1E3EF3B74BF6 /* Debug */,
-				C98EB5E77DC2AFC9FD5C13901E7718BC /* Release */,
+				8A202BA39990C3114202BBC63533C4F1 /* Debug */,
+				5F3582D0D3DECAE70CBBC020896F6A7A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		410815770A7355872BC33147E0EA080F /* Build configuration list for PBXNativeTarget "Pods-Tests_UI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4882C2A6C4F11B9B5A1DC3FCD1C63BE /* Debug */,
+				C3FA21473876A77AC8AD064B556ADBE9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8053,8 +8164,8 @@
 		483FBC4A668BF7F1A8767452E7E188AC /* Build configuration list for PBXNativeTarget "AFNetworking" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0FB49B9A23F14FED32881B819442F941 /* Debug */,
-				D6BFEF18EA84D5BC01B1B608875230EA /* Release */,
+				1F22FA77F43F925F5400928D4C7F9BDC /* Debug */,
+				41C96437F7BAF974C3D58642257B3787 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8062,8 +8173,8 @@
 		4F92CB0EBC9B6311AD3D5F8B2BCE56F7 /* Build configuration list for PBXNativeTarget "YapDatabase" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EB64D03CE246B99A6800CFA282880411 /* Debug */,
-				F223D40CCBF0BD21E6D495DAC5738C09 /* Release */,
+				5BFE96964AED34ACDA13E4B36FB2A472 /* Debug */,
+				4B31B22DFEC3C3F9D752580E3BC709D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8071,8 +8182,17 @@
 		5C7B10EBB108B337340366AFCD126239 /* Build configuration list for PBXNativeTarget "25519" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E8FD3677C72E8341B986745F7A26D5FA /* Debug */,
-				37193B1772BE3B54C75E716A9798DD60 /* Release */,
+				57A6EA625F3F3718DCC241C9726714B8 /* Debug */,
+				BAAB1C94FBE106270BDAE03E5A267CC0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6077F3966E26ABF208BAE4D3AC7B678B /* Build configuration list for PBXNativeTarget "Pods-Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC4D50FE3581A1763EF723BD558854A6 /* Debug */,
+				306C08C2806003911E1F9FC7587A9D7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8080,8 +8200,8 @@
 		697C5D321F145E584E7A44A336A8952E /* Build configuration list for PBXNativeTarget "Mantle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				853B4195854B45E35EA5943D1E2299B8 /* Debug */,
-				094CE5A610103B231F2BD97B33BAEB9E /* Release */,
+				9FB28519B3C70B29D1DB8557ED0BC9C6 /* Debug */,
+				5B55B501E9FF871C9AD6ED516DBA4C99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8089,8 +8209,8 @@
 		6B58A7AA033F4F48104A55663E5BFF80 /* Build configuration list for PBXNativeTarget "Reachability" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DE66849DA7A89DF3A470DD6FB105138D /* Debug */,
-				5CA2B396676F4325059156514592010F /* Release */,
+				152CEAA1DC1A795FA371005F24BABC39 /* Debug */,
+				C8E3438F77C80E49A0078F077952302F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8098,8 +8218,8 @@
 		74367AAD7F79224FD8718501AB6AF7A1 /* Build configuration list for PBXNativeTarget "ProtocolBuffers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8E1E9C24E987C216547B5DA04E590842 /* Debug */,
-				E662AAE1F34E483945AC67380B79ABD1 /* Release */,
+				6DAE856EB23BD598911ADF03147856A2 /* Debug */,
+				EFA124CAAFF63C7C1788522D84AFE9C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8107,17 +8227,8 @@
 		763B409C12E51123249CE3B015D3B829 /* Build configuration list for PBXNativeTarget "CocoaLumberjack" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E453819D806D4E0826815D86BCF33615 /* Debug */,
-				2CFE27BA00B120AEF3B75447C4244EE4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		83FDE859E479DDD0145DBF6F188B8423 /* Build configuration list for PBXNativeTarget "Pods-Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C157F8E4A1591A1F64D2007C58D9A2CA /* Debug */,
-				4ACD1B971093AF71D39DBAE6D3D29D4E /* Release */,
+				4734B7578A68A8B9D92991B8E8F070A2 /* Debug */,
+				45211C5FA4BDDDBE7E4FC055FC61E42F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8125,8 +8236,8 @@
 		895FFEC1DBF92B741C23C5322F26D3F5 /* Build configuration list for PBXNativeTarget "TwistedOakCollapsingFutures" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BF47E3C7F037D3500482960B8AE86898 /* Debug */,
-				F7868DD43E247B5A00E81CD0644E996F /* Release */,
+				4D4A153F818F492143845E75A33060BC /* Debug */,
+				7FF84F369E709A8F628F9E7661A1E28A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8134,8 +8245,8 @@
 		9D143CF5486A14EC37890066C837C6D6 /* Build configuration list for PBXNativeTarget "UnionFind" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				828C6F0DA233981AB219118CF5FEF85F /* Debug */,
-				CC703079D474C9FC7EBC83B7C9B0FC4B /* Release */,
+				C7E0E95B36288AA90D0C40ED6D7AA914 /* Debug */,
+				420DDDE447A4EA98B223C31628AB9070 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8143,8 +8254,8 @@
 		A8EE08B68F8B6ECF17C0A1A23C4B7E0D /* Build configuration list for PBXNativeTarget "Pods-CocoaPods-Distribution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A8299E13DB57F0D912D980FA79AB586 /* Debug */,
-				EA8B8B1F9D596D9D99A774AC7BEBF50E /* Release */,
+				09F4BB873B106B177AD31615214B3DDE /* Debug */,
+				C14B7EB24B4A4AFDEF5E0D80F286974A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8152,8 +8263,8 @@
 		C661D656D84075D83E9C62B13CE0F78B /* Build configuration list for PBXNativeTarget "SignalServiceKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CD367B8D7CE0F852155C9742A25EE011 /* Debug */,
-				E27FDDAF127BA5D97AD128D8AEDDAA74 /* Release */,
+				3A8DEFF5CD80F2087AC9DEB6853816F0 /* Debug */,
+				E4FFF7AA156D7DEB890A45B994131035 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8161,17 +8272,8 @@
 		DCF709A82ECD52FAF4EAF5824BEB735E /* Build configuration list for PBXNativeTarget "Pods-CocoaPods-Development" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6D93D19B15134748338B6D58FCFD5B96 /* Debug */,
-				FA21A18272761C6CE48EFC46C45EB808 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DD84FE104444148446A544E2411C42B4 /* Build configuration list for PBXNativeTarget "Pods-Tests_UI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				835C786D2DA47C87F43C160FBDD2E8B1 /* Debug */,
-				D14E8079FBEAFB5C3E7BD1E01C4E008D /* Release */,
+				A775A39AC2F8DA8B1011D62C8B196490 /* Debug */,
+				256FBB7F563249FE92B2C6483FE87579 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8179,8 +8281,8 @@
 		E2665F5BA400B5344A59D6B439F9BA19 /* Build configuration list for PBXNativeTarget "SQLCipher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				24180D31AABAAB8249153E21EFCE554E /* Debug */,
-				906C13C7488AB443E1901C15FB04629F /* Release */,
+				E6AB81866E6B679FA87EE11F48A67E92 /* Debug */,
+				A8F44CF0DBCB5B7B1BD80DC064AF5DFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -8188,8 +8290,8 @@
 		EE86D4017C89EA50B2728C03CB9FAA5B /* Build configuration list for PBXNativeTarget "SAMKeychain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9EFCB432F9A34050824F2A1FD99864EA /* Debug */,
-				1CE9573B1B60D3F2E66722F25654DD96 /* Release */,
+				C47C8E1E0EF71C8353B6F934B19400E7 /* Debug */,
+				A16064F35C94620CF2D59C9D961753DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

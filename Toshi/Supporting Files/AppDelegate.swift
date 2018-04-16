@@ -84,6 +84,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
 
         guard TSAccountManager.isRegistered() else { return }
+
+        // We need to close open socket while in background to not run expensive process
+        // since we need the app to awake in background when PN received
+        TSSocketManager.requestSocketClosed()
+
         self.activateScreenProtection()
     }
 
@@ -227,8 +232,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
-        Navigator.tabbarController?.triggerWalletTabReloadIfNeeded(basedOn: userInfo)
-        completionHandler(.noData)
+        // We need to make sure completion handler is called within 30 seconds after notification is received
+        DispatchQueue.main.asyncAfter(seconds: 20, execute: {
+            completionHandler(.newData)
+        })
+
+        SessionManager.shared.messageFetcherJob?.run()
     }
 
     private func updateRemoteNotificationsCredentials() {

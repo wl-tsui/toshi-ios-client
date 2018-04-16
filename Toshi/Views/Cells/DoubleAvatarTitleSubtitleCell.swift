@@ -58,11 +58,4 @@ final class DoubleAvatarTitleSubtitleCell: BasicTableViewCell {
         subtitleLabel.right(to: contentView)
         subtitleLabel.bottom(to: contentView, offset: -BasicTableViewCell.largeVerticalMargin)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
-    }
 }

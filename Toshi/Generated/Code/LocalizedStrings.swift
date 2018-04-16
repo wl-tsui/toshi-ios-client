@@ -245,6 +245,9 @@ enum LocalizedKey: String, StringCaseListable {
     tab_bar_title_settings,
     tab_bar_title_wallet,
     text_editing_options_paste,
+    thread_action_delete,
+    thread_action_mute,
+    thread_action_unmute,
     toshi_error_data_task_error,
     toshi_error_invalid_payload,
     toshi_error_invalid_response_json,
@@ -639,6 +642,15 @@ struct Localized {
     
     /// `en`: "Message Requests"
     static let messages_requests_title = LocalizedKey.messages_requests_title.currentValue
+
+    /// `en`: "Delete"
+    static let thread_action_delete = LocalizedKey.thread_action_delete.currentValue
+
+    /// `en`: "Mute"
+    static let thread_action_mute = LocalizedKey.thread_action_mute.currentValue
+
+    /// `en`: "Unmute"
+    static let thread_action_unmute = LocalizedKey.thread_action_unmute.currentValue
     
     /// `en`: "Not delivered Tap to retry"
     static let messages_sent_error = LocalizedKey.messages_sent_error.currentValue

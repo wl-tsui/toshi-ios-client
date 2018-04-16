@@ -16,7 +16,7 @@
 import Foundation
 
 /// An individual Collectible Token
-final class CollectibleToken: Codable {
+struct CollectibleToken: Codable {
 
     let name: String?
     let image: String?

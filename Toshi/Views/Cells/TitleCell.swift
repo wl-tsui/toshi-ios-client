@@ -29,10 +29,4 @@ final class TitleCell: BasicTableViewCell {
 
         titleTextField.edgesToSuperview(insets: TinyEdgeInsets(top: BasicTableViewCell.verticalMargin, left: BasicTableViewCell.horizontalMargin, bottom: BasicTableViewCell.verticalMargin, right: -BasicTableViewCell.horizontalMargin))
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-    }
 }

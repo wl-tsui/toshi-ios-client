@@ -510,7 +510,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
     
     // MARK: Action sheet targets
-    
+
     private func didSelectBlockedState(_ shouldBeBlocked: Bool) {
         if shouldBeBlocked {
             presentBlockConfirmationAlert()
@@ -681,7 +681,20 @@ extension ProfileViewController: RateUserControllerDelegate {
 
 extension ProfileViewController: PaymentRouterDelegate {
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
+        if let receiverInfo = recipientInfo, let txHash = transactionHash, let value = parameters[PaymentParameters.value] as? String {
+            //send payment message
+
+            let payment = SofaPayment(txHash: txHash, valueHex: value)
+
+            let timestamp = NSDate.ows_millisecondsSince1970(for: Date())
+            let thread = ChatInteractor.getOrCreateThread(for: receiverInfo.address)
+            let outgoingMessage = TSOutgoingMessage(timestamp: timestamp, in: thread, messageBody: payment.content)
+
+            let interactor = ChatInteractor(output: nil, thread: thread)
+            interactor.send(outgoingMessage)
+        }
+
         Navigator.topViewController?.dismiss(animated: true, completion: nil)
     }
 }

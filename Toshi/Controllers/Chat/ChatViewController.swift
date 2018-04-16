@@ -423,7 +423,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             return
         }
 
-        let buttonsMessage = viewModel.messages.flatMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
+        let buttonsMessage = viewModel.messages.compactMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
         buttonsView.buttons = buttonsMessage?.buttons
 
         view.layoutIfNeeded()
@@ -926,7 +926,7 @@ extension ChatViewController: PaymentRouterDelegate {
         paymentRequestActiveCell = nil
     }
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
         self.updateBalance()
 
         guard error == nil else {

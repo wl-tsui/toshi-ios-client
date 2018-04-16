@@ -152,7 +152,6 @@ NS_ASSUME_NONNULL_BEGIN
     DDLogInfo(@"%@ handling decrypted envelope: %@", self.tag, [self descriptionForEnvelope:envelope]);
 
     OWSAssert(envelope.source.length > 0);
-    OWSAssert(![self isEnvelopeBlocked:envelope]);
 
     switch (envelope.type) {
         case OWSSignalServiceProtosEnvelopeTypeCiphertext:

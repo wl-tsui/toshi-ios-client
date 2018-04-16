@@ -44,6 +44,10 @@ extension TSThread {
             return image() ?? ImageAsset.avatar_placeholder
         }
     }
+
+    var muteActionTitle: String {
+        return isMuted ? Localized.thread_action_unmute : Localized.thread_action_mute
+    }
     
     func updateGroupMembers() {
         if let groupThread = self as? TSGroupThread {

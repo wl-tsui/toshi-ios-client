@@ -67,11 +67,4 @@ final class AvatarTitleSubtitleCheckboxCell: BasicTableViewCell {
         checkmarkView.layer.borderColor = UIColor.red.cgColor
         checkmarkView.checked = false
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
-    }
 }

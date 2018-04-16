@@ -45,6 +45,14 @@ protocol BasicRobot {
     func confirmViewVisibleWith(accessibilityIdentifier: AccessibilityIdentifier,
                                 file: StaticString,
                                 line: UInt)
+
+    /// Runs an action where the implementation's test framework validates that a text field is presently visible based on its placeHolder.
+    ///
+    /// - Parameters:
+    ///   - placeHolder: The placeHolder of the text field to look for.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func confirmTextFieldVisibleWith(placeHolder: String, file: StaticString, line: UInt)
     
     /// Runs an action where the implementation's test framework validates that a view is not presently visible based on its accessibility label.
     ///
@@ -52,9 +60,7 @@ protocol BasicRobot {
     ///   - accessibilityLabel: The Accessibility Label of the view to look for. This would be read out loud to VoiceOver users.
     ///   - file: The file from which this method is being called.
     ///   - line: The line from which this method is being called.
-    func confirmViewGoneWith(accessibilityLabel: String,
-                             file: StaticString,
-                             line: UInt)
+    func confirmViewGoneWith(accessibilityLabel: String, file: StaticString, line: UInt)
     
     /// Runs an action where the implementation's test framework validates that a view is not presently visible based on its accessibility identifier.
     ///
@@ -62,10 +68,16 @@ protocol BasicRobot {
     ///   - accessibilityIdentifier: The Accessibility Identifier of the view to look for. This would only be available to tests, and NOT to VoiceOver users.
     ///   - file: The file from which this method is being called.
     ///   - line: The line from which this method is being called.
-    func confirmViewGoneWith(accessibilityIdentifier: AccessibilityIdentifier,
-                             file: StaticString,
-                             line: UInt)
-    
+    func confirmViewGoneWith(accessibilityIdentifier: AccessibilityIdentifier, file: StaticString, line: UInt)
+
+    /// Runs an action where the implementation's test framework validates that a text field is not presently visible based on its placeholder.
+    ///
+    /// - Parameters:
+    ///   - placeHolder: The placeholder of the text field to look for.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func confirmTextFieldGoneWith(placeHolder: String, file: StaticString, line: UInt)
+
     // MARK: - Tapping
     
     /// Runs an action where an implementation's test framework taps on a generic view based on its accessibility label.
@@ -95,6 +107,34 @@ protocol BasicRobot {
     func tapCellWith(accessibilityLabel: String,
                      file: StaticString,
                      line: UInt)
+
+    /// Runs an action where the implementation's test framework types the input text on the view based on its accessibility identifier.
+    ///
+    /// - Parameters:
+    ///   - text: the text to type.
+    ///   - accessibilityIdentifier: The Accessibility identifier of the view to type in. This would be read out loud to VoiceOver users.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func typeText(_ text: String,
+                  onViewWith accessibilityIdentifier: AccessibilityIdentifier,
+                  file: StaticString, line: UInt)
+
+    /// Runs an action where the implementation's test framework clears the input text on the text field based on its placeholder.
+    ///
+    /// - Parameters:
+    ///   - placeholder: The placeholder of the text field to clear the text of.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func clearText(onTextFieldWith placeholder: String, file: StaticString, line: UInt)
+
+    /// Runs an action where the implementation's test framework validates that a button is enabled based on its accessibility identifier.
+    ///
+    /// - Parameters:
+    ///   - shouldBeEnabled: Bool that signifies to check if the button is enabled or disabled.
+    ///   - accessibilityLabel: The Accessibility Label of the button. This would be read out loud to VoiceOver users.
+    ///   - file: The file from which this method is being called.
+    ///   - line: The line from which this method is being called.
+    func confirmButtonEnabled(_ enabled: Bool, accessibilityLabel: String, file: StaticString, line: UInt)
 }
 
 extension BasicRobot {
@@ -112,7 +152,7 @@ extension BasicRobot {
     }
     
     // MARK: - Universal Validators
-    
+
     @discardableResult
     func validateTestAlertShowing(withMessage message: String,
                                   file: StaticString = #file,
@@ -136,5 +176,4 @@ extension BasicRobot {
         
         return self
     }
-    
 }

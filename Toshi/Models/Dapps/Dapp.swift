@@ -16,7 +16,7 @@
 import Foundation
 
 /// An individual Dapp
-final class Dapp: Codable {
+struct Dapp: Codable {
     
     let name: String
     let dappId: Int

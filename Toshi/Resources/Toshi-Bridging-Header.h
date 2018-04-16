@@ -79,6 +79,7 @@
 #import <SignalServiceKit/OWSHTTPSecurityPolicy.h>
 #import <SignalServiceKit/TextSecureKitEnv.h>
 #import <SignalServiceKit/OWSDispatch.h>
+#import <SignalServiceKit/OWSMessageReceiver.h>
 #import "EmptyCallHandler.h"
 
 #import <SignalServiceKit/TSNetworkManager.h>

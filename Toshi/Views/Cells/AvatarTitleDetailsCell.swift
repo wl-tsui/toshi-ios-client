@@ -54,11 +54,4 @@ final class AvatarTitleDetailsCell: BasicTableViewCell {
         detailsLabel.centerY(to: contentView)
         detailsLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        detailsLabel.font = detailsFont
-    }
 }

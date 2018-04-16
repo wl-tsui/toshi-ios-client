@@ -81,7 +81,6 @@ final class SendTokenViewConfigurator: NSObject {
         view.tintColor = Theme.tintColor
         view.textColor = Theme.greyTextColor
         view.adjustsFontForContentSizeCategory = true
-        view.set(height: 40)
         view.delegate = self
         view.isUserInteractionEnabled = true
         view.isScrollEnabled = false
@@ -565,8 +564,8 @@ final class SendTokenViewConfigurator: NSObject {
         addressStackView.addArrangedSubview(toTitleLabel)
         addressStackView.addSpacing(CGFloat.largeInterItemSpacing, after: toTitleLabel)
 
-        addressStackView.addWithDefaultConstraints(view: addressTextView, margin: CGFloat.mediumInterItemSpacing)
-        addressStackView.addSpacing(CGFloat.smallInterItemSpacing, after: addressTextView)
+        addressStackView.addArrangedSubview(addressTextView)
+        addressStackView.addSpacing(CGFloat.largeInterItemSpacing, after: addressTextView)
 
         addressStackView.addArrangedSubview(addressErrorLabel)
         addressStackView.addSpacing(CGFloat.mediumInterItemSpacing, after: addressErrorLabel)

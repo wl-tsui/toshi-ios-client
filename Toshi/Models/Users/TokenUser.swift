@@ -259,8 +259,14 @@ class TokenUser: NSObject, NSCoding {
         about = json[Constants.about] as? String ?? about
         avatarPath = json[Constants.avatar] as? String ?? avatarPath
         isApp = json[Constants.isApp] as? Bool ?? isApp
-        reputationScore = json[Constants.reputationScore] as? Float ?? reputationScore
-        averageRating = json[Constants.averageRating] as? Float ?? averageRating
+
+        if let repValue = json[Constants.reputationScore] as? NSNumber {
+            self.reputationScore = repValue.floatValue
+        }
+
+        if let averageValue = json[Constants.averageRating] as? NSNumber {
+            self.averageRating = averageValue.floatValue
+        }
 
         if shouldSave {
             save()

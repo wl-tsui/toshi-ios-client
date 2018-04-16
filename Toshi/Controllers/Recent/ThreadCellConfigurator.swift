@@ -19,6 +19,10 @@ final class ThreadCellConfigurator: CellConfigurator {
 
     private var thread: TSThread
 
+    lazy var cellData: TableCellData = {
+        return createCellData(for: thread)
+    }()
+
     lazy var messageAttributes: [NSAttributedStringKey: Any] = {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 2.5
@@ -37,7 +41,7 @@ final class ThreadCellConfigurator: CellConfigurator {
         self.thread = thread
     }
 
-    lazy var cellData: TableCellData = {
+    private func createCellData(for thread: TSThread) -> TableCellData {
         var avatarPath: String?
         var avatar: UIImage?
         var subtitle = "..."
@@ -87,5 +91,6 @@ final class ThreadCellConfigurator: CellConfigurator {
         }
 
         return TableCellData(title: title, subtitle: subtitle, leftImagePath: avatarPath, details: details, badgeText: badgeText)
-    }()
+    }
+
 }

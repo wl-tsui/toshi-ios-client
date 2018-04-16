@@ -16,7 +16,7 @@
 import Foundation
 
 /// An individual Collectible
-final class Collectible: Codable {
+struct Collectible: Codable {
 
     let name: String
     let value: String
@@ -35,7 +35,7 @@ final class Collectible: Codable {
 }
 
 /// Convenience class for decoding an array of Collectibles with the key "collectibles"
-final class CollectibleResults: Codable {
+struct CollectibleResults: Codable {
 
     let collectibles: [Collectible]
 

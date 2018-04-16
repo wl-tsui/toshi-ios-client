@@ -18,5 +18,7 @@ import Foundation
 // Accessibility identifiers which will never be visible to users or read to VoiceOver users - only used for testing purposes.
 enum AccessibilityIdentifier: String {
     case
-    mainTabBar = "main_tab_bar"
+    mainTabBar = "main_tab_bar",
+    passwordTextField = "password_text_field",
+    passphraseSignInExplanationLabel = "passphrase_sign_in_explanation_label"
 }

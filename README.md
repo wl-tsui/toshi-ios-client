@@ -14,13 +14,14 @@ Check our SwiftLint [installation guide](https://github.com/toshiapp/toshi-ios-c
 
 We're using [Marathon](https://github.com/JohnSundell/Marathon) and [Stencil](https://github.com/kylef/Stencil). 
 
-You should install Marathon using the Swift Package Manager, since installation with Homebrew isn't working correctly. Please use following steps, based on [Marathon's SPM instructions](https://github.com/JohnSundell/Marathon#on-macos), at the command line: 
+You should install Marathon using the Swift Package Manager (**NOTE:** If you installed it with Swift 4.0-4.0.3, you will need to reinstall it with 4.1), since installation with Homebrew isn't working correctly. Please use following steps, based on [Marathon's SPM instructions](https://github.com/JohnSundell/Marathon#on-macos), at the command line: 
 
 1. `cd` into any directory where you would like to check out the Marathon source code. It does **not** need to be a sub-directory of Toshi (and probably shouldn't be so the Marathon source doesn't get checked in to git). 
 2. `git clone https://github.com/JohnSundell/Marathon.git` - This will check out the source code into the current working directory.
-3. `cd Marathon` - This will put you inside Marathon's main source code folder. 
-4. `swift build -c release -Xswiftc -static-stdlib` - This will build Marathon for release as a static library. 
-5. `cp -f .build/release/Marathon /usr/local/bin/marathon` - This will copy the static library into `/usr/local/bin/` so that it can be called from anywhere in the filesystem.  
+3. If [the `swift-4.1` branch of Marathon](https://github.com/JohnSundell/Marathon/pull/161) still hasn't been merged, please also run: `git fetch origin swift-4.1` then `git checkout swift-4.1` before proceeding to step 4 to use the appropriate branch which will build with Swift 4.1. If the linked PR has been merged, you may skip this step. 
+4. `cd Marathon` - This will put you inside Marathon's main source code folder. 
+5. `swift build -c release -Xswiftc -static-stdlib` - This will build Marathon for release as a static library. 
+6. `cp -f .build/release/Marathon /usr/local/bin/marathon` - This will copy the static library into `/usr/local/bin/` so that it can be called from anywhere in the filesystem.  
 
 Once this final step is complete, feel free to delete the folder where you checked Marathon out and built it, since you will be relying on the copied compiled binary instead of anything in that folder.
 

@@ -55,11 +55,4 @@ final class AvatarTitleSubtitleCell: BasicTableViewCell {
         titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
         titleTextField.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
     }
-
-    override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        titleTextField.font = Theme.preferredRegular()
-        subtitleLabel.font = Theme.preferredRegularSmall()
-    }
 }

@@ -25,7 +25,7 @@ protocol SignInRobot: BasicRobot { }
 enum SignInScreenButton {
     case
     back,
-    howWork,
+    howDoesItWork,
     signIn,
     wordsLeft(words: Int)
     
@@ -33,12 +33,39 @@ enum SignInScreenButton {
         switch self {
         case .back:
             return Localized.back_action_title
-        case .howWork:
+        case .howDoesItWork:
             return Localized.passphrase_sign_in_explanation_title
         case .signIn:
             return Localized.passphrase_sign_in_button
         case .wordsLeft(let words):
             return LocalizedPlural.passphrase_sign_in_button_placeholder(for: words)
+        }
+    }
+}
+
+enum SignInScreenPhrases {
+    case
+    valid,
+    invalid
+
+    var phrase: String {
+        switch self {
+        case .valid:
+            return "ask "
+        case .invalid:
+            return "marijn "
+        }
+    }
+}
+
+enum SignInScreenView {
+    case
+    error(words: Int)
+
+    var accessibilityLabel: String {
+        switch self {
+        case .error(let words):
+            return LocalizedPlural.passphrase_sign_in_error(for: words)
         }
     }
 }
@@ -49,6 +76,7 @@ extension SignInRobot {
     
     // MARK: - Actions
     
+    @discardableResult
     func select(button: SignInScreenButton,
                 file: StaticString = #file,
                 line: UInt = #line) -> SignInRobot {
@@ -78,6 +106,78 @@ extension SignInRobot {
                             file: file,
                             line: line)
         
+        return self
+    }
+
+    @discardableResult
+    func validateWordsLeftButton(wordsLeft: Int, file: StaticString = #file,
+                                 line: UInt = #line) -> SignInRobot {
+        confirmViewVisibleWith(accessibilityLabel: SignInScreenButton.wordsLeft(words: wordsLeft).accessibilityLabel,
+                file: file,
+                line: line)
+        confirmButtonEnabled(false, accessibilityLabel: SignInScreenButton.wordsLeft(words: wordsLeft).accessibilityLabel,
+                file: file,
+                line: line)
+
+        return self
+    }
+
+    @discardableResult
+    func validateErrorForWrongWords(amount: Int, file: StaticString = #file, line: UInt = #line) -> SignInRobot {
+        confirmViewVisibleWith(accessibilityLabel: SignInScreenView.error(words: amount).accessibilityLabel,
+                file: file,
+                line: line)
+
+        return self
+    }
+
+    @discardableResult
+    func validateErrorIsNotVisible(amount: Int, file: StaticString = #file, line: UInt = #line) -> SignInRobot {
+        confirmViewGoneWith(accessibilityLabel: SignInScreenView.error(words: amount).accessibilityLabel,
+                file: file,
+                line: line)
+
+        return self
+    }
+
+    @discardableResult
+    func validateSignInEnabled(file: StaticString = #file, line: UInt = #line) -> SignInRobot {
+        confirmViewVisibleWith(accessibilityLabel: SignInScreenButton.signIn.accessibilityLabel, file: file, line: line)
+        confirmButtonEnabled(true, accessibilityLabel: SignInScreenButton.signIn.accessibilityLabel,
+                file: file,
+                line: line)
+
+        return self
+    }
+
+    // MARK: - Typing
+
+    @discardableResult
+    func enterValidPassPhraseWords(amount: Int, file: StaticString = #file, line: UInt = #line) -> SignInRobot {
+
+        typeText(String(repeating: SignInScreenPhrases.valid.phrase, count: amount), onViewWith: AccessibilityIdentifier.passwordTextField,
+                file: file,
+                line: line)
+
+        return self
+    }
+
+    @discardableResult
+    func enterInvalidPassPhraseWords(amount: Int, file: StaticString = #file, line: UInt = #line) -> SignInRobot {
+        typeText(String(repeating: SignInScreenPhrases.invalid.phrase, count: amount), onViewWith: AccessibilityIdentifier.passwordTextField,
+                file: file,
+                line: line)
+
+        return self
+    }
+
+    @discardableResult
+    func clearPassPhrase(file: StaticString = #file, line: UInt = #line) -> SignInRobot {
+
+        typeText(String(repeating: "\u{8}", count: 7), onViewWith: AccessibilityIdentifier.passwordTextField,
+                file: file,
+                line: line)
+
         return self
     }
 }

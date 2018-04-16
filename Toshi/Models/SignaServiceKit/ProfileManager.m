@@ -195,7 +195,7 @@ const NSUInteger kOWSProfileManager_NameDataLength = 26;
         if (_localUserProfile == nil) {
             // Make sure to read on the local db connection for consistency.
             [self.dbConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
-                _localUserProfile = [UserProfile fetchObjectWithUniqueID:kLocalProfileUniqueId transaction:transaction];
+                self->_localUserProfile = [UserProfile fetchObjectWithUniqueID:kLocalProfileUniqueId transaction:transaction];
             }];
 
             if (_localUserProfile == nil) {
@@ -203,7 +203,7 @@ const NSUInteger kOWSProfileManager_NameDataLength = 26;
                 _localUserProfile.profileKey = [OWSAES256Key generateRandomKey];
 
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self saveUserProfile:_localUserProfile];
+                    [self saveUserProfile:self->_localUserProfile];
                 });
             }
         }

@@ -23,9 +23,9 @@ static const CGFloat kSocketReconnectDelaySeconds = 5.f;
 // websocket open if:
 //
 // a) It has received a notification in the last 25 seconds.
-static const CGFloat kBackgroundOpenSocketDurationSeconds = 25.f;
+static const CGFloat kBackgroundOpenSocketDurationSeconds = 0.1f;
 // b) It has received a message over the socket in the last 15 seconds.
-static const CGFloat kBackgroundKeepSocketAliveDurationSeconds = 15.f;
+static const CGFloat kBackgroundKeepSocketAliveDurationSeconds = 0.1f;
 
 NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_SocketManagerStateDidChange";
 
@@ -595,6 +595,13 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
     });
 }
 
++(void)requestSocketClosed
+{
+    DispatchMainThreadSafe(^{
+        [[self sharedManager] closeWebSocket];
+    });
+}
+
 // This method aligns the socket state with the "desired" socket state.
 - (void)applyDesiredSocketState
 {
@@ -707,4 +714,3 @@ NSString *const kNSNotification_SocketManagerStateDidChange = @"kNSNotification_
 }
 
 @end
-

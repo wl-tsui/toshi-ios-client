@@ -96,8 +96,9 @@ class Cereal: NSObject {
             var entropy = Data(count: entropyByteCount)
             // This creates the private key inside a block, result is of internal type ResultType.
             // We just need to check if it's 0 to ensure that there were no errors.
+            let count = entropy.count
             let result: Int32 = entropy.withUnsafeMutableBytes { mutableBytes in
-                SecRandomCopyBytes(kSecRandomDefault, entropy.count, mutableBytes)
+                SecRandomCopyBytes(kSecRandomDefault, count, mutableBytes)
             }
             guard result == 0 else {
                 CrashlyticsLogger.log("Failed to generate random entropy data")

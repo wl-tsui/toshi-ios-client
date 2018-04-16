@@ -40,7 +40,7 @@ struct EthereumAddress {
 
     static func validate(_ address: String) -> Bool {
         do {
-            let regex = try NSRegularExpression(pattern: "0x[a-fA-F0-9]{40}")
+            let regex = try NSRegularExpression(pattern: "^0x[a-fA-F0-9]{40}$")
             let results = regex.matches(in: address, range: NSRange(address.startIndex..., in: address))
             return results.count == 1
         } catch let error {

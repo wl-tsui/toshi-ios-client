@@ -313,7 +313,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 
 extension TabBarController: PaymentRouterDelegate {
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
         scannerController.startScanning()
     }
 }
