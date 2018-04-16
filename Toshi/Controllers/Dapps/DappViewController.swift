@@ -136,15 +136,15 @@ final class DappViewController: DisappearingNavBarViewController {
     // since the scrollView here is tableView
     override func addScrollableContent(to contentView: UIView) { }
 
-    override lazy var scrollView: UIScrollView = {
+    override var scrollingView: UIScrollView {
         return self.tableView
-    }()
+    }
 
     override func setupNavBarAndScrollingContent() {
         view.addSubview(tableView)
         tableView.tableHeaderView = coverImageHeaderView
 
-        scrollView.delegate = self
+        scrollingView.delegate = self
         tableView.edgesToSuperview()
 
         view.addSubview(navBar)

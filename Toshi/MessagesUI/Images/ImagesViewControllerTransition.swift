@@ -72,7 +72,7 @@ class ImagesViewControllerTransition: NSObject, UIViewControllerAnimatedTransiti
             messagesViewController.tableView.scrollToRow(at: imagesViewController.currentIndexPath, at: .middle, animated: false)
         }
         
-        guard let toCell = imagesViewController.collectionView.visibleCells.flatMap({ cell in cell as? ImageCell }).first(where: { imageCell in imageCell.frame.width != 0 }) else { return nil }
+        guard let toCell = imagesViewController.collectionView.visibleCells.compactMap({ cell in cell as? ImageCell }).first(where: { imageCell in imageCell.frame.width != 0 }) else { return nil }
 
         return toCell.imageView
     }

@@ -67,7 +67,10 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         return navBar
     }()
 
-    lazy var scrollView = UIScrollView()
+    private lazy var defaultScrollView = UIScrollView()
+    var scrollingView: UIScrollView {
+        return defaultScrollView
+    }
 
     private var navBarTargetHeight: CGFloat {
         if #available(iOS 11, *) {
@@ -114,10 +117,10 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
     /// Sets up the navigation bar and all scrolling content.
     /// NOTE: Should be set up before any other views are added to the Nav + Scroll parent or there's some weirdness with the scroll view offset.
     func setupNavBarAndScrollingContent() {
-        view.addSubview(scrollView)
+        view.addSubview(scrollingView)
 
-        scrollView.delegate = self
-        scrollView.edgesToSuperview()
+        scrollingView.delegate = self
+        scrollingView.edgesToSuperview()
 
         view.addSubview(navBar)
 
@@ -125,7 +128,7 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         updateNavBarHeightIfNeeded()
         navBar.heightConstraint = navBar.height(navBarHeight)
 
-        setupContentView(in: scrollView)
+        setupContentView(in: scrollingView)
     }
 
     private func setupContentView(in scrollView: UIScrollView) {
@@ -183,7 +186,7 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
     /// NOTE: This should generally be called from `scrollViewDidScroll`.
     func updateNavBarAppearance() {
         guard disappearingEnabled else { return }
-        guard !scrollView.frame.equalTo(.zero) else { /* View hasn't been set up yet. */ return }
+        guard !scrollingView.frame.equalTo(.zero) else { /* View hasn't been set up yet. */ return }
 
         updateBackgroundAlpha()
         updateTitleAlpha()

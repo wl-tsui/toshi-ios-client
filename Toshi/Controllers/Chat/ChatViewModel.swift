@@ -111,7 +111,7 @@ final class ChatViewModel {
 
     var visibleMessages: [Message] = [] {
         didSet {
-            messageModels = visibleMessages.flatMap { MessageModel(message: $0) }
+            messageModels = visibleMessages.compactMap { MessageModel(message: $0) }
         }
     }
 

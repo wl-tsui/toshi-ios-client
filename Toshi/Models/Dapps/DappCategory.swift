@@ -16,7 +16,7 @@
 import Foundation
 
 /// An individual Dapp category section
-final class DappCategory: Codable {
+struct DappCategory: Codable {
 
     let categoryId: Int
     let type: String?
@@ -33,7 +33,7 @@ final class DappCategory: Codable {
 typealias DappCategoryInfo = [Int: String]
 
 /// Convenience class for decoding an array of DappCategories with the key "sections"
-final class DappCategoryResults: Codable {
+struct DappCategoryResults: Codable {
 
     let categories: [DappCategory]
     let categoriesInfo: DappCategoryInfo

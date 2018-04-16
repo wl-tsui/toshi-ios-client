@@ -42,7 +42,7 @@ final class CurrencyPicker: UIViewController {
         ExchangeRateClient.getCurrencies { [weak self] results in
             guard let strongSelf = self else { return }
 
-            let availableLocaleCurrencies = Locale.availableIdentifiers.flatMap { Locale(identifier: $0).currencyCode }
+            let availableLocaleCurrencies = Locale.availableIdentifiers.compactMap { Locale(identifier: $0).currencyCode }
 
             strongSelf.otherCurrencies = results
                 .filter { result in

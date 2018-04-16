@@ -36,7 +36,7 @@ final class CurrenciesCacheData: NSObject, NSCoding {
     }
 }
 
-final class Currency: Codable {
+struct Currency: Codable {
 
     let code: String
     let name: String

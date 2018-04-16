@@ -114,7 +114,7 @@ class PassphraseWordView: UIControl {
     var shapeLayers: [CAShapeLayer] {
         guard let sublayers = self.background.layer.sublayers else { return [] }
 
-        return sublayers.flatMap { layer in
+        return sublayers.compactMap { layer in
             layer as? CAShapeLayer
         }
     }

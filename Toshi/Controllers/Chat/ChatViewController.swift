@@ -418,7 +418,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             return
         }
 
-        let buttonsMessage = viewModel.messages.flatMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
+        let buttonsMessage = viewModel.messages.compactMap { $0.sofaWrapper as? SofaMessage }.first(where: { $0.buttons.count > 0 })
         buttonsView.buttons = buttonsMessage?.buttons
     }
 

@@ -33,7 +33,7 @@ final class AvatarManager: NSObject {
 
     @objc func startDownloadContactsAvatars() {
 
-        let avatarPaths: [String] = SessionManager.shared.contactsManager.tokenContacts.flatMap { contact in
+        let avatarPaths: [String] = SessionManager.shared.contactsManager.tokenContacts.compactMap { contact in
             contact.avatarPath
         }
 

@@ -127,8 +127,8 @@ final class SignInView: UIView {
     
     private func updateSignInButton() {
         let indexPaths = collectionView.indexPathsForVisibleItems.sorted {$0.item < $1.item}
-        let cells = indexPaths.flatMap { collectionView.cellForItem(at: $0) as? SignInCell }
-        let matches = cells.flatMap { $0.match }
+        let cells = indexPaths.compactMap { collectionView.cellForItem(at: $0) as? SignInCell }
+        let matches = cells.compactMap { $0.match }
         let errors = cells.filter { $0.match == nil && !$0.text.isEmpty }
         
         footerView.numberOfMatches = matches.count

@@ -14,9 +14,9 @@ abstract_target 'CocoaPods' do
   pod 'CocoaLumberjack', '~> 3.3.0'
 
   # Things which can't be installed via carthage because they contain scripts
-  pod 'Fabric', '~> 1.7.5'
+  pod 'Fabric', '~> 1.7.6'
   pod 'Crashlytics', '~>3.10.1'
-  pod 'SwiftLint', '~>0.24.0'
+  pod 'SwiftLint', '~>0.25.1'
 
   target 'Development' do
       

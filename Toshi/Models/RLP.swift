@@ -247,7 +247,7 @@ protocol BigEndianDataConvertible {
     init?(bigEndianData: Data)
 }
 
-extension BigEndianDataConvertible where Self:FixedWidthInteger {
+extension BigEndianDataConvertible where Self: FixedWidthInteger {
     init?(bigEndianData: Data) {
         let padding = MemoryLayout<Self>.size - bigEndianData.count
         let paddedBigEndianData: Data

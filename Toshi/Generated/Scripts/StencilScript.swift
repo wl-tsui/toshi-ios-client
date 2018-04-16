@@ -31,7 +31,7 @@ func changedFiles() throws -> [String] {
 /// - Throws: Any error attempting to run the git command.
 func hasFileChanged(named fileName: String) throws -> Bool {
     // Take the last path component of each file name
-    let fileNamesInDiff = try changedFiles().flatMap { $0.components(separatedBy: "/").last }
+    let fileNamesInDiff = try changedFiles().compactMap { $0.components(separatedBy: "/").last }
     return fileNamesInDiff.contains(fileName)
 }
 
@@ -218,8 +218,8 @@ if try hasFileChanged(named: localizablePluralsFileName) {
 let assetCatalogFolder = try resourcesFolder.subfolder(named: "Assets.xcassets")
 let assetCatalogOutputName = "AssetCatalog.swift"
 
-if true { //try hasAnyFileChanged(in: assetCatalogFolder) {
-    let assets = try loadAssets(from: assetCatalogFolder)
+if try hasAnyFileChanged(in: assetCatalogFolder) {
+    let assets = loadAssets(from: assetCatalogFolder)
     try renderThenWrite(context: [
                             "assets": assets
                         ],

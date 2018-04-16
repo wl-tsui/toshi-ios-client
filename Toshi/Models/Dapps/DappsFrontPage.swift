@@ -16,7 +16,7 @@
 import Foundation
 
 /// Dapps front page
-final class DappsFrontPage: Codable {
+struct DappsFrontPage: Codable {
 
     let categories: [DappCategory]
     let categoriesInfo: DappCategoryInfo

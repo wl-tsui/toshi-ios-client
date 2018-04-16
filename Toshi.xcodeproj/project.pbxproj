@@ -2921,8 +2921,6 @@
 				14147E9E1E8119F0006BD47B /* Frameworks */,
 				14147E9F1E8119F0006BD47B /* Resources */,
 				9FE86E011F0BC09E00A7F71E /* Copy Frameworks */,
-				AF3DF3BA7106419B67519D21 /* [CP] Embed Pods Frameworks */,
-				2A7194D0F2652C0EE4A89A72 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2944,7 +2942,6 @@
 				149F9AC31E72E29A00FB74AA /* Bump build number */,
 				149F9AC41E72E29A00FB74AA /* Resources */,
 				149F9AEA1E72E29A00FB74AA /* Copy Carthage Frameworks */,
-				7DB323CB6F55ADD50CC301AC /* [CP] Embed Pods Frameworks */,
 				0807F205F2A93A39CF185D36 /* [CP] Copy Pods Resources */,
 				2BC408521EF2C22A0044C242 /* Fabric Run Script */,
 				3361C7C31FD99D0900E5600C /* SwiftLint Run Script */,
@@ -2967,8 +2964,6 @@
 				33C0341F1FFE69E700A9C59C /* Frameworks */,
 				33C034201FFE69E700A9C59C /* Resources */,
 				33816A692003C27600FE81BD /* Carthage Copy Frameworks */,
-				BFCFA709BD872D0000AB74F7 /* [CP] Embed Pods Frameworks */,
-				C75A6D54495C521D5224A180 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2992,7 +2987,6 @@
 				1462543C1E4326DA00A3B822 /* Embed Frameworks */,
 				A94C4EAB1F261C8E00E424EB /* SwiftLint Run Script */,
 				2BC408531EF2CED30044C242 /* Fabric Run Script */,
-				4380A44F194F905C73188527 /* [CP] Embed Pods Frameworks */,
 				0B4023E44BAD654CF957546B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -3014,7 +3008,6 @@
 				A9603F631F4DABDC00BF57B1 /* Bump build number */,
 				A9603F641F4DABDC00BF57B1 /* Resources */,
 				A9603F8D1F4DABDC00BF57B1 /* Copy Carthage Frameworks */,
-				A9603F8E1F4DABDC00BF57B1 /* [CP] Embed Pods Frameworks */,
 				A9603F8F1F4DABDC00BF57B1 /* [CP] Copy Pods Resources */,
 				A9603F901F4DABDC00BF57B1 /* Fabric Run Script */,
 				3361C7C21FD99BDD00E5600C /* SwiftLint Run Script */,
@@ -3035,7 +3028,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Bakken&Baeck";
 				TargetAttributes = {
 					14147EA01E8119F0006BD47B = {
@@ -3292,7 +3285,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3330,7 +3325,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3380,26 +3377,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks ";
-		};
-		2A7194D0F2652C0EE4A89A72 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Tests/Pods-CocoaPods-Tests-resources.sh",
-				"${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle",
-				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer",
-				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		2BC408521EF2C22A0044C242 /* Fabric Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3487,36 +3464,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		4380A44F194F905C73188527 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Debug/Pods-CocoaPods-Debug-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7DB323CB6F55ADD50CC301AC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Distribution/Pods-CocoaPods-Distribution-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A94C4EAB1F261C8E00E424EB /* SwiftLint Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3575,21 +3522,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks ";
 		};
-		A9603F8E1F4DABDC00BF57B1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Development/Pods-CocoaPods-Development-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A9603F8F1F4DABDC00BF57B1 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3603,7 +3535,9 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SAMKeychain.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/textsecure.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GIAG2.crt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3623,21 +3557,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" d6f421ea196993dc3048f7ba96ef27a75a55b2a2 2a282eff9d37c538d0a30d8fc979703d081109781ba8d92078c71c563f76ce66";
-		};
-		AF3DF3BA7106419B67519D21 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests/Pods-Tests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		B6010FBB4BE06EE38991BDC7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3673,41 +3592,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BFCFA709BD872D0000AB74F7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests_UI/Pods-Tests_UI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C75A6D54495C521D5224A180 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CocoaPods-Tests_UI/Pods-CocoaPods-Tests_UI-resources.sh",
-				"${PODS_ROOT}/SAMKeychain/Support/SAMKeychain.bundle",
-				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/textsecure.cer",
-				"${PODS_ROOT}/SignalServiceKit/SignalServiceKit/src/Security/PinningCertificate/GIAG2.crt",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tests_UI/Pods-Tests_UI-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DF5942F16055892125F00D73 /* [CP] Check Pods Manifest.lock */ = {
@@ -4903,6 +4787,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -4910,6 +4795,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -4958,6 +4844,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -4965,6 +4852,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -5037,10 +4925,10 @@
 				PRODUCT_NAME = Toshi;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -5085,7 +4973,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Toshi/Resources/Toshi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
-				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

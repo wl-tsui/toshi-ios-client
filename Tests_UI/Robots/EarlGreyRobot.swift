@@ -176,6 +176,22 @@ extension EarlGreyRobot: BasicRobot {
     }
 }
 
+/// Extensions for accessing weirdly annotated objc things
+extension GREYInteraction {
+    @discardableResult public func assert(with matcher: @autoclosure () -> GREYMatcher) -> Self {
+        return self.__assert(with: matcher())
+    }
+
+    @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher,
+                                          error: UnsafeMutablePointer<NSError?>!) -> Self {
+        return self.__assert(with: matcher(), error: error)
+    }
+
+    @discardableResult public func perform(_ action: GREYAction!) -> Self {
+        return self.__perform(action)
+    }
+}
+
 // MARK: - Mix-in Robots
 
 extension EarlGreyRobot: MyProfileRobot { /*mix-in */ }
