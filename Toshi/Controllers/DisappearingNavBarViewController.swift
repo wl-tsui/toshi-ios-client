@@ -95,7 +95,7 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
 
         // Keep the pop gesture recognizer working
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self

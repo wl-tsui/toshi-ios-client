@@ -17,6 +17,9 @@ import Foundation
 
 /// An individual Dapp
 struct Dapp: Codable {
+
+    private let dappHostToAppend = "https://buy.coinbase.com"
+    private let dappHostAppendingString = "?code=9a6fb1e3-af41-5677-9b67-8c8a0e365771&address="
     
     let name: String
     let dappId: Int
@@ -35,6 +38,15 @@ struct Dapp: Codable {
         coverUrlString = "cover",
         description,
         categories
+    }
+
+    var urlToLoad: URL {
+        guard url.absoluteString == dappHostToAppend else { return url }
+
+        let appendedUrlString = url.absoluteString.appending("\(dappHostAppendingString)\(Cereal.shared.paymentAddress)")
+        guard let appendedUrl = URL(string: appendedUrlString) else { return url }
+
+        return appendedUrl
     }
 }
 

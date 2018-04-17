@@ -1,0 +1,52 @@
+{
+    "sections": [{
+                 "name": "Popular Groups",
+                 "query": "type=group",
+                 "results": [{
+                             "type": "group",
+                             "name": "Ethereum Amsterdam",
+                             "username": "EthereumAmsterdam",
+                             "toshi_id": "0x513133aab51c4b4ca43fe0f3011830b01492e0af",
+                             "avatar": "https://bucketeer-7c93db19-eda4-413d-9025-fca45df5773a.s3.amazonaws.com/public/identicon/0xdd2170a3880001d922f3e235eb1e55e9b8e0c8c4.png",
+                             "description": "100 Members"
+                             }, {
+                             "type": "group",
+                             "name": "General Chat",
+                             "username": "ToshiGeneralChat",
+                             "toshi_id": "0x4c63d5bea3b3f5be9bcaf9f8e6f45654bad1fc18",
+                             "avatar": "https://bucketeer-7c93db19-eda4-413d-9025-fca45df5773a.s3.amazonaws.com/public/avatar/0x4c63d5bea3b3f5be9bcaf9f8e6f45654bad1fc18_e7aa2e.png",
+                             "description": "543 Members"
+                             }]
+                 }, {
+                 "name": "Featured Bots",
+                 "query": "type=bot&featured=true",
+                 "results": [{
+                             "type": "bot",
+                             "name": "ToshiBot",
+                             "username": "ToshiBot",
+                             "toshi_id": "0x1cdda5e6c54adfe857aad6f244d4a452b66cc798",
+                             "payment_address": "0xc5e85c216feea05ab8fe5dd33795e22d9090932d",
+                             "description": "I'm here to welcome you to the platform and help you make your first transactions.",
+                             "avatar": "https://bucketeer-7c93db19-eda4-413d-9025-fca45df5773a.s3.amazonaws.com/public/avatar/0x1cdda5e6c54adfe857aad6f244d4a452b66cc798_ebea53.png",
+                             "reputation_score": 4.2,
+                             "average_rating": 4.4,
+                             "review_count": 227
+                             }]
+                 }, {
+                 "name": "Public Users",
+                 "query": "type=user&public=true",
+                 "results": [{
+                             "type": "user",
+                             "name": "Tristan",
+                             "username": "tristan",
+                             "toshi_id": "0xc5e85c216feea05ab8fe5dd33795e22d9090932d",
+                             "payment_address": "0xc5e85c216feea05ab8fe5dd33795e22d9090932d",
+                             "description": "Just some guy.",
+                             "avatar": "https://bucketeer-7c93db19-eda4-413d-9025-fca45df5773a.s3.amazonaws.com/public/avatar/0xc5e85c216feea05ab8fe5dd33795e22d9090932d_28c5a5.png",
+                             "location": "Germany",
+                             "reputation_score": 4.9,
+                             "average_rating": 5.0,
+                             "review_count": 12227
+                             }]
+                 }]
+}

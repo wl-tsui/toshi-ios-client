@@ -73,9 +73,10 @@ final class NewGroupViewModel {
 
         let image = groupInfo.avatar
 
-        ChatInteractor.createGroup(with: NSMutableArray(array: groupParticipantsIds), name: groupInfo.title, avatar: image, completion: { [weak self] _ in
-
-            self?.completeActionDelegate?.groupViewModelDidFinishCreateOrUpdate()
+        // We should pop to root controller before new chat is pushed
+        completeActionDelegate?.groupViewModelDidFinishCreateOrUpdate()
+        
+        ChatInteractor.createGroup(with: NSMutableArray(array: groupParticipantsIds), name: groupInfo.title, avatar: image, completion: { _ in
         })
     }
 }

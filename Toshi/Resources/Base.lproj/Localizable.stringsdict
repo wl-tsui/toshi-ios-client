@@ -18,22 +18,6 @@
 			<string>%d Participants</string>
 		</dict>
 	</dict>
-	<key>message_requests_description</key>
-	<dict>
-		<key>NSStringLocalizedFormatKey</key>
-		<string>%#@value@</string>
-		<key>value</key>
-		<dict>
-			<key>NSStringFormatSpecTypeKey</key>
-			<string>NSStringPluralRuleType</string>
-			<key>NSStringFormatValueTypeKey</key>
-			<string>d</string>
-			<key>one</key>
-			<string>%d person wants to start a chat</string>
-			<key>other</key>
-			<string>%d people want to start a chat</string>
-		</dict>
-	</dict>
 	<key>passphrase_sign_in_button_placeholder</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>

@@ -258,8 +258,6 @@ extension GroupViewController: GroupViewModelCompleteActionDelegate {
         }
 
         navigationController?.popToRootViewController(animated: true)
-
-        Navigator.topViewController?.dismiss(animated: false, completion: nil)
     }
 
     func groupViewModelDidRequireReload(_ viewModel: GroupViewModelProtocol) {
@@ -304,9 +302,7 @@ extension GroupViewController: UITableViewDelegate {
             let selectedUserId = viewModel.allParticipantsIDs[indexPath.row - 1]
             showUserInfo(with: selectedUserId)
         case .addParticipant:
-            let datasource = ProfilesDataSource(type: .updateGroupChat)
-            datasource.excludedProfilesIds = viewModel.recipientsIds
-            let profilesViewController = ProfilesViewController(datasource: datasource, output: self)
+            let profilesViewController = ProfilesViewController(type: .updateGroupChat, output: self)
 
             navigationController?.pushViewController(profilesViewController, animated: true)
         case .exitGroup:

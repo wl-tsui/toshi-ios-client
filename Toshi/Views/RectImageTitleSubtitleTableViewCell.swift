@@ -102,30 +102,32 @@ final class RectImageTitleSubtitleTableViewCell: UITableViewCell {
         sectionSeparator.edgesToSuperview(excluding: .top)
         sectionSeparator.height(CGFloat.lineHeight)
 
-        contentView.addSubview(leftImageView)
+        let horizontalStackView = UIStackView()
+        horizontalStackView.axis = .horizontal
+        horizontalStackView.distribution = .fillProportionally
+        horizontalStackView.alignment = .center
+
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
 
-        contentView.addSubview(stackView)
+        contentView.addSubview(horizontalStackView)
 
-        stackView.top(to: contentView, offset: .spacingx3)
-        stackView.bottom(to: contentView, offset: -.spacingx3)
-        stackView.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin, priority: .required)
-        stackView.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin, priority: .required)
+        horizontalStackView.top(to: contentView, offset: .spacingx3)
+        horizontalStackView.bottom(to: contentView, offset: -.spacingx3)
+        horizontalStackView.leftToSuperview(offset: .defaultMargin)
+        horizontalStackView.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin, priority: .required)
+
+        leftImageView.size(CGSize(width: 72, height: 72))
+        horizontalStackView.addArrangedSubview(leftImageView)
+        horizontalStackView.addSpacing(BasicTableViewCell.interItemMargin, after: leftImageView)
 
         titleLabel.height(22)
         stackView.addArrangedSubview(titleLabel)
         stackView.addSpacing(3, after: titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
 
-        setupLeftImageView()
-    }
-
-    private func setupLeftImageView() {
-        leftImageView.centerYToSuperview()
-        leftImageView.size(CGSize(width: 72, height: 72))
-        leftImageView.left(to: contentView, offset: BasicTableViewCell.horizontalMargin)
+        horizontalStackView.addArrangedSubview(stackView)
     }
 
     override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

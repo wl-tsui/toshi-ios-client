@@ -175,8 +175,15 @@ extension DappViewController: DappInfoDelegate {
 
     func dappInfoViewDidReceiveDappDetailsEvent(_ cell: DappInfoView) {
         let sofaWebController = SOFAWebController()
-        sofaWebController.load(url: dapp.url)
+        sofaWebController.load(url: dapp.urlToLoad)
 
         Navigator.presentModally(sofaWebController)
     }
+}
+
+extension DappViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return nil }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
 }

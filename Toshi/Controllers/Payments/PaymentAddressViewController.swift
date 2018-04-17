@@ -141,9 +141,6 @@ extension PaymentAddressViewController: ScannerViewControllerDelegate {
     func scannerViewController(_ controller: ScannerViewController, didScanResult result: String) {
         if let intent = QRCodeIntent(result: result) {
             switch intent {
-            case .addContact(let username):
-                let name = TokenUser.name(from: username)
-                fillPaymentAddress(username: name)
             case .addressInput(let address):
                 fillPaymentAddress(address: address)
             case .paymentRequest(_, let address, let username, _):

@@ -53,6 +53,7 @@ class TokenUser: NSObject, NSCoding {
         static let name = "name"
         static let username = "username"
         static let address = "token_id"
+        static let toshiId = "toshi_id"
         static let paymentAddress = "payment_address"
         static let location = "location"
         static let about = "about"
@@ -63,6 +64,7 @@ class TokenUser: NSObject, NSCoding {
         static let reputationScore = "reputation_score"
         static let averageRating = "average_rating"
         static let localCurrency = "local_currency"
+        static let type = "type"
     }
 
     @objc static let viewExtensionName = "TokenContactsDatabaseViewExtensionName"
@@ -104,6 +106,7 @@ class TokenUser: NSObject, NSCoding {
     private(set) var isApp: Bool = false
     private(set) var reputationScore: Float?
     private(set) var averageRating: Float?
+    private(set) var type = ProfileType.user.typeString
 
     var localCurrency: String {
         return userSettings[Constants.localCurrency] as? String ?? TokenUser.defaultCurrency
@@ -175,7 +178,8 @@ class TokenUser: NSObject, NSCoding {
             Constants.isApp: self.isApp,
             Constants.isPublic: self.isPublic,
             Constants.reputationScore: self.reputationScore as Any,
-            Constants.averageRating: self.averageRating as Any
+            Constants.averageRating: self.averageRating as Any,
+            Constants.type: self.type
         ]
     }
 
@@ -195,13 +199,6 @@ class TokenUser: NSObject, NSCoding {
 
         let index = username.index(username.startIndex, offsetBy: 1)
         return String(username[index...])
-    }
-
-    static func user(with data: Data, shouldUpdate: Bool = true) -> TokenUser? {
-        guard let deserialised = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
-        guard let json = deserialised as? [String: Any] else { return nil }
-
-        return TokenUser(json: json, shouldSave: shouldUpdate)
     }
 
     @objc init(json: [String: Any], shouldSave: Bool = true) {
@@ -251,7 +248,7 @@ class TokenUser: NSObject, NSCoding {
 
     func update(json: [String: Any], updateAvatar _: Bool = false, shouldSave: Bool = true) {
         isPublic = json[Constants.isPublic] as? Bool ?? isPublic
-        address = json[Constants.address] as? String ?? address
+        address = (json[Constants.address] as? String ?? json[Constants.toshiId] as? String) ?? address
         paymentAddress = (json[Constants.paymentAddress] as? String) ?? address
         username = json[Constants.username] as? String ?? username
         name = json[Constants.name] as? String ?? name
@@ -259,6 +256,7 @@ class TokenUser: NSObject, NSCoding {
         about = json[Constants.about] as? String ?? about
         avatarPath = json[Constants.avatar] as? String ?? avatarPath
         isApp = json[Constants.isApp] as? Bool ?? isApp
+        type = json[Constants.type] as? String ?? ProfileType.user.typeString
 
         if let repValue = json[Constants.reputationScore] as? NSNumber {
             self.reputationScore = repValue.floatValue
@@ -364,7 +362,7 @@ class TokenUser: NSObject, NSCoding {
         })
     }
 
-    private static func retrieveCurrentUserFromStore() -> TokenUser? {
+    static func retrieveCurrentUserFromStore() -> TokenUser? {
         var user: TokenUser?
 
         // migrate old user storage

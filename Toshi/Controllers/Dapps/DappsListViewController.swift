@@ -125,3 +125,10 @@ extension DappsListViewController: DappsDataSourceDelegate {
         // Default implementation shows error to the user, empty implementation suppresses that alert.
     }
 }
+
+extension DappsListViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
+}

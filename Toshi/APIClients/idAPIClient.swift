@@ -16,14 +16,22 @@
 import UIKit
 import SweetFoundation
 import Teapot
+import Haneke
 
 typealias TokenUserResults = (_ apps: [TokenUser]?, _ error: ToshiError?) -> Void
+typealias ProfilesFrontPageResults = (_ sections: [ProfilesFrontPageSection]?, _ error: ToshiError?) -> Void
+typealias SearchedProfilesResults = (_ profiles: [Profile]?, _ type: String, _ error: ToshiError?) -> Void
 
 @objc enum UserRegisterStatus: Int {
     case existing = 0, registered, failed
 }
 
 final class IDAPIClient {
+
+    enum Keys {
+        static let profilesFrontPageCacheKey = "ProfilesFrontPageCacheKey"
+    }
+
     static let shared: IDAPIClient = IDAPIClient()
 
     static let usernameValidationPattern = "^[a-zA-Z][a-zA-Z0-9_]+$"
@@ -39,6 +47,10 @@ final class IDAPIClient {
 
     private let topRatedUsersCachedData = TokenUsersCacheData()
     private let latestUsersCachedData = TokenUsersCacheData()
+
+    private let profilesFrontPageCache = Shared.dataCache
+
+    private var searchProfilesTask: URLSessionTask?
 
     private lazy var updateOperationQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -323,7 +335,7 @@ final class IDAPIClient {
     /// - Parameters:
     ///   - username: username of id address
     ///   - completion: called on completion
-    func retrieveUser(username: String, completion: @escaping ((TokenUser?) -> Void)) {
+    func retrieveUser(username: String, completion: ((TokenUser?) -> Void)? = nil) {
 
         self.teapot.get("/v1/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { (result: NetworkResult) in
             var resultUser: TokenUser?
@@ -332,7 +344,7 @@ final class IDAPIClient {
             case .success(let json, _):
                 guard let json = json?.dictionary else {
                     DispatchQueue.main.async {
-                        completion(nil)
+                        completion?(nil)
                     }
                     return
                 }
@@ -343,7 +355,7 @@ final class IDAPIClient {
             }
 
             DispatchQueue.main.async {
-                completion(resultUser)
+                completion?(resultUser)
             }
         }
     }
@@ -653,6 +665,127 @@ final class IDAPIClient {
             
             DispatchQueue.main.async {
                 completion(dapps, resultError)
+            }
+        }
+    }
+
+    /// Gets Users, bots and groups search sectioned frontpage. Does cache
+    ///
+    /// - Parameters:
+    ///   - completion: The completion closure to execute when the request completes
+    ///                 - frontpage sections: A list of sections, or nil
+    ///                 - toshiError: A toshiError if any error was encountered, or nil
+    func fetchProfilesFrontPage(completion: @escaping ProfilesFrontPageResults) {
+
+        profilesFrontPageCache.fetch(key: Keys.profilesFrontPageCacheKey).onSuccess { data in
+            var frontPage: ProfilesFrontPage?
+            do {
+                let jsonDecoder = JSONDecoder()
+                frontPage = try jsonDecoder.decode(ProfilesFrontPage.self, from: data)
+            } catch { return }
+
+            DispatchQueue.main.async {
+                completion(frontPage?.sections, nil)
+            }
+        }
+
+        let path = "/v2/search"
+        teapot.get(path) { [weak self ] result in
+
+            var sections: [ProfilesFrontPageSection]?
+            var resultError: ToshiError?
+
+            switch result {
+            case .success(let json, _):
+                guard let data = json?.data else {
+                    DispatchQueue.main.async {
+                        completion(nil, .invalidPayload)
+                    }
+                    return
+                }
+
+                self?.profilesFrontPageCache.set(value: data, key: Keys.profilesFrontPageCacheKey)
+
+                let frontPage: ProfilesFrontPage
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    frontPage = try jsonDecoder.decode(ProfilesFrontPage.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(nil, .invalidResponseJSON)
+                    }
+                    return
+                }
+
+                frontPage.sections.forEach({ section in
+                    section.profiles.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatar ?? "") }
+                })
+
+                sections = frontPage.sections
+            case .failure(_, _, let error):
+                DLog(error.localizedDescription)
+                resultError = ToshiError(withTeapotError: error)
+            }
+
+            DispatchQueue.main.async {
+                completion(sections, resultError)
+            }
+        }
+    }
+
+    /// Searches profiles of a given type and optional search text.
+    ///
+    /// - Parameters:
+    ///   - type: stringtype of searched objects - user, bot or groupbot.
+    ///   - searchText: optional search text.
+    ///   - completion: The completion closure to execute when the request completes
+    ///                 - profiles: A list of profiles, or nil
+    ///                 - type: Requested type
+    ///                 - toshiError: A toshiError if any error was encountered, or nil
+    func searchProfilesOfType(_ type: String, for searchText: String? = nil, completion: @escaping SearchedProfilesResults) {
+
+        var path = "/v2/search?type=\(type)"
+        if let query = searchText {
+            path.append("&query=\(query)")
+        }
+
+        searchProfilesTask?.cancel()
+
+        searchProfilesTask = teapot.get(path) { result in
+
+            var profiles: [Profile]?
+            var resultError: ToshiError?
+
+            switch result {
+            case .success(let json, _):
+                guard let data = json?.data else {
+                    DispatchQueue.main.async {
+                        completion(nil, type, .invalidPayload)
+                    }
+                    return
+                }
+
+                let responseData: SearchedProfilesData
+                do {
+                    let jsonDecoder = JSONDecoder()
+                    responseData = try jsonDecoder.decode(SearchedProfilesData.self, from: data)
+                } catch {
+                    DispatchQueue.main.async {
+                        completion(nil, type, .invalidResponseJSON)
+                    }
+                    return
+                }
+
+                profiles = responseData.profiles
+                responseData.profiles.forEach { AvatarManager.shared.downloadAvatar(for: $0.avatar ?? "") }
+
+            case .failure(_, _, let error):
+                DLog(error.localizedDescription)
+                resultError = ToshiError(withTeapotError: error)
+            }
+
+            DispatchQueue.main.async {
+                completion(profiles, type, resultError)
             }
         }
     }

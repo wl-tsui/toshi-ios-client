@@ -47,6 +47,7 @@ public struct TableCellDataComponents: OptionSet {
     static let badge = TableCellDataComponents(rawValue: 1 << 7)
     static let checkbox = TableCellDataComponents(rawValue: 1 << 8)
     static let topDetails = TableCellDataComponents(rawValue: 1 << 9)
+    static let description = TableCellDataComponents(rawValue: 1 << 10)
 
     static let titleSubtitle: TableCellDataComponents = [.title, .subtitle]
     static let titleLeftImage: TableCellDataComponents = [.title, .leftImage]
@@ -62,6 +63,7 @@ public struct TableCellDataComponents: OptionSet {
     static let leftImageTitleSubtitleDoubleAction: TableCellDataComponents = [.titleSubtitleLeftImage, .doubleAction]
     static let titleSubtitleDetailsLeftImageBadge: TableCellDataComponents = [.titleSubtitleDetailsLeftImage, .badge]
     static let titleSubtitleLeftImageTopDetails: TableCellDataComponents = [.titleSubtitleLeftImage, .topDetails]
+    static let titleSubtitleLeftImageDescription: TableCellDataComponents = [.titleSubtitleLeftImage, .description]
 }
 
 public final class TableCellData {
@@ -69,6 +71,7 @@ public final class TableCellData {
 
     var title: String?
     var subtitle: String?
+    var description: String?
 
     var leftImage: UIImage?
     var leftImagePath: String?
@@ -99,7 +102,8 @@ public final class TableCellData {
          switchState: Bool? = nil,
          doubleImage: (firstImage: UIImage, secondImage: UIImage)? = nil,
          doubleActionImages: (firstImage: UIImage, secondImage: UIImage)? = nil,
-         badgeText: String? = nil) {
+         badgeText: String? = nil,
+         description: String? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.leftImage = leftImage
@@ -112,6 +116,7 @@ public final class TableCellData {
         self.doubleImage = doubleImage
         self.doubleActionImages = doubleActionImages
         self.badgeText = badgeText
+        self.description = description
 
         setupComponents()
     }
@@ -155,6 +160,10 @@ public final class TableCellData {
 
         if showCheckmark {
             components.insert(.checkbox)
+        }
+
+        if description != nil {
+            components.insert(.description)
         }
     }
 }
