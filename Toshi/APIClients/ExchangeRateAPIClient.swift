@@ -59,6 +59,12 @@ final class ExchangeRateAPIClient {
         }
     }
 
+    func updateRateAndNotify() {
+         updateRate({ _ in
+            NotificationCenter.default.post(name: .localCurrencyUpdated, object: nil)
+        })
+    }
+
     func updateRate(_ completion: @escaping ((_ rate: Decimal?) -> Void) = { _ in }) {
         getRate { rate in
             if rate != nil {

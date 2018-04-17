@@ -200,6 +200,14 @@ final class PaymentConfirmationViewController: UIViewController {
         return button
     }()
 
+    private var receiptPayBalanceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+
+        return stackView
+    }()
+
     private lazy var balanceLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
@@ -277,6 +285,12 @@ final class PaymentConfirmationViewController: UIViewController {
 
             hasLaidOutBefore = true
 
+            let gapBetweenBottomOfViewAndBottomOfLayoutGuide = (view.frame.height - layoutGuide().layoutFrame.height)
+            if gapBetweenBottomOfViewAndBottomOfLayoutGuide > 0 {
+                // We've got an iPhone X or something that has an inset at the bottom - add some spacing at the bottom so it doesn't look goofy.
+                receiptPayBalanceStackView.addSpacerView(with: .giantInterItemSpacing)
+            }
+
             // First, shove the receipt offscreen non-animated so the user can't see it.
             setReceiptShowing(false, animated: false)
 
@@ -313,15 +327,11 @@ final class PaymentConfirmationViewController: UIViewController {
     }
 
     private func setupReceiptPayBalance(in parentView: UIView) -> UIView {
-        let receiptPayBalanceStackView = UIStackView()
-        receiptPayBalanceStackView.axis = .vertical
-        receiptPayBalanceStackView.alignment = .center
-
         receiptPayBalanceStackView.addBackground(with: Theme.viewBackgroundColor, margin: .defaultMargin)
 
         parentView.addSubview(receiptPayBalanceStackView)
 
-        bottomOfReceiptConstraint = receiptPayBalanceStackView.bottom(to: layoutGuide(), offset: -.defaultMargin)
+        bottomOfReceiptConstraint = receiptPayBalanceStackView.bottom(to: parentView)
         receiptPayBalanceStackView.leftToSuperview(offset: .defaultMargin)
         receiptPayBalanceStackView.rightToSuperview(offset: .defaultMargin)
 
@@ -451,7 +461,7 @@ final class PaymentConfirmationViewController: UIViewController {
     private func setReceiptShowing(_ showing: Bool, animated: Bool = true, completion: (() -> Void)? = nil) {
         guard let bottomConstraint = bottomOfReceiptConstraint else { /* nothing to adjust yet */ return }
 
-        let targetConstraintConstant: CGFloat = showing ? -.largeInterItemSpacing : view.frame.height
+        let targetConstraintConstant: CGFloat = showing ? -.spacingx3 : view.frame.height
 
         guard bottomOfReceiptConstraint?.constant != targetConstraintConstant else { /* already where we want it to be */ return }
 

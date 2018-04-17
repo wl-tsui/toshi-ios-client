@@ -50,26 +50,28 @@ class BasicTableViewCell: UITableViewCell {
     static let largeVerticalMargin: CGFloat = 22.0
     static let badgeViewSize: CGFloat = 24.0
 
-    var titleFont = {
-        Theme.preferredRegular()
-    }
-
     var subtitleFont = {
-        Theme.preferredRegularSmall()
+        Theme.preferredRegularTiny()
     }
 
     var detailsFont = {
         Theme.preferredFootnote()
     }
 
+    var descriptionFont = {
+        Theme.preferredFootnote()
+    }
+
     weak var actionDelegate: BasicCellActionDelegate?
 
-    lazy var titleTextField: UITextField = {
-        let titleTextField = UITextField()
+    lazy var titleTextField: DynamicFontTextField = {
+        let titleTextField = DynamicFontTextField()
 
         titleTextField.delegate = self
 
-        titleTextField.font = self.titleFont()
+        titleTextField.setDynamicFontBlock = {
+            titleTextField.font = Theme.preferredRegular()
+        }
         titleTextField.isUserInteractionEnabled = false
         titleTextField.adjustsFontForContentSizeCategory = true
 
@@ -83,6 +85,16 @@ class BasicTableViewCell: UITableViewCell {
         subtitleLabel.textColor = Theme.lightGreyTextColor
 
         return subtitleLabel
+    }()
+
+    lazy var descriptionLabel: UILabel = {
+        let descriptionLabel = UILabel()
+
+        descriptionLabel.font = descriptionFont()
+        descriptionLabel.textColor = Theme.lightGreyTextColor
+        descriptionLabel.numberOfLines = 2
+        
+        return descriptionLabel
     }()
 
     lazy var detailsLabel: UILabel = {
@@ -175,20 +187,55 @@ class BasicTableViewCell: UITableViewCell {
         return checkbox
     }()
 
+    private lazy var separator: UIView = {
+        let separator = UIView()
+        separator.backgroundColor = Theme.separatorColor
+        separator.isHidden = true
+
+        return separator
+    }()
+
+    private var separatorLeftConstraint: NSLayoutConstraint?
+    private var separatorRightConstraint: NSLayoutConstraint?
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         addSubviewsAndConstraints()
+        addSubview(separator)
 
         selectionStyle = .none
+
+        separator.height(.lineHeight)
+        separatorLeftConstraint = separator.left(to: self)
+        separatorRightConstraint = separator.right(to: self)
+
+        separator.bottom(to: self)
     }
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        separator.isHidden = true
+    }
+
     open func addSubviewsAndConstraints() {
         fatalError("addSubviewsAndConstraints() should be overriden")
+    }
+
+    func showSeparator(forLastCellInSection: Bool = false) {
+        separator.isHidden = false
+        if forLastCellInSection {
+            separatorLeftConstraint?.constant = .defaultMargin
+            separatorRightConstraint?.constant = -.defaultMargin
+        } else {
+            separatorLeftConstraint?.constant = 80
+            separatorRightConstraint?.constant = 0
+        }
     }
 
     @objc private func didTapLeftImage(_ tapGesture: UITapGestureRecognizer) {
@@ -213,15 +260,18 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(AvatarTitleSubtitleDoubleActionCell.self)
         tableView.register(AvatarTitleSubtitleDetailsBadgeCell.self)
         tableView.register(AvatarTitleSubtitleCheckboxCell.self)
+        tableView.register(AvatarTitleSubtitleDescriptionCell.self)
     }
 
     override open func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        titleTextField.font = titleFont()
+        titleTextField.runSetFontBlock()
+        
         subtitleLabel.font = subtitleFont()
         detailsLabel.font = detailsFont()
         badgeLabel.font = detailsFont()
+        descriptionLabel.font = descriptionFont()
     }
 }
 

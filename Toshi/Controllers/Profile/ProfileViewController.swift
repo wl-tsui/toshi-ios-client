@@ -478,7 +478,8 @@ final class ProfileViewController: DisappearingNavBarViewController {
         thread.save()
         
         DispatchQueue.main.async {
-            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.address)
+            let isBot = self.profile.type == ProfileType.bot.typeString || self.profile.type == ProfileType.group.typeString
+            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.address, forBot: isBot)
             
             if let navController = self.navigationController as? DappsNavigationController {
                 _ = navController.popToRootViewController(animated: false)
@@ -524,14 +525,6 @@ final class ProfileViewController: DisappearingNavBarViewController {
             self?.presentReportUserFeedbackAlert(success, message: error?.description)
         }
     }
-    
-    private func didSelectFavoriteState(_ shouldBeFavorited: Bool) {
-        if shouldBeFavorited {
-            favoriteUser()
-        } else {
-            unfavoriteUser()
-        }
-    }
 
     // MARK: - Alerts
     
@@ -544,13 +537,6 @@ final class ProfileViewController: DisappearingNavBarViewController {
     
     private func presentMoreActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let currentFavoriteState = isCurrentUserFavorite()
-        let favoriteTitle = isCurrentUserFavorite() ? Localized.profile_unfavorite_action : Localized.profile_favorite_action
-        let favoriteAction = UIAlertAction(title: favoriteTitle, style: .default) { _ in
-            self.didSelectFavoriteState(!currentFavoriteState)
-        }
-        actionSheet.addAction(favoriteAction)
         
         let currentBlockState = profile.isBlocked
         let blockTitle = currentBlockState ? Localized.unblock_action_title : Localized.block_action_title
@@ -623,19 +609,6 @@ final class ProfileViewController: DisappearingNavBarViewController {
         
         let alert = UIAlertController.dismissableAlert(title: Localized.unblock_user_title, message: Localized.unblock_user_message)
         Navigator.presentModally(alert)
-    }
-
-    private func favoriteUser() {
-        Yap.sharedInstance.insert(object: profile.json, for: profile.address, in: TokenUser.favoritesCollectionKey)
-        SoundPlayer.playSound(type: .addedProfile)
-    }
-    
-    private func unfavoriteUser() {
-        Yap.sharedInstance.removeObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
-    }
-    
-    private func isCurrentUserFavorite() -> Bool {
-        return Yap.sharedInstance.containsObject(for: profile.address, in: TokenUser.favoritesCollectionKey)
     }
 
     // MARK: - Background Nav Bar Delegate Overrides

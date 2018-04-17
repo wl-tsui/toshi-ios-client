@@ -29,8 +29,11 @@ enum AssetCatalogItem: String, StringCaseListable {
     decline_thread_icon,
     error,
     ether_logo,
+    find_people,
     gray_star = "gray-star",
+    group_icon = "group-icon",
     info,
+    invite_friend,
     launch_screen = "launch-screen",
     logo,
     more_centered,
@@ -40,6 +43,7 @@ enum AssetCatalogItem: String, StringCaseListable {
     qr,
     qr_icon = "qr-icon",
     scan,
+    search_users,
     send_button = "send-button",
     sign_in_cell_background = "sign-in-cell-background",
     success_check,
@@ -112,9 +116,15 @@ enum ImageAsset {
 
     static let ether_logo = AssetCatalogItem.ether_logo.image
 
+    static let find_people = AssetCatalogItem.find_people.image
+
     static let gray_star = AssetCatalogItem.gray_star.image
 
+    static let group_icon = AssetCatalogItem.group_icon.image
+
     static let info = AssetCatalogItem.info.image
+
+    static let invite_friend = AssetCatalogItem.invite_friend.image
 
     static let launch_screen = AssetCatalogItem.launch_screen.image
 
@@ -133,6 +143,8 @@ enum ImageAsset {
     static let qr_icon = AssetCatalogItem.qr_icon.image
 
     static let scan = AssetCatalogItem.scan.image
+
+    static let search_users = AssetCatalogItem.search_users.image
 
     static let send_button = AssetCatalogItem.send_button.image
 

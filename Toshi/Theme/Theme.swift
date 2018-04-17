@@ -164,9 +164,9 @@ extension Theme {
     }
 
     static var separatorColor: UIColor {
-        return UIColor(white: 0.95, alpha: 1)
+        return UIColor(hex: "D0D0D0")
     }
-    
+
     static var incomingMessageBackgroundColor: UIColor {
         return UIColor(hex: "ECECEE")
     }

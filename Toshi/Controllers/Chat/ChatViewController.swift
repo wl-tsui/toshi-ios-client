@@ -22,6 +22,9 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
     var paymentRequestActiveCell: UITableViewCell?
 
+    // currently we work with both TokenUser and Profile models, TokenUser is old and does not support type, is already stored in DB, we should get rid of this var when TokenUser is
+    // replaced by Profile and all has all new properties
+    var shouldSendTriggerMessage = false
     var previewState: Bool = false {
         didSet {
             if previewState == false {
@@ -812,7 +815,10 @@ extension ChatViewController: ChatViewModelOutput {
     }
 
     private func sendGreetingTriggerIfNeeded() {
-        if let contact = self.viewModel.contact, contact.isApp && self.viewModel.messages.isEmpty {
+
+        guard let contact = self.viewModel.contact, viewModel.messages.isEmpty else { return }
+
+        if shouldSendTriggerMessage || contact.isApp {
             // If contact is an app, and there are no messages between current user and contact
             // we send the app an empty regular sofa message. This ensures that Signal won't display it,
             // but at the same time, most bots will reply with a greeting.
@@ -1064,4 +1070,11 @@ extension ChatViewController: AcceptDeclineButtonsViewDelegate {
             self?.navigationController?.popViewController(animated: true)
         })
     }
+}
+
+extension ChatViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
 }

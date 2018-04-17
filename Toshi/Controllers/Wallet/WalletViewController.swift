@@ -309,3 +309,10 @@ extension WalletViewController: ActivityIndicating {
         return activityView
     }
 }
+
+extension WalletViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return Theme.tintColor }
+    var navTitleColor: UIColor? { return Theme.lightTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
+}

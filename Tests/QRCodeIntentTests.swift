@@ -65,14 +65,4 @@ class QRCodeIntentTests: XCTestCase {
             XCTFail("Could not web sign in from intent")
         }
     }
-
-    func testAddContact() throws {
-        guard let intent = QRCodeIntent(result: "https://app.toshi.org/add/@mark") else { throw UnexpectedNilError() }
-
-        if case .addContact(let username) = intent {
-            XCTAssertEqual(username, "mark")
-        } else {
-            XCTFail("Could not create contact from intent")
-        }
-    }
 }

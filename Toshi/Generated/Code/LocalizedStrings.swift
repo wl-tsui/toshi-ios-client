@@ -25,6 +25,7 @@ enum LocalizedKey: String, StringCaseListable {
     block_alert_title,
     block_feedback_alert_message,
     block_feedback_alert_title,
+    bots_section_title,
     browse_featured_dapps,
     browse_latest_public_users,
     browse_top_rated_apps,
@@ -36,8 +37,6 @@ enum LocalizedKey: String, StringCaseListable {
     chat_payment_request_action,
     chat_payment_sent,
     chat_request_payment_button_title,
-    chats_empty_description,
-    chats_empty_title,
     clipboard_copied_alert_text,
     confirm_action_title,
     confirmation_amount,
@@ -96,23 +95,18 @@ enum LocalizedKey: String, StringCaseListable {
     error_alert_title,
     error_title,
     eth_sign_warning,
-    favorites_add_by_username,
-    favorites_add_title,
-    favorites_empty_description,
-    favorites_empty_title,
-    favorites_scan_code,
     group_info_leave_action_title,
     group_info_leave_confirmation_message,
     group_info_leave_group_failure_message,
     group_info_leave_group_title,
     group_info_title,
+    groups_section_title,
     image_picker_camera_action_title,
     image_picker_library_action_title,
     image_picker_select_source_title,
     input_field_password_placeholder,
     input_field_username_placeholder,
     invalid_username_alert_message,
-    invite_friends_action_title,
     mainnet_title,
     messages_payment_approve,
     messages_payment_decline,
@@ -163,7 +157,6 @@ enum LocalizedKey: String, StringCaseListable {
     payment_send_description,
     payment_send_prefix,
     profile_edit_button_title,
-    profile_favorite_action,
     profile_me_title,
     profile_message_button_title,
     profile_pay_button_title,
@@ -173,25 +166,29 @@ enum LocalizedKey: String, StringCaseListable {
     profile_rate_user,
     profile_reputation_section_header,
     profile_title,
-    profile_unfavorite_action,
     profiles_add_to_group_prefix,
     profiles_empty_group_placeholder,
-    profiles_navigation_title_favorites,
     profiles_navigation_title_new_chat,
     profiles_navigation_title_new_group_chat,
     profiles_navigation_title_update_group_chat,
     profiles_new_group,
-    profiles_search_favorites_placeholder,
     profiles_search_users_placeholder,
     qr_scanner_instructions,
     rate_user_message_format,
     rate_user_title_format,
     rating_starter_placeholder,
+    recent_find_people_title,
+    recent_invite_a_friend,
     recent_messages_section_header_title,
     report_action_title,
     report_feedback_alert_message,
     report_feedback_alert_title,
     ropsten_test_network_title,
+    search_chat_bots_tab_name,
+    search_chat_groups_tab_name,
+    search_chat_users_tab_name,
+    search_for_name_or_username,
+    search_people_placeholder,
     settings_advanced_network_change_warning,
     settings_cell_advanced,
     settings_cell_local_currency,
@@ -230,6 +227,7 @@ enum LocalizedKey: String, StringCaseListable {
     sign_up_with_passphrase_accept_action_title,
     sign_up_with_passphrase_alert_message,
     sign_up_with_passphrase_alert_title,
+    start_a_new_group,
     status_type_added,
     status_type_became_member,
     status_type_change_photo,
@@ -239,9 +237,8 @@ enum LocalizedKey: String, StringCaseListable {
     status_type_make_public,
     status_type_rename,
     submit_action_title,
+    tab_bar_title_chats,
     tab_bar_title_dapps,
-    tab_bar_title_favorites,
-    tab_bar_title_recent,
     tab_bar_title_settings,
     tab_bar_title_wallet,
     text_editing_options_paste,
@@ -258,6 +255,7 @@ enum LocalizedKey: String, StringCaseListable {
     unblock_user_message,
     unblock_user_title,
     update_group_button_title,
+    users_section_title,
     wallet_address_description,
     wallet_address_subtitle,
     wallet_address_title,
@@ -367,6 +365,9 @@ struct Localized {
     /// `en`: "Username blocked"
     static let block_feedback_alert_title = LocalizedKey.block_feedback_alert_title.currentValue
     
+    /// `en`: "Bots"
+    static let bots_section_title = LocalizedKey.bots_section_title.currentValue
+    
     /// `en`: "Featured"
     static let browse_featured_dapps = LocalizedKey.browse_featured_dapps.currentValue
     
@@ -399,12 +400,6 @@ struct Localized {
     
     /// `en`: "Request"
     static let chat_request_payment_button_title = LocalizedKey.chat_request_payment_button_title.currentValue
-    
-    /// `en`: "Once you start a new conversation, you'll see it here."
-    static let chats_empty_description = LocalizedKey.chats_empty_description.currentValue
-    
-    /// `en`: "No chats yet"
-    static let chats_empty_title = LocalizedKey.chats_empty_title.currentValue
     
     /// `en`: "Copied to clipboard!"
     static let clipboard_copied_alert_text = LocalizedKey.clipboard_copied_alert_text.currentValue
@@ -580,21 +575,6 @@ struct Localized {
     /// `en`: "Warning: Only sign messages from sites you fully trust as signing messages can have dangerous side effects."
     static let eth_sign_warning = LocalizedKey.eth_sign_warning.currentValue
     
-    /// `en`: "Add by username"
-    static let favorites_add_by_username = LocalizedKey.favorites_add_by_username.currentValue
-    
-    /// `en`: "Add to favorites on Toshi"
-    static let favorites_add_title = LocalizedKey.favorites_add_title.currentValue
-    
-    /// `en`: "Your favorites will be listed here. You can invite friends to join Token."
-    static let favorites_empty_description = LocalizedKey.favorites_empty_description.currentValue
-    
-    /// `en`: "No favorites yet"
-    static let favorites_empty_title = LocalizedKey.favorites_empty_title.currentValue
-    
-    /// `en`: "Scan code"
-    static let favorites_scan_code = LocalizedKey.favorites_scan_code.currentValue
-    
     /// `en`: "Leave"
     static let group_info_leave_action_title = LocalizedKey.group_info_leave_action_title.currentValue
     
@@ -609,6 +589,9 @@ struct Localized {
     
     /// `en`: "Group Info"
     static let group_info_title = LocalizedKey.group_info_title.currentValue
+    
+    /// `en`: "Groups"
+    static let groups_section_title = LocalizedKey.groups_section_title.currentValue
     
     /// `en`: "Camera"
     static let image_picker_camera_action_title = LocalizedKey.image_picker_camera_action_title.currentValue
@@ -628,9 +611,6 @@ struct Localized {
     /// `en`: "Username is invalid! Use numbers, letters, and underscores only."
     static let invalid_username_alert_message = LocalizedKey.invalid_username_alert_message.currentValue
     
-    /// `en`: "Invite friends"
-    static let invite_friends_action_title = LocalizedKey.invite_friends_action_title.currentValue
-    
     /// `en`: "Mainnet"
     static let mainnet_title = LocalizedKey.mainnet_title.currentValue
     
@@ -642,15 +622,6 @@ struct Localized {
     
     /// `en`: "Message Requests"
     static let messages_requests_title = LocalizedKey.messages_requests_title.currentValue
-
-    /// `en`: "Delete"
-    static let thread_action_delete = LocalizedKey.thread_action_delete.currentValue
-
-    /// `en`: "Mute"
-    static let thread_action_mute = LocalizedKey.thread_action_mute.currentValue
-
-    /// `en`: "Unmute"
-    static let thread_action_unmute = LocalizedKey.thread_action_unmute.currentValue
     
     /// `en`: "Not delivered Tap to retry"
     static let messages_sent_error = LocalizedKey.messages_sent_error.currentValue
@@ -790,9 +761,6 @@ struct Localized {
     /// `en`: "Edit Profile"
     static let profile_edit_button_title = LocalizedKey.profile_edit_button_title.currentValue
     
-    /// `en`: "Save to Favorites"
-    static let profile_favorite_action = LocalizedKey.profile_favorite_action.currentValue
-    
     /// `en`: "Me"
     static let profile_me_title = LocalizedKey.profile_me_title.currentValue
     
@@ -820,17 +788,11 @@ struct Localized {
     /// `en`: "Profile"
     static let profile_title = LocalizedKey.profile_title.currentValue
     
-    /// `en`: "Remove from Favorites"
-    static let profile_unfavorite_action = LocalizedKey.profile_unfavorite_action.currentValue
-    
     /// `en`: "To: "
     static let profiles_add_to_group_prefix = LocalizedKey.profiles_add_to_group_prefix.currentValue
     
     /// `en`: "No recipients yet"
     static let profiles_empty_group_placeholder = LocalizedKey.profiles_empty_group_placeholder.currentValue
-    
-    /// `en`: "Favorites"
-    static let profiles_navigation_title_favorites = LocalizedKey.profiles_navigation_title_favorites.currentValue
     
     /// `en`: "New Chat"
     static let profiles_navigation_title_new_chat = LocalizedKey.profiles_navigation_title_new_chat.currentValue
@@ -843,9 +805,6 @@ struct Localized {
     
     /// `en`: "New Group"
     static let profiles_new_group = LocalizedKey.profiles_new_group.currentValue
-    
-    /// `en`: "Search favorites"
-    static let profiles_search_favorites_placeholder = LocalizedKey.profiles_search_favorites_placeholder.currentValue
     
     /// `en`: "Search users"
     static let profiles_search_users_placeholder = LocalizedKey.profiles_search_users_placeholder.currentValue
@@ -862,6 +821,12 @@ struct Localized {
     /// `en`: " Review (optional)"
     static let rating_starter_placeholder = LocalizedKey.rating_starter_placeholder.currentValue
     
+    /// `en`: "Find People, Groups & Bots"
+    static let recent_find_people_title = LocalizedKey.recent_find_people_title.currentValue
+    
+    /// `en`: "Invite a Friend"
+    static let recent_invite_a_friend = LocalizedKey.recent_invite_a_friend.currentValue
+    
     /// `en`: "Messages"
     static let recent_messages_section_header_title = LocalizedKey.recent_messages_section_header_title.currentValue
     
@@ -876,6 +841,21 @@ struct Localized {
     
     /// `en`: "Ropsten Test Network"
     static let ropsten_test_network_title = LocalizedKey.ropsten_test_network_title.currentValue
+    
+    /// `en`: "Bots"
+    static let search_chat_bots_tab_name = LocalizedKey.search_chat_bots_tab_name.currentValue
+    
+    /// `en`: "Groups"
+    static let search_chat_groups_tab_name = LocalizedKey.search_chat_groups_tab_name.currentValue
+    
+    /// `en`: "Users"
+    static let search_chat_users_tab_name = LocalizedKey.search_chat_users_tab_name.currentValue
+    
+    /// `en`: "Search for name or username"
+    static let search_for_name_or_username = LocalizedKey.search_for_name_or_username.currentValue
+    
+    /// `en`: "Search people, groups & bots"
+    static let search_people_placeholder = LocalizedKey.search_people_placeholder.currentValue
     
     /// `en`: "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n"
     static let settings_advanced_network_change_warning = LocalizedKey.settings_advanced_network_change_warning.currentValue
@@ -991,6 +971,9 @@ struct Localized {
     /// `en`: "Create new Toshi account?"
     static let sign_up_with_passphrase_alert_title = LocalizedKey.sign_up_with_passphrase_alert_title.currentValue
     
+    /// `en`: "Start a New Group"
+    static let start_a_new_group = LocalizedKey.start_a_new_group.currentValue
+    
     /// `en`: "%@ added %@ to the group."
     static let status_type_added = LocalizedKey.status_type_added.currentValue
     
@@ -1018,15 +1001,12 @@ struct Localized {
     /// `en`: "Submit"
     static let submit_action_title = LocalizedKey.submit_action_title.currentValue
     
+    /// `en`: "Chats"
+    static let tab_bar_title_chats = LocalizedKey.tab_bar_title_chats.currentValue
+    
     /// `en`: "Đapps"
     static let tab_bar_title_dapps = LocalizedKey.tab_bar_title_dapps.currentValue
-    
-    /// `en`: "Favorites"
-    static let tab_bar_title_favorites = LocalizedKey.tab_bar_title_favorites.currentValue
-    
-    /// `en`: "Recent"
-    static let tab_bar_title_recent = LocalizedKey.tab_bar_title_recent.currentValue
-    
+
     /// `en`: "Settings"
     static let tab_bar_title_settings = LocalizedKey.tab_bar_title_settings.currentValue
     
@@ -1035,6 +1015,15 @@ struct Localized {
     
     /// `en`: "Paste"
     static let text_editing_options_paste = LocalizedKey.text_editing_options_paste.currentValue
+    
+    /// `en`: "Delete"
+    static let thread_action_delete = LocalizedKey.thread_action_delete.currentValue
+    
+    /// `en`: "Mute"
+    static let thread_action_mute = LocalizedKey.thread_action_mute.currentValue
+    
+    /// `en`: "Unmute"
+    static let thread_action_unmute = LocalizedKey.thread_action_unmute.currentValue
     
     /// `en`: "Data task error, request could not be completed"
     static let toshi_error_data_task_error = LocalizedKey.toshi_error_data_task_error.currentValue
@@ -1065,6 +1054,9 @@ struct Localized {
     
     /// `en`: "Update"
     static let update_group_button_title = LocalizedKey.update_group_button_title.currentValue
+    
+    /// `en`: "Users"
+    static let users_section_title = LocalizedKey.users_section_title.currentValue
     
     /// `en`: "Share your public wallet address to receive Ether and tokens."
     static let wallet_address_description = LocalizedKey.wallet_address_description.currentValue

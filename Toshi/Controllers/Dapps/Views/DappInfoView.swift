@@ -70,6 +70,7 @@ final class DappInfoView: UIView {
         let label = UILabel()
         label.textColor = Theme.lightGreyTextColor
         label.font = Theme.proTextRegular(size: 15)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
 
         return label
     }()

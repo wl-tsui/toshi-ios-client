@@ -29,7 +29,6 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         case browsing
         case messaging
         case wallet
-        case favorites
         case me
     }
 
@@ -60,8 +59,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }()
 
     var dappsViewController: DappsNavigationController!
-    var messagingController: RecentNavigationController!
-    var profilesController: ProfilesNavigationController!
+    var messagingController: ChatsNavigationController!
     var settingsController: SettingsNavigationController!
     var walletController: WalletNavigationController!
 
@@ -81,19 +79,14 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
 
     @objc func setupControllers() {
         dappsViewController = DappsNavigationController(rootViewController: DappsViewController())
-        let datasource = ProfilesDataSource(type: .favorites)
-        datasource.excludedProfilesIds = []
-        profilesController = ProfilesNavigationController(rootViewController: ProfilesViewController(datasource: datasource))
 
         walletController = WalletNavigationController(rootViewController: WalletViewController())
 
-        messagingController = RecentNavigationController(nibName: nil, bundle: nil)
-        let recentViewController = RecentViewController(style: .grouped)
+        let chatsViewController = ChatsViewController(style: .grouped, target: .chatsMainPage)
+        messagingController = ChatsNavigationController(rootViewController: chatsViewController)
 
-        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = recentViewController.thread(withAddress: address) {
-            messagingController.viewControllers = [recentViewController, ChatViewController(thread: thread)]
-        } else {
-            messagingController.viewControllers = [recentViewController]
+        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = chatsViewController.thread(withAddress: address) {
+            messagingController.viewControllers = [chatsViewController, ChatViewController(thread: thread)]
         }
 
         settingsController = SettingsNavigationController(rootViewController: SettingsController())
@@ -102,7 +95,6 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
             self.dappsViewController,
             self.messagingController,
             self.walletController,
-            self.profilesController,
             self.settingsController
         ]
 
@@ -130,12 +122,12 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         }
     }
 
-    func displayMessage(forAddress address: String, completion: ((Any?) -> Void)? = nil) {
+    func displayMessage(forAddress address: String, forBot: Bool = false, completion: ((Any?) -> Void)? = nil) {
         if let index = viewControllers?.index(of: messagingController) {
             selectedIndex = index
         }
 
-        messagingController.openThread(withAddress: address, completion: completion)
+        messagingController.openThread(withAddress: address, forBot: forBot, completion: completion)
     }
 
     public func openThread(_ thread: TSThread, animated: Bool = true) {
@@ -241,9 +233,6 @@ extension TabBarController: ScannerViewControllerDelegate {
                     let confirmationText = String(format: Localized.payment_request_confirmation_warning_message, fiatValueString, ethValueString, address)
                     proceedToPayment(address: address, weiValue: weiValue, confirmationText: confirmationText)
                 }
-            case .addContact(let username):
-                let contactName = TokenUser.name(from: username)
-                viewContact(with: contactName)
             default:
                 scannerController.startScanning()
             }
@@ -289,24 +278,6 @@ extension TabBarController: ScannerViewControllerDelegate {
 
         } else {
             scannerController.startScanning()
-        }
-    }
-
-    private func viewContact(with contactName: String) {
-        idAPIClient.retrieveUser(username: contactName) { [weak self] contact in
-            guard let contact = contact else {
-                self?.scannerController.startScanning()
-
-                return
-            }
-
-            SoundPlayer.playSound(type: .scanned)
-
-            self?.dismiss(animated: true) {
-                self?.switch(to: .favorites)
-                let contactController = ProfileViewController(profile: contact)
-                self?.profilesController.pushViewController(contactController, animated: true)
-            }
         }
     }
 }

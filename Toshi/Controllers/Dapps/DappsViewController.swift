@@ -71,8 +71,10 @@ final class DappsViewController: UIViewController {
         return statusBarStyle
     }
 
-    let defaultSectionHeaderHeight: CGFloat = 50
-    let searchedResultsSectionHeaderHeight: CGFloat = 24
+    private let defaultSectionHeaderHeight: CGFloat = 50
+    private let searchedResultsSectionHeaderHeight: CGFloat = 24
+
+    private let defaultTableViewBottomInset: CGFloat = -21
 
     private var reloadTimer: Timer?
     private var shouldResetContentOffset = false
@@ -103,8 +105,8 @@ final class DappsViewController: UIViewController {
         view.contentInset.top = -headerView.sizeRange.lowerBound
         view.scrollIndicatorInsets.top = -headerView.sizeRange.lowerBound
         view.sectionFooterHeight = 0.0
-        view.contentInset.bottom = -21
-        view.scrollIndicatorInsets.bottom = -21
+        view.contentInset.bottom = defaultTableViewBottomInset
+        view.scrollIndicatorInsets.bottom = defaultTableViewBottomInset
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
         view.register(RectImageTitleSubtitleTableViewCell.self)
@@ -135,8 +137,8 @@ final class DappsViewController: UIViewController {
         view.delegate = self
         view.dataSource = self
         view.sectionFooterHeight = 0.0
-        view.contentInset.bottom = -21
-        view.scrollIndicatorInsets.bottom = -21
+        view.contentInset.bottom = defaultTableViewBottomInset
+        view.scrollIndicatorInsets.bottom = defaultTableViewBottomInset
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
         view.register(RectImageTitleSubtitleTableViewCell.self)
@@ -297,6 +299,9 @@ extension DappsViewController: UITableViewDataSource {
 
             configurator.configureCell(cell, with: cellData)
             cell.leftImageView.layer.cornerRadius = 5
+            cell.titleTextField.setDynamicFontBlock = {
+                cell.titleTextField.font = Theme.preferredSemibold()
+            }
 
             return cell
         case .seeAll:
@@ -390,7 +395,7 @@ extension DappsViewController: UITableViewDelegate {
 
             let sofaWebController = SOFAWebController()
             sofaWebController.delegate = self
-            sofaWebController.load(url: dapp.url)
+            sofaWebController.load(url: dapp.urlToLoad)
             Navigator.presentModally(sofaWebController)
 
         case .searchWithGoogle:
@@ -510,13 +515,6 @@ extension DappsViewController: DappsSearchHeaderViewDelegate {
     }
 }
 
-extension DappsViewController: SearchSelectionDelegate {
-
-    func didSelectSearchResult(user: TokenUser) {
-        Navigator.push(ProfileViewController(profile: user))
-    }
-}
-
 // MARK: - Keyboard Adjustable
 
 extension DappsViewController: KeyboardAdjustable {
@@ -545,4 +543,11 @@ extension DappsViewController: ActivityIndicating {
     var activityIndicator: UIActivityIndicatorView {
         return activityView
     }
+}
+
+extension DappsViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return Theme.tintColor }
+    var navTitleColor: UIColor? { return Theme.lightTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
 }

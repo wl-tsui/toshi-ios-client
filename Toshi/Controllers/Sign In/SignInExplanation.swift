@@ -36,15 +36,16 @@ final class SignInExplanationViewController: UIViewController {
 
         view.backgroundColor = Theme.viewBackgroundColor
 
-        view.addSubview(titleLabel)
-        view.addSubview(textLabel)
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 22
+        view.addSubview(stackView)
 
-        titleLabel.top(to: view, offset: 64)
-        titleLabel.left(to: view, offset: 20)
-        titleLabel.right(to: view, offset: -20)
+        stackView.top(to: layoutGuide())
+        stackView.leftToSuperview(offset: .largeInterItemSpacing)
+        stackView.rightToSuperview(offset: .largeInterItemSpacing)
 
-        textLabel.topToBottom(of: titleLabel, offset: 22)
-        textLabel.left(to: view, offset: 20)
-        textLabel.right(to: view, offset: -20)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(textLabel)
     }
 }

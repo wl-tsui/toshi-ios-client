@@ -73,6 +73,10 @@ class CellConfigurator {
             cell.badgeLabel.text = nil
             cell.badgeView.isHidden = true
         }
+
+        if cellData.components.contains(.description) {
+            cell.descriptionLabel.text = cellData.description
+        }
     }
 
     func cellIdentifier(for components: TableCellDataComponents) -> String {
@@ -86,6 +90,8 @@ class CellConfigurator {
             reuseIdentifier = AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier
         } else if components.contains(.titleSubtitleLeftImageTopDetails) {
             reuseIdentifier = AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier
+        } else if components.contains(.titleSubtitleLeftImageDescription) {
+            reuseIdentifier = AvatarTitleSubtitleDescriptionCell.reuseIdentifier
         } else if components.contains(.titleSubtitleDetailsLeftImage) {
             reuseIdentifier = AvatarTitleSubtitleDetailsCell.reuseIdentifier
         } else if components.contains(.leftImageTitleSubtitleDoubleAction) {

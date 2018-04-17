@@ -32,10 +32,20 @@
 "messages_sent_error_action_resend" = "Resend";
 
 "recent_messages_section_header_title" = "Messages";
+"recent_find_people_title" = "Find People, Groups & Bots";
+"recent_invite_a_friend" = "Invite a Friend";
 "messages_requests_title" = "Message Requests";
 "payment_request_message_preview_string" = "Payment request";
 "payment_message_preview_string" = "Payment";
 "attachment_message_preview_string" = "Attachment";
+
+"users_section_title" = "Users";
+"bots_section_title" = "Bots";
+"groups_section_title" = "Groups";
+
+"search_for_name_or_username" = "Search for name or username";
+
+"start_a_new_group" = "Start a New Group";
 
 "thread_action_delete" = "Delete";
 "thread_action_mute" = "Mute";
@@ -228,18 +238,6 @@
 
 "offline_alert_message" = "You are not connected to the internet";
 
-/* Favorites */
-"favorites_add_title" = "Add to favorites on Toshi";
-"favorites_add_by_username" = "Add by username";
-"invite_friends_action_title" = "Invite friends";
-"favorites_scan_code" = "Scan code";
-
-/* Empty Views */
-"favorites_empty_title" = "No favorites yet";
-"favorites_empty_description" = "Your favorites will be listed here. You can invite friends to join Token.";
-
-"chats_empty_title" = "No chats yet";
-"chats_empty_description" = "Once you start a new conversation, you'll see it here.";
 "chat_input_empty_placeholder" = "Message...";
 
 /* Passphrase Sign In */
@@ -253,20 +251,18 @@
 "text_editing_options_paste" = "Paste";
 
 /* Profiles */
-"profiles_navigation_title_favorites" = "Favorites";
 "profiles_navigation_title_new_chat" = "New Chat";
 "profiles_navigation_title_new_group_chat" = "New Group Chat";
 "profiles_navigation_title_update_group_chat" = "Update group";
 "profiles_add_to_group_prefix" = "To: ";
 "profiles_empty_group_placeholder" = "No recipients yet";
 "profiles_search_users_placeholder" = "Search users";
-"profiles_search_favorites_placeholder" = "Search favorites";
+"search_people_placeholder" = "Search people, groups & bots";
 
 /* Tab Bar */
 "tab_bar_title_dapps" = "Đapps";
-"tab_bar_title_recent" = "Recent";
+"tab_bar_title_chats" = "Chats";
 "tab_bar_title_wallet" = "Wallet";
-"tab_bar_title_favorites" = "Favorites";
 "tab_bar_title_settings" = "Settings";
 
 /* Wallet */
@@ -346,6 +342,11 @@
 "chat_payment_recieved" = "Payment received";
 "chat_payment_sent" = "Payment sent";
 
+/* Search Chat */
+"search_chat_users_tab_name" = "Users";
+"search_chat_bots_tab_name" = "Bots";
+"search_chat_groups_tab_name" = "Groups";
+
 /* Signing */
 "sign_action_title" = "Sign";
 "sign_alert_title" = "This webpage is requesting your signature";
@@ -378,8 +379,6 @@
 "profile_reputation_section_header" = "REPUTATION";
 "profile_rate_user" = "Rate User";
 "profile_rate_bot" = "Rate Bot";
-"profile_favorite_action" = "Save to Favorites";
-"profile_unfavorite_action" = "Remove from Favorites";
 
 /* Accessibility */
 "accessibility_more" = "More";

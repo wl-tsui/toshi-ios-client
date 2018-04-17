@@ -1,0 +1,17 @@
+{
+    "query": "type=bot",
+    "results": [{
+                "type": "bot",
+                "name": "ToshiBot",
+                "username": "ToshiBot",
+                "toshi_id": "0x1cdda5e6c54adfe857aad6f244d4a452b66cc798",
+                "description": "I'm here to welcome you to the platform and help you make your first transactions.",
+                "avatar": "https://bucketeer-7c93db19-eda4-413d-9025-fca45df5773a.s3.amazonaws.com/public/avatar/0x1cdda5e6c54adfe857aad6f244d4a452b66cc798_ebea53.png",
+                "reputation_score": 4.2,
+                "average_rating": 4.4,
+                "review_count": 227
+                }],
+    "offset": 0,
+    "limit": 10,
+    "total": 32
+}

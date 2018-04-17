@@ -23,14 +23,6 @@ final class DappViewController: DisappearingNavBarViewController {
 
     private let dapp: Dapp
 
-    override var backgroundTriggerView: UIView {
-        return coverImageHeaderView
-    }
-
-    override var titleTriggerView: UIView {
-        return dappInfoView.titleLabel
-    }
-
     private lazy var coverImageHeaderView: UIImageView = {
         let frame = CGRect(origin: .zero, size: CGSize(width: self.view.bounds.width, height: self.dappCoverHeaderHeight))
 
@@ -93,6 +85,8 @@ final class DappViewController: DisappearingNavBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.tableHeaderView = coverImageHeaderView
+
         showCover()
         navBar.setTitle(dapp.name)
 
@@ -132,26 +126,18 @@ final class DappViewController: DisappearingNavBarViewController {
         tableView.tableHeaderView = coverImageHeaderView
     }
 
-    // We do not need to add content to scrollViewContainer used in parent controller,
-    // since the scrollView here is tableView
-    override func addScrollableContent(to contentView: UIView) { }
+    // MARK: DisappearingNavBarController Overrides
 
     override var scrollingView: UIScrollView {
         return self.tableView
     }
 
-    override func setupNavBarAndScrollingContent() {
-        view.addSubview(tableView)
-        tableView.tableHeaderView = coverImageHeaderView
+    override var backgroundTriggerView: UIView {
+        return coverImageHeaderView
+    }
 
-        scrollingView.delegate = self
-        tableView.edgesToSuperview()
-
-        view.addSubview(navBar)
-
-        navBar.edgesToSuperview(excluding: .bottom)
-        updateNavBarHeightIfNeeded()
-        navBar.heightConstraint = navBar.height(navBarHeight)
+    override var titleTriggerView: UIView {
+        return dappInfoView.titleLabel
     }
 
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -189,8 +175,15 @@ extension DappViewController: DappInfoDelegate {
 
     func dappInfoViewDidReceiveDappDetailsEvent(_ cell: DappInfoView) {
         let sofaWebController = SOFAWebController()
-        sofaWebController.load(url: dapp.url)
+        sofaWebController.load(url: dapp.urlToLoad)
 
         Navigator.presentModally(sofaWebController)
     }
+}
+
+extension DappViewController: NavBarColorChanging {
+    var navTintColor: UIColor? { return nil }
+    var navBarTintColor: UIColor? { return nil }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return UIImage() }
 }
