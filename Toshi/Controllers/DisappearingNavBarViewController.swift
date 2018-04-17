@@ -68,6 +68,10 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
     }()
 
     private lazy var defaultScrollView = UIScrollView()
+
+    /// Note that by default, this is a vanilla UIScrollView. If this is overridden
+    /// with a UITableView or UICollectionView in a subclass, the methods to set up
+    /// a content view and content within that view will not be called.
     var scrollingView: UIScrollView {
         return defaultScrollView
     }
@@ -128,7 +132,9 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         updateNavBarHeightIfNeeded()
         navBar.heightConstraint = navBar.height(navBarHeight)
 
-        setupContentView(in: scrollingView)
+        if !(scrollingView is UITableView) && !(scrollingView is UICollectionView) {
+            setupContentView(in: scrollingView)
+        } // else, it's something else that we don't want a content view in
     }
 
     private func setupContentView(in scrollView: UIScrollView) {
@@ -150,7 +156,7 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
     ///
     /// - Parameter contentView: The content view to add scrollable content to.
     func addScrollableContent(to contentView: UIView) {
-        fatalError("Subclasses must override and not call super")
+        fatalError("Subclasses using the content view must override and not call super")
     }
 
     /// Adds and returns a spacer view to the top of the scroll view's content view the same height as the nav bar (so content can scroll under it)
