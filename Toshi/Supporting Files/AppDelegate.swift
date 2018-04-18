@@ -23,7 +23,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let toshiChatServiceBaseURL = "TokenChatServiceBaseURL"
 
     var window: UIWindow?
-    var screenProtectionWindow: UIWindow?
+
+    private var screenProtectionActivated = false
+
+    private lazy var screenProtectionWindow: UIWindow = {
+        let window = UIWindow()
+        window.isHidden = true
+        window.backgroundColor = .clear
+
+        window.isUserInteractionEnabled = false
+        window.windowLevel = CGFloat.greatestFiniteMagnitude
+        window.alpha = 0
+
+        let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        window.addSubview(effectView)
+
+        effectView.edgesToSuperview()
+
+        return window
+    }()
 
     var token = "" {
         didSet {
@@ -82,29 +100,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
+        // Send screen protection deactivation to the main queue
+        // to avoid some weird UIKit issue where due to the queue difference, some racing conditions may apply
+        // leaving the app with a protection screen when it shouldn't have any.
+        DispatchQueue.main.async {
+            self.activateScreenProtection()
+        }
 
         guard TSAccountManager.isRegistered() else { return }
 
         // We need to close open socket while in background to not run expensive process
         // since we need the app to awake in background when PN received
         TSSocketManager.requestSocketClosed()
-
-        self.activateScreenProtection()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-
-        if TSAccountManager.isRegistered() {
-            TSSocketManager.requestSocketOpen()
-        }
-
-        // Send screen protection deactivation to the same queue as when resigning
+        // Send screen protection activation to the main queue
         // to avoid some weird UIKit issue where app is going inactive during the launch process
         // and back to active again. Due to the queue difference, some racing conditions may apply
         // leaving the app with a protection screen when it shouldn't have any.
-
         DispatchQueue.main.async {
             self.deactivateScreenProtection()
+        }
+
+        if TSAccountManager.isRegistered() {
+            TSSocketManager.requestSocketOpen()
         }
 
         TSPreKeyManager.checkPreKeysIfNecessary()
@@ -265,41 +285,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func activateScreenProtection() {
 
-        guard screenProtectionWindow == nil else { return }
+        guard screenProtectionActivated == false else { return }
 
-        let window = UIWindow()
-        window.isHidden = true
-        window.backgroundColor = .clear
-        
-        window.isUserInteractionEnabled = false
-        window.windowLevel = CGFloat.greatestFiniteMagnitude
-        window.alpha = 0
+        screenProtectionActivated = true
 
-        let effectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
-        window.addSubview(effectView)
-
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        effectView.topAnchor.constraint(equalTo: window.topAnchor).isActive = true
-        effectView.leftAnchor.constraint(equalTo: window.leftAnchor).isActive = true
-        effectView.bottomAnchor.constraint(equalTo: window.bottomAnchor).isActive = true
-        effectView.rightAnchor.constraint(equalTo: window.rightAnchor).isActive = true
-
-        screenProtectionWindow = window
-
-        UIView.animate(withDuration: 0.3) {
-            self.screenProtectionWindow?.alpha = 1
-        }
-
-        screenProtectionWindow?.isHidden = false
+        UIView.animate(withDuration: 0.3, animations: {
+            self.screenProtectionWindow.alpha = 1
+        }, completion: { _ in
+            self.screenProtectionWindow.isHidden = false
+        })
     }
 
     private func deactivateScreenProtection() {
-        guard screenProtectionWindow?.alpha != 0 else { return }
+        guard screenProtectionActivated else { return }
+
+        screenProtectionActivated = false
 
         UIView.animate(withDuration: 0.3, animations: {
-            self.screenProtectionWindow?.alpha = 0
+            self.screenProtectionWindow.alpha = 0
         }, completion: { _ in
-            self.screenProtectionWindow?.isHidden = true
+            self.screenProtectionWindow.isHidden = true
         })
     }
 }
