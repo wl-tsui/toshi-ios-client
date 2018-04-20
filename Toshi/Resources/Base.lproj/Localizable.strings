@@ -289,7 +289,7 @@
 "wallet_invalid_ethereum_address_error" = "This is not a valid Ethereum address.";
 "wallet_insuffisient_token_balance_error" = "Insufficient %@ balance: %@";
 "wallet_insuffisient_fiat_balance_error" = "Insufficient %@ balance: %@ (%@)";
-"wallet_insuffisient_balance_generic" = "Insuffisient balance: %@";
+"wallet_insuffisient_balance_generic" = "Insufficient balance: %@";
 "wallet_not_an_address_message" = "Not an address QR code";
 "wallet_transaction_leave_alert_message" = "Are you sure you want to\nleave your transaction?";
 "wallet_transaction_leave_confirm_action" = "Leave";

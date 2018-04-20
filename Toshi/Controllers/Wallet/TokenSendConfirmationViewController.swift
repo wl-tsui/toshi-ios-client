@@ -91,7 +91,8 @@ final class TokenSendConfirmationViewController: UIViewController {
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.textColor = Theme.errorColor
-
+        label.textAlignment = .center
+        
         return label
     }()
 

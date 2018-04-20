@@ -259,7 +259,7 @@ extension ProfilesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        cell.checkmarkView.checked = isProfileSelected(profile) ?? false
+        cell.checkmarkView.checked = isProfileSelected(profile)
         cell.selectionStyle = .default
         cellConfigurator.configureCell(cell, with: tableData)
 
