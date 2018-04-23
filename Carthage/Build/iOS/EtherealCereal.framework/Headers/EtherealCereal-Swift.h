@@ -164,7 +164,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 #if __has_feature(modules)
 @import ObjectiveC;
-@import Foundation;
 #endif
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
@@ -185,40 +184,6 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 SWIFT_CLASS("_TtC14EtherealCereal14EtherealCereal")
 @interface EtherealCereal : NSObject
-@property (nonatomic, copy) NSString * _Nonnull publicKey SWIFT_DEPRECATED_OBJC("Swift property 'EtherealCereal.publicKey' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-@property (nonatomic, readonly, copy) NSString * _Nonnull privateKey SWIFT_DEPRECATED_OBJC("Swift property 'EtherealCereal.privateKey' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-@property (nonatomic, copy) NSData * _Nonnull publicKeyData SWIFT_DEPRECATED_OBJC("Swift property 'EtherealCereal.publicKeyData' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-@property (nonatomic, copy) NSString * _Nonnull address SWIFT_DEPRECATED_OBJC("Swift property 'EtherealCereal.address' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-@property (nonatomic, copy) NSData * _Nonnull privateKeyData SWIFT_DEPRECATED_OBJC("Swift property 'EtherealCereal.privateKeyData' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (NSString * _Nonnull)generateAddressFrom:(NSData * _Nonnull)publicKeyData SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.generateAddress(from:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (NSData * _Nonnull)generatePublicKeyFrom:(NSData * _Nonnull)privateKeyData SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.generatePublicKey(from:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-/// Cryptocurrencies require a very safely kept private key to sign transactions.
-/// This is used to guarantee that the user is who they say they are.
-/// It’s defined for Ethereum as a random, high-entropy 32-byte string.
-/// On iOS the safest way to create this is by using SecRandomCopyBytes() to generate it from /dev/random.
-/// For more information on the /dev/random random-number generator, see the manual page for random(4).
-///
-/// returns:
-/// A private key in raw data format.
-- (NSData * _Nonnull)generatePrivateKeyData SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.generatePrivateKeyData()' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-/// Returns a KECCAK-256 encoded in base64.
-/// \param string A string to KECCAK-256 encode.
-///
-///
-/// returns:
-/// A KECCAK-256-encoded base64 encoded string.
-- (NSString * _Nonnull)sha3WithString:(NSString * _Nonnull)string SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.sha3(string:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-/// Returns a KECCAK-256 encoded in base64.
-/// \param data Data to be KECCAK-256 encoded.
-///
-///
-/// returns:
-/// A KECCAK-256-encoded base64 encoded string.
-- (NSString * _Nonnull)sha3WithData:(NSData * _Nonnull)data SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.sha3(data:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (NSString * _Nonnull)signWithMessage:(NSString * _Nonnull)message SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.sign(message:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (NSString * _Nonnull)signWithHex:(NSString * _Nonnull)hex SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.sign(hex:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (NSString * _Nonnull)signWithHash:(NSString * _Nonnull)hash SWIFT_WARN_UNUSED_RESULT SWIFT_DEPRECATED_OBJC("Swift method 'EtherealCereal.sign(hash:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
-- (nonnull instancetype)initWithPrivateKey:(NSString * _Nonnull)privateKey SWIFT_DEPRECATED_OBJC("Swift initializer 'EtherealCereal.init(privateKey:)' uses '@objc' inference deprecated in Swift 4; add '@objc' to provide an Objective-C entrypoint");
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
