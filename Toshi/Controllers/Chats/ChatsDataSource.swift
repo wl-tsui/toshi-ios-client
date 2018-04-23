@@ -517,7 +517,9 @@ extension ChatsDataSource: UITableViewDataSource {
 
     func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         // If there is no user session, sections collection is empty
-        guard sections.count > 0 else { return 0 }
+        // or if currently there are less sections and table view tried to reload after Yap insert notification,
+        // but data source section are being updated
+        guard section < sections.count else { return 0 }
         
         let chatsPageSection = sections[section]
 

@@ -120,6 +120,7 @@ final class PushedSearchHeaderView: UIView {
         addSubviewsAndConstraints()
     }
 
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         return searchTextField.becomeFirstResponder()
     }

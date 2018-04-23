@@ -115,7 +115,9 @@ extension UIStackView {
     /// - Parameters:
     ///   - spacing: The amount of spacing to add.
     ///   - indexOfViewToInsertAfter: [optional] The index to insert the view after, or nil to just add to the end. Defaults to nil
-    func addSpacerView(with spacing: CGFloat, after indexOfViewToInsertAfter: Int? = nil) {
+    /// - Returns: The layout constraint setting the size of the view, so if it can be adjusted if needed
+    @discardableResult
+    func addSpacerView(with spacing: CGFloat, after indexOfViewToInsertAfter: Int? = nil) -> NSLayoutConstraint {
         let spacerView = UIView()
         spacerView.tag = UIStackView.spacerTag
         spacerView.backgroundColor = .clear
@@ -127,16 +129,19 @@ extension UIStackView {
             addArrangedSubview(spacerView)
         }
 
+        let heightOrWidthConstraint: NSLayoutConstraint
         switch axis {
         case .vertical:
-            spacerView.height(spacing)
+            heightOrWidthConstraint = spacerView.height(spacing)
             spacerView.left(to: self)
             spacerView.right(to: self)
         case .horizontal:
-            spacerView.width(spacing)
+            heightOrWidthConstraint = spacerView.width(spacing)
             spacerView.top(to: self)
             spacerView.bottom(to: self)
         }
+
+        return heightOrWidthConstraint
     }
 
     /// Empties the Stack view of its arranged subviews.

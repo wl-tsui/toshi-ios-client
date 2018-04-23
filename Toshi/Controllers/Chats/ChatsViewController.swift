@@ -196,6 +196,11 @@ extension ChatsViewController: UITableViewDelegate {
         }
     }
 
+    /// WORKAROUND: For some reason the swift 4.1 compiler is convinced that `canEditRowAt` should be this
+    /// method instead. Overridding and returning the documented default value to silence the warning.
+    /// TODO: Revisit this when 4.2 comes out.
+    func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool { return true }
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard let item = item(at: indexPath) else { return false }
 

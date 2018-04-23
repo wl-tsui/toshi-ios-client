@@ -1,0 +1,36 @@
+{
+  "limit": 20,
+  "offset": 0,
+  "total": 2,
+  "results": [
+    {
+      "toshi_id": "0x4d118e7d45a0c5688bbe0f86172bcbe5dd7bdede",
+      "username": "erc20bot",
+      "name": "ERC20 Management Bot",
+      "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x4d118e7d45a0c5688bbe0f86172bcbe5dd7bdede_208231.png",
+      "description": null,
+      "location": null,
+      "type": "bot",
+      "public": true,
+      "payment_address": "0x3754eb95fcb563013fd19e2068b71de46e53d5cc",
+      "reputation_score": 2.3,
+      "average_rating": 3.3,
+      "review_count": 3
+    },
+    {
+      "toshi_id": "0x2618ee32ca088dbd0ca3bcdb2d704af661c45d1c",
+      "username": "dev___erc20bot",
+      "name": "DEV ERC20 Bot",
+      "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x2618ee32ca088dbd0ca3bcdb2d704af661c45d1c_89acb6.png",
+      "description": null,
+      "location": null,
+      "type": "bot",
+      "public": false,
+      "payment_address": "0x518e30afa33ef0138a29d443e604a6fa8311a2c6",
+      "reputation_score": 0,
+      "average_rating": 0.0,
+      "review_count": 0
+    }
+  ],
+  "query": "type=bot&query=E"
+}

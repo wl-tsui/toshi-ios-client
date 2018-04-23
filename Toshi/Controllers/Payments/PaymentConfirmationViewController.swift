@@ -208,6 +208,8 @@ final class PaymentConfirmationViewController: UIViewController {
         return stackView
     }()
 
+    private var receiptPayBottomSpacerHeightConstraint: NSLayoutConstraint?
+
     private lazy var balanceLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 0
@@ -279,17 +281,10 @@ final class PaymentConfirmationViewController: UIViewController {
         switch presentationMethod {
         case .fullScreen:
             // do nothing
-            return
+            break
         case .modalBottomSheet:
-            guard !hasLaidOutBefore, bottomOfReceiptConstraint != nil else { return }
-
+            guard !hasLaidOutBefore, bottomOfReceiptConstraint != nil else { break }
             hasLaidOutBefore = true
-
-            let gapBetweenBottomOfViewAndBottomOfLayoutGuide = (view.frame.height - layoutGuide().layoutFrame.height)
-            if gapBetweenBottomOfViewAndBottomOfLayoutGuide > 0 {
-                // We've got an iPhone X or something that has an inset at the bottom - add some spacing at the bottom so it doesn't look goofy.
-                receiptPayBalanceStackView.addSpacerView(with: .giantInterItemSpacing)
-            }
 
             // First, shove the receipt offscreen non-animated so the user can't see it.
             setReceiptShowing(false, animated: false)
@@ -297,6 +292,24 @@ final class PaymentConfirmationViewController: UIViewController {
             // Then, start animating it back in.
             setReceiptShowing(true)
         }
+    }
+
+    @available(iOS 11, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+
+        if view.safeAreaInsets.bottom > 0 {
+            // We've got an iPhone X or something that has an inset at the bottom - add some spacing at the bottom so it doesn't look goofy.
+            if let bottomSpacerConstraint = receiptPayBottomSpacerHeightConstraint {
+                bottomSpacerConstraint.constant = .giantInterItemSpacing
+            } else {
+                receiptPayBottomSpacerHeightConstraint = receiptPayBalanceStackView.addSpacerView(with: .giantInterItemSpacing)
+            }
+        } else {
+            receiptPayBottomSpacerHeightConstraint?.constant = 0
+        }
+
+        receiptPayBalanceStackView.layoutIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -348,6 +361,14 @@ final class PaymentConfirmationViewController: UIViewController {
         receiptPayBalanceStackView.addSpacing(.largeInterItemSpacing, after: payButton)
 
         receiptPayBalanceStackView.addWithDefaultConstraints(view: balanceLabel)
+
+        switch presentationMethod {
+        case .fullScreen:
+            receiptPayBalanceStackView.addSpacerView(with: .largeInterItemSpacing)
+        case .modalBottomSheet:
+            // This is handled after layout since it involves dealing with the safe area
+            break
+        }
 
         return receiptPayBalanceStackView
     }
