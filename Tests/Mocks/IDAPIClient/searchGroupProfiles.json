@@ -1,0 +1,17 @@
+{
+  "limit": 20,
+  "offset": 0,
+  "total": 1,
+  "results": [
+    {
+      "toshi_id": "0x3174bea20e9d4dacdc5950a029fd71bb38f871eb",
+      "username": "groupchat",
+      "name": "Group Chat",
+      "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x3174bea20e9d4dacdc5950a029fd71bb38f871eb_e7aa2e.png",
+      "description": null,
+      "location": null,
+      "type": "groupbot"
+    }
+  ],
+  "query": "type=groupbot&query="
+}

@@ -1,0 +1,101 @@
+{
+  "sections": [
+    {
+      "name": "Popular Groups",
+      "query": "type=groupbot",
+      "results": [
+        {
+          "toshi_id": "0x3174bea20e9d4dacdc5950a029fd71bb38f871eb",
+          "username": "groupchat",
+          "name": "Group Chat",
+          "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x3174bea20e9d4dacdc5950a029fd71bb38f871eb_e7aa2e.png",
+          "description": null,
+          "location": null,
+          "type": "groupbot"
+        }
+      ]
+    },
+    {
+      "name": "Featured Bots",
+      "query": "type=bot&featured=true",
+      "results": [
+        {
+          "toshi_id": "0x8f9bdb7f562ccdedf3c24cf25e9cece9df62138b",
+          "username": "spambot7777",
+          "name": "Spambot",
+          "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x8f9bdb7f562ccdedf3c24cf25e9cece9df62138b_fe3ea8.png",
+          "description": null,
+          "location": null,
+          "type": "bot",
+          "public": true,
+          "payment_address": "0x011c6dd9565b8b83e6a9ee3f06e89ece3251ef2f",
+          "reputation_score": 4.0,
+          "average_rating": 4.8,
+          "review_count": 16
+        },
+        {
+          "toshi_id": "0xdf0096052836251b0fafd4f0f12771deea5c8748",
+          "username": "adbot",
+          "name": "Adbot (dev)",
+          "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0xdf0096052836251b0fafd4f0f12771deea5c8748_bef532.png",
+          "description": null,
+          "location": null,
+          "type": "bot",
+          "public": true,
+          "payment_address": "0x9a1576dbcdd7b20b239078d1b31885b04807c79a",
+          "reputation_score": 2.7,
+          "average_rating": 3.6,
+          "review_count": 8
+        },
+        {
+          "toshi_id": "0x4d118e7d45a0c5688bbe0f86172bcbe5dd7bdede",
+          "username": "erc20bot",
+          "name": "ERC20 Management Bot",
+          "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x4d118e7d45a0c5688bbe0f86172bcbe5dd7bdede_208231.png",
+          "description": null,
+          "location": null,
+          "type": "bot",
+          "public": true,
+          "payment_address": "0x3754eb95fcb563013fd19e2068b71de46e53d5cc",
+          "reputation_score": 2.3,
+          "average_rating": 3.3,
+          "review_count": 3
+        }
+      ]
+    },
+    {
+      "name": "Public Users",
+      "query": "type=user&public=true",
+      "results": [
+        {
+          "toshi_id": "0x1bdbcf6c9dacf56f10dd02e2ec47c0c4d569429f",
+          "username": "the_session",
+          "name": "Session Tester",
+          "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x1bdbcf6c9dacf56f10dd02e2ec47c0c4d569429f_6cdd7c.png",
+          "description": "",
+          "location": "",
+          "type": "user",
+          "public": true,
+          "payment_address": "0x80142fee06e8debf4e6cc7298bb3832e7345ea8b",
+          "reputation_score": 0,
+          "average_rating": 0.0,
+          "review_count": 0
+        },
+        {
+          "toshi_id": "0x6f70800cb47f7f84b6c71b3693fc02595eae7378",
+          "username": "marijnschilling",
+          "name": "Marijn Schilling",
+          "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378_88c9dd.png",
+          "description": "iOSdevelicious",
+          "location": "De Hoofdstad",
+          "type": "user",
+          "public": true,
+          "payment_address": "0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98",
+          "reputation_score": 0,
+          "average_rating": 0.0,
+          "review_count": 0
+        }
+      ]
+    }
+  ]
+}

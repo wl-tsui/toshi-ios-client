@@ -691,7 +691,6 @@ final class IDAPIClient {
 
         let path = "/v2/search"
         teapot.get(path) { [weak self ] result in
-
             var sections: [ProfilesFrontPageSection]?
             var resultError: ToshiError?
 
@@ -744,10 +743,7 @@ final class IDAPIClient {
     ///                 - toshiError: A toshiError if any error was encountered, or nil
     func searchProfilesOfType(_ type: String, for searchText: String? = nil, completion: @escaping SearchedProfilesResults) {
 
-        var path = "/v2/search?type=\(type)"
-        if let query = searchText {
-            path.append("&query=\(query)")
-        }
+        let path = createPathFor(type, with: searchText)
 
         searchProfilesTask?.cancel()
 
@@ -788,5 +784,14 @@ final class IDAPIClient {
                 completion(profiles, type, resultError)
             }
         }
+    }
+
+    func createPathFor(_ type: String, with searchText: String?) -> String {
+        var path = "/v2/search?type=\(type)"
+        if let query = searchText {
+            path.append("&query=\(query)")
+        }
+
+        return path
     }
 }

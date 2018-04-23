@@ -1,0 +1,50 @@
+{
+  "limit": 20,
+  "offset": 0,
+  "total": 3,
+  "results": [
+    {
+      "toshi_id": "0xeb2213128d8bc817e81e7e996be6dc4cbd368e63",
+      "username": "Weiner0234516546545",
+      "name": "4654654654",
+      "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0xeb2213128d8bc817e81e7e996be6dc4cbd368e63_c4b731.png",
+      "description": "Im cool",
+      "location": "Unknown",
+      "type": "user",
+      "public": true,
+      "payment_address": "0xb0b90c23e3c1249e78b330f6baa1e32c47b8e6bc",
+      "reputation_score": 0,
+      "average_rating": 0.0,
+      "review_count": 0
+    },
+    {
+      "toshi_id": "0x60c7c1935f787a6474b84f3a997263080bb20b1c",
+      "username": "winter",
+      "name": "Winter",
+      "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/avatar/0x60c7c1935f787a6474b84f3a997263080bb20b1c_b1627f.png",
+      "description": "",
+      "location": "Bonn ",
+      "type": "user",
+      "public": false,
+      "payment_address": "0x78972bdd6c8560dea15dfec8bcd947c08cac9c6e",
+      "reputation_score": 0,
+      "average_rating": 0.0,
+      "review_count": 0
+    },
+    {
+      "toshi_id": "0x9612feb3e14c46144b3d14438000b42c7e19cf74",
+      "username": "www",
+      "name": "www",
+      "avatar": "https://bucketeer-2d10c7cb-4f39-4e94-82a5-99df6af2477f.s3.amazonaws.com/public/identicon/0xb3c8b75d0da12884e88e31bc0e04c969ccccf722.png",
+      "description": "",
+      "location": "",
+      "type": "user",
+      "public": false,
+      "payment_address": "0xb3c8b75d0da12884e88e31bc0e04c969ccccf722",
+      "reputation_score": 0,
+      "average_rating": 0.0,
+      "review_count": 0
+    }
+  ],
+  "query": "type=user&query=w"
+}
