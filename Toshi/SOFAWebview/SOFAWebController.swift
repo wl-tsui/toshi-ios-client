@@ -146,6 +146,7 @@ final class SOFAWebController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.tintColor = Theme.tintColor
         textField.returnKeyType = .go
+        textField.autocorrectionType = .no
 
         return textField
     }()
@@ -617,6 +618,10 @@ extension SOFAWebController: PaymentRouterDelegate {
 }
 
 extension SOFAWebController: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let urlText = textField.text?.asPossibleURLString, let validUrl = URL(string: urlText) else { return false }
