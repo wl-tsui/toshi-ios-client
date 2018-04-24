@@ -299,8 +299,9 @@ extension DappsViewController: UITableViewDataSource {
 
             configurator.configureCell(cell, with: cellData)
             cell.leftImageView.layer.cornerRadius = 5
-            cell.titleTextField.setDynamicFontBlock = {
-                cell.titleTextField.font = Theme.preferredSemibold()
+            cell.titleTextField.setDynamicFontBlock = { [weak cell] in
+                guard let strongCell = cell else { return }
+                strongCell.titleTextField.font = Theme.preferredSemibold()
             }
 
             return cell

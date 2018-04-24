@@ -48,6 +48,8 @@ final class SearchProfilesTableView: UITableView {
         tableHeaderView = segmentedHeaderView
         tableHeaderView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44)
 
+        separatorInset.left = 80
+
         BasicTableViewCell.register(in: self)
     }
 

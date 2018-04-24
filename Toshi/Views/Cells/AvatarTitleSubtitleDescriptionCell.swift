@@ -47,26 +47,27 @@ final class AvatarTitleSubtitleDescriptionCell: BasicTableViewCell {
     }
 
     private func setupTitleTextField() {
-        titleTextField.setDynamicFontBlock = {
-            self.titleTextField.font = Theme.preferredSemibold()
+        titleTextField.setDynamicFontBlock = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.titleTextField.font = Theme.preferredSemibold()
         }
 
         titleTextField.top(to: contentView, offset: BasicTableViewCell.horizontalMargin)
-        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         titleTextField.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         titleTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
     private func setupSubtitleLabel() {
         subtitleLabel.topToBottom(of: titleTextField, offset: .smallInterItemSpacing)
-        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         subtitleLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         subtitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
     private func setupDescriptionLabel() {
         descriptionLabel.topToBottom(of: subtitleLabel, offset: .smallInterItemSpacing)
-        descriptionLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        descriptionLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         descriptionLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         descriptionLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
         descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

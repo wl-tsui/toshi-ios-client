@@ -43,7 +43,7 @@ final class AvatarTitleCell: BasicTableViewCell {
 
     private func setupTitleTextField() {
         titleTextField.centerY(to: contentView)
-        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         titleTextField.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
     }
 }

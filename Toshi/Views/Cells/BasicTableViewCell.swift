@@ -40,12 +40,13 @@ extension BasicCellActionDelegate {
 class BasicTableViewCell: UITableViewCell {
 
     static let horizontalMargin: CGFloat = 16.0
-    static let verticalMargin: CGFloat = 15.0
-    static let interItemMargin: CGFloat = 10.0
+    static let verticalMargin: CGFloat = .spacingx3
+    static let interItemMargin: CGFloat = .mediumInterItemSpacing
+    static let largeInterItemMargin: CGFloat = .spacingx3
     static let imageSize: CGFloat = 48.0
     static let doubleImageSize: CGFloat = 48.0
-    static let imageMargin: CGFloat = 10.0
-    static let smallVerticalMargin: CGFloat = 5.0
+    static let imageMargin: CGFloat = .mediumInterItemSpacing
+    static let smallVerticalMargin: CGFloat = .smallInterItemSpacing
     static let doubleImageMargin: CGFloat = 16.0
     static let largeVerticalMargin: CGFloat = 22.0
     static let badgeViewSize: CGFloat = 24.0
@@ -69,9 +70,11 @@ class BasicTableViewCell: UITableViewCell {
 
         titleTextField.delegate = self
 
-        titleTextField.setDynamicFontBlock = {
-            titleTextField.font = Theme.preferredRegular()
+        titleTextField.setDynamicFontBlock = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.titleTextField.font = Theme.preferredRegular()
         }
+        
         titleTextField.isUserInteractionEnabled = false
         titleTextField.adjustsFontForContentSizeCategory = true
 

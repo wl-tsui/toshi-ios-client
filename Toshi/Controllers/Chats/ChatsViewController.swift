@@ -59,6 +59,8 @@ final class ChatsViewController: SweetTableController {
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
 
+        tableView.separatorInset.left = 80
+
         dataSource.output = self
     }
 
