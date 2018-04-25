@@ -14,7 +14,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import Foundation
-import KeychainSwift
 
 extension NSNotification.Name {
     static let SwitchedNetworkChanged = NSNotification.Name(rawValue: "SwitchedNetworkChanged")
@@ -70,11 +69,8 @@ enum Network: String {
 
 final class NetworkSwitcher {
     static let shared = NetworkSwitcher()
-    private let keychain = KeychainSwift()
 
     init() {
-        keychain.synchronizable = false
-
         NotificationCenter.default.addObserver(self, selector: #selector(userDidSignOut(_:)), name: .UserDidSignOut, object: nil)
     }
 
@@ -132,7 +128,9 @@ final class NetworkSwitcher {
             _switchedNetwork = newValue
 
             guard let network = _switchedNetwork else {
-                keychain.delete(NetworkInfo.ActiveNetwork)
+
+                UserDefaultsWrapper.activeNetwork = nil
+
                 let notification = Notification(name: .SwitchedNetworkChanged)
                 NotificationCenter.default.post(notification)
 
@@ -141,7 +139,7 @@ final class NetworkSwitcher {
 
             registerForSwitchedNetworkPushNotifications { success, _ in
                 if success {
-                    self.keychain.set(network.rawValue, forKey: NetworkInfo.ActiveNetwork)
+                    UserDefaultsWrapper.activeNetwork = network.rawValue
 
                     let notification = Notification(name: .SwitchedNetworkChanged)
                     NotificationCenter.default.post(notification)
@@ -153,7 +151,7 @@ final class NetworkSwitcher {
         }
         get {
             guard let cachedNetwork = self._switchedNetwork else {
-                guard let storedNetworkID = self.keychain.get(NetworkInfo.ActiveNetwork) else { return nil }
+                guard let storedNetworkID = UserDefaultsWrapper.activeNetwork else { return nil }
                 _switchedNetwork = Network(rawValue: storedNetworkID)
 
                 return _switchedNetwork
