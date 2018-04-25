@@ -86,7 +86,12 @@ extension ProfilesDataSource: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? BasicTableViewCell else { fatalError("Unexpected cell") }
 
         let isLastCellInSection = (indexPath.row + 1) >= tableView.numberOfRows(inSection: indexPath.section)
-        cell.showSeparator(forLastCellInSection: isLastCellInSection)
+        if isLastCellInSection {
+            cell.showSeparator(leftInset: .spacingx3, rightInset: .spacingx3)
+        } else {
+            cell.showSeparator(leftInset: 80)
+        }
+        
         configurator.configureCell(cell, with: cellData)
 
         return cell

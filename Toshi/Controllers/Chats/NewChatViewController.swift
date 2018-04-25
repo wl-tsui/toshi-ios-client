@@ -178,7 +178,12 @@ extension NewChatViewController: UITableViewDataSource {
         configurator.configureCell(cell, with: cellData)
         cell.titleTextField.textColor = Theme.tintColor
 
-        cell.showSeparator(forLastCellInSection: item == .inviteFriend)
+        switch item {
+        case .startGroup:
+            cell.showSeparator(leftInset: 80)
+        case .inviteFriend:
+            cell.showSeparator()
+        }
 
         return cell
     }

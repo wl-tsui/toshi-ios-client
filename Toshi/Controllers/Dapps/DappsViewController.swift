@@ -109,7 +109,6 @@ final class DappsViewController: UIViewController {
         view.scrollIndicatorInsets.bottom = defaultTableViewBottomInset
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
-        view.register(RectImageTitleSubtitleTableViewCell.self)
         BasicTableViewCell.register(in: view)
         view.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
         view.register(UITableViewCell.self, forCellReuseIdentifier: genericCellReuseIdentifier)
@@ -141,7 +140,6 @@ final class DappsViewController: UIViewController {
         view.scrollIndicatorInsets.bottom = defaultTableViewBottomInset
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
-        view.register(RectImageTitleSubtitleTableViewCell.self)
         view.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
         view.register(UITableViewCell.self, forCellReuseIdentifier: genericCellReuseIdentifier)
         view.separatorStyle = .none
@@ -283,13 +281,12 @@ extension DappsViewController: UITableViewDataSource {
 
             return cell
         case .dappFront:
-            let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
-            cell.titleLabel.text = item.displayTitle
-            cell.subtitleLabel.text = item.displayDetails
-            cell.leftImageView.image = ImageAsset.collectible_placeholder
-            cell.imageViewPath = item.itemIconPath
+            let cellData = TableCellData(title: item.displayTitle, leftImage: ImageAsset.collectible_placeholder, leftImagePath: item.itemIconPath, description: item.displayDetails)
+            let configurator = CellConfigurator()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier(for: cellData.components), for: indexPath) as? BasicTableViewCell else { return UITableViewCell() }
 
-            setCustomSeparators(for: indexPath, on: cell)
+            configurator.configureCell(cell, with: cellData)
+            cell.showSeparator(leftInset: 100, rightInset: .spacingx3)
 
             return cell
         case .dappSearched:
@@ -314,14 +311,6 @@ extension DappsViewController: UITableViewDataSource {
                                                                     bottom: .spacingx8,
                                                                     right: -.defaultMargin))
             return cell
-        }
-    }
-
-    private func setCustomSeparators(for indexPath: IndexPath, on cell: RectImageTitleSubtitleTableViewCell) {
-        if dataSource.numberOfItems(in: indexPath.section) == (indexPath.row + 1) {
-            cell.sectionSeparator.alpha = 1
-        } else {
-            cell.customSeparator.alpha = 1
         }
     }
 

@@ -45,6 +45,7 @@ class BasicTableViewCell: UITableViewCell {
     static let largeInterItemMargin: CGFloat = .spacingx3
     static let imageSize: CGFloat = 48.0
     static let doubleImageSize: CGFloat = 48.0
+    static let largeImageSize: CGFloat = 72.0
     static let imageMargin: CGFloat = .mediumInterItemSpacing
     static let smallVerticalMargin: CGFloat = .smallInterItemSpacing
     static let doubleImageMargin: CGFloat = 16.0
@@ -230,17 +231,6 @@ class BasicTableViewCell: UITableViewCell {
         fatalError("addSubviewsAndConstraints() should be overriden")
     }
 
-    func showSeparator(forLastCellInSection: Bool = false) {
-        separator.isHidden = false
-        if forLastCellInSection {
-            separatorLeftConstraint?.constant = .defaultMargin
-            separatorRightConstraint?.constant = -.defaultMargin
-        } else {
-            separatorLeftConstraint?.constant = 80
-            separatorRightConstraint?.constant = 0
-        }
-    }
-
     @objc private func didTapLeftImage(_ tapGesture: UITapGestureRecognizer) {
         actionDelegate?.didTapLeftImage(self)
     }
@@ -263,6 +253,7 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(AvatarTitleSubtitleDoubleActionCell.self)
         tableView.register(AvatarTitleSubtitleDetailsBadgeCell.self)
         tableView.register(AvatarTitleSubtitleCheckboxCell.self)
+        tableView.register(AvatarTitleDescriptionCell.self)
         tableView.register(AvatarTitleSubtitleDescriptionCell.self)
     }
 
@@ -275,6 +266,12 @@ class BasicTableViewCell: UITableViewCell {
         detailsLabel.font = detailsFont()
         badgeLabel.font = detailsFont()
         descriptionLabel.font = descriptionFont()
+    }
+
+    func showSeparator(leftInset: CGFloat = 0, rightInset: CGFloat = 0) {
+        separator.isHidden = false
+        separatorLeftConstraint?.constant = leftInset
+        separatorRightConstraint?.constant = -rightInset
     }
 }
 

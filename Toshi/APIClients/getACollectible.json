@@ -2,30 +2,26 @@
   "name": "Cryptokitties",
   "value": "0x10",
   "contract_address": "0x0123456789012345678901234567890123456789",
-  "icon": "https://www.cryptokitties.co/icons/logo.svg",
+  "icon": "https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg",
   "tokens": [
     {
       "token_id": "abcdef0123456",
       "name": "Kitten 1",
-      "image": "https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/467583.svg",
+      "image": "https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg",
       "description": "A kitten"
     },
     {
       "token_id": "abcdef0123456",
       "name": "Kitten 2",
-      "image": "",
       "description": "A kitten"
     },
     {
       "token_id": "abcdef0123456",
-      "name": "Kitten 3",
-      "image": "",
-      "description": ""
+      "name": "Kitten 3"
     },
     {
       "token_id": "abcdef0123456",
-      "name": "",
-      "image": "https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/467583.svg",
+      "image": "https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg",
       "description": "A kitten"
     }
   ]

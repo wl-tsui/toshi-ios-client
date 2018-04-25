@@ -16,7 +16,7 @@
 import UIKit
 
 protocol CollectibleTokensDatasourceDelegate: class {
-    func collectibleDatasourceDidReloadl(_ datasource: CollectibleTokensDatasource)
+    func collectibleDatasourceDidReload(_ datasource: CollectibleTokensDatasource)
 }
 
 final class CollectibleTokensDatasource {
@@ -61,7 +61,7 @@ final class CollectibleTokensDatasource {
 
             strongSelf.collectible = collectible
 
-            strongSelf.delegate?.collectibleDatasourceDidReloadl(strongSelf)
+            strongSelf.delegate?.collectibleDatasourceDidReload(strongSelf)
         }
     }
 

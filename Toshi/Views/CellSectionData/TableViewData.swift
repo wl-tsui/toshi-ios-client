@@ -63,6 +63,7 @@ public struct TableCellDataComponents: OptionSet {
     static let leftImageTitleSubtitleDoubleAction: TableCellDataComponents = [.titleSubtitleLeftImage, .doubleAction]
     static let titleSubtitleDetailsLeftImageBadge: TableCellDataComponents = [.titleSubtitleDetailsLeftImage, .badge]
     static let titleSubtitleLeftImageTopDetails: TableCellDataComponents = [.titleSubtitleLeftImage, .topDetails]
+    static let titleLeftImageDescription: TableCellDataComponents = [.titleLeftImage, .description]
     static let titleSubtitleLeftImageDescription: TableCellDataComponents = [.titleSubtitleLeftImage, .description]
 }
 

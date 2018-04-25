@@ -22,7 +22,7 @@ final class CollectibleViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
 
         view.backgroundColor = nil
-        view.register(RectImageTitleSubtitleTableViewCell.self)
+        view.register(CollectibleCell.self)
         view.delegate = self
         view.dataSource = self
         view.tableFooterView = UIView()
@@ -82,18 +82,10 @@ extension CollectibleViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
-        cell.titleLabel.text = token.name ?? "\(datasource.name) #\(token.displayId)"
-        cell.subtitleLabel.text = token.description
-        cell.leftImageView.image = ImageAsset.collectible_placeholder
+        let collectibleCellConfigurator = CollectibleCellConfigurator(collectible: token)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectibleCell.reuseIdentifier, for: indexPath)as? CollectibleCell else { return UITableViewCell() }
 
-        guard let imagePath = token.image, !imagePath.isEmpty else { return cell }
-
-        AvatarManager.shared.avatar(for: imagePath, completion: { image, path in
-            if token.image == path && image != nil {
-                cell.leftImageView.image = image
-            }
-        })
+        collectibleCellConfigurator.configureCell(cell, dataSourceName: datasource.name)
 
         return cell
     }
@@ -101,7 +93,7 @@ extension CollectibleViewController: UITableViewDataSource {
 
 extension CollectibleViewController: CollectibleTokensDatasourceDelegate {
 
-    func collectibleDatasourceDidReloadl(_ datasource: CollectibleTokensDatasource) {
+    func collectibleDatasourceDidReload(_ datasource: CollectibleTokensDatasource) {
         tableView.reloadData()
         title = datasource.name
     }

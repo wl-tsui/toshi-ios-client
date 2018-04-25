@@ -37,6 +37,7 @@ extension CGFloat {
     static let spacingx2: CGFloat = (spacingx1 * 2)
     static let spacingx3: CGFloat = (spacingx1 * 3)
     static let spacingx4: CGFloat = (spacingx1 * 4)
+    static let spacingx6: CGFloat = (spacingx1 * 6)
     static let spacingx8: CGFloat = (spacingx1 * 8)
 
     // More readable aliases to various inter-item spacing.
@@ -44,6 +45,7 @@ extension CGFloat {
     static let smallInterItemSpacing: CGFloat = spacingx1
     static let mediumInterItemSpacing: CGFloat = spacingx2
     static let largeInterItemSpacing: CGFloat = spacingx4
+    static let hugeInterItemSpacing: CGFloat = spacingx6
     static let giantInterItemSpacing: CGFloat = spacingx8
 }
 
