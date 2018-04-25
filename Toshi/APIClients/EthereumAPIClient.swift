@@ -208,7 +208,14 @@ final class EthereumAPIClient {
     }
 
     func getCollectible(address: String = Cereal.shared.paymentAddress, contractAddress: String, completion: @escaping ((Collectible?, ToshiError?) -> Void)) {
-        self.activeTeapot.get("/v1/collectibles/\(address)/\(contractAddress)") { result in
+        var collectiblesTeapot = self.activeTeapot
+
+        // If we are on debug (specified in "other swift flags") we will mock out the collectiblesince they are only on production
+        #if DEBUG
+            collectiblesTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClient.self), mockFilename: "getACollectible")
+        #endif
+
+        collectiblesTeapot.get("/v1/collectibles/\(address)/\(contractAddress)") { result in
             var resultError: ToshiError?
             var resultItem: Collectible?
 
@@ -254,8 +261,14 @@ final class EthereumAPIClient {
     }
 
     func getCollectibles(address: String = Cereal.shared.paymentAddress, completion: @escaping WalletItemsCompletion) {
+        var collectiblesTeapot = self.activeTeapot
 
-        self.activeTeapot.get("/v1/collectibles/\(address)") { (result: NetworkResult) in
+        // If we are on debug (specified in "other swift flags") we will mock out the collectibles since they are only on production
+        #if DEBUG
+            collectiblesTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClient.self), mockFilename: "getCollectibles")
+        #endif
+
+        collectiblesTeapot.get("/v1/collectibles/\(address)") { (result: NetworkResult) in
             var resultError: ToshiError?
             var resultItems: [Collectible] = []
 
