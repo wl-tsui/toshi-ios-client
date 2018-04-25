@@ -26,6 +26,6 @@ extension UITextField {
 
     /// - Returns: text if there is any or emty string
     var currentOrEmptyText: String {
-        return text ?? ""
+        return String.contentsOrEmpty(for: text)
     }
 }

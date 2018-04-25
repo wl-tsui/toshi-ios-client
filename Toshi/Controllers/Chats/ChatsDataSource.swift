@@ -165,7 +165,7 @@ final class ChatsDataSource: NSObject {
 
         self.tableView?.dataSource = self
 
-        if TokenUser.current != nil {
+        if Profile.current != nil {
             viewModel.setupForCurrentSession()
             loadMessages()
             registerNotifications()
@@ -308,15 +308,15 @@ final class ChatsDataSource: NSObject {
     func updateNewThreadRecepientsIfNeeded(_ thread: TSThread) {
         DispatchQueue.main.async {
             if let contactId = thread.contactIdentifier() {
-                guard SessionManager.shared.contactsManager.tokenContact(forAddress: contactId) == nil else { return }
+                guard SessionManager.shared.profilesManager.profile(for: contactId) == nil else { return }
 
-                let contactsIds = SessionManager.shared.contactsManager.tokenContacts.map { $0.address }
+                let contactsIds = SessionManager.shared.profilesManager.profilesIds
 
-                IDAPIClient.shared.findContact(name: contactId, completion: { foundUser in
+                IDAPIClient.shared.findContact(name: contactId, completion: { foundProfile, _ in
 
-                    guard let user = foundUser else { return }
+                    guard let profile = foundProfile, let avatarPath = profile.avatar else { return }
 
-                    AvatarManager.shared.downloadAvatar(for: user.avatarPath)
+                    AvatarManager.shared.downloadAvatar(for: avatarPath)
 
                     if !contactsIds.contains(contactId) {
                         IDAPIClient.shared.updateContact(with: contactId)

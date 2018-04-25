@@ -16,13 +16,13 @@
 import Foundation
 
 protocol ProfilesProviding: class {
-    func searchProfilesOfType(type: String, searchText: String?, completion: @escaping (([Profile]?, _ type: String) -> Void))
+    func searchProfilesOfType(type: String, searchText: String?, completion: @escaping (([Profile]?, _ type: String?) -> Void))
     func searchProfilesFrontPage(completion: @escaping (([ProfilesFrontPageSection]?) -> Void))
 }
 
 extension ProfilesProviding {
 
-    func searchProfilesOfType(type: String, searchText: String?, completion: @escaping (([Profile]?, _ type: String) -> Void)) {
+    func searchProfilesOfType(type: String, searchText: String?, completion: @escaping (([Profile]?, _ type: String?) -> Void)) {
         IDAPIClient.shared.searchProfilesOfType(type, for: searchText) { [weak self] profiles, type, error in
             guard let strongSelf = self else { return }
             guard error == nil else {

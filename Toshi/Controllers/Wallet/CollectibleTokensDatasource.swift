@@ -27,7 +27,7 @@ final class CollectibleTokensDatasource {
     private var collectible: Collectible?
 
     var name: String {
-        return collectible?.name ?? ""
+        return String.contentsOrEmpty(for: collectible?.name)
     }
 
     var tokens: [CollectibleToken]? {

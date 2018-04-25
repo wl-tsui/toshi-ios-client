@@ -63,7 +63,7 @@ final class SearchProfilesDataSource: NSObject {
 
             guard let strongSelf = self else { return }
             strongSelf.searchProfilesOfType(type: strongSelf.queryData.type, searchText: strongSelf.queryData.searchText, completion: { [weak self] profiles, type in
-                guard let strongSelf = self else { return }
+                guard let strongSelf = self, let type = type else { return }
 
                 strongSelf.profilesMap[type] = profiles
 
@@ -101,6 +101,7 @@ extension SearchProfilesDataSource: UITableViewDataSource {
         let profile = typeProfiles[indexPath.row]
 
         let cellData = TableCellData(title: profile.nameOrDisplayName, subtitle: profile.displayUsername, leftImagePath: profile.avatar)
+
         let configurator = CellConfigurator()
 
         let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)

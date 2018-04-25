@@ -113,12 +113,6 @@ final class ChatsViewController: SweetTableController {
         return chatsPageSection.items[indexPath.row]
     }
 
-    func updateContactIfNeeded(at indexPath: IndexPath) {
-        if let thread = dataSource.acceptedThread(at: indexPath.row, in: 0), let address = thread.contactIdentifier() {
-            idAPIClient.retrieveUser(username: address)
-        }
-    }
-
     func thread(withAddress address: String) -> TSThread? {
         return dataSource.thread(withAddress: address)
     }

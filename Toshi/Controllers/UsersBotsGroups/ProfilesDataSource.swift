@@ -77,7 +77,9 @@ extension ProfilesDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionData = sections[indexPath.section]
         let profile = sectionData.profiles[indexPath.row]
-        let cellData = TableCellData(title: profile.nameOrDisplayName, subtitle: profile.displayUsername, leftImagePath: profile.avatar, description: profile.description ?? "")
+
+        let cellData = TableCellData(title: profile.nameOrDisplayName, subtitle: profile.displayUsername, leftImagePath: profile.avatar, description: profile.description)
+
         let configurator = CellConfigurator()
 
         let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)

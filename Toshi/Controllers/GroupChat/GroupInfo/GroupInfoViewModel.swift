@@ -75,7 +75,7 @@ final class GroupInfoViewModel {
         setupSortedMembers()
         
         for member in sortedMembers {
-            let cellData = TableCellData(title: member.name, subtitle: member.displayUsername, leftImagePath: member.avatarPath)
+            let cellData = TableCellData(title: member.name, subtitle: member.displayUsername, leftImagePath: member.avatar)
             cellData.tag = GroupItemType.participant.rawValue
             participantsCellData.append(cellData)
         }
@@ -85,7 +85,7 @@ final class GroupInfoViewModel {
         return TableSectionData(cellsData: participantsCellData, headerTitle: headerTitle)
     }
 
-    private var _sortedMembers: [TokenUser] = []
+    private var _sortedMembers: [Profile] = []
 
     @objc private func updateGroup() {
         let image = groupInfo.avatar
@@ -110,7 +110,7 @@ extension GroupInfoViewModel: GroupViewModelProtocol {
         }
     }
 
-    var sortedMembers: [TokenUser] {
+    var sortedMembers: [Profile] {
         get {
             return _sortedMembers
         }
@@ -160,5 +160,5 @@ extension GroupInfoViewModel: GroupViewModelProtocol {
     var isDoneButtonEnabled: Bool { return groupInfo.title.count > 0 }
 
     var recipientsIds: [String] { return groupInfo.participantsIDs }
-    var allParticipantsIDs: [String] { return sortedMembers.map { $0.address } }
+    var allParticipantsIDs: [String] { return sortedMembers.map { $0.toshiId } }
 }

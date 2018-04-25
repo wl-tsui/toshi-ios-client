@@ -72,7 +72,7 @@ final class Yap: NSObject, Singleton {
     }
 
     static var isUserSessionSetup: Bool {
-        return sharedInstance.database != nil && TokenUser.current != nil
+        return sharedInstance.database != nil && Profile.current != nil
     }
 
     @objc static var inconsistentStateDescription = inconsistencyError.description
@@ -89,7 +89,7 @@ final class Yap: NSObject, Singleton {
     }
 
     func setupForNewUser(with address: String) {
-        useBackedDBIfNeeded()
+        useBackupDBIfNeeded()
 
         let keychain = KeychainSwift()
         keychain.synchronizable = false
@@ -105,14 +105,14 @@ final class Yap: NSObject, Singleton {
 
         createDBForCurrentUser()
 
-        insert(object: address, for: TokenUser.currentLocalUserAddressKey)
-        insert(object: TokenUser.current?.json, for: address, in: TokenUser.storedContactKey)
+        insert(object: address, for: ProfileKeys.currentLocalUserAddressKey)
+        insert(object: Profile.current?.data, for: address, in: ProfileKeys.storedContactKey)
 
         createBackupDirectoryIfNeeded()
     }
 
     @objc func wipeStorage() {
-        if TokenUser.current?.verified == false {
+        if Profile.current?.verified == false {
             CrashlyticsLogger.log("Deleting database files for signed out user")
 
             removeDatabaseFileAndPassword()
@@ -186,8 +186,8 @@ final class Yap: NSObject, Singleton {
         }
     }
 
-    private func useBackedDBIfNeeded() {
-        if TokenUser.current != nil, FileManager.default.fileExists(atPath: UserDB.Backup.dbFilePath) {
+    private func useBackupDBIfNeeded() {
+        if Profile.current != nil, FileManager.default.fileExists(atPath: UserDB.Backup.dbFilePath) {
             CrashlyticsLogger.log("Using backup database for signed in user")
             try? FileManager.default.moveItem(atPath: UserDB.Backup.dbFilePath, toPath: UserDB.dbFilePath)
         }
@@ -200,7 +200,7 @@ final class Yap: NSObject, Singleton {
     }
 
     private func backupUserDBFile() {
-        guard let user = TokenUser.current else {
+        guard let user = Profile.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Yap backup"])
             fatalError("No current user while backing up user db file")
         }
@@ -216,7 +216,7 @@ final class Yap: NSObject, Singleton {
             fatalError("No database password found in keychain while database file exits")
         }
 
-        keychain.set(currentPassword, forKey: user.address)
+        keychain.set(currentPassword, forKey: user.toshiId)
 
         try? FileManager.default.moveItem(atPath: UserDB.dbFilePath, toPath: UserDB.Backup.dbFilePath)
 

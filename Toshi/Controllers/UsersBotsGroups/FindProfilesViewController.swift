@@ -143,12 +143,7 @@ extension FindProfilesViewController: ProfileTypeSelectionDelegate {
 extension FindProfilesViewController: ProfilesDataSourceDelegate {
 
     func didSelectProfile(_ profile: Profile) {
-        // WIP: Currently we need to deal with old type user till we replace it in all places
-
-        guard let profileJson = profile.dictionary else { return }
-        let oldTypeUser = TokenUser(json: profileJson)
-        let profileController = ProfileViewController(profile: oldTypeUser)
-
+        let profileController = ProfileViewController(profile: profile)
         navigationController?.pushViewController(profileController, animated: true)
     }
 

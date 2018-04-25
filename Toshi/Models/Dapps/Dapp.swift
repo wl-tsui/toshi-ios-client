@@ -61,7 +61,7 @@ extension Dapp: BrowseableItem {
     }
     
     var avatarPath: String {
-        return avatarUrlString ?? ""
+        return String.contentsOrEmpty(for: avatarUrlString)
     }
     
     var shouldShowRating: Bool {

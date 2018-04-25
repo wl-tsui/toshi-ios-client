@@ -25,13 +25,24 @@ final class DappsNavigationController: UINavigationController {
         
         if let profileData = UserDefaultsWrapper.selectedApp {
             super.init(nibName: nil, bundle: nil)
-            guard let json = (try? JSONSerialization.jsonObject(with: profileData, options: [])) as? [String: Any] else { return }
-            
-            viewControllers = [rootViewController, ProfileViewController(profile: TokenUser(json: json))]
-            configureTabBarItem()
+
+            let profile: Profile
+            do {
+                let jsonDecoder = JSONDecoder()
+                profile = try jsonDecoder.decode(Profile.self, from: profileData)
+            } catch {
+                viewControllers = [rootViewController]
+                configureTabBarItem()
+                return
+            }
+
+            viewControllers = [rootViewController, ProfileViewController(profile: profile)]
+
         } else {
             super.init(rootViewController: rootViewController)
         }
+
+        configureTabBarItem()
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -67,7 +78,7 @@ final class DappsNavigationController: UINavigationController {
         super.pushViewController(viewController, animated: animated)
 
         if let viewController = viewController as? ProfileViewController {
-            UserDefaultsWrapper.selectedApp = viewController.profile.json
+            UserDefaultsWrapper.selectedApp = viewController.profile.data
         }
     }
 

@@ -15,6 +15,8 @@
 
 import Foundation
 
+typealias ProfileInfo = (address: String, paymentAddress: String?, avatarPath: String?, name: String?, username: String?, isLocal: Bool)
+
 /// Users, bots and groups front page
 struct ProfilesFrontPage: Codable {
 
@@ -45,6 +47,10 @@ enum ProfileType: Int {
     case bot
     case group
 
+    private static let userTypeString = "user"
+    private static let botTypeString = "bot"
+    private static let groupTypeString = "groupbot"
+
     var title: String {
         switch self {
         case .user:
@@ -59,11 +65,24 @@ enum ProfileType: Int {
     var typeString: String {
         switch self {
         case .user:
-            return "user"
+            return ProfileType.userTypeString
         case .bot:
-            return "bot"
+            return ProfileType.botTypeString
         case .group:
-            return "groupbot"
+            return ProfileType.groupTypeString
+        }
+    }
+
+    static func typeFromTypeString(_ typeString: String?) -> ProfileType {
+        guard let validType = typeString else { return .user }
+
+        switch validType {
+        case botTypeString:
+            return .bot
+        case groupTypeString:
+            return .group
+        default:
+            return .user
         }
     }
 }
@@ -71,18 +90,18 @@ enum ProfileType: Int {
 /// An individual Profile
 struct Profile: Codable {
 
-    let type: String
+    let type: String?
     let name: String?
     let username: String
     let toshiId: String
-    let avatar: String?
+    var avatar: String?
     let description: String?
     let paymentAddress: String?
     let location: String?
     var isPublic: Bool?
     let reputationScore: Float?
     let averageRating: Float?
-    let localCurrency: String?
+    private let localCurrency: String?
     let reviewCount: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -102,40 +121,60 @@ struct Profile: Codable {
         reviewCount = "review_count"
     }
 
+    var savedLocalCurrency: String {
+        return userSettings[ProfileKeys.localCurrency] as? String ?? Profile.defaultCurrency
+    }
+
+    var hashValue: Int {
+        return toshiId.hashValue
+    }
+
     var displayUsername: String {
         return "@\(username)"
     }
 
     var nameOrDisplayName: String {
-        guard !(name ?? "").isEmpty else {
+        let nameOrEmpty = String.contentsOrEmpty(for: name)
+        guard !nameOrEmpty.isEmpty else {
 
             return displayUsername
         }
 
-        return name ?? ""
+        return nameOrEmpty
     }
 
+    var nameOrUsername: String {
+        return name ?? username
+    }
+
+    var profileType: ProfileType {
+        return ProfileType.typeFromTypeString(type)
+    }
+
+    var balance = NSDecimalNumber.zero
+
     private var userSettings: [String: Any] = [:]
-    private var cachedCurrencyLocale: Locale = .current
+    private(set) var cachedCurrencyLocale: Locale = .current
 
     var verified: Bool {
-        return userSettings[TokenUser.Constants.verified] as? Bool ?? false
+        return userSettings[ProfileKeys.verified] as? Bool ?? false
+    }
+
+    var isBot: Bool {
+        return type != ProfileType.user.typeString
     }
 
     private static var _current: Profile?
-    private(set) static var current: Profile? {
+    static var current: Profile? {
         get {
             if _current == nil {
-                guard let user = TokenUser.retrieveCurrentUserFromStore() else { return nil }
-                let jsonDecoder = JSONDecoder()
-                guard let decodedProfile = try? jsonDecoder.decode(Profile.self, from: user.json) else { return nil }
-                _current = decodedProfile
+                guard let profile = Profile.retrieveCurrentUserFromStore() else { return nil }
+                _current = profile
             }
 
             return _current
         }
         set {
-
             if let user = newValue {
                 user.save()
             }
@@ -152,6 +191,108 @@ struct Profile: Codable {
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
     }
 
+    var userInfo: ProfileInfo {
+        return ProfileInfo(address: toshiId, paymentAddress: paymentAddress, avatarPath: avatar, name: nameOrDisplayName, username: displayUsername, isLocal: true)
+    }
+
+    var data: Data? {
+        return try? JSONEncoder().encode(self)
+    }
+
+    static var defaultCurrency: String {
+        return Locale.current.currencyCode ?? "USD"
+    }
+
+    var isBlocked: Bool {
+        let blockingManager = OWSBlockingManager.shared()
+
+        return blockingManager.blockedPhoneNumbers().contains(toshiId)
+    }
+
+    var isCurrentUser: Bool {
+        return toshiId == Cereal.shared.address
+    }
+
+    static func retrieveCurrentUserFromStore() -> Profile? {
+        guard _current == nil else { return _current }
+
+        var profile: Profile?
+
+        // migrate old user storage
+        if let userData = (Yap.sharedInstance.retrieveObject(for: ProfileKeys.legacyStoredUserKey) as? Data) {
+            Yap.sharedInstance.insert(object: userData, for: Cereal.shared.address, in: ProfileKeys.storedContactKey)
+            Yap.sharedInstance.removeObject(for: ProfileKeys.legacyStoredUserKey)
+        }
+
+        guard var userData = (Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: ProfileKeys.storedContactKey) as? Data),
+            let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
+            var json = deserialised as? [String: Any] else { return profile }
+
+        var userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: ProfileKeys.localUserSettingsKey) as? [String: Any] ?? [:]
+
+        // Migration from old model with changes to some variables
+        var shouldSaveAfterMigration = false
+
+        // Because of payment address migration, we have to override the stored payment address.
+        // Otherwise users will be sending payments to the wrong address.
+        if json[ProfileKeys.paymentAddress] as? String != Cereal.shared.paymentAddress {
+            json[ProfileKeys.paymentAddress] = Cereal.shared.paymentAddress
+
+            if let updatedData = try? JSONSerialization.data(withJSONObject: json, options: []) {
+                userData = updatedData
+                shouldSaveAfterMigration = true
+            }
+        }
+
+        if json[ProfileKeys.toshiId] == nil {
+            json[ProfileKeys.toshiId] = json[ProfileKeys.address]
+            json[ProfileKeys.type] = ProfileType.user.typeString
+            json[ProfileKeys.description] = json[ProfileKeys.about]
+
+            if let updatedData = try? JSONSerialization.data(withJSONObject: json, options: []) {
+                userData = updatedData
+                shouldSaveAfterMigration = true
+            }
+        }
+
+        if shouldSaveAfterMigration {
+            Yap.sharedInstance.insert(object: userData, for: Cereal.shared.address, in: ProfileKeys.storedContactKey)
+        }
+
+        do {
+            let jsonDecoder = JSONDecoder()
+            profile = try jsonDecoder.decode(Profile.self, from: userData)
+        } catch let error {
+            print(error)
+            assertionFailure("Can't decode retrieved current user data")
+        }
+
+        // migrations
+        var shouldSaveMigration = false
+        if userSettings[ProfileKeys.verified] == nil {
+            if json[ProfileKeys.verified] != nil {
+                userSettings[ProfileKeys.verified] = json[ProfileKeys.verified]
+            } else {
+                userSettings[ProfileKeys.verified] = 0
+            }
+            shouldSaveMigration = true
+        }
+
+        if userSettings[ProfileKeys.localCurrency] == nil {
+            userSettings[ProfileKeys.localCurrency] = Profile.defaultCurrency
+            shouldSaveMigration = true
+        }
+
+        profile?.userSettings = userSettings
+        if shouldSaveMigration {
+            profile?.saveSettings()
+        }
+
+        profile?.updateLocalCurrencyLocaleCache()
+
+        return profile
+    }
+
     mutating func updatePublicState(to isPublic: Bool) {
         self.isPublic = isPublic
 
@@ -161,18 +302,43 @@ struct Profile: Codable {
         save()
     }
 
+    static func name(from username: String) -> String {
+        guard username.hasPrefix("@") else {
+            // Does not need to be cleaned up
+            return username
+        }
+
+        let index = username.index(username.startIndex, offsetBy: 1)
+        return String(username[index...])
+    }
+
     static func retrieveCurrentUser() {
-        guard let user = TokenUser.retrieveCurrentUserFromStore() else { return }
-        let jsonDecoder = JSONDecoder()
-        guard let decodedProfile = try? jsonDecoder.decode(Profile.self, from: user.json) else { return }
-        current = decodedProfile
+        guard let user = Profile.retrieveCurrentUserFromStore() else { return }
+        current = user
+
+        NotificationCenter.default.post(name: .userCreated, object: nil)
+    }
+
+    static func setupCurrentProfile(_ profile: Profile) {
+        current = profile
+
+        Yap.sharedInstance.setupForNewUser(with: profile.toshiId)
+
+        let newUserSettings: [String: Any] = [
+            ProfileKeys.localCurrency: Profile.defaultCurrency,
+            ProfileKeys.verified: 0
+        ]
+
+        current?.userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: ProfileKeys.localUserSettingsKey) as? [String: Any] ?? newUserSettings
+        current?.saveSettings()
+        current?.adjustToLocalCurrency()
 
         NotificationCenter.default.post(name: .userCreated, object: nil)
     }
 
     mutating func updateLocalCurrency(code: String? = nil, shouldSave: Bool = true) {
         if let localCurrency = code {
-            userSettings[TokenUser.Constants.localCurrency] = localCurrency
+            userSettings[ProfileKeys.localCurrency] = localCurrency
 
             adjustToLocalCurrency()
 
@@ -182,13 +348,18 @@ struct Profile: Codable {
         }
     }
 
+    mutating func updateAvatarPath(_ avatarPath: String) {
+        avatar = avatarPath
+        save()
+    }
+
     mutating func updateVerificationState(_ verified: Bool) {
-        userSettings[TokenUser.Constants.verified] = verified
+        userSettings[ProfileKeys.verified] = verified
         saveSettings()
     }
 
     private func saveSettings() {
-        Yap.sharedInstance.insert(object: userSettings, for: toshiId, in: TokenUser.localUserSettingsKey)
+        Yap.sharedInstance.insert(object: userSettings, for: toshiId, in: ProfileKeys.localUserSettingsKey)
     }
 
     private mutating func adjustToLocalCurrency() {
@@ -209,6 +380,13 @@ struct Profile: Codable {
 
     private func save() {
         guard let encodedData = try? JSONEncoder().encode(self) else { return }
-        Yap.sharedInstance.insert(object: encodedData, for: toshiId, in: TokenUser.storedContactKey)
+        Yap.sharedInstance.insert(object: encodedData, for: toshiId, in: ProfileKeys.storedContactKey)
+    }
+}
+
+extension Profile: Hashable {
+
+    static func == (lhs: Profile, rhs: Profile) -> Bool {
+        return lhs.toshiId == rhs.toshiId
     }
 }

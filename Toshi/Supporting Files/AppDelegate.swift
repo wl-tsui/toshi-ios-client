@@ -180,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func tryToOpenDB() -> Bool {
         if Yap.isUserDatabaseFileAccessible && Yap.isUserDatabasePasswordAccessible {
-            TokenUser.retrieveCurrentUser()
+            Profile.retrieveCurrentUser()
             setupDB()
 
             return true

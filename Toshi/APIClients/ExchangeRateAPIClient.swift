@@ -78,9 +78,9 @@ final class ExchangeRateAPIClient {
     }
 
     func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
-        let code = TokenUser.current?.localCurrency ?? TokenUser.defaultCurrency
+        let code = Profile.current?.savedLocalCurrency ?? Profile.defaultCurrency
 
-        teapot.get("/v1/rates/ETH/\(code)") { (result: NetworkResult) in
+        teapot.get("/v1/rates/ETH/\(code)") { result in
             switch result {
             case .success(let json, _):
                 guard let json = json?.dictionary, let usd = json["rate"] as? String, let doubleValue = Double(usd) else {

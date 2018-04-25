@@ -271,7 +271,7 @@ extension DappsViewController: UITableViewDataSource {
             cell.selectionStyle = .none
 
             let googleText = " – \(Localized.dapps_search_with_google_section_title)"
-            let text = (item.displayTitle ?? "") + googleText
+            let text = String.contentsOrEmpty(for: item.displayTitle) + googleText
             let attributedString = NSMutableAttributedString(string: text)
 
             attributedString.addAttribute(.font, value: Theme.preferredRegularTiny(), range: NSRange(location: 0, length: attributedString.length))

@@ -33,15 +33,11 @@ final class AvatarManager: NSObject {
 
     @objc func startDownloadContactsAvatars() {
 
-        let avatarPaths: [String] = SessionManager.shared.contactsManager.tokenContacts.compactMap { contact in
-            contact.avatarPath
-        }
-
-        if let currentUserAvatarPath = TokenUser.current?.avatarPath {
+        if let currentUserAvatarPath = Profile.current?.avatar {
            downloadAvatar(for: currentUserAvatarPath)
         }
 
-        for path in avatarPaths {
+        for path in SessionManager.shared.profilesManager.profilesAvatarPaths {
             downloadAvatar(for: path)
         }
     }
@@ -62,15 +58,15 @@ final class AvatarManager: NSObject {
             cache.fetch(key: key).onSuccess { image in
                 completion?(image, key)
                 }.onFailure({ _ in
-                    IDAPIClient.shared.findContact(name: key) { [weak self] user in
+                    IDAPIClient.shared.findContact(name: key) { [weak self] profile, _ in
 
-                        guard let retrievedUser = user else {
+                        guard let avatarPath = profile?.avatar else {
                             completion?(nil, key)
                             return
                         }
 
-                        UserDefaults.standard.set(retrievedUser.avatarPath, forKey: key)
-                        self?.downloadAvatar(path: retrievedUser.avatarPath, completion: completion)
+                        UserDefaults.standard.set(avatarPath, forKey: key)
+                        self?.downloadAvatar(path: avatarPath, completion: completion)
                     }
                 })
         } else {

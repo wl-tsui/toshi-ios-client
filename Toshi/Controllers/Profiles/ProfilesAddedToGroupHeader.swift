@@ -50,7 +50,7 @@ class ProfilesAddedToGroupHeader: UIView {
         updateDisplay(with: [])
     }
     
-    func updateDisplay(with profiles: Set<TokenUser>) {
+    func updateDisplay(with profiles: Set<Profile>) {
         let nonNameAttributes = [ NSAttributedStringKey.foregroundColor: Theme.mediumTextColor.withAlphaComponent(0.4),
                                     NSAttributedStringKey.font: Theme.preferredRegular()]
 
@@ -66,7 +66,7 @@ class ProfilesAddedToGroupHeader: UIView {
             return
         }
 
-        let sortedProfiles = profiles.sorted(by: { $0.name < $1.name })
+        let sortedProfiles = profiles.sorted(by: { $0.nameOrUsername < $1.nameOrUsername  })
 
         let nameStrings = sortedProfiles.map { NSAttributedString(string: $0.nameOrDisplayName, attributes: [ .foregroundColor: Theme.tintColor ]) }
         

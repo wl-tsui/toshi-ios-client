@@ -57,7 +57,7 @@ class ProfileEditItem {
     init(_ type: ProfileEditItemType) {
         self.type = type
         
-        guard let user = TokenUser.current else {
+        guard let user = Profile.current else {
             CrashlyticsLogger.log("No current user during session", attributes: [.occurred: "Profile edit item"])
             fatalError("No current user on Profile edit item")
         }
@@ -68,23 +68,23 @@ class ProfileEditItem {
             detailText = user.username
         case .displayName:
             titleText = Localized.edit_profile_display_name_label
-            detailText = user.name
+            detailText = user.nameOrDisplayName
         case .about:
             titleText = Localized.edit_profile_about_label
-            detailText = user.about
+            detailText = String.contentsOrEmpty(for: user.description)
         case .location:
             titleText = Localized.edit_profile_location_label
-            detailText = user.location
+            detailText = String.contentsOrEmpty(for: user.location)
         case .visibility:
             titleText = Localized.edit_profile_public_label
-            switchMode = user.isPublic
+            switchMode = user.isPublic ?? false
         default:
             break
         }
     }
 
     func update(_ detailText: String?, _ switchMode: Bool) {
-        self.detailText = detailText ?? ""
+        self.detailText = String.contentsOrEmpty(for: detailText)
         self.switchMode = switchMode
     }
 }

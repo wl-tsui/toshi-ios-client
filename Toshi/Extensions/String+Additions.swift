@@ -183,4 +183,8 @@ extension String {
 
         return firstChars + truncationString + lastChars
     }
+
+    static func contentsOrEmpty(for string: String?) -> String {
+        return string ?? ""
+    }
 }

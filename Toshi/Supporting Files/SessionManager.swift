@@ -26,23 +26,23 @@ final class SessionManager {
     static let shared = SessionManager()
 
     private(set) var networkManager: TSNetworkManager
-    private(set) var contactsManager: ContactsManager
+    private(set) var profilesManager: ProfilesManager
     private(set) var contactsUpdater: ContactsUpdater
     private(set) var messageSender: MessageSender
     private(set) var messageFetcherJob: MessageFetcherJob?
 
     init() {
         self.networkManager = TSNetworkManager.shared()
-        self.contactsManager = ContactsManager()
+        self.profilesManager = ProfilesManager()
         self.contactsUpdater = ContactsUpdater.shared()
 
-        messageSender = MessageSender(networkManager: networkManager, storageManager: TSStorageManager.shared(), contactsManager: contactsManager, contactsUpdater: contactsUpdater)
+        messageSender = MessageSender(networkManager: networkManager, storageManager: TSStorageManager.shared(), contactsManager: profilesManager, contactsUpdater: contactsUpdater)
     }
 
     func setupSecureEnvironment() {
         TSAccountManager.sharedInstance().storeLocalNumber(Cereal.shared.address)
 
-        let sharedEnv = TextSecureKitEnv(callMessageHandler: EmptyCallHandler(), contactsManager: contactsManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), profileManager: ProfileManager.shared())
+        let sharedEnv = TextSecureKitEnv(callMessageHandler: EmptyCallHandler(), contactsManager: profilesManager, messageSender: messageSender, notificationsManager: SignalNotificationManager(), profileManager: ProfileManager.shared())
         TextSecureKitEnv.setShared(sharedEnv)
 
         messageFetcherJob = MessageFetcherJob(messageReceiver: OWSMessageReceiver.sharedInstance(), networkManager: networkManager, signalService: OWSSignalService.sharedInstance())
@@ -59,7 +59,7 @@ final class SessionManager {
 
             EthereumAPIClient.shared.deregisterFromMainNetworkPushNotifications()
 
-            let shouldBackupChatDB = TokenUser.current?.verified ?? false
+            let shouldBackupChatDB = Profile.current?.verified ?? false
             TSStorageManager.shared().resetSignalStorage(withBackup: shouldBackupChatDB)
             Yap.sharedInstance.wipeStorage()
 
@@ -67,7 +67,7 @@ final class SessionManager {
 
             UIApplication.shared.applicationIconBadgeNumber = 0
 
-            SessionManager.shared.contactsManager.refreshContacts()
+            SessionManager.shared.profilesManager.clearProfiles()
 
             exit(0)
 
@@ -90,9 +90,9 @@ final class SessionManager {
         }
         
         let idClient = IDAPIClient.shared
-        idClient.retrieveUser(username: validCereal.address) { user in
+        idClient.retrieveUser(username: validCereal.address) { profile, _ in
 
-            guard let user = user else {
+            guard let profile = profile else {
                 completion(.signUpWithPassphrase)
                 return
             }
@@ -100,10 +100,11 @@ final class SessionManager {
             Cereal.shared = validCereal
             UserDefaultsWrapper.requiresSignIn = false
 
-            TokenUser.createCurrentUser(with: user.dict)
+            Profile.setupCurrentProfile(profile)
+
             idClient.migrateCurrentUserIfNeeded()
 
-            TokenUser.current?.updateVerificationState(true)
+            Profile.current?.updateVerificationState(true)
 
             ChatAPIClient.shared.registerUser()
 
@@ -121,7 +122,7 @@ final class SessionManager {
 
             (UIApplication.shared.delegate as? AppDelegate)?.setupDB()
 
-            self?.contactsManager.refreshContacts()
+            self?.profilesManager.clearProfiles()
 
             ChatAPIClient.shared.registerUser(completion: { _ in
                 guard status == UserRegisterStatus.registered else { return }

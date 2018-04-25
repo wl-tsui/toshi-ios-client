@@ -43,10 +43,10 @@ final class ChatViewModel {
 
         registerNotifications()
 
-        contactsManager = SessionManager.shared.contactsManager
+        profilesManager = SessionManager.shared.profilesManager
     }
 
-    private var contactsManager: ContactsManager?
+    private var profilesManager: ProfilesManager?
 
     private var etherAPIClient: EthereumAPIClient {
         return EthereumAPIClient.shared
@@ -58,8 +58,9 @@ final class ChatViewModel {
         ChatInteractor(output: self.output, thread: self.thread)
     }()
 
-    var contact: TokenUser? {
-        return contactsManager?.tokenContact(forAddress: thread.contactIdentifier())
+    var contact: Profile? {
+        guard let contactIdentifier = thread.contactIdentifier() else { return nil }
+        return profilesManager?.profile(for: contactIdentifier)
     }
 
     var currentButton: SofaMessage.Button?
@@ -337,7 +338,7 @@ final class ChatViewModel {
                 guard let signalMessage = dbExtension.object(at: indexPath, with: strongSelf.loadedMappings) as? TSMessage else { return }
 
                 var shouldProcess = false
-                if SofaType(sofa: signalMessage.body ?? "") == .paymentRequest {
+                if SofaType(sofa: String.contentsOrEmpty(for: signalMessage.body)) == .paymentRequest {
                     shouldProcess = true
                 }
 

@@ -220,7 +220,7 @@ final class SendTokenViewModel {
 
         switch viewConfiguration.tokenType {
         case .fiatRepresentable:
-            let fiatString = (token as? EtherToken)?.convertToFiat() ?? ""
+            let fiatString = String.contentsOrEmpty(for: (token as? EtherToken)?.convertToFiat())
             return String(format: Localized.wallet_token_balance_format_with_fiat, self.token.symbol, self.token.displayValueString, fiatString)
         case .nonFiatRepresentable:
             return String(format: Localized.wallet_token_balance_format, self.token.symbol, self.token.displayValueString)
@@ -231,7 +231,7 @@ final class SendTokenViewModel {
 
         switch viewConfiguration.tokenType {
         case .fiatRepresentable:
-            let fiatString = (token as? EtherToken)?.convertToFiat() ?? ""
+            let fiatString = String.contentsOrEmpty(for: (token as? EtherToken)?.convertToFiat())
             return String(format: Localized.wallet_insuffisient_fiat_balance_error, self.token.symbol, self.token.displayValueString, fiatString)
         case .nonFiatRepresentable:
             return String(format: Localized.wallet_insuffisient_token_balance_error, self.token.symbol, self.token.displayValueString)

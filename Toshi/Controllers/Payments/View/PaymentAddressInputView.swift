@@ -101,7 +101,7 @@ extension PaymentAddressInputView: UITextFieldDelegate {
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let textFieldText: NSString = (textField.text ?? "") as NSString
+        let textFieldText: NSString = String.contentsOrEmpty(for: textField.text) as NSString
         let textAfterUpdate = textFieldText.replacingCharacters(in: range, with: string)
         delegate?.didChangeAddress(textAfterUpdate)
 

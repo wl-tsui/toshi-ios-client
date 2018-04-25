@@ -54,7 +54,7 @@ final class NewGroupViewModel {
 
         setupSortedMembers()
         for member in sortedMembers {
-            participantsCellData.append(TableCellData(title: member.nameOrDisplayName, subtitle: member.displayUsername, leftImagePath: member.avatarPath))
+            participantsCellData.append(TableCellData(title: member.nameOrDisplayName, subtitle: member.displayUsername, leftImagePath: member.avatar))
         }
 
         let participantsHeaderTitle = LocalizedPlural.group_participants_header_title(for: groupInfo.participantsIDs.count)
@@ -63,7 +63,7 @@ final class NewGroupViewModel {
         models = [avatarTitleSectionData, participantsSectionData]
     }
 
-    private var _sortedMembers: [TokenUser] = []
+    private var _sortedMembers: [Profile] = []
 
     @objc private func createGroup() {
         var groupParticipantsIds = groupInfo.participantsIDs
@@ -92,7 +92,7 @@ extension NewGroupViewModel: GroupViewModelProtocol {
         }
     }
 
-    var sortedMembers: [TokenUser] {
+    var sortedMembers: [Profile] {
         get {
             return _sortedMembers
         }
@@ -144,5 +144,5 @@ extension NewGroupViewModel: GroupViewModelProtocol {
     var isDoneButtonEnabled: Bool { return groupInfo.title.count > 0 }
 
     var recipientsIds: [String] { return groupInfo.participantsIDs }
-    var allParticipantsIDs: [String] { return sortedMembers.map { $0.address } }
+    var allParticipantsIDs: [String] { return sortedMembers.map { $0.toshiId } }
 }

@@ -38,7 +38,7 @@ extension TSGroupModel {
     }
 
     var nameOrEmptyString: String {
-        return groupName ?? ""
+        return String.contentsOrEmpty(for: groupName)
     }
 
     var participantsIdsOrEmptyArray: [String] {

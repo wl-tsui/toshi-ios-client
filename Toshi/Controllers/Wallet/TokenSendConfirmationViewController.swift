@@ -36,7 +36,7 @@ final class TokenSendConfirmationViewController: UIViewController {
     let paymentManager: PaymentManager
 
     private lazy var recipientAddress: String = {
-        return params[PaymentParameters.to] as? String ?? ""
+        return String.contentsOrEmpty(for: params[PaymentParameters.to] as? String)
     }()
 
     private let showFiatAsPrimary: Bool

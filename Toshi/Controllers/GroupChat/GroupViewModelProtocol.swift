@@ -59,7 +59,7 @@ protocol GroupViewModelProtocol: class {
 
     var recipientsIds: [String] { get }
     var allParticipantsIDs: [String] { get }
-    var sortedMembers: [TokenUser] { get set }
+    var sortedMembers: [Profile] { get set }
 
     func updateAvatar(to image: UIImage)
     func updatePublicState(to isPublic: Bool)
@@ -78,14 +78,14 @@ extension GroupViewModelProtocol {
 
     func setupSortedMembers() {
 
-        guard let currentUser = TokenUser.current else {
+        guard let currentUser = Profile.current else {
             CrashlyticsLogger.log("Failed to access current user")
             fatalError("Can't access current user")
         }
 
-        var members = SessionManager.shared.contactsManager.tokenContacts
+        var members = SessionManager.shared.profilesManager.profiles
         members.append(currentUser)
-        members = members.filter { recipientsIds.contains($0.address) }
+        members = members.filter { recipientsIds.contains($0.toshiId) }
 
         sortedMembers = members.sorted { $0.username < $1.username }
     }

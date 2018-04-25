@@ -51,7 +51,7 @@ class EthereumConverterTests: QuickSpec {
                 it("returns fiat currency value string with redundant 3 letter code") {
                     let ethereumValueString = EthereumConverter.fiatValueStringWithCode(forWei: wei, exchangeRate: exchangeRate)
 
-                    let dollarSting = String(format: "$100%@00 USD", TokenUser.current?.cachedCurrencyLocale?.decimalSeparator ?? ".")
+                    let dollarSting = String(format: "$100%@00 USD", Profile.current?.cachedCurrencyLocale.decimalSeparator ?? ".")
                     expect(ethereumValueString).to(equal(dollarSting))
                 }
 
@@ -59,7 +59,7 @@ class EthereumConverterTests: QuickSpec {
                     let fontAttribute = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 19.0)]
                     let ethereumValueString = EthereumConverter.balanceSparseAttributedString(forWei: wei, exchangeRate: exchangeRate, width: 100.0, attributes: fontAttribute)
 
-                    let dollarSting = String(format: "$100%@00 USD", TokenUser.current?.cachedCurrencyLocale?.decimalSeparator ?? ".")
+                    let dollarSting = String(format: "$100%@00 USD", Profile.current?.cachedCurrencyLocale.decimalSeparator ?? ".")
                     it("has the right values") {
                         expect(ethereumValueString.string).to(beginWith(dollarSting))
                         expect(ethereumValueString.string).to(endWith("1.0000 ETH"))
@@ -79,7 +79,7 @@ class EthereumConverterTests: QuickSpec {
                     let fontAttribute = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 19.0)]
                     let ethereumValueString = EthereumConverter.balanceAttributedString(forWei: wei, exchangeRate: exchangeRate, attributes: fontAttribute)
 
-                    let dollarSting = String(format: "$100%@00 USD", TokenUser.current?.cachedCurrencyLocale?.decimalSeparator ?? ".")
+                    let dollarSting = String(format: "$100%@00 USD", Profile.current?.cachedCurrencyLocale.decimalSeparator ?? ".")
                     it("has the right values") {
                         expect(ethereumValueString.string).to(beginWith(dollarSting))
                         expect(ethereumValueString.string).to(endWith("1.0000 ETH"))

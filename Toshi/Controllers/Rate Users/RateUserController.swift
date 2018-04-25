@@ -18,7 +18,7 @@ import SweetUIKit
 import HPGrowingTextView
 
 protocol RateUserControllerDelegate: class {
-    func didRate(_ user: TokenUser, rating: Int, review: String)
+    func didRate(_ profile: Profile, rating: Int, review: String)
 }
 
 class RateUserController: ModalPresentable {
@@ -28,7 +28,7 @@ class RateUserController: ModalPresentable {
 
     weak var delegate: RateUserControllerDelegate?
 
-    private var user: TokenUser
+    private var profile: Profile
 
     private var review: String = ""
 
@@ -40,13 +40,13 @@ class RateUserController: ModalPresentable {
 
     lazy var titleLabel: TitleLabel = {
         let format = Localized.rate_user_title_format
-        let view = TitleLabel(String(format: format, self.user.username))
+        let view = TitleLabel(String(format: format, self.profile.username))
 
         return view
     }()
 
     lazy var textLabel: UILabel = {
-        let view = TextLabel(String(format: Localized.rate_user_message_format, self.user.displayUsername))
+        let view = TextLabel(String(format: Localized.rate_user_message_format, self.profile.displayUsername))
         view.textAlignment = .center
         view.textColor = Theme.darkTextColor
 
@@ -185,8 +185,8 @@ class RateUserController: ModalPresentable {
         }
     }
 
-    init(user: TokenUser) {
-        self.user = user
+    init(profile: Profile) {
+        self.profile = profile
 
         super.init(nibName: nil, bundle: nil)
 
@@ -208,7 +208,7 @@ class RateUserController: ModalPresentable {
     }
 
     @objc func submit(_: ActionButton) {
-        delegate?.didRate(user, rating: Int(rating), review: review)
+        delegate?.didRate(profile, rating: Int(rating), review: review)
     }
 
     override func viewDidLoad() {

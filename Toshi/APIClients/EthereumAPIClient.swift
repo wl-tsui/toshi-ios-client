@@ -191,7 +191,7 @@ final class EthereumAPIClient {
                 let unconfirmedBalanceString = json["unconfirmed_balance"] as? String ?? "0"
                 let unconfirmedBalance = NSDecimalNumber(hexadecimalString: unconfirmedBalanceString)
 
-                TokenUser.current?.balance = unconfirmedBalance
+                Profile.current?.balance = unconfirmedBalance
                 balance = unconfirmedBalance
 
             case .failure(_, _, let error):
