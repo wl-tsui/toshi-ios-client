@@ -152,16 +152,19 @@ final class AvatarManager: NSObject {
     ///   - key: token_id/address or resource url path.
     /// - Returns:
     ///   - found image or nil if not present
-    @objc func cachedAvatar(for key: String, completion: @escaping ((UIImage?) -> Void)) {
+
+    @objc func cachedAvatar(for key: String) -> UIImage? {
         guard !key.hasAddressPrefix else {
-            guard let avatarPath = UserDefaults.standard.object(forKey: key) as? String else { return }
-            cachedAvatar(for: avatarPath, completion: completion)
-
-            return
+            guard let avatarPath = UserDefaults.standard.object(forKey: key) as? String else { return nil }
+            return cachedAvatar(for: avatarPath)
         }
 
-        cache.fetch(key: key).onSuccess { image in
-            completion(image)
+        var image: UIImage?
+
+        cache.fetch(key: key).onSuccess { cachedImage in
+            image = cachedImage
         }
+
+        return image
     }
 }

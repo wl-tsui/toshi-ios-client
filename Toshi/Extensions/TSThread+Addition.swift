@@ -42,7 +42,10 @@ extension TSThread {
         if let groupThread = self as? TSGroupThread {
             return groupThread.groupModel.avatarOrPlaceholder
         } else {
-            return image() ?? ImageAsset.avatar_placeholder
+            let avatarPlaceholder = ImageAsset.avatar_placeholder
+            guard let recipientId = contactIdentifier(), let profile = SessionManager.shared.profilesManager.profile(for: recipientId) else { return avatarPlaceholder }
+
+            return AvatarManager.shared.cachedAvatar(for: String.contentsOrEmpty(for: profile.avatar)) ?? avatarPlaceholder
         }
     }
 

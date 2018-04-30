@@ -116,6 +116,8 @@ extension ProfilesManager: ContactsManagerProtocol {
     }
 
     public func image(forPhoneIdentifier phoneNumber: String?) -> UIImage? {
-        return nil
+        guard let profileId = phoneNumber, let profile = SessionManager.shared.profilesManager.profile(for: profileId) else { return nil }
+
+        return AvatarManager.shared.cachedAvatar(for: String.contentsOrEmpty(for: profile.avatar))
     }
 }
