@@ -412,6 +412,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @objc private func keyboardDidHide(_ notification: Notification) {
+        guard Navigator.topViewController == self else { return }
         becomeFirstResponder()
     }
 
