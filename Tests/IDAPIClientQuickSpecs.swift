@@ -36,7 +36,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             expect(timestamp).toNot(beNil())
                             expect(error).to(beNil())
                             
-                            expect(timestamp).to(equal(1503648141))
+                            expect(timestamp).to(equal("1503648141"))
                             
                             done()
                         }
