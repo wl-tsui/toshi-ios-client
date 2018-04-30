@@ -75,7 +75,7 @@ class SettingsController: UIViewController {
     }
 
     enum SettingsItem: Int {
-        case profile, qrCode, balance, security, advanced, localCurrency, signOut
+        case profile, qrCode, wallet, balance, security, advanced, localCurrency, signOut
     }
 
     private var ethereumAPIClient: EthereumAPIClient {
@@ -94,7 +94,7 @@ class SettingsController: UIViewController {
         return Profile.current?.verified ?? false
     }
 
-    private let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
+    private let sections: [SettingsSection] = [.profile, .wallet, .balance, .security, .settings]
 
     private lazy var tableView: UITableView = {
 
@@ -268,6 +268,8 @@ extension SettingsController: UITableViewDataSource {
         switch item {
         case .profile:
             cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
+        case .wallet:
+           cell = setupWalletCell()
         case .balance:
             cell = tableView.dequeue(InputCell.self, for: indexPath)
         default:
@@ -279,6 +281,10 @@ extension SettingsController: UITableViewDataSource {
         switch item {
         case .profile:
             setupProfileCell(cell)
+        case .wallet:
+            cell.textLabel?.text = "Wallet"
+            cell.textLabel?.textColor = Theme.darkTextColor
+            cell.accessoryType = .disclosureIndicator
         case .qrCode:
             cell.textLabel?.text = Localized.settings_cell_qr
             cell.textLabel?.textColor = Theme.darkTextColor
@@ -317,6 +323,15 @@ extension SettingsController: UITableViewDataSource {
 
         cell.isAccessibilityElement = true
         
+        return cell
+    }
+
+    private func setupWalletCell() -> UITableViewCell {
+        let walletCellConfigurator = WalletCellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
+
+        walletCellConfigurator.configureCell(cell)
+
         return cell
     }
 
