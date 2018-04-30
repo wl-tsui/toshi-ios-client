@@ -813,9 +813,12 @@ final class IDAPIClient {
 
     func createPathFor(_ type: String, with searchText: String?) -> String {
         var path = "/v2/search?type=\(type)"
-        if let query = searchText {
-            path.append("&query=\(query)")
-        }
+
+        guard var searchedText = searchText else { return path }
+
+        searchedText = searchedText.addingPercentEncoding(withAllowedCharacters: IDAPIClient.allowedSearchTermCharacters) ?? searchedText
+
+        path.append("&query=\(searchedText)")
 
         return path
     }

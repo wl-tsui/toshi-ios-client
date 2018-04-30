@@ -27,6 +27,7 @@ extension ProfilesProviding {
             guard let strongSelf = self else { return }
             guard error == nil else {
                 strongSelf.showErrorAlert(error!)
+                completion(nil, type)
                 return
             }
 
@@ -39,6 +40,7 @@ extension ProfilesProviding {
             guard let strongSelf = self else { return }
             guard error == nil else {
                 strongSelf.showErrorAlert(error!)
+                completion(nil)
                 return
             }
 
