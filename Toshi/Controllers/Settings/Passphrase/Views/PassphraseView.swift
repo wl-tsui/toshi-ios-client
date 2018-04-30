@@ -65,7 +65,7 @@ class PassphraseView: UIView {
                     self.shake()
                 }
             } else {
-                TokenUser.current?.updateVerificationState(self.verificationStatus == .correct)
+                Profile.current?.updateVerificationState(self.verificationStatus == .correct)
             }
         }
     }

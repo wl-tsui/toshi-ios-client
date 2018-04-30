@@ -23,7 +23,7 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     let offlineAlertView = defaultOfflineAlertView()
 
     var paymentRouter: PaymentRouter?
-    var paidUserInfo: UserInfo?
+    var paidUserInfo: ProfileInfo?
 
     enum Tab: Int {
         case browsing
@@ -155,10 +155,10 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         if url.user == "username" {
             guard let username = url.host else { return }
 
-            idAPIClient.retrieveUser(username: username) { [weak self] contact in
-                guard let contact = contact else { return }
-
-                let contactController = ProfileViewController(profile: contact)
+            idAPIClient.retrieveUser(username: username) { [weak self] profile, _ in
+                guard let profile = profile else { return }
+                
+                let contactController = ProfileViewController(profile: profile)
                 (self?.selectedViewController as? UINavigationController)?.pushViewController(contactController, animated: true)
             }
         }
@@ -242,7 +242,7 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     private func proceedToPayment(address: String, weiValue: String?, confirmationText: String) {
-        let userInfo = UserInfo(address: address, paymentAddress: address, avatarPath: nil, name: nil, username: address, isLocal: false)
+        let userInfo = ProfileInfo(address: address, paymentAddress: address, avatarPath: nil, name: nil, username: address, isLocal: false)
         var parameters = [PaymentParameters.from: Cereal.shared.paymentAddress, PaymentParameters.to: address]
         parameters[PaymentParameters.value] = weiValue
 
@@ -250,20 +250,20 @@ extension TabBarController: ScannerViewControllerDelegate {
     }
 
     private func proceedToPayment(username: String, weiValue: String?, confirmationText: String) {
-        idAPIClient.retrieveUser(username: username) { [weak self] contact in
-            if let contact = contact, let validWeiValue = weiValue {
+        idAPIClient.retrieveUser(username: username) { [weak self] profile, _ in
+            if let profile = profile, let paymentAddress = profile.paymentAddress, let validWeiValue = weiValue {
                 let parameters = [PaymentParameters.from: Cereal.shared.paymentAddress,
-                                  PaymentParameters.to: contact.paymentAddress,
+                                  PaymentParameters.to: paymentAddress,
                                   PaymentParameters.value: validWeiValue]
 
-                self?.proceedToPayment(userInfo: contact.userInfo, parameters: parameters, confirmationText: confirmationText)
+                self?.proceedToPayment(userInfo: profile.userInfo, parameters: parameters, confirmationText: confirmationText)
             } else {
                 self?.scannerController.startScanning()
             }
         }
     }
 
-    private func proceedToPayment(userInfo: UserInfo, parameters: [String: Any], confirmationText: String) {
+    private func proceedToPayment(userInfo: ProfileInfo, parameters: [String: Any], confirmationText: String) {
 
         self.paidUserInfo = userInfo
 
@@ -284,7 +284,7 @@ extension TabBarController: ScannerViewControllerDelegate {
 
 extension TabBarController: PaymentRouterDelegate {
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: ProfileInfo?, error: ToshiError?) {
         scannerController.startScanning()
     }
 }

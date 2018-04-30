@@ -22,7 +22,7 @@ class TokenUserTests: XCTestCase {
         let withAtSymbol = "@HomerSimpson"
         let withoutAtSymbol = "BartSimpson"
         
-        XCTAssertEqual(TokenUser.name(from: withAtSymbol), "HomerSimpson")
-        XCTAssertEqual(TokenUser.name(from: withoutAtSymbol), withoutAtSymbol)
+        XCTAssertEqual(Profile.name(from: withAtSymbol), "HomerSimpson")
+        XCTAssertEqual(Profile.name(from: withoutAtSymbol), withoutAtSymbol)
     }
 }

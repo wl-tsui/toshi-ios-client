@@ -40,12 +40,14 @@ extension BasicCellActionDelegate {
 class BasicTableViewCell: UITableViewCell {
 
     static let horizontalMargin: CGFloat = 16.0
-    static let verticalMargin: CGFloat = 15.0
-    static let interItemMargin: CGFloat = 10.0
+    static let verticalMargin: CGFloat = .spacingx3
+    static let interItemMargin: CGFloat = .mediumInterItemSpacing
+    static let largeInterItemMargin: CGFloat = .spacingx3
     static let imageSize: CGFloat = 48.0
     static let doubleImageSize: CGFloat = 48.0
-    static let imageMargin: CGFloat = 10.0
-    static let smallVerticalMargin: CGFloat = 5.0
+    static let largeImageSize: CGFloat = 72.0
+    static let imageMargin: CGFloat = .mediumInterItemSpacing
+    static let smallVerticalMargin: CGFloat = .smallInterItemSpacing
     static let doubleImageMargin: CGFloat = 16.0
     static let largeVerticalMargin: CGFloat = 22.0
     static let badgeViewSize: CGFloat = 24.0
@@ -69,9 +71,11 @@ class BasicTableViewCell: UITableViewCell {
 
         titleTextField.delegate = self
 
-        titleTextField.setDynamicFontBlock = {
-            titleTextField.font = Theme.preferredRegular()
+        titleTextField.setDynamicFontBlock = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.titleTextField.font = Theme.preferredRegular()
         }
+        
         titleTextField.isUserInteractionEnabled = false
         titleTextField.adjustsFontForContentSizeCategory = true
 
@@ -227,17 +231,6 @@ class BasicTableViewCell: UITableViewCell {
         fatalError("addSubviewsAndConstraints() should be overriden")
     }
 
-    func showSeparator(forLastCellInSection: Bool = false) {
-        separator.isHidden = false
-        if forLastCellInSection {
-            separatorLeftConstraint?.constant = .defaultMargin
-            separatorRightConstraint?.constant = -.defaultMargin
-        } else {
-            separatorLeftConstraint?.constant = 80
-            separatorRightConstraint?.constant = 0
-        }
-    }
-
     @objc private func didTapLeftImage(_ tapGesture: UITapGestureRecognizer) {
         actionDelegate?.didTapLeftImage(self)
     }
@@ -260,6 +253,7 @@ class BasicTableViewCell: UITableViewCell {
         tableView.register(AvatarTitleSubtitleDoubleActionCell.self)
         tableView.register(AvatarTitleSubtitleDetailsBadgeCell.self)
         tableView.register(AvatarTitleSubtitleCheckboxCell.self)
+        tableView.register(AvatarTitleDescriptionCell.self)
         tableView.register(AvatarTitleSubtitleDescriptionCell.self)
     }
 
@@ -272,6 +266,12 @@ class BasicTableViewCell: UITableViewCell {
         detailsLabel.font = detailsFont()
         badgeLabel.font = detailsFont()
         descriptionLabel.font = descriptionFont()
+    }
+
+    func showSeparator(leftInset: CGFloat = 0, rightInset: CGFloat = 0) {
+        separator.isHidden = false
+        separatorLeftConstraint?.constant = leftInset
+        separatorRightConstraint?.constant = -rightInset
     }
 }
 

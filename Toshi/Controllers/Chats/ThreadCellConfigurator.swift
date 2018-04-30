@@ -52,7 +52,7 @@ final class ThreadCellConfigurator: CellConfigurator {
             avatar = (thread as? TSGroupThread)?.groupModel.avatarOrPlaceholder
             title = thread.name()
         } else if let recipient = thread.recipient() {
-            avatarPath = recipient.avatarPath
+            avatarPath = recipient.avatar
             title = recipient.nameOrDisplayName
         }
 

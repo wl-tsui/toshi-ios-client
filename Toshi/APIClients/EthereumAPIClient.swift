@@ -17,7 +17,6 @@ import Foundation
 import Teapot
 import Haneke
 
-typealias TransactionSkeleton = (gas: String?, gasPrice: String?, transaction: String?, value: String?)
 typealias BalanceCompletion = ((_ balance: NSDecimalNumber, _ error: ToshiError?) -> Void)
 typealias WalletItemsCompletion = ((_ items: [WalletItem], _ error: ToshiError?) -> Void)
 
@@ -72,20 +71,31 @@ final class EthereumAPIClient {
         let json = RequestParameter(parameters)
 
         self.activeTeapot.post("/v1/tx/skel", parameters: json) { result in
-            var resultJson: [String: Any]?
+            var skeleton = TransactionSkeleton.empty
             var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(skeleton, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
-                resultJson = json?.dictionary
+                guard let data = json?.data else {
+                    resultError = .invalidPayload
+                    return
+                }
+
+                TransactionSkeleton.fromJSONData(data,
+                                                 successCompletion: { result in
+                                                    skeleton = result
+                                                 },
+                                                 errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                 })
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error, errorDescription: Localized.payment_error_message)
-                DLog("\(error)")
-            }
-
-            DispatchQueue.main.async {
-                let skeleton = (gas: resultJson?["gas"] as? String, gasPrice: resultJson?["gas_price"] as? String, transaction: resultJson?["tx"] as? String, value: resultJson?["value"] as? String)
-                completion(skeleton, resultError)
             }
         }
     }
@@ -191,7 +201,7 @@ final class EthereumAPIClient {
                 let unconfirmedBalanceString = json["unconfirmed_balance"] as? String ?? "0"
                 let unconfirmedBalance = NSDecimalNumber(hexadecimalString: unconfirmedBalanceString)
 
-                TokenUser.current?.balance = unconfirmedBalance
+                Profile.current?.balance = unconfirmedBalance
                 balance = unconfirmedBalance
 
             case .failure(_, _, let error):
@@ -208,94 +218,91 @@ final class EthereumAPIClient {
     }
 
     func getCollectible(address: String = Cereal.shared.paymentAddress, contractAddress: String, completion: @escaping ((Collectible?, ToshiError?) -> Void)) {
-        self.activeTeapot.get("/v1/collectibles/\(address)/\(contractAddress)") { result in
+        var collectiblesTeapot = self.activeTeapot
+
+        // If we are on debug (specified in "other swift flags") we will mock out the collectiblesince they are only on production
+        #if DEBUG
+            if !(collectiblesTeapot is MockTeapot) {
+                collectiblesTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClient.self), mockFilename: "getACollectible")
+            } // else, we're testing and want to use that mock teapot.
+        #endif
+
+        collectiblesTeapot.get("/v1/collectibles/\(address)/\(contractAddress)") { result in
             var resultError: ToshiError?
             var resultItem: Collectible?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(resultItem, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, let response):
                 guard response.statusCode == 200 else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseStatus(response.statusCode))
-                    }
-
+                    resultError = .invalidResponseStatus(response.statusCode)
                     return
                 }
 
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let collectible: Collectible
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    collectible = try jsonDecoder.decode(Collectible.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
-
-                resultItem = collectible
-
+                Collectible.fromJSONData(data,
+                                         successCompletion: { collectible in
+                                            resultItem = collectible
+                                         },
+                                         errorCompletion: { parsingError in
+                                            resultError = parsingError
+                                         })
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error)
-                DLog("\(error)")
-            }
-
-            DispatchQueue.main.async {
-                completion(resultItem, resultError)
             }
         }
     }
 
     func getCollectibles(address: String = Cereal.shared.paymentAddress, completion: @escaping WalletItemsCompletion) {
+        var collectiblesTeapot = self.activeTeapot
 
-        self.activeTeapot.get("/v1/collectibles/\(address)") { (result: NetworkResult) in
+        // If we are on debug (specified in "other swift flags") we will mock out the collectibles since they are only on production
+        #if DEBUG
+            if !(collectiblesTeapot is MockTeapot) {
+                collectiblesTeapot = MockTeapot(bundle: Bundle(for: EthereumAPIClient.self), mockFilename: "getCollectibles")
+            } // else, we're testing and want to use that mock teapot.
+        #endif
+
+        collectiblesTeapot.get("/v1/collectibles/\(address)") { (result: NetworkResult) in
             var resultError: ToshiError?
-            var resultItems: [Collectible] = []
+            var resultItems = [Collectible]()
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(resultItems, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, let response):
                 guard response.statusCode == 200 else {
-                    DispatchQueue.main.async {
-                        completion([], .invalidResponseStatus(response.statusCode))
-                    }
-
+                    resultError = .invalidResponseStatus(response.statusCode)
                     return
                 }
 
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion([], .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let collectiblesResults: CollectibleResults
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    collectiblesResults = try jsonDecoder.decode(CollectibleResults.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion([], .invalidResponseJSON)
-                    }
-                    return
-                }
-
-                resultItems.append(contentsOf: collectiblesResults.collectibles)
-
+                CollectibleResults.fromJSONData(data,
+                                                successCompletion: { results in
+                                                    resultItems.append(contentsOf: results.collectibles)
+                                                },
+                                                errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                })
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error)
-                DLog("\(error)")
-            }
-
-            DispatchQueue.main.async {
-                completion(resultItems, resultError)
             }
         }
     }
@@ -304,45 +311,36 @@ final class EthereumAPIClient {
 
         self.activeTeapot.get("/v1/tokens/\(address)") { (result: NetworkResult) in
             var resultError: ToshiError?
-            var resultItems: [Token] = []
+            var resultItems = [Token]()
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(resultItems, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, let response):
                 guard response.statusCode == 200 else {
-                    DispatchQueue.main.async {
-                        completion([], .invalidResponseStatus(response.statusCode))
-                    }
-
+                    resultError = .invalidResponseStatus(response.statusCode)
                     return
                 }
 
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion([], .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let tokenResults: TokenResults
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    tokenResults = try jsonDecoder.decode(TokenResults.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion([], .invalidResponseJSON)
-                    }
-                    return
-                }
-
-                resultItems.append(contentsOf: tokenResults.tokens)
+                TokenResults.fromJSONData(data,
+                                          successCompletion: { results in
+                                            resultItems.append(contentsOf: results.tokens)
+                                          },
+                                          errorCompletion: { parsingError in
+                                            resultError = parsingError
+                                          })
 
             case .failure(_, _, let error):
                 resultError = ToshiError(withTeapotError: error)
-                DLog("\(error)")
-            }
-
-            DispatchQueue.main.async {
-                completion(resultItems, resultError)
             }
         }
     }
@@ -384,17 +382,8 @@ final class EthereumAPIClient {
     }
 
     private func timestamp(_ teapot: Teapot, _ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
-        teapot.get("/v1/timestamp") { (result: NetworkResult) in
-            switch result {
-            case .success(let json, _):
-                guard let json = json?.dictionary else { fatalError() }
-                guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp should be an integer") }
-
-                completion(String(timestamp), nil)
-            case .failure(_, _, let error):
-                completion(nil, ToshiError(withTeapotError: error))
-                DLog("\(error)")
-            }
+        teapot.get("/v1/timestamp") { result in
+            APITimestamp.parse(from: result, completion)
         }
     }
 

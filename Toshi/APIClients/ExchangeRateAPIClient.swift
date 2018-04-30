@@ -54,15 +54,16 @@ final class ExchangeRateAPIClient {
 
         updateRate()
 
-        Timer.scheduledTimer(withTimeInterval: 300.0, repeats: true) { [weak self] _ in
+        let fiveMinutes: TimeInterval = 60 * 5
+        Timer.scheduledTimer(withTimeInterval: fiveMinutes, repeats: true) { [weak self] _ in
             self?.updateRate()
         }
     }
 
     func updateRateAndNotify() {
-         updateRate({ _ in
+        updateRate { _ in
             NotificationCenter.default.post(name: .localCurrencyUpdated, object: nil)
-        })
+        }
     }
 
     func updateRate(_ completion: @escaping ((_ rate: Decimal?) -> Void) = { _ in }) {
@@ -71,82 +72,71 @@ final class ExchangeRateAPIClient {
                 Yap.sharedInstance.insert(object: rate, for: ExchangeRateAPIClient.collectionKey)
             }
 
-            DispatchQueue.main.async {
-                completion(rate)
-            }
+            completion(rate)
         }
     }
 
     func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
-        let code = TokenUser.current?.localCurrency ?? TokenUser.defaultCurrency
+        let code = Profile.current?.savedLocalCurrency ?? Profile.defaultCurrency
 
-        teapot.get("/v1/rates/ETH/\(code)") { (result: NetworkResult) in
+        teapot.get("/v1/rates/ETH/\(code)") { result in
+            var retrievedRate: Decimal?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(retrievedRate)
+                }
+            }
+
             switch result {
             case .success(let json, _):
-                guard let json = json?.dictionary, let usd = json["rate"] as? String, let doubleValue = Double(usd) else {
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                    return
+                guard
+                    let dictionary = json?.dictionary,
+                    let rate = dictionary["rate"] as? String,
+                    let doubleValue = Double(rate) else {
+                        return
                 }
 
-                DispatchQueue.main.async {
-                    completion(Decimal(doubleValue))
-                }
+                retrievedRate = Decimal(doubleValue)
             case .failure(_, _, let error):
                 DLog(error.localizedDescription)
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
             }
         }
     }
 
     func getCurrencies(_ completion: @escaping (([Currency]) -> Void)) {
-
         cache.fetch(key: currenciesCacheKey).onSuccess { data in
-            let currenciesResults: CurrenciesResults
-            do {
-                let jsonDecoder = JSONDecoder()
-                currenciesResults = try jsonDecoder.decode(CurrenciesResults.self, from: data)
-            } catch { return }
-
-            completion(currenciesResults.currencies)
+            CurrenciesResults.fromJSONData(data,
+                                           successCompletion: { results in
+                                            completion(results.currencies)
+                                           },
+                                           errorCompletion: nil)
         }
 
-        teapot.get("/v1/currencies") { [weak self] (result: NetworkResult) in
-            var results: [Currency] = []
+        teapot.get("/v1/currencies") { [weak self] result in
+            var currencies = [Currency]()
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(currencies)
+                }
+            }
 
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(results)
-                    }
                     return
                 }
 
-                let currenciesResults: CurrenciesResults
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    currenciesResults = try jsonDecoder.decode(CurrenciesResults.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(results)
-                    }
-                    return
-                }
-
-                results = currenciesResults.currencies
-
+                CurrenciesResults.fromJSONData(data,
+                                               successCompletion: { results in
+                                                currencies = results.currencies
+                                               },
+                                               errorCompletion: nil)
                 guard let strongSelf = self else { return }
                 strongSelf.cache.set(value: data, key: strongSelf.currenciesCacheKey)
             case .failure(_, _, let error):
                 DLog(error.localizedDescription)
-            }
-
-            DispatchQueue.main.async {
-                completion(results)
             }
         }
     }

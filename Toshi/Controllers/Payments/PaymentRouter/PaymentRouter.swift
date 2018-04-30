@@ -17,7 +17,7 @@ import UIKit
 
 protocol PaymentRouterDelegate: class {
     func paymentRouterDidCancel(paymentRouter: PaymentRouter)
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?)
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: ProfileInfo?, error: ToshiError?)
 }
 
 extension PaymentRouterDelegate {
@@ -27,7 +27,7 @@ extension PaymentRouterDelegate {
 final class PaymentRouter {
     weak var delegate: PaymentRouterDelegate?
 
-    var userInfo: UserInfo?
+    var userInfo: ProfileInfo?
     var dappInfo: DappInfo?
     private var shouldSendSignedTransaction = true
 
@@ -146,7 +146,7 @@ extension PaymentRouter: PaymentAddressControllerDelegate {
 
 extension PaymentRouter: PaymentConfirmationViewControllerDelegate {
 
-    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, recipientInfo: UserInfo?, error: ToshiError?) {
+    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, recipientInfo: ProfileInfo?, error: ToshiError?) {
 
         guard let tabBarController = Navigator.tabbarController,
               let selectedNavigationController = tabBarController.selectedViewController as? UINavigationController,

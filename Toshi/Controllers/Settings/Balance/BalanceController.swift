@@ -18,7 +18,7 @@ class BalanceController: UIViewController {
     }
 
     private var isAccountSecured: Bool {
-        return TokenUser.current?.verified ?? false
+        return Profile.current?.verified ?? false
     }
 
     private lazy var tableView: UITableView = {
@@ -120,8 +120,8 @@ extension BalanceController: UITableViewDelegate {
 
             self.paymentRouter = paymentRouter
         case .deposit:
-            guard let current = TokenUser.current else { return }
-            let controller = DepositMoneyController(for: current.displayUsername, name: current.name)
+            guard let current = Profile.current else { return }
+            let controller = DepositMoneyController(for: current.displayUsername, name: current.nameOrDisplayName)
             self.navigationController?.pushViewController(controller, animated: true)
         default:
             break

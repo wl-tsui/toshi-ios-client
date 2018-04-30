@@ -18,8 +18,6 @@
 #import "TSThread+Additions.h"
 #import "TSOutgoingMessage+Addtions.h"
 
-#import "ContactsManager.h"
-
 #import "UIImage+Utils.h"
 
 #import <YapDatabase/YapDatabaseView.h>
@@ -81,6 +79,9 @@
 #import <SignalServiceKit/OWSDispatch.h>
 #import <SignalServiceKit/OWSMessageReceiver.h>
 #import "EmptyCallHandler.h"
+#import "Contact.h"
+#import <SignalServiceKit/SignalRecipient.h>
+#import <SignalServiceKit/ContactsManagerProtocol.h>
 
 #import <SignalServiceKit/TSNetworkManager.h>
 

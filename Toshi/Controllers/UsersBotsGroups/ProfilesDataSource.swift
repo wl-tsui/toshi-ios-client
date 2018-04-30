@@ -77,14 +77,21 @@ extension ProfilesDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionData = sections[indexPath.section]
         let profile = sectionData.profiles[indexPath.row]
-        let cellData = TableCellData(title: (profile.name ?? "").isEmpty ? profile.username : profile.name, subtitle: profile.displayUsername, leftImagePath: profile.avatar, description: profile.description)
+
+        let cellData = TableCellData(title: profile.nameOrDisplayName, subtitle: profile.displayUsername, leftImagePath: profile.avatar, description: profile.description)
+
         let configurator = CellConfigurator()
 
         let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)
         guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? BasicTableViewCell else { fatalError("Unexpected cell") }
 
         let isLastCellInSection = (indexPath.row + 1) >= tableView.numberOfRows(inSection: indexPath.section)
-        cell.showSeparator(forLastCellInSection: isLastCellInSection)
+        if isLastCellInSection {
+            cell.showSeparator(leftInset: .spacingx3, rightInset: .spacingx3)
+        } else {
+            cell.showSeparator(leftInset: 80)
+        }
+        
         configurator.configureCell(cell, with: cellData)
 
         return cell

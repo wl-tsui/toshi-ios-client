@@ -24,17 +24,15 @@ extension String {
     }
     
     var asPossibleURLString: String? {
-        let lowerSelf = self.lowercased()
-
-        if lowerSelf.contains("://") && !lowerSelf.hasSuffix("://") {
+        if self.contains("://") && !self.hasSuffix("://") {
             // Already a possible url string if it has a `://` somewhere in it that is not the last character.
-            return lowerSelf
+            return self
         }
         
         // Definitely can't be turned into a URL string if no `.` plus at least one other character
-        guard lowerSelf.contains("."), !lowerSelf.hasSuffix(".") else {  return nil  }
+        guard self.contains("."), !self.hasSuffix(".") else {  return nil  }
         
-        return "http://" + lowerSelf
+        return "http://" + self
     }
     
     private func matches(pattern: String) -> Bool {
@@ -184,5 +182,9 @@ extension String {
         let lastChars = String(self[startOfEnd..<endIndex])
 
         return firstChars + truncationString + lastChars
+    }
+
+    static func contentsOrEmpty(for string: String?) -> String {
+        return string ?? ""
     }
 }

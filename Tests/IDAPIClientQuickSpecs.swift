@@ -36,7 +36,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             expect(timestamp).toNot(beNil())
                             expect(error).to(beNil())
                             
-                            expect(timestamp).to(equal(1503648141))
+                            expect(timestamp).to(equal("1503648141"))
                             
                             done()
                         }
@@ -72,7 +72,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             expect(success).to(beTrue())
                             expect(error).to(beNil())
                             
-                            expect(TokenUser.current?.avatarPath).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98.png"))
+                            expect(Profile.current?.avatar).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98.png"))
                             
                             done()
                         }
@@ -111,23 +111,23 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             expect(success).to(beTrue())
                             expect(message).to(beNil())
                             
-                            guard let user = TokenUser.current else {
+                            guard let user = Profile.current else {
                                 fail("No current user!")
                                 done()
                                 
                                 return
                             }
                             
-                            expect(user.address).to(equal(tokenID))
+                            expect(user.toshiId).to(equal(tokenID))
                             expect(user.paymentAddress).to(equal(paymentAddress))
                             expect(user.username).to(equal(username))
-                            expect(user.about).to(equal(about))
+                            expect(user.description).to(equal(about))
                             expect(user.location).to(equal(location))
                             expect(user.name).to(equal(name))
-                            expect(user.avatarPath).to(equal(avatarPath))
+                            expect(user.avatar).to(equal(avatarPath))
                             expect(user.isPublic).to(equal(isPublic))
                             
-                            expect(user.isApp).to(beFalse())
+                            expect(user.type).to(equal("user"))
                             expect(user.averageRating).to(equal(3.1))
                             expect(user.reputationScore).to(equal(2.4))
                             
@@ -143,22 +143,22 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let paymentAddress = "0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"
 
                     waitUntil { done in
-                        subject.findUserWithPaymentAddress(paymentAddress) { user, _ in
-                            guard let user = user else {
+                        subject.findUserWithPaymentAddress(paymentAddress) { users, _, _  in
+                            guard let user = users?.first else {
                                 fail("User is nil")
                                 return
                             }
 
                             expect(user.name).to(equal("Marijn Schilling"))
                             expect(user.paymentAddress).to(equal("0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"))
-                            expect(user.isApp).to(beFalse())
+                            expect(user.type).to(equal("user"))
                             expect(user.reputationScore).to(equal(2.2))
                             expect(user.username).to(equal("marijnschilling"))
                             expect(user.averageRating).to(equal(3.0))
-                            expect(user.address).to(equal("0x6f70800cb47f7f84b6c71b3693fc02595eae7378"))
+                            expect(user.toshiId).to(equal("0x6f70800cb47f7f84b6c71b3693fc02595eae7378"))
                             expect(user.location).to(equal("Amsterdam"))
-                            expect(user.about).to(equal("Oh hai tests"))
-                            expect(user.avatarPath).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png"))
+                            expect(user.description).to(equal("Oh hai tests"))
+                            expect(user.avatar).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png"))
                             expect(user.isPublic).to(beFalse())
 
                             done()
@@ -173,7 +173,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let username = "marijnschilling"
 
                     waitUntil { done in
-                        subject.retrieveUser(username: username) { user in
+                        subject.retrieveUser(username: username) { user, _ in
                             guard let user = user else {
                                 fail("User is nil")
                                 return
@@ -181,14 +181,14 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             
                             expect(user.name).to(equal("Marijn Schilling"))
                             expect(user.paymentAddress).to(equal("0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"))
-                            expect(user.isApp).to(beFalse())
+                            expect(user.type).to(equal("user"))
                             expect(user.reputationScore).to(equal(2.2))
                             expect(user.username).to(equal("marijnschilling"))
                             expect(user.averageRating).to(equal(3.0))
-                            expect(user.address).to(equal("0x6f70800cb47f7f84b6c71b3693fc02595eae7378"))
+                            expect(user.toshiId).to(equal("0x6f70800cb47f7f84b6c71b3693fc02595eae7378"))
                             expect(user.location).to(equal("Amsterdam"))
-                            expect(user.about).to(equal("Oh hai tests"))
-                            expect(user.avatarPath).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png"))
+                            expect(user.description).to(equal("Oh hai tests"))
+                            expect(user.avatar).to(equal("https://token-id-service-development.herokuapp.com/avatar/0x6f70800cb47f7f84b6c71b3693fc02595eae7378.png"))
                             expect(user.isPublic).to(beFalse())
                             
                             done()
@@ -203,7 +203,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let username = "designatednerd"
 
                     waitUntil { done in
-                        subject.findContact(name: username) { user in
+                        subject.findContact(name: username) { user, _  in
                             guard let user = user else {
                                 fail("User is nil")
                                 return
@@ -211,14 +211,14 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             
                             expect(user.name).to(equal("Ellen Shapiro"))
                             expect(user.paymentAddress).to(equal("123 Fake Street"))
-                            expect(user.isApp).to(beFalse())
+                            expect(user.type).to(equal("user"))
                             expect(user.reputationScore).to(equal(2.1))
                             expect(user.username).to(equal("designatednerd"))
                             expect(user.averageRating).to(equal(4.1))
-                            expect(user.address).to(equal("Some ungodly long hex thing"))
+                            expect(user.toshiId).to(equal("Some ungodly long hex thing"))
                             expect(user.location).to(equal("Nijmegen"))
-                            expect(user.about).to(equal("Moar Tests Always"))
-                            expect(user.avatarPath).to(equal("https://frinkiac.com/meme/S08E14/661860.jpg?b64lines=V0hFTiBJVENIWSBQTEFZUyBTQ1JBVENIWSdTIApTS0VMRVRPTiBMSUtFIEEgWFlMT1BIT05FIAoKCgoKCgoKSEUgU1RSSUtFUyBUSEUgU0FNRSBSSUIgVFdJQ0UKSU4gU1VDQ0VTU0lPTiwgWUVUIEhFIFBST0RVQ0VTIApUV08gQ0xFQVJMWSBESUZGRVJFTlQgVE9ORVMu"))
+                            expect(user.description).to(equal("Moar Tests Always"))
+                            expect(user.avatar).to(equal("https://frinkiac.com/meme/S08E14/661860.jpg?b64lines=V0hFTiBJVENIWSBQTEFZUyBTQ1JBVENIWSdTIApTS0VMRVRPTiBMSUtFIEEgWFlMT1BIT05FIAoKCgoKCgoKSEUgU1RSSUtFUyBUSEUgU0FNRSBSSUIgVFdJQ0UKSU4gU1VDQ0VTU0lPTiwgWUVUIEhFIFBST0RVQ0VTIApUV08gQ0xFQVJMWSBESUZGRVJFTlQgVE9ORVMu"))
                             expect(user.isPublic).to(beTrue())
                             done()
                         }
@@ -232,7 +232,8 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let search = "search result"
 
                     waitUntil { done in
-                        subject.searchContacts(name: search) { users in
+                        subject.searchContacts(name: search) { users, _  in
+                            guard let users = users else { return }
                             expect(users.count).to(equal(2))
                             expect(users.map { $0.name }).to(equal([
                                     "Search result 1",
@@ -246,12 +247,12 @@ class IDAPIClientQuickSpecs: QuickSpec {
                                     "marijnschilling",
                                     "homersimpson"
                                 ]))
-                            
+
                             done()
                         }
                     }
                 }
-                
+
                 it("gets a bunch of users from their IDs") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientQuickSpecs.self), mockFilename: "fetchUsersFromIDs")
                     subject = IDAPIClient(teapot: mockTeapot)
@@ -272,7 +273,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             
                             expect(users.count).to(equal(3))
                             
-                            expect(users.map { $0.address }).to(equal(ids))
+                            expect(users.map { $0.toshiId }).to(equal(ids))
                             expect(users.map { $0.username }).to(equal([
                                 "NodeOnlyBot1",
                                 "tristan",
@@ -281,12 +282,12 @@ class IDAPIClientQuickSpecs: QuickSpec {
                             expect(users.map { $0.name }).to(equal([
                                 "Node Only Bot",
                                 "Tristan",
-                                ""
+                                nil
                             ]))
-                            expect(users.map { $0.isApp }).to(equal([
-                                true,
-                                false,
-                                false
+                            expect(users.map { $0.type }).to(equal([
+                                "groupbot",
+                                "user",
+                                "user"
                             ]))
                             expect(users.map { $0.isPublic }).to(equal([
                                 false,
@@ -442,7 +443,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let username = "testUsername"
 
                     waitUntil { done in
-                        subject.retrieveUser(username: username) { user in
+                        subject.retrieveUser(username: username) { user, _ in
                             expect(user).to(beNil())
                             
                             done()
@@ -457,9 +458,9 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let username = "somethingCompletelyDifferent"
 
                     waitUntil { done in
-                        subject.findContact(name: username) { user in
+                        subject.findContact(name: username) { user, _ in
                             expect(user).to(beNil())
-                            
+
                             done()
                         }
                     }
@@ -472,14 +473,14 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let search = "search key"
 
                     waitUntil { done in
-                        subject.searchContacts(name: search) { users in
-                            expect(users.count).to(equal(0))
-                            
+                        subject.searchContacts(name: search) { users, _ in
+
+                            expect(users).to(beNil())
                             done()
                         }
                     }
                 }
-                
+
                 it("gets a bunch of users from their IDs") {
                     let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientQuickSpecs.self),
                                                 mockFilename: "fetchUsersFromIDs",
@@ -518,7 +519,7 @@ class IDAPIClientQuickSpecs: QuickSpec {
                     let paymentAddress = "0x1ad0bb2d14595fa6ad885e53eaaa6c82339f9b98"
 
                     waitUntil { done in
-                        subject.findUserWithPaymentAddress(paymentAddress) { user, error in
+                        subject.findUserWithPaymentAddress(paymentAddress) { user, _, error  in
                             guard let error = error else {
                                 fail("Error is nil")
                                 return
@@ -575,27 +576,6 @@ class IDAPIClientQuickSpecs: QuickSpec {
 
                             expect(error.type).to(equal(.invalidResponseStatus))
                             expect(error.responseStatus).to(equal(401))
-                            
-                            done()
-                        }
-                    }
-                }
-                
-                it("gets a list of dapps") {
-                    let mockTeapot = MockTeapot(bundle: Bundle(for: IDAPIClientQuickSpecs.self), mockFilename: "", statusCode: .unauthorized)
-                    subject = IDAPIClient(teapot: mockTeapot)
-                    
-                    waitUntil { done in
-                        subject.getDapps { dapps, error in
-                            guard let error = error else {
-                                fail("Error is nil")
-                                return
-                            }
-
-                            expect(dapps).to(beNil())
-                            
-                            expect(error.responseStatus).to(equal(401))
-                            expect(error.type).to(equal(.invalidResponseStatus))
                             
                             done()
                         }

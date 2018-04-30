@@ -16,13 +16,13 @@
 import Foundation
 
 protocol PaymentConfirmationViewControllerDelegate: class {
-    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, recipientInfo: UserInfo?, error: ToshiError?)
+    func paymentConfirmationViewControllerFinished(on controller: PaymentConfirmationViewController, parameters: [String: Any], transactionHash: String?, recipientInfo: ProfileInfo?, error: ToshiError?)
     func paymentConfirmationViewControllerDidCancel(_ controller: PaymentConfirmationViewController)
 }
 
 enum RecipientType {
     case
-    user(info: UserInfo?),
+    user(info: ProfileInfo?),
     dapp(info: DappInfo)
 }
 
@@ -39,7 +39,7 @@ final class PaymentConfirmationViewController: UIViewController {
     private let paymentManager: PaymentManager
 
     private var recipientType: RecipientType
-    private var recipientInfo: UserInfo?
+    private var recipientInfo: ProfileInfo?
     private let shouldSendSignedTransaction: Bool
 
     private let parameters: [String: Any]
@@ -520,9 +520,10 @@ final class PaymentConfirmationViewController: UIViewController {
             // No info needs to be fetched for something that is not a user.
             return
         case .user:
-            IDAPIClient.shared.findUserWithPaymentAddress(address) { [weak self] user, _ in
-                self?.recipientInfo = user?.userInfo
-                self?.recipientType = .user(info: user?.userInfo)
+            IDAPIClient.shared.findUserWithPaymentAddress(address) { [weak self] profiles, _, _ in
+                guard let profile = profiles?.first else { return }
+                self?.recipientInfo = profile.userInfo
+                self?.recipientType = .user(info: profile.userInfo)
                 self?.displayRecipientDetails()
             }
         }

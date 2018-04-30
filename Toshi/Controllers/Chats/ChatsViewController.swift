@@ -59,6 +59,8 @@ final class ChatsViewController: SweetTableController {
         tableView.showsVerticalScrollIndicator = true
         tableView.alwaysBounceVertical = true
 
+        tableView.separatorInset.left = 80
+
         dataSource.output = self
     }
 
@@ -109,12 +111,6 @@ final class ChatsViewController: SweetTableController {
         guard indexPath.row < chatsPageSection.items.count else { return nil }
 
         return chatsPageSection.items[indexPath.row]
-    }
-
-    func updateContactIfNeeded(at indexPath: IndexPath) {
-        if let thread = dataSource.acceptedThread(at: indexPath.row, in: 0), let address = thread.contactIdentifier() {
-            idAPIClient.retrieveUser(username: address)
-        }
     }
 
     func thread(withAddress address: String) -> TSThread? {

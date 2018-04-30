@@ -37,7 +37,7 @@ final class DappViewController: DisappearingNavBarViewController {
     private lazy var dappInfoView: DappInfoView = {
         let view = DappInfoView(frame: .zero)
         view.titleLabel.text = dapp.name
-        view.descriptionLabel.setSpacedOutText(dapp.description ?? "", lineSpacing: DappInfoView.descriptionLineSpacing)
+        view.descriptionLabel.setSpacedOutText(String.contentsOrEmpty(for: dapp.description), lineSpacing: DappInfoView.descriptionLineSpacing)
         view.urlLabel.text = dapp.url.absoluteString
         view.imageViewPath = dapp.avatarPath
 

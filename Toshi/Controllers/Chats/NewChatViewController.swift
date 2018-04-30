@@ -178,7 +178,12 @@ extension NewChatViewController: UITableViewDataSource {
         configurator.configureCell(cell, with: cellData)
         cell.titleTextField.textColor = Theme.tintColor
 
-        cell.showSeparator(forLastCellInSection: item == .inviteFriend)
+        switch item {
+        case .startGroup:
+            cell.showSeparator(leftInset: 80)
+        case .inviteFriend:
+            cell.showSeparator()
+        }
 
         return cell
     }
@@ -187,12 +192,7 @@ extension NewChatViewController: UITableViewDataSource {
 extension NewChatViewController: ProfilesDataSourceDelegate {
 
     func didSelectProfile(_ profile: Profile) {
-        // WIP: Currently we need to deal with old type user till we replace it in all places
-
-        guard let profileJson = profile.dictionary else { return }
-        let oldTypeUser = TokenUser(json: profileJson)
-        let profileController = ProfileViewController(profile: oldTypeUser)
-
+        let profileController = ProfileViewController(profile: profile)
         navigationController?.pushViewController(profileController, animated: true)
     }
 }

@@ -186,12 +186,14 @@ final class GroupViewController: UIViewController {
     }
 
     private func showUserInfo(with userId: String) {
-        guard let currentUser = TokenUser.current else { return }
-        var users = SessionManager.shared.contactsManager.tokenContacts.filter { $0.address == userId }
-        users.append(currentUser)
+        guard let currentUser = Profile.current else { return }
+    
+        var profiles = SessionManager.shared.profilesManager.profiles.filter { $0.toshiId == userId }
+        profiles.append(currentUser)
 
-        guard let user = users.first else { return }
-        let profileController = ProfileViewController(profile: user)
+        guard let profile = profiles.first else { return }
+
+        let profileController = ProfileViewController(profile: profile)
         navigationController?.pushViewController(profileController, animated: true)
     }
 
@@ -393,7 +395,7 @@ extension GroupViewController: BasicCellActionDelegate {
     }
 
     func didFinishTitleInput(_ cell: BasicTableViewCell, text: String?) {
-        let title = text?.trimmingCharacters(in: .whitespaces) ?? ""
+        let title = String.contentsOrEmpty(for: text?.trimmingCharacters(in: .whitespaces))
         viewModel.updateTitle(to: title)
     }
 

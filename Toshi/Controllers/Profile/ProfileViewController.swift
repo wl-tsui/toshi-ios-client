@@ -20,7 +20,7 @@ import TinyConstraints
 
 final class ProfileViewController: DisappearingNavBarViewController {
     
-    var profile: TokenUser {
+    var profile: Profile {
         didSet {
             configureForCurrentProfile()
         }
@@ -29,10 +29,6 @@ final class ProfileViewController: DisappearingNavBarViewController {
     var paymentRouter: PaymentRouter?
 
     private let isReadOnlyMode: Bool
-    
-    private var isBotProfile: Bool {
-        return profile.isApp
-    }
     
     private var isForCurrentUserProfile: Bool {
         return profile.isCurrentUser
@@ -192,7 +188,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
 
     // MARK: - Initialization
 
-    init(profile: TokenUser, readOnlyMode: Bool = true) {
+    init(profile: Profile, readOnlyMode: Bool = true) {
         self.profile = profile
         self.isReadOnlyMode = readOnlyMode
 
@@ -262,7 +258,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
         
         profileDetailsStackView.addWithDefaultConstraints(view: nameLabel, margin: margin)
         
-        if isBotProfile {
+        if profile.isBot {
             setupRestOfBotProfileSection(in: profileDetailsStackView, after: nameLabel, margin: margin)
         } else {
             profileDetailsStackView.addSpacing(.smallInterItemSpacing, after: nameLabel)
@@ -393,7 +389,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
             reputationStackView.addWithDefaultConstraints(view: rateThisUserButton)
             rateThisUserButton.height(.defaultButtonHeight)
 
-            if isBotProfile {
+            if profile.isBot {
                 rateThisUserButton.setTitle(Localized.profile_rate_bot, for: .normal)
             } else {
                 rateThisUserButton.setTitle(Localized.profile_rate_user, for: .normal)
@@ -442,9 +438,9 @@ final class ProfileViewController: DisappearingNavBarViewController {
     
     private func configureForCurrentProfile() {
         // Set nils for empty strings to make the views collapse in the stack view
-        nameLabel.text = profile.name.isEmpty ? nil : profile.name
-        aboutContentLabel.text = profile.about.isEmpty ? nil : profile.about
-        locationContentLabel.text = profile.location.isEmpty ? nil : profile.location
+        nameLabel.text = profile.name?.isEmpty ?? true ? nil : profile.name
+        aboutContentLabel.text = profile.description?.isEmpty ?? true ? nil : profile.description
+        locationContentLabel.text = profile.location?.isEmpty ?? true ? nil : profile.location
         usernameLabel.text = profile.displayUsername
         
         if isProfileEditable {
@@ -461,7 +457,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
             aboutContentLabel.isHidden = !aboutContentLabel.hasContent
         }
         
-        AvatarManager.shared.avatar(for: profile.avatarPath) { [weak self] image, _ in
+        AvatarManager.shared.avatar(for: String.contentsOrEmpty(for: profile.avatar)) { [weak self] image, _ in
             if image != nil {
                 self?.avatarImageView.image = image
             }
@@ -473,13 +469,13 @@ final class ProfileViewController: DisappearingNavBarViewController {
     // MARK: Button targets
     
     @objc private func didTapMessageButton() {
-        let thread = ChatInteractor.getOrCreateThread(for: profile.address)
+        let thread = ChatInteractor.getOrCreateThread(for: profile.toshiId)
         thread.isPendingAccept = false
         thread.save()
         
         DispatchQueue.main.async {
-            let isBot = self.profile.type == ProfileType.bot.typeString || self.profile.type == ProfileType.group.typeString
-            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.address, forBot: isBot)
+            let isBot = self.profile.profileType != .user
+            (self.tabBarController as? TabBarController)?.displayMessage(forAddress: self.profile.toshiId, forBot: isBot)
             
             if let navController = self.navigationController as? DappsNavigationController {
                 _ = navController.popToRootViewController(animated: false)
@@ -488,7 +484,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
     
     @objc private func didTapPayButton() {
-        let paymentRouter = PaymentRouter(parameters: [PaymentParameters.to: profile.paymentAddress])
+        let paymentRouter = PaymentRouter(parameters: [PaymentParameters.to: String.contentsOrEmpty(for: profile.paymentAddress)])
         paymentRouter.delegate = self
         paymentRouter.userInfo = profile.userInfo
         paymentRouter.present()
@@ -521,15 +517,15 @@ final class ProfileViewController: DisappearingNavBarViewController {
     }
     
     private func didSelectReportUser() {
-        self.idAPIClient.reportUser(address: profile.address) { [weak self] success, error in
+        self.idAPIClient.reportUser(address: profile.toshiId) { [weak self] success, error in
             self?.presentReportUserFeedbackAlert(success, message: error?.description)
         }
     }
 
     // MARK: - Alerts
     
-    private func presentUserRatingPrompt(profile: TokenUser) {
-        let rateUserController = RateUserController(user: profile)
+    private func presentUserRatingPrompt(profile: Profile) {
+        let rateUserController = RateUserController(profile: profile)
         rateUserController.delegate = self
 
         Navigator.presentModally(rateUserController)
@@ -590,7 +586,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
     // MARK: - Other helpers
 
     private func updateReputation() {
-        RatingsClient.shared.scores(for: profile.address) { [weak self] ratingScore in
+        RatingsClient.shared.scores(for: profile.toshiId) { [weak self] ratingScore in
             self?.reputationView.setScore(ratingScore)
         }
     }
@@ -598,14 +594,14 @@ final class ProfileViewController: DisappearingNavBarViewController {
     // MARK: - User helpers
     
     private func blockUser() {
-        OWSBlockingManager.shared().addBlockedPhoneNumber(profile.address)
+        OWSBlockingManager.shared().addBlockedPhoneNumber(profile.toshiId)
         
         let alert = UIAlertController.dismissableAlert(title: Localized.block_feedback_alert_title, message: Localized.block_feedback_alert_message)
         Navigator.presentModally(alert)
     }
     
     private func unblockUser() {
-        OWSBlockingManager.shared().removeBlockedPhoneNumber(profile.address)
+        OWSBlockingManager.shared().removeBlockedPhoneNumber(profile.toshiId)
         
         let alert = UIAlertController.dismissableAlert(title: Localized.unblock_user_title, message: Localized.unblock_user_message)
         Navigator.presentModally(alert)
@@ -635,9 +631,9 @@ extension ProfileViewController: ActivityIndicating {
 // MARK: - Rate User Controller Delegate
 
 extension ProfileViewController: RateUserControllerDelegate {
-    func didRate(_ user: TokenUser, rating: Int, review: String) {
+    func didRate(_ profile: Profile, rating: Int, review: String) {
         dismiss(animated: true) {
-            RatingsClient.shared.submit(userId: user.address, rating: rating, review: review) { [weak self] success, error in
+            RatingsClient.shared.submit(userId: profile.toshiId, rating: rating, review: review) { [weak self] success, error in
                 guard success == true else {
                     self?.presentSubmitRatingErrorAlert(error: error)
                     
@@ -654,7 +650,7 @@ extension ProfileViewController: RateUserControllerDelegate {
 
 extension ProfileViewController: PaymentRouterDelegate {
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: ProfileInfo?, error: ToshiError?) {
         if let receiverInfo = recipientInfo, let txHash = transactionHash, let value = parameters[PaymentParameters.value] as? String {
             //send payment message
 

@@ -92,6 +92,8 @@ class CellConfigurator {
             reuseIdentifier = AvatarTitleSubtitleDetailsBadgeCell.reuseIdentifier
         } else if components.contains(.titleSubtitleLeftImageDescription) {
             reuseIdentifier = AvatarTitleSubtitleDescriptionCell.reuseIdentifier
+        } else if components.contains(.titleLeftImageDescription) {
+            reuseIdentifier = AvatarTitleDescriptionCell.reuseIdentifier
         } else if components.contains(.titleSubtitleDetailsLeftImage) {
             reuseIdentifier = AvatarTitleSubtitleDetailsCell.reuseIdentifier
         } else if components.contains(.leftImageTitleSubtitleDoubleAction) {

@@ -9,6 +9,9 @@ jobs:
         steps:
             - checkout
             - run:
+                name: Reset simulators with Snapshot
+                command: fastlane snapshot reset_simulators --force
+            - run:
                 name: Install with bundler
                 command: bundle install
             - run:

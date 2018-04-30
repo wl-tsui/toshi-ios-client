@@ -91,7 +91,7 @@ class SettingsController: UIViewController {
     }
 
     private var isAccountSecured: Bool {
-        return TokenUser.current?.verified ?? false
+        return Profile.current?.verified ?? false
     }
 
     private let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
@@ -190,7 +190,7 @@ class SettingsController: UIViewController {
     }
 
     private func handleSignOut() {
-        guard let currentUser = TokenUser.current else {
+        guard let currentUser = Profile.current else {
             let alert = UIAlertController(title: Localized.settings_signout_error_title, message: Localized.settings_signout_error_message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: Localized.settings_signout_action_ok, style: .default, handler: { _ in
                 fatalError()
@@ -237,11 +237,12 @@ class SettingsController: UIViewController {
 
     private func setupProfileCell(_ cell: UITableViewCell) {
         guard let cell = cell as? SettingsProfileCell else { return }
-
-        cell.displayNameLabel.text = TokenUser.current?.name
-        cell.usernameLabel.text = TokenUser.current?.displayUsername
-
-        guard let avatarPath = TokenUser.current?.avatarPath else { return }
+        guard let currentUserProfile = Profile.current else { return }
+        
+        cell.displayNameLabel.text = currentUserProfile.name
+        cell.usernameLabel.text = currentUserProfile.displayUsername
+        
+        guard let avatarPath = currentUserProfile.avatar else { return }
         AvatarManager.shared.avatar(for: avatarPath) { image, _ in
             cell.avatarImageView.image = image
         }
@@ -343,13 +344,13 @@ extension SettingsController: UITableViewDelegate {
 
         switch item {
         case .profile:
-            guard let current = TokenUser.current else { return }
+            guard let current = Profile.current else { return }
             let profileVC = ProfileViewController(profile: current, readOnlyMode: false)
             
             self.navigationController?.pushViewController(profileVC, animated: true)
         case .qrCode:
-            guard let current = TokenUser.current else { return }
-            let qrCodeController = QRCodeController(for: current.displayUsername, name: current.name)
+            guard let current = Profile.current else { return }
+            let qrCodeController = QRCodeController(for: current.displayUsername, name: current.nameOrDisplayName)
 
             self.navigationController?.pushViewController(qrCodeController, animated: true)
         case .balance:

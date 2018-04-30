@@ -84,7 +84,7 @@ class ChatInputTextPanel: UIView {
         get {
             return inputField.text
         } set {
-            inputField.text = newValue ?? ""
+            inputField.text = String.contentsOrEmpty(for: newValue)
         }
     }
 

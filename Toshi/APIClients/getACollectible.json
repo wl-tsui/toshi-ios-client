@@ -1,0 +1,28 @@
+{
+  "name": "Cryptokitties",
+  "value": "0x10",
+  "contract_address": "0x0123456789012345678901234567890123456789",
+  "icon": "https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg",
+  "tokens": [
+    {
+      "token_id": "abcdef0123456",
+      "name": "Kitten 1",
+      "image": "https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg",
+      "description": "A kitten"
+    },
+    {
+      "token_id": "abcdef0123456",
+      "name": "Kitten 2",
+      "description": "A kitten"
+    },
+    {
+      "token_id": "abcdef0123456",
+      "name": "Kitten 3"
+    },
+    {
+      "token_id": "abcdef0123456",
+      "image": "https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg",
+      "description": "A kitten"
+    }
+  ]
+}

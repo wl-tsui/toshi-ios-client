@@ -18,20 +18,21 @@ import Foundation
 extension TSThread {
 
     /// Needs to be called on main thread as it involves UIAppDelegate
-    func recipient() -> TokenUser? {
+    func recipient() -> Profile? {
         guard let recipientAddress = contactIdentifier() else { return nil }
 
-        var recipient: TokenUser?
+        var recipient: Profile?
 
         let retrievedData = contactData(for: recipientAddress)
 
-        if let userData = retrievedData,
-           let deserialised = (try? JSONSerialization.jsonObject(with: userData, options: [])),
-           let json = deserialised as? [String: Any] {
+        if let userData = retrievedData {
 
-            recipient = TokenUser(json: json, shouldSave: false)
+            do {
+                let jsonDecoder = JSONDecoder()
+                recipient = try jsonDecoder.decode(Profile.self, from: userData)
+            } catch { }
         } else {
-            recipient = SessionManager.shared.contactsManager.tokenContacts.first(where: { $0.address == recipientAddress })
+            recipient = SessionManager.shared.profilesManager.profile(for: recipientAddress)
         }
 
         return recipient
@@ -41,7 +42,10 @@ extension TSThread {
         if let groupThread = self as? TSGroupThread {
             return groupThread.groupModel.avatarOrPlaceholder
         } else {
-            return image() ?? ImageAsset.avatar_placeholder
+            let avatarPlaceholder = ImageAsset.avatar_placeholder
+            guard let recipientId = contactIdentifier(), let profile = SessionManager.shared.profilesManager.profile(for: recipientId) else { return avatarPlaceholder }
+
+            return AvatarManager.shared.cachedAvatar(for: String.contentsOrEmpty(for: profile.avatar)) ?? avatarPlaceholder
         }
     }
 
@@ -52,7 +56,7 @@ extension TSThread {
     func updateGroupMembers() {
         if let groupThread = self as? TSGroupThread {
 
-            let contactsIDs = SessionManager.shared.contactsManager.tokenContacts.map { $0.address }
+            let contactsIDs = SessionManager.shared.profilesManager.profilesIds
 
             let recipientsIdsSet = Set(groupThread.recipientIdentifiers)
             let nonContactsUsersIds = recipientsIdsSet.subtracting(Set(contactsIDs))
@@ -66,7 +70,7 @@ extension TSThread {
     }
 
     private func contactData(for address: String) -> Data? {
-        return (Yap.sharedInstance.retrieveObject(for: address, in: TokenUser.storedContactKey) as? Data)
+        return (Yap.sharedInstance.retrieveObject(for: address, in: ProfileKeys.storedContactKey) as? Data)
     }
 
     static func saveRecipient(with identifier: String) {

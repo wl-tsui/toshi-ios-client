@@ -50,9 +50,9 @@ final class DappsListViewController: UITableViewController {
         super.viewDidLoad()
 
         view.backgroundColor = Theme.viewBackgroundColor
+        BasicTableViewCell.register(in: tableView)
 
         configureTableView()
-        tableView.register(RectImageTitleSubtitleTableViewCell.self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -73,7 +73,6 @@ final class DappsListViewController: UITableViewController {
     private func configureTableView() {
         tableView.alwaysBounceVertical = true
         tableView.showsVerticalScrollIndicator = true
-        tableView.contentInset.bottom = 60
         tableView.estimatedRowHeight = 50
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
@@ -100,16 +99,12 @@ final class DappsListViewController: UITableViewController {
             return UITableViewCell()
         }
 
-        let cell = tableView.dequeue(RectImageTitleSubtitleTableViewCell.self, for: indexPath)
+        let cellData = TableCellData(title: dapp.displayTitle, leftImage: ImageAsset.collectible_placeholder, leftImagePath: dapp.itemIconPath, description: dapp.displayDetails)
+        let configurator = CellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: configurator.cellIdentifier(for: cellData.components), for: indexPath) as? BasicTableViewCell else { return UITableViewCell() }
 
-        cell.titleLabel.text = dapp.displayTitle
-        cell.subtitleLabel.text = dapp.displayDetails
-        cell.imageViewPath = dapp.itemIconPath
-        cell.leftImageView.layer.cornerRadius = 5
-
-        cell.selectionStyle = .default
-        cell.accessoryType = .disclosureIndicator
-        cell.subtitleLabel.numberOfLines = 2
+        configurator.configureCell(cell, with: cellData)
+        cell.showSeparator(leftInset: 100, rightInset: .spacingx3)
 
         return cell
     }

@@ -42,7 +42,7 @@ final class ProfilesViewController: UIViewController {
     let type: ProfilesViewControllerType
     private var searchBarText: String = ""
 
-    private(set) var selectedProfiles = Set<TokenUser>()
+    private(set) var selectedProfiles = Set<Profile>()
 
     private(set) weak var output: ProfilesListCompletionOutput?
 
@@ -50,7 +50,7 @@ final class ProfilesViewController: UIViewController {
 
     var scrollView: UIScrollView { return tableView }
 
-    var searchResults: [TokenUser] = [] {
+    var searchResults: [Profile] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -168,11 +168,11 @@ final class ProfilesViewController: UIViewController {
 
     // MARK: - View Setup
 
-    func isProfileSelected(_ profile: TokenUser) -> Bool {
+    func isProfileSelected(_ profile: Profile) -> Bool {
         return selectedProfiles.contains(profile)
     }
 
-    func updateSelection(with profile: TokenUser) {
+    func updateSelection(with profile: Profile) {
         if selectedProfiles.contains(profile) {
             selectedProfiles.remove(profile)
         } else {
@@ -190,10 +190,10 @@ final class ProfilesViewController: UIViewController {
             return
         }
 
-        let membersIdsArray = selectedProfiles.sorted { $0.username < $1.username }.map { $0.address }
+        let membersIdsArray = selectedProfiles.sorted { $0.username < $1.username }.map { $0.toshiId }
 
-        selectedProfiles.forEach { user in
-            SessionManager.shared.contactsManager.refreshContact(user)
+        selectedProfiles.forEach { profile in
+            SessionManager.shared.profilesManager.updateProfile(profile)
         }
 
         switch type {
@@ -211,9 +211,11 @@ final class ProfilesViewController: UIViewController {
 
     @objc private func reload(searchText: String) {
         searchBarText = searchText
-        IDAPIClient.shared.searchContacts(name: searchText) { [weak self] users in
+        IDAPIClient.shared.searchContacts(name: searchText) { [weak self] profiles, _ in
+
             if let searchBarText = self?.searchBarText, searchText == searchBarText {
-                self?.searchResults = users
+                guard let profiles = profiles else { return }
+                self?.searchResults = profiles
             }
         }
     }
@@ -249,9 +251,17 @@ extension ProfilesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
+        let subtitle: String?
+        switch profile.profileType {
+        case .user:
+            subtitle = profile.description
+        case .bot, .group:
+            subtitle = profile.username
+        }
+
         let tableData = TableCellData(title: profile.name,
-                subtitle: profile.isApp ? profile.descriptionForSearch : profile.username,
-                leftImagePath: profile.avatarPath,
+                subtitle: subtitle,
+                leftImagePath: profile.avatar,
                 showCheckmark: true)
         let cellConfigurator = CellConfigurator()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellConfigurator.cellIdentifier(for: tableData.components), for: indexPath) as? BasicTableViewCell else {

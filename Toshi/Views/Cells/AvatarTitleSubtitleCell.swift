@@ -45,14 +45,14 @@ final class AvatarTitleSubtitleCell: BasicTableViewCell {
 
     private func setupSubtitleLabel() {
         subtitleLabel.topToBottom(of: titleTextField, offset: BasicTableViewCell.smallVerticalMargin)
-        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         subtitleLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
         subtitleLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
     }
 
     private func setupTitleTextField() {
         titleTextField.top(to: contentView, offset: BasicTableViewCell.verticalMargin)
-        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         titleTextField.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
     }
 }

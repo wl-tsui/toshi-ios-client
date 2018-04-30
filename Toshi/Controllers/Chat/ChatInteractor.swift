@@ -112,14 +112,14 @@ final class ChatInteractor: NSObject {
     func retrieveRecipientAddress(completion: @escaping (String?) -> Void) {
         guard let tokenId = thread.contactIdentifier() else { return }
 
-        idAPIClient.retrieveUser(username: tokenId) { user in
-            guard let user = user else {
+        idAPIClient.retrieveUser(username: tokenId) { profile, _ in
+            guard let recipientProfile = profile else {
                 assertionFailure("can't retrieve recipient's payment address")
                 completion(nil)
                 return
             }
 
-            completion(user.paymentAddress)
+            completion(recipientProfile.paymentAddress)
         }
     }
 
@@ -200,7 +200,7 @@ final class ChatInteractor: NSObject {
             let type = SofaType(sofa: signalMessage.body)
             switch type {
             case .initialRequest:
-                let initialResponse = SofaInitialResponse(initialRequest: SofaInitialRequest(content: signalMessage.body ?? ""))
+                let initialResponse = SofaInitialResponse(initialRequest: SofaInitialRequest(content: String.contentsOrEmpty(for: signalMessage.body)))
                 sendMessage(sofaWrapper: initialResponse)
             default:
                 break
@@ -210,7 +210,7 @@ final class ChatInteractor: NSObject {
         /// TODO: Simplify how we deal with interactions vs text messages.
         /// Since now we know we can expand the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = signalMessage as? TSOutgoingMessage {
-            let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
+            let sofaWrapper = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: interaction.body))
 
             if interaction.body != sofaWrapper.content {
                 interaction.body = sofaWrapper.content
@@ -221,7 +221,7 @@ final class ChatInteractor: NSObject {
 
             if interaction.hasAttachments() {
                 message.messageType = "Image"
-            } else if let payment = SofaWrapper.wrapper(content: interaction.body ?? "") as? SofaPayment {
+            } else if let payment = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: interaction.body)) as? SofaPayment {
                 // TODO: Figure out what this should be instead of actionable https://toshiapp.atlassian.net/browse/IOS-456
                 message.messageType = "Actionable"
                 message.attributedTitle = NSAttributedString(string: Localized.chat_payment_sent, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.medium(size: 17)])
@@ -230,7 +230,7 @@ final class ChatInteractor: NSObject {
 
             return message
         } else if let interaction = signalMessage as? TSIncomingMessage {
-            let sofaWrapper = SofaWrapper.wrapper(content: interaction.body ?? "")
+            let sofaWrapper = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: interaction.body))
 
             if interaction.body != sofaWrapper.content {
                 interaction.body = sofaWrapper.content
@@ -361,7 +361,7 @@ final class ChatInteractor: NSObject {
             var subject = ""
             var statusType = SofaStatus.StatusType.none
 
-            if let author = SessionManager.shared.contactsManager.tokenContact(forAddress: authorId) {
+            if let author = SessionManager.shared.profilesManager.profile(for: authorId) {
                 subject = author.nameOrDisplayName
             } else if authorId == Cereal.shared.address {
                 subject = Localized.current_user_pronoun
@@ -423,7 +423,7 @@ final class ChatInteractor: NSObject {
     private func nameOrTruncatedAddress(for nameOrAddress: String) -> String {
 
         if nameOrAddress.hasAddressPrefix {
-            let validDisplayName = SessionManager.shared.contactsManager.displayName(forPhoneIdentifier: nameOrAddress)
+            let validDisplayName = SessionManager.shared.profilesManager.displayName(forPhoneIdentifier: nameOrAddress)
             if !validDisplayName.isEmpty {
                 return validDisplayName
             } else {
@@ -545,7 +545,7 @@ final class ChatInteractor: NSObject {
     // MARK: - Updating Contacts
 
     private static func requestContactsRefresh() {
-        SessionManager.shared.contactsManager.refreshContacts()
+        SessionManager.shared.profilesManager.clearProfiles()
     }
 
     func sendImage(_ image: UIImage, in message: TSOutgoingMessage? = nil) {

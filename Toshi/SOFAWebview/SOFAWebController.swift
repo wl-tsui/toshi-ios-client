@@ -146,6 +146,7 @@ final class SOFAWebController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.tintColor = Theme.tintColor
         textField.returnKeyType = .go
+        textField.autocorrectionType = .no
 
         return textField
     }()
@@ -460,7 +461,7 @@ extension SOFAWebController: WKScriptMessageHandler {
 
                 showActivityIndicator()
 
-                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] user, _ in
+                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] profiles, _, _ in
                     let webViewTitle = self?.webView.title
 
                     self?.hideActivityIndicator()
@@ -470,13 +471,13 @@ extension SOFAWebController: WKScriptMessageHandler {
                         return
                     }
 
-                    var userInfo = UserInfo(address: to, paymentAddress: to, avatarPath: nil, name: webViewTitle, username: to, isLocal: false)
+                    var userInfo = ProfileInfo(address: to, paymentAddress: to, avatarPath: nil, name: webViewTitle, username: to, isLocal: false)
 
                     //we do not have image from a website yet
                     let dappInfo = DappInfo(url, "", webViewTitle)
 
-                    if let user = user {
-                        userInfo.avatarPath = user.avatarPath
+                    if let user = profiles?.first {
+                        userInfo.avatarPath = user.avatar
                         userInfo.username = user.username
                         userInfo.name = user.name
                         userInfo.isLocal = true
@@ -485,7 +486,7 @@ extension SOFAWebController: WKScriptMessageHandler {
                     let decimalValue = NSDecimalNumber(hexadecimalString: value)
                     let fiatValueString = EthereumConverter.fiatValueString(forWei: decimalValue, exchangeRate: ExchangeRateClient.exchangeRate)
                     let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
-                    let messageText = String(format: Localized.payment_confirmation_warning_message, fiatValueString, ethValueString, user?.name ?? to)
+                    let messageText = String(format: Localized.payment_confirmation_warning_message, fiatValueString, ethValueString, profiles?.first?.name ?? to)
 
                     self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, dappInfo: dappInfo, callbackId: callbackId)
                 })
@@ -520,7 +521,7 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
-    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: UserInfo, dappInfo: DappInfo, callbackId: String) {
+    private func presentPaymentConfirmation(with messageText: String, parameters: [String: Any], userInfo: ProfileInfo, dappInfo: DappInfo, callbackId: String) {
 
         guard currentTransactionSignCallbackId == nil else {
             // Already signing a transaction
@@ -539,7 +540,7 @@ extension SOFAWebController: WKScriptMessageHandler {
         self.paymentRouter = paymentRouter
     }
 
-    private func approvePayment(with parameters: [String: Any], userInfo _: UserInfo, transaction: String?, callbackId: String) {
+    private func approvePayment(with parameters: [String: Any], userInfo _: ProfileInfo, transaction: String?, callbackId: String) {
 
         let payload: String
 
@@ -574,7 +575,7 @@ extension SOFAWebController: ActivityIndicating {
 
 extension SOFAWebController: PaymentRouterDelegate {
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: ProfileInfo?, error: ToshiError?) {
 
         guard let callbackId = currentTransactionSignCallbackId else {
             let message = "No current signed transcation callBack Id on SOFAWebVontroller when payment router finished"
@@ -617,6 +618,10 @@ extension SOFAWebController: PaymentRouterDelegate {
 }
 
 extension SOFAWebController: UITextFieldDelegate {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let urlText = textField.text?.asPossibleURLString, let validUrl = URL(string: urlText) else { return false }

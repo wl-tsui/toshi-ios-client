@@ -1,0 +1,29 @@
+{
+    "collectibles": [
+                     {
+                     "name": "Cryptokitties",
+                     "value": "0x10",
+                     "contract_address": "0x0123456789012345678901234567890123456789",
+                     "icon": "https://bakkenbaeck.com/images/offices/covers/amsterdam@2x.2305df1e81.jpg",
+                     "tokens": [{
+                                "token_id": "abcdef0123456",
+                                "name": "Kitten 423423",
+                                "image": "https://bakkenbaeck.com/images/offices/covers/amsterdam@2x.2305df1e81.jpg",
+                                "description": "A kitten"
+                                }]
+                     },
+                     {
+                     "name": "Cryptokitties 1",
+                     "value": "0x11",
+                     "contract_address": "0x01234e6789012345678901234567890123456789",
+                     "icon": "https://bakkenbaeck.com/images/offices/covers/oslo@2x.277cee31f9.jpg",
+                     "tokens": [{
+                                "token_id": "abcdef0123456",
+                                "name": "Kitten 423423",
+                                "image": "https://bakkenbaeck.com/images/offices/covers/oslo@2x.277cee31f9.jpg",
+                                "description": "A kitten"
+                                }]
+                     }
+                     ]
+}
+

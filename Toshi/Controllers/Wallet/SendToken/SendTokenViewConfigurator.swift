@@ -235,7 +235,7 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     var isFilled: Bool {
-        let valueText = primaryValueTextField.text ?? ""
+        let valueText = String.contentsOrEmpty(for: primaryValueTextField.text)
         return !destinationAddress.isEmpty || !valueText.isEmpty
     }
 
@@ -409,7 +409,7 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     @objc private func didTapContinueButton() {
-        let valueText = primaryValueTextField.text ?? ""
+        let valueText = String.contentsOrEmpty(for: primaryValueTextField.text)
         let finalValueInWeiHex = viewModel.finalValueHexString(for: viewConfiguration, valueText: valueText)
 
         var params: [String: Any] = [PaymentParameters.from: Cereal.shared.paymentAddress,
@@ -440,7 +440,7 @@ final class SendTokenViewConfigurator: NSObject {
         adjustAddressErrorLabelHidden(to: true)
         showBalanceText()
 
-        let valueText = primaryValueTextField.text ?? ""
+        let valueText = String.contentsOrEmpty(for: primaryValueTextField.text)
         let errorViews = viewModel.errorViews(for: viewConfiguration, inputValueText: valueText, address: destinationAddress)
         for errorView in errorViews {
             switch errorView {
@@ -606,7 +606,7 @@ final class SendTokenViewConfigurator: NSObject {
         case .token:
             symbolField.text = token.symbol
         case .fiat:
-            symbolField.text = TokenUser.current?.localCurrency
+            symbolField.text = Profile.current?.savedLocalCurrency
         }
 
         symbolField.textColor = (text.isEmpty || isMaxValueSelected) ? Theme.placeholderTextColor : Theme.darkTextColor
@@ -626,7 +626,7 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     private func checkInputValueAgainstBalance() {
-        let inputValue = primaryValueTextField.text ?? ""
+        let inputValue = String.contentsOrEmpty(for: primaryValueTextField.text)
         if viewModel.isInsuffisientBalance(for: viewConfiguration, inputValueText: inputValue) {
             showInsuffisientBalanceError()
         } else {

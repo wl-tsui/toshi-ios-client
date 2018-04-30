@@ -96,9 +96,9 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
         view.backgroundColor = Theme.lightGrayBackgroundColor
         title = Localized.edit_profile_title
 
-        guard let user = TokenUser.current else { return }
+        guard let user = Profile.current else { return }
 
-        AvatarManager.shared.avatar(for: user.avatarPath) { [weak self] image, _ in
+        AvatarManager.shared.avatar(for: String.contentsOrEmpty(for: user.avatar)) { [weak self] image, _ in
             self?.avatarImageView.image = image
         }
 
@@ -227,7 +227,7 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
     }
 
     @objc func saveAndDismiss() {
-        guard let user = TokenUser.current else { return }
+        guard let user = Profile.current else { return }
 
         var username = ""
         var name = ""
@@ -271,32 +271,32 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
         activityIndicator.startAnimating()
 
         let userDict: [String: Any] = [
-            TokenUser.Constants.address: user.address,
-            TokenUser.Constants.paymentAddress: user.paymentAddress,
-            TokenUser.Constants.username: username,
-            TokenUser.Constants.about: about,
-            TokenUser.Constants.location: location,
-            TokenUser.Constants.name: name,
-            TokenUser.Constants.avatar: user.avatarPath,
-            TokenUser.Constants.isApp: user.isApp,
-            TokenUser.Constants.isPublic: isPublic,
-            TokenUser.Constants.verified: user.verified
+            ProfileKeys.address: user.toshiId,
+            ProfileKeys.paymentAddress: String.contentsOrEmpty(for: user.paymentAddress),
+            ProfileKeys.username: username,
+            ProfileKeys.description: about,
+            ProfileKeys.location: location,
+            ProfileKeys.name: name,
+            ProfileKeys.avatar: String.contentsOrEmpty(for: user.avatar),
+            ProfileKeys.isApp: user.isBot,
+            ProfileKeys.isPublic: isPublic,
+            ProfileKeys.verified: user.verified
         ]
 
         idAPIClient.updateUser(userDict) { [weak self] userUpdated, error in
 
-            AvatarManager.shared.cachedAvatar(for: user.avatarPath, completion: { [weak self] cachedAvatar in
+            if let cachedAvatar = AvatarManager.shared.cachedAvatar(for: String.contentsOrEmpty(for: user.avatar)) {
                 if let image = self?.avatarImageView.image, image != cachedAvatar {
-
+                    
                     self?.idAPIClient.updateAvatar(image) { [weak self] avatarUpdated, error in
                         let success = userUpdated == true && avatarUpdated == true
-
+                        
                         self?.completeEdit(success: success, message: error?.description)
                     }
                 } else {
                     self?.completeEdit(success: userUpdated, message: error?.description)
                 }
-            })
+            }
         }
     }
 

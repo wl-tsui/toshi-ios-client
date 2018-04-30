@@ -48,14 +48,14 @@ final class AvatarTitleSubtitleCheckboxCell: BasicTableViewCell {
 
     private func setupTitleTextField() {
         titleTextField.top(to: contentView, offset: BasicTableViewCell.horizontalMargin)
-        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         titleTextField.rightToLeft(of: checkmarkView, offset: -BasicTableViewCell.interItemMargin)
         titleTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 
     private func setupSubtitleLabel() {
         subtitleLabel.topToBottom(of: titleTextField, offset: BasicTableViewCell.smallVerticalMargin)
-        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.interItemMargin)
+        subtitleLabel.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
         subtitleLabel.rightToLeft(of: checkmarkView, offset: -BasicTableViewCell.horizontalMargin)
         subtitleLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
         subtitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

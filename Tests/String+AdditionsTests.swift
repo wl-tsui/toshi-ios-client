@@ -57,10 +57,10 @@ class StringAdditionsTests: XCTestCase {
         XCTAssertEqual("foo.b".asPossibleURLString, "http://foo.b")
     }
     
-    func testCaseCorrectionInPossibleURLStrings() {
+    func testNoCaseCorrectionInPossibleURLStrings() {
         XCTAssertEqual("foo.bar".asPossibleURLString, "http://foo.bar")
-        XCTAssertEqual("Foo.bar".asPossibleURLString, "http://foo.bar")
-        XCTAssertEqual("FOO.BAR".asPossibleURLString, "http://foo.bar")
+        XCTAssertEqual("Foo.bar".asPossibleURLString, "http://Foo.bar")
+        XCTAssertEqual("FOO.BAR".asPossibleURLString, "http://FOO.BAR")
     }
     
     func testDescribesValueLargerThanZero() {

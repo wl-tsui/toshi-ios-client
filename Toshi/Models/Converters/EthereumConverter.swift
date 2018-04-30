@@ -104,17 +104,19 @@ struct EthereumConverter {
     ///    - withCurrencyCode: Whether to add the currency code to the string or not. Defaults to true.
     /// - Returns: fiat string representation: "$10.50"
     static func fiatValueString(forWei balance: NSDecimalNumber, exchangeRate: Decimal, withCurrencyCode: Bool = true) -> String {
+        guard let currentUserProfile = Profile.current else { return "" }
+        
         let ether = weiToEther(balance)
 
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 
-        let locale = TokenUser.current?.cachedCurrencyLocale ?? Currency.forcedLocale
+        let locale = currentUserProfile.cachedCurrencyLocale
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = withCurrencyCode ? .currency : .decimal
         numberFormatter.locale = locale
         numberFormatter.maximumFractionDigits = 2
-        numberFormatter.currencyCode = TokenUser.current?.localCurrency
+        numberFormatter.currencyCode = currentUserProfile.savedLocalCurrency
 
         return "\(numberFormatter.string(from: fiat)!)"
     }
@@ -124,8 +126,8 @@ struct EthereumConverter {
     /// - Parameter balance: the value in wei
     /// - Returns: the fiat currency value with redundant 3 letter code for clarity.
     static func fiatValueStringWithCode(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
-        let locale = TokenUser.current?.cachedCurrencyLocale ?? Currency.forcedLocale
-        let localCurrency = TokenUser.current?.localCurrency ?? Currency.forcedLocale.currencyCode
+        let locale = Profile.current?.cachedCurrencyLocale ?? Currency.forcedLocale
+        let localCurrency = Profile.current?.savedLocalCurrency ?? Currency.forcedLocale.currencyCode
 
         let ether = weiToEther(balance)
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
@@ -136,7 +138,7 @@ struct EthereumConverter {
         numberFormatter.locale = locale
         numberFormatter.currencyCode = localCurrency
 
-        let fiatValueString = numberFormatter.string(from: fiat) ?? ""
+        let fiatValueString = String.contentsOrEmpty(for: numberFormatter.string(from: fiat))
 
         return numberFormatter.currencySymbol == numberFormatter.currencyCode ? fiatValueString : fiatValueString + " " + localCurrency!
     }

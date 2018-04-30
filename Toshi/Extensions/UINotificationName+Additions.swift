@@ -16,4 +16,8 @@
 extension NSNotification.Name {
     static let UserDidSignOut = NSNotification.Name(rawValue: "UserDidSignOut")
     static let ChatDatabaseCreated = NSNotification.Name(rawValue: "ChatDatabaseCreated")
+    static let currentUserUpdated = NSNotification.Name(rawValue: "currentUserUpdated")
+    static let userCreated = NSNotification.Name(rawValue: "userCreated")
+    static let userLoggedIn = NSNotification.Name(rawValue: "userLoggedIn")
+    static let localCurrencyUpdated = NSNotification.Name(rawValue: "localCurrencyUpdated")
 }

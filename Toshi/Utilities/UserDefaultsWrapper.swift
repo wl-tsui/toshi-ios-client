@@ -29,7 +29,8 @@ enum UserDefaultsKey: String, StringCaseListable {
     selectedApp = "Restoration::SelectedApp",
     selectedContact = "Restoration::SelectedContact",
     selectedThreadAddress = "Restoration::SelectedThread",
-    tabBarSelectedIndex = "TabBarSelectedIndex"
+    tabBarSelectedIndex = "TabBarSelectedIndex",
+    activeNetwork = "ActiveNetwork"
 }
 
 /// A wrapper for NSUserDefaults to facilitate type-safe fetching
@@ -178,6 +179,15 @@ class UserDefaultsWrapper: NSObject {
         }
         set {
             setValue(newValue, for: .tabBarSelectedIndex)
+        }
+    }
+
+    static var activeNetwork: String? {
+        get {
+            return string(for: .activeNetwork)
+        }
+        set {
+            setValue(newValue, for: .activeNetwork)
         }
     }
     

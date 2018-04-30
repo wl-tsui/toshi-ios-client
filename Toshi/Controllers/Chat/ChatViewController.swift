@@ -225,7 +225,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     private func updateChatAvatar() {
-        if let avatarPath = viewModel.contact?.avatarPath {
+        if let avatarPath = viewModel.contact?.avatar {
             AvatarManager.shared.avatar(for: avatarPath, completion: { [weak self] image, _ in
                 self?.avatarImageView.image = image
             })
@@ -417,6 +417,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @objc private func keyboardDidHide(_ notification: Notification) {
+        guard Navigator.topViewController == self else { return }
         becomeFirstResponder()
     }
 
@@ -668,7 +669,7 @@ extension ChatViewController: UITableViewDataSource {
             return incomingSignalMessage.authorId
         }
 
-        return TokenUser.current?.address
+        return Profile.current?.toshiId
     }
 
     private func positionType(for indexPath: IndexPath) -> MessagePositionType {
@@ -736,10 +737,10 @@ extension ChatViewController: MessagesBasicCellDelegate {
         guard let message = viewModel.messageModels.element(at: indexPath.row) else { return }
         guard let authorId = authorId(for: message.signalMessage) else { return }
 
-        IDAPIClient.shared.findContact(name: authorId) { [weak self] user in
-            guard let retrievedUser = user else { return }
-
-            let contactController = ProfileViewController(profile: retrievedUser)
+        IDAPIClient.shared.findContact(name: authorId) { [weak self] profile, _ in
+            guard let profile = profile else { return }
+            
+            let contactController = ProfileViewController(profile: profile)
             self?.navigationController?.pushViewController(contactController, animated: true)
         }
     }
@@ -818,7 +819,7 @@ extension ChatViewController: ChatViewModelOutput {
 
         guard let contact = self.viewModel.contact, viewModel.messages.isEmpty else { return }
 
-        if shouldSendTriggerMessage || contact.isApp {
+        if shouldSendTriggerMessage || contact.isBot {
             // If contact is an app, and there are no messages between current user and contact
             // we send the app an empty regular sofa message. This ensures that Signal won't display it,
             // but at the same time, most bots will reply with a greeting.
@@ -932,7 +933,7 @@ extension ChatViewController: PaymentRouterDelegate {
         paymentRequestActiveCell = nil
     }
 
-    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: UserInfo?, error: ToshiError?) {
+    func paymentRouterDidSucceedPayment(_ paymentRouter: PaymentRouter, parameters: [String: Any], transactionHash: String?, unsignedTransaction: String?, recipientInfo: ProfileInfo?, error: ToshiError?) {
         self.updateBalance()
 
         guard error == nil else {

@@ -158,13 +158,13 @@ extension PaymentAddressViewController: ScannerViewControllerDelegate {
     }
 
     private func fillPaymentAddress(username: String) {
-        IDAPIClient.shared.retrieveUser(username: username) { [weak self] contact in
-            guard let contact = contact else {
+        IDAPIClient.shared.retrieveUser(username: username) { [weak self] profile, _ in
+            guard let profile = profile, let paymentAddress = profile.paymentAddress else {
                 self?.scannerController.startScanning()
 
                 return
             }
-            self?.fillPaymentAddress(address: contact.paymentAddress)
+            self?.fillPaymentAddress(address: paymentAddress)
         }
     }
 

@@ -63,7 +63,7 @@ final class SearchProfilesDataSource: NSObject {
 
             guard let strongSelf = self else { return }
             strongSelf.searchProfilesOfType(type: strongSelf.queryData.type, searchText: strongSelf.queryData.searchText, completion: { [weak self] profiles, type in
-                guard let strongSelf = self else { return }
+                guard let strongSelf = self, let type = type else { return }
 
                 strongSelf.profilesMap[type] = profiles
 
@@ -100,7 +100,8 @@ extension SearchProfilesDataSource: UITableViewDataSource {
         guard let typeProfiles = profilesMap[queryData.type] else { fatalError() }
         let profile = typeProfiles[indexPath.row]
 
-        let cellData = TableCellData(title: (profile.name ?? "").isEmpty ? profile.username : profile.name, subtitle: profile.displayUsername, leftImagePath: profile.avatar, description: profile.description)
+        let cellData = TableCellData(title: profile.nameOrDisplayName, subtitle: profile.displayUsername, leftImagePath: profile.avatar)
+
         let configurator = CellConfigurator()
 
         let reuseIdentifier = configurator.cellIdentifier(for: cellData.components)
@@ -108,6 +109,10 @@ extension SearchProfilesDataSource: UITableViewDataSource {
 
         configurator.configureCell(cell, with: cellData)
         cell.accessoryType = .disclosureIndicator
+        cell.titleTextField.setDynamicFontBlock = { [weak cell] in
+            guard let strongCell = cell else { return }
+            strongCell.titleTextField.font = Theme.preferredSemibold()
+        }
 
         return cell
     }

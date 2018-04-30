@@ -61,7 +61,7 @@ extension Dapp: BrowseableItem {
     }
     
     var avatarPath: String {
-        return avatarUrlString ?? ""
+        return String.contentsOrEmpty(for: avatarUrlString)
     }
     
     var shouldShowRating: Bool {
@@ -75,8 +75,8 @@ extension Dapp: BrowseableItem {
 
 typealias DappInfo = (dappURL: URL, imagePath: String?, headerText: String?)
 
-/// Convenience class for decoding an array of Dapps with the key "results"
-final class DappResults: Codable {
+/// Convenience struct for decoding an array of Dapps with the key "results"
+struct DappResults: Codable {
     
     let dapps: [Dapp]
     
