@@ -64,6 +64,10 @@ class BasicTableViewCell: UITableViewCell {
         Theme.preferredFootnote()
     }
 
+    var valueFont = {
+        Theme.preferredRegular()
+    }
+
     weak var actionDelegate: BasicCellActionDelegate?
 
     lazy var titleTextField: DynamicFontTextField = {
@@ -114,9 +118,10 @@ class BasicTableViewCell: UITableViewCell {
     lazy var valueLabel: UILabel = {
         let valueLabel = UILabel()
 
-        valueLabel.font = Theme.preferredRegular()
+        valueLabel.font = valueFont()
         valueLabel.textAlignment = .right
         valueLabel.textColor = Theme.lightGreyTextColor
+        valueLabel.adjustsFontForContentSizeCategory = true
 
         return valueLabel
     }()
@@ -276,6 +281,7 @@ class BasicTableViewCell: UITableViewCell {
         detailsLabel.font = detailsFont()
         badgeLabel.font = detailsFont()
         descriptionLabel.font = descriptionFont()
+        valueLabel.font = valueFont()
     }
 
     func showSeparator(leftInset: CGFloat = 0, rightInset: CGFloat = 0) {
