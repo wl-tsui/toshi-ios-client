@@ -32,7 +32,6 @@ final class AvatarManager: NSObject {
     }
 
     @objc func startDownloadContactsAvatars() {
-
         if let currentUserAvatarPath = Profile.current?.avatar {
            downloadAvatar(for: currentUserAvatarPath)
         }

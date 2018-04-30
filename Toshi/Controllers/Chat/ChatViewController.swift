@@ -42,7 +42,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     private var textInputHeight: CGFloat = ChatInputTextPanel.defaultHeight {
         didSet {
             if isVisible {
-                updateContentInset()
                 updateConstraints()
             }
         }
@@ -51,7 +50,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     private var heightOfKeyboard: CGFloat = 0 {
         didSet {
             if isVisible, heightOfKeyboard != oldValue {
-                updateContentInset()
                 updateConstraints()
             }
         }
@@ -78,12 +76,13 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         return view
     }()
 
-    private lazy var networkView = defaultActiveNetworkView()
-    
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    lazy var notificationObservers = [NSObjectProtocol]()
+
     private lazy var buttonsView: ChatButtonsView = {
         let view = ChatButtonsView()
         view.delegate = self
-        
+
         return view
     }()
     
@@ -140,6 +139,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
     init(thread: TSThread) {
         self.thread = thread
+
         previewState = thread.isPendingAccept
 
         super.init(nibName: nil, bundle: nil)
@@ -166,34 +166,16 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         title = thread.name()
         updateChatAvatar()
     }
-    
-    func updateContentInset() {
-        let activeNetworkViewHeight = activeNetworkView.heightConstraint?.constant ?? 0
 
-        let bottomInset: CGFloat
-        let topInset: CGFloat
-        if previewState {
-            bottomInset = -10
-            topInset = 20
-        } else {
-            bottomInset = ChatFloatingHeaderView.height + 64.0 + activeNetworkViewHeight
-            topInset = 10
-        }
-
-        // The table view is inverted 180 degrees
-        tableView.contentInset = UIEdgeInsets(top: topInset, left: 0, bottom: bottomInset + 2 + 20, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + 2, right: 0)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = Theme.viewBackgroundColor
 
+        setupActiveNetworkView()
         addSubviewsAndConstraints()
         setupActivityIndicator()
-        setupActiveNetworkView(hidden: true)
-        
+
         textInputView.delegate = self
         tableView.transform = CGAffineTransform(scaleX: 1, y: -1)
     }
@@ -213,14 +195,11 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             self?.textInputView.text = placeholder
         }
 
-        tabBarController?.tabBar.isHidden = true
-
         updateChatAvatar()
         requestGroupInfoIfNeeded()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
 
-        updateContentInset()
         updateBalance()
     }
 
@@ -263,6 +242,10 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         preferLargeTitleIfPossible(true)
     }
 
+    deinit {
+        removeNotificationObservers()
+    }
+
     private func updateBalance() {
 
         viewModel.fetchAndUpdateBalance(cachedCompletion: { [weak self] cachedBalance, _ in
@@ -297,8 +280,18 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         tableView.left(to: view)
         tableView.right(to: view)
 
+        // Table view is rotated 180 degrees, so some of these are changed
+        tableView.contentInset = UIEdgeInsets(top: 20, // actually the bottom
+                                              left: 0,
+                                              bottom: 12, // actually the top
+                                              right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, // actually the bottom
+                                                       left: 0,
+                                                       bottom: 8, // actually the top
+                                                       right: 0)
+
         textInputView.left(to: view)
-        textInputViewBottomConstraint = textInputView.bottom(to: layoutGuide())
+        textInputViewBottomConstraint = textInputView.bottomToTop(of: activeNetworkView)
         textInputView.right(to: view)
         textInputViewHeightConstraint = textInputView.height(ChatInputTextPanel.defaultHeight)
         
@@ -331,7 +324,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         tableView.right(to: view)
 
         textInputView.left(to: view)
-        textInputViewBottomConstraint = textInputView.bottom(to: layoutGuide())
+        textInputViewBottomConstraint = textInputView.bottomToTop(of: activeNetworkView)
         textInputView.right(to: view)
         textInputViewHeightConstraint = textInputView.height(ChatInputTextPanel.defaultHeight)
 
@@ -343,7 +336,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
 
         buttonsView.alpha = 0.0
 
-        previewButtonsView.bottom(to: layoutGuide())
+        previewButtonsView.bottomToTop(of: activeNetworkView)
         previewButtonsView.left(to: layoutGuide())
         previewButtonsView.right(to: layoutGuide())
     }
@@ -380,7 +373,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
             self.buttonsView.alpha = 1.0
             self.previewButtonsView.alpha = 0.0
             self.view.layoutIfNeeded()
-            self.updateContentInset()
         }, completion: { _ in
             self.previewButtonsView.removeFromSuperview()
             self.tableView.reloadData()
@@ -412,6 +404,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @objc private func keyboardDidHide(_ notification: Notification) {
+        guard Navigator.topViewController == self else { return }
         becomeFirstResponder()
     }
 
@@ -503,10 +496,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     
     private func declinePaymentForIndexPath(_ indexPath: IndexPath) {
         adjustToPaymentState(.rejected, at: indexPath)
-        
-        DispatchQueue.main.asyncAfter(seconds: 2.0) {
-            self.hideActiveNetworkViewIfNeeded()
-        }
     }
 }
 
@@ -624,15 +613,6 @@ extension ChatViewController: UITableViewDataSource {
             cell.subtitleLabel.text = messageModel.subtitle
             cell.setPaymentState(signalMessage.paymentState, paymentStateText: signalMessage.paymentStateText(), for: messageModel.type)
             cell.selectionDelegate = self
-
-            let isPaymentOpen = (messageModel.signalMessage?.paymentState ?? .none) == .none
-            let isMessageActionable = messageModel.isActionable
-
-            let isOpenPaymentRequest = isMessageActionable && isPaymentOpen
-            if isOpenPaymentRequest {
-                showActiveNetworkViewIfNeeded()
-            }
-
         } else if let cell = cell as? MessagesTextCell, messageModel.type == .simple {
             cell.messageText = messageModel.text
         }
@@ -997,26 +977,7 @@ extension ChatViewController: KeyboardAwareAccessoryViewDelegate {
     }
 }
 
-extension ChatViewController: ActiveNetworkDisplaying {
-
-    var activeNetworkView: ActiveNetworkView {
-        return networkView
-    }
-
-    var activeNetworkViewConstraints: [NSLayoutConstraint] {
-        return [activeNetworkView.topAnchor.constraint(equalTo: ethereumPromptView.bottomAnchor, constant: -1),
-                activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)]
-    }
-
-    func requestLayoutUpdate() {
-
-        UIView.animate(withDuration: 0.2) {
-            self.updateContentInset()
-            self.view.layoutIfNeeded()
-        }
-    }
-}
+extension ChatViewController: ActiveNetworkDisplaying { /* Mix-in */ }
 
 extension ChatViewController: ChatButtonsSelectionDelegate {
     

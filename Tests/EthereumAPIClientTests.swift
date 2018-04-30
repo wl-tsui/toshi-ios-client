@@ -140,7 +140,7 @@ class EthereumAPIClientTests: QuickSpec {
                             expect(collectible?.name).to(equal("Cryptokitties"))
                             expect(collectible?.value).to(equal("0x10"))
                             expect(collectible?.contractAddress).to(equal("0x0123456789012345678901234567890123456789"))
-                            expect(collectible?.icon).to(equal("https://bakkenbaeck.com/images/offices/covers/amsterdam@2x.2305df1e81.jpg"))
+                            expect(collectible?.icon).to(equal("https://www.cryptokitties.co/icons/logo.svg"))
 
                             done()
                         }
@@ -164,16 +164,16 @@ class EthereumAPIClientTests: QuickSpec {
                             expect(collectible.name).to(equal("Cryptokitties"))
                             expect(collectible.value).to(equal("0x10"))
                             expect(collectible.contractAddress).to(equal("0x0123456789012345678901234567890123456789"))
-                            expect(collectible.icon).to(equal("https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg"))
+                            expect(collectible.icon).to(equal("https://www.cryptokitties.co/icons/logo.svg"))
 
                             guard let token = collectible.tokens?.first else {
                                 fail("No tokens on a collectible")
                                 return
                             }
 
-                            expect(token.name).to(equal("Kitten 1"))
+                            expect(token.name).to(equal("Kitten 423423"))
                             expect(token.tokenId).to(equal("abcdef0123456"))
-                            expect(token.image).to(equal("https://bakkenbaeck.com/images/offices/covers/bonn@2x.4ef90789e3.jpg"))
+                            expect(token.image).to(equal("https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/467583.svg"))
                             expect(token.description).to(equal("A kitten"))
 
                             done()

@@ -20,54 +20,93 @@ import SweetUIKit
 protocol ActiveNetworkDisplaying: class {
     var activeNetworkView: ActiveNetworkView { get }
     var activeNetworkViewConstraints: [NSLayoutConstraint] { get }
+    var notificationObservers: [NSObjectProtocol] { get set }
 
-    func setupActiveNetworkView(hidden: Bool)
     func defaultActiveNetworkView() -> ActiveNetworkView
+    func setupActiveNetworkView()
     func showActiveNetworkViewIfNeeded()
     func hideActiveNetworkViewIfNeeded()
+
+    func removeNotificationObservers()
 
     func requestLayoutUpdate()
 }
 
 extension ActiveNetworkDisplaying where Self: UIViewController {
-    func setupActiveNetworkView(hidden: Bool = false) {
-        guard let activeNetworkView = self.activeNetworkView as ActiveNetworkView? else { return }
 
+    func defaultActiveNetworkView() -> ActiveNetworkView {
+        return ActiveNetworkView(withAutoLayout: true)
+    }
+    
+    var activeNetworkViewConstraints: [NSLayoutConstraint] {
+        return [
+            activeNetworkView.bottomAnchor.constraint(equalTo: layoutGuide().bottomAnchor),
+            activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)
+        ]
+    }
+
+    func setupActiveNetworkView() {
         view.addSubview(activeNetworkView)
         NSLayoutConstraint.activate(activeNetworkViewConstraints)
 
-        if !hidden {
-            showActiveNetworkViewIfNeeded()
-        }
-    }
-
-    func defaultActiveNetworkView() -> ActiveNetworkView {
-        let activeNetworkView = ActiveNetworkView(withAutoLayout: true)
-
-        return activeNetworkView
+        updateActiveNetworkView()
+        addNotificationListener()
     }
 
     func showActiveNetworkViewIfNeeded() {
-        guard !NetworkSwitcher.shared.isDefaultNetworkActive && activeNetworkView.heightConstraint?.constant != ActiveNetworkView.height else { return }
-
-        DispatchQueue.main.async {
-            self.activeNetworkView.heightConstraint?.constant = ActiveNetworkView.height
-            self.requestLayoutUpdate()
+        guard !activeNetworkView.isAtFullHeight else {
+            // Already showing
+            return
         }
+
+        activeNetworkView.setFullHeight()
+        requestLayoutUpdate()
     }
 
     func hideActiveNetworkViewIfNeeded() {
-        guard !NetworkSwitcher.shared.isDefaultNetworkActive else { return }
-
-        DispatchQueue.main.async {
-            self.activeNetworkView.heightConstraint?.constant = 0
-            self.requestLayoutUpdate()
+        guard !activeNetworkView.isAtZeroHeight else {
+            // Already hidden
+            return
         }
+
+        activeNetworkView.setZeroHeight()
+        requestLayoutUpdate()
     }
 
     func requestLayoutUpdate() {
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
+        }
+    }
+
+    func addNotificationListener() {
+        let observer = NotificationCenter
+            .default
+            .addObserver(forName: .SwitchedNetworkChanged,
+                         object: nil,
+                         queue: .main,
+                         using: { [weak self] _ in
+                            self?.updateActiveNetworkView()
+                         })
+
+        notificationObservers.append(observer)
+    }
+
+    func removeNotificationObservers() {
+        for observer in notificationObservers {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+
+    private func updateActiveNetworkView() {
+        switch NetworkSwitcher.shared.activeNetwork {
+        case .mainNet:
+            hideActiveNetworkViewIfNeeded()
+        case .ropstenTestNetwork,
+             .toshiTestNetwork:
+            showActiveNetworkViewIfNeeded()
+            activeNetworkView.updateTitle()
         }
     }
 }

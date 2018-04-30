@@ -61,6 +61,9 @@ class PaymentValueViewController: UIViewController {
 
     private var valueInWei: NSDecimalNumber?
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    lazy var notificationObservers = [NSObjectProtocol]()
+
     private lazy var currencyNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -120,10 +123,6 @@ class PaymentValueViewController: UIViewController {
         
         return view
     }()
-
-    private lazy var networkView: ActiveNetworkView = {
-        self.defaultActiveNetworkView()
-    }()
     
     init(withPaymentType paymentType: PaymentValueViewControllerPaymentType, continueOption: PaymentValueViewControllerContinueOption) {
         self.paymentType = paymentType
@@ -142,6 +141,10 @@ class PaymentValueViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        removeNotificationObservers()
     }
     
     override func viewDidLoad() {
@@ -256,15 +259,4 @@ extension PaymentValueViewController: UIToolbarDelegate {
     }
 }
 
-extension PaymentValueViewController: ActiveNetworkDisplaying {
-
-    var activeNetworkView: ActiveNetworkView {
-        return networkView
-    }
-
-    var activeNetworkViewConstraints: [NSLayoutConstraint] {
-        return [activeNetworkView.topAnchor.constraint(equalTo: view.topAnchor, constant: 64),
-                activeNetworkView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                activeNetworkView.rightAnchor.constraint(equalTo: view.rightAnchor)]
-    }
-}
+extension PaymentValueViewController: ActiveNetworkDisplaying { /* mix-in */ }

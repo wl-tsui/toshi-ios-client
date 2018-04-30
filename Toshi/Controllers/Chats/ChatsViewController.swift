@@ -68,7 +68,6 @@ final class ChatsViewController: SweetTableController {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(target.prefersLargeTitle)
-        tabBarController?.tabBar.isHidden = false
 
         tableView.reloadData()
 
