@@ -248,6 +248,13 @@ final class ChatViewModel {
                     guard let indexPath = change.indexPath else { continue }
 
                     guard let signalMessage = dbExtension.object(at: indexPath, with: strongSelf.mappings) as? TSMessage else { return }
+
+                    if let incomingMessage = signalMessage as? TSIncomingMessage, !incomingMessage.wasRead {
+                        self?.editingDatabaseConnection?.asyncReadWrite { transaction in
+                            incomingMessage.markAsRead(with: transaction, sendReadReceipt: true, updateExpiration: false)
+                        }
+                    }
+
                     guard let message = strongSelf.messages.first(where: { $0.signalMessage.uniqueId == signalMessage.uniqueId }) else { return }
                     
                     DispatchQueue.main.async {
