@@ -34,7 +34,6 @@ final class WalletCell: BasicTableViewCell {
         titleTextField.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
         titleTextField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
-        valueLabel.backgroundColor = .red
         valueLabel.leftToRight(of: titleTextField, offset: BasicTableViewCell.horizontalMargin)
         valueLabel.top(to: contentView, offset: BasicTableViewCell.verticalMargin)
         valueLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)

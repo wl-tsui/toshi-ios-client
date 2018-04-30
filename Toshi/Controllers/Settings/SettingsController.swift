@@ -333,7 +333,8 @@ extension SettingsController: UITableViewDataSource {
         let walletCellConfigurator = WalletCellConfigurator()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
 
-        walletCellConfigurator.configureCell(cell)
+        //TODO: Change hardcoded string to the actual name of the currently selected wallet
+        walletCellConfigurator.configureCell(cell, withSelectedWalletName: "Wallet 2")
 
         return cell
     }
