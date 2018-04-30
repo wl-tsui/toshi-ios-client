@@ -111,7 +111,7 @@ struct EthereumConverter {
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
         let fiat: NSDecimalNumber = ether.multiplying(by: currentFiatConversion)
 
-        let locale = currentUserProfile.cachedCurrencyLocale ?? Currency.forcedLocale
+        let locale = currentUserProfile.cachedCurrencyLocale
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = withCurrencyCode ? .currency : .decimal
         numberFormatter.locale = locale

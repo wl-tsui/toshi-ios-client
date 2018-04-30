@@ -251,9 +251,9 @@ extension TabBarController: ScannerViewControllerDelegate {
 
     private func proceedToPayment(username: String, weiValue: String?, confirmationText: String) {
         idAPIClient.retrieveUser(username: username) { [weak self] profile, _ in
-            if let profile = profile, let validWeiValue = weiValue {
+            if let profile = profile, let paymentAddress = profile.paymentAddress, let validWeiValue = weiValue {
                 let parameters = [PaymentParameters.from: Cereal.shared.paymentAddress,
-                                  PaymentParameters.to: profile.paymentAddress,
+                                  PaymentParameters.to: paymentAddress,
                                   PaymentParameters.value: validWeiValue]
 
                 self?.proceedToPayment(userInfo: profile.userInfo, parameters: parameters, confirmationText: confirmationText)

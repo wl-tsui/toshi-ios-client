@@ -272,12 +272,12 @@ class ProfileEditController: UIViewController, KeyboardAdjustable, UINavigationC
 
         let userDict: [String: Any] = [
             ProfileKeys.address: user.toshiId,
-            ProfileKeys.paymentAddress: user.paymentAddress,
+            ProfileKeys.paymentAddress: String.contentsOrEmpty(for: user.paymentAddress),
             ProfileKeys.username: username,
             ProfileKeys.description: about,
             ProfileKeys.location: location,
             ProfileKeys.name: name,
-            ProfileKeys.avatar: user.avatar,
+            ProfileKeys.avatar: String.contentsOrEmpty(for: user.avatar),
             ProfileKeys.isApp: user.isBot,
             ProfileKeys.isPublic: isPublic,
             ProfileKeys.verified: user.verified
