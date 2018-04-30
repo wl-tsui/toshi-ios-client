@@ -32,28 +32,22 @@ final class ChatAPIClient {
         teapot = Teapot(baseURL: baseURL)
     }
 
-    func fetchTimestamp(_ completion: @escaping ((Int) -> Void)) {
+    func fetchTimestamp(_ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
 
-        self.teapot.get("/v1/accounts/bootstrap/") { (result: NetworkResult) in
-            switch result {
-            case .success(let json, let response):
-                guard response.statusCode == 200 else { fatalError("Could not retrieve timestamp from chat service.") }
-                guard let json = json?.dictionary else { fatalError("JSON dictionary not found in payload") }
-                guard let timestamp = json["timestamp"] as? Int else { fatalError("Timestamp not found in json payload or not an integer.") }
-
-                DispatchQueue.main.async {
-                    completion(timestamp)
-                }
-            case .failure(let json, let response, let error):
-                DLog("\(error)")
-                DLog("\(response)")
-                DLog(String(describing: json))
-            }
+        self.teapot.get("/v1/accounts/bootstrap/") { result in
+            APITimestamp.parse(from: result, completion)
         }
     }
 
     func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
-        fetchTimestamp { timestamp in
+        fetchTimestamp { timestamp, _ in
+            guard let timestamp = timestamp else {
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+                return
+            }
+
             let cereal = Cereal.shared
             let parameters = UserBootstrapParameter()
             let path = "/v1/accounts/bootstrap"
@@ -70,7 +64,7 @@ final class ChatAPIClient {
             let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
             let signature = "0x\(cereal.signWithID(message: message))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
             let requestParameter = RequestParameter(payload)
 
             self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in

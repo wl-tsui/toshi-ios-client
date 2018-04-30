@@ -203,6 +203,7 @@ enum LocalizedKey: String, StringCaseListable {
     settings_header_security,
     settings_header_security_text,
     settings_header_settings,
+    settings_header_wallet,
     settings_navigation_title,
     settings_network_title,
     settings_signout_action_delete,
@@ -899,6 +900,9 @@ struct Localized {
     /// `en`: "Settings"
     static let settings_header_settings = LocalizedKey.settings_header_settings.currentValue
     
+    /// `en`: "Wallet"
+    static let settings_header_wallet = LocalizedKey.settings_header_wallet.currentValue
+    
     /// `en`: "Me"
     static let settings_navigation_title = LocalizedKey.settings_navigation_title.currentValue
     
@@ -1006,7 +1010,7 @@ struct Localized {
     
     /// `en`: "Đapps"
     static let tab_bar_title_dapps = LocalizedKey.tab_bar_title_dapps.currentValue
-
+    
     /// `en`: "Settings"
     static let tab_bar_title_settings = LocalizedKey.tab_bar_title_settings.currentValue
     
@@ -1094,7 +1098,7 @@ struct Localized {
     /// `en`: "This amount is not final"
     static let wallet_final_amount_alert_title = LocalizedKey.wallet_final_amount_alert_title.currentValue
     
-    /// `en`: "Insuffisient balance: %@"
+    /// `en`: "Insufficient balance: %@"
     static let wallet_insuffisient_balance_generic = LocalizedKey.wallet_insuffisient_balance_generic.currentValue
     
     /// `en`: "Insufficient %@ balance: %@ (%@)"

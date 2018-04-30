@@ -20,8 +20,7 @@ final class SignInViewController: UIViewController {
     private var userDidPastePassphrase = false
     
     var activeIndexPath: IndexPath? {
-        guard let selectedCell = signInView?.collectionView.visibleCells.first(where: { $0.isSelected }) else { return nil }
-        return signInView?.collectionView.indexPath(for: selectedCell)
+        return signInView?.collectionView.indexPathsForSelectedItems?.first
     }
 
     var activeCell: SignInCell? {

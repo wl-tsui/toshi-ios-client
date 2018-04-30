@@ -132,21 +132,9 @@ final class IDAPIClient {
         }
     }
 
-    func fetchTimestamp(_ completion: @escaping ((_ timestamp: Int?, _ error: ToshiError?) -> Void)) {
-
+    func fetchTimestamp(_ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
         self.teapot.get("/v1/timestamp") { result in
-            switch result {
-            case .success(let json, _):
-                guard let json = json?.dictionary, let timestamp = json["timestamp"] as? Int else {
-                    DLog("No response json - Fetch timestamp")
-                    completion(nil, .invalidResponseJSON)
-                    return
-                }
-
-                completion(timestamp, nil)
-            case .failure(_, _, let error):
-                completion(nil, ToshiError(withTeapotError: error))
-            }
+            APITimestamp.parse(from: result, completion)
         }
     }
 
@@ -161,17 +149,17 @@ final class IDAPIClient {
         updateUser(userDict) { _, _ in }
     }
 
-    func registerUserIfNeeded(_ success: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
+    func registerUserIfNeeded(_ completion: @escaping ((_ userRegisterStatus: UserRegisterStatus) -> Void)) {
         retrieveUser(username: Cereal.shared.address) { profile, _ in
 
             guard profile == nil else {
-                success(.existing)
+                completion(.existing)
                 return
             }
 
             self.fetchTimestamp { timestamp, error in
                 guard let timestamp = timestamp else {
-                    success(.failed)
+                    completion(.failed)
                     return
                 }
                 
@@ -182,19 +170,25 @@ final class IDAPIClient {
                 ]
 
                 guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
-                    success(.failed)
+                    completion(.failed)
                     return
                 }
 
                 let hashedParameters = cereal.sha3WithID(string: parametersString)
                 let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
 
-                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
 
                 let json = RequestParameter(parameters)
 
                 self.teapot.post(path, parameters: json, headerFields: fields) { result in
                     var status: UserRegisterStatus = .failed
+
+                    defer {
+                        DispatchQueue.main.async {
+                            completion(status)
+                        }
+                    }
 
                     switch result {
                     case .success(let json, let response):
@@ -205,23 +199,15 @@ final class IDAPIClient {
                             return
                         }
 
-                        let profile: Profile
-                        do {
-                            let jsonDecoder = JSONDecoder()
-                            profile = try jsonDecoder.decode(Profile.self, from: data)
-                            Profile.setupCurrentProfile(profile)
-                        } catch {
-                            assertionFailure("Can't decode curent user profile from register request response")
-                        }
-
-                        status = .registered
+                        Profile.fromJSONData(data,
+                                             successCompletion: { result in
+                                                Profile.setupCurrentProfile(result)
+                                                status = .registered
+                                             },
+                                             errorCompletion: nil)
                     case .failure(_, _, let error):
                         DLog("\(error)")
                         status = .failed
-                    }
-
-                    DispatchQueue.main.async {
-                        success(status)
                     }
                 }
             }
@@ -251,28 +237,27 @@ final class IDAPIClient {
                 var succeeded = false
                 var toshiError: ToshiError?
 
+                defer {
+                    DispatchQueue.main.async {
+                        completion(succeeded, toshiError)
+                    }
+                }
+
                 switch result {
                 case .success(let json, _):
                     guard let userDict = json?.dictionary else {
-                        DispatchQueue.main.async {
-                            completion(false, .invalidResponseJSON)
-                        }
+                        toshiError = .invalidResponseJSON
                         return
                     }
 
-                    if let path = userDict["avatar"] as? String {
+                    if let path = userDict[ProfileKeys.avatar] as? String {
                         AvatarManager.shared.refreshAvatar(at: path)
                         Profile.current?.updateAvatarPath(path)
                     }
 
                     succeeded = true
                 case .failure(_, _, let error):
-                    DLog("\(error)")
                     toshiError = ToshiError(withTeapotError: error)
-                }
-
-                DispatchQueue.main.async {
-                    completion(succeeded, toshiError)
                 }
             }
         }
@@ -307,49 +292,42 @@ final class IDAPIClient {
                 var succeeded = false
                 var toshiError: ToshiError?
 
+                defer {
+                    DispatchQueue.main.async {
+                        completion(succeeded, toshiError)
+                    }
+                }
+
                 switch result {
                 case .success(let json, let response):
                     guard response.statusCode == 200 else {
-                        DLog("Invalid response - Update user")
-                        DispatchQueue.main.async {
-                            completion(false, ToshiError(withType: .invalidResponseStatus, description: "User could not be updated", responseStatus: response.statusCode))
-                        }
+                        toshiError = ToshiError.invalidResponseStatus(response.statusCode)
                         return
                     }
 
                     guard let data = json?.data else {
-                        DispatchQueue.main.async {
-                            completion(false, .invalidPayload)
-                        }
+                        toshiError = .invalidPayload
                         return
                     }
 
-                    let profile: Profile
-                    do {
-                        let jsonDecoder = JSONDecoder()
-                        profile = try jsonDecoder.decode(Profile.self, from: data)
-                    } catch {
-                        DispatchQueue.main.async {
-                            completion(false, .invalidResponseJSON)
-                        }
-                        return
-                    }
-
-                    Profile.setupCurrentProfile(profile)
-
-                    succeeded = true
+                    Profile.fromJSONData(data,
+                                         successCompletion: { result in
+                                            Profile.setupCurrentProfile(result)
+                                            succeeded = true
+                                         },
+                                         errorCompletion: { parsingError in
+                                            toshiError = parsingError
+                                         })
                 case .failure(let json, _, let error):
-
-                    if let errors = json?.dictionary?["errors"] as? [[String: Any]], let errorMessage = (errors.first?["message"] as? String) {
-                        toshiError = ToshiError(withTeapotError: error, errorDescription: errorMessage)
-                    } else {
-                        toshiError = ToshiError(withTeapotError: error)
+                    guard
+                        let errorData = json?.data,
+                        let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
+                        let firstMessage = wrapper.errors.first?.message else {
+                            toshiError = ToshiError(withTeapotError: error)
+                            return
                     }
 
-                }
-
-                DispatchQueue.main.async {
-                    completion(succeeded, toshiError)
+                    toshiError = ToshiError(withTeapotError: error, errorDescription: firstMessage)
                 }
             }
         }
@@ -361,74 +339,63 @@ final class IDAPIClient {
     ///   - username: username of id address
     ///   - completion: called on completion
     func retrieveUser(username: String, completion: ProfileResult? = nil) {
-
         self.teapot.get("/v2/user/\(username)", headerFields: ["Token-Timestamp": String(Int(Date().timeIntervalSince1970))]) { result in
-
             var profile: Profile?
+            var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion?(profile, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion?(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    profile = try jsonDecoder.decode(Profile.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion?(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
-
+                Profile.fromJSONData(data,
+                                     successCompletion: { result in
+                                        profile = result
+                                     },
+                                     errorCompletion: { parsingError in
+                                        resultError = parsingError
+                                     })
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
-            }
-
-            DispatchQueue.main.async {
-                completion?(profile, nil)
+                resultError = ToshiError(withTeapotError: error)
             }
         }
     }
 
     func findContact(name: String, completion: @escaping ProfileResult) {
-
         self.teapot.get("/v2/user/\(name)") { result in
+            var profile: Profile?
+            var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(profile, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
-
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let profile: Profile
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    profile = try jsonDecoder.decode(Profile.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
-
-                DispatchQueue.main.async {
-                    completion(profile, nil)
-                }
-
+                Profile.fromJSONData(data,
+                                     successCompletion: { result in
+                                        profile = result
+                                     },
+                                     errorCompletion: { parsingError in
+                                        resultError = parsingError
+                                     })
             case .failure(_, _, let error):
-                DispatchQueue.main.async {
-                    completion(nil, .invalidResponseJSON)
-                }
-                DLog(error.localizedDescription)
+                resultError = ToshiError(withTeapotError: error)
             }
         }
     }
@@ -439,36 +406,30 @@ final class IDAPIClient {
             var profiles: [Profile]?
             var resultError: ToshiError?
 
+            defer {
+                DispatchQueue.main.async {
+                    completion(profiles, resultError)
+                }
+            }
+
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let responseData: SearchedProfilesData
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    responseData = try jsonDecoder.decode(SearchedProfilesData.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
+                SearchedProfilesData.fromJSONData(data,
+                                                  successCompletion: { result in
+                                                    profiles = result.profiles.filter { $0.toshiId != Cereal.shared.address }
+                                                  },
+                                                  errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                  })
 
-                profiles = responseData.profiles.filter { $0.toshiId != Cereal.shared.address }
-                responseData.profiles.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
-
+                profiles?.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(profiles, resultError)
             }
         }
     }
@@ -504,40 +465,32 @@ final class IDAPIClient {
         let fetchString = "?toshi_id=" + addressesToFetch.joined(separator: "&toshi_id=")
 
         self.teapot.get("/v2/search\(fetchString)") { result in
-
             var profiles: [Profile]?
             var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(profiles, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let responseData: SearchedProfilesData
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    responseData = try jsonDecoder.decode(SearchedProfilesData.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
-
-                profiles = responseData.profiles
-                responseData.profiles.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
-
+                SearchedProfilesData.fromJSONData(data,
+                                                  successCompletion: { result in
+                                                    profiles = result.profiles
+                                                  },
+                                                  errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                  })
+                profiles?.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(profiles, resultError)
             }
         }
     }
@@ -550,40 +503,34 @@ final class IDAPIClient {
         }
 
         self.teapot.get("/v2/search?payment_address=\(paymentAddress)") { result in
-
             var profiles: [Profile]?
+            var type: String?
             var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(profiles, type, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let responseData: SearchedProfilesData
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    responseData = try jsonDecoder.decode(SearchedProfilesData.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, nil, .invalidResponseJSON)
-                    }
-                    return
-                }
+                SearchedProfilesData.fromJSONData(data,
+                                                  successCompletion: { result in
+                                                    profiles = result.profiles
 
-                profiles = responseData.profiles
-                responseData.profiles.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
-
+                                                  },
+                                                  errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                  })
+                profiles?.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(profiles, nil, resultError)
             }
         }
     }
@@ -620,29 +567,32 @@ final class IDAPIClient {
 
             self.teapot.post(path, parameters: json, headerFields: fields) { result in
                 var succeeded = false
-                var toshiError: ToshiError?
+                var resultError: ToshiError?
+
+                defer {
+                    DispatchQueue.main.async {
+                        completion(succeeded, resultError)
+                    }
+                }
 
                 switch result {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
-                        DLog("Invalid response - Report user")
-                        DispatchQueue.main.async {
-                            completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to report user could not be completed", responseStatus: response.statusCode))
-                        }
+                        resultError = .invalidResponseStatus(response.statusCode)
                         return
                     }
 
                     succeeded = true
                 case .failure(let json, _, let error):
-                    if let errors = json?.dictionary?["errors"] as? [[String: Any]], let errorMessage = errors.first?["message"] as? String {
-                        toshiError = ToshiError(withTeapotError: error, errorDescription: errorMessage)
-                    } else {
-                        toshiError = ToshiError(withTeapotError: error)
+                    guard
+                        let errorData = json?.data,
+                        let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
+                        let firstMessage = wrapper.errors.first?.message else {
+                            resultError = ToshiError(withTeapotError: error)
+                            return
                     }
-                }
 
-                DispatchQueue.main.async {
-                    completion(succeeded, toshiError)
+                    resultError = ToshiError(withTeapotError: error, errorDescription: firstMessage)
                 }
             }
         }
@@ -662,33 +612,36 @@ final class IDAPIClient {
 
             let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
+            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
 
             self.teapot.get(path, headerFields: fields) { result in
                 var succeeded = false
-                var toshiError: ToshiError?
+                var resultError: ToshiError?
+
+                defer {
+                    DispatchQueue.main.async {
+                        completion(succeeded, resultError)
+                    }
+                }
 
                 switch result {
                 case .success(_, let response):
                     guard response.statusCode == 204 else {
-                        DLog("Invalid response - Login")
-                        DispatchQueue.main.async {
-                            completion(false, ToshiError(withType: .invalidResponseStatus, description: "Request to login as admin could not be completed", responseStatus: response.statusCode))
-                        }
+                        resultError = .invalidResponseStatus(response.statusCode)
                         return
                     }
 
                     succeeded = true
                 case .failure(let json, _, let error):
-                    if let errors = json?.dictionary?["errors"] as? [[String: Any]], let errorMessage = (errors.first?["message"] as? String) {
-                        toshiError = ToshiError(withTeapotError: error, errorDescription: errorMessage)
-                    } else {
-                        toshiError = ToshiError(withTeapotError: error)
+                    guard
+                        let errorData = json?.data,
+                        let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
+                        let firstMessage = wrapper.errors.first?.message else {
+                            resultError = ToshiError(withTeapotError: error)
+                            return
                     }
-                }
 
-                DispatchQueue.main.async {
-                    completion(succeeded, toshiError)
+                    resultError = ToshiError(withTeapotError: error, errorDescription: firstMessage)
                 }
             }
         }
@@ -701,17 +654,14 @@ final class IDAPIClient {
     ///                 - frontpage sections: A list of sections, or nil
     ///                 - toshiError: A toshiError if any error was encountered, or nil
     func fetchProfilesFrontPage(completion: @escaping ProfilesFrontPageResults) {
-
         profilesFrontPageCache.fetch(key: Keys.profilesFrontPageCacheKey).onSuccess { data in
-            var frontPage: ProfilesFrontPage?
-            do {
-                let jsonDecoder = JSONDecoder()
-                frontPage = try jsonDecoder.decode(ProfilesFrontPage.self, from: data)
-            } catch { return }
-
-            DispatchQueue.main.async {
-                completion(frontPage?.sections, nil)
-            }
+            ProfilesFrontPage.fromJSONData(data,
+                                           successCompletion: { results in
+                                            DispatchQueue.main.async {
+                                                completion(results.sections, nil)
+                                            }
+                                           },
+                                           errorCompletion: nil)
         }
 
         let path = "/v2/search"
@@ -719,40 +669,34 @@ final class IDAPIClient {
             var sections: [ProfilesFrontPageSection]?
             var resultError: ToshiError?
 
+            defer {
+                DispatchQueue.main.async {
+                    completion(sections, resultError)
+                }
+            }
+
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
                 self?.profilesFrontPageCache.set(value: data, key: Keys.profilesFrontPageCacheKey)
 
-                let frontPage: ProfilesFrontPage
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    frontPage = try jsonDecoder.decode(ProfilesFrontPage.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
+                ProfilesFrontPage.fromJSONData(data,
+                                               successCompletion: { result in
+                                                sections = result.sections
+                                               },
+                                               errorCompletion: { parsingError in
+                                                resultError = parsingError
+                                               })
 
-                frontPage.sections.forEach({ section in
+                sections?.forEach { section in
                     section.profiles.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
-                })
-
-                sections = frontPage.sections
+                }
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(sections, resultError)
             }
         }
     }
@@ -773,40 +717,33 @@ final class IDAPIClient {
         searchProfilesTask?.cancel()
 
         searchProfilesTask = teapot.get(path) { result in
-
             var profiles: [Profile]?
             var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(profiles, type, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, type, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                let responseData: SearchedProfilesData
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    responseData = try jsonDecoder.decode(SearchedProfilesData.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, type, .invalidResponseJSON)
-                    }
-                    return
-                }
+                SearchedProfilesData.fromJSONData(data,
+                                                  successCompletion: { results in
+                                                    profiles = results.profiles
+                                                  },
+                                                  errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                  })
 
-                profiles = responseData.profiles
-                responseData.profiles.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
-
+                profiles?.forEach { AvatarManager.shared.downloadAvatar(for: String.contentsOrEmpty(for: $0.avatar)) }
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(profiles, type, resultError)
             }
         }
     }

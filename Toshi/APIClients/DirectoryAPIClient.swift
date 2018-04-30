@@ -59,50 +59,43 @@ final class DirectoryAPIClient {
         let path = "/v1/dapps/frontpage"
 
         cache.fetch(key: DirectoryAPIClientKeys.dappsFrontPageCacheKey).onSuccess { data in
-            var frontPage: DappsFrontPage?
-            do {
-                let jsonDecoder = JSONDecoder()
-                frontPage = try jsonDecoder.decode(DappsFrontPage.self, from: data)
-            } catch { return }
-
-            DispatchQueue.main.async {
-                completion(frontPage, nil)
-            }
+            DappsFrontPage.fromJSONData(data,
+                                        successCompletion: { results in
+                                            DispatchQueue.main.async {
+                                                completion(results, nil)
+                                            }
+                                        },
+                                        errorCompletion: nil)
         }
 
         teapot.get(path) { [weak self] result in
-
             var frontPage: DappsFrontPage?
             var resultError: ToshiError?
+
+            defer {
+                DispatchQueue.main.async {
+                    completion(frontPage, resultError)
+                }
+            }
 
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
                 self?.cache.set(value: data, key: DirectoryAPIClientKeys.dappsFrontPageCacheKey)
 
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    frontPage = try jsonDecoder.decode(DappsFrontPage.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
-
+                DappsFrontPage.fromJSONData(data,
+                                            successCompletion: { results in
+                                                frontPage = results
+                                            },
+                                            errorCompletion: { parsingError in
+                                                resultError = parsingError
+                                            })
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(frontPage, resultError)
             }
         }
     }
@@ -130,32 +123,28 @@ final class DirectoryAPIClient {
             var dappsResults: QueriedDappsResults?
             var resultError: ToshiError?
 
+            defer {
+                DispatchQueue.main.async {
+                    completion(dappsResults, resultError)
+                }
+            }
+
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidPayload)
-                    }
+                    resultError = .invalidPayload
                     return
                 }
 
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    dappsResults = try jsonDecoder.decode(QueriedDappsResults.self, from: data)
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(nil, .invalidResponseJSON)
-                    }
-                    return
-                }
-
+                QueriedDappsResults.fromJSONData(data,
+                                                 successCompletion: { results in
+                                                    dappsResults = results
+                                                 },
+                                                 errorCompletion: { parsingError in
+                                                    resultError = parsingError
+                                                 })
             case .failure(_, _, let error):
-                DLog(error.localizedDescription)
                 resultError = ToshiError(withTeapotError: error)
-            }
-
-            DispatchQueue.main.async {
-                completion(dappsResults, resultError)
             }
         }
     }
