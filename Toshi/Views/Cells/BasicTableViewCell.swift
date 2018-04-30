@@ -111,6 +111,16 @@ class BasicTableViewCell: UITableViewCell {
         return detailsLabel
     }()
 
+    lazy var valueLabel: UILabel = {
+        let valueLabel = UILabel()
+
+        valueLabel.font = Theme.preferredRegular()
+        valueLabel.textAlignment = .right
+        valueLabel.textColor = Theme.lightGreyTextColor
+
+        return valueLabel
+    }()
+
     lazy var leftImageView: UIImageView = {
         let leftImageView = UIImageView()
 

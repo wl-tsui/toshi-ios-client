@@ -16,5 +16,28 @@
 import UIKit
 
 final class WalletCell: BasicTableViewCell {
+    override func prepareForReuse() {
+        super.prepareForReuse()
 
+        titleTextField.text = nil
+        valueLabel.text = nil
+    }
+
+    override open func addSubviewsAndConstraints() {
+        accessoryType = .disclosureIndicator
+
+        contentView.addSubview(titleTextField)
+        contentView.addSubview(valueLabel)
+
+        titleTextField.top(to: contentView, offset: BasicTableViewCell.verticalMargin)
+        titleTextField.left(to: contentView, offset: BasicTableViewCell.horizontalMargin)
+        titleTextField.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
+        titleTextField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+
+        valueLabel.backgroundColor = .red
+        valueLabel.leftToRight(of: titleTextField, offset: BasicTableViewCell.horizontalMargin)
+        valueLabel.top(to: contentView, offset: BasicTableViewCell.verticalMargin)
+        valueLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
+        valueLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
+    }
 }

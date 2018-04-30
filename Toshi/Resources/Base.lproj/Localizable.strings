@@ -103,6 +103,7 @@
 "settings_navigation_title" = "Me";
 
 "settings_header_profile" = "Profile";
+"settings_header_wallet" = "Wallet";
 "settings_header_balance" = "Balance";
 "settings_header_security" = "Security";
 "settings_header_security_text" = "Your account is at risk";

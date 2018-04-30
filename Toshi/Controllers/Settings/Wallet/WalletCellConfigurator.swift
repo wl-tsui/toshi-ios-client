@@ -16,5 +16,8 @@
 import UIKit
 
 final class WalletCellConfigurator: CellConfigurator {
-
+    func configureCell(_ cell: WalletCell) {
+        cell.titleTextField.text = "Wallet"
+        cell.valueLabel.text = "Wallet 2"
+    }
 }

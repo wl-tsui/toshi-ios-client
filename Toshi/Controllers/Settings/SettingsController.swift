@@ -22,6 +22,7 @@ class SettingsController: UIViewController {
 
     enum SettingsSection: Int {
         case profile
+        case wallet
         case balance
         case security
         case settings
@@ -30,6 +31,8 @@ class SettingsController: UIViewController {
             switch self {
             case .profile:
                 return [.profile, .qrCode]
+            case .wallet:
+                return [.wallet]
             case .balance:
                 return [.balance]
             case .security:
@@ -47,6 +50,8 @@ class SettingsController: UIViewController {
             switch self {
             case .profile:
                 return Localized.settings_header_profile
+            case .wallet:
+                return Localized.settings_header_wallet
             case .balance:
                 return Localized.settings_header_balance
             case .security:
@@ -108,6 +113,7 @@ class SettingsController: UIViewController {
         view.preservesSuperviewLayoutMargins = true
 
         view.register(UITableViewCell.self)
+        view.register(WalletCell.self)
 
         return view
     }()
@@ -269,7 +275,7 @@ extension SettingsController: UITableViewDataSource {
         case .profile:
             cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
         case .wallet:
-           cell = setupWalletCell()
+           cell = setupWalletCell(for: indexPath)
         case .balance:
             cell = tableView.dequeue(InputCell.self, for: indexPath)
         default:
@@ -281,10 +287,6 @@ extension SettingsController: UITableViewDataSource {
         switch item {
         case .profile:
             setupProfileCell(cell)
-        case .wallet:
-            cell.textLabel?.text = "Wallet"
-            cell.textLabel?.textColor = Theme.darkTextColor
-            cell.accessoryType = .disclosureIndicator
         case .qrCode:
             cell.textLabel?.text = Localized.settings_cell_qr
             cell.textLabel?.textColor = Theme.darkTextColor
@@ -319,6 +321,7 @@ extension SettingsController: UITableViewDataSource {
             cell.textLabel?.text = Localized.settings_cell_signout
             cell.textLabel?.textColor = Theme.errorColor
             cell.accessoryType = .none
+        default: break
         }
 
         cell.isAccessibilityElement = true
@@ -326,7 +329,7 @@ extension SettingsController: UITableViewDataSource {
         return cell
     }
 
-    private func setupWalletCell() -> UITableViewCell {
+    private func setupWalletCell(for indexPath: IndexPath) -> UITableViewCell {
         let walletCellConfigurator = WalletCellConfigurator()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
 
@@ -363,6 +366,9 @@ extension SettingsController: UITableViewDelegate {
             let profileVC = ProfileViewController(profile: current, readOnlyMode: false)
             
             self.navigationController?.pushViewController(profileVC, animated: true)
+        case .wallet:
+            print("wallet cell selected")
+            //TODO: Push Wallet selection controller
         case .qrCode:
             guard let current = Profile.current else { return }
             let qrCodeController = QRCodeController(for: current.displayUsername, name: current.nameOrDisplayName)
