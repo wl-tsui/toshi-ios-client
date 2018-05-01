@@ -321,7 +321,8 @@ extension SettingsController: UITableViewDataSource {
             cell.textLabel?.text = Localized.settings_cell_signout
             cell.textLabel?.textColor = Theme.errorColor
             cell.accessoryType = .none
-        default: break
+        default:
+            break
         }
 
         cell.isAccessibilityElement = true
