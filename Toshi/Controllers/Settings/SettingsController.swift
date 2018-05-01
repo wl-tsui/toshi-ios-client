@@ -341,8 +341,7 @@ extension SettingsController: UITableViewDelegate {
             
             self.navigationController?.pushViewController(profileVC, animated: true)
         case .wallet:
-            print("wallet cell selected")
-            //TODO: Push Wallet selection controller
+            self.navigationController?.pushViewController(WalletPickerController(), animated: true)
         case .security:
             self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
         case .localCurrency:
