@@ -19,6 +19,11 @@ final class WalletPickerDataSource: NSObject {
 
     private var tableView: UITableView
     private var wallets = [Wallet]()
+    private var indexPathForSelectedWallet: IndexPath? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     init(tableView: UITableView) {
         self.tableView = tableView
@@ -55,6 +60,7 @@ extension WalletPickerDataSource: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletPickerCell.reuseIdentifier, for: indexPath) as? WalletPickerCell else { fatalError("Unexpected cell") }
 
         configurator.configureCell(cell, withWallet: wallet)
+        cell.checkmarkView.checked = indexPathForSelectedWallet == indexPath
 
         return cell
     }
@@ -64,8 +70,7 @@ extension WalletPickerDataSource: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        // select wallet
+        indexPathForSelectedWallet = indexPath
     }
 }
 

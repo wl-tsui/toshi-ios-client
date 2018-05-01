@@ -27,6 +27,7 @@ final class WalletPickerController: UIViewController {
         view.sectionFooterHeight = 0.0
         view.estimatedRowHeight = 50
         view.alwaysBounceVertical = true
+        view.tableFooterView = UIView()
 
         return view
     }()
