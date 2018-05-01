@@ -18,6 +18,42 @@ import UIKit
 final class WalletPickerCell: BasicTableViewCell {
     
     override func addSubviewsAndConstraints() {
+        contentView.addSubview(leftImageView)
+        contentView.addSubview(titleTextField)
+        contentView.addSubview(valueLabel)
+        contentView.addSubview(checkmarkView)
 
+        setupTitleTextField()
+        setupLeftImageView()
+        setupValueLabel()
+        setupCheckmarkView()
+    }
+
+    private func setupTitleTextField() {
+        titleTextField.centerY(to: contentView)
+        titleTextField.leftToRight(of: leftImageView, offset: BasicTableViewCell.largeInterItemMargin)
+        titleTextField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    }
+
+    private func setupLeftImageView() {
+        leftImageView.size(CGSize(width: BasicTableViewCell.imageSize, height: BasicTableViewCell.imageSize))
+        leftImageView.centerY(to: contentView, priority: .defaultHigh)
+        leftImageView.left(to: contentView, offset: BasicTableViewCell.horizontalMargin)
+        leftImageView.top(to: contentView, offset: BasicTableViewCell.imageMargin, relation: .equalOrGreater)
+        leftImageView.bottom(to: contentView, offset: -BasicTableViewCell.imageMargin, relation: .equalOrGreater)
+    }
+
+    private func setupValueLabel() {
+        valueLabel.leftToRight(of: titleTextField, offset: BasicTableViewCell.horizontalMargin)
+        valueLabel.top(to: contentView, offset: BasicTableViewCell.verticalMargin)
+        valueLabel.rightToLeft(of: checkmarkView, offset: -BasicTableViewCell.horizontalMargin)
+        valueLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
+    }
+
+    private func setupCheckmarkView() {
+        checkmarkView.centerY(to: contentView)
+        checkmarkView.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
+        checkmarkView.layer.borderColor = UIColor.red.cgColor
+        checkmarkView.checked = false
     }
 }

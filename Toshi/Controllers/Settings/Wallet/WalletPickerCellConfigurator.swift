@@ -18,5 +18,7 @@ import UIKit
 final class WalletPickerCellConfigurator: CellConfigurator {
     func configureCell(_ cell: WalletPickerCell, withWallet wallet: String) {
         cell.titleTextField.text = wallet
+        cell.valueLabel.text = "0x9182398f"
+        cell.leftImageView.image = ImageAsset.avatar_placeholder
     }
 }

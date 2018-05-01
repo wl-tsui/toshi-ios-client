@@ -23,7 +23,7 @@ final class WalletPickerController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
 
         view.backgroundColor = Theme.viewBackgroundColor
-        BasicTableViewCell.register(in: view)
+        view.register(WalletPickerCell.self)
         view.sectionFooterHeight = 0.0
         view.estimatedRowHeight = 50
         view.alwaysBounceVertical = true
