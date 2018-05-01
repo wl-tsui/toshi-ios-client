@@ -23,18 +23,15 @@ class SettingsController: UIViewController {
     enum SettingsSection: Int {
         case profile
         case wallet
-        case balance
         case security
         case settings
 
         var items: [SettingsItem] {
             switch self {
             case .profile:
-                return [.profile, .qrCode]
+                return [.profile]
             case .wallet:
                 return [.wallet]
-            case .balance:
-                return [.balance]
             case .security:
                 return [.security]
             case .settings:
@@ -52,8 +49,6 @@ class SettingsController: UIViewController {
                 return Localized.settings_header_profile
             case .wallet:
                 return Localized.settings_header_wallet
-            case .balance:
-                return Localized.settings_header_balance
             case .security:
                 return Localized.settings_header_security
             case .settings:
@@ -80,7 +75,7 @@ class SettingsController: UIViewController {
     }
 
     enum SettingsItem: Int {
-        case profile, qrCode, wallet, balance, security, advanced, localCurrency, signOut
+        case profile, wallet, security, advanced, localCurrency, signOut
     }
 
     private var ethereumAPIClient: EthereumAPIClient {
@@ -99,7 +94,7 @@ class SettingsController: UIViewController {
         return Profile.current?.verified ?? false
     }
 
-    private let sections: [SettingsSection] = [.profile, .wallet, .balance, .security, .settings]
+    private let sections: [SettingsSection] = [.profile, .wallet, .security, .settings]
 
     private lazy var tableView: UITableView = {
 
@@ -276,8 +271,6 @@ extension SettingsController: UITableViewDataSource {
             cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
         case .wallet:
            cell = setupWalletCell(for: indexPath)
-        case .balance:
-            cell = tableView.dequeue(InputCell.self, for: indexPath)
         default:
             cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
             cell.textLabel?.textColor = Theme.darkTextColor
@@ -287,27 +280,6 @@ extension SettingsController: UITableViewDataSource {
         switch item {
         case .profile:
             setupProfileCell(cell)
-        case .qrCode:
-            cell.textLabel?.text = Localized.settings_cell_qr
-            cell.textLabel?.textColor = Theme.darkTextColor
-            cell.accessoryType = .disclosureIndicator
-        case .balance:
-            if let cell = cell as? InputCell {
-
-                let balance = self.balance ?? .zero
-
-                let ethereumValueString = EthereumConverter.ethereumValueString(forWei: balance)
-                let fiatValueString = EthereumConverter.fiatValueStringWithCode(forWei: balance, exchangeRate: ExchangeRateClient.exchangeRate)
-
-                cell.titleLabel.text = fiatValueString
-                cell.textField.text = ethereumValueString
-                cell.textField.isUserInteractionEnabled = false
-                cell.switchControl.isHidden = true
-
-//                cell.titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-
-                cell.accessoryType = .disclosureIndicator
-            }
         case .security:
             cell.textLabel?.text = Localized.settings_cell_passphrase
             cell.accessoryType = .disclosureIndicator
@@ -371,17 +343,6 @@ extension SettingsController: UITableViewDelegate {
         case .wallet:
             print("wallet cell selected")
             //TODO: Push Wallet selection controller
-        case .qrCode:
-            guard let current = Profile.current else { return }
-            let qrCodeController = QRCodeController(for: current.displayUsername, name: current.nameOrDisplayName)
-
-            self.navigationController?.pushViewController(qrCodeController, animated: true)
-        case .balance:
-            let controller = BalanceController()
-            if let balance = balance {
-                controller.balance = balance
-            }
-            self.navigationController?.pushViewController(controller, animated: true)
         case .security:
             self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
         case .localCurrency:

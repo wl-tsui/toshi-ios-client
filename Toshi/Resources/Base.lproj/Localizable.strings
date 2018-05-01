@@ -51,11 +51,6 @@
 "thread_action_mute" = "Mute";
 "thread_action_unmute" = "Unmute";
 
-/* Balance */
-"balance_navigation_title" = "Balance";
-"balance_action_send" = "Send";
-"balance_action_deposit" = "Deposit";
-
 /* Payment */
 "payment_request" = "Request Payment";
 "payment_send" = "New Payment";
@@ -104,7 +99,6 @@
 
 "settings_header_profile" = "Profile";
 "settings_header_wallet" = "Wallet";
-"settings_header_balance" = "Balance";
 "settings_header_security" = "Security";
 "settings_header_security_text" = "Your account is at risk";
 "settings_header_settings" = "Settings";
@@ -130,10 +124,6 @@
 "settings_signout_action_ok" = "Ok";
 "settings_signout_action_delete" = "Delete";
 "settings_signout_action_signout" = "Sign out";
-
-"settings_deposit_error_title" = "Your account is at Risk";
-"settings_deposit_error_message" = "You haven’t backed up your passphrase yet. Without it you risk losing money.";
-"settings_deposit_error_action_backup" = "Backup";
 
 "settings_advanced_network_change_warning" = "Changing the network allows you to test services without the risk of losing money. It’s recommended not to change these settings unless you are a developer\n\n";
 "active_network_format" = "Active network: %@";
@@ -164,11 +154,6 @@
 "image_picker_select_source_title" = "Select source";
 "image_picker_camera_action_title" = "Camera";
 "image_picker_library_action_title" = "Library";
-
-/* Profile QR Code */
-
-"profile_qr_code_title" = "My QR Code";
-"profile_qr_code_subtitle" = "Use this QR code to let others add you on Toshi.";
 
 /* Deposit Money */
 
