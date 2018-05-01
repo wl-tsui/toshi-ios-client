@@ -18,7 +18,7 @@ import UIKit
 final class WalletPickerDataSource: NSObject {
 
     private var tableView: UITableView
-    private var wallets = [String]()
+    private var wallets = [Wallet]()
 
     init(tableView: UITableView) {
         self.tableView = tableView
@@ -29,7 +29,11 @@ final class WalletPickerDataSource: NSObject {
         self.tableView.delegate = self
 
         //Get wallets for real
-        self.wallets = ["Wallet1", "Wallet2", "Wallet3", "Wallet4"]
+        self.wallets = [
+            Wallet(name: "Wallet1", address: "0xf1c76a75d8b3175fr8", imagePath: "https://bakkenbaeck.com/images/team/marijn.096ca0b8ab.jpg"),
+            Wallet(name: "Wallet2", address: "0xf3a65c12d8d3175fr8", imagePath: "https://bakkenbaeck.com/images/team/ellen.2454e06760.jpg"),
+            Wallet(name: "Wallet3", address: "0xf7b76a75d8b3175fr8", imagePath: "https://bakkenbaeck.com/images/team/yulia.dfc4e6cba7.jpg"),
+            Wallet(name: "Wallet4", address: "0xf353ca75d8b3175fr8", imagePath: "https://bakkenbaeck.com/images/team/mark.f73a421a3e.jpg")]
     }
 }
 
@@ -63,4 +67,10 @@ extension WalletPickerDataSource: UITableViewDelegate {
 
         // select wallet
     }
+}
+
+struct Wallet {
+    let name: String
+    let address: String
+    let imagePath: String
 }

@@ -16,9 +16,17 @@
 import UIKit
 
 final class WalletPickerCellConfigurator: CellConfigurator {
-    func configureCell(_ cell: WalletPickerCell, withWallet wallet: String) {
-        cell.titleTextField.text = wallet
-        cell.valueLabel.text = "0x9182398f"
+    func configureCell(_ cell: WalletPickerCell, withWallet wallet: Wallet) {
+        cell.titleTextField.text = wallet.name
+        cell.valueLabel.text = wallet.address
         cell.leftImageView.image = ImageAsset.avatar_placeholder
+
+        cell.valueLabel.lineBreakMode = .byTruncatingMiddle
+
+        AvatarManager.shared.avatar(for: wallet.imagePath, completion: { image, path in
+            if wallet.imagePath == path {
+                cell.leftImageView.image = image
+            }
+        })
     }
 }

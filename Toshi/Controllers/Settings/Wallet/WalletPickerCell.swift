@@ -48,6 +48,7 @@ final class WalletPickerCell: BasicTableViewCell {
         valueLabel.top(to: contentView, offset: BasicTableViewCell.verticalMargin)
         valueLabel.rightToLeft(of: checkmarkView, offset: -BasicTableViewCell.horizontalMargin)
         valueLabel.bottom(to: contentView, offset: -BasicTableViewCell.verticalMargin)
+        valueLabel.width(100)
     }
 
     private func setupCheckmarkView() {
