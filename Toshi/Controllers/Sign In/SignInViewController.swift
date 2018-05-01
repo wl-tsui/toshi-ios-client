@@ -126,6 +126,13 @@ final class SignInViewController: UIViewController {
     private func acceptItem(at indexPath: IndexPath, completion: ((Bool) -> Swift.Void)? = nil) {
         signInView?.textField.text = nil
 
+        if
+            let cell = signInView?.collectionView.cellForItem(at: indexPath) as? SignInCell,
+            let match = cell.match  {
+            // Replace the entered string with the accepted string to prevent weird errors if the collection view has to reload.
+            enteredStrings[indexPath.row] = match
+        }
+
         let newIndexPath = IndexPath(item: itemCount, section: 0)
         UIView.performWithoutAnimation {
             addItem(at: newIndexPath, completion: { [weak self] _ in
@@ -275,24 +282,21 @@ extension SignInViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SignInCell.reuseIdentifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SignInCell.reuseIdentifier, for: indexPath) as? SignInCell else {
+            assertionFailure("Incorrect cell type!")
+            return UICollectionViewCell()
+        }
 
-        if let cell = cell as? SignInCell {
-            let text = enteredStrings[indexPath.item]
+        let text = enteredStrings[indexPath.item]
+        let comparison = PasswordValidator.shared.validateWord(for: text)
 
-            if !userDidPastePassphrase {
-                cell.setText(text, isFirstAndOnly: itemCount == 1)
-                return cell
-            }
+        if let match = comparison.match {
+            cell.setText(text, with: match)
+        } else {
+            cell.setText(text, isFirstAndOnly: itemCount == 1)
+        }
 
-            let comparison = PasswordValidator.shared.validateWord(for: text)
-
-            if let match = comparison.match {
-                cell.setText(text, with: match)
-            } else {
-                cell.setText(text, isFirstAndOnly: itemCount == 1)
-            }
-
+        if userDidPastePassphrase {
             cell.isActive = false
 
             collectionView.deselectItem(at: indexPath, animated: false)
