@@ -22,6 +22,7 @@ class SettingsController: UIViewController {
 
     enum SettingsSection: Int {
         case profile
+        case wallet
         case balance
         case security
         case settings
@@ -30,6 +31,8 @@ class SettingsController: UIViewController {
             switch self {
             case .profile:
                 return [.profile, .qrCode]
+            case .wallet:
+                return [.wallet]
             case .balance:
                 return [.balance]
             case .security:
@@ -47,6 +50,8 @@ class SettingsController: UIViewController {
             switch self {
             case .profile:
                 return Localized.settings_header_profile
+            case .wallet:
+                return Localized.settings_header_wallet
             case .balance:
                 return Localized.settings_header_balance
             case .security:
@@ -75,7 +80,7 @@ class SettingsController: UIViewController {
     }
 
     enum SettingsItem: Int {
-        case profile, qrCode, balance, security, advanced, localCurrency, signOut
+        case profile, qrCode, wallet, balance, security, advanced, localCurrency, signOut
     }
 
     private var ethereumAPIClient: EthereumAPIClient {
@@ -94,7 +99,7 @@ class SettingsController: UIViewController {
         return Profile.current?.verified ?? false
     }
 
-    private let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
+    private let sections: [SettingsSection] = [.profile, .wallet, .balance, .security, .settings]
 
     private lazy var tableView: UITableView = {
 
@@ -108,6 +113,7 @@ class SettingsController: UIViewController {
         view.preservesSuperviewLayoutMargins = true
 
         view.register(UITableViewCell.self)
+        view.register(WalletCell.self)
 
         return view
     }()
@@ -268,6 +274,8 @@ extension SettingsController: UITableViewDataSource {
         switch item {
         case .profile:
             cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
+        case .wallet:
+           cell = setupWalletCell(for: indexPath)
         case .balance:
             cell = tableView.dequeue(InputCell.self, for: indexPath)
         default:
@@ -313,10 +321,22 @@ extension SettingsController: UITableViewDataSource {
             cell.textLabel?.text = Localized.settings_cell_signout
             cell.textLabel?.textColor = Theme.errorColor
             cell.accessoryType = .none
+        default:
+            break
         }
 
         cell.isAccessibilityElement = true
         
+        return cell
+    }
+
+    private func setupWalletCell(for indexPath: IndexPath) -> UITableViewCell {
+        let walletCellConfigurator = WalletCellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
+
+        //TODO: Change hardcoded string to the actual name of the currently selected wallet
+        walletCellConfigurator.configureCell(cell, withSelectedWalletName: "Wallet 2")
+
         return cell
     }
 
@@ -348,6 +368,9 @@ extension SettingsController: UITableViewDelegate {
             let profileVC = ProfileViewController(profile: current, readOnlyMode: false)
             
             self.navigationController?.pushViewController(profileVC, animated: true)
+        case .wallet:
+            print("wallet cell selected")
+            //TODO: Push Wallet selection controller
         case .qrCode:
             guard let current = Profile.current else { return }
             let qrCodeController = QRCodeController(for: current.displayUsername, name: current.nameOrDisplayName)
