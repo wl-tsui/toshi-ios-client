@@ -17,9 +17,6 @@ enum LocalizedKey: String, StringCaseListable {
     alert_ok_action_title,
     attachment_message_preview_string,
     back_action_title,
-    balance_action_deposit,
-    balance_action_send,
-    balance_navigation_title,
     block_action_title,
     block_alert_message,
     block_alert_title,
@@ -160,8 +157,6 @@ enum LocalizedKey: String, StringCaseListable {
     profile_me_title,
     profile_message_button_title,
     profile_pay_button_title,
-    profile_qr_code_subtitle,
-    profile_qr_code_title,
     profile_rate_bot,
     profile_rate_user,
     profile_reputation_section_header,
@@ -195,10 +190,6 @@ enum LocalizedKey: String, StringCaseListable {
     settings_cell_passphrase,
     settings_cell_qr,
     settings_cell_signout,
-    settings_deposit_error_action_backup,
-    settings_deposit_error_message,
-    settings_deposit_error_title,
-    settings_header_balance,
     settings_header_profile,
     settings_header_security,
     settings_header_security_text,
@@ -341,15 +332,6 @@ struct Localized {
     
     /// `en`: "Back"
     static let back_action_title = LocalizedKey.back_action_title.currentValue
-    
-    /// `en`: "Deposit"
-    static let balance_action_deposit = LocalizedKey.balance_action_deposit.currentValue
-    
-    /// `en`: "Send"
-    static let balance_action_send = LocalizedKey.balance_action_send.currentValue
-    
-    /// `en`: "Balance"
-    static let balance_navigation_title = LocalizedKey.balance_navigation_title.currentValue
     
     /// `en`: "Block"
     static let block_action_title = LocalizedKey.block_action_title.currentValue
@@ -771,12 +753,6 @@ struct Localized {
     /// `en`: "Pay"
     static let profile_pay_button_title = LocalizedKey.profile_pay_button_title.currentValue
     
-    /// `en`: "Use this QR code to let others add you on Toshi."
-    static let profile_qr_code_subtitle = LocalizedKey.profile_qr_code_subtitle.currentValue
-    
-    /// `en`: "My QR Code"
-    static let profile_qr_code_title = LocalizedKey.profile_qr_code_title.currentValue
-    
     /// `en`: "Rate Bot"
     static let profile_rate_bot = LocalizedKey.profile_rate_bot.currentValue
     
@@ -875,18 +851,6 @@ struct Localized {
     
     /// `en`: "Sign out"
     static let settings_cell_signout = LocalizedKey.settings_cell_signout.currentValue
-    
-    /// `en`: "Backup"
-    static let settings_deposit_error_action_backup = LocalizedKey.settings_deposit_error_action_backup.currentValue
-    
-    /// `en`: "You haven’t backed up your passphrase yet. Without it you risk losing money."
-    static let settings_deposit_error_message = LocalizedKey.settings_deposit_error_message.currentValue
-    
-    /// `en`: "Your account is at Risk"
-    static let settings_deposit_error_title = LocalizedKey.settings_deposit_error_title.currentValue
-    
-    /// `en`: "Balance"
-    static let settings_header_balance = LocalizedKey.settings_header_balance.currentValue
     
     /// `en`: "Profile"
     static let settings_header_profile = LocalizedKey.settings_header_profile.currentValue
