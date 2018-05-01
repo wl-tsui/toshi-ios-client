@@ -41,8 +41,22 @@ final class WalletPickerController: UIViewController {
         addSubviewsAndConstraints()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        preferLargeTitleIfPossible(false)
+    }
+
     private func addSubviewsAndConstraints() {
         view.addSubview(tableView)
         tableView.edges(to: view)
     }
 }
+
+extension WalletPickerController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
+}
+
