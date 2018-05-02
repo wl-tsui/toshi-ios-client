@@ -23,7 +23,6 @@ class NetworkSettingsController: UIViewController {
     }()
 
     private lazy var tableView: UITableView = {
-
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.allowsSelection = true
@@ -36,37 +35,25 @@ class NetworkSettingsController: UIViewController {
         return view
     }()
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = Localized.settings_network_title
 
+        setupActiveNetworkView()
+
         view.addSubview(tableView)
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.edgesToSuperview(excluding: .bottom)
+        tableView.bottomToTop(of: activeNetworkView)
 
         setupActivityIndicator()
     }
 
-    @objc func activeNetworkChanged(_: Notification) {
-        DispatchQueue.main.async {
-            self.hideActivityIndicator()
-            self.tableView.reloadData()
-        }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(activeNetworkChanged(_:)), name: .SwitchedNetworkChanged, object: nil)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        NotificationCenter.default.removeObserver(self, name: .SwitchedNetworkChanged, object: nil)
+    deinit {
+        removeActiveNetworkObserver()
     }
 }
 
@@ -105,5 +92,14 @@ extension NetworkSettingsController: UITableViewDelegate {
 extension NetworkSettingsController: ActivityIndicating {
     var activityIndicator: UIActivityIndicatorView {
         return activityView
+    }
+}
+
+extension NetworkSettingsController: ActiveNetworkDisplaying {
+    func switchedNetworkChanged() {
+        self.hideActivityIndicator()
+        self.tableView.reloadData()
+
+        updateActiveNetworkView()
     }
 }

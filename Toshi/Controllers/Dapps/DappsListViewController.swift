@@ -16,11 +16,26 @@
 import Foundation
 import UIKit
 
-final class DappsListViewController: UITableViewController {
+final class DappsListViewController: UIViewController {
 
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+
+        tableView.alwaysBounceVertical = true
+        tableView.showsVerticalScrollIndicator = true
+        tableView.estimatedRowHeight = 50
+        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
+
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        return tableView
+    }()
 
     private lazy var dataSource: DappsDataSource = {
         let dataSource = DappsDataSource(mode: .allOrFiltered)
@@ -30,6 +45,9 @@ final class DappsListViewController: UITableViewController {
     }()
 
     private var categoryId: Int?
+
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
 
     init(categoryId: Int? = nil, name: String?) {
         super.init(nibName: nil, bundle: nil)
@@ -50,9 +68,8 @@ final class DappsListViewController: UITableViewController {
         super.viewDidLoad()
 
         view.backgroundColor = Theme.viewBackgroundColor
-        BasicTableViewCell.register(in: tableView)
-
-        configureTableView()
+        setupActiveNetworkView()
+        setupTableView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -70,29 +87,39 @@ final class DappsListViewController: UITableViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
-    private func configureTableView() {
-        tableView.alwaysBounceVertical = true
-        tableView.showsVerticalScrollIndicator = true
-        tableView.estimatedRowHeight = 50
-        tableView.tableFooterView = UIView(frame: .zero)
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: .defaultMargin)
+    deinit {
+        removeActiveNetworkObserver()
     }
 
-    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+    private func setupTableView() {
+        view.addSubview(tableView)
+        BasicTableViewCell.register(in: tableView)
+
+        tableView.edgesToSuperview(excluding: .bottom)
+        tableView.bottomToTop(of: activeNetworkView)
+    }
+}
+
+extension DappsListViewController: UITableViewDelegate {
+
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = dataSource.itemAtIndexPath(indexPath), let dapp = item.dapp else { return }
         let controller = DappViewController(with: dapp, categoriesInfo: dataSource.categoriesInfo)
         Navigator.push(controller)
     }
+}
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension DappsListViewController: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
         return dataSource.numberOfSections
     }
 
-    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.numberOfItems(in: section)
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let dapp = dataSource.itemAtIndexPath(indexPath) else {
             assertionFailure("Could not get profile at indexPath: \(indexPath)")
@@ -127,3 +154,5 @@ extension DappsListViewController: NavBarColorChanging {
     var navTitleColor: UIColor? { return Theme.darkTextColor }
     var navShadowImage: UIImage? { return nil }
 }
+
+extension DappsListViewController: ActiveNetworkDisplaying { /* mix-in */ }

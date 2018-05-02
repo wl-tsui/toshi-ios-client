@@ -28,9 +28,14 @@ import UIKit
 /// Note that all conformances are on the main class since methods in extensions cannot be overridden.
 class DisappearingNavBarViewController: UIViewController, DisappearingBackgroundNavBarDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate {
 
-    /// If disappearing is enabled at present.
+    /// If disappearing is enabled at present. Defaults to true.
     var disappearingEnabled: Bool {
         return true
+    }
+
+    /// If showing the network indicator is enabled at present. Defautlts to false.
+    var activeNetworkViewEnabled: Bool {
+        return false
     }
 
     /// The current height of the disappearing nav bar.
@@ -84,6 +89,9 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         }
     }
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
@@ -116,6 +124,10 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         super.viewWillDisappear(animated)
     }
 
+    deinit {
+        removeActiveNetworkObserver()
+    }
+
     // MARK: - View Setup
 
     /// Sets up the navigation bar and all scrolling content.
@@ -124,7 +136,14 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         view.addSubview(scrollingView)
 
         scrollingView.delegate = self
-        scrollingView.edgesToSuperview()
+        scrollingView.edgesToSuperview(excluding: .bottom)
+        
+        if activeNetworkViewEnabled {
+            setupActiveNetworkView()
+            scrollingView.bottomToTop(of: activeNetworkView)
+        } else {
+            scrollingView.bottomToSuperview()
+        }
 
         view.addSubview(navBar)
 
@@ -262,5 +281,14 @@ class DisappearingNavBarViewController: UIViewController, DisappearingBackground
         // Allow the pop gesture to be recognized
         
         return true
+    }
+}
+
+extension DisappearingNavBarViewController: ActiveNetworkDisplaying {
+
+    func switchedNetworkChanged() {
+        guard activeNetworkViewEnabled else { return }
+
+        updateActiveNetworkView()
     }
 }

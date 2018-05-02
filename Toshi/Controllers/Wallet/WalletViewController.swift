@@ -66,6 +66,13 @@ final class WalletViewController: UIViewController {
         return numberFormatter
     }()
 
+    private lazy var emptyView: WalletEmptyView = {
+        return WalletEmptyView(frame: .zero)
+    }()
+
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -93,16 +100,21 @@ final class WalletViewController: UIViewController {
         }
     }
 
-    private lazy var emptyView: WalletEmptyView = {
-        return WalletEmptyView(frame: .zero)
-    }()
-
     private func addSubviewsAndConstraints() {
+        setupActiveNetworkView()
+
+        let guide = layoutGuide()
         view.addSubview(emptyView)
-        emptyView.edges(to: layoutGuide(), insets: UIEdgeInsets(top: walletHeaderHeight + sectionHeaderHeight, left: 0, bottom: 0, right: 0))
+        emptyView.top(to: guide, offset: walletHeaderHeight + sectionHeaderHeight)
+        emptyView.left(to: guide)
+        emptyView.right(to: guide)
+        emptyView.bottomToTop(of: activeNetworkView)
 
         view.addSubview(tableView)
-        tableView.edges(to: layoutGuide())
+        tableView.top(to: guide)
+        tableView.left(to: guide)
+        tableView.right(to: guide)
+        tableView.bottom(to: activeNetworkView)
 
         let frame = CGRect(origin: .zero, size: CGSize(width: tableView.bounds.width, height: walletHeaderHeight))
 
@@ -110,6 +122,10 @@ final class WalletViewController: UIViewController {
                                                address: Cereal.shared.paymentAddress,
                                                delegate: self)
         tableView.tableHeaderView = headerView
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
 
     @objc private func refresh(_ refreshControl: UIRefreshControl) {
@@ -125,6 +141,7 @@ final class WalletViewController: UIViewController {
         emptyView.isHidden = !datasource.isEmpty
         emptyView.title = datasource.emptyStateTitle
         emptyView.details = datasource.emptyStateDetails
+        emptyView.layoutIfNeeded()
     }
 
     private func showActivityIndicatorIfOnline() {
@@ -316,3 +333,5 @@ extension WalletViewController: NavBarColorChanging {
     var navTitleColor: UIColor? { return Theme.lightTextColor }
     var navShadowImage: UIImage? { return UIImage() }
 }
+
+extension WalletViewController: ActiveNetworkDisplaying { /* mix-in */ }

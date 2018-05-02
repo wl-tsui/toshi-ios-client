@@ -693,9 +693,7 @@
 		A91629171F3C85D6008A7F36 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* PaymentManager.swift */; };
 		A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9180FB01F5452A000DC668E /* MessagesErrorView.swift */; };
 		A9181D221EDD8154005B63F6 /* RoundIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9181D211EDD8154005B63F6 /* RoundIconButton.swift */; };
-		A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCA1F2203DD00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
-		A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9191DCD1F22040E00498A4F /* AdvancedSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */; };
 		A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9191DCF1F2220C100498A4F /* BalanceController.swift */; };
 		A91D72A01F877FFA0093420C /* ChatsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91D72991F877FF90093420C /* ChatsNavigationController.swift */; };
@@ -867,7 +865,6 @@
 		A9603F5E1F4DABDC00BF57B1 /* SweetSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF80D1EB36A7F002D0293 /* SweetSwift.framework */; };
 		A9603F601F4DABDC00BF57B1 /* HDWallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F3FF8061EB36A7F002D0293 /* HDWallet.framework */; };
 		A9603F6A1F4DABDC00BF57B1 /* messageSent.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEF1E65D043003705F6 /* messageSent.m4a */; };
-		A9603F6E1F4DABDC00BF57B1 /* AdvancedSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */; };
 		A9603F6F1F4DABDC00BF57B1 /* SettingsProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3DF35D1F4721D000A869A3 /* SettingsProfileCell.xib */; };
 		A9603F711F4DABDC00BF57B1 /* requestPayment.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF611E66CD6C00948277 /* requestPayment.m4a */; };
 		A9603F731F4DABDC00BF57B1 /* scan.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FEFEF631E66CE0000948277 /* scan.m4a */; };
@@ -1540,7 +1537,6 @@
 		A91629151F3C7CFD008A7F36 /* PaymentManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentManager.swift; sourceTree = "<group>"; };
 		A9180FB01F5452A000DC668E /* MessagesErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesErrorView.swift; sourceTree = "<group>"; };
 		A9181D211EDD8154005B63F6 /* RoundIconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundIconButton.swift; sourceTree = "<group>"; };
-		A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AdvancedSettings.storyboard; sourceTree = "<group>"; };
 		A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsController.swift; sourceTree = "<group>"; };
 		A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSettingsController.swift; sourceTree = "<group>"; };
 		A9191DCF1F2220C100498A4F /* BalanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BalanceController.swift; sourceTree = "<group>"; };
@@ -2632,19 +2628,10 @@
 		A9191DC41F2203DD00498A4F /* Advanced */ = {
 			isa = PBXGroup;
 			children = (
-				A9191DC71F2203DD00498A4F /* Network */,
-				A9191DC51F2203DD00498A4F /* AdvancedSettings.storyboard */,
+				A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */,
 				A9191DC61F2203DD00498A4F /* AdvancedSettingsController.swift */,
 			);
 			path = Advanced;
-			sourceTree = "<group>";
-		};
-		A9191DC71F2203DD00498A4F /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				A9191DC81F2203DD00498A4F /* NetworkSettingsController.swift */,
-			);
-			path = Network;
 			sourceTree = "<group>";
 		};
 		A9191DCE1F2220B100498A4F /* Balance */ = {
@@ -3235,7 +3222,6 @@
 				9FB36EAE1E7C27A300DB6F86 /* messageSent.m4a in Resources */,
 				A90661D51F79083A00D408E1 /* passwords-library.txt in Resources */,
 				338472F7202A5DD4000F5A8A /* SFMono-Semibold.otf in Resources */,
-				A9191DCC1F22040B00498A4F /* AdvancedSettings.storyboard in Resources */,
 				2B3DF35F1F4721D000A869A3 /* SettingsProfileCell.xib in Resources */,
 				9FB36EAC1E7C27A300DB6F86 /* requestPayment.m4a in Resources */,
 				A9603F991F4DB10100BF57B1 /* Assets.xcassets in Resources */,
@@ -3284,7 +3270,6 @@
 				33F743F81FEBBFC50070A848 /* Localizable.strings in Resources */,
 				A9207AF71F6A8088003B79BF /* passwords-library.txt in Resources */,
 				338472F5202A5DD4000F5A8A /* SFMono-Semibold.otf in Resources */,
-				A9191DC91F2203DD00498A4F /* AdvancedSettings.storyboard in Resources */,
 				2B3DF35E1F4721D000A869A3 /* SettingsProfileCell.xib in Resources */,
 				9FEFEF661E66CF6E00948277 /* addContactApp.m4a in Resources */,
 				A93432CA1F94E48500A52F11 /* SF-Pro-Display-Regular.otf in Resources */,
@@ -3331,7 +3316,6 @@
 				A9603F6A1F4DABDC00BF57B1 /* messageSent.m4a in Resources */,
 				A90661D41F79083A00D408E1 /* passwords-library.txt in Resources */,
 				338472F6202A5DD4000F5A8A /* SFMono-Semibold.otf in Resources */,
-				A9603F6E1F4DABDC00BF57B1 /* AdvancedSettings.storyboard in Resources */,
 				A9603F6F1F4DABDC00BF57B1 /* SettingsProfileCell.xib in Resources */,
 				A9603F711F4DABDC00BF57B1 /* requestPayment.m4a in Resources */,
 				A9603F9B1F4DB10600BF57B1 /* Assets.xcassets in Resources */,

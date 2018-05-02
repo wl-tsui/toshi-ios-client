@@ -71,6 +71,10 @@ final class DappViewController: DisappearingNavBarViewController {
 
     private var categoriesInfo: DappCategoryInfo?
 
+    override var activeNetworkViewEnabled: Bool {
+        return true
+    }
+
     required init(with dapp: Dapp, categoriesInfo: DappCategoryInfo?) {
         self.dapp = dapp
         self.categoriesInfo = categoriesInfo

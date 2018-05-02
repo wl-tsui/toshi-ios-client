@@ -74,8 +74,6 @@ final class DappsViewController: UIViewController {
     private let defaultSectionHeaderHeight: CGFloat = 50
     private let searchedResultsSectionHeaderHeight: CGFloat = 24
 
-    private let defaultTableViewBottomInset: CGFloat = -21
-
     private var reloadTimer: Timer?
     private var shouldResetContentOffset = false
 
@@ -105,8 +103,6 @@ final class DappsViewController: UIViewController {
         view.contentInset.top = -headerView.sizeRange.lowerBound
         view.scrollIndicatorInsets.top = -headerView.sizeRange.lowerBound
         view.sectionFooterHeight = 0.0
-        view.contentInset.bottom = defaultTableViewBottomInset
-        view.scrollIndicatorInsets.bottom = defaultTableViewBottomInset
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
         BasicTableViewCell.register(in: view)
@@ -136,8 +132,6 @@ final class DappsViewController: UIViewController {
         view.delegate = self
         view.dataSource = self
         view.sectionFooterHeight = 0.0
-        view.contentInset.bottom = defaultTableViewBottomInset
-        view.scrollIndicatorInsets.bottom = defaultTableViewBottomInset
         view.estimatedRowHeight = 98
         view.alwaysBounceVertical = true
         view.register(UITableViewCell.self, forCellReuseIdentifier: buttonCellReuseIdentifier)
@@ -148,6 +142,9 @@ final class DappsViewController: UIViewController {
     }()
 
     var scrollViewBottomInset: CGFloat = 0
+
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,14 +163,18 @@ final class DappsViewController: UIViewController {
         headerView.left(to: view)
         headerView.right(to: view)
 
+        setupActiveNetworkView()
+
         tableView.top(to: layoutGuide(), offset: -UIApplication.shared.statusBarFrame.height)
         tableView.left(to: view)
         tableView.right(to: view)
-        tableView.bottom(to: view)
+        tableView.bottomToTop(of: activeNetworkView)
 
         view.addSubview(searchResultsTableView)
         searchResultsTableView.topToBottom(of: headerView)
-        searchResultsTableView.edgesToSuperview(excluding: .top)
+        searchResultsTableView.bottomToTop(of: activeNetworkView)
+        searchResultsTableView.leftToSuperview()
+        searchResultsTableView.rightToSuperview()
 
         searchResultsTableView.alpha = 0
 
@@ -186,6 +187,10 @@ final class DappsViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
 
         dataSource.fetchItems()
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
     
     private func showResults(_ apps: [BrowseableItem]?, in section: BrowseContentSection, _ error: Error? = nil) {
@@ -308,7 +313,7 @@ extension DappsViewController: UITableViewDataSource {
             cell.contentView.addSubview(seeAllDappsButton)
             seeAllDappsButton.edgesToSuperview(insets: UIEdgeInsets(top: .spacingx8,
                                                                     left: .defaultMargin,
-                                                                    bottom: .spacingx8,
+                                                                    bottom: .largeInterItemSpacing,
                                                                     right: -.defaultMargin))
             return cell
         }
@@ -541,3 +546,5 @@ extension DappsViewController: NavBarColorChanging {
     var navTitleColor: UIColor? { return Theme.lightTextColor }
     var navShadowImage: UIImage? { return UIImage() }
 }
+
+extension DappsViewController: ActiveNetworkDisplaying { /* mix-in */ }

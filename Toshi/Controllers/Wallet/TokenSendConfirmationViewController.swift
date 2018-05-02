@@ -96,6 +96,9 @@ final class TokenSendConfirmationViewController: UIViewController {
         return label
     }()
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+    
     // MARK: - Initialization
 
     init(token: Token, params: [String: Any]) {
@@ -115,6 +118,8 @@ final class TokenSendConfirmationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupActiveNetworkView()
+
         let paymentInfoView = setupPaymentInfoView()
         setupRecipientView(betweenTopAnd: paymentInfoView)
 
@@ -122,6 +127,10 @@ final class TokenSendConfirmationViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped(_:)))
 
         showPaymentInfo()
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
 
     private func showPaymentInfo() {
@@ -218,7 +227,7 @@ final class TokenSendConfirmationViewController: UIViewController {
 
         view.addSubview(paymentInfoStackView)
 
-        paymentInfoStackView.bottom(to: layoutGuide(), offset: -.largeInterItemSpacing)
+        paymentInfoStackView.bottomToTop(of: activeNetworkView, offset: -.largeInterItemSpacing)
         paymentInfoStackView.leftToSuperview(offset: .spacingx3)
         paymentInfoStackView.rightToSuperview(offset: .spacingx3)
 
@@ -269,3 +278,7 @@ final class TokenSendConfirmationViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Mix-in extensions
+
+extension TokenSendConfirmationViewController: ActiveNetworkDisplaying { /* mix-in */ }

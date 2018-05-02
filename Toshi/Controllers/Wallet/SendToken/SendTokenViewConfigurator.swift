@@ -28,8 +28,6 @@ final class SendTokenViewConfigurator: NSObject {
 
     weak var delegate: SendTokenViewConfiguratorDelegate?
 
-    var layoutGuide: UILayoutGuide?
-
     var viewConfiguration: TokenTypeViewConfiguration {
         didSet {
             adjustViewsVisibility()
@@ -271,12 +269,7 @@ final class SendTokenViewConfigurator: NSObject {
         addressTextView.becomeFirstResponder()
     }
 
-    func configureView(_ view: UIView) {
-        guard let layoutGuide = layoutGuide else {
-            assertionFailure("No known layout guide on configurator")
-            return
-        }
-
+    func configureView(_ view: UIView, activeNetworkView: ActiveNetworkView) {
         let stackView = UIStackView()
         stackView.addBackground(with: Theme.viewBackgroundColor)
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -304,7 +297,7 @@ final class SendTokenViewConfigurator: NSObject {
         view.addSubview(continueButton)
         continueButton.leftToSuperview(offset: CGFloat.largeInterItemSpacing)
         continueButton.right(to: view, offset: -CGFloat.largeInterItemSpacing)
-        continueButton.bottom(to: layoutGuide, offset: -CGFloat.largeInterItemSpacing)
+        continueButton.bottomToTop(of: activeNetworkView, offset: -CGFloat.largeInterItemSpacing)
 
         primaryValueTextField.becomeFirstResponder()
     }

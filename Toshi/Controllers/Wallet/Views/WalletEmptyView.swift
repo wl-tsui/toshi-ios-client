@@ -57,7 +57,8 @@ final class WalletEmptyView: UIView {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.height(CGFloat.mediumInterItemSpacing, relation: .equalOrGreater)
-
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        
         return label
     }()
 
@@ -68,7 +69,6 @@ final class WalletEmptyView: UIView {
     private func addSubviewsAndConstraints() {
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
 
         addSubview(stackView)
 

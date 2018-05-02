@@ -73,6 +73,9 @@ final class TokenEtherDetailViewController: UIViewController {
         return token.contractAddress
     }
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
     // MARK: - Initialization
 
     init(token: Token) {
@@ -80,15 +83,21 @@ final class TokenEtherDetailViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        view.backgroundColor = Theme.lightGrayBackgroundColor
+        setupActiveNetworkView()
+
         let background = setupContentBackground()
         setupMainStackView(with: background)
-        view.backgroundColor = Theme.lightGrayBackgroundColor
 
         configure(for: token)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
 
     // MARK: - View Setup
@@ -219,3 +228,5 @@ extension TokenEtherDetailViewController: NavBarColorChanging {
     var navTitleColor: UIColor? { return Theme.darkTextColor }
     var navShadowImage: UIImage? { return nil }
 }
+
+extension TokenEtherDetailViewController: ActiveNetworkDisplaying { /* mix-in */}

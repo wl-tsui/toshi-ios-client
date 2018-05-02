@@ -51,7 +51,7 @@ class ActiveNetworkView: UIView {
     }
 
     private func setupView() {
-        backgroundColor = Theme.mediumTextColor.withAlphaComponent(0.98)
+        backgroundColor = Theme.darkTextColor
 
         addSubview(textLabel)
         textLabel.edges(to: self, insets: UIEdgeInsets(top: margin, left: margin, bottom: -margin, right: -margin), priority: .defaultHigh)
@@ -80,5 +80,10 @@ class ActiveNetworkView: UIView {
 
     func setFullHeight() {
         heightConstraint?.constant = ActiveNetworkView.height
+    }
+
+    /// For use when you're displaying this on something with a dark background and need more contrast
+    func useLighterBackground() {
+        backgroundColor = Theme.mediumTextColor
     }
 }

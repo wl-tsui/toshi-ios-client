@@ -15,27 +15,74 @@
 
 import UIKit
 import SweetUIKit
+import TinyConstraints
 
-class AdvancedSettingsController: UITableViewController {
+class AdvancedSettingsController: UIViewController {
 
-    @IBOutlet private weak var networkNameLabel: UILabel!
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self)
+
+        return tableView
+    }()
+
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupActiveNetworkView()
+
+        view.addSubview(tableView)
+        tableView.edgesToSuperview(excluding: .bottom)
+        tableView.bottomToTop(of: activeNetworkView)
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         preferLargeTitleIfPossible(false)
     }
+
+    deinit {
+        removeActiveNetworkObserver()
+    }
 }
 
-extension AdvancedSettingsController {
+extension AdvancedSettingsController: UITableViewDataSource {
 
-    override func tableView(_: UITableView, willDisplayFooterView view: UIView, forSection _: Int) {
-        guard let footerView = view as? UITableViewHeaderFooterView else { return }
-
-        footerView.textLabel?.text = Localized.settings_advanced_network_change_warning
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 
-    override func tableView(_: UITableView, didSelectRowAt _: IndexPath) {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
+
+        cell.textLabel?.font = Theme.preferredRegular()
+        cell.textLabel?.text = Localized.settings_network_title
+        cell.accessoryType = .disclosureIndicator
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return Localized.settings_advanced_network_change_warning
+    }
+}
+
+extension AdvancedSettingsController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         navigationController?.pushViewController(NetworkSettingsController(), animated: true)
     }
 }
+
+extension AdvancedSettingsController: ActiveNetworkDisplaying { /* mix-in */ }

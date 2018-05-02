@@ -102,6 +102,15 @@ final class WalletQRCodeViewController: UIViewController {
         return label
     }()
 
+    private lazy var container: UIView = {
+        let container = UIView()
+        container.backgroundColor = Theme.viewBackgroundColor
+        container.layer.cornerRadius = cornerRadius
+        container.clipsToBounds = true
+
+        return container
+    }()
+
     private let address: String
 
     // MARK: - Initialization
@@ -114,10 +123,6 @@ final class WalletQRCodeViewController: UIViewController {
         view.backgroundColor = .black
         view.addSubview(backgroundView)
         backgroundView.alpha = 0.2
-
-        let container = UIView()
-        container.backgroundColor = Theme.viewBackgroundColor
-        container.layer.cornerRadius = cornerRadius
 
         view.addSubview(container)
 

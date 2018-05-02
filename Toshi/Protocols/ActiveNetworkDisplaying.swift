@@ -20,14 +20,16 @@ import SweetUIKit
 protocol ActiveNetworkDisplaying: class {
     var activeNetworkView: ActiveNetworkView { get }
     var activeNetworkViewConstraints: [NSLayoutConstraint] { get }
-    var notificationObservers: [NSObjectProtocol] { get set }
+    var activeNetworkObserver: NSObjectProtocol? { get set }
 
     func defaultActiveNetworkView() -> ActiveNetworkView
     func setupActiveNetworkView()
     func showActiveNetworkViewIfNeeded()
     func hideActiveNetworkViewIfNeeded()
 
-    func removeNotificationObservers()
+    func switchedNetworkChanged()
+
+    func removeActiveNetworkObserver()
 
     func requestLayoutUpdate()
 }
@@ -75,31 +77,34 @@ extension ActiveNetworkDisplaying where Self: UIViewController {
     }
 
     func requestLayoutUpdate() {
+        self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
         }
     }
 
     func addNotificationListener() {
-        let observer = NotificationCenter
+        activeNetworkObserver = NotificationCenter
             .default
             .addObserver(forName: .SwitchedNetworkChanged,
                          object: nil,
                          queue: .main,
                          using: { [weak self] _ in
-                            self?.updateActiveNetworkView()
+                            self?.switchedNetworkChanged()
                          })
-
-        notificationObservers.append(observer)
     }
 
-    func removeNotificationObservers() {
-        for observer in notificationObservers {
-            NotificationCenter.default.removeObserver(observer)
-        }
+    func removeActiveNetworkObserver() {
+        guard let observer = activeNetworkObserver else { return }
+
+        NotificationCenter.default.removeObserver(observer)
     }
 
-    private func updateActiveNetworkView() {
+    func switchedNetworkChanged() {
+        updateActiveNetworkView()
+    }
+
+    func updateActiveNetworkView() {
         switch NetworkSwitcher.shared.activeNetwork {
         case .mainNet:
             hideActiveNetworkViewIfNeeded()

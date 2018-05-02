@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import TinyConstraints
 import UIKit
 
 final class CollectibleViewController: UIViewController {
@@ -36,6 +37,9 @@ final class CollectibleViewController: UIViewController {
     var collectibleContractAddress: String
     var datasource: CollectibleTokensDatasource
 
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
+
     init(collectibleContractAddress: String) {
         self.collectibleContractAddress = collectibleContractAddress
         self.datasource = CollectibleTokensDatasource(collectibleContractAddress: collectibleContractAddress)
@@ -58,7 +62,18 @@ final class CollectibleViewController: UIViewController {
 
     private func addSubviewsAndConstraints() {
         view.addSubview(tableView)
-        tableView.edges(to: view)
+
+        setupActiveNetworkView()
+
+        let guide = layoutGuide()
+        tableView.top(to: guide)
+        tableView.left(to: guide)
+        tableView.right(to: guide)
+        tableView.bottomToTop(of: activeNetworkView)
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
 }
 
@@ -105,3 +120,5 @@ extension CollectibleViewController: NavBarColorChanging {
     var navTitleColor: UIColor? { return Theme.darkTextColor }
     var navShadowImage: UIImage? { return nil }
 }
+
+extension CollectibleViewController: ActiveNetworkDisplaying { /* mix-in */ }

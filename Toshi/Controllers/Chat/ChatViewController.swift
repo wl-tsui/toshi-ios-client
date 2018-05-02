@@ -77,8 +77,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }()
 
     lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
-    lazy var notificationObservers = [NSObjectProtocol]()
-
+    var activeNetworkObserver: NSObjectProtocol?
+    
     private lazy var buttonsView: ChatButtonsView = {
         let view = ChatButtonsView()
         view.delegate = self
@@ -243,7 +243,7 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }
 
     deinit {
-        removeNotificationObservers()
+        removeActiveNetworkObserver()
     }
 
     private func updateBalance() {

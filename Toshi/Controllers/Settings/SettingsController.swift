@@ -15,6 +15,7 @@
 
 import UIKit
 import SweetUIKit
+import TinyConstraints
 
 class SettingsController: UIViewController {
     static var headerHeight: CGFloat = 38.0
@@ -97,7 +98,6 @@ class SettingsController: UIViewController {
     private let sections: [SettingsSection] = [.profile, .balance, .security, .settings]
 
     private lazy var tableView: UITableView = {
-
         let view = UITableView(frame: self.view.frame, style: .grouped)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.allowsSelection = true
@@ -106,7 +106,10 @@ class SettingsController: UIViewController {
         view.delegate = self
         view.tableFooterView = UIView()
         view.preservesSuperviewLayoutMargins = true
+        view.backgroundColor = Theme.lightGrayBackgroundColor
 
+        view.registerNib(SettingsProfileCell.self)
+        view.registerNib(InputCell.self)
         view.register(UITableViewCell.self)
 
         return view
@@ -118,34 +121,19 @@ class SettingsController: UIViewController {
         }
     }
 
-    static func instantiateFromNib() -> SettingsController {
-        guard let settingsController = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsController else { fatalError("Storyboard named 'Settings' should be provided in application") }
-
-        return  settingsController
-    }
-
-    private override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = Localized.settings_navigation_title
 
-        view.addSubview(tableView)
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.backgroundColor = Theme.lightGrayBackgroundColor
+        setupActiveNetworkView()
 
-        tableView.registerNib(SettingsProfileCell.self)
-        tableView.registerNib(InputCell.self)
+        view.addSubview(tableView)
+        tableView.edgesToSuperview(excluding: .bottom)
+        tableView.bottomToTop(of: activeNetworkView)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
@@ -160,6 +148,10 @@ class SettingsController: UIViewController {
         self.fetchAndUpdateBalance()
 
         preferLargeTitleIfPossible(true)
+    }
+
+    deinit {
+        removeActiveNetworkObserver()
     }
 
     @objc private func updateUI() {
@@ -246,13 +238,6 @@ class SettingsController: UIViewController {
         AvatarManager.shared.avatar(for: avatarPath) { image, _ in
             cell.avatarImageView.image = image
         }
-    }
-
-    private func pushViewController(_ storyboardName: String) {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
-        guard let controller = storyboard.instantiateInitialViewController() else { return }
-
-        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -364,7 +349,7 @@ extension SettingsController: UITableViewDelegate {
         case .localCurrency:
             self.navigationController?.pushViewController(CurrencyPicker(), animated: true)
         case .advanced:
-            self.pushViewController("AdvancedSettings")
+            self.navigationController?.pushViewController(AdvancedSettingsController(), animated: true)
         case .signOut:
             self.handleSignOut()
         }
@@ -423,3 +408,5 @@ extension SettingsController: UITableViewDelegate {
         return sectionInfo.footerTitle
     }
 }
+
+extension SettingsController: ActiveNetworkDisplaying { /* mix-in */ }

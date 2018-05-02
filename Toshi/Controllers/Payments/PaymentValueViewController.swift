@@ -62,7 +62,7 @@ class PaymentValueViewController: UIViewController {
     private var valueInWei: NSDecimalNumber?
 
     lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
-    lazy var notificationObservers = [NSObjectProtocol]()
+    var activeNetworkObserver: NSObjectProtocol?
 
     private lazy var currencyNumberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -144,7 +144,7 @@ class PaymentValueViewController: UIViewController {
     }
 
     deinit {
-        removeNotificationObservers()
+        removeActiveNetworkObserver()
     }
     
     override func viewDidLoad() {

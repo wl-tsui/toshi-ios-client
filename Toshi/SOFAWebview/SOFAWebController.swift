@@ -48,6 +48,9 @@ final class SOFAWebController: UIViewController {
     private var currentTransactionSignCallbackId: String?
 
     private lazy var activityView = self.defaultActivityIndicator()
+
+    lazy var activeNetworkView: ActiveNetworkView = defaultActiveNetworkView()
+    var activeNetworkObserver: NSObjectProtocol?
     
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
@@ -219,6 +222,8 @@ final class SOFAWebController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupActiveNetworkView()
+
         view.addSubview(webView)
         view.addSubview(toolbar)
 
@@ -230,7 +235,7 @@ final class SOFAWebController: UIViewController {
         webView.topToBottom(of: toolbar)
         webView.left(to: view)
         webView.right(to: view)
-        webView.bottom(to: layoutGuide())
+        webView.bottomToTop(of: activeNetworkView)
 
         setupKVO()
 
@@ -698,3 +703,5 @@ extension SOFAWebController: NavBarColorChanging {
 struct SOFAResponseConstants {
     static let skeletonErrorJSON = "{\\\"error\\\": \\\"Error constructing tx skeleton\\\", \\\"result\\\": null}"
 }
+
+extension SOFAWebController: ActiveNetworkDisplaying { /* mix-in */ }
