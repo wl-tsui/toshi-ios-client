@@ -17,6 +17,11 @@ import UIKit
 
 final class WalletPickerDataSource: NSObject {
 
+    var selectedWallet: Wallet? {
+        guard let index = indexPathForSelectedWallet?.row, wallets.count > index  else { return nil }
+        return wallets[index]
+    }
+
     private var tableView: UITableView
     private var wallets = [Wallet]()
     private var indexPathForSelectedWallet: IndexPath? {
@@ -33,7 +38,7 @@ final class WalletPickerDataSource: NSObject {
         self.tableView.dataSource = self
         self.tableView.delegate = self
 
-        //Get wallets for real
+        //TODO: implement getting the actual wallets of the user
         self.wallets = [
             Wallet(name: "Wallet1", address: "0xf1c76a75d8b3175fr8", imagePath: "https://bakkenbaeck.com/images/team/marijn.096ca0b8ab.jpg"),
             Wallet(name: "Wallet2", address: "0xf3a65c12d8d3175fr8", imagePath: "https://bakkenbaeck.com/images/team/ellen.2454e06760.jpg"),

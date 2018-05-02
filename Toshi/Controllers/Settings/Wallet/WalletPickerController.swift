@@ -15,7 +15,12 @@
 
 import UIKit
 
+protocol WalletPickerControllerDelegate: class {
+    func didSelectWallet(_ wallet: Wallet)
+}
+
 final class WalletPickerController: UIViewController {
+    weak var delegate: WalletPickerControllerDelegate?
     private var dataSource: WalletPickerDataSource?
 
     private lazy var tableView: UITableView = {
@@ -33,11 +38,20 @@ final class WalletPickerController: UIViewController {
         return view
     }()
 
+    init(delegate: WalletPickerControllerDelegate) {
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         dataSource = WalletPickerDataSource(tableView: tableView)
-//        dataSource?.delegate = self
 
         addSubviewsAndConstraints()
     }
@@ -51,6 +65,15 @@ final class WalletPickerController: UIViewController {
     private func addSubviewsAndConstraints() {
         view.addSubview(tableView)
         tableView.edges(to: view)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        guard isMovingFromParentViewController else { return }
+        guard let wallet = dataSource?.selectedWallet else { return }
+
+        delegate?.didSelectWallet(wallet)
     }
 }
 
