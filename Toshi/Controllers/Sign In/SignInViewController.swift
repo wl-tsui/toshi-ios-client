@@ -9,7 +9,7 @@ protocol SignInViewControllerDelegate: class {
 final class SignInViewController: UIViewController {
 
     private var signInView: SignInView? { return view as? SignInView }
-    private lazy var activityView: UIActivityIndicatorView = self.defaultActivityIndicator()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     weak var delegate: SignInViewControllerDelegate?
 
@@ -206,11 +206,7 @@ final class SignInViewController: UIViewController {
     }
 }
 
-extension SignInViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension SignInViewController: ActivityIndicating { /* mix-in */ }
 
 extension SignInViewController: UIGestureRecognizerDelegate {
     

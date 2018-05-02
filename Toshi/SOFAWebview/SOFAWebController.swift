@@ -47,8 +47,8 @@ final class SOFAWebController: UIViewController {
 
     private var currentTransactionSignCallbackId: String?
 
-    private lazy var activityView = self.defaultActivityIndicator()
-    
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
+
     private lazy var webViewConfiguration: WKWebViewConfiguration = {
         let configuration = WKWebViewConfiguration()
         
@@ -567,11 +567,7 @@ extension SOFAWebController: WKScriptMessageHandler {
     }
 }
 
-extension SOFAWebController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension SOFAWebController: ActivityIndicating { /* mix-in */ }
 
 extension SOFAWebController: PaymentRouterDelegate {
 

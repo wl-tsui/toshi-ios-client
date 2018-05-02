@@ -71,8 +71,6 @@ final class ChatAPIClient {
                 self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
                     var succeeded = false
 
-
-
                     switch result {
                     case .success(_, let response):
                         guard response.statusCode == 204 else {
