@@ -31,10 +31,10 @@ final class WalletCell: BasicTableViewCell {
 
         titleTextField.centerY(to: contentView)
         titleTextField.left(to: contentView, offset: BasicTableViewCell.horizontalMargin)
-        titleTextField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
         valueLabel.centerY(to: contentView)
         valueLabel.leftToRight(of: titleTextField, offset: BasicTableViewCell.horizontalMargin)
         valueLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
+        valueLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 }
