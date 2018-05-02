@@ -389,10 +389,9 @@ extension SettingsController: NavBarColorChanging {
     var navShadowImage: UIImage? { return nil }
 }
 
-extension SettingsController: WalletPickerControllerDelegate{
+extension SettingsController: WalletPickerControllerDelegate {
 
     func didSelectWallet(_ wallet: Wallet) {
         selectedWallet = wallet
     }
 }
-

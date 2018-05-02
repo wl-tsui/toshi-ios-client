@@ -83,4 +83,3 @@ extension WalletPickerController: NavBarColorChanging {
     var navTitleColor: UIColor? { return Theme.darkTextColor }
     var navShadowImage: UIImage? { return nil }
 }
-
