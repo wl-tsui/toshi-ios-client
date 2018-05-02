@@ -28,6 +28,7 @@ final class WalletPickerController: UIViewController {
         view.estimatedRowHeight = 50
         view.alwaysBounceVertical = true
         view.tableFooterView = UIView()
+        view.separatorInset = UIEdgeInsets(top: 0, left: 80, bottom: 0, right: .spacingx3)
 
         return view
     }()
