@@ -59,7 +59,7 @@ final class ChatAPIClient {
                 }
                 return
             }
-            
+
             let hashedPayload = cereal.sha3WithID(string: payloadString)
             let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
             let signature = "0x\(cereal.signWithID(message: message))"

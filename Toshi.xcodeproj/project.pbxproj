@@ -2144,6 +2144,14 @@
 			path = Wallet;
 			sourceTree = "<group>";
 		};
+		3381E9E7208F477900FACFFF /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				3381E9E8208F479F00FACFFF /* TransactionSkeleton.swift */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 		339959A91FCED3B900D69A01 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -2241,6 +2249,8 @@
 		9F489BE21E76AEE800902046 /* Users */ = {
 			isa = PBXGroup;
 			children = (
+				3381E9DB208F2FBC00FACFFF /* RatingScore.swift */,
+				3381E9DF208F319600FACFFF /* StarsCount.swift */,
 				2B355BD91EAE356C0093FA8F /* ProfileKeys.swift */,
 				2B61701D2088C51F003501D9 /* ProfilesManager.swift */,
 				3381E9DB208F2FBC00FACFFF /* RatingScore.swift */,
@@ -2490,6 +2500,7 @@
 				D197B38148DE3442BA5485CD /* CGFloat+Additions.swift */,
 				3381E9D7208F1A5300FACFFF /* Codable+Parsing.swift */,
 				A96B19001F87CCE0002E5B52 /* Collection+Additions.swift */,
+				3381E9D7208F1A5300FACFFF /* Codable+Parsing.swift */,
 				2BA0D88E1F75519F000B8500 /* NSLayoutConstraint+Additions.swift */,
 				2BD6FB3F1F02927F00F1E2BF /* IndexPath+Additions.swift */,
 				2B953AC31FAC9E19005A5BF3 /* NSString+OWS.h */,

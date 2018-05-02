@@ -40,7 +40,7 @@ final class ChatMenuTableViewController: UITableViewController {
         var sourceFrame = superview.convert(sourceView.frame, from: superview)
         
         if let cell = sourceView as? SignInCell {
-            let origin = cell.caretView.convert(cell.caretView.frame.origin, to: cell)
+            let origin = cell.cursorView.convert(cell.cursorView.frame.origin, to: cell)
             let sourceWidth = origin.x + 14
             sourceFrame.size.width = sourceFrame.origin.x <= 15 ? max(70, sourceWidth) : sourceWidth
         }

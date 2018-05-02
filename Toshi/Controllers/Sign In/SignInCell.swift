@@ -8,9 +8,9 @@ final class SignInCell: UICollectionViewCell {
     private(set) var text: String = ""
     private(set) var match: String?
     private(set) var isFirstAndOnly: Bool = false
-    private var caretViewLeftConstraint: NSLayoutConstraint?
-    private var caretViewRightConstraint: NSLayoutConstraint?
-    private let caretKerning: CGFloat = 1
+    private var cursorViewLeftConstraint: NSLayoutConstraint?
+    private var cursorViewRightConstraint: NSLayoutConstraint?
+    private let cursorKerning: CGFloat = 1
 
     private lazy var backgroundImageView = UIImageView(image: ImageAsset.sign_in_cell_background.stretchableImage(withLeftCapWidth: 18, topCapHeight: 18))
     private lazy var passwordLabel: UILabel = {
@@ -20,7 +20,7 @@ final class SignInCell: UICollectionViewCell {
         return view
     }()
 
-    private(set) var caretView: UIView = {
+    private(set) var cursorView: UIView = {
         let view = UIView()
         view.backgroundColor = Theme.tintColor
         view.layer.cornerRadius = 1
@@ -38,7 +38,7 @@ final class SignInCell: UICollectionViewCell {
 
     var isActive: Bool = false {
         didSet {
-            caretView.alpha = isActive ? 1 : 0
+            cursorView.alpha = isActive ? 1 : 0
             backgroundImageView.isHidden = isActive
 
             if let match = match, !isActive {
@@ -63,22 +63,22 @@ final class SignInCell: UICollectionViewCell {
 
         contentView.addSubview(backgroundImageView)
         contentView.addSubview(passwordLabel)
-        passwordLabel.addSubview(caretView)
+        passwordLabel.addSubview(cursorView)
 
         backgroundImageView.edges(to: contentView)
         backgroundImageView.height(36, relation: .equalOrGreater)
         backgroundImageView.width(36, relation: .equalOrGreater)
 
-        passwordLabel.edges(to: contentView, insets: UIEdgeInsets(top: 2, left: 13 + caretKerning, bottom: -4, right: -13))
+        passwordLabel.edges(to: contentView, insets: UIEdgeInsets(top: 2, left: 13 + cursorKerning, bottom: -4, right: -13))
 
-        caretViewLeftConstraint = caretView.left(to: passwordLabel)
-        caretViewRightConstraint = caretView.right(to: passwordLabel, isActive: false)
-        caretView.centerY(to: passwordLabel)
-        caretView.width(2)
-        caretView.height(21)
+        cursorViewLeftConstraint = cursorView.left(to: passwordLabel)
+        cursorViewRightConstraint = cursorView.right(to: passwordLabel, isActive: false)
+        cursorView.centerY(to: passwordLabel)
+        cursorView.width(2)
+        cursorView.height(21)
 
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-            self.caretView.isHidden = !self.caretView.isHidden
+            self.cursorView.isHidden = !self.cursorView.isHidden
         }
     }
 
@@ -101,21 +101,21 @@ final class SignInCell: UICollectionViewCell {
 
         if let match = match, let matchingRange = (match as NSString?)?.range(of: text, options: [.caseInsensitive, .anchored]) {
             attributedText.addAttribute(.foregroundColor, value: Theme.darkTextColor, range: matchingRange)
-            attributedText.addAttribute(.kern, value: caretKerning, range: NSRange(location: matchingRange.length - 1, length: 1))
+            attributedText.addAttribute(.kern, value: cursorKerning, range: NSRange(location: matchingRange.length - 1, length: 1))
 
-            caretViewRightConstraint?.isActive = false
-            caretViewLeftConstraint?.isActive = true
-            caretViewLeftConstraint?.constant = round(matchingFrame(for: matchingRange, in: attributedText).width) - caretKerning - 1
+            cursorViewRightConstraint?.isActive = false
+            cursorViewLeftConstraint?.isActive = true
+            cursorViewLeftConstraint?.constant = round(matchingFrame(for: matchingRange, in: attributedText).width) - cursorKerning - 1
         } else if text.isEmpty {
-            caretViewRightConstraint?.isActive = false
-            caretViewLeftConstraint?.isActive = true
-            caretViewLeftConstraint?.constant = 0
+            cursorViewRightConstraint?.isActive = false
+            cursorViewLeftConstraint?.isActive = true
+            cursorViewLeftConstraint?.constant = 0
         } else {
             let errorRange = NSRange(location: 0, length: attributedText.length)
             attributedText.addAttribute(.foregroundColor, value: Theme.errorColor, range: errorRange)
 
-            caretViewLeftConstraint?.isActive = false
-            caretViewRightConstraint?.isActive = true
+            cursorViewLeftConstraint?.isActive = false
+            cursorViewRightConstraint?.isActive = true
         }
 
         passwordLabel.attributedText = attributedText
