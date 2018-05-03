@@ -41,55 +41,57 @@ final class ChatAPIClient {
 
     func registerUser(completion: @escaping ((_ success: Bool) -> Void) = { (Bool) in }) {
         fetchTimestamp { timestamp, _ in
-            guard let timestamp = timestamp else {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                // This needs to be called on the main thread to avoid a race condition with creating the user.
+
+                guard let timestamp = timestamp else {
                     completion(false)
+                    return
                 }
-                return
-            }
 
-            let cereal = Cereal.shared
-            let parameters = UserBootstrapParameter()
-            let path = "/v1/accounts/bootstrap"
-            let payload = parameters.payload
+                let cereal = Cereal.shared
+                let parameters = UserBootstrapParameter()
+                let path = "/v1/accounts/bootstrap"
+                let payload = parameters.payload
 
-            guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
-                DispatchQueue.main.async {
-                    completion(false)
+                guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
                 }
-                return
-            }
-            
-            let hashedPayload = cereal.sha3WithID(string: payloadString)
-            let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
-            let signature = "0x\(cereal.signWithID(message: message))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
-            let requestParameter = RequestParameter(payload)
+                let hashedPayload = cereal.sha3WithID(string: payloadString)
+                let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
+                let signature = "0x\(cereal.signWithID(message: message))"
 
-            self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
-                var succeeded = false
+                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
+                let requestParameter = RequestParameter(payload)
 
-                switch result {
-                case .success(_, let response):
-                    guard response.statusCode == 204 else {
-                        DLog("Could not register user. Status code \(response.statusCode)")
-                        DispatchQueue.main.async {
-                            completion(false)
+                self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
+                    var succeeded = false
+
+                    switch result {
+                    case .success(_, let response):
+                        guard response.statusCode == 204 else {
+                            DLog("Could not register user. Status code \(response.statusCode)")
+                            DispatchQueue.main.async {
+                                completion(false)
+                            }
+                            return
                         }
-                        return
+
+                        TSAccountManager.sharedInstance().storeServerAuthToken(parameters.password, signalingKey: parameters.signalingKey)
+                        ALog("Successfully registered chat user with address: \(cereal.address)")
+                        succeeded = true
+                    case .failure(_, _, let error):
+                        DLog("\(error)")
+                        succeeded = false
                     }
 
-                    TSAccountManager.sharedInstance().storeServerAuthToken(parameters.password, signalingKey: parameters.signalingKey)
-                    ALog("Successfully registered chat user with address: \(cereal.address)")
-                    succeeded = true
-                case .failure(_, _, let error):
-                    DLog("\(error)")
-                    succeeded = false
-                }
-
-                DispatchQueue.main.async {
-                    completion(succeeded)
+                    DispatchQueue.main.async {
+                        completion(succeeded)
+                    }
                 }
             }
         }

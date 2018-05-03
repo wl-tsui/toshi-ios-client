@@ -46,9 +46,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
         return !isForCurrentUserProfile
     }
 
-    private lazy var activityView: UIActivityIndicatorView = {
-        self.defaultActivityIndicator()
-    }()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     private var idAPIClient: IDAPIClient {
         return IDAPIClient.shared
@@ -622,11 +620,7 @@ final class ProfileViewController: DisappearingNavBarViewController {
 
 // MARK: - Activity Indicating
 
-extension ProfileViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension ProfileViewController: ActivityIndicating { /* mix-in */ }
 
 // MARK: - Rate User Controller Delegate
 

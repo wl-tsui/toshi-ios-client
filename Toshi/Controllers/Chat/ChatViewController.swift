@@ -119,8 +119,8 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
     }()
 
     private lazy var textInputView = ChatInputTextPanel(withAutoLayout: true)
-    private lazy var activityView = self.defaultActivityIndicator()
-    
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
+
     private var textInputViewBottomConstraint: NSLayoutConstraint?
     private var textInputViewHeightConstraint: NSLayoutConstraint?
 
@@ -839,11 +839,7 @@ extension ChatViewController: ChatInteractorOutput {
     }
 }
 
-extension ChatViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension ChatViewController: ActivityIndicating { /* mix-in */ }
 
 extension ChatViewController: ChatInputTextPanelDelegate {
     
