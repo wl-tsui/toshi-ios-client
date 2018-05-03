@@ -45,7 +45,7 @@ class PassphraseVerifyController: UIViewController {
     var passPhraseViewHeight: CGFloat = 147.0
 
     required init?(coder _: NSCoder) {
-        fatalError("")
+        fatalError("init(coder:) is not implemented")
     }
 
     init() {

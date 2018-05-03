@@ -69,7 +69,7 @@ class Checkbox: UIView {
     }
 
     required init?(coder _: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) is not implemented")
     }
 
     override init(frame: CGRect) {

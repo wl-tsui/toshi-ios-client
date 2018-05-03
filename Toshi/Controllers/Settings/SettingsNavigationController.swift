@@ -33,7 +33,7 @@ class SettingsNavigationController: UINavigationController {
     }
 
     required init?(coder _: NSCoder) {
-        fatalError("")
+        fatalError("init(coder:) is not implemented")
     }
 
     override func viewDidLoad() {

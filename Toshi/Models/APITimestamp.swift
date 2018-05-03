@@ -47,7 +47,7 @@ struct APITimestamp: Codable {
                                       },
                                       errorCompletion: { error in
                                         CrashlyticsLogger.log("Error parsing timestamp: \(error)")
-                                        fatalError()
+                                        fatalError("Could not parse timestamp, pretty much everything else here will fail")
                                       })
         case .failure(_, _, let error):
             errorEncountered = ToshiError(withTeapotError: error)

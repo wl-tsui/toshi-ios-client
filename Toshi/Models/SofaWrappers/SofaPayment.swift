@@ -74,13 +74,13 @@ final class SofaPayment: SofaWrapper {
     }
 
     override init(content: String) {
-        guard let sofaContent = SofaWrapper.addFiatStringIfNecessary(to: content, for: SofaType.payment) else { fatalError() }
+        guard let sofaContent = SofaWrapper.addFiatStringIfNecessary(to: content, for: SofaType.payment) else { fatalError("Could not add fiat string if necessary") }
 
         super.init(content: sofaContent)
     }
 
     override init(content: [String: Any]) {
-        guard let sofaContent = SofaWrapper.addFiatStringIfNecessary(to: content, for: SofaType.payment) else { fatalError() }
+        guard let sofaContent = SofaWrapper.addFiatStringIfNecessary(to: content, for: SofaType.payment) else { fatalError("could not add fiat string if necessary") }
 
         super.init(content: sofaContent)
     }

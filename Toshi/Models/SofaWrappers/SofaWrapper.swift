@@ -112,8 +112,8 @@ class SofaWrapper: SofaWrapperProtocol {
     }
 
     init(content json: [String: Any]) {
-        guard let data = try? JSONSerialization.data(withJSONObject: json, options: []) else { fatalError() }
-        guard let jsonString = String(data: data, encoding: .utf8) else { fatalError() }
+        guard let data = try? JSONSerialization.data(withJSONObject: json, options: []) else { fatalError("Could not serialize json data") }
+        guard let jsonString = String(data: data, encoding: .utf8) else { fatalError("could not turn json data into string") }
 
         content = SofaWrapper.addSofaIdentifier(to: jsonString, for: type)
     }

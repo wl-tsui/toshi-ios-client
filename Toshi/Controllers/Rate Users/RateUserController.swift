@@ -199,7 +199,7 @@ class RateUserController: ModalPresentable {
     }
 
     required init?(coder _: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) is not implemented")
     }
 
     @objc func cancel(_: ActionButton) {

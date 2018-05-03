@@ -34,7 +34,7 @@ final class ChatsNavigationController: UINavigationController {
     }
 
     required init?(coder _: NSCoder) {
-        fatalError("")
+        fatalError("init(coder:) is not implemented")
     }
 
     func openThread(withAddress address: String, forBot: Bool = false, completion: ((Any?) -> Void)? = nil) {
