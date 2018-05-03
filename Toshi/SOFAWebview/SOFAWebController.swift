@@ -372,6 +372,7 @@ extension SOFAWebController: WKScriptMessageHandler {
             jsCallback(callbackId: callbackId, payload: payload)
         case .signPersonalMessage:
             signPersonalMessage(from: message, callbackId: callbackId)
+
         case .signMessage:
             signMessage(from: message, callbackId: callbackId)
         case .signTransaction:
@@ -448,30 +449,7 @@ extension SOFAWebController: WKScriptMessageHandler {
             return
         }
 
-        var parameters: [String: Any] = [:]
-        if let from = transaction[PaymentParameters.from] {
-            parameters[PaymentParameters.from] = from
-        }
-        if let to = transaction[PaymentParameters.to] {
-            parameters[PaymentParameters.to] = to
-        }
-        if let value = transaction[PaymentParameters.value] {
-            parameters[PaymentParameters.value] = value
-        } else {
-            parameters[PaymentParameters.value] = "0x0"
-        }
-        if let data = transaction[PaymentParameters.data] {
-            parameters[PaymentParameters.data] = data
-        }
-        if let gas = transaction[PaymentParameters.gas] {
-            parameters[PaymentParameters.gas] = gas
-        }
-        if let gasPrice = transaction[PaymentParameters.gasPrice] {
-            parameters[PaymentParameters.gasPrice] = gasPrice
-        }
-        if let nonce = transaction[PaymentParameters.nonce] {
-            parameters[PaymentParameters.nonce] = nonce
-        }
+        let parameters = parametersFromTransaction(transaction)
 
         if let to = transaction[PaymentParameters.to] as? String, let value = parameters[PaymentParameters.value] as? String {
 
@@ -507,6 +485,35 @@ extension SOFAWebController: WKScriptMessageHandler {
                 self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, dappInfo: dappInfo, callbackId: callbackId)
             })
         }
+    }
+
+    private func parametersFromTransaction(_ transaction: [String: Any]) -> [String: Any] {
+        var parameters: [String: Any] = [:]
+        if let from = transaction[PaymentParameters.from] {
+            parameters[PaymentParameters.from] = from
+        }
+        if let to = transaction[PaymentParameters.to] {
+            parameters[PaymentParameters.to] = to
+        }
+        if let value = transaction[PaymentParameters.value] {
+            parameters[PaymentParameters.value] = value
+        } else {
+            parameters[PaymentParameters.value] = "0x0"
+        }
+        if let data = transaction[PaymentParameters.data] {
+            parameters[PaymentParameters.data] = data
+        }
+        if let gas = transaction[PaymentParameters.gas] {
+            parameters[PaymentParameters.gas] = gas
+        }
+        if let gasPrice = transaction[PaymentParameters.gasPrice] {
+            parameters[PaymentParameters.gasPrice] = gasPrice
+        }
+        if let nonce = transaction[PaymentParameters.nonce] {
+            parameters[PaymentParameters.nonce] = nonce
+        }
+
+        return parameters
     }
 
     private func publishTransaction(from message: WKScriptMessage, callbackId: String) {
