@@ -76,7 +76,7 @@ final class CurrencyPicker: UIViewController {
             fatalError("No current user on CurrencyListController")
         }
         
-        let currentLocalCurrencyCode = currentUser.savedLocalCurrency
+        let currentLocalCurrencyCode = currentUser.localCurrency
 
         if let suggestedCurrencyIndex = suggestedCurrencies.index(where: {$0.code == currentLocalCurrencyCode}) {
             return IndexPath(row: suggestedCurrencyIndex, section: 0)
@@ -93,6 +93,7 @@ extension CurrencyPicker: UITableViewDelegate {
 
         let selectedCode = indexPath.section == 0 ? suggestedCurrencies[indexPath.row].code : otherCurrencies[indexPath.row].code
         Profile.current?.updateLocalCurrency(code: selectedCode)
+        ExchangeRateClient.updateRateAndNotify()
 
         let indexPathsToReload = [previousLocalCurrencyIndexPath, indexPath]
         tableView.reloadRows(at: indexPathsToReload, with: .none)
@@ -120,7 +121,7 @@ extension CurrencyPicker: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
-        let currentCurrencyCode = Profile.current?.savedLocalCurrency
+        let currentCurrencyCode = Profile.current?.localCurrency
 
         let currency = indexPath.section == 0 ? suggestedCurrencies[indexPath.row] : otherCurrencies[indexPath.row]
 

@@ -101,7 +101,6 @@ struct Profile: Codable {
     var isPublic: Bool?
     let reputationScore: Float?
     let averageRating: Float?
-    private let localCurrency: String?
     let reviewCount: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -117,11 +116,10 @@ struct Profile: Codable {
         isPublic = "public",
         reputationScore = "reputation_score",
         averageRating = "average_rating",
-        localCurrency = "local_currency",
         reviewCount = "review_count"
     }
 
-    var savedLocalCurrency: String {
+    var localCurrency: String {
         return userSettings[ProfileKeys.localCurrency] as? String ?? Profile.defaultCurrency
     }
 
@@ -331,7 +329,7 @@ struct Profile: Codable {
 
         current?.userSettings = Yap.sharedInstance.retrieveObject(for: Cereal.shared.address, in: ProfileKeys.localUserSettingsKey) as? [String: Any] ?? newUserSettings
         current?.saveSettings()
-        current?.adjustToLocalCurrency()
+        current?.updateLocalCurrencyLocaleCache()
 
         NotificationCenter.default.post(name: .userCreated, object: nil)
     }
@@ -340,7 +338,7 @@ struct Profile: Codable {
         if let localCurrency = code {
             userSettings[ProfileKeys.localCurrency] = localCurrency
 
-            adjustToLocalCurrency()
+            updateLocalCurrencyLocaleCache()
 
             if shouldSave {
                 saveSettings()
@@ -362,16 +360,10 @@ struct Profile: Codable {
         Yap.sharedInstance.insert(object: userSettings, for: toshiId, in: ProfileKeys.localUserSettingsKey)
     }
 
-    private mutating func adjustToLocalCurrency() {
-        updateLocalCurrencyLocaleCache()
-
-        ExchangeRateClient.updateRateAndNotify()
-    }
-
     private mutating func updateLocalCurrencyLocaleCache() {
         if Locale.current.currencyCode == self.localCurrency {
             cachedCurrencyLocale = Locale.current
-        } else if let currency = localCurrency, let defaultLocaleForCurrency = Currency.defaultLocalesForCurrencies[currency] {
+        } else if let defaultLocaleForCurrency = Currency.defaultLocalesForCurrencies[localCurrency] {
             self.cachedCurrencyLocale = Locale(identifier: defaultLocaleForCurrency)
         } else {
             self.cachedCurrencyLocale = Locale.current

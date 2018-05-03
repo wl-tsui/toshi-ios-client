@@ -606,7 +606,7 @@ final class SendTokenViewConfigurator: NSObject {
         case .token:
             symbolField.text = token.symbol
         case .fiat:
-            symbolField.text = Profile.current?.savedLocalCurrency
+            symbolField.text = Profile.current?.localCurrency
         }
 
         symbolField.textColor = (text.isEmpty || isMaxValueSelected) ? Theme.placeholderTextColor : Theme.darkTextColor
