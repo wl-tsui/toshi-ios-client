@@ -35,7 +35,7 @@ enum MyProfileCell {
     var accessibilityLabel: String {
         switch self {
         case .advanced:
-            return Localized.settings_cell_advanced
+            return Localized.settings_header_advanced
         case .balance:
             assertionFailure("You need to set this up on the balance cell before you use it")
             return "TODO"
@@ -44,8 +44,6 @@ enum MyProfileCell {
             return "TODO"
         case .localCurrency:
             return Localized.currency_picker_title
-        case .qrCode:
-            return Localized.settings_cell_qr
         case .signOut:
             return Localized.settings_cell_signout
         case .storePassphrase:
@@ -107,7 +105,7 @@ extension MyProfileRobot {
     @discardableResult
     func validateOnMyProfileScreen(file: StaticString = #file,
                                    line: UInt = #line) -> MyProfileRobot {
-        confirmViewVisibleWith(accessibilityLabel: Localized.settings_cell_qr,
+        confirmViewVisibleWith(accessibilityLabel: Localized.settings_cell_passphrase,
                                file: file,
                                line: line)
         
@@ -117,7 +115,7 @@ extension MyProfileRobot {
     @discardableResult
     func validateOffMyProfileScreen(file: StaticString = #file,
                                     line: UInt = #line) -> MyProfileRobot {
-        confirmViewGoneWith(accessibilityLabel: Localized.settings_cell_qr,
+        confirmViewGoneWith(accessibilityLabel: Localized.settings_cell_passphrase,
                             file: file,
                             line: line)
         
