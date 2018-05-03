@@ -122,6 +122,7 @@ public final class TableCellData {
         setupComponents()
     }
 
+    //swiftlint:disable cyclomatic_complexity - This is basically the entire point of having this configure things.
     private func setupComponents() {
         if title != nil {
             components.insert(.title)
@@ -167,4 +168,5 @@ public final class TableCellData {
             components.insert(.description)
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }

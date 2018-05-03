@@ -20,6 +20,7 @@ import Nimble
 import Teapot
 @testable import Toshi
 
+// swiftlint:disable cyclomatic_complexity - QuickSpec actually treats these as separate methods.
 class IDAPIClientQuickSpecs: QuickSpec {
     override func spec() {
         describe("the id API Client") {

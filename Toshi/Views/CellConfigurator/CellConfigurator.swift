@@ -15,6 +15,8 @@
 
 import UIKit
 
+//swiftlint:disable cyclomatic_complexity - This is necessary to distinguish between the different kinds of cells in this file.
+//TODO: Figure out how to make this a bit less complicated.
 class CellConfigurator {
     func configureCell(_ cell: UITableViewCell, with cellData: TableCellData) {
         guard let cell = cell as? BasicTableViewCell else { return }
