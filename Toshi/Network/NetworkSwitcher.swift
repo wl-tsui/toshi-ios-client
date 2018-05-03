@@ -106,7 +106,7 @@ final class NetworkSwitcher {
         #if DEBUG || TOSHIDEV
             return [.ropstenTestNetwork, .toshiTestNetwork]
         #else
-            return [.ropstenTestNetwork]
+            return [.mainNet, .ropstenTestNetwork]
         #endif
     }
 
