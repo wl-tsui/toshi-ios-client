@@ -373,6 +373,12 @@
 		3312F68E2007C0AC00881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
 		3312F68F2007C0D300881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
 		3312F6902007C0D400881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
+		3314523E20973F2700D4C296 /* HeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314523D20973F2700D4C296 /* HeaderGenerator.swift */; };
+		3314523F20973F2700D4C296 /* HeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314523D20973F2700D4C296 /* HeaderGenerator.swift */; };
+		3314524020973F2700D4C296 /* HeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314523D20973F2700D4C296 /* HeaderGenerator.swift */; };
+		3314524220974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
+		3314524320974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
+		3314524420974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
 		33207B4420370B7C0025A5A2 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33207B4320370B7C0025A5A2 /* LoadingHUD.swift */; };
 		33316912202B89BC00A396A2 /* QRCodeGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */; };
 		33316914202B8A8C00A396A2 /* UIImage+ReadQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */; };
@@ -1366,6 +1372,8 @@
 		3312F6832007A59400881B97 /* UIStackView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Additions.swift"; sourceTree = "<group>"; };
 		3312F6872007A93000881B97 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Additions.swift"; sourceTree = "<group>"; };
+		3314523D20973F2700D4C296 /* HeaderGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderGenerator.swift; sourceTree = "<group>"; };
+		3314524120974BA100D4C296 /* APIPushInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPushInfo.swift; sourceTree = "<group>"; };
 		33207B4320370B7C0025A5A2 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
 		33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGeneratorTests.swift; sourceTree = "<group>"; };
 		33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+ReadQRCode.swift"; sourceTree = "<group>"; };
@@ -2253,6 +2261,7 @@
 		9F489BE21E76AEE800902046 /* Users */ = {
 			isa = PBXGroup;
 			children = (
+				3314524120974BA100D4C296 /* APIPushInfo.swift */,
 				3381E9DB208F2FBC00FACFFF /* RatingScore.swift */,
 				3381E9DF208F319600FACFFF /* StarsCount.swift */,
 				2B355BD91EAE356C0093FA8F /* ProfileKeys.swift */,
@@ -2553,12 +2562,13 @@
 			children = (
 				2B20BBDC1F7A537100844315 /* APIKeys */,
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
+				2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */,
+				2B50CCE2205041EC00FF8332 /* DirectoryAPIClient.swift */,
 				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
 				2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */,
-				9F54A7221E951F1500FEB67B /* RatingsClient.swift */,
+				3314523D20973F2700D4C296 /* HeaderGenerator.swift */,
 				9FCDBAD81E28D7D800A70E07 /* IDAPIClient.swift */,
-				2B50CCE2205041EC00FF8332 /* DirectoryAPIClient.swift */,
-				2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */,
+				9F54A7221E951F1500FEB67B /* RatingsClient.swift */,
 				D197B54B1A4AD5DB747C55BF /* ToshiError.swift */,
 				D197B04967D7C10C90539A78 /* getCollectibles.json */,
 				D197B3910BD80CB8C19AC36F /* getACollectible.json */,
@@ -3846,6 +3856,7 @@
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
 				9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */,
 				2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
+				3314524020973F2700D4C296 /* HeaderGenerator.swift in Sources */,
 				2B757000207F392100EBDAEA /* SearchedProfilesData.swift in Sources */,
 				A9AC74181E78277700365029 /* PassphraseWordView.swift in Sources */,
 				2B44A13B1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */,
@@ -3950,6 +3961,7 @@
 				2B4E25F01FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				33DA84702028D320008473F9 /* SegmentedHeaderView.swift in Sources */,
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
+				3314524420974BA100D4C296 /* APIPushInfo.swift in Sources */,
 				A9CADC321F94B1DD0096D017 /* ReputationView.swift in Sources */,
 				3381E9DE208F2FBC00FACFFF /* RatingScore.swift in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
@@ -4153,6 +4165,7 @@
 				2B369E371EE59958002A44A3 /* Message.swift in Sources */,
 				E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */,
 				2B756FFE207F392100EBDAEA /* SearchedProfilesData.swift in Sources */,
+				3314523E20973F2700D4C296 /* HeaderGenerator.swift in Sources */,
 				A91629161F3C7CFD008A7F36 /* PaymentManager.swift in Sources */,
 				A9202E631ED84F6A0036E9B7 /* MessageModel.swift in Sources */,
 				A9202E5C1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift in Sources */,
@@ -4256,6 +4269,7 @@
 				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
 				A9BA6B791EF7CEAD007C3206 /* DepositMoneyController.swift in Sources */,
+				3314524220974BA100D4C296 /* APIPushInfo.swift in Sources */,
 				3381E9DC208F2FBC00FACFFF /* RatingScore.swift in Sources */,
 				3312F6882007A93000881B97 /* BorderView.swift in Sources */,
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
@@ -4442,6 +4456,7 @@
 				A9603DF21F4DABDC00BF57B1 /* ProfileEditItem .swift in Sources */,
 				A9603DF91F4DABDC00BF57B1 /* PassphraseWordView.swift in Sources */,
 				A9603DFE1F4DABDC00BF57B1 /* ExchangeRateAPIClient.swift in Sources */,
+				3314523F20973F2700D4C296 /* HeaderGenerator.swift in Sources */,
 				2B756FFF207F392100EBDAEA /* SearchedProfilesData.swift in Sources */,
 				A9AFDD481F5FF80500C0A256 /* MessagesErrorView.swift in Sources */,
 				A9603E0A1F4DABDC00BF57B1 /* AdvancedSettingsController.swift in Sources */,
@@ -4546,6 +4561,7 @@
 				2B4E25EF1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				33DA846F2028D320008473F9 /* SegmentedHeaderView.swift in Sources */,
 				A9CADC311F94B1DC0096D017 /* ReputationView.swift in Sources */,
+				3314524320974BA100D4C296 /* APIPushInfo.swift in Sources */,
 				A9603EDF1F4DABDC00BF57B1 /* CheckboxControl.swift in Sources */,
 				3381E9DD208F2FBC00FACFFF /* RatingScore.swift in Sources */,
 				A9603EE41F4DABDC00BF57B1 /* DateTimeFormatter.swift in Sources */,

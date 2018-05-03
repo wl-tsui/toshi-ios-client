@@ -15,22 +15,24 @@
 
 import Foundation
 
-struct APIError: Codable {
+struct APIPushInfo: Codable {
 
-    let message: String
+    let address: String
+    let registrationID: String
 
     enum CodingKeys: String, CodingKey {
         case
-        message
+        address,
+        registrationID = "registration_id"
     }
-}
 
-struct APIErrorWrapper: Codable {
-
-    let errors: [APIError]
-
-    enum CodingKeys: String, CodingKey {
-        case
-        errors
+    /// Grabs the default information for the user.
+    /// NOTE: You MUST call this on the main thread as it hits the app delegate.
+    static var defaultInfo: APIPushInfo {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Could not access the app delegate!")
+        }
+        return APIPushInfo(address: Cereal.shared.address,
+                           registrationID: appDelegate.token)
     }
 }

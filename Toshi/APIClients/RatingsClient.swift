@@ -58,33 +58,30 @@ class RatingsClient: NSObject {
                 "review": review
             ]
 
-            guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
+            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadDictionary: payload) else {
                 DispatchQueue.main.async {
                     completion(false, .invalidPayload)
                 }
-
                 return
             }
 
-            let hashedPayload = cereal.sha3WithID(string: payloadString)
-            let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
             let json = RequestParameter(payload)
 
-            self.teapot.post(path, parameters: json, headerFields: fields) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        completion(true, nil)
-                    case .failure(let json, _, let teapotError):
-                        guard let json = json?.dictionary, let errors = json["errors"] as? [Any], let error = errors.first as? [String: Any], let message = error["message"] as? String else {
-                            completion(false, ToshiError(withTeapotError: teapotError))
-                            return
-                        }
+            self.teapot.post(path, parameters: json, headerFields: headers) { result in
+                var success = false
+                var toshiError: ToshiError?
 
-                        completion(false, ToshiError(withTeapotError: teapotError, errorDescription: message))
+                defer {
+                    DispatchQueue.main.async {
+                        completion(success, toshiError)
                     }
+                }
+
+                switch result {
+                case .success:
+                    success = true
+                case .failure:
+                    toshiError = ToshiError(errorResult: result)
                 }
             }
         }
