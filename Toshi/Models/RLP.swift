@@ -107,6 +107,7 @@ class RLP {
         }
     }
 
+    // swiftlint:disable cyclomatic_complexity - Keep code as ported over from another language rather than trying to refine it please.
     // This method has a lot of short variable names. I've done this on purpose as I find it easier to parse
     // most of the syntax lines easier to parse with the short names. Longer names just make it too verbose.
     // Common variable naming:
@@ -165,6 +166,7 @@ class RLP {
             return (.list, length, start + 1 + ll)
         }
     }
+    //swiftlint:enable cyclomatic_complexity
 
     static func encode(_ obj: Any) throws -> Data {
         let bytes: Data

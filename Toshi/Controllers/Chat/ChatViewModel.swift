@@ -231,40 +231,47 @@ final class ChatViewModel {
                     guard let signalMessage = dbExtension.object(at: newIndexPath, with: strongSelf.mappings) as? TSMessage else { return }
 
                     DispatchQueue.main.async {
-                        let result = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true, shouldUpdateGroupMembers: true)
-
-                        strongSelf.messages.insert(result, at: 0)
-
-                        strongSelf.output?.didReceiveLastMessage()
-
-                        if let sofaMessage = result.sofaWrapper as? SofaMessage {
-                            strongSelf.output?.didRequireKeyboardVisibilityUpdate(sofaMessage)
-                        }
-
-                        strongSelf.interactor.playSound(for: result)
+                        strongSelf.insertSignalMessage(signalMessage)
                     }
-
                 case .update:
                     guard let indexPath = change.indexPath else { continue }
 
                     guard let signalMessage = dbExtension.object(at: indexPath, with: strongSelf.mappings) as? TSMessage else { return }
                     guard let message = strongSelf.messages.first(where: { $0.signalMessage.uniqueId == signalMessage.uniqueId }) else { return }
-                    
+
                     DispatchQueue.main.async {
-                        if let loadedSignalMessage = message.signalMessage as? TSOutgoingMessage, let newSignalMessage = signalMessage as? TSOutgoingMessage {
-                            loadedSignalMessage.setState(newSignalMessage.messageState)
-                        }
-
-                        if let index = strongSelf.messages.index(of: message) {
-
-                            let updatedMessage = strongSelf.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true)
-                            strongSelf.messages[index] = updatedMessage
-                        }
+                        strongSelf.updateMessage(message, signalMessage: signalMessage)
                     }
                 default:
                     break
                 }
             }
+        }
+    }
+
+    private func insertSignalMessage(_ signalMessage: TSMessage) {
+        let result = self.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true, shouldUpdateGroupMembers: true)
+
+        self.messages.insert(result, at: 0)
+
+        self.output?.didReceiveLastMessage()
+
+        if let sofaMessage = result.sofaWrapper as? SofaMessage {
+            self.output?.didRequireKeyboardVisibilityUpdate(sofaMessage)
+        }
+
+        self.interactor.playSound(for: result)
+    }
+
+    private func updateMessage(_ message: Message, signalMessage: TSMessage) {
+        if let loadedSignalMessage = message.signalMessage as? TSOutgoingMessage, let newSignalMessage = signalMessage as? TSOutgoingMessage {
+            loadedSignalMessage.setState(newSignalMessage.messageState)
+        }
+
+        if let index = self.messages.index(of: message) {
+
+            let updatedMessage = self.interactor.handleSignalMessage(signalMessage, shouldProcessCommands: true)
+            self.messages[index] = updatedMessage
         }
     }
 

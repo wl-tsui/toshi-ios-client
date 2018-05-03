@@ -163,6 +163,28 @@ final class ChatInteractor: NSObject {
             }
         }
     }
+
+    private func handleOutgoingMessage(_ outgoingMessage: TSOutgoingMessage) -> Message {
+        let sofaWrapper = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: outgoingMessage.body))
+
+        if outgoingMessage.body != sofaWrapper.content {
+            outgoingMessage.body = sofaWrapper.content
+            outgoingMessage.save()
+        }
+
+        let message = Message(sofaWrapper: sofaWrapper, signalMessage: outgoingMessage, date: outgoingMessage.dateForSorting(), isOutgoing: true)
+
+        if outgoingMessage.hasAttachments() {
+            message.messageType = "Image"
+        } else if let payment = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: outgoingMessage.body)) as? SofaPayment {
+            // TODO: Figure out what this should be instead of actionable https://toshiapp.atlassian.net/browse/IOS-456
+            message.messageType = "Actionable"
+            message.attributedTitle = NSAttributedString(string: Localized.chat_payment_sent, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.medium(size: 17)])
+            message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate).string, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.regular(size: 15)])
+        }
+
+        return message
+    }
     
     private func logSendErrorIfRecipientUnregistered(error: Error?) {
         guard let error = error else { return }
@@ -207,55 +229,39 @@ final class ChatInteractor: NSObject {
             }
         }
 
-        /// TODO: Simplify how we deal with interactions vs text messages.
-        /// Since now we know we can expand the TSInteraction stored properties, maybe we can merge some of this together.
         if let interaction = signalMessage as? TSOutgoingMessage {
-            let sofaWrapper = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: interaction.body))
-
-            if interaction.body != sofaWrapper.content {
-                interaction.body = sofaWrapper.content
-                interaction.save()
-            }
-            
-            let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: true)
-
-            if interaction.hasAttachments() {
-                message.messageType = "Image"
-            } else if let payment = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: interaction.body)) as? SofaPayment {
-                // TODO: Figure out what this should be instead of actionable https://toshiapp.atlassian.net/browse/IOS-456
-                message.messageType = "Actionable"
-                message.attributedTitle = NSAttributedString(string: Localized.chat_payment_sent, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.medium(size: 17)])
-                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate).string, attributes: [.foregroundColor: Theme.outgoingMessageTextColor, .font: Theme.regular(size: 15)])
-            }
-
-            return message
+            return handleOutgoingMessage(interaction)
         } else if let interaction = signalMessage as? TSIncomingMessage {
-            let sofaWrapper = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: interaction.body))
-
-            if interaction.body != sofaWrapper.content {
-                interaction.body = sofaWrapper.content
-                interaction.save()
-            }
-            
-            let message = Message(sofaWrapper: sofaWrapper, signalMessage: interaction, date: interaction.dateForSorting(), isOutgoing: false, shouldProcess: shouldProcessCommands && interaction.paymentState == .none)
-
-            if interaction.hasAttachments() {
-                message.messageType = "Image"
-            } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
-                message.messageType = "Actionable"
-                message.title = Localized.chat_payment_request_action
-                message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value, exchangeRate: ExchangeRateClient.exchangeRate)
-            } else if let payment = sofaWrapper as? SofaPayment {
-                output?.didFinishRequest()
-                message.messageType = "Actionable"
-                message.attributedTitle = NSAttributedString(string: Localized.chat_payment_recieved, attributes: [.foregroundColor: Theme.incomingMessageTextColor, .font: Theme.medium(size: 17)])
-                message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate).string, attributes: [.foregroundColor: Theme.incomingMessageTextColor, .font: Theme.regular(size: 15)])
-            }
-
-            return message
+            return handleIncomingMessage(interaction, shouldProcessCommands: shouldProcessCommands)
         } else {
             return Message(sofaWrapper: nil, signalMessage: signalMessage, date: signalMessage.dateForSorting(), isOutgoing: false)
         }
+    }
+
+    private func handleIncomingMessage(_ incomingMessage: TSIncomingMessage, shouldProcessCommands: Bool) -> Message {
+        let sofaWrapper = SofaWrapper.wrapper(content: String.contentsOrEmpty(for: incomingMessage.body))
+
+        if incomingMessage.body != sofaWrapper.content {
+            incomingMessage.body = sofaWrapper.content
+            incomingMessage.save()
+        }
+
+        let message = Message(sofaWrapper: sofaWrapper, signalMessage: incomingMessage, date: incomingMessage.dateForSorting(), isOutgoing: false, shouldProcess: shouldProcessCommands && incomingMessage.paymentState == .none)
+
+        if incomingMessage.hasAttachments() {
+            message.messageType = "Image"
+        } else if let paymentRequest = sofaWrapper as? SofaPaymentRequest {
+            message.messageType = "Actionable"
+            message.title = Localized.chat_payment_request_action
+            message.attributedSubtitle = EthereumConverter.balanceAttributedString(forWei: paymentRequest.value, exchangeRate: ExchangeRateClient.exchangeRate)
+        } else if let payment = sofaWrapper as? SofaPayment {
+            output?.didFinishRequest()
+            message.messageType = "Actionable"
+            message.attributedTitle = NSAttributedString(string: Localized.chat_payment_recieved, attributes: [.foregroundColor: Theme.incomingMessageTextColor, .font: Theme.medium(size: 17)])
+            message.attributedSubtitle = NSAttributedString(string: EthereumConverter.balanceAttributedString(forWei: payment.value, exchangeRate: ExchangeRateClient.exchangeRate).string, attributes: [.foregroundColor: Theme.incomingMessageTextColor, .font: Theme.regular(size: 15)])
+        }
+
+        return message
     }
 
     func playSound(for message: Message) {
