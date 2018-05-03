@@ -73,7 +73,6 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     lazy var settingsController = SettingsNavigationController(rootViewController: SettingsController())
     lazy var walletController = WalletNavigationController(rootViewController: WalletViewController())
 
-
     init() {
         super.init(nibName: nil, bundle: nil)
 

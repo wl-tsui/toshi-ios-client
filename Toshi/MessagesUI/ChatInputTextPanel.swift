@@ -175,7 +175,7 @@ class ChatInputTextPanel: UIView {
 
 extension ChatInputTextPanel: HPGrowingTextViewDelegate {
 
-    func growingTextView(_ textView: HPGrowingTextView!, willChangeHeight _: Float) {
+    func growingTextView(_ textView: HPGrowingTextView, willChangeHeight _: Float) {
 
         self.layoutIfNeeded()
 
@@ -186,7 +186,7 @@ extension ChatInputTextPanel: HPGrowingTextViewDelegate {
         }, completion: nil)
     }
 
-    func growingTextViewDidChange(_ textView: HPGrowingTextView!) {
+    func growingTextViewDidChange(_ textView: HPGrowingTextView) {
         self.layoutIfNeeded()
 
         let hasText = inputField.internalTextView.hasText

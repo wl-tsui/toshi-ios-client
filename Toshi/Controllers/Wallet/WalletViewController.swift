@@ -190,7 +190,7 @@ extension WalletViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        var cellData: TableCellData!
+        var cellData: TableCellData
 
         switch datasource.itemsType {
         case .token:

@@ -338,11 +338,11 @@ extension SOFAWebController: WKNavigationDelegate {
         completionHandler(URLSession.AuthChallengeDisposition.useCredential, urlCredentials)
     }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
         refreshControl.endRefreshing()
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
         refreshControl.endRefreshing()
     }
 }

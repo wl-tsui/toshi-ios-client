@@ -300,16 +300,16 @@ class RateUserController: ModalPresentable {
 
 extension RateUserController: HPGrowingTextViewDelegate {
 
-    func growingTextView(_ textView: HPGrowingTextView!, willChangeHeight _: Float) {
+    func growingTextView(_ textView: HPGrowingTextView, willChangeHeight _: Float) {
         inputHeight = textView.frame.height
     }
 
-    func growingTextViewDidChange(_ textView: HPGrowingTextView!) {
+    func growingTextViewDidChange(_ textView: HPGrowingTextView) {
         inputHeight = textView.frame.height
         review = textView.text
     }
 
-    func growingTextViewShouldReturn(_ growingTextView: HPGrowingTextView!) -> Bool {
+    func growingTextViewShouldReturn(_ growingTextView: HPGrowingTextView) -> Bool {
         growingTextView.resignFirstResponder()
 
         return false

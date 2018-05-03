@@ -47,7 +47,7 @@ class SignalNotificationManager: NSObject, NotificationsProtocol {
         }
     }
 
-    func notifyUser(for error: TSErrorMessage!, in thread: TSThread!) {
+    func notifyUser(for error: TSErrorMessage, in thread: TSThread) {
         DLog("Error: \(error), in thread: \(thread).")
     }
 
