@@ -259,7 +259,7 @@ final class SOFAWebController: UIViewController {
     }
 
     required init?(coder _: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) is not implemented")
     }
 
     deinit {
@@ -362,6 +362,8 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
+    //swiftlint:disable cyclomatic_complexity
+    // TODO: Yeesh, make this less complicated.
     func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let method = Method(rawValue: message.name) else { return DLog("failed \(message.name)") }
         guard let callbackId = (message.body as? NSDictionary)?.value(forKey: "callback") as? String else { return DLog("missing callback id") }
@@ -507,6 +509,7 @@ extension SOFAWebController: WKScriptMessageHandler {
             jsCallback(callbackId: callbackId, payload: payload)
         }
     }
+    //swiftlint:enable cyclomatic_complexity
 
     private func sendSignedTransaction(_ transaction: String, with callbackId: String, completion: @escaping ((String, String) -> Void)) {
 
