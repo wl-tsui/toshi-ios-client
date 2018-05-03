@@ -58,10 +58,21 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         return controller
     }()
 
-    var dappsViewController: DappsNavigationController!
-    var messagingController: ChatsNavigationController!
-    var settingsController: SettingsNavigationController!
-    var walletController: WalletNavigationController!
+    lazy var messagingController: ChatsNavigationController = {
+        let chatsViewController = ChatsViewController(style: .grouped, target: .chatsMainPage)
+        let messagingController = ChatsNavigationController(rootViewController: chatsViewController)
+
+        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = chatsViewController.thread(withAddress: address) {
+            messagingController.viewControllers = [chatsViewController, ChatViewController(thread: thread)]
+        }
+
+        return messagingController
+    }()
+
+    lazy var dappsViewController = DappsNavigationController(rootViewController: DappsViewController())
+    lazy var settingsController = SettingsNavigationController(rootViewController: SettingsController())
+    lazy var walletController = WalletNavigationController(rootViewController: WalletViewController())
+
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -74,23 +85,10 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
     }
 
     required init?(coder _: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) is not implemented here")
     }
 
     @objc func setupControllers() {
-        dappsViewController = DappsNavigationController(rootViewController: DappsViewController())
-
-        walletController = WalletNavigationController(rootViewController: WalletViewController())
-
-        let chatsViewController = ChatsViewController(style: .grouped, target: .chatsMainPage)
-        messagingController = ChatsNavigationController(rootViewController: chatsViewController)
-
-        if Yap.isUserSessionSetup, let address = UserDefaultsWrapper.selectedThreadAddress, let thread = chatsViewController.thread(withAddress: address) {
-            messagingController.viewControllers = [chatsViewController, ChatViewController(thread: thread)]
-        }
-
-        settingsController = SettingsNavigationController(rootViewController: SettingsController())
-
         viewControllers = [
             self.dappsViewController,
             self.messagingController,
