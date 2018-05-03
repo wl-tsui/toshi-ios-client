@@ -13,7 +13,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#import "TestAppDelegate.h"
+import Foundation
 
-@implementation TestAppDelegate
-@end
+struct APIPushInfo: Codable {
+
+    let address: String
+    let registrationID: String
+
+    enum CodingKeys: String, CodingKey {
+        case
+        address,
+        registrationID = "registration_id"
+    }
+
+    /// Grabs the default information for the user.
+    /// NOTE: You MUST call this on the main thread as it hits the app delegate.
+    static var defaultInfo: APIPushInfo {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Could not access the app delegate!")
+        }
+        return APIPushInfo(address: Cereal.shared.address,
+                           registrationID: appDelegate.token)
+    }
+}

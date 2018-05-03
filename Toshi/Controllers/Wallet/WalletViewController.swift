@@ -20,7 +20,7 @@ final class WalletViewController: UIViewController {
     private let walletHeaderHeight: CGFloat = 180
     private let sectionHeaderHeight: CGFloat = 44
 
-    private lazy var activityView = self.defaultActivityIndicator()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     private var timer: Timer?
 
@@ -321,11 +321,7 @@ extension WalletViewController: WalletTableViewHeaderDelegate {
     }
 }
 
-extension WalletViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension WalletViewController: ActivityIndicating { /* mix-in */ }
 
 extension WalletViewController: NavBarColorChanging {
     var navTintColor: UIColor? { return nil }

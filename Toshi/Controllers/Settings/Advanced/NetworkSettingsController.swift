@@ -18,9 +18,7 @@ import SweetUIKit
 
 class NetworkSettingsController: UIViewController {
 
-    private lazy var activityView: UIActivityIndicatorView = {
-        self.defaultActivityIndicator()
-    }()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: self.view.frame, style: .grouped)
@@ -89,11 +87,7 @@ extension NetworkSettingsController: UITableViewDelegate {
     }
 }
 
-extension NetworkSettingsController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension NetworkSettingsController: ActivityIndicating { /* mix-in */ }
 
 extension NetworkSettingsController: ActiveNetworkDisplaying {
     func switchedNetworkChanged() {

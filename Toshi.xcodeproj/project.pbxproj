@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0295989C4D956CEC4707A6FF /* libPods-CocoaPods-Debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90223AE45539E9A291DD5E59 /* libPods-CocoaPods-Debug.a */; };
 		145666061E30D31A00E52027 /* EthereumAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145666051E30D31A00E52027 /* EthereumAPIClient.swift */; };
-		149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
 		149F9A641E72E29A00FB74AA /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
 		149F9A671E72E29A00FB74AA /* SettingsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAACCD61E310C1100FB871D /* SettingsNavigationController.swift */; };
 		149F9A681E72E29A00FB74AA /* BaseConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6D1E4CC04300126217 /* BaseConverter.swift */; };
@@ -26,7 +25,6 @@
 		149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A331E250E2D00EF1141 /* UserBootstrapParameters.swift */; };
 		149F9A9F1E72E29A00FB74AA /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		149F9AA21E72E29A00FB74AA /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
-		149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
 		149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		149F9AAD1E72E29A00FB74AA /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
@@ -374,6 +372,12 @@
 		3312F68E2007C0AC00881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
 		3312F68F2007C0D300881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
 		3312F6902007C0D400881B97 /* UILabel+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */; };
+		3314523E20973F2700D4C296 /* HeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314523D20973F2700D4C296 /* HeaderGenerator.swift */; };
+		3314523F20973F2700D4C296 /* HeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314523D20973F2700D4C296 /* HeaderGenerator.swift */; };
+		3314524020973F2700D4C296 /* HeaderGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314523D20973F2700D4C296 /* HeaderGenerator.swift */; };
+		3314524220974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
+		3314524320974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
+		3314524420974BA100D4C296 /* APIPushInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3314524120974BA100D4C296 /* APIPushInfo.swift */; };
 		33207B4420370B7C0025A5A2 /* LoadingHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33207B4320370B7C0025A5A2 /* LoadingHUD.swift */; };
 		33316912202B89BC00A396A2 /* QRCodeGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */; };
 		33316914202B8A8C00A396A2 /* UIImage+ReadQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */; };
@@ -538,10 +542,8 @@
 		84FFE1EC1F3C8FAF008CEEF2 /* QRCodeIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */; };
 		9F04A7231E38D1400043534A /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
 		9F086CB71EB10A7A00055DB3 /* ProfileKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B355BD91EAE356C0093FA8F /* ProfileKeys.swift */; };
-		9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		9F2162621E5EF76000292B14 /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
 		9F21E0631E546A03000E90C6 /* PaymentValueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21E0621E546A03000E90C6 /* PaymentValueViewController.swift */; };
-		9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
 		9F30A81E1ED2EDA9003E56A2 /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		9F3CF6A31FE143B600043530 /* TextTransformerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CF6A21FE143B600043530 /* TextTransformerTests.swift */; };
 		9F3CF6A51FE14BBA00043530 /* TextTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3CF6A41FE14BBA00043530 /* TextTransformer.swift */; };
@@ -744,7 +746,6 @@
 		A9603D561F4DABDC00BF57B1 /* EthereumAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */; };
 		A9603D6D1F4DABDC00BF57B1 /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		A9603D711F4DABDC00BF57B1 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9CB1EE93E68003A0B95 /* ModalPresentationController.swift */; };
-		A9603D7E1F4DABDC00BF57B1 /* SignalNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */; };
 		A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */; };
 		A9603D851F4DABDC00BF57B1 /* MessagesPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */; };
 		A9603D891F4DABDC00BF57B1 /* UIColor+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */; };
@@ -765,7 +766,6 @@
 		A9603DC41F4DABDC00BF57B1 /* EmptyCallHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF00E361EB20F3500A854A8 /* EmptyCallHandler.m */; };
 		A9603DC91F4DABDC00BF57B1 /* PaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A91629151F3C7CFD008A7F36 /* PaymentManager.swift */; };
 		A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */; };
-		A9603DDD1F4DABDC00BF57B1 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
 		A9603DEF1F4DABDC00BF57B1 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD25D3B1E813C3F0011F164 /* Navigator.swift */; };
 		A9603DF21F4DABDC00BF57B1 /* ProfileEditItem .swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4794191F1E06BB00AC3EB4 /* ProfileEditItem .swift */; };
 		A9603DF91F4DABDC00BF57B1 /* PassphraseWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74161E78277700365029 /* PassphraseWordView.swift */; };
@@ -802,7 +802,6 @@
 		A9603E901F4DABDC00BF57B1 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5B9BA01EBB530B006448F0 /* RatingView.swift */; };
 		A9603E911F4DABDC00BF57B1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBAE91E28FD5C00A70E07 /* Theme.swift */; };
 		A9603E951F4DABDC00BF57B1 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */; };
-		A9603E9D1F4DABDC00BF57B1 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9603EA01F4DABDC00BF57B1 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E4B1ED84F6A0036E9B7 /* ImageCell.swift */; };
 		A9603EA61F4DABDC00BF57B1 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF6AF9E1E83DE04001B5907 /* AvatarImageView.swift */; };
 		A9603EB01F4DABDC00BF57B1 /* CryptoTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FC72A391E25145D00EF1141 /* CryptoTools.m */; };
@@ -824,11 +823,9 @@
 		A9603EF31F4DABDC00BF57B1 /* TSThread+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCF13271E52FC2A0078FF7F /* TSThread+Additions.m */; };
 		A9603EF41F4DABDC00BF57B1 /* DepositMoneyBulletPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BA6B7C1EF7D746007C3206 /* DepositMoneyBulletPoint.swift */; };
 		A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */; };
-		A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */; };
 		A9603F041F4DABDC00BF57B1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FCDBADE1E28E6DC00A70E07 /* TabBarController.swift */; };
 		A9603F061F4DABDC00BF57B1 /* IconLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */; };
 		A9603F091F4DABDC00BF57B1 /* Emptiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6925C1EE937E800285070 /* Emptiable.swift */; };
-		A9603F0A1F4DABDC00BF57B1 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
 		A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAE4A6A1E4CBFC400126217 /* NSDecimalNumber+Additions.swift */; };
 		A9603F131F4DABDC00BF57B1 /* TextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74101E78064500365029 /* TextLabel.swift */; };
 		A9603F181F4DABDC00BF57B1 /* QRCodeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04A7221E38D1400043534A /* QRCodeController.swift */; };
@@ -934,7 +931,6 @@
 		A9BF33B51E76F8D0009A51AA /* PassphraseVerifyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B01E76DF67009A51AA /* PassphraseVerifyController.swift */; };
 		A9BF33B71E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
 		A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF33B61E76F918009A51AA /* CheckboxControl.swift */; };
-		A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
 		A9CADC1A1F94AF2D0096D017 /* DappsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC101F94AF2C0096D017 /* DappsListViewController.swift */; };
 		A9CADC1B1F94AF2D0096D017 /* DappsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC111F94AF2D0096D017 /* DappsViewController.swift */; };
 		A9CADC201F94AF2D0096D017 /* ReputationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9CADC171F94AF2D0096D017 /* ReputationView.swift */; };
@@ -963,7 +959,6 @@
 		A9E1DCDF1F1E276E001A4ABE /* MessagesTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */; };
 		A9E1DCE01F1E2777001A4ABE /* IconLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */; };
 		A9E1DCE11F1E277A001A4ABE /* IconLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */; };
-		A9E1DCE51F1E5C64001A4ABE /* MessagesStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */; };
 		A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */; };
 		A9E691BF1F7A496800317DB1 /* SignInCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B71F7A496600317DB1 /* SignInCell.swift */; };
 		A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
@@ -988,10 +983,6 @@
 		A9E691D31F7A49B800317DB1 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B91F7A496700317DB1 /* SignInView.swift */; };
 		A9E691D41F7A49BB00317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
 		A9E691D51F7A49BC00317DB1 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E691B81F7A496700317DB1 /* SignInViewController.swift */; };
-		A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
-		A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCC1E82B57E00160637 /* InputField.swift */; };
-		A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
-		A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CCF1E83CD8400160637 /* Footnote.swift */; };
 		A9ED6CD61E85291600160637 /* KeyboardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ED6CD51E85291600160637 /* KeyboardInfo.swift */; };
 		A9EE1F2F1F98CBCF00FB3889 /* SF-Pro-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A93432C81F94E48500A52F11 /* SF-Pro-Display-Bold.otf */; };
 		A9EE1F301F98CBCF00FB3889 /* SF-Pro-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = A93432C71F94E48500A52F11 /* SF-Pro-Display-Light.otf */; };
@@ -1371,6 +1362,8 @@
 		3312F6832007A59400881B97 /* UIStackView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Additions.swift"; sourceTree = "<group>"; };
 		3312F6872007A93000881B97 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		3312F68D2007C0AC00881B97 /* UILabel+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Additions.swift"; sourceTree = "<group>"; };
+		3314523D20973F2700D4C296 /* HeaderGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderGenerator.swift; sourceTree = "<group>"; };
+		3314524120974BA100D4C296 /* APIPushInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIPushInfo.swift; sourceTree = "<group>"; };
 		33207B4320370B7C0025A5A2 /* LoadingHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingHUD.swift; sourceTree = "<group>"; };
 		33316911202B89BC00A396A2 /* QRCodeGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeGeneratorTests.swift; sourceTree = "<group>"; };
 		33316913202B8A8C00A396A2 /* UIImage+ReadQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+ReadQRCode.swift"; sourceTree = "<group>"; };
@@ -1456,10 +1449,8 @@
 		84FFE1EA1F3C8FAF008CEEF2 /* QRCodeIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeIntent.swift; sourceTree = "<group>"; };
 		90223AE45539E9A291DD5E59 /* libPods-CocoaPods-Debug.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CocoaPods-Debug.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F04A7221E38D1400043534A /* QRCodeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeController.swift; sourceTree = "<group>"; };
-		9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumNotificationHandler.swift; sourceTree = "<group>"; };
 		9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundNotificationHandler.swift; sourceTree = "<group>"; };
 		9F21E0621E546A03000E90C6 /* PaymentValueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentValueViewController.swift; sourceTree = "<group>"; };
-		9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalNotificationHandler.swift; sourceTree = "<group>"; };
 		9F3CF6A21FE143B600043530 /* TextTransformerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTransformerTests.swift; sourceTree = "<group>"; };
 		9F3CF6A41FE14BBA00043530 /* TextTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTransformer.swift; sourceTree = "<group>"; };
 		9F3CFDE51E5F086200E8D632 /* EthereumConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EthereumConverter.swift; sourceTree = "<group>"; };
@@ -1597,7 +1588,6 @@
 		A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesTextCell.swift; sourceTree = "<group>"; };
 		A9E1DCD81F1E1A72001A4ABE /* IconLabelButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconLabelButton.swift; sourceTree = "<group>"; };
 		A9E1DCD91F1E1A72001A4ABE /* IconLabelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconLabelView.swift; sourceTree = "<group>"; };
-		A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesStatusCell.swift; sourceTree = "<group>"; };
 		A9E691B61F7A496600317DB1 /* SignInHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInHeaderView.swift; sourceTree = "<group>"; };
 		A9E691B71F7A496600317DB1 /* SignInCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInCell.swift; sourceTree = "<group>"; };
 		A9E691B81F7A496700317DB1 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -1606,8 +1596,6 @@
 		A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletableTextField.swift; sourceTree = "<group>"; };
 		A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInExplanation.swift; sourceTree = "<group>"; };
 		A9E691BD1F7A496800317DB1 /* SignInLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInLayout.swift; sourceTree = "<group>"; };
-		A9ED6CCC1E82B57E00160637 /* InputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
-		A9ED6CCF1E83CD8400160637 /* Footnote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Footnote.swift; sourceTree = "<group>"; };
 		A9ED6CD51E85291600160637 /* KeyboardInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardInfo.swift; sourceTree = "<group>"; };
 		A9F61F7E1E72E22900D892E5 /* SettingsSectionHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSectionHeader.swift; sourceTree = "<group>"; };
 		A9F8D1C71E72B4AA003F5749 /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
@@ -2245,6 +2233,7 @@
 		9F489BE21E76AEE800902046 /* Users */ = {
 			isa = PBXGroup;
 			children = (
+				3314524120974BA100D4C296 /* APIPushInfo.swift */,
 				3381E9DB208F2FBC00FACFFF /* RatingScore.swift */,
 				3381E9DF208F319600FACFFF /* StarsCount.swift */,
 				2B355BD91EAE356C0093FA8F /* ProfileKeys.swift */,
@@ -2399,7 +2388,6 @@
 				3312F67F20077C0100881B97 /* DisappearingBackgroundNavBar.swift */,
 				D197B52C452CE2763BB4976A /* DoubleImageView.swift */,
 				D197B96A4C74DB7DDE9F3FA7 /* DynamicFontTextField.swift */,
-				A9ED6CCF1E83CD8400160637 /* Footnote.swift */,
 				2BC85F7E1F0F946600BCB171 /* InputCell.swift */,
 				2BC85F7B1F0F939C00BCB171 /* InputCell.xib */,
 				33C7BABE2056C37F00410315 /* InsetTextField.swift */,
@@ -2545,12 +2533,13 @@
 			children = (
 				2B20BBDC1F7A537100844315 /* APIKeys */,
 				9FC72A3C1E251ACC00EF1141 /* ChatAPIClient.swift */,
+				2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */,
+				2B50CCE2205041EC00FF8332 /* DirectoryAPIClient.swift */,
 				145666051E30D31A00E52027 /* EthereumAPIClient.swift */,
 				2B44A1391F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift */,
-				9F54A7221E951F1500FEB67B /* RatingsClient.swift */,
+				3314523D20973F2700D4C296 /* HeaderGenerator.swift */,
 				9FCDBAD81E28D7D800A70E07 /* IDAPIClient.swift */,
-				2B50CCE2205041EC00FF8332 /* DirectoryAPIClient.swift */,
-				2B0EF8281F948931001A76CA /* CrashlyticsClient.swift */,
+				9F54A7221E951F1500FEB67B /* RatingsClient.swift */,
 				D197B54B1A4AD5DB747C55BF /* ToshiError.swift */,
 				D197B04967D7C10C90539A78 /* getCollectibles.json */,
 				D197B3910BD80CB8C19AC36F /* getACollectible.json */,
@@ -2562,8 +2551,6 @@
 			isa = PBXGroup;
 			children = (
 				9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */,
-				9F21625E1E5EF39B00292B14 /* EthereumNotificationHandler.swift */,
-				9F2433D31E5F46F6003D95A1 /* SignalNotificationHandler.swift */,
 				9FEB8C8E1E684FC40088D5A6 /* SignalNotificationManager.swift */,
 			);
 			path = Notifications;
@@ -2778,7 +2765,6 @@
 				A9E1DCCD1F1E1989001A4ABE /* MessagesBasicCell.swift */,
 				A9E1DCCE1F1E1989001A4ABE /* MessagesImageCell.swift */,
 				A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */,
-				A9E1DCE41F1E5C64001A4ABE /* MessagesStatusCell.swift */,
 				A9E1DCD11F1E1989001A4ABE /* MessagesTextCell.swift */,
 				D197BFD8FAC1FBE64984D60C /* StatusCell.swift */,
 			);
@@ -2818,7 +2804,6 @@
 		A9ED6CCB1E82B56D00160637 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A9ED6CCC1E82B57E00160637 /* InputField.swift */,
 				9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */,
 				9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */,
 			);
@@ -3777,7 +3762,6 @@
 				2B4428D8204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */,
 				2B09B40B1FE11F40008F7917 /* ChatsDataSource.swift in Sources */,
-				149F9A631E72E29A00FB74AA /* SignalNotificationHandler.swift in Sources */,
 				9F78D9DD1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				2BD18F972034603A00659D40 /* PlaceholderTextView.swift in Sources */,
 				33CF51331FD181FA00293FD1 /* DLog.swift in Sources */,
@@ -3830,9 +3814,9 @@
 				9FF00E381EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				A91629171F3C85D6008A7F36 /* PaymentManager.swift in Sources */,
 				149F9A731E72E29A00FB74AA /* SignalNotificationManager.swift in Sources */,
-				A9C7D40C1F1FAF0C008A9654 /* MessagesStatusCell.swift in Sources */,
 				9FD25D3D1E813C3F0011F164 /* Navigator.swift in Sources */,
 				2B47941B1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
+				3314524020973F2700D4C296 /* HeaderGenerator.swift in Sources */,
 				2B757000207F392100EBDAEA /* SearchedProfilesData.swift in Sources */,
 				A9AC74181E78277700365029 /* PassphraseWordView.swift in Sources */,
 				2B44A13B1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */,
@@ -3903,7 +3887,6 @@
 				9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */,
 				2B756FEA207DEB6E00EBDAEA /* SearchProfilesDataSource.swift in Sources */,
 				6ACC21641FBDE72E002345D0 /* RLP.swift in Sources */,
-				A9ED6CD11E83CD8400160637 /* Footnote.swift in Sources */,
 				2B4E25E81FCCCD5D004614D5 /* TitleCell.swift in Sources */,
 				A9202E6D1ED8501E0036E9B7 /* ImageCell.swift in Sources */,
 				9FF6AFA01E83DE04001B5907 /* AvatarImageView.swift in Sources */,
@@ -3937,6 +3920,7 @@
 				2B4E25F01FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				33DA84702028D320008473F9 /* SegmentedHeaderView.swift in Sources */,
 				149F9A991E72E29A00FB74AA /* UserBootstrapParameters.swift in Sources */,
+				3314524420974BA100D4C296 /* APIPushInfo.swift in Sources */,
 				A9CADC321F94B1DD0096D017 /* ReputationView.swift in Sources */,
 				3381E9DE208F2FBC00FACFFF /* RatingScore.swift in Sources */,
 				A9BF33B81E76F918009A51AA /* CheckboxControl.swift in Sources */,
@@ -3954,7 +3938,6 @@
 				336E239220653177008A48A7 /* TintColorChangingButton.swift in Sources */,
 				2B1D669D1FC2F96500EB166C /* TableViewData.swift in Sources */,
 				9F88EA061EE041A900267573 /* SettingsSectionHeader.swift in Sources */,
-				149F9AA41E72E29A00FB74AA /* EthereumNotificationHandler.swift in Sources */,
 				2B3541D8207B702E0020E841 /* NewChatViewController.swift in Sources */,
 				338472F9202A68A9000F5A8A /* QuickAlertView.swift in Sources */,
 				149F9AA51E72E29A00FB74AA /* TabBarController.swift in Sources */,
@@ -3964,7 +3947,6 @@
 				2BC6925E1EE937E800285070 /* Emptiable.swift in Sources */,
 				A96823CD1FBC89F3000993FE /* ProfilesViewController.swift in Sources */,
 				33CF513B1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
-				A9ED6CCE1E82B57E00160637 /* InputField.swift in Sources */,
 				2BBD3FAD202CEEF6007E6BCE /* SendTokenViewController.swift in Sources */,
 				149F9AA71E72E29A00FB74AA /* NSDecimalNumber+Additions.swift in Sources */,
 				2B630C1920249E6D00BF0736 /* AvatarTitleSubtitleCheckboxCell.swift in Sources */,
@@ -4079,7 +4061,6 @@
 				3367F8DF2003B28900DE1557 /* UIViewController+TestHelpers.swift in Sources */,
 				A9E1DCDB1F1E1A72001A4ABE /* IconLabelView.swift in Sources */,
 				2B47941A1F1E06BB00AC3EB4 /* ProfileEditItem .swift in Sources */,
-				9F2433D41E5F46F6003D95A1 /* SignalNotificationHandler.swift in Sources */,
 				9FAC46ED1E800C13005F76A9 /* UIColor+Additions.swift in Sources */,
 				3381E9E9208F479F00FACFFF /* TransactionSkeleton.swift in Sources */,
 				A9AC740B1E77E62900365029 /* UIView+Additions.swift in Sources */,
@@ -4132,7 +4113,6 @@
 				A91629111F3C64FE008A7F36 /* PaymentNavigationController.swift in Sources */,
 				2BF2856A2018EF0200DA528D /* TestAppDelegate.swift in Sources */,
 				2B46018B202A40EB0098694D /* Token.swift in Sources */,
-				A9E1DCE51F1E5C64001A4ABE /* MessagesStatusCell.swift in Sources */,
 				A9CADC1B1F94AF2D0096D017 /* DappsViewController.swift in Sources */,
 				2B44A13A1F4AEBFF00B9C760 /* ExchangeRateAPIClient.swift in Sources */,
 				33207B4420370B7C0025A5A2 /* LoadingHUD.swift in Sources */,
@@ -4144,6 +4124,7 @@
 				2B369E371EE59958002A44A3 /* Message.swift in Sources */,
 				E1A95D551E6EF092002762DA /* SettingsController.swift in Sources */,
 				2B756FFE207F392100EBDAEA /* SearchedProfilesData.swift in Sources */,
+				3314523E20973F2700D4C296 /* HeaderGenerator.swift in Sources */,
 				A91629161F3C7CFD008A7F36 /* PaymentManager.swift in Sources */,
 				A9202E631ED84F6A0036E9B7 /* MessageModel.swift in Sources */,
 				A9202E5C1ED84F6A0036E9B7 /* ImagesViewControllerTransition.swift in Sources */,
@@ -4238,7 +4219,6 @@
 				2B7088A61FE3EE7700D16C55 /* AvatarTitleSubtitleDetailsBadgeCell.swift in Sources */,
 				2B07FC4B2077676D005F2B40 /* FindProfilesViewController.swift in Sources */,
 				A9180FB11F5452A000DC668E /* MessagesErrorView.swift in Sources */,
-				A9ED6CD01E83CD8400160637 /* Footnote.swift in Sources */,
 				2B4E25EE1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				3344FBDF202B6C45004297E9 /* WalletQRCodeViewController.swift in Sources */,
 				2B46016E2028E1A80098694D /* WalletTableHeaderView.swift in Sources */,
@@ -4247,6 +4227,7 @@
 				A9E691BE1F7A496800317DB1 /* SignInHeaderView.swift in Sources */,
 				A9AC740E1E78051F00365029 /* TitleLabel.swift in Sources */,
 				A9BA6B791EF7CEAD007C3206 /* DepositMoneyController.swift in Sources */,
+				3314524220974BA100D4C296 /* APIPushInfo.swift in Sources */,
 				3381E9DC208F2FBC00FACFFF /* RatingScore.swift in Sources */,
 				3312F6882007A93000881B97 /* BorderView.swift in Sources */,
 				A9E691C01F7A496800317DB1 /* SignInViewController.swift in Sources */,
@@ -4271,11 +4252,9 @@
 				A96823CB1FBC89F3000993FE /* ProfilesViewController.swift in Sources */,
 				2B4428D2204D5DAB0079F1DE /* DappCategory.swift in Sources */,
 				A9191DD01F2220C100498A4F /* BalanceController.swift in Sources */,
-				9F21625F1E5EF39B00292B14 /* EthereumNotificationHandler.swift in Sources */,
 				2BC6925D1EE937E800285070 /* Emptiable.swift in Sources */,
 				9FCDBADF1E28E6DC00A70E07 /* TabBarController.swift in Sources */,
 				2BBD3FAB202CEEF6007E6BCE /* SendTokenViewController.swift in Sources */,
-				A9ED6CCD1E82B57E00160637 /* InputField.swift in Sources */,
 				2B630C1720249E6D00BF0736 /* AvatarTitleSubtitleCheckboxCell.swift in Sources */,
 				9FAE4A6B1E4CBFC400126217 /* NSDecimalNumber+Additions.swift in Sources */,
 				8446632B1F41CD5700892DB8 /* PaymentRequestMetadata.swift in Sources */,
@@ -4376,7 +4355,6 @@
 				2B20BBE01F7A595700844315 /* APIKeys.swift in Sources */,
 				3381E9EA208F479F00FACFFF /* TransactionSkeleton.swift in Sources */,
 				2B4E25E31FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift in Sources */,
-				A9603D7E1F4DABDC00BF57B1 /* SignalNotificationHandler.swift in Sources */,
 				33CD5169202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B4428D7204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */,
@@ -4432,11 +4410,11 @@
 				3311F44F2037595C0069EF22 /* LoadingHUD.swift in Sources */,
 				A9603DC91F4DABDC00BF57B1 /* PaymentManager.swift in Sources */,
 				A9603DD71F4DABDC00BF57B1 /* SignalNotificationManager.swift in Sources */,
-				A9603DDD1F4DABDC00BF57B1 /* MessagesStatusCell.swift in Sources */,
 				A9603DEF1F4DABDC00BF57B1 /* Navigator.swift in Sources */,
 				A9603DF21F4DABDC00BF57B1 /* ProfileEditItem .swift in Sources */,
 				A9603DF91F4DABDC00BF57B1 /* PassphraseWordView.swift in Sources */,
 				A9603DFE1F4DABDC00BF57B1 /* ExchangeRateAPIClient.swift in Sources */,
+				3314523F20973F2700D4C296 /* HeaderGenerator.swift in Sources */,
 				2B756FFF207F392100EBDAEA /* SearchedProfilesData.swift in Sources */,
 				A9AFDD481F5FF80500C0A256 /* MessagesErrorView.swift in Sources */,
 				A9603E0A1F4DABDC00BF57B1 /* AdvancedSettingsController.swift in Sources */,
@@ -4504,7 +4482,6 @@
 				2B97A0D12028D93100A161F8 /* WalletNavigationController.swift in Sources */,
 				2B460173202907730098694D /* WalletDatasource.swift in Sources */,
 				2B4E26001FCCCE38004614D5 /* CellConfigurator.swift in Sources */,
-				A9603E9D1F4DABDC00BF57B1 /* Footnote.swift in Sources */,
 				2B756FE9207DEB6E00EBDAEA /* SearchProfilesDataSource.swift in Sources */,
 				6ACC21631FBDE72E002345D0 /* RLP.swift in Sources */,
 				A9603EA01F4DABDC00BF57B1 /* ImageCell.swift in Sources */,
@@ -4541,6 +4518,7 @@
 				2B4E25EF1FCCCDA6004614D5 /* TitleSubtitleCell.swift in Sources */,
 				33DA846F2028D320008473F9 /* SegmentedHeaderView.swift in Sources */,
 				A9CADC311F94B1DC0096D017 /* ReputationView.swift in Sources */,
+				3314524320974BA100D4C296 /* APIPushInfo.swift in Sources */,
 				A9603EDF1F4DABDC00BF57B1 /* CheckboxControl.swift in Sources */,
 				3381E9DD208F2FBC00FACFFF /* RatingScore.swift in Sources */,
 				A9603EE41F4DABDC00BF57B1 /* DateTimeFormatter.swift in Sources */,
@@ -4558,7 +4536,6 @@
 				336E239120653177008A48A7 /* TintColorChangingButton.swift in Sources */,
 				A9603EF81F4DABDC00BF57B1 /* SettingsSectionHeader.swift in Sources */,
 				2B4BCD5A1F59954E00F9E609 /* DistributionDevTokenURLPaths.swift in Sources */,
-				A9603EFB1F4DABDC00BF57B1 /* EthereumNotificationHandler.swift in Sources */,
 				2B3541D7207B702E0020E841 /* NewChatViewController.swift in Sources */,
 				338472F8202A68A9000F5A8A /* QuickAlertView.swift in Sources */,
 				A9603F041F4DABDC00BF57B1 /* TabBarController.swift in Sources */,
@@ -4568,7 +4545,6 @@
 				A9603F091F4DABDC00BF57B1 /* Emptiable.swift in Sources */,
 				A96823CC1FBC89F3000993FE /* ProfilesViewController.swift in Sources */,
 				33CF513A1FD1952500293FD1 /* StringCaseListable.swift in Sources */,
-				A9603F0A1F4DABDC00BF57B1 /* InputField.swift in Sources */,
 				2BBD3FAC202CEEF6007E6BCE /* SendTokenViewController.swift in Sources */,
 				A9603F111F4DABDC00BF57B1 /* NSDecimalNumber+Additions.swift in Sources */,
 				2B630C1820249E6D00BF0736 /* AvatarTitleSubtitleCheckboxCell.swift in Sources */,

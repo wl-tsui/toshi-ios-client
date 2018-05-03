@@ -77,7 +77,7 @@ final class ExchangeRateAPIClient {
     }
 
     func getRate(_ completion: @escaping ((_ rate: Decimal?) -> Void)) {
-        let code = Profile.current?.savedLocalCurrency ?? Profile.defaultCurrency
+        let code = Profile.current?.localCurrency ?? Profile.defaultCurrency
 
         teapot.get("/v1/rates/ETH/\(code)") { result in
             var retrievedRate: Decimal?

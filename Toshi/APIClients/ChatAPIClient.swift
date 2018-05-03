@@ -33,7 +33,6 @@ final class ChatAPIClient {
     }
 
     func fetchTimestamp(_ completion: @escaping ((_ timestamp: String?, _ error: ToshiError?) -> Void)) {
-
         self.teapot.get("/v1/accounts/bootstrap/") { result in
             APITimestamp.parse(from: result, completion)
         }
@@ -48,54 +47,43 @@ final class ChatAPIClient {
                 return
             }
 
-            let cereal = Cereal.shared
-            let parameters = UserBootstrapParameter()
-            let path = "/v1/accounts/bootstrap"
-            let payload = parameters.payload
+            DispatchQueue.main.async {
+                // This needs to be called on the main thread to avoid a race condition with creating the user.
+                let cereal = Cereal.shared
+                let parameters = UserBootstrapParameter()
+                let path = "/v1/accounts/bootstrap"
+                let payload = parameters.payload
 
-            guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
-                DispatchQueue.main.async {
+                guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, method: .PUT, payloadDictionary: payload) else {
                     completion(false)
+                    return
                 }
-                return
-            }
 
-            let hashedPayload = cereal.sha3WithID(string: payloadString)
-            let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
-            let signature = "0x\(cereal.signWithID(message: message))"
+                let requestParameter = RequestParameter(payload)
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
-            let requestParameter = RequestParameter(payload)
+                self.teapot.put(path, parameters: requestParameter, headerFields: headers) { result in
+                    var succeeded = false
 
-            self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
-                var succeeded = false
-
-                switch result {
-                case .success(_, let response):
-                    guard response.statusCode == 204 else {
-                        DLog("Could not register user. Status code \(response.statusCode)")
+                    defer {
                         DispatchQueue.main.async {
-                            completion(false)
+                            completion(succeeded)
                         }
-                        return
                     }
 
-                    TSAccountManager.sharedInstance().storeServerAuthToken(parameters.password, signalingKey: parameters.signalingKey)
-                    ALog("Successfully registered chat user with address: \(cereal.address)")
-                    succeeded = true
-                case .failure(_, _, let error):
-                    DLog("\(error)")
-                    succeeded = false
-                }
+                    switch result {
+                    case .success(_, let response):
+                        guard response.statusCode == 204 else {
+                            return
+                        }
 
-                DispatchQueue.main.async {
-                    completion(succeeded)
+                        TSAccountManager.sharedInstance().storeServerAuthToken(parameters.password, signalingKey: parameters.signalingKey)
+                        ALog("Successfully registered chat user with address: \(cereal.address)")
+                        succeeded = true
+                    case .failure:
+                        break
+                    }
                 }
             }
         }
-    }
-
-    func authToken(for address: String, password: String) -> String {
-        return "Basic \("\(address):\(password)".data(using: .utf8)!.base64EncodedString())"
     }
 }

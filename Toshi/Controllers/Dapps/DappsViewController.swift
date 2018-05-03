@@ -77,7 +77,7 @@ final class DappsViewController: UIViewController {
     private var reloadTimer: Timer?
     private var shouldResetContentOffset = false
 
-    private lazy var activityView = self.defaultActivityIndicator()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     private lazy var dataSource: DappsDataSource = {
         let dataSource = DappsDataSource(mode: .frontPage)
@@ -534,11 +534,7 @@ extension DappsViewController: KeyboardAdjustable {
     }
 }
 
-extension DappsViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension DappsViewController: ActivityIndicating { /* mix-in */ }
 
 extension DappsViewController: NavBarColorChanging {
     var navTintColor: UIColor? { return nil }

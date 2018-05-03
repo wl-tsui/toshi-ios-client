@@ -69,7 +69,7 @@ class PaymentValueViewController: UIViewController {
         formatter.numberStyle = .currency
         formatter.maximumFractionDigits = 2
         formatter.locale = Profile.current?.cachedCurrencyLocale ?? Currency.forcedLocale
-        formatter.currencyCode = Profile.current?.savedLocalCurrency
+        formatter.currencyCode = Profile.current?.localCurrency
 
         return formatter
     }()

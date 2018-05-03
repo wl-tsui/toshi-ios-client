@@ -38,9 +38,7 @@ class ScannerController: ScannerViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    private lazy var activityView: UIActivityIndicatorView = {
-        self.defaultActivityIndicator()
-    }()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     override var prefersStatusBarHidden: Bool {
         return isStatusBarHidden
@@ -60,9 +58,4 @@ class ScannerController: ScannerViewController {
     }
 }
 
-extension ScannerController: ActivityIndicating {
-
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension ScannerController: ActivityIndicating { /* mix-in */ }

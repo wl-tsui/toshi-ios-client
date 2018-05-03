@@ -49,4 +49,8 @@ extension Encodable {
             errorCompletion(error)
         }
     }
+
+    func toOptionalJSONData(with encoder: JSONEncoder = JSONEncoder()) -> Data? {
+        return try? encoder.encode(self)
+    }
 }

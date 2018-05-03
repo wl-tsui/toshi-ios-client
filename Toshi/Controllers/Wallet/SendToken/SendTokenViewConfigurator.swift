@@ -53,6 +53,8 @@ final class SendTokenViewConfigurator: NSObject {
         }
     }
 
+    lazy var scrollView = UIScrollView()
+
     private lazy var amountTitleLabel: UILabel = {
         let label = UILabel(withAutoLayout: true)
         label.text = Localized.wallet_amount_label
@@ -270,16 +272,21 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     func configureView(_ view: UIView, activeNetworkView: ActiveNetworkView) {
+        view.addSubview(scrollView)
+        scrollView.edgesToSuperview(excluding: .bottom)
+        scrollView.bottomToTop(of: activeNetworkView)
+
         let stackView = UIStackView()
         stackView.addBackground(with: Theme.viewBackgroundColor)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.axis = .vertical
 
-        view.addSubview(stackView)
-        stackView.top(to: view)
+        scrollView.addSubview(stackView)
+        stackView.top(to: scrollView)
         stackView.leftToSuperview()
         stackView.rightToSuperview()
+        stackView.width(to: scrollView)
 
         let valueContainerView = setupValueContainerView()
         valueContainerView.addGestureRecognizer(valueEnablingTapGesture)
@@ -294,10 +301,11 @@ final class SendTokenViewConfigurator: NSObject {
         tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
 
-        view.addSubview(continueButton)
+        scrollView.addSubview(continueButton)
         continueButton.leftToSuperview(offset: CGFloat.largeInterItemSpacing)
         continueButton.right(to: view, offset: -CGFloat.largeInterItemSpacing)
-        continueButton.bottomToTop(of: activeNetworkView, offset: -CGFloat.largeInterItemSpacing)
+        continueButton.bottom(to: scrollView, offset: -CGFloat.mediumInterItemSpacing)
+        continueButton.topToBottom(of: stackView, offset: CGFloat.mediumInterItemSpacing)
 
         primaryValueTextField.becomeFirstResponder()
     }
@@ -599,7 +607,7 @@ final class SendTokenViewConfigurator: NSObject {
         case .token:
             symbolField.text = token.symbol
         case .fiat:
-            symbolField.text = Profile.current?.savedLocalCurrency
+            symbolField.text = Profile.current?.localCurrency
         }
 
         symbolField.textColor = (text.isEmpty || isMaxValueSelected) ? Theme.placeholderTextColor : Theme.darkTextColor

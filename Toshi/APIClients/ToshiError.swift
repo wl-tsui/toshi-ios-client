@@ -78,4 +78,21 @@ extension ToshiError {
         let validErrorDescription = errorDescription ?? teapotError.description
         self.init(withType: errorType, description: validErrorDescription, responseStatus: teapotError.responseStatus, underlyingError: teapotError.underlyingError)
     }
+
+    init(errorResult: NetworkResult) {
+        switch errorResult {
+        case .success:
+            fatalError("Don't pass a success result in here!")
+        case .failure(let json, _, let teapotError):
+            guard
+                let errorData = json?.data,
+                let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
+                let firstMessage = wrapper.errors.first?.message else {
+                    self.init(withTeapotError: teapotError)
+                    return
+            }
+
+            self.init(withTeapotError: teapotError, errorDescription: firstMessage)
+        }
+    }
 }

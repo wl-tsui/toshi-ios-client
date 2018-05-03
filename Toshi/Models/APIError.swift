@@ -33,5 +33,4 @@ struct APIErrorWrapper: Codable {
         case
         errors
     }
-
 }
