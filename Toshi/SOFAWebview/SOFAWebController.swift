@@ -362,8 +362,6 @@ extension SOFAWebController: WKScriptMessageHandler {
         }
     }
 
-    //swiftlint:disable cyclomatic_complexity
-    // TODO: Yeesh, make this less complicated.
     func userContentController(_: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let method = Method(rawValue: message.name) else { return DLog("failed \(message.name)") }
         guard let callbackId = (message.body as? NSDictionary)?.value(forKey: "callback") as? String else { return DLog("missing callback id") }
@@ -373,143 +371,155 @@ extension SOFAWebController: WKScriptMessageHandler {
             let payload = "{\\\"error\\\": null, \\\"result\\\": [\\\"" + Cereal.shared.paymentAddress + "\\\"]}"
             jsCallback(callbackId: callbackId, payload: payload)
         case .signPersonalMessage:
-            guard let messageBody = message.body as? [String: Any], let msgParams = messageBody["msgParams"] as? [String: Any], let messageEncodedString = msgParams["data"] as? String else {
-                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
-                return
-            }
-
-            if let messageData = messageEncodedString.hexadecimalData, let decodedString = String(data: messageData, encoding: .utf8) {
-
-                DispatchQueue.main.async {
-                    self.presentPersonalMessageSignAlert(decodedString, callbackId: callbackId, signHandler: { [weak self] returnedCallbackId in
-                        let composedString = "\u{0019}Ethereum Signed Message:\n" + String(messageData.count) + decodedString
-
-                        if let resultData = composedString.data(using: .utf8) {
-                            var signature = "0x\(Cereal.shared.signWithWallet(hex: resultData.hexEncodedString()))"
-
-                            let index = signature.index(signature.startIndex, offsetBy: 130)
-                            if let suffix = Int(signature.suffix(from: index)) {
-                                let resultSuffix = suffix + 27
-
-                                let truncated = signature.dropLast(2)
-                                let suffixHex = String(format: "%2X", resultSuffix)
-
-                                signature = truncated + suffixHex
-                                self?.jsCallback(callbackId: returnedCallbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
-                            }
-                        }
-                    })
-                }
-            } else {
-                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
-            }
-
+            signPersonalMessage(from: message, callbackId: callbackId)
         case .signMessage:
-            guard let messageBody = message.body as? [String: Any], let msgParams = messageBody["msgParams"] as? [String: Any], let messageEncodedString = msgParams["data"] as? String, messageEncodedString.isValidSha3Hash else {
-                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
-                return
-            }
-
-            DispatchQueue.main.async {
-                self.presentPersonalMessageSignAlert("\(Localized.eth_sign_warning))\n\n\(messageEncodedString)", callbackId: callbackId, signHandler: { [weak self] returnedCallbackId in
-
-                    var signature = "0x\(Cereal.shared.signWithWallet(hash: messageEncodedString))"
-
-                    let index = signature.index(signature.startIndex, offsetBy: 130)
-                    if let suffix = Int(signature.suffix(from: index)) {
-                        let resultSuffix = suffix + 27
-
-                        let truncated = signature.dropLast(2)
-                        let suffixHex = String(format: "%2X", resultSuffix)
-
-                        signature = truncated + suffixHex
-                        self?.jsCallback(callbackId: returnedCallbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
-                    }
-                })
-            }
-
+            signMessage(from: message, callbackId: callbackId)
         case .signTransaction:
-            guard let messageBody = message.body as? [String: Any], let transaction = messageBody["tx"] as? [String: Any] else {
-                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
-                return
-            }
-
-            var parameters: [String: Any] = [:]
-            if let from = transaction[PaymentParameters.from] {
-                parameters[PaymentParameters.from] = from
-            }
-            if let to = transaction[PaymentParameters.to] {
-                parameters[PaymentParameters.to] = to
-            }
-            if let value = transaction[PaymentParameters.value] {
-                parameters[PaymentParameters.value] = value
-            } else {
-                parameters[PaymentParameters.value] = "0x0"
-            }
-            if let data = transaction[PaymentParameters.data] {
-                parameters[PaymentParameters.data] = data
-            }
-            if let gas = transaction[PaymentParameters.gas] {
-                parameters[PaymentParameters.gas] = gas
-            }
-            if let gasPrice = transaction[PaymentParameters.gasPrice] {
-                parameters[PaymentParameters.gasPrice] = gasPrice
-            }
-            if let nonce = transaction[PaymentParameters.nonce] {
-                parameters[PaymentParameters.nonce] = nonce
-            }
-
-            if let to = transaction[PaymentParameters.to] as? String, let value = parameters[PaymentParameters.value] as? String {
-
-                showActivityIndicator()
-
-                IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] profiles, _, _ in
-                    let webViewTitle = self?.webView.title
-
-                    self?.hideActivityIndicator()
-
-                    guard let url = self?.webView.url else {
-                        assertionFailure("Can't retrieve Webview url")
-                        return
-                    }
-
-                    var userInfo = ProfileInfo(address: to, paymentAddress: to, avatarPath: nil, name: webViewTitle, username: to, isLocal: false)
-
-                    //we do not have image from a website yet
-                    let dappInfo = DappInfo(url, "", webViewTitle)
-
-                    if let user = profiles?.first {
-                        userInfo.avatarPath = user.avatar
-                        userInfo.username = user.username
-                        userInfo.name = user.name
-                        userInfo.isLocal = true
-                    }
-
-                    let decimalValue = NSDecimalNumber(hexadecimalString: value)
-                    let fiatValueString = EthereumConverter.fiatValueString(forWei: decimalValue, exchangeRate: ExchangeRateClient.exchangeRate)
-                    let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
-                    let messageText = String(format: Localized.payment_confirmation_warning_message, fiatValueString, ethValueString, profiles?.first?.name ?? to)
-
-                    self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, dappInfo: dappInfo, callbackId: callbackId)
-                })
-            }
+            signTransaction(from: message, callbackId: callbackId)
         case .publishTransaction:
-            guard let messageBody = message.body as? [String: Any],
-                  let signedTransaction = messageBody["rawTx"] as? String else {
-                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
-                return
-            }
-
-            self.sendSignedTransaction(signedTransaction, with: callbackId, completion: { [weak self] returnedCallbackId, payload in
-                self?.jsCallback(callbackId: returnedCallbackId, payload: payload)
-            })
-
+            publishTransaction(from: message, callbackId: callbackId)
         case .approveTransaction:
             let payload = "{\\\"error\\\": null, \\\"result\\\": true}"
             jsCallback(callbackId: callbackId, payload: payload)
         }
     }
-    //swiftlint:enable cyclomatic_complexity
+
+    private func signPersonalMessage(from message: WKScriptMessage, callbackId: String) {
+        guard let messageBody = message.body as? [String: Any], let msgParams = messageBody["msgParams"] as? [String: Any], let messageEncodedString = msgParams["data"] as? String else {
+            jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+            return
+        }
+
+        if let messageData = messageEncodedString.hexadecimalData, let decodedString = String(data: messageData, encoding: .utf8) {
+
+            DispatchQueue.main.async {
+                self.presentPersonalMessageSignAlert(decodedString, callbackId: callbackId, signHandler: { [weak self] returnedCallbackId in
+                    let composedString = "\u{0019}Ethereum Signed Message:\n" + String(messageData.count) + decodedString
+
+                    if let resultData = composedString.data(using: .utf8) {
+                        var signature = "0x\(Cereal.shared.signWithWallet(hex: resultData.hexEncodedString()))"
+
+                        let index = signature.index(signature.startIndex, offsetBy: 130)
+                        if let suffix = Int(signature.suffix(from: index)) {
+                            let resultSuffix = suffix + 27
+
+                            let truncated = signature.dropLast(2)
+                            let suffixHex = String(format: "%2X", resultSuffix)
+
+                            signature = truncated + suffixHex
+                            self?.jsCallback(callbackId: returnedCallbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
+                        }
+                    }
+                })
+            }
+        } else {
+            jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+        }
+    }
+
+    private func signMessage(from message: WKScriptMessage, callbackId: String) {
+        guard let messageBody = message.body as? [String: Any], let msgParams = messageBody["msgParams"] as? [String: Any], let messageEncodedString = msgParams["data"] as? String, messageEncodedString.isValidSha3Hash else {
+            jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+            return
+        }
+
+        DispatchQueue.main.async {
+            self.presentPersonalMessageSignAlert("\(Localized.eth_sign_warning))\n\n\(messageEncodedString)", callbackId: callbackId, signHandler: { [weak self] returnedCallbackId in
+
+                var signature = "0x\(Cereal.shared.signWithWallet(hash: messageEncodedString))"
+
+                let index = signature.index(signature.startIndex, offsetBy: 130)
+                if let suffix = Int(signature.suffix(from: index)) {
+                    let resultSuffix = suffix + 27
+
+                    let truncated = signature.dropLast(2)
+                    let suffixHex = String(format: "%2X", resultSuffix)
+
+                    signature = truncated + suffixHex
+                    self?.jsCallback(callbackId: returnedCallbackId, payload: "{\\\"result\\\":\\\"\(signature)\\\"}")
+                }
+            })
+        }
+    }
+
+    private func signTransaction(from message: WKScriptMessage, callbackId: String) {
+        guard let messageBody = message.body as? [String: Any], let transaction = messageBody["tx"] as? [String: Any] else {
+            jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+            return
+        }
+
+        var parameters: [String: Any] = [:]
+        if let from = transaction[PaymentParameters.from] {
+            parameters[PaymentParameters.from] = from
+        }
+        if let to = transaction[PaymentParameters.to] {
+            parameters[PaymentParameters.to] = to
+        }
+        if let value = transaction[PaymentParameters.value] {
+            parameters[PaymentParameters.value] = value
+        } else {
+            parameters[PaymentParameters.value] = "0x0"
+        }
+        if let data = transaction[PaymentParameters.data] {
+            parameters[PaymentParameters.data] = data
+        }
+        if let gas = transaction[PaymentParameters.gas] {
+            parameters[PaymentParameters.gas] = gas
+        }
+        if let gasPrice = transaction[PaymentParameters.gasPrice] {
+            parameters[PaymentParameters.gasPrice] = gasPrice
+        }
+        if let nonce = transaction[PaymentParameters.nonce] {
+            parameters[PaymentParameters.nonce] = nonce
+        }
+
+        if let to = transaction[PaymentParameters.to] as? String, let value = parameters[PaymentParameters.value] as? String {
+
+            showActivityIndicator()
+
+            IDAPIClient.shared.findUserWithPaymentAddress(to, completion: { [weak self] profiles, _, _ in
+                let webViewTitle = self?.webView.title
+
+                self?.hideActivityIndicator()
+
+                guard let url = self?.webView.url else {
+                    assertionFailure("Can't retrieve Webview url")
+                    return
+                }
+
+                var userInfo = ProfileInfo(address: to, paymentAddress: to, avatarPath: nil, name: webViewTitle, username: to, isLocal: false)
+
+                //we do not have image from a website yet
+                let dappInfo = DappInfo(url, "", webViewTitle)
+
+                if let user = profiles?.first {
+                    userInfo.avatarPath = user.avatar
+                    userInfo.username = user.username
+                    userInfo.name = user.name
+                    userInfo.isLocal = true
+                }
+
+                let decimalValue = NSDecimalNumber(hexadecimalString: value)
+                let fiatValueString = EthereumConverter.fiatValueString(forWei: decimalValue, exchangeRate: ExchangeRateClient.exchangeRate)
+                let ethValueString = EthereumConverter.ethereumValueString(forWei: decimalValue)
+                let messageText = String(format: Localized.payment_confirmation_warning_message, fiatValueString, ethValueString, profiles?.first?.name ?? to)
+
+                self?.presentPaymentConfirmation(with: messageText, parameters: parameters, userInfo: userInfo, dappInfo: dappInfo, callbackId: callbackId)
+            })
+        }
+    }
+
+    private func publishTransaction(from message: WKScriptMessage, callbackId: String) {
+        guard let messageBody = message.body as? [String: Any],
+            let signedTransaction = messageBody["rawTx"] as? String else {
+                jsCallback(callbackId: callbackId, payload: "{\\\"error\\\": \\\"Invalid Message Body\\\"}")
+                return
+        }
+
+        self.sendSignedTransaction(signedTransaction, with: callbackId, completion: { [weak self] returnedCallbackId, payload in
+            self?.jsCallback(callbackId: returnedCallbackId, payload: payload)
+        })
+    }
 
     private func sendSignedTransaction(_ transaction: String, with callbackId: String, completion: @escaping ((String, String) -> Void)) {
 
