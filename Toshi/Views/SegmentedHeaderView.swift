@@ -31,6 +31,7 @@ final class SegmentedHeaderView: UIView {
     private weak var delegate: SegmentedHeaderDelegate?
     private let segmentNames: [String]
 
+    // swiftlint:disable:next implicitly_unwrapped_optional - this can't be created until the indicator is added to the subview.
     private var indicatorLeadingConstraint: NSLayoutConstraint!
 
     private lazy var indicatorView: UIView = {

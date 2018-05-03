@@ -30,6 +30,7 @@ final class SendTokenViewController: UIViewController {
     var scrollViewBottomInset: CGFloat = 0.0
     var scrollView: UIScrollView { return configurator.scrollView }
 
+    // swiftlint:disable:next implicitly_unwrapped_optional - this is set up in viewDidLoad.
     private var configurator: SendTokenViewConfigurator!
     weak var delegate: SendTokenViewControllerDelegate?
 

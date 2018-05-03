@@ -23,7 +23,7 @@ final class InputCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet private(set) weak var textField: UITextField!
 
-    @IBOutlet weak var switchControl: UISwitch!
+    @IBOutlet private(set) weak var switchControl: UISwitch!
     @IBOutlet private(set) weak var titleLabel: UILabel!
     @IBOutlet private(set) weak var titleWidthConstraint: NSLayoutConstraint?
 

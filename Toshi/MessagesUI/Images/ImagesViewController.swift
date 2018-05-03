@@ -8,7 +8,7 @@ protocol ImagesViewControllerDismissDelegate: class {
 class ImagesViewController: UIViewController {
 
     var messages: [MessageModel] = []
-    var initialIndexPath: IndexPath!
+    var initialIndexPath: IndexPath
     weak var dismissDelegate: ImagesViewControllerDismissDelegate?
     var isInitialScroll: Bool = true
 
@@ -52,12 +52,16 @@ class ImagesViewController: UIViewController {
         return indexPath ?? self.initialIndexPath
     }
 
-    convenience init(messages: [MessageModel], initialIndexPath: IndexPath) {
-        self.init()
-        self.messages = messages
+    init(messages: [MessageModel], initialIndexPath: IndexPath) {
         self.initialIndexPath = initialIndexPath
+        super.init(nibName: nil, bundle: nil)
+        self.messages = messages
 
         modalPresentationStyle = .custom
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) is not implemented here")
     }
 
     override func viewDidLoad() {
@@ -80,7 +84,6 @@ class ImagesViewController: UIViewController {
         view.layoutIfNeeded()
         collectionView.reloadData()
 
-        guard let initialIndexPath = initialIndexPath else { return }
         collectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
         isInitialScroll = false
     }
