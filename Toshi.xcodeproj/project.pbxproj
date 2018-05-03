@@ -595,10 +595,6 @@
 		9F78D9D01EE93E68003A0B95 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9CB1EE93E68003A0B95 /* ModalPresentationController.swift */; };
 		9F78D9D11EE93E68003A0B95 /* ModalTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9CC1EE93E68003A0B95 /* ModalTransition.swift */; };
 		9F78D9D21EE93E68003A0B95 /* ModalTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9CC1EE93E68003A0B95 /* ModalTransition.swift */; };
-		9F78D9DC1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */; };
-		9F78D9DD1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */; };
-		9F78D9DE1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */; };
-		9F78D9DF1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */; };
 		9F82B1B31EDF0ECC00EA7626 /* ChatInputTextPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9202E711ED854010036E9B7 /* ChatInputTextPanel.swift */; };
 		9F844BD71E30D8DE001C5498 /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */; };
 		9F88EA041EE0402F00267573 /* PassphraseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9AC74131E78231A00365029 /* PassphraseView.swift */; };
@@ -750,7 +746,6 @@
 		A9603D561F4DABDC00BF57B1 /* EthereumAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FFE1E31F3C7D09008CEEF2 /* EthereumAddress.swift */; };
 		A9603D6D1F4DABDC00BF57B1 /* SOFAWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C1952B1ECF057E00B9512F /* SOFAWebController.swift */; };
 		A9603D711F4DABDC00BF57B1 /* ModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9CB1EE93E68003A0B95 /* ModalPresentationController.swift */; };
-		A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */; };
 		A9603D851F4DABDC00BF57B1 /* MessagesPaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E1DCCF1F1E1989001A4ABE /* MessagesPaymentCell.swift */; };
 		A9603D891F4DABDC00BF57B1 /* UIColor+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAC46EC1E800C13005F76A9 /* UIColor+Additions.swift */; };
 		A9603D8C1F4DABDC00BF57B1 /* BackgroundNotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2162611E5EF76000292B14 /* BackgroundNotificationHandler.swift */; };
@@ -875,7 +870,6 @@
 		A9603F741F4DABDC00BF57B1 /* menuButton.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340E1E715C7A005178F9 /* menuButton.m4a */; };
 		A9603F7A1F4DABDC00BF57B1 /* PN.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FA12BEB1E65CF61003705F6 /* PN.m4a */; };
 		A9603F7B1F4DABDC00BF57B1 /* paymentSend.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F8C340C1E71530A005178F9 /* paymentSend.m4a */; };
-		A9603F7D1F4DABDC00BF57B1 /* PaymentRequestInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */; };
 		A9603F7E1F4DABDC00BF57B1 /* token.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2BD0AC8B1F278677000D2A58 /* token.cer */; };
 		A9603F7F1F4DABDC00BF57B1 /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9FAACCEB1E31120600FB871D /* SF-UI-Text-Regular.otf */; };
 		A9603F801F4DABDC00BF57B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F9238C21E24F1D2004BEEE0 /* LaunchScreen.storyboard */; };
@@ -1487,8 +1481,6 @@
 		9F78D9CA1EE93E68003A0B95 /* ModalPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalPresentable.swift; sourceTree = "<group>"; };
 		9F78D9CB1EE93E68003A0B95 /* ModalPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalPresentationController.swift; sourceTree = "<group>"; };
 		9F78D9CC1EE93E68003A0B95 /* ModalTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalTransition.swift; sourceTree = "<group>"; };
-		9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentRequestInfoView.swift; sourceTree = "<group>"; };
-		9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaymentRequestInfoView.xib; sourceTree = "<group>"; };
 		9F7D05271E37961D00FF55B9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9F7E5DA11E4C982300543296 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		9F844BD61E30D8DE001C5498 /* DateTimeFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
@@ -2823,7 +2815,6 @@
 		A9ED6CC61E8282B700160637 /* Sign In */ = {
 			isa = PBXGroup;
 			children = (
-				A9ED6CCB1E82B56D00160637 /* Views */,
 				A9E691BB1F7A496700317DB1 /* DeletableTextField.swift */,
 				A9E691B71F7A496600317DB1 /* SignInCell.swift */,
 				A9E691BC1F7A496700317DB1 /* SignInExplanation.swift */,
@@ -2837,15 +2828,6 @@
 				A95D315A1F8289C900B0FED1 /* TextEditingOptionsViewController.swift */,
 			);
 			path = "Sign In";
-			sourceTree = "<group>";
-		};
-		A9ED6CCB1E82B56D00160637 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9F78D9DA1EE93F61003A0B95 /* PaymentRequestInfoView.swift */,
-				9F78D9DB1EE93F61003A0B95 /* PaymentRequestInfoView.xib */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		D197B18BC61D2FA9F500E49F /* Mocks */ = {
@@ -3253,7 +3235,6 @@
 				9FB36EA81E7C27A300DB6F86 /* menuButton.m4a in Resources */,
 				9FB36EAF1E7C27A300DB6F86 /* PN.m4a in Resources */,
 				9FB36EA91E7C27A300DB6F86 /* paymentSend.m4a in Resources */,
-				9F78D9DF1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
 				2B282E7C1FD8171A00B52272 /* sofa-web3.js in Resources */,
 				2BD0AC8C1F278677000D2A58 /* token.cer in Resources */,
 				149F9AD81E72E29A00FB74AA /* SF-UI-Text-Regular.otf in Resources */,
@@ -3307,7 +3288,6 @@
 				9FEFEF621E66CD6C00948277 /* requestPayment.m4a in Resources */,
 				2B4BCD5B1F599BEA00F9E609 /* token.cer in Resources */,
 				2BE0D4002033AAC7008CD55A /* SF-Pro-Text-Heavy.otf in Resources */,
-				9F78D9DE1EE93F61003A0B95 /* PaymentRequestInfoView.xib in Resources */,
 				2BC85F7C1F0F939C00BCB171 /* InputCell.xib in Resources */,
 				2B52A9AF2033B145004625DA /* SF-Pro-Text-Semibold.otf in Resources */,
 				33F743F51FEBBFAB0070A848 /* Localizable.stringsdict in Resources */,
@@ -3349,7 +3329,6 @@
 				A9603F741F4DABDC00BF57B1 /* menuButton.m4a in Resources */,
 				A9603F7A1F4DABDC00BF57B1 /* PN.m4a in Resources */,
 				A9603F7B1F4DABDC00BF57B1 /* paymentSend.m4a in Resources */,
-				A9603F7D1F4DABDC00BF57B1 /* PaymentRequestInfoView.xib in Resources */,
 				2B282E7B1FD8171A00B52272 /* sofa-web3.js in Resources */,
 				A9603F7E1F4DABDC00BF57B1 /* token.cer in Resources */,
 				A9603F7F1F4DABDC00BF57B1 /* SF-UI-Text-Regular.otf in Resources */,
@@ -3802,7 +3781,6 @@
 				2B4428D8204D67870079F1DE /* DappsFrontPage.swift in Sources */,
 				2B20BBE11F7A595700844315 /* APIKeys.swift in Sources */,
 				2B09B40B1FE11F40008F7917 /* ChatsDataSource.swift in Sources */,
-				9F78D9DD1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				2BD18F972034603A00659D40 /* PlaceholderTextView.swift in Sources */,
 				33CF51331FD181FA00293FD1 /* DLog.swift in Sources */,
 				A9A9F9A51F8B70850010F877 /* ChatFloatingHeaderView.swift in Sources */,
@@ -4135,7 +4113,6 @@
 				2BDAA5971FEAAE6200D06645 /* TSThread+Addition.swift in Sources */,
 				2B4E26031FCCCE78004614D5 /* AvatarTitleSubtitleSwitchCell.swift in Sources */,
 				A9E1DCDA1F1E1A72001A4ABE /* IconLabelButton.swift in Sources */,
-				9F78D9DC1EE93F61003A0B95 /* PaymentRequestInfoView.swift in Sources */,
 				9FF00E371EB20F3500A854A8 /* EmptyCallHandler.m in Sources */,
 				9FCDBAD91E28D7D800A70E07 /* IDAPIClient.swift in Sources */,
 				A91D72A41F877FFA0093420C /* ChatViewController.swift in Sources */,
@@ -4399,7 +4376,6 @@
 				2B4E25E31FCCCD04004614D5 /* AvatarTitleSubtitleDetailsCell.swift in Sources */,
 				33CD5169202CDC60005D6DEC /* TokenEtherDetailViewController.swift in Sources */,
 				2B4428D7204D67870079F1DE /* DappsFrontPage.swift in Sources */,
-				A9603D831F4DABDC00BF57B1 /* PaymentRequestInfoView.swift in Sources */,
 				2B09B40A1FE11F40008F7917 /* ChatsDataSource.swift in Sources */,
 				A9A9F9A41F8B70840010F877 /* ChatFloatingHeaderView.swift in Sources */,
 				A9603D851F4DABDC00BF57B1 /* MessagesPaymentCell.swift in Sources */,
