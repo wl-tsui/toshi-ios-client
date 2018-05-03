@@ -80,7 +80,7 @@ final class SearchProfilesDataSource: NSObject {
     }
 
     private func profile(at indexPath: IndexPath) -> Profile? {
-        guard let typeProfiles = profilesMap[queryData.type] else { fatalError() }
+        guard let typeProfiles = profilesMap[queryData.type] else { fatalError("No profiles of the appropriate type!") }
         return typeProfiles[indexPath.row]
     }
 }
