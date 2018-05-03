@@ -372,7 +372,6 @@ extension SOFAWebController: WKScriptMessageHandler {
             jsCallback(callbackId: callbackId, payload: payload)
         case .signPersonalMessage:
             signPersonalMessage(from: message, callbackId: callbackId)
-
         case .signMessage:
             signMessage(from: message, callbackId: callbackId)
         case .signTransaction:
