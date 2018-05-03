@@ -15,9 +15,9 @@
 
 import UIKit
 
-final class WalletCellConfigurator: CellConfigurator {
-    func configureCell(_ cell: WalletCell, withSelectedWalletName walletName: String) {
-        cell.titleTextField.text = Localized.settings_header_wallet
-        cell.valueLabel.text = walletName
+final class AdvancedSettingsCellConfigurator: CellConfigurator {
+    func configureCell(_ cell: AdvancedSettingsCell, withTitle title: String, value: String) {
+        cell.titleTextField.text = title
+        cell.valueLabel.text = value
     }
 }
