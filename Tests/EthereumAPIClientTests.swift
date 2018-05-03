@@ -30,6 +30,7 @@ class EthereumAPIClientTests: QuickSpec {
 
     override func spec() {
         describe("the Ethereum API Client") {
+            // swiftlint:disable:next implicitly_unwrapped_optional - Testing setup
             var subject: EthereumAPIClient!
 
             context("Happy path 😎") {

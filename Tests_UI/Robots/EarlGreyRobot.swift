@@ -182,11 +182,12 @@ extension GREYInteraction {
         return self.__assert(with: matcher())
     }
 
-    @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher,
-                                          error: UnsafeMutablePointer<NSError?>!) -> Self {
+    // swiftlint:disable:next implicitly_unwrapped_optional - this is coming from a library.
+    @discardableResult public func assert(_ matcher: @autoclosure () -> GREYMatcher, error: UnsafeMutablePointer<NSError?>!) -> Self {
         return self.__assert(with: matcher(), error: error)
     }
-
+    
+    // swiftlint:disable:next implicitly_unwrapped_optional - this is coming from a library.
     @discardableResult public func perform(_ action: GREYAction!) -> Self {
         return self.__perform(action)
     }

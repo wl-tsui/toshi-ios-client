@@ -24,6 +24,7 @@ class ExchangeRateAPIClientTests: QuickSpec {
 
     override func spec() {
         describe("the exchange rate API Client") {
+            // swiftlint:disable:next implicitly_unwrapped_optional - Testing setup
             var subject: ExchangeRateAPIClient!
 
             context("Happy path 😎") {

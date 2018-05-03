@@ -24,6 +24,7 @@ class RatingsClientTests: QuickSpec {
 
     override func spec() {
         describe("the Ratings API Client") {
+            // swiftlint:disable:next implicitly_unwrapped_optional - Testing setup
             var subject: RatingsClient!
 
             context("Happy path 😎") {
