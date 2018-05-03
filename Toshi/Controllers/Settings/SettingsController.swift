@@ -113,7 +113,7 @@ class SettingsController: UIViewController {
         return view
     }()
 
-    private var balance: NSDecimalNumber? {
+    private var selectedWallet: Wallet? {
         didSet {
             self.tableView.reloadData()
         }
@@ -149,45 +149,21 @@ class SettingsController: UIViewController {
         tableView.registerNib(InputCell.self)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUpdateLocalCurrency), name: .localCurrencyUpdated, object: nil)
+        //TODO: implement getting the actual selected wallet of the user
+        selectedWallet = Wallet(name: "Wallet1", address: "0xf1c76a75d8b3175fr8", imagePath: "https://bakkenbaeck.com/images/team/marijn.096ca0b8ab.jpg")
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         IDAPIClient.shared.updateContact(with: Cereal.shared.address)
-        self.fetchAndUpdateBalance()
 
         preferLargeTitleIfPossible(true)
     }
 
     @objc private func updateUI() {
         self.tableView.reloadData()
-    }
-
-    @objc private func handleUpdateLocalCurrency() {
-        self.balance = self.balance ?? .zero
-    }
-
-    @objc private func handleBalanceUpdate(notification: Notification) {
-        guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
-        self.balance = balance
-    }
-
-    private func fetchAndUpdateBalance() {
-
-        self.ethereumAPIClient.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, _ in
-            self?.balance = cachedBalance
-        }, fetchedBalanceCompletion: { [weak self] fetchedBalance, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            } else {
-                self?.balance = fetchedBalance
-            }
-        })
     }
 
     private func handleSignOut() {
@@ -306,8 +282,7 @@ extension SettingsController: UITableViewDataSource {
         let walletCellConfigurator = WalletCellConfigurator()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
 
-        //TODO: Change hardcoded string to the actual name of the currently selected wallet
-        walletCellConfigurator.configureCell(cell, withSelectedWalletName: "Wallet 2")
+        walletCellConfigurator.configureCell(cell, withSelectedWalletName: selectedWallet?.name ?? "")
 
         return cell
     }
@@ -341,8 +316,7 @@ extension SettingsController: UITableViewDelegate {
             
             self.navigationController?.pushViewController(profileVC, animated: true)
         case .wallet:
-            print("wallet cell selected")
-            //TODO: Push Wallet selection controller
+            self.navigationController?.pushViewController(WalletPickerController(delegate: self), animated: true)
         case .security:
             self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
         case .localCurrency:
@@ -405,5 +379,19 @@ extension SettingsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let sectionInfo = sections[section]
         return sectionInfo.footerTitle
+    }
+}
+
+extension SettingsController: NavBarColorChanging {
+    var navTintColor: UIColor? { return Theme.tintColor }
+    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
+    var navTitleColor: UIColor? { return Theme.darkTextColor }
+    var navShadowImage: UIImage? { return nil }
+}
+
+extension SettingsController: WalletPickerControllerDelegate {
+
+    func didSelectWallet(_ wallet: Wallet) {
+        selectedWallet = wallet
     }
 }
