@@ -208,7 +208,7 @@ extension PaymentValueViewController: UITextFieldDelegate {
 
         navigationItem.rightBarButtonItem?.isEnabled = newValue.isValidPaymentValue()
 
-        guard newValue.count > 0 else {
+        guard !newValue.isEmpty else {
             currencyAmountLabel.text = currencyNumberFormatter.string(from: 0)
             etherAmountLabel.text = EthereumConverter.ethereumValueString(forEther: 0)
 

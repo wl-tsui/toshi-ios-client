@@ -164,7 +164,7 @@ class Cereal: NSObject {
             var networkId: UInt?
             if rlp.count == 9 {
                 // make sure transaction isn't already signed
-                guard rlp[7].count == 0, rlp[8].count == 0 else {
+                guard rlp[7].isEmpty, rlp[8].isEmpty else {
                     return nil
                 }
                 networkId = UInt(bigEndianData: rlp[6])

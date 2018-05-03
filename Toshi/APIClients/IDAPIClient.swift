@@ -426,7 +426,7 @@ final class IDAPIClient {
     ///                 - users: The fetched users, or nil.
     ///                 - error: Any error encountered, or nil.
     func fetchUsers(with addresses: [String], completion: @escaping ProfileResults) {
-        guard addresses.count > 0 else {
+        guard !addresses.isEmpty else {
             // No addresses to actually fetch = no users to return.
             completion([], nil)
             

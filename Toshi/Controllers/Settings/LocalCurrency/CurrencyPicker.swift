@@ -136,9 +136,9 @@ extension CurrencyPicker: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
-            return suggestedCurrencies.count > 0 ? Localized.currency_picker_header_suggested : nil
+            return suggestedCurrencies.isEmpty ? nil : Localized.currency_picker_header_suggested
         default:
-            return otherCurrencies.count > 0 ? Localized.currency_picker_header_other : nil
+            return otherCurrencies.isEmpty ? nil : Localized.currency_picker_header_other
         }
     }
 }

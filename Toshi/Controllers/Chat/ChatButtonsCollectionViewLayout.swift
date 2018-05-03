@@ -18,7 +18,7 @@ final class ChatButtonsViewLayout: UICollectionViewFlowLayout {
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        guard let view = collectionView, let attributes = super.layoutAttributesForElements(in: CGRect(origin: .zero, size: view.contentSize))?.compactMap({ $0.copy() as? UICollectionViewLayoutAttributes }), attributes.count > 0 else {
+        guard let view = collectionView, let attributes = super.layoutAttributesForElements(in: CGRect(origin: .zero, size: view.contentSize))?.compactMap({ $0.copy() as? UICollectionViewLayoutAttributes }), !attributes.isEmpty else {
             return super.layoutAttributesForElements(in: rect)
         }
         

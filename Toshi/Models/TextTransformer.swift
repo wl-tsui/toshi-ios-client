@@ -53,7 +53,7 @@ public struct TextTransformer {
         for match in matches {
             let matchRange = match.range(at: 1)
             // Ignore if our username regex matched inside a URL exclusion range.
-            guard excludedRanges.compactMap({ r -> NSRange? in return matchRange.intersection(r) }).count == 0 else { continue }
+            guard excludedRanges.compactMap({ r -> NSRange? in return matchRange.intersection(r) }).isEmpty else { continue }
 
             let attributes: [NSAttributedStringKey: Any] = [
                 .link: "toshi://username:\((attributedText.string as NSString).substring(with: matchRange))",

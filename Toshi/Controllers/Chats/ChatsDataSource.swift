@@ -199,7 +199,7 @@ final class ChatsDataSource: NSObject {
         }
 
         let yapDatabaseChanges = threadViewConnection.getChangesFor(notifications: notifications, with: viewModel.allThreadsMappings)
-        let isDatabaseChanged = yapDatabaseChanges.rowChanges.count != 0 || yapDatabaseChanges.sectionChanges.count != 0
+        let isDatabaseChanged = !yapDatabaseChanges.rowChanges.isEmpty || !yapDatabaseChanges.sectionChanges.isEmpty
 
         guard isDatabaseChanged else { return }
         

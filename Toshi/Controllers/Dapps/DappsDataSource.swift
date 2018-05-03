@@ -282,7 +282,7 @@ final class DappsDataSource {
             items.append(item)
         }
 
-        guard items.count > 0 else { return nil }
+        guard !items.isEmpty else { return nil }
 
         return DappsDataSourceSection(items: items)
     }

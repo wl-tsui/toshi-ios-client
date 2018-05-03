@@ -184,7 +184,7 @@ final class ProfilesViewController: UIViewController {
     }
 
     private func didTapDone() {
-        guard selectedProfiles.count > 0 else {
+        guard !selectedProfiles.isEmpty else {
             assertionFailure("No selected profiles?!")
 
             return

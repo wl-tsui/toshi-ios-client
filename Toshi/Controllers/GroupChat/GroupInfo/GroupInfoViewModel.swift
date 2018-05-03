@@ -51,7 +51,7 @@ final class GroupInfoViewModel {
 
     private func setup() {
         let avatarTitleData = TableCellData(title: groupInfo.title, leftImage: groupInfo.avatar)
-        avatarTitleData.isPlaceholder = groupInfo.title.count > 0
+        avatarTitleData.isPlaceholder = !groupInfo.title.isEmpty
         avatarTitleData.tag = GroupItemType.avatarTitle.rawValue
 
         let avatarTitleSectionData = TableSectionData(cellsData: [avatarTitleData])
@@ -157,7 +157,7 @@ extension GroupInfoViewModel: GroupViewModelProtocol {
     var errorAlertTitle: String { return Localized.error_title }
     var errorAlertMessage: String { return Localized.toshi_generic_error }
 
-    var isDoneButtonEnabled: Bool { return groupInfo.title.count > 0 }
+    var isDoneButtonEnabled: Bool { return !groupInfo.title.isEmpty }
 
     var recipientsIds: [String] { return groupInfo.participantsIDs }
     var allParticipantsIDs: [String] { return sortedMembers.map { $0.toshiId } }

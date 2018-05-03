@@ -39,7 +39,7 @@ func hasAnyFileChanged(in folder: Folder) throws -> Bool {
     let filesInDiff = try changedFiles()
 
     let changedInFolder = filesInDiff.filter { return $0.contains(folder.name) }
-    return (changedInFolder.count > 0)
+    return !changedInFolder.isEmpty
 }
 
 // MARK: - Filesystem Helpers
