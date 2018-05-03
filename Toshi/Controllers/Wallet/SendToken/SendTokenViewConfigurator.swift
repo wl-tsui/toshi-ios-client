@@ -274,11 +274,6 @@ final class SendTokenViewConfigurator: NSObject {
     }
 
     func configureView(_ view: UIView) {
-        guard let layoutGuide = layoutGuide else {
-            assertionFailure("No known layout guide on configurator")
-            return
-        }
-
         view.addSubview(scrollView)
         scrollView.edges(to: view)
 
