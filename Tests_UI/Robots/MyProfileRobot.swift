@@ -28,7 +28,6 @@ enum MyProfileCell {
     balance,
     detailedProfile,
     localCurrency,
-    qrCode,
     signOut,
     storePassphrase
     
