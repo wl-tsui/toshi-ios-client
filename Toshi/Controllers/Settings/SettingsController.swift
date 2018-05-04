@@ -113,12 +113,6 @@ class SettingsController: UIViewController {
         return view
     }()
 
-    private var balance: NSDecimalNumber? {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
-
     static func instantiateFromNib() -> SettingsController {
         guard let settingsController = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsController else { fatalError("Storyboard named 'Settings' should be provided in application") }
 
@@ -149,45 +143,18 @@ class SettingsController: UIViewController {
         tableView.registerNib(InputCell.self)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleBalanceUpdate(notification:)), name: .ethereumBalanceUpdateNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUpdateLocalCurrency), name: .localCurrencyUpdated, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         IDAPIClient.shared.updateContact(with: Cereal.shared.address)
-        self.fetchAndUpdateBalance()
 
         preferLargeTitleIfPossible(true)
     }
 
     @objc private func updateUI() {
         self.tableView.reloadData()
-    }
-
-    @objc private func handleUpdateLocalCurrency() {
-        self.balance = self.balance ?? .zero
-    }
-
-    @objc private func handleBalanceUpdate(notification: Notification) {
-        guard notification.name == .ethereumBalanceUpdateNotification, let balance = notification.object as? NSDecimalNumber else { return }
-        self.balance = balance
-    }
-
-    private func fetchAndUpdateBalance() {
-
-        self.ethereumAPIClient.getBalance(cachedBalanceCompletion: { [weak self] cachedBalance, _ in
-            self?.balance = cachedBalance
-        }, fetchedBalanceCompletion: { [weak self] fetchedBalance, error in
-            if let error = error {
-                let alertController = UIAlertController.errorAlert(error as NSError)
-                Navigator.presentModally(alertController)
-            } else {
-                self?.balance = fetchedBalance
-            }
-        })
     }
 
     private func handleSignOut() {
@@ -306,8 +273,8 @@ extension SettingsController: UITableViewDataSource {
         let walletCellConfigurator = WalletCellConfigurator()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
 
-        //TODO: Change hardcoded string to the actual name of the currently selected wallet
-        walletCellConfigurator.configureCell(cell, withSelectedWalletName: "Wallet 2")
+        //TODO: input the name of the selected wallet
+        walletCellConfigurator.configureCell(cell, withSelectedWalletName: "Wallet1")
 
         return cell
     }
@@ -341,8 +308,7 @@ extension SettingsController: UITableViewDelegate {
             
             self.navigationController?.pushViewController(profileVC, animated: true)
         case .wallet:
-            print("wallet cell selected")
-            //TODO: Push Wallet selection controller
+            self.navigationController?.pushViewController(WalletPickerController(), animated: true)
         case .security:
             self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
         case .localCurrency:
