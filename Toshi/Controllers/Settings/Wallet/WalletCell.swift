@@ -15,7 +15,7 @@
 
 import UIKit
 
-final class WalletCell: BasicTableViewCell {
+final class AdvancedSettingsCell: BasicTableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -35,6 +35,7 @@ final class WalletCell: BasicTableViewCell {
         valueLabel.centerY(to: contentView)
         valueLabel.leftToRight(of: titleTextField, offset: BasicTableViewCell.horizontalMargin)
         valueLabel.right(to: contentView, offset: -BasicTableViewCell.horizontalMargin)
+        valueLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         valueLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
 }
