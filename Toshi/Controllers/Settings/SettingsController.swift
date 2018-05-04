@@ -113,12 +113,6 @@ class SettingsController: UIViewController {
         return view
     }()
 
-    private var selectedWallet: Wallet? {
-        didSet {
-            self.tableView.reloadData()
-        }
-    }
-
     static func instantiateFromNib() -> SettingsController {
         guard let settingsController = UIStoryboard(name: "Settings", bundle: nil).instantiateInitialViewController() as? SettingsController else { fatalError("Storyboard named 'Settings' should be provided in application") }
 
@@ -149,9 +143,6 @@ class SettingsController: UIViewController {
         tableView.registerNib(InputCell.self)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
-
-        //TODO: implement getting the actual selected wallet of the user
-        selectedWallet = Wallet(name: "Wallet1", address: "0xf1c76a75d8b3175fr8", imagePath: "https://bakkenbaeck.com/images/team/marijn.096ca0b8ab.jpg")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -282,7 +273,8 @@ extension SettingsController: UITableViewDataSource {
         let walletCellConfigurator = WalletCellConfigurator()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: WalletCell.reuseIdentifier, for: indexPath)as? WalletCell else { return UITableViewCell() }
 
-        walletCellConfigurator.configureCell(cell, withSelectedWalletName: selectedWallet?.name ?? "")
+        //TODO: input the name of the selected wallet
+        walletCellConfigurator.configureCell(cell, withSelectedWalletName: "Wallet1")
 
         return cell
     }
@@ -316,7 +308,7 @@ extension SettingsController: UITableViewDelegate {
             
             self.navigationController?.pushViewController(profileVC, animated: true)
         case .wallet:
-            self.navigationController?.pushViewController(WalletPickerController(delegate: self), animated: true)
+            self.navigationController?.pushViewController(WalletPickerController(), animated: true)
         case .security:
             self.navigationController?.pushViewController(PassphraseEnableController(), animated: true)
         case .localCurrency:
@@ -379,12 +371,5 @@ extension SettingsController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         let sectionInfo = sections[section]
         return sectionInfo.footerTitle
-    }
-}
-
-extension SettingsController: WalletPickerControllerDelegate {
-
-    func didSelectWallet(_ wallet: Wallet) {
-        selectedWallet = wallet
     }
 }
