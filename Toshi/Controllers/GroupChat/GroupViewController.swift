@@ -22,7 +22,7 @@ final class GroupViewController: UIViewController {
     private var configurator: CellConfigurator
     private var viewModel: GroupViewModelProtocol
 
-    private lazy var activityView = self.defaultActivityIndicator()
+    lazy var activityIndicator: UIActivityIndicatorView = defaultActivityIndicator()
 
     var scrollViewBottomInset: CGFloat = 0.0
 
@@ -229,11 +229,7 @@ final class GroupViewController: UIViewController {
     }
 }
 
-extension GroupViewController: ActivityIndicating {
-    var activityIndicator: UIActivityIndicatorView {
-        return activityView
-    }
-}
+extension GroupViewController: ActivityIndicating { /* mix-in */ }
 
 extension GroupViewController: KeyboardAdjustable {
 

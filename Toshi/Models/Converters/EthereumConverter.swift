@@ -116,7 +116,7 @@ struct EthereumConverter {
         numberFormatter.numberStyle = withCurrencyCode ? .currency : .decimal
         numberFormatter.locale = locale
         numberFormatter.maximumFractionDigits = 2
-        numberFormatter.currencyCode = currentUserProfile.savedLocalCurrency
+        numberFormatter.currencyCode = currentUserProfile.localCurrency
 
         return "\(numberFormatter.string(from: fiat)!)"
     }
@@ -127,7 +127,7 @@ struct EthereumConverter {
     /// - Returns: the fiat currency value with redundant 3 letter code for clarity.
     static func fiatValueStringWithCode(forWei balance: NSDecimalNumber, exchangeRate: Decimal) -> String {
         let locale = Profile.current?.cachedCurrencyLocale ?? Currency.forcedLocale
-        let localCurrency = Profile.current?.savedLocalCurrency ?? Currency.forcedLocale.currencyCode
+        let localCurrency = Profile.current?.localCurrency ?? Currency.forcedLocale.currencyCode
 
         let ether = weiToEther(balance)
         let currentFiatConversion = NSDecimalNumber(decimal: exchangeRate)
