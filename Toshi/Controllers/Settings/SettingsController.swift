@@ -105,6 +105,7 @@ class SettingsController: UIViewController {
 
         view.register(UITableViewCell.self)
         view.register(AdvancedSettingsCell.self)
+        view.register(SecuritySettingsCell.self)
 
         return view
     }()
@@ -136,7 +137,6 @@ class SettingsController: UIViewController {
         tableView.backgroundColor = Theme.lightGrayBackgroundColor
 
         tableView.registerNib(SettingsProfileCell.self)
-        tableView.registerNib(InputCell.self)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateUI), name: .currentUserUpdated, object: nil)
     }
@@ -225,8 +225,8 @@ extension SettingsController: UITableViewDataSource {
     }
 
     private func cellForProfileSectionAt(indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath) as? SettingsProfileCell else { return UITableViewCell() }
-        guard let currentUserProfile = Profile.current else { return UITableViewCell()}
+        let cell = tableView.dequeue(SettingsProfileCell.self, for: indexPath)
+        guard let currentUserProfile = Profile.current else { return cell}
 
         cell.displayNameLabel.text = currentUserProfile.name
         cell.usernameLabel.text = currentUserProfile.displayUsername
@@ -240,12 +240,10 @@ extension SettingsController: UITableViewDataSource {
     }
 
     private func cellForSecuritySectionAt(indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(UITableViewCell.self, for: indexPath)
-        cell.textLabel?.textColor = Theme.darkTextColor
-        cell.textLabel?.font = Theme.preferredRegular()
+        let securityCellConfigurator = SecuritySettingsCellConfigurator()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SecuritySettingsCell.reuseIdentifier, for: indexPath)as? SecuritySettingsCell else { return UITableViewCell() }
 
-        cell.textLabel?.text = Localized.settings_cell_passphrase
-        cell.accessoryType = .disclosureIndicator
+        securityCellConfigurator.configureCell(cell, withTitle: Localized.settings_cell_passphrase, checked: isAccountSecured)
 
         return cell
     }
