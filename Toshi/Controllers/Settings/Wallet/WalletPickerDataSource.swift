@@ -80,3 +80,4 @@ struct Wallet {
     let address: String
     let imagePath: String
 }
+
