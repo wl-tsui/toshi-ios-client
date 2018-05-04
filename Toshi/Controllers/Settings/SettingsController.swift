@@ -218,14 +218,14 @@ extension SettingsController: UITableViewDataSource {
         let section = sections[indexPath.section]
 
         switch section {
-            case .profile:
-                cell = cellForProfileSectionAt(indexPath: indexPath)
-            case .security:
-                cell = cellForSecuritySectionAt(indexPath: indexPath)
-            case .advanced:
-                cell = cellForAdvancedSectionAt(indexPath: indexPath)
-            case .other:
-                cell = cellForOtherSectionAt(indexPath: indexPath)
+        case .profile:
+            cell = cellForProfileSectionAt(indexPath: indexPath)
+        case .security:
+            cell = cellForSecuritySectionAt(indexPath: indexPath)
+        case .advanced:
+            cell = cellForAdvancedSectionAt(indexPath: indexPath)
+        case .other:
+            cell = cellForOtherSectionAt(indexPath: indexPath)
         }
 
         cell.isAccessibilityElement = true
