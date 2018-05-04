@@ -38,56 +38,9 @@ class SettingsNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if #available(iOS 11.0, *) {
             self.navigationBar.prefersLargeTitles = true
-        }
-    }
-
-    // MARK: - Nav Bar Color Handling
-
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        if let colorChangingViewController = viewController as? NavBarColorChanging {
-            setNavigationBarColors(with: colorChangingViewController)
-        }
-
-        super.pushViewController(viewController, animated: animated)
-    }
-
-    override func popViewController(animated: Bool) -> UIViewController? {
-        guard let colorChangingViewController = previousViewController as? NavBarColorChanging else {
-            // Just call super and be done with it.
-            return super.popViewController(animated: animated)
-        }
-
-        setNavigationBarColors(with: colorChangingViewController)
-
-        // Start the transition by calling super so we get a transition coordinator
-        let poppedViewController = super.popViewController(animated: animated)
-
-        transitionCoordinator?.animate(alongsideTransition: nil, completion: { [weak self] _ in
-            guard let topColorChangingViewController = self?.topViewController as? NavBarColorChanging else { return }
-            self?.setNavigationBarColors(with: topColorChangingViewController)
-        })
-
-        return poppedViewController
-    }
-
-    private var previousViewController: UIViewController? {
-        guard viewControllers.count > 1 else {
-            return nil
-        }
-        return viewControllers[viewControllers.count - 2]
-    }
-
-    private func setNavigationBarColors(with colorChangingObject: NavBarColorChanging) {
-        navigationBar.tintColor = colorChangingObject.navTintColor
-        navigationBar.barTintColor = colorChangingObject.navBarTintColor
-        navigationBar.shadowImage = colorChangingObject.navShadowImage
-        if let titleColor = colorChangingObject.navTitleColor {
-            navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: titleColor]
-        } else {
-            navigationBar.titleTextAttributes = nil
         }
     }
 }

@@ -382,13 +382,6 @@ extension SettingsController: UITableViewDelegate {
     }
 }
 
-extension SettingsController: NavBarColorChanging {
-    var navTintColor: UIColor? { return Theme.tintColor }
-    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
-    var navTitleColor: UIColor? { return Theme.darkTextColor }
-    var navShadowImage: UIImage? { return nil }
-}
-
 extension SettingsController: WalletPickerControllerDelegate {
 
     func didSelectWallet(_ wallet: Wallet) {
