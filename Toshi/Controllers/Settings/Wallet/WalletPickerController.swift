@@ -52,10 +52,3 @@ final class WalletPickerController: UIViewController {
         tableView.edges(to: view)
     }
 }
-
-extension WalletPickerController: NavBarColorChanging {
-    var navTintColor: UIColor? { return Theme.tintColor }
-    var navBarTintColor: UIColor? { return Theme.navigationBarColor }
-    var navTitleColor: UIColor? { return Theme.darkTextColor }
-    var navShadowImage: UIImage? { return nil }
-}
