@@ -29,9 +29,9 @@ opt_in_rules:
   - discouraged_object_literal # Prefer initializers over object literals (or use generated code)
 
 trailing_whitespace:
-  ignores_empty_lines: true #don't try to make people delete trailing whitespace from empty lines
+  ignores_empty_lines: true # don't try to make people delete trailing whitespace from empty lines
 private_outlet:
-  allow_private_set: true #allows private(set) for IBOutlets
+  allow_private_set: true # allows private(set) for IBOutlets
 cyclomatic_complexity:
   ignores_case_statements: true # Don't count `switch` case statements when calculating complexity - this is a trade-off we accept.
 excluded: # paths to ignore during linting. Takes precedence over `included`.
