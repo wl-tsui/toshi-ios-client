@@ -53,20 +53,18 @@ class ChatFloatingHeaderView: UIView {
         return label
     }()
 
-    static func button() -> UIButton {
+    private static func button() -> UIButton {
         let button = UIButton(withAutoLayout: true)
         button.setTitleColor(Theme.tintColor, for: .normal)
-        button.titleLabel?.font = Theme.semibold(size: 13)
+        button.setTitleColor(Theme.lightGreyTextColor, for: .disabled)
+        button.titleLabel?.font = Theme.medium(size: 15)
 
         return button
     }
 
-    private var buttonAttributes: [NSAttributedStringKey: Any] = [.font: Theme.medium(size: 15),
-                                                                      .foregroundColor: Theme.tintColor]
-
     private(set) lazy var requestButton: UIButton = {
         let button = ChatFloatingHeaderView.button()
-        button.setAttributedTitle(NSAttributedString(string: Localized.chat_request_payment_button_title, attributes: self.buttonAttributes), for: .normal)
+        button.setTitle(Localized.chat_request_payment_button_title, for: .normal)
         button.addTarget(self, action: #selector(request(button:)), for: .touchUpInside)
 
         return button
@@ -74,7 +72,7 @@ class ChatFloatingHeaderView: UIView {
 
     private(set) lazy var payButton: UIButton = {
         let button = ChatFloatingHeaderView.button()
-        button.setAttributedTitle(NSAttributedString(string: Localized.chat_pay_button_title, attributes: self.buttonAttributes), for: .normal)
+        button.setTitle(Localized.chat_pay_button_title, for: .normal)
         button.addTarget(self, action: #selector(pay(button:)), for: .touchUpInside)
 
         return button
@@ -93,12 +91,7 @@ class ChatFloatingHeaderView: UIView {
         }
     }
 
-    private(set) lazy var separatorView: UIView = {
-        let view = UIView(withAutoLayout: true)
-        view.backgroundColor = Theme.borderColor
-
-        return view
-    }()
+    private(set) lazy var separatorView = BorderView()
 
     var shouldShowPayButton: Bool = true {
         didSet {
@@ -132,36 +125,32 @@ class ChatFloatingHeaderView: UIView {
 
         backgroundBlur.edges(to: self)
 
-        let margin = CGFloat(10)
-        fiatValueLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        fiatValueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        fiatValueLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: margin).isActive = true
+        fiatValueLabel.topToSuperview()
+        fiatValueLabel.bottomToSuperview()
+        fiatValueLabel.leftToSuperview(offset: .mediumInterItemSpacing)
 
-        dotLabel.leftAnchor.constraint(equalTo: fiatValueLabel.rightAnchor).isActive = true
-        dotLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        dotLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        dotLabel.widthAnchor.constraint(equalToConstant: 13).isActive = true
+        dotLabel.leftToRight(of: fiatValueLabel)
+        dotLabel.topToSuperview()
+        dotLabel.bottomToSuperview()
+        dotLabel.width(13)
 
-        ethereumValueLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        ethereumValueLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        ethereumValueLabel.leftAnchor.constraint(equalTo: dotLabel.rightAnchor).isActive = true
+        ethereumValueLabel.topToSuperview()
+        ethereumValueLabel.bottomToSuperview()
+        ethereumValueLabel.leftToRight(of: dotLabel)
 
         let buttonWidth = CGFloat(70)
-        requestButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        requestButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        requestButton.leftAnchor.constraint(equalTo: ethereumValueLabel.rightAnchor).isActive = true
-        requestButton.rightAnchor.constraint(equalTo: payButton.leftAnchor).isActive = true
-        requestButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
 
-        payButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        payButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        payButton.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        payButton.widthAnchor.constraint(equalToConstant: buttonWidth).isActive = true
+        requestButton.topToSuperview()
+        requestButton.bottomToSuperview()
+        requestButton.leftToRight(of: ethereumValueLabel)
+        requestButton.width(buttonWidth)
 
-        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        separatorView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        separatorView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        separatorView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        payButton.width(buttonWidth)
+        payButton.edgesToSuperview(excluding: .left)
+        payButton.leftToRight(of: requestButton)
+
+        separatorView.edgesToSuperview(excluding: .top)
+        separatorView.addHeightConstraint()
     }
 
     required init?(coder _: NSCoder) {
@@ -174,5 +163,10 @@ class ChatFloatingHeaderView: UIView {
 
     @objc func pay(button: UIButton) {
         delegate?.messagesFloatingView(self, didPressPayButton: button)
+    }
+
+    func setPaymentButtonsEnabled(_ enabled: Bool) {
+        payButton.isEnabled = enabled
+        requestButton.isEnabled = enabled
     }
 }

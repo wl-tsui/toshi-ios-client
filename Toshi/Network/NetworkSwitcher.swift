@@ -137,14 +137,14 @@ final class NetworkSwitcher {
                 return
             }
 
-            registerForSwitchedNetworkPushNotifications { success, _ in
+            registerForSwitchedNetworkPushNotifications { success, error in
                 if success {
                     UserDefaultsWrapper.activeNetwork = network.rawValue
 
                     let notification = Notification(name: .SwitchedNetworkChanged)
                     NotificationCenter.default.post(notification)
                 } else {
-                    DLog("Error registering - No connection")
+                    DLog("Error registering: \(String(describing: error))")
                     self.activateNetwork(nil)
                 }
             }

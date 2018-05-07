@@ -107,21 +107,6 @@ class TabBarController: UITabBarController, OfflineAlertDisplaying {
         selectedIndex = UserDefaultsWrapper.tabBarSelectedIndex
     }
 
-    func openPaymentMessage(to address: String, parameters: [String: Any]? = nil, transaction: String?) {
-        dismiss(animated: false) {
-
-            ChatInteractor.getOrCreateThread(for: address)
-
-            DispatchQueue.main.async {
-                self.displayMessage(forAddress: address) { controller in
-                    if let chatViewController = controller as? ChatViewController, let parameters = parameters {
-                        chatViewController.sendPayment(with: parameters, transaction: transaction)
-                    }
-                }
-            }
-        }
-    }
-
     func displayMessage(forAddress address: String, forBot: Bool = false, completion: ((Any?) -> Void)? = nil) {
         if let index = viewControllers?.index(of: messagingController) {
             selectedIndex = index

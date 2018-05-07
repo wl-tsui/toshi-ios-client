@@ -201,6 +201,15 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarImageView)
 
         updateBalance()
+        updatePaymentAbilityFromCurrentNetwork()
+    }
+
+    private func updatePaymentAbilityFromCurrentNetwork() {
+        if NetworkSwitcher.shared.isDefaultNetworkActive {
+            ethereumPromptView.setPaymentButtonsEnabled(true)
+        } else {
+            ethereumPromptView.setPaymentButtonsEnabled(false)
+        }
     }
 
     private func updateChatAvatar() {
@@ -339,15 +348,6 @@ final class ChatViewController: UIViewController, UINavigationControllerDelegate
         previewButtonsView.bottomToTop(of: activeNetworkView)
         previewButtonsView.left(to: layoutGuide())
         previewButtonsView.right(to: layoutGuide())
-    }
-
-    func sendPayment(with parameters: [String: Any], transaction: String?) {
-        showActivityIndicator()
-        viewModel.interactor.sendPayment(with: parameters, transaction: transaction) { [weak self] success in
-            if success {
-                self?.updateBalance()
-            }
-        }
     }
 
     private func updateConstraints() {

@@ -492,7 +492,6 @@ final class ProfileViewController: DisappearingNavBarViewController {
         paymentRouter.present()
 
         self.paymentRouter = paymentRouter
-
     }
     
     @objc private func didTapEditProfileButton() {

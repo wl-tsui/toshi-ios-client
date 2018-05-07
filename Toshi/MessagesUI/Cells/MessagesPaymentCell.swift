@@ -136,6 +136,11 @@ class MessagesPaymentCell: MessagesBasicCell {
             buttonBottomConstraint?.isActive = false
             textBottomConstraint?.isActive = true
         } else if state == .none {
+            guard NetworkSwitcher.shared.isDefaultNetworkActive else {
+                showStatus(Localized.chat_not_on_default_message)
+                return
+            }
+
             approveButton.isHidden = false
             declineButton.isHidden = false
             statusLabel.isHidden = true
@@ -144,15 +149,19 @@ class MessagesPaymentCell: MessagesBasicCell {
             statusBottomConstraint?.isActive = false
             buttonBottomConstraint?.isActive = true
         } else {
-            approveButton.isHidden = true
-            declineButton.isHidden = true
-            statusLabel.isHidden = false
-            statusLabel.text = paymentStateText
-
-            textBottomConstraint?.isActive = false
-            buttonBottomConstraint?.isActive = false
-            statusBottomConstraint?.isActive = true
+            showStatus(paymentStateText)
         }
+    }
+
+    private func showStatus(_ status: String) {
+        approveButton.isHidden = true
+        declineButton.isHidden = true
+        statusLabel.isHidden = false
+        statusLabel.text = status
+
+        textBottomConstraint?.isActive = false
+        buttonBottomConstraint?.isActive = false
+        statusBottomConstraint?.isActive = true
     }
 
     override func prepareForReuse() {
