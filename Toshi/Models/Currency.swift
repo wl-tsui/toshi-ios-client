@@ -171,8 +171,8 @@ struct Currency: Codable {
     ]
 }
 
-/// Convenience class for decoding an array of Currencies with the key "currencies"
-final class CurrenciesResults: Codable {
+/// Convenience struct for decoding an array of Currencies with the key "currencies"
+struct CurrenciesResults: Codable {
 
     let currencies: [Currency]
 

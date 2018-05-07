@@ -16,6 +16,14 @@
 import Foundation
 import UserNotifications
 
+extension NSNotification.Name {
+    static let ethereumBalanceUpdateNotification = NSNotification.Name(rawValue: "EthereumBalanceUpdateNotification")
+
+    static let ethereumPaymentUnconfirmedNotification = NSNotification.Name(rawValue: "EthereumPaymentUnconfirmedNotification")
+    static let ethereumPaymentConfirmedNotification = NSNotification.Name(rawValue: "EthereumPaymentConfirmedNotification")
+    static let ethereumPaymentErrorNotification = NSNotification.Name(rawValue: "EthereumPaymentErrorNotification")
+}
+
 class BackgroundNotificationHandler: NSObject {
 
     @objc static func handle(_ notification: UNNotification, _ completion: @escaping ((_ options: UNNotificationPresentationOptions) -> Void)) {

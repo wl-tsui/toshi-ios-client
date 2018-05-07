@@ -27,6 +27,9 @@ final class SendTokenViewController: UIViewController {
     let token: Token
     let tokenType: TokenType
 
+    var scrollViewBottomInset: CGFloat = 0.0
+    var scrollView: UIScrollView { return configurator.scrollView }
+
     private var configurator: SendTokenViewConfigurator!
     weak var delegate: SendTokenViewControllerDelegate?
 
@@ -47,6 +50,8 @@ final class SendTokenViewController: UIViewController {
         configurator = SendTokenViewConfigurator(token: token, view: view)
         configurator.delegate = self
         configurator.layoutGuide = layoutGuide()
+
+        registerForKeyboardNotifications()
 
         navigationController?.navigationBar.isTranslucent = false
 
@@ -136,5 +141,26 @@ extension SendTokenViewController: TokenSendConfirmationDelegate {
 
     func tokenSendConfirmationControllerDidFinish(_ controller: TokenSendConfirmationViewController) {
         delegate?.sendTokenControllerDidFinish(navigationController)
+    }
+}
+
+// MARK: - Keyboard Adjustable
+
+extension SendTokenViewController: KeyboardAdjustable {
+
+    var keyboardWillShowSelector: Selector {
+        return #selector(keyboardShownNotificationReceived(_:))
+    }
+
+    var keyboardWillHideSelector: Selector {
+        return #selector(keyboardHiddenNotificationReceived(_:))
+    }
+
+    @objc private func keyboardShownNotificationReceived(_ notification: NSNotification) {
+        keyboardWillShow(notification)
+    }
+
+    @objc private func keyboardHiddenNotificationReceived(_ notification: NSNotification) {
+        keyboardWillHide(notification)
     }
 }

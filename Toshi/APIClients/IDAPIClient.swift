@@ -157,9 +157,11 @@ final class IDAPIClient {
                 return
             }
 
-            self.fetchTimestamp { timestamp, error in
+            self.fetchTimestamp { timestamp, _ in
                 guard let timestamp = timestamp else {
-                    completion(.failed)
+                    DispatchQueue.main.async {
+                        completion(.failed)
+                    }
                     return
                 }
                 
@@ -169,19 +171,16 @@ final class IDAPIClient {
                     "payment_address": cereal.paymentAddress
                 ]
 
-                guard let data = try? JSONSerialization.data(withJSONObject: parameters, options: []), let parametersString = String(data: data, encoding: .utf8) else {
-                    completion(.failed)
+                guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadDictionary: parameters) else {
+                    DispatchQueue.main.async {
+                        completion(.failed)
+                    }
                     return
                 }
 
-                let hashedParameters = cereal.sha3WithID(string: parametersString)
-                let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedParameters)"))"
-
-                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
-
                 let json = RequestParameter(parameters)
 
-                self.teapot.post(path, parameters: json, headerFields: fields) { result in
+                self.teapot.post(path, parameters: json, headerFields: headers) { result in
                     var status: UserRegisterStatus = .failed
 
                     defer {
@@ -195,7 +194,7 @@ final class IDAPIClient {
                         guard response.statusCode == 200 else { return }
 
                         guard let data = json?.data else {
-                           assertionFailure("No data from registration request response")
+                            assertionFailure("No data from registration request response")
                             return
                         }
 
@@ -205,8 +204,7 @@ final class IDAPIClient {
                                                 status = .registered
                                              },
                                              errorCompletion: nil)
-                    case .failure(_, _, let error):
-                        DLog("\(error)")
+                    case .failure:
                         status = .failed
                     }
                 }
@@ -227,13 +225,11 @@ final class IDAPIClient {
             let path = "/v2/user"
             let boundary = "teapot.boundary"
             let payload = self.teapot.multipartData(from: avatar, boundary: boundary, filename: "avatar.png")
-            let hashedPayload = cereal.sha3WithID(data: payload)
-            let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp), "Content-Length": String(describing: payload.count), "Content-Type": "multipart/form-data; boundary=\(boundary)"]
+            let headers = HeaderGenerator.createMultipartHeaders(boundary: boundary, path: path, timestamp: timestamp, payload: payload, method: .PUT)
             let json = RequestParameter(payload)
 
-            self.teapot.put(path, parameters: json, headerFields: fields) { result in
+            self.teapot.put(path, parameters: json, headerFields: headers) { result in
                 var succeeded = false
                 var toshiError: ToshiError?
 
@@ -272,23 +268,18 @@ final class IDAPIClient {
                 return
             }
 
-            let cereal = Cereal.shared
             let path = "/v2/user"
 
-            guard let payload = try? JSONSerialization.data(withJSONObject: userDict, options: []), let payloadString = String(data: payload, encoding: .utf8) else {
+            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, method: .PUT, payloadDictionary: userDict) else {
                 DispatchQueue.main.async {
                     completion(false, .invalidPayload)
                 }
                 return
             }
 
-            let hashedPayload = cereal.sha3WithID(string: payloadString)
-            let signature = "0x\(cereal.signWithID(message: "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(userDict)
 
-            self.teapot.put("/v2/user", parameters: json, headerFields: fields) { result in
+            self.teapot.put(path, parameters: json, headerFields: headers) { result in
                 var succeeded = false
                 var toshiError: ToshiError?
 
@@ -318,16 +309,8 @@ final class IDAPIClient {
                                          errorCompletion: { parsingError in
                                             toshiError = parsingError
                                          })
-                case .failure(let json, _, let error):
-                    guard
-                        let errorData = json?.data,
-                        let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
-                        let firstMessage = wrapper.errors.first?.message else {
-                            toshiError = ToshiError(withTeapotError: error)
-                            return
-                    }
-
-                    toshiError = ToshiError(withTeapotError: error, errorDescription: firstMessage)
+                case .failure:
+                    toshiError = ToshiError(errorResult: result)
                 }
             }
         }
@@ -383,7 +366,7 @@ final class IDAPIClient {
             switch result {
             case .success(let json, _):
                 guard let data = json?.data else {
-                    resultError = .invalidPayload
+                    resultError = .invalidResponseJSON
                     return
                 }
 
@@ -552,20 +535,16 @@ final class IDAPIClient {
                 "details": reason
             ]
 
-            guard let payloadData = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: payloadData, encoding: .utf8) else {
+            guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, payloadDictionary: payload) else {
                 DispatchQueue.main.async {
                     completion(false, .invalidPayload)
                 }
                 return
             }
 
-            let hashedPayload = cereal.sha3WithID(string: payloadString)
-            let signature = "0x\(cereal.signWithID(message: "POST\n\(path)\n\(timestamp)\n\(hashedPayload)"))"
-
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": String(timestamp)]
             let json = RequestParameter(payload)
 
-            self.teapot.post(path, parameters: json, headerFields: fields) { result in
+            self.teapot.post(path, parameters: json, headerFields: headers) { result in
                 var succeeded = false
                 var resultError: ToshiError?
 
@@ -583,16 +562,8 @@ final class IDAPIClient {
                     }
 
                     succeeded = true
-                case .failure(let json, _, let error):
-                    guard
-                        let errorData = json?.data,
-                        let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
-                        let firstMessage = wrapper.errors.first?.message else {
-                            resultError = ToshiError(withTeapotError: error)
-                            return
-                    }
-
-                    resultError = ToshiError(withTeapotError: error, errorDescription: firstMessage)
+                case .failure:
+                    resultError = ToshiError(errorResult: result)
                 }
             }
         }
@@ -607,14 +578,11 @@ final class IDAPIClient {
                 return
             }
 
-            let cereal = Cereal.shared
             let path = "/v1/login/\(loginToken)"
 
-            let signature = "0x\(cereal.signWithID(message: "GET\n\(path)\n\(timestamp)\n"))"
+            let headers = HeaderGenerator.createGetSignatureHeaders(path: path, timestamp: timestamp)
 
-            let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
-
-            self.teapot.get(path, headerFields: fields) { result in
+            self.teapot.get(path, headerFields: headers) { result in
                 var succeeded = false
                 var resultError: ToshiError?
 
@@ -632,16 +600,8 @@ final class IDAPIClient {
                     }
 
                     succeeded = true
-                case .failure(let json, _, let error):
-                    guard
-                        let errorData = json?.data,
-                        let wrapper = APIErrorWrapper.optionalFromJSONData(errorData),
-                        let firstMessage = wrapper.errors.first?.message else {
-                            resultError = ToshiError(withTeapotError: error)
-                            return
-                    }
-
-                    resultError = ToshiError(withTeapotError: error, errorDescription: firstMessage)
+                case .failure:
+                    resultError = ToshiError(errorResult: result)
                 }
             }
         }

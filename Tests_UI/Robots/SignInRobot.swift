@@ -142,7 +142,6 @@ extension SignInRobot {
 
     @discardableResult
     func validateSignInEnabled(file: StaticString = #file, line: UInt = #line) -> SignInRobot {
-        confirmViewVisibleWith(accessibilityLabel: SignInScreenButton.signIn.accessibilityLabel, file: file, line: line)
         confirmButtonEnabled(true, accessibilityLabel: SignInScreenButton.signIn.accessibilityLabel,
                 file: file,
                 line: line)

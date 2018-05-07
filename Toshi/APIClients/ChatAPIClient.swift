@@ -43,7 +43,6 @@ final class ChatAPIClient {
         fetchTimestamp { timestamp, _ in
             DispatchQueue.main.async {
                 // This needs to be called on the main thread to avoid a race condition with creating the user.
-
                 guard let timestamp = timestamp else {
                     completion(false)
                     return
@@ -54,50 +53,36 @@ final class ChatAPIClient {
                 let path = "/v1/accounts/bootstrap"
                 let payload = parameters.payload
 
-                guard let data = try? JSONSerialization.data(withJSONObject: payload, options: []), let payloadString = String(data: data, encoding: .utf8) else {
-                    DispatchQueue.main.async {
-                        completion(false)
-                    }
+                guard let headers = try? HeaderGenerator.createHeaders(timestamp: timestamp, path: path, method: .PUT, payloadDictionary: payload) else {
+                    completion(false)
                     return
                 }
 
-                let hashedPayload = cereal.sha3WithID(string: payloadString)
-                let message = "PUT\n\(path)\n\(timestamp)\n\(hashedPayload)"
-                let signature = "0x\(cereal.signWithID(message: message))"
-
-                let fields: [String: String] = ["Token-ID-Address": cereal.address, "Token-Signature": signature, "Token-Timestamp": timestamp]
                 let requestParameter = RequestParameter(payload)
 
-                self.teapot.put(path, parameters: requestParameter, headerFields: fields) { result in
+                self.teapot.put(path, parameters: requestParameter, headerFields: headers) { result in
                     var succeeded = false
+
+                    defer {
+                        DispatchQueue.main.async {
+                            completion(succeeded)
+                        }
+                    }
 
                     switch result {
                     case .success(_, let response):
                         guard response.statusCode == 204 else {
-                            DLog("Could not register user. Status code \(response.statusCode)")
-                            DispatchQueue.main.async {
-                                completion(false)
-                            }
                             return
                         }
 
                         TSAccountManager.sharedInstance().storeServerAuthToken(parameters.password, signalingKey: parameters.signalingKey)
                         ALog("Successfully registered chat user with address: \(cereal.address)")
                         succeeded = true
-                    case .failure(_, _, let error):
-                        DLog("\(error)")
-                        succeeded = false
-                    }
-
-                    DispatchQueue.main.async {
-                        completion(succeeded)
+                    case .failure:
+                        break
                     }
                 }
             }
         }
-    }
-
-    func authToken(for address: String, password: String) -> String {
-        return "Basic \("\(address):\(password)".data(using: .utf8)!.base64EncodedString())"
     }
 }

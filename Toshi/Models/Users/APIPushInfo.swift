@@ -15,22 +15,26 @@
 
 import Foundation
 
-struct APIError: Codable {
+struct APIPushInfo: Codable {
 
-    let message: String
+    // NOTE: Order matters on these - if the JSON is not sent in the registration_id -> address order, the signature verification fails.
+    let registrationID: String
+    let address: String
 
     enum CodingKeys: String, CodingKey {
         case
-        message
+        registrationID = "registration_id",
+        address
     }
-}
 
-struct APIErrorWrapper: Codable {
+    /// Grabs the default information for the user.
+    /// NOTE: You MUST call this on the main thread as it hits the app delegate.
+    static var defaultInfo: APIPushInfo {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Could not access the app delegate!")
+        }
 
-    let errors: [APIError]
-
-    enum CodingKeys: String, CodingKey {
-        case
-        errors
+        return APIPushInfo(registrationID: appDelegate.token,
+                           address: Cereal.shared.paymentAddress)
     }
 }
