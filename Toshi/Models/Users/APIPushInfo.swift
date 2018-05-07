@@ -19,12 +19,12 @@ struct APIPushInfo: Codable {
 
     // NOTE: Order matters on these - if the JSON is not sent in the registration_id -> address order, the signature verification fails.
     let registrationID: String
-    let address: String
+    let addresses: [String]
 
     enum CodingKeys: String, CodingKey {
         case
         registrationID = "registration_id",
-        address
+        addresses
     }
 
     /// Grabs the default information for the user.
@@ -35,6 +35,6 @@ struct APIPushInfo: Codable {
         }
 
         return APIPushInfo(registrationID: appDelegate.token,
-                           address: Cereal.shared.paymentAddress)
+                           addresses: Wallet.walletsAddresses)
     }
 }

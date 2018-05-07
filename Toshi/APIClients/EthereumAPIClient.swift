@@ -399,7 +399,7 @@ final class EthereumAPIClient {
                                                     completion: ((_ success: Bool, _ message: String?) -> Void)? = nil) {
         var path = "/v1/apn/register"
         if !register {
-            var path = "/v1/apn/deregister"
+            path = "/v1/apn/deregister"
         }
 
         DispatchQueue.main.async {
