@@ -30,7 +30,8 @@ enum UserDefaultsKey: String, StringCaseListable {
     selectedContact = "Restoration::SelectedContact",
     selectedThreadAddress = "Restoration::SelectedThread",
     tabBarSelectedIndex = "TabBarSelectedIndex",
-    activeNetwork = "ActiveNetwork"
+    activeNetwork = "ActiveNetwork",
+    hasStoredPassphraseInYap = "HasStoredPassphraseInYap"
 }
 
 /// A wrapper for NSUserDefaults to facilitate type-safe fetching
@@ -188,6 +189,15 @@ class UserDefaultsWrapper: NSObject {
         }
         set {
             setValue(newValue, for: .activeNetwork)
+        }
+    }
+
+    static var hasStoredPassphraseInYap: Bool {
+        get {
+            return bool(for: .hasStoredPassphraseInYap)
+        }
+        set {
+            setValue(newValue, for: .hasStoredPassphraseInYap)
         }
     }
     

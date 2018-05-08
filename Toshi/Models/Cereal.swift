@@ -93,6 +93,12 @@ class Cereal: NSObject {
             }
             mnemonic = mnemonicValue
         } else {
+            guard !UserDefaultsWrapper.hasStoredPassphraseInYap else {
+                let message = "Could not retrieve stored passphrase from yap!"
+                CrashlyticsLogger.log(message)
+                fatalError(message)
+            }
+
             var entropy = Data(count: entropyByteCount)
             // This creates the private key inside a block, result is of internal type ResultType.
             // We just need to check if it's 0 to ensure that there were no errors.
@@ -216,5 +222,6 @@ class Cereal: NSObject {
 
     @objc private func userCreated(_ notification: Notification) {
         Yap.sharedInstance.insert(object: mnemonic.words.joined(separator: " "), for: Cereal.privateKeyStorageKey)
+        UserDefaultsWrapper.hasStoredPassphraseInYap = true
     }
 }
