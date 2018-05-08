@@ -27,14 +27,14 @@ class PassphraseVerifyController: UIViewController {
     lazy var textLabel = TextLabel(Localized.passphrase_verify_text)
 
     private lazy var shuffledPassphraseView: PassphraseView = {
-        let view = PassphraseView(with: Cereal().mnemonic.words, for: .shuffled)
+        let view = PassphraseView(with: Cereal.shared.mnemonic.words, for: .shuffled)
         view.addDelegate = self
 
         return view
     }()
 
     private lazy var verifyPassphraseView: PassphraseView = {
-        let view = PassphraseView(with: Cereal().mnemonic.words, for: .verification)
+        let view = PassphraseView(with: Cereal.shared.mnemonic.words, for: .verification)
         view.removeDelegate = self
         view.verificationDelegate = self
         view.backgroundColor = Theme.passphraseVerificationContainerColor
@@ -132,9 +132,9 @@ extension PassphraseVerifyController: RemoveDelegate {
 extension PassphraseVerifyController: VerificationDelegate {
 
     func verify(_ phrase: Phrase) -> VerificationStatus {
-        assert(Cereal().mnemonic.words.count <= 12, "Too large")
+        assert(Cereal.shared.mnemonic.words.count <= 12, "Too large")
 
-        let originalPhrase = Cereal().mnemonic.words
+        let originalPhrase = Cereal.shared.mnemonic.words
 
         guard originalPhrase.count == phrase.count else {
             return .tooShort

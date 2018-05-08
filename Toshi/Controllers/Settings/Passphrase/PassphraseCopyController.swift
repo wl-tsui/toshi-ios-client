@@ -36,7 +36,7 @@ class PassphraseCopyController: UIViewController {
         return view
     }()
 
-    private lazy var passphraseView = PassphraseView(with: Cereal().mnemonic.words, for: .original)
+    private lazy var passphraseView = PassphraseView(with: Cereal.shared.mnemonic.words, for: .original)
 
     private lazy var copyButton: ConfirmationButton = {
         let view = ConfirmationButton(withAutoLayout: true)
@@ -124,7 +124,7 @@ class PassphraseCopyController: UIViewController {
     }
 
     @objc func copyToClipBoard(_ button: ConfirmationButton) {
-        copyStringToClipboard(Cereal().mnemonic.words.joined(separator: " "),
+        copyStringToClipboard(Cereal.shared.mnemonic.words.joined(separator: " "),
                               thenUpdate: button)
     }
 }
