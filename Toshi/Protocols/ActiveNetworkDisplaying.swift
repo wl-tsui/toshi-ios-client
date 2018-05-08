@@ -105,11 +105,9 @@ extension ActiveNetworkDisplaying where Self: UIViewController {
     }
 
     func updateActiveNetworkView() {
-        switch NetworkSwitcher.shared.activeNetwork {
-        case .mainNet:
+        if NetworkSwitcher.shared.isDefaultNetworkActive {
             hideActiveNetworkViewIfNeeded()
-        case .ropstenTestNetwork,
-             .toshiTestNetwork:
+        } else {
             showActiveNetworkViewIfNeeded()
             activeNetworkView.updateTitle()
         }
